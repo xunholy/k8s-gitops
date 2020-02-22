@@ -1,0 +1,14 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: example.raspbernetes.com
+  namespace: cert-manager
+spec:
+  secretName: raspbernetes-cert-secret
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: 'example.raspbernetes.com'
+  dnsNames:
+    - example.raspbernetes.com
