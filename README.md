@@ -2,6 +2,8 @@
 
 ## Install Flux
 
+Note: Using unofficial Flux image, as armv7l wasn't supported - `https://github.com/fluxcd/flux/issues/1761`
+
 To install flux into the cluster run the following command:
 
 ```bash
