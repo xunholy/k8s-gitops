@@ -18,4 +18,4 @@ subjects:
   - apiGroup: ""
     kind: ServiceAccount
     name: sealed-secrets
-    namespace: sealed-secrets
+    namespace: default
