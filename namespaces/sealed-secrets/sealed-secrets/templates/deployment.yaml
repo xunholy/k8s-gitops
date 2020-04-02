@@ -1,0 +1,59 @@
+---
+# Source: sealed-secrets/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sealed-secrets
+  labels:
+    app.kubernetes.io/name: sealed-secrets
+    helm.sh/chart: sealed-secrets-1.8.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: sealed-secrets
+    app.kubernetes.io/version: 0.10.0
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sealed-secrets
+      app.kubernetes.io/instance: sealed-secrets
+  template:
+    metadata:
+      annotations:
+      labels:
+        app.kubernetes.io/name: sealed-secrets
+        app.kubernetes.io/instance: sealed-secrets
+    spec:
+      serviceAccountName: sealed-secrets
+      containers:
+        - name: sealed-secrets
+          command:
+            - controller
+          args:
+            - "--key-prefix"
+            - "sealed-secrets-key"
+          image: quay.io/bitnami/sealed-secrets-controller:v0.10.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          volumeMounts:
+          - mountPath: /tmp
+            name: tmp
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1001
+          resources:
+            {}
+      securityContext:
+        fsGroup: 65534
+      volumes:
+      - name: tmp
+        emptyDir: {}

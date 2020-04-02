@@ -1,0 +1,41 @@
+---
+# Source: sealed-secrets/templates/role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: sealed-secrets-key-admin
+  labels:
+    app.kubernetes.io/name: sealed-secrets
+    helm.sh/chart: sealed-secrets-1.8.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: sealed-secrets
+    app.kubernetes.io/version: 0.10.0
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: sealed-secrets-key-admin
+subjects:
+  - apiGroup: ""
+    kind: ServiceAccount
+    name: sealed-secrets
+    namespace: sealed-secrets
+---
+# Source: sealed-secrets/templates/role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: sealed-secrets-service-proxier
+  labels:
+    app.kubernetes.io/name: sealed-secrets
+    helm.sh/chart: sealed-secrets-1.8.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: sealed-secrets
+    app.kubernetes.io/version: 0.10.0
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: sealed-secrets-service-proxier
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:authenticated

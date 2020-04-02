@@ -1,17 +1,9 @@
 # Kubernetes Cluster Management
 
-## Install Flux
+## Install FluxCD
 
-Note: Using unofficial Flux image, as armv7l wasn't supported - `https://github.com/fluxcd/flux/issues/1761`
+To install FluxCD use the following installation [script](install/flux.sh).
 
-To install flux into the cluster run the following command:
+This will install all required custom resource definitions (CRDs) and deploy the manifests to run flux, it will also use the unofficial raspbernetes image as this supports multi-archiectures.
 
-```bash
-export GHUSER="raspbernetes"
-fluxctl install \
---git-user=${GHUSER} \
---git-email=${GHUSER}@users.noreply.github.com \
---git-url=git@github.com:${GHUSER}/k8s-cluster.git \
---git-path=namespaces \
---namespace=flux | kubectl apply -f -
-```
+> Note: If you've forked this repository you will need to update the following to match your own personal account `export GHUSER="raspbernetes"`.
