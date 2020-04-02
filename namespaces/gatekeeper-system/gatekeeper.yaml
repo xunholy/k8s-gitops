@@ -327,7 +327,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-          image: xunholy/gatekeeper:38be616a920e52ae4ef5f7907f39b056d760de74
+          image: raspbernetes/gatekeeper:v3.1.0-beta.7
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
