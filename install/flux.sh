@@ -8,11 +8,13 @@ export GHUSER="raspbernetes"
 [[ ! $(kubectl get ns flux) ]] && kubectl create ns flux
 
 fluxctl install \
---git-user=${GHUSER} \
---git-email=${GHUSER}@users.noreply.github.com \
---git-url=git@github.com:${GHUSER}/k8s-cluster.git \
---git-path=namespaces \
---namespace=flux > flux.yaml
+    --git-user=${GHUSER} \
+    --git-email=${GHUSER}@users.noreply.github.com \
+    --git-url=git@github.com:${GHUSER}/k8s-cluster.git \
+    --git-path=namespaces \
+    --registry-disable-scanning \
+    --git-readonly \
+    --namespace=flux > flux.yaml
 
 sed -i'.bak' "s/docker.io\/fluxcd\/flux/docker.io\/raspbernetes\/flux/g" flux.yaml
 
