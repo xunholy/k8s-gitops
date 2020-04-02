@@ -17,9 +17,11 @@ _template-chart() {
 	echo "Generating helm chart for $1"
 	helm template "${2}/${1}" \
 		--values="config/charts/${1}/values.yaml" \
-		--output-dir "namespaces/${1}" \
+		--output-dir "output/${1}" \
 		--name-template="${1}" \
-		--version "${VERSION}"
+		--version "${VERSION}" \
+		--namespace "${1}"
+	[[ "$1" == "sealed-secrets" ]] && kubectl apply -R -f output/"${1}" --dry-run=client -o yaml > namespaces/"${1}"/${1}.yaml
 }
 
 _add-chart-repo() {
@@ -28,7 +30,7 @@ _add-chart-repo() {
 
 _clean() {
 	echo "Removing stale helm charts, kube config and purging orphaned docker networks"
-	rm -rf namespaces/"${1}"/"${1}"
+	rm -rf output/
 	docker-compose down --remove-orphans 2>/dev/null
 }
 

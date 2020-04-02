@@ -21,3 +21,4 @@ sed -i'.bak' "s/docker.io\/fluxcd\/flux/docker.io\/raspbernetes\/flux/g" flux.ya
 echo ""
 echo "Completed..."
 echo "Follow these instructions to setup SSH keys: https://docs.fluxcd.io/en/latest/tutorials/get-started/#giving-write-access" 
+# TODO: https://docs.fluxcd.io/en/latest/guides/provide-own-ssh-key/
