@@ -21,7 +21,7 @@ _template-chart() {
 		--name-template="${1}" \
 		--version "${VERSION}" \
 		--namespace "${1}"
-	kubectl apply -R -f output/"${1}" --dry-run=client -o yaml > namespaces/"${1}"/"${1}".yaml
+	kubectl apply -R -f output/"${1}" --dry-run=client -n "${1}" -o yaml > namespaces/"${1}"/"${1}".yaml
 }
 
 _add-chart-repo() {
