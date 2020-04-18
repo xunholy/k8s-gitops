@@ -47,5 +47,5 @@ _hydrate() {
 [[ "$1" == "sealed-secrets" ]] && _hydrate "$1" "${STABLE_CHART}" "${STABLE_REPO}" 
 if [[ "$1" == "gatekeeper" ]]; then
 	kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml \
-		--dry-run=client -o yaml > namespaces/gatekeerper-system/"${1}".yaml
+		--dry-run=client -o yaml > namespaces/gatekeeper-system/"${1}".yaml
 fi
