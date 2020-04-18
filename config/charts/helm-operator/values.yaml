@@ -1,6 +1,10 @@
 helm:
-    versions: v3
+  versions: v3
 
 image:
-    repository: docker.io/raspbernetes/helm-operator
-    tag: v1.0.0-rc9
+  repository: docker.io/raspbernetes/helm-operator
+  tag: v1.0.0-rc9
+
+git:
+  ssh:    
+    secretName: flux-git-deploy
