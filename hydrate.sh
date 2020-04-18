@@ -48,4 +48,7 @@ _hydrate() {
 if [[ "$1" == "gatekeeper" ]]; then
 	kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml \
 		--dry-run=client -o yaml > namespaces/gatekeeper-system/"${1}".yaml
+	sed -i'.bak' "s/quay.io\/open-policy-agent/docker.io\/raspbernetes/g" namespaces/gatekeeper-system/"${1}".yaml
+	BACKUP=namespaces/gatekeeper-system/"${1}".yaml.bak
+	[[ -f $BACKUP ]] && rm -f $BACKUP
 fi
