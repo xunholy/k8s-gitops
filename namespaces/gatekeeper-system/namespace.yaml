@@ -1,2 +1,7 @@
 ---
 # This file is being created and managed via the gatekeeper.yaml
+# Note: Due to current issues with Flux applying the upstream namespace attempt to create it here.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gatekeeper-system
