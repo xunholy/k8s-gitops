@@ -1,84 +1,202 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    admission.gatekeeper.sh/ignore: no-self-managing
-    control-plane: controller-manager
-    gatekeeper.sh/system: 'yes'
-  name: gatekeeper-system
----
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  annotations:
-    controller-gen.kubebuilder.io/version: v0.2.4
-  creationTimestamp: null
-  labels:
-    gatekeeper.sh/system: 'yes'
-  name: configs.config.gatekeeper.sh
-spec:
-  group: config.gatekeeper.sh
-  names:
-    kind: Config
-    listKind: ConfigList
-    plural: configs
-    singular: config
-  scope: Namespaced
-  validation:
-    openAPIV3Schema:
-      description: Config is the Schema for the configs API
-      properties:
-        apiVersion:
-          description:
-            'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
-          type: string
-        kind:
-          description:
-            'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-          type: string
-        metadata:
-          type: object
-        spec:
-          description: ConfigSpec defines the desired state of Config
+items:
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      annotations:
+        fluxcd.io/sync-checksum: ec9d4457b26a2a39581a1a075e6915a488a0d3c9
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{"fluxcd.io/sync-checksum":"ec9d4457b26a2a39581a1a075e6915a488a0d3c9"},"labels":{"admission.gatekeeper.sh/ignore":"no-self-managing","control-plane":"controller-manager","fluxcd.io/sync-gc-mark":"sha256.GCFu0f_vTVknX0H_tyO7hOM-xdGzhIobHFrYj8E7PPs","gatekeeper.sh/system":"yes"},"name":"gatekeeper-system"}}
+      creationTimestamp: '2020-04-01T23:59:57Z'
+      labels:
+        admission.gatekeeper.sh/ignore: no-self-managing
+        control-plane: controller-manager
+        fluxcd.io/sync-gc-mark: sha256.GCFu0f_vTVknX0H_tyO7hOM-xdGzhIobHFrYj8E7PPs
+        gatekeeper.sh/system: 'yes'
+      managedFields:
+        - apiVersion: v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:admission.gatekeeper.sh/ignore: {}
+                f:control-plane: {}
+                f:fluxcd.io/sync-gc-mark: {}
+                f:gatekeeper.sh/system: {}
+            f:status:
+              f:phase: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T02:04:41Z'
+      name: gatekeeper-system
+      resourceVersion: '434896'
+      selfLink: /api/v1/namespaces/gatekeeper-system
+      uid: 311a43de-a7ff-4073-9c1c-97ff913b50f0
+    spec:
+      finalizers:
+        - kubernetes
+    status:
+      phase: Active
+  - apiVersion: apiextensions.k8s.io/v1beta1
+    kind: CustomResourceDefinition
+    metadata:
+      annotations:
+        controller-gen.kubebuilder.io/version: v0.2.4
+        fluxcd.io/sync-checksum: 18ea8c3674b2d52072a8051a1e126b83acac6903
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"apiextensions.k8s.io/v1beta1","kind":"CustomResourceDefinition","metadata":{"annotations":{"controller-gen.kubebuilder.io/version":"v0.2.4","fluxcd.io/sync-checksum":"18ea8c3674b2d52072a8051a1e126b83acac6903"},"creationTimestamp":null,"labels":{"fluxcd.io/sync-gc-mark":"sha256.W0i6iMQpEmGoLZMKfzc-Bd5e5kFwfwoRW6W-Wv9QRVg","gatekeeper.sh/system":"yes"},"name":"configs.config.gatekeeper.sh"},"spec":{"group":"config.gatekeeper.sh","names":{"kind":"Config","listKind":"ConfigList","plural":"configs","singular":"config"},"scope":"Namespaced","validation":{"openAPIV3Schema":{"description":"Config is the Schema for the configs API","properties":{"apiVersion":{"description":"APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources","type":"string"},"kind":{"description":"Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds","type":"string"},"metadata":{"type":"object"},"spec":{"description":"ConfigSpec defines the desired state of Config","properties":{"sync":{"description":"Configuration for syncing k8s objects","properties":{"syncOnly":{"description":"If non-empty, only entries on this list will be replicated into OPA","items":{"properties":{"group":{"type":"string"},"kind":{"type":"string"},"version":{"type":"string"}},"type":"object"},"type":"array"}},"type":"object"},"validation":{"description":"Configuration for validation","properties":{"traces":{"description":"List of requests to trace. Both \"user\" and \"kinds\" must be specified","items":{"properties":{"dump":{"description":"Also dump the state of OPA with the trace. Set to `All` to dump everything.","type":"string"},"kind":{"description":"Only trace requests of the following GroupVersionKind","properties":{"group":{"type":"string"},"kind":{"type":"string"},"version":{"type":"string"}},"type":"object"},"user":{"description":"Only trace requests from the specified user","type":"string"}},"type":"object"},"type":"array"}},"type":"object"}},"type":"object"},"status":{"description":"ConfigStatus defines the observed state of Config","type":"object"}},"type":"object"}},"version":"v1alpha1","versions":[{"name":"v1alpha1","served":true,"storage":true}]},"status":{"acceptedNames":{"kind":"","plural":""},"conditions":[],"storedVersions":[]}}
+      creationTimestamp: '2020-04-01T23:59:59Z'
+      generation: 1
+      labels:
+        fluxcd.io/sync-gc-mark: sha256.W0i6iMQpEmGoLZMKfzc-Bd5e5kFwfwoRW6W-Wv9QRVg
+        gatekeeper.sh/system: 'yes'
+      managedFields:
+        - apiVersion: apiextensions.k8s.io/v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:status:
+              f:acceptedNames:
+                f:listKind: {}
+                f:singular: {}
+          manager: kube-apiserver
+          operation: Update
+          time: '2020-04-01T23:59:59Z'
+        - apiVersion: apiextensions.k8s.io/v1beta1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:controller-gen.kubebuilder.io/version: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:fluxcd.io/sync-gc-mark: {}
+                f:gatekeeper.sh/system: {}
+            f:spec:
+              f:conversion:
+                .: {}
+                f:strategy: {}
+              f:group: {}
+              f:names:
+                f:kind: {}
+                f:listKind: {}
+                f:plural: {}
+                f:singular: {}
+              f:preserveUnknownFields: {}
+              f:scope: {}
+              f:validation:
+                .: {}
+                f:openAPIV3Schema:
+                  .: {}
+                  f:description: {}
+                  f:properties:
+                    .: {}
+                    f:apiVersion:
+                      .: {}
+                      f:description: {}
+                      f:type: {}
+                    f:kind:
+                      .: {}
+                      f:description: {}
+                      f:type: {}
+                    f:metadata:
+                      .: {}
+                      f:type: {}
+                    f:spec:
+                      .: {}
+                      f:description: {}
+                      f:properties:
+                        .: {}
+                        f:sync:
+                          .: {}
+                          f:description: {}
+                          f:properties:
+                            .: {}
+                            f:syncOnly:
+                              .: {}
+                              f:description: {}
+                              f:items: {}
+                              f:type: {}
+                          f:type: {}
+                        f:validation:
+                          .: {}
+                          f:description: {}
+                          f:properties:
+                            .: {}
+                            f:traces:
+                              .: {}
+                              f:description: {}
+                              f:items: {}
+                              f:type: {}
+                          f:type: {}
+                      f:type: {}
+                    f:status:
+                      .: {}
+                      f:description: {}
+                      f:type: {}
+                  f:type: {}
+              f:version: {}
+              f:versions: {}
+            f:status:
+              f:acceptedNames:
+                f:kind: {}
+                f:plural: {}
+              f:conditions: {}
+              f:storedVersions: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T03:02:00Z'
+      name: configs.config.gatekeeper.sh
+      resourceVersion: '446878'
+      selfLink: /apis/apiextensions.k8s.io/v1beta1/customresourcedefinitions/configs.config.gatekeeper.sh
+      uid: 39881881-5b41-495a-8be3-ecc34c86f782
+    spec:
+      conversion:
+        strategy: None
+      group: config.gatekeeper.sh
+      names:
+        kind: Config
+        listKind: ConfigList
+        plural: configs
+        singular: config
+      preserveUnknownFields: true
+      scope: Namespaced
+      validation:
+        openAPIV3Schema:
+          description: Config is the Schema for the configs API
           properties:
-            sync:
-              description: Configuration for syncing k8s objects
-              properties:
-                syncOnly:
-                  description:
-                    If non-empty, only entries on this list will be replicated
-                    into OPA
-                  items:
-                    properties:
-                      group:
-                        type: string
-                      kind:
-                        type: string
-                      version:
-                        type: string
-                    type: object
-                  type: array
+            apiVersion:
+              description:
+                'APIVersion defines the versioned schema of this representation
+                of an object. Servers should convert recognized schemas to the latest
+                internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+              type: string
+            kind:
+              description:
+                'Kind is a string value representing the REST resource this
+                object represents. Servers may infer this from the endpoint the client
+                submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+              type: string
+            metadata:
               type: object
-            validation:
-              description: Configuration for validation
+            spec:
+              description: ConfigSpec defines the desired state of Config
               properties:
-                traces:
-                  description:
-                    List of requests to trace. Both "user" and "kinds"
-                    must be specified
-                  items:
-                    properties:
-                      dump:
-                        description:
-                          Also dump the state of OPA with the trace. Set
-                          to `All` to dump everything.
-                        type: string
-                      kind:
-                        description: Only trace requests of the following GroupVersionKind
+                sync:
+                  description: Configuration for syncing k8s objects
+                  properties:
+                    syncOnly:
+                      description:
+                        If non-empty, only entries on this list will be replicated
+                        into OPA
+                      items:
                         properties:
                           group:
                             type: string
@@ -87,452 +205,1200 @@ spec:
                           version:
                             type: string
                         type: object
-                      user:
-                        description: Only trace requests from the specified user
+                      type: array
+                  type: object
+                validation:
+                  description: Configuration for validation
+                  properties:
+                    traces:
+                      description:
+                        List of requests to trace. Both "user" and "kinds"
+                        must be specified
+                      items:
+                        properties:
+                          dump:
+                            description:
+                              Also dump the state of OPA with the trace.
+                              Set to `All` to dump everything.
+                            type: string
+                          kind:
+                            description: Only trace requests of the following GroupVersionKind
+                            properties:
+                              group:
+                                type: string
+                              kind:
+                                type: string
+                              version:
+                                type: string
+                            type: object
+                          user:
+                            description: Only trace requests from the specified user
+                            type: string
+                        type: object
+                      type: array
+                  type: object
+              type: object
+            status:
+              description: ConfigStatus defines the observed state of Config
+              type: object
+          type: object
+      version: v1alpha1
+      versions:
+        - name: v1alpha1
+          served: true
+          storage: true
+    status:
+      acceptedNames:
+        kind: Config
+        listKind: ConfigList
+        plural: configs
+        singular: config
+      conditions:
+        - lastTransitionTime: '2020-04-01T23:59:59Z'
+          message: no conflicts found
+          reason: NoConflicts
+          status: 'True'
+          type: NamesAccepted
+        - lastTransitionTime: '2020-04-01T23:59:59Z'
+          message: the initial names have been accepted
+          reason: InitialNamesAccepted
+          status: 'True'
+          type: Established
+      storedVersions:
+        - v1alpha1
+  - apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      annotations:
+        fluxcd.io/sync-checksum: 572da38a490920f6e3ca5e5f18b6e946e2a02bc4
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"v1","kind":"ServiceAccount","metadata":{"annotations":{"fluxcd.io/sync-checksum":"572da38a490920f6e3ca5e5f18b6e946e2a02bc4"},"labels":{"fluxcd.io/sync-gc-mark":"sha256.E22l3mS5IJaQGTm6MgSMCPNdPWf9nEszZ2JdC2-36zY","gatekeeper.sh/system":"yes"},"name":"gatekeeper-admin","namespace":"gatekeeper-system"}}
+      creationTimestamp: '2020-04-01T23:59:59Z'
+      labels:
+        fluxcd.io/sync-gc-mark: sha256.E22l3mS5IJaQGTm6MgSMCPNdPWf9nEszZ2JdC2-36zY
+        gatekeeper.sh/system: 'yes'
+      managedFields:
+        - apiVersion: v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:secrets:
+              .: {}
+              k:{"name":"gatekeeper-admin-token-l8tdp"}:
+                .: {}
+                f:name: {}
+          manager: kube-controller-manager
+          operation: Update
+          time: '2020-04-02T00:00:00Z'
+        - apiVersion: v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:fluxcd.io/sync-gc-mark: {}
+                f:gatekeeper.sh/system: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T02:04:41Z'
+      name: gatekeeper-admin
+      namespace: gatekeeper-system
+      resourceVersion: '434900'
+      selfLink: /api/v1/namespaces/gatekeeper-system/serviceaccounts/gatekeeper-admin
+      uid: f7713af9-8bc3-40cd-896e-25ddf5ce21a8
+    secrets:
+      - name: gatekeeper-admin-token-l8tdp
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      annotations:
+        fluxcd.io/sync-checksum: 4ef21b5bdb09a08e222b334680276a8322c8fd2f
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{"fluxcd.io/sync-checksum":"4ef21b5bdb09a08e222b334680276a8322c8fd2f"},"creationTimestamp":null,"labels":{"fluxcd.io/sync-gc-mark":"sha256.2IENW1bh1efl2dAWUfOJD1imSRqjLKd6SWnHs-H78gE","gatekeeper.sh/system":"yes"},"name":"gatekeeper-manager-role","namespace":"gatekeeper-system"},"rules":[{"apiGroups":[""],"resources":["secrets"],"verbs":["create","delete","get","list","patch","update","watch"]}]}
+      creationTimestamp: '2020-04-02T00:00:00Z'
+      labels:
+        fluxcd.io/sync-gc-mark: sha256.2IENW1bh1efl2dAWUfOJD1imSRqjLKd6SWnHs-H78gE
+        gatekeeper.sh/system: 'yes'
+      managedFields:
+        - apiVersion: rbac.authorization.k8s.io/v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:fluxcd.io/sync-gc-mark: {}
+                f:gatekeeper.sh/system: {}
+            f:rules: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T02:04:42Z'
+      name: gatekeeper-manager-role
+      namespace: gatekeeper-system
+      resourceVersion: '434901'
+      selfLink: /apis/rbac.authorization.k8s.io/v1/namespaces/gatekeeper-system/roles/gatekeeper-manager-role
+      uid: 4d5e8ed7-d523-4f6f-920c-63a92162a35f
+    rules:
+      - apiGroups:
+          - ''
+        resources:
+          - secrets
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      annotations:
+        fluxcd.io/sync-checksum: 7c62f7a3ea15951ce3e0e672d47a98ec2f0c29be
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{"fluxcd.io/sync-checksum":"7c62f7a3ea15951ce3e0e672d47a98ec2f0c29be"},"creationTimestamp":null,"labels":{"fluxcd.io/sync-gc-mark":"sha256.siB7oIWp5d7p4wQJhOGvmDv8TYbZ_EtBFBKml1xJmvs","gatekeeper.sh/system":"yes"},"name":"gatekeeper-manager-role"},"rules":[{"apiGroups":["*"],"resources":["*"],"verbs":["get","list","watch"]},{"apiGroups":["apiextensions.k8s.io"],"resources":["customresourcedefinitions"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["config.gatekeeper.sh"],"resources":["configs"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["config.gatekeeper.sh"],"resources":["configs/status"],"verbs":["get","patch","update"]},{"apiGroups":["constraints.gatekeeper.sh"],"resources":["*"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["templates.gatekeeper.sh"],"resources":["constrainttemplates"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["templates.gatekeeper.sh"],"resources":["constrainttemplates/status"],"verbs":["get","patch","update"]},{"apiGroups":["admissionregistration.k8s.io"],"resourceNames":["gatekeeper-validating-webhook-configuration"],"resources":["validatingwebhookconfigurations"],"verbs":["create","delete","get","list","patch","update","watch"]}]}
+      creationTimestamp: '2020-04-02T00:00:00Z'
+      labels:
+        fluxcd.io/sync-gc-mark: sha256.siB7oIWp5d7p4wQJhOGvmDv8TYbZ_EtBFBKml1xJmvs
+        gatekeeper.sh/system: 'yes'
+      managedFields:
+        - apiVersion: rbac.authorization.k8s.io/v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:fluxcd.io/sync-gc-mark: {}
+                f:gatekeeper.sh/system: {}
+            f:rules: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T02:04:42Z'
+      name: gatekeeper-manager-role
+      resourceVersion: '434902'
+      selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/gatekeeper-manager-role
+      uid: bb7e6b2c-6ef2-4cf1-8374-4fe8016be0b9
+    rules:
+      - apiGroups:
+          - '*'
+        resources:
+          - '*'
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - apiextensions.k8s.io
+        resources:
+          - customresourcedefinitions
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - config.gatekeeper.sh
+        resources:
+          - configs
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - config.gatekeeper.sh
+        resources:
+          - configs/status
+        verbs:
+          - get
+          - patch
+          - update
+      - apiGroups:
+          - constraints.gatekeeper.sh
+        resources:
+          - '*'
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - templates.gatekeeper.sh
+        resources:
+          - constrainttemplates
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - templates.gatekeeper.sh
+        resources:
+          - constrainttemplates/status
+        verbs:
+          - get
+          - patch
+          - update
+      - apiGroups:
+          - admissionregistration.k8s.io
+        resourceNames:
+          - gatekeeper-validating-webhook-configuration
+        resources:
+          - validatingwebhookconfigurations
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      annotations:
+        fluxcd.io/sync-checksum: 4cc01e21154593e6da8d28fb02a5b5afc1f790fa
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{"fluxcd.io/sync-checksum":"4cc01e21154593e6da8d28fb02a5b5afc1f790fa"},"labels":{"fluxcd.io/sync-gc-mark":"sha256.CHzj8gohb6BG0b-LnkAy5GmgD6hs6mF0CmBd44DfJCY","gatekeeper.sh/system":"yes"},"name":"gatekeeper-manager-rolebinding","namespace":"gatekeeper-system"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"gatekeeper-manager-role"},"subjects":[{"kind":"ServiceAccount","name":"gatekeeper-admin","namespace":"gatekeeper-system"}]}
+      creationTimestamp: '2020-04-02T00:00:01Z'
+      labels:
+        fluxcd.io/sync-gc-mark: sha256.CHzj8gohb6BG0b-LnkAy5GmgD6hs6mF0CmBd44DfJCY
+        gatekeeper.sh/system: 'yes'
+      managedFields:
+        - apiVersion: rbac.authorization.k8s.io/v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:fluxcd.io/sync-gc-mark: {}
+                f:gatekeeper.sh/system: {}
+            f:roleRef:
+              f:apiGroup: {}
+              f:kind: {}
+              f:name: {}
+            f:subjects: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T02:04:42Z'
+      name: gatekeeper-manager-rolebinding
+      namespace: gatekeeper-system
+      resourceVersion: '434920'
+      selfLink: /apis/rbac.authorization.k8s.io/v1/namespaces/gatekeeper-system/rolebindings/gatekeeper-manager-rolebinding
+      uid: 83ef5945-6e50-4553-a81e-37e4dceef36e
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: gatekeeper-manager-role
+    subjects:
+      - kind: ServiceAccount
+        name: gatekeeper-admin
+        namespace: gatekeeper-system
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      annotations:
+        fluxcd.io/sync-checksum: f11f83e4403750ed1953d3aae410864d382ead23
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{"fluxcd.io/sync-checksum":"f11f83e4403750ed1953d3aae410864d382ead23"},"labels":{"fluxcd.io/sync-gc-mark":"sha256.mdD1vbWV5anSiXhAbDf36S4mmgf7tf1qwWStMagGoyw","gatekeeper.sh/system":"yes"},"name":"gatekeeper-manager-rolebinding"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"gatekeeper-manager-role"},"subjects":[{"kind":"ServiceAccount","name":"gatekeeper-admin","namespace":"gatekeeper-system"}]}
+      creationTimestamp: '2020-04-02T00:00:02Z'
+      labels:
+        fluxcd.io/sync-gc-mark: sha256.mdD1vbWV5anSiXhAbDf36S4mmgf7tf1qwWStMagGoyw
+        gatekeeper.sh/system: 'yes'
+      managedFields:
+        - apiVersion: rbac.authorization.k8s.io/v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:fluxcd.io/sync-gc-mark: {}
+                f:gatekeeper.sh/system: {}
+            f:roleRef:
+              f:apiGroup: {}
+              f:kind: {}
+              f:name: {}
+            f:subjects: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T02:04:42Z'
+      name: gatekeeper-manager-rolebinding
+      resourceVersion: '434921'
+      selfLink: /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/gatekeeper-manager-rolebinding
+      uid: 95852637-ade2-430c-9ff2-15f88deca3e9
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: gatekeeper-manager-role
+    subjects:
+      - kind: ServiceAccount
+        name: gatekeeper-admin
+        namespace: gatekeeper-system
+  - apiVersion: v1
+    data:
+      ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMrRENDQWVDZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREF0TVJNd0VRWURWUVFLRXdwbllYUmwKYTJWbGNHVnlNUll3RkFZRFZRUURFdzFuWVhSbGEyVmxjR1Z5TFdOaE1CNFhEVEl3TURRd01USXpNREEwTkZvWApEVE13TURNek1UQXdNREEwTkZvd0xURVRNQkVHQTFVRUNoTUtaMkYwWld0bFpYQmxjakVXTUJRR0ExVUVBeE1OCloyRjBaV3RsWlhCbGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFLcTcKUlUyeWRremFpUUNBb29QbjlCWTZ3enc3WEpwb1pPUVU4M1dGV1lzRUd0eUN0TXg0K05pSTdONzlyRkhLRjhVaQpUTnZ0U0hBNHZLM085M2h1aHNGU25RZnlDeVBqcVVVYnNLNDhYNkVRaXJqUGN4NjFURkdHUVVkT3cyNXphTzlUCjdzdXQ2QmZPODhvN0JHZnNsWjdGc2tSelhxb2lieUZ1MUFPdnA5a2ZoMGpZT1lOK0NXSDAzQ1lZdTN0WG5jKzAKVG56M01TWHlvb25zeWRCcDRCTVpTMFBzWE8vaklpcHFkcVBldUl1QVl1eFI0bjhDV3NIbXlOaFdJU295TEVmRwpPSjd6UUpHVmtsZ25MR1hPS25HcnlBZmpxb09BakU0ODk1a1MvK0ovMXNoOTBqaHZYeS9pY3ZIcS8xUXJZK3dmClVOVCtEdkovMEQwajVhVFB5OWtDQXdFQUFhTWpNQ0V3RGdZRFZSMFBBUUgvQkFRREFnS2tNQThHQTFVZEV3RUIKL3dRRk1BTUJBZjh3RFFZSktvWklodmNOQVFFTEJRQURnZ0VCQUJ2N0xqUWMremdyMnVFWS9DS2x0Q2kwczR4SgpQK2hhWlIvRTFIT2tadE1SUjRHN01DbWxTcHl0Wld2RWsydHd5YWFHaEVBTE9UM2h3U0Fla2VZVUxIbTN6ZFFJCnV0SlR4TTdyQVNoTnJmWUkvZWp2VUV1d3M4TzNmKzhqbW5uQmtzd1FLNndIeEgrR1JiVm9FVS9CTDA4bTh4VTUKelRkeUErQ1lxUFl3Yk1LUFI4ck8xQmNpZDRwRW55MkZScTZLd0R1Sng3dHJob3BkNFFsNWtqVkl6WnBFUk1lRgpZR3Z0WVhHRk93VStWZ2xGVERJdFRteFprOE5TdXhJS21SWnFvN2dwVDdqSGgweVpFWUtSYUVudG9BVUlXUXdiClRtZ2dhS0JaN2F5L0F2enQ3c0pMekFHcG03Tm03YXlvM2RObjJzaVkyUjNkNmdPN3pCUmdIakdRVFlnPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+      ca.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb2dJQkFBS0NBUUVBcXJ0RlRiSjJUTnFKQUlDaWcrZjBGanJEUER0Y21taGs1QlR6ZFlWWml3UWEzSUswCnpIajQySWpzM3Yyc1Vjb1h4U0pNMisxSWNEaThyYzczZUc2R3dWS2RCL0lMSStPcFJSdXdyanhmb1JDS3VNOXoKSHJWTVVZWkJSMDdEYm5ObzcxUHV5NjNvRjg3enlqc0VaK3lWbnNXeVJITmVxaUp2SVc3VUE2K24yUitIU05nNQpnMzRKWWZUY0poaTdlMWVkejdST2ZQY3hKZktpaWV6SjBHbmdFeGxMUSt4YzcrTWlLbXAybzk2NGk0Qmk3RkhpCmZ3SmF3ZWJJMkZZaEtqSXNSOFk0bnZOQWtaV1NXQ2NzWmM0cWNhdklCK09xZzRDTVRqejNtUkwvNG4vV3lIM1MKT0c5ZkwrSnk4ZXIvVkN0ajdCOVExUDRPOG4vUVBTUGxwTS9MMlFJREFRQUJBb0lCQUZLZkM3dTg2RmpxeksvcwprRGpyTUFqdDZQc2w4dnRhRjdEMG5waTVyb3FDc3drUlM3TkR1NUQyT2tMeldjZSsxOS96YUdScG9NdUYrWERYCkhwVXVUNUlRaTZPRHMzWnJ2c2VOemVPVG5lZVEzTUR3eTFJS0JHUFRaNVc5ZlAvZlkrR2xxWUx4cHNhV3hRMlIKbitFMjhYVURVUENsTUNOL1JHNVdkczFOM1JsSnlVallKcEgySnVua1U0aGlaWDNzWFNycU1oUHlBZklYaGJZWApKazFBNzZaVWNSMGpRaWtwMlpETHdEWktKK0NGUDBUeUNVdTFmcCs2TkVMODlKRnYyTHRvVkx3VzNjTGxiZUI1Ck1EVE1KZzFnaHh5RnhOQTVMZXRFYmpkQlF0S0lBdVVodTMwc2NIempzREYrSkFoc2FHS2Rxblp0SUhQQ0pZbU4KQ2wyUlgzRUNnWUVBMVR2OVNuTlhYSVVLa0piMmxPNDlHdW9tVUxBSjVBL3pVRFduTFhscUtMZVlPTUFuc0lZbApidWdGdFFDaGpaQktuZTl3bHpabjQycGtzWTk5N3g0OEpERTV4WHMvK3dvZW5WSjNWYlZuVFJvUGF3cFFuQ1BKCkxBR25IM2lLSWR2b2luKzFaaHhzL01UY3VnQjdjaUQxRmRPamgyY2pqUXlvVFJyNnhkcGVBNTBDZ1lFQXpQa1QKV0UyeGcwU2xKKzZmMnVvOCtrRGtxdHhWNDdUamcvbDB5YWtHQldzbGt1amJpL3dmNmNGckdkQ05Nd2dWYlZkMwo2ZUhWY2Q0SEVUN0c4UDRBWEx4bXVIazl4ME15L0UzSTB0OEZyaVpUeE0rT3ZDZFhvRkpnek1uakdqSCtzZ21UCkx1U1lxMnozWEtPN3FEeC8wMHc3WlpBZExKUXdtV3dnZEtWS3FtMENnWUF2UGpOSUkzWGZrYnBkZnBUek9qVmYKbVRFVC8yeXhrcmNkdGtWcjFkS25Zc1hmRFBPK01IcHFzQTFUcE9nbUxTbmJCQW0xOXQvZGl0ejBXZzVVeENZZQovcWtHRCtDRkJpRHlTaXNXV2pLZzZuMHdBZ0VLRndPak5GcUtwbkkwUGp5dk1zeEY2MVphU21OODhrNW5ZdFhxCkdCSExGaGJTVVZPWWdibTl6RHU0SVFLQmdFVmdVS0hrdWg1NkQ0UnlpZnlvcDdiMFcvRlEzbWxTQW1mYStTS0EKYVI5UVlzbFVzMnF3RFlVckNEc1drWlFpT2s1bCtwcFk2OHU4b0p1L3FjcEx6b2VVNVJldlFhKytHUFc0eGk1Sgplankxa0VqZkQ2cXpqajhmWXRBdHpRWkN3YmcwOFhJL3dVVFVmdTBHSmpBTk9oNmtnTDRoaHg1ZGtnMTd3WWg1Cm9jb0pBb0dBRnhkTGtMNUZyVGN1c1FleEFzSTJERVA1eUN3L0FDZ3BGQzNySDlTRExaUGhjUC9iL0VCcUo4TlgKWCtDZE5jem5DTnJzNHdtR3VrQXFVdTk2QnRQWmtCQW8yV1JVN3NHK0gzaHAyak1Dcm1ndTI4dEV1alRrQUlsNQpkMUJ6ZXFQakMrbitMaWpGbWFoMzFRNWs3OUwxMEZGMnlKZXV1K1NVaS9qd0dYTldmQjA9Ci0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
+      tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHRENDQWdDZ0F3SUJBZ0lCQVRBTkJna3Foa2lHOXcwQkFRc0ZBREF0TVJNd0VRWURWUVFLRXdwbllYUmwKYTJWbGNHVnlNUll3RkFZRFZRUURFdzFuWVhSbGEyVmxjR1Z5TFdOaE1CNFhEVEl3TURRd01USXpNREEwTmxvWApEVE13TURNek1UQXdNREEwTmxvd096RTVNRGNHQTFVRUF4TXdaMkYwWld0bFpYQmxjaTEzWldKb2IyOXJMWE5sCmNuWnBZMlV1WjJGMFpXdGxaWEJsY2kxemVYTjBaVzB1YzNaak1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0MKQVE4QU1JSUJDZ0tDQVFFQXNteE84eU04TUYvQ2JiZklWM2k1b1UwQlJFaHZkTDJCRXV0VFdDMDQyRjY5TGxEaApjTVZSSS80bHJQaUUrNm5FM0RiS0tCc3lQNzdIY1owblAvWUlONE44dTVIaG9rSWI3NnQ2ZnpZUzVOMTRwTUNvClMyRmlubXZFTDJkcVcxZmhMdEdLbnc3K1BkdTZqVHJGMlI3OWF4ajUwdS95UVVMQzBBcnVIMzQxSW11M0dXYTkKb0twbEptd2xEWjRDcm01L0J2bndSeGZsSlJKcWo0VVZzZWppYTA5Tnh3Tk5SL0VIcGJ5T0dEUHB2UVJhcGVITQpja3Y5QW5vTnI4VWNjaVM4aUcyYmo5SE84R0VJVHNTeVRrTnhkSnZoMGhnMVNzUnhPVDU1eG9HNlZrSEIxbnFkCnI1aDcyLzhWVWdXNU1DYVdmeVpIRk1WSWsxUEhmT2NDdGNhK2p3SURBUUFCb3pVd016QU9CZ05WSFE4QkFmOEUKQkFNQ0JhQXdFd1lEVlIwbEJBd3dDZ1lJS3dZQkJRVUhBd0V3REFZRFZSMFRBUUgvQkFJd0FEQU5CZ2txaGtpRwo5dzBCQVFzRkFBT0NBUUVBZHliQzV2emRGTzJqbnJKeDc1Z3BGcEZjQmtXRDJGMHd1SWtSdzVaa0tCcHJ4MzRVCklMVlcxMHZYOVRONnV3d0lYTC9ubUxjQi84UXNZN0c1SjlsZnBFZ3ZCV1FNaWpwU3g5MGNObEs2WXVlcDVBU3oKekdTVmpIcU4xWC90aVc3ZzNtUHNHMGp6YUVEWkhJblBITVlLNG5LWDVNOUt2U2NKbFZzdDdleFArOWtnOXltSQpCOElDZmlYZnBPV09zQVZxQUZjRjM5cU5tcUE3RnhtVlNMNkQ0Uk5PVUlzem93QjFGQ2oxS01qNVg3UTZGVVo1CjVGeVlVTVZSVVhwN2k4b2ZBUGNKNURnU0xLaVpFT1ZHMzYzM3NRUjZvMGQyNUg4eWhjM0pLa00vRE1NS1lkMFQKZWJzZ3RkWUhEODBZUTRIaE5hSlluYXZSUTA4ZnNKTUxreFVBVFE9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+      tls.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBc214Tzh5TThNRi9DYmJmSVYzaTVvVTBCUkVodmRMMkJFdXRUV0MwNDJGNjlMbERoCmNNVlJJLzRsclBpRSs2bkUzRGJLS0JzeVA3N0hjWjBuUC9ZSU40Tjh1NUhob2tJYjc2dDZmellTNU4xNHBNQ28KUzJGaW5tdkVMMmRxVzFmaEx0R0tudzcrUGR1NmpUckYyUjc5YXhqNTB1L3lRVUxDMEFydUgzNDFJbXUzR1dhOQpvS3BsSm13bERaNENybTUvQnZud1J4ZmxKUkpxajRVVnNlamlhMDlOeHdOTlIvRUhwYnlPR0RQcHZRUmFwZUhNCmNrdjlBbm9OcjhVY2NpUzhpRzJiajlITzhHRUlUc1N5VGtOeGRKdmgwaGcxU3NSeE9UNTV4b0c2VmtIQjFucWQKcjVoNzIvOFZVZ1c1TUNhV2Z5WkhGTVZJazFQSGZPY0N0Y2ErandJREFRQUJBb0lCQUNyeEVFdEtOcWs1MHRTUApQK04xaGMvQmRjV1dYV1RPV3l0UGdkNmQrNmx2bTc1eTd0OHlUaVlJZTg3V2ZVTUloLzJzSGhscStqd0hVWDhSCm9LbXZNQ2tVTjBmNWcwR0hBYXc4TEI1RHlHWld1enVEdHIxMXNjT0pFazJLYVRtVXUvaUZyQVErR29pT3dxWk0KOStNYXAwbElXSkFnK2NBbExqZmQrWk9RejM3NTRJcjhWd0lWZllZdzlpVkF4aVZiY09RN0Q1UWpuSmkyVW5YUQp0ZkxvS0l2SWpyaXVoN0NoVHUxTW1HbWRybURMc0Y0QWlFMVNnREp4VWFQUjFqT3JickJqVEd0QTJMZ3NnUUdGCk1nY01zT05rRkZsalVLS2w5TExEemEyMXZmR0tmVFRvNUk3M0Q5SkJqSFFWUy84S1dxT2JGYnFMTUMydHhaVlkKSitxY1dIRUNnWUVBeGlQbStOcjVlR0kxaW9tMXpEMFVpOWUrcWcrV3lmMDNOMVBJcnNyZTBpN3Q2MkpFM0Ntawp0djcwQnZkeXIrMHRoM0VYc2J3TEprRTcwWElyMjIvWGMxSjFYWExRZjBTWlYrZGJBUjNGeXpVWFA4azQ0eVJCCktTV3pEbGFlSTFXbisxTEtZMTgxZnduZkFsZ3Z1MHR2TW56ajV4TzRhMTdFZjBNOGR3QXA1OGtDZ1lFQTVvWnYKOGJrakZDVnc0WWtSMGhLYkUvVnZzMzN3eW5RYmZFUnV2blJyWDJ5ZGRlb25Fb2FZQlN1LzJXMmVxL09jRFhZdQp6dWNYNWRGRkxqY2x3azZyMW5NVHJNZE9GTENjNzRYb0FPQkU2TTZlOGtrbVQ4d3lzVkZqMTlTbjZySitYZHJzCnFXVnhpSXJCT3FvMjJrdURZTHNnWWljTDhZY2JqbHEzR281SVQ1Y0NnWUJvQUxCY0w1U0MvQW5lamlvKzZsQysKbHFBZDQ5RGlkV2RtUXpRemk0a3FDamdZTlp5dmM2eGg0YkYxZHExY2FzSmJOYUdhU1hvUXVtMExvMElpRExLcQpkYjNsTHo4QmpxQnU0NkdCRkgrZUNtQUp1eldCQkthdlVucUtMQzBWbndCdGl5ZHd3YWp5NWR1SS80RU9icW9QCmRqNnFMRS9CREIxWUw1S3RaQWliQVFLQmdHWU5lLzloKzVLT3BMTmpyL3owK2F4VFNua0d0eE9aWlJXVllnVjAKbXBnckNHWk1HN0lLM2Iva1IxRmxRd3BTbFhJc01McXQrWmxuRko1S0ViQThqYndwUTd1SW5CdHl1SGNkSzhFLwpoNkljM3FiYUZWamNTRkRSZkVidlFNc1k2L0oyMmJDQVZVdWlTYnJENGZhdjJXQjRWdlM4M24rMVZWQ20va3FHClZLTFBBb0dCQUpvcEdlZ3R6V1d3SWk3bUVPL3FDN0VOQnh2SVpaa3pra1JveGxNYm4zYi9sRmgralFsL3VCMUMKSytMcWtxR0FFRUVuOS8xdDlsVWNycm92S3U4OVZiYStWWld5RW1aQWxzVERRRi9VNUI2ZzVPWkNaWXBBNk9GVgpsNUNRblpsY05KOXZQeDVIczdJTXRPcjlhaGFEaXBiK0FoQ1graWhrM0ZCa3pWU1FCNWZZCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
+    kind: Secret
+    metadata:
+      annotations:
+        fluxcd.io/sync-checksum: 0408fede267a5d9e1df38c42ce1cd87460cd6fab
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"v1","kind":"Secret","metadata":{"annotations":{"fluxcd.io/sync-checksum":"0408fede267a5d9e1df38c42ce1cd87460cd6fab"},"labels":{"fluxcd.io/sync-gc-mark":"sha256.-IKVI3pHrmq4xE1Y3gwnX92ueWFj_CiIk5N9SIuiuqE","gatekeeper.sh/system":"yes"},"name":"gatekeeper-webhook-server-cert","namespace":"gatekeeper-system"}}
+      creationTimestamp: '2020-04-02T00:00:02Z'
+      labels:
+        fluxcd.io/sync-gc-mark: sha256.-IKVI3pHrmq4xE1Y3gwnX92ueWFj_CiIk5N9SIuiuqE
+        gatekeeper.sh/system: 'yes'
+      managedFields:
+        - apiVersion: v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:data:
+              .: {}
+              f:ca.crt: {}
+              f:ca.key: {}
+              f:tls.crt: {}
+              f:tls.key: {}
+          manager: manager
+          operation: Update
+          time: '2020-04-02T00:00:47Z'
+        - apiVersion: v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:fluxcd.io/sync-gc-mark: {}
+                f:gatekeeper.sh/system: {}
+            f:type: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T02:04:42Z'
+      name: gatekeeper-webhook-server-cert
+      namespace: gatekeeper-system
+      resourceVersion: '434922'
+      selfLink: /api/v1/namespaces/gatekeeper-system/secrets/gatekeeper-webhook-server-cert
+      uid: 3a06470f-8f53-4eea-834e-dc9dc4988674
+    type: Opaque
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        fluxcd.io/sync-checksum: 61f1c3936417374cd82f1514ef98e358c08e9da2
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"fluxcd.io/sync-checksum":"61f1c3936417374cd82f1514ef98e358c08e9da2"},"labels":{"fluxcd.io/sync-gc-mark":"sha256.6cSJ5G1yLuuumvwwFgj102kO8rkBv8NeBFWslDlybkc","gatekeeper.sh/system":"yes"},"name":"gatekeeper-webhook-service","namespace":"gatekeeper-system"},"spec":{"ports":[{"port":443,"targetPort":8443}],"selector":{"control-plane":"controller-manager","gatekeeper.sh/system":"yes"}}}
+      creationTimestamp: '2020-04-02T00:00:00Z'
+      labels:
+        fluxcd.io/sync-gc-mark: sha256.6cSJ5G1yLuuumvwwFgj102kO8rkBv8NeBFWslDlybkc
+        gatekeeper.sh/system: 'yes'
+      managedFields:
+        - apiVersion: v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:fluxcd.io/sync-gc-mark: {}
+                f:gatekeeper.sh/system: {}
+            f:spec:
+              f:ports:
+                .: {}
+                k:{"port":443,"protocol":"TCP"}:
+                  .: {}
+                  f:port: {}
+                  f:protocol: {}
+                  f:targetPort: {}
+              f:selector:
+                .: {}
+                f:control-plane: {}
+                f:gatekeeper.sh/system: {}
+              f:sessionAffinity: {}
+              f:type: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T02:04:42Z'
+      name: gatekeeper-webhook-service
+      namespace: gatekeeper-system
+      resourceVersion: '434903'
+      selfLink: /api/v1/namespaces/gatekeeper-system/services/gatekeeper-webhook-service
+      uid: 31b818f7-f4c2-47a4-9191-c60a97358557
+    spec:
+      clusterIP: 10.107.118.12
+      ports:
+        - port: 443
+          protocol: TCP
+          targetPort: 8443
+      selector:
+        control-plane: controller-manager
+        gatekeeper.sh/system: 'yes'
+      sessionAffinity: None
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: '2'
+        fluxcd.io/sync-checksum: 546637587d553f55a3cdbbdee05b28667d72d5d6
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"fluxcd.io/sync-checksum":"546637587d553f55a3cdbbdee05b28667d72d5d6"},"labels":{"control-plane":"controller-manager","fluxcd.io/sync-gc-mark":"sha256.-qtzY89cv0-OBW-SiOmAe7ZNaieVaNCTHUj_dwE0In4","gatekeeper.sh/system":"yes"},"name":"gatekeeper-controller-manager","namespace":"gatekeeper-system"},"spec":{"replicas":1,"selector":{"matchLabels":{"control-plane":"controller-manager","gatekeeper.sh/system":"yes"}},"template":{"metadata":{"labels":{"control-plane":"controller-manager","gatekeeper.sh/system":"yes"}},"spec":{"containers":[{"args":["--audit-interval=30","--port=8443","--logtostderr","--exempt-namespace=gatekeeper-system"],"command":["/manager"],"env":[{"name":"POD_NAMESPACE","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.namespace"}}},{"name":"POD_NAME","valueFrom":{"fieldRef":{"fieldPath":"metadata.name"}}}],"image":"raspbernetes/gatekeeper:v3.1.0-beta.7","imagePullPolicy":"Always","livenessProbe":{"httpGet":{"path":"/healthz","port":9090}},"name":"manager","ports":[{"containerPort":8443,"name":"webhook-server","protocol":"TCP"},{"containerPort":8888,"name":"metrics","protocol":"TCP"},{"containerPort":9090,"name":"healthz","protocol":"TCP"}],"readinessProbe":{"httpGet":{"path":"/readyz","port":9090}},"resources":{"limits":{"cpu":"1000m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"runAsGroup":999,"runAsNonRoot":true,"runAsUser":1000},"volumeMounts":[{"mountPath":"/certs","name":"cert","readOnly":true}]}],"serviceAccountName":"gatekeeper-admin","terminationGracePeriodSeconds":60,"volumes":[{"name":"cert","secret":{"defaultMode":420,"secretName":"gatekeeper-webhook-server-cert"}}]}}}}
+      creationTimestamp: '2020-04-02T00:00:02Z'
+      generation: 2
+      labels:
+        control-plane: controller-manager
+        fluxcd.io/sync-gc-mark: sha256.-qtzY89cv0-OBW-SiOmAe7ZNaieVaNCTHUj_dwE0In4
+        gatekeeper.sh/system: 'yes'
+      managedFields:
+        - apiVersion: apps/v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:control-plane: {}
+                f:fluxcd.io/sync-gc-mark: {}
+                f:gatekeeper.sh/system: {}
+            f:spec:
+              f:progressDeadlineSeconds: {}
+              f:replicas: {}
+              f:revisionHistoryLimit: {}
+              f:selector:
+                f:matchLabels:
+                  .: {}
+                  f:control-plane: {}
+                  f:gatekeeper.sh/system: {}
+              f:strategy:
+                f:rollingUpdate:
+                  .: {}
+                  f:maxSurge: {}
+                  f:maxUnavailable: {}
+                f:type: {}
+              f:template:
+                f:metadata:
+                  f:labels:
+                    .: {}
+                    f:control-plane: {}
+                    f:gatekeeper.sh/system: {}
+                f:spec:
+                  f:containers:
+                    k:{"name":"manager"}:
+                      .: {}
+                      f:args: {}
+                      f:command: {}
+                      f:env:
+                        .: {}
+                        k:{"name":"POD_NAME"}:
+                          .: {}
+                          f:name: {}
+                          f:valueFrom:
+                            .: {}
+                            f:fieldRef:
+                              .: {}
+                              f:apiVersion: {}
+                              f:fieldPath: {}
+                        k:{"name":"POD_NAMESPACE"}:
+                          .: {}
+                          f:name: {}
+                          f:valueFrom:
+                            .: {}
+                            f:fieldRef:
+                              .: {}
+                              f:apiVersion: {}
+                              f:fieldPath: {}
+                      f:image: {}
+                      f:imagePullPolicy: {}
+                      f:livenessProbe:
+                        .: {}
+                        f:failureThreshold: {}
+                        f:httpGet:
+                          .: {}
+                          f:path: {}
+                          f:port: {}
+                          f:scheme: {}
+                        f:periodSeconds: {}
+                        f:successThreshold: {}
+                        f:timeoutSeconds: {}
+                      f:name: {}
+                      f:ports:
+                        .: {}
+                        k:{"containerPort":8443,"protocol":"TCP"}:
+                          .: {}
+                          f:containerPort: {}
+                          f:name: {}
+                          f:protocol: {}
+                        k:{"containerPort":8888,"protocol":"TCP"}:
+                          .: {}
+                          f:containerPort: {}
+                          f:name: {}
+                          f:protocol: {}
+                        k:{"containerPort":9090,"protocol":"TCP"}:
+                          .: {}
+                          f:containerPort: {}
+                          f:name: {}
+                          f:protocol: {}
+                      f:readinessProbe:
+                        .: {}
+                        f:failureThreshold: {}
+                        f:httpGet:
+                          .: {}
+                          f:path: {}
+                          f:port: {}
+                          f:scheme: {}
+                        f:periodSeconds: {}
+                        f:successThreshold: {}
+                        f:timeoutSeconds: {}
+                      f:resources:
+                        .: {}
+                        f:limits:
+                          .: {}
+                          f:cpu: {}
+                          f:memory: {}
+                        f:requests:
+                          .: {}
+                          f:cpu: {}
+                          f:memory: {}
+                      f:securityContext:
+                        .: {}
+                        f:allowPrivilegeEscalation: {}
+                        f:runAsGroup: {}
+                        f:runAsNonRoot: {}
+                        f:runAsUser: {}
+                      f:terminationMessagePath: {}
+                      f:terminationMessagePolicy: {}
+                      f:volumeMounts:
+                        .: {}
+                        k:{"mountPath":"/certs"}:
+                          .: {}
+                          f:mountPath: {}
+                          f:name: {}
+                          f:readOnly: {}
+                  f:dnsPolicy: {}
+                  f:restartPolicy: {}
+                  f:schedulerName: {}
+                  f:securityContext: {}
+                  f:serviceAccount: {}
+                  f:serviceAccountName: {}
+                  f:terminationGracePeriodSeconds: {}
+                  f:volumes:
+                    .: {}
+                    k:{"name":"cert"}:
+                      .: {}
+                      f:name: {}
+                      f:secret:
+                        .: {}
+                        f:defaultMode: {}
+                        f:secretName: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T02:04:42Z'
+        - apiVersion: apps/v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                f:deployment.kubernetes.io/revision: {}
+            f:status:
+              f:availableReplicas: {}
+              f:conditions:
+                .: {}
+                k:{"type":"Available"}:
+                  .: {}
+                  f:lastTransitionTime: {}
+                  f:lastUpdateTime: {}
+                  f:message: {}
+                  f:reason: {}
+                  f:status: {}
+                  f:type: {}
+                k:{"type":"Progressing"}:
+                  .: {}
+                  f:lastTransitionTime: {}
+                  f:lastUpdateTime: {}
+                  f:message: {}
+                  f:reason: {}
+                  f:status: {}
+                  f:type: {}
+              f:observedGeneration: {}
+              f:readyReplicas: {}
+              f:replicas: {}
+              f:updatedReplicas: {}
+          manager: kube-controller-manager
+          operation: Update
+          time: '2020-04-02T02:05:05Z'
+      name: gatekeeper-controller-manager
+      namespace: gatekeeper-system
+      resourceVersion: '435067'
+      selfLink: /apis/apps/v1/namespaces/gatekeeper-system/deployments/gatekeeper-controller-manager
+      uid: 6ff9205b-82b0-42db-b136-9f498fb3af61
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          control-plane: controller-manager
+          gatekeeper.sh/system: 'yes'
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            control-plane: controller-manager
+            gatekeeper.sh/system: 'yes'
+        spec:
+          containers:
+            - args:
+                - --audit-interval=30
+                - --port=8443
+                - --logtostderr
+                - --exempt-namespace=gatekeeper-system
+              command:
+                - /manager
+              env:
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.name
+              image: raspbernetes/gatekeeper:v3.1.0-beta.7
+              imagePullPolicy: Always
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthz
+                  port: 9090
+                  scheme: HTTP
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+              name: manager
+              ports:
+                - containerPort: 8443
+                  name: webhook-server
+                  protocol: TCP
+                - containerPort: 8888
+                  name: metrics
+                  protocol: TCP
+                - containerPort: 9090
+                  name: healthz
+                  protocol: TCP
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /readyz
+                  port: 9090
+                  scheme: HTTP
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: '1'
+                  memory: 512Mi
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                runAsGroup: 999
+                runAsNonRoot: true
+                runAsUser: 1000
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /certs
+                  name: cert
+                  readOnly: true
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: gatekeeper-admin
+          serviceAccountName: gatekeeper-admin
+          terminationGracePeriodSeconds: 60
+          volumes:
+            - name: cert
+              secret:
+                defaultMode: 420
+                secretName: gatekeeper-webhook-server-cert
+    status:
+      availableReplicas: 1
+      conditions:
+        - lastTransitionTime: '2020-04-02T00:01:08Z'
+          lastUpdateTime: '2020-04-02T00:01:08Z'
+          message: Deployment has minimum availability.
+          reason: MinimumReplicasAvailable
+          status: 'True'
+          type: Available
+        - lastTransitionTime: '2020-04-02T00:00:02Z'
+          lastUpdateTime: '2020-04-02T02:05:05Z'
+          message:
+            ReplicaSet "gatekeeper-controller-manager-566b8d5fc7" has successfully
+            progressed.
+          reason: NewReplicaSetAvailable
+          status: 'True'
+          type: Progressing
+      observedGeneration: 2
+      readyReplicas: 1
+      replicas: 1
+      updatedReplicas: 1
+  - apiVersion: admissionregistration.k8s.io/v1beta1
+    kind: ValidatingWebhookConfiguration
+    metadata:
+      annotations:
+        fluxcd.io/sync-checksum: 2c9c7e1651c6020f7c1ada55c1f7c313e3c400b3
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"admissionregistration.k8s.io/v1beta1","kind":"ValidatingWebhookConfiguration","metadata":{"annotations":{"fluxcd.io/sync-checksum":"2c9c7e1651c6020f7c1ada55c1f7c313e3c400b3"},"creationTimestamp":null,"labels":{"fluxcd.io/sync-gc-mark":"sha256.o15HIJUXatsRMr7ZnLfZueda06HyRUAeAJ-ktfaoubY","gatekeeper.sh/system":"yes"},"name":"gatekeeper-validating-webhook-configuration"},"webhooks":[{"clientConfig":{"caBundle":"Cg==","service":{"name":"gatekeeper-webhook-service","namespace":"gatekeeper-system","path":"/v1/admit"}},"failurePolicy":"Ignore","name":"validation.gatekeeper.sh","namespaceSelector":{"matchExpressions":[{"key":"control-plane","operator":"DoesNotExist"},{"key":"admission.gatekeeper.sh/ignore","operator":"DoesNotExist"}]},"rules":[{"apiGroups":["*"],"apiVersions":["*"],"operations":["CREATE","UPDATE"],"resources":["*"]}],"sideEffects":"None","timeoutSeconds":5},{"clientConfig":{"caBundle":"Cg==","service":{"name":"gatekeeper-webhook-service","namespace":"gatekeeper-system","path":"/v1/admitlabel"}},"failurePolicy":"Fail","name":"check-ignore-label.gatekeeper.sh","rules":[{"apiGroups":[""],"apiVersions":["*"],"operations":["CREATE","UPDATE"],"resources":["namespaces"]}],"sideEffects":"None","timeoutSeconds":5}]}
+      creationTimestamp: '2020-04-02T00:00:02Z'
+      generation: 76
+      labels:
+        fluxcd.io/sync-gc-mark: sha256.o15HIJUXatsRMr7ZnLfZueda06HyRUAeAJ-ktfaoubY
+        gatekeeper.sh/system: 'yes'
+      managedFields:
+        - apiVersion: admissionregistration.k8s.io/v1beta1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:fluxcd.io/sync-gc-mark: {}
+                f:gatekeeper.sh/system: {}
+            f:webhooks:
+              .: {}
+              k:{"name":"check-ignore-label.gatekeeper.sh"}:
+                .: {}
+                f:admissionReviewVersions: {}
+                f:clientConfig:
+                  .: {}
+                  f:service:
+                    .: {}
+                    f:name: {}
+                    f:namespace: {}
+                    f:path: {}
+                    f:port: {}
+                f:failurePolicy: {}
+                f:matchPolicy: {}
+                f:name: {}
+                f:namespaceSelector: {}
+                f:objectSelector: {}
+                f:rules: {}
+                f:sideEffects: {}
+                f:timeoutSeconds: {}
+              k:{"name":"validation.gatekeeper.sh"}:
+                .: {}
+                f:admissionReviewVersions: {}
+                f:clientConfig:
+                  .: {}
+                  f:service:
+                    .: {}
+                    f:name: {}
+                    f:namespace: {}
+                    f:path: {}
+                    f:port: {}
+                f:failurePolicy: {}
+                f:matchPolicy: {}
+                f:name: {}
+                f:namespaceSelector:
+                  .: {}
+                  f:matchExpressions: {}
+                f:objectSelector: {}
+                f:rules: {}
+                f:sideEffects: {}
+                f:timeoutSeconds: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T03:02:00Z'
+        - apiVersion: admissionregistration.k8s.io/v1beta1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:webhooks:
+              k:{"name":"check-ignore-label.gatekeeper.sh"}:
+                f:clientConfig:
+                  f:caBundle: {}
+              k:{"name":"validation.gatekeeper.sh"}:
+                f:clientConfig:
+                  f:caBundle: {}
+          manager: manager
+          operation: Update
+          time: '2020-04-02T03:02:00Z'
+      name: gatekeeper-validating-webhook-configuration
+      resourceVersion: '446881'
+      selfLink: /apis/admissionregistration.k8s.io/v1beta1/validatingwebhookconfigurations/gatekeeper-validating-webhook-configuration
+      uid: bfd99883-bc4f-4395-be9a-184f9cdcfaaf
+    webhooks:
+      - admissionReviewVersions:
+          - v1beta1
+        clientConfig:
+          caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMrRENDQWVDZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREF0TVJNd0VRWURWUVFLRXdwbllYUmwKYTJWbGNHVnlNUll3RkFZRFZRUURFdzFuWVhSbGEyVmxjR1Z5TFdOaE1CNFhEVEl3TURRd01USXpNREEwTkZvWApEVE13TURNek1UQXdNREEwTkZvd0xURVRNQkVHQTFVRUNoTUtaMkYwWld0bFpYQmxjakVXTUJRR0ExVUVBeE1OCloyRjBaV3RsWlhCbGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFLcTcKUlUyeWRremFpUUNBb29QbjlCWTZ3enc3WEpwb1pPUVU4M1dGV1lzRUd0eUN0TXg0K05pSTdONzlyRkhLRjhVaQpUTnZ0U0hBNHZLM085M2h1aHNGU25RZnlDeVBqcVVVYnNLNDhYNkVRaXJqUGN4NjFURkdHUVVkT3cyNXphTzlUCjdzdXQ2QmZPODhvN0JHZnNsWjdGc2tSelhxb2lieUZ1MUFPdnA5a2ZoMGpZT1lOK0NXSDAzQ1lZdTN0WG5jKzAKVG56M01TWHlvb25zeWRCcDRCTVpTMFBzWE8vaklpcHFkcVBldUl1QVl1eFI0bjhDV3NIbXlOaFdJU295TEVmRwpPSjd6UUpHVmtsZ25MR1hPS25HcnlBZmpxb09BakU0ODk1a1MvK0ovMXNoOTBqaHZYeS9pY3ZIcS8xUXJZK3dmClVOVCtEdkovMEQwajVhVFB5OWtDQXdFQUFhTWpNQ0V3RGdZRFZSMFBBUUgvQkFRREFnS2tNQThHQTFVZEV3RUIKL3dRRk1BTUJBZjh3RFFZSktvWklodmNOQVFFTEJRQURnZ0VCQUJ2N0xqUWMremdyMnVFWS9DS2x0Q2kwczR4SgpQK2hhWlIvRTFIT2tadE1SUjRHN01DbWxTcHl0Wld2RWsydHd5YWFHaEVBTE9UM2h3U0Fla2VZVUxIbTN6ZFFJCnV0SlR4TTdyQVNoTnJmWUkvZWp2VUV1d3M4TzNmKzhqbW5uQmtzd1FLNndIeEgrR1JiVm9FVS9CTDA4bTh4VTUKelRkeUErQ1lxUFl3Yk1LUFI4ck8xQmNpZDRwRW55MkZScTZLd0R1Sng3dHJob3BkNFFsNWtqVkl6WnBFUk1lRgpZR3Z0WVhHRk93VStWZ2xGVERJdFRteFprOE5TdXhJS21SWnFvN2dwVDdqSGgweVpFWUtSYUVudG9BVUlXUXdiClRtZ2dhS0JaN2F5L0F2enQ3c0pMekFHcG03Tm03YXlvM2RObjJzaVkyUjNkNmdPN3pCUmdIakdRVFlnPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+          service:
+            name: gatekeeper-webhook-service
+            namespace: gatekeeper-system
+            path: /v1/admit
+            port: 443
+        failurePolicy: Ignore
+        matchPolicy: Exact
+        name: validation.gatekeeper.sh
+        namespaceSelector:
+          matchExpressions:
+            - key: control-plane
+              operator: DoesNotExist
+            - key: admission.gatekeeper.sh/ignore
+              operator: DoesNotExist
+        objectSelector: {}
+        rules:
+          - apiGroups:
+              - '*'
+            apiVersions:
+              - '*'
+            operations:
+              - CREATE
+              - UPDATE
+            resources:
+              - '*'
+            scope: '*'
+        sideEffects: None
+        timeoutSeconds: 5
+      - admissionReviewVersions:
+          - v1beta1
+        clientConfig:
+          caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMrRENDQWVDZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREF0TVJNd0VRWURWUVFLRXdwbllYUmwKYTJWbGNHVnlNUll3RkFZRFZRUURFdzFuWVhSbGEyVmxjR1Z5TFdOaE1CNFhEVEl3TURRd01USXpNREEwTkZvWApEVE13TURNek1UQXdNREEwTkZvd0xURVRNQkVHQTFVRUNoTUtaMkYwWld0bFpYQmxjakVXTUJRR0ExVUVBeE1OCloyRjBaV3RsWlhCbGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFLcTcKUlUyeWRremFpUUNBb29QbjlCWTZ3enc3WEpwb1pPUVU4M1dGV1lzRUd0eUN0TXg0K05pSTdONzlyRkhLRjhVaQpUTnZ0U0hBNHZLM085M2h1aHNGU25RZnlDeVBqcVVVYnNLNDhYNkVRaXJqUGN4NjFURkdHUVVkT3cyNXphTzlUCjdzdXQ2QmZPODhvN0JHZnNsWjdGc2tSelhxb2lieUZ1MUFPdnA5a2ZoMGpZT1lOK0NXSDAzQ1lZdTN0WG5jKzAKVG56M01TWHlvb25zeWRCcDRCTVpTMFBzWE8vaklpcHFkcVBldUl1QVl1eFI0bjhDV3NIbXlOaFdJU295TEVmRwpPSjd6UUpHVmtsZ25MR1hPS25HcnlBZmpxb09BakU0ODk1a1MvK0ovMXNoOTBqaHZYeS9pY3ZIcS8xUXJZK3dmClVOVCtEdkovMEQwajVhVFB5OWtDQXdFQUFhTWpNQ0V3RGdZRFZSMFBBUUgvQkFRREFnS2tNQThHQTFVZEV3RUIKL3dRRk1BTUJBZjh3RFFZSktvWklodmNOQVFFTEJRQURnZ0VCQUJ2N0xqUWMremdyMnVFWS9DS2x0Q2kwczR4SgpQK2hhWlIvRTFIT2tadE1SUjRHN01DbWxTcHl0Wld2RWsydHd5YWFHaEVBTE9UM2h3U0Fla2VZVUxIbTN6ZFFJCnV0SlR4TTdyQVNoTnJmWUkvZWp2VUV1d3M4TzNmKzhqbW5uQmtzd1FLNndIeEgrR1JiVm9FVS9CTDA4bTh4VTUKelRkeUErQ1lxUFl3Yk1LUFI4ck8xQmNpZDRwRW55MkZScTZLd0R1Sng3dHJob3BkNFFsNWtqVkl6WnBFUk1lRgpZR3Z0WVhHRk93VStWZ2xGVERJdFRteFprOE5TdXhJS21SWnFvN2dwVDdqSGgweVpFWUtSYUVudG9BVUlXUXdiClRtZ2dhS0JaN2F5L0F2enQ3c0pMekFHcG03Tm03YXlvM2RObjJzaVkyUjNkNmdPN3pCUmdIakdRVFlnPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+          service:
+            name: gatekeeper-webhook-service
+            namespace: gatekeeper-system
+            path: /v1/admitlabel
+            port: 443
+        failurePolicy: Fail
+        matchPolicy: Exact
+        name: check-ignore-label.gatekeeper.sh
+        namespaceSelector: {}
+        objectSelector: {}
+        rules:
+          - apiGroups:
+              - ''
+            apiVersions:
+              - '*'
+            operations:
+              - CREATE
+              - UPDATE
+            resources:
+              - namespaces
+            scope: '*'
+        sideEffects: None
+        timeoutSeconds: 5
+  - apiVersion: apiextensions.k8s.io/v1beta1
+    kind: CustomResourceDefinition
+    metadata:
+      annotations:
+        fluxcd.io/sync-checksum: d804ab4b61658a3dfd8c973b90b8211af2ce1d8f
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"apiextensions.k8s.io/v1beta1","kind":"CustomResourceDefinition","metadata":{"annotations":{"fluxcd.io/sync-checksum":"d804ab4b61658a3dfd8c973b90b8211af2ce1d8f"},"creationTimestamp":null,"labels":{"controller-tools.k8s.io":"1.0","fluxcd.io/sync-gc-mark":"sha256.X7QMV_cg5eOVyQW9-Kx3JjdOEgk2xVS4nI-cWu3Ru6A"},"name":"constrainttemplates.templates.gatekeeper.sh"},"spec":{"group":"templates.gatekeeper.sh","names":{"kind":"ConstraintTemplate","plural":"constrainttemplates"},"scope":"Cluster","subresources":{"status":{}},"validation":{"openAPIV3Schema":{"properties":{"apiVersion":{"description":"APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources","type":"string"},"kind":{"description":"Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds","type":"string"},"metadata":{"type":"object"},"spec":{"properties":{"crd":{"properties":{"spec":{"properties":{"names":{"properties":{"kind":{"type":"string"},"shortNames":{"items":{"type":"string"},"type":"array"}},"type":"object"},"validation":{"type":"object"}},"type":"object"}},"type":"object"},"targets":{"items":{"properties":{"libs":{"items":{"type":"string"},"type":"array"},"rego":{"type":"string"},"target":{"type":"string"}},"type":"object"},"type":"array"}},"type":"object"},"status":{"properties":{"byPod":{"items":{"properties":{"errors":{"items":{"properties":{"code":{"type":"string"},"location":{"type":"string"},"message":{"type":"string"}},"required":["code","message"],"type":"object"},"type":"array"},"id":{"description":"a unique identifier for the pod that wrote the status","type":"string"},"observedGeneration":{"format":"int64","type":"integer"}},"type":"object"},"type":"array"},"created":{"type":"boolean"}},"type":"object"}}}},"version":"v1beta1","versions":[{"name":"v1beta1","served":true,"storage":true},{"name":"v1alpha1","served":true,"storage":false}]},"status":{"acceptedNames":{"kind":"","plural":""},"conditions":[],"storedVersions":[]}}
+      creationTimestamp: '2020-04-01T23:59:59Z'
+      generation: 1
+      labels:
+        controller-tools.k8s.io: '1.0'
+        fluxcd.io/sync-gc-mark: sha256.X7QMV_cg5eOVyQW9-Kx3JjdOEgk2xVS4nI-cWu3Ru6A
+      managedFields:
+        - apiVersion: apiextensions.k8s.io/v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:status:
+              f:acceptedNames:
+                f:listKind: {}
+                f:singular: {}
+          manager: kube-apiserver
+          operation: Update
+          time: '2020-04-01T23:59:59Z'
+        - apiVersion: apiextensions.k8s.io/v1beta1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:fluxcd.io/sync-checksum: {}
+                f:kubectl.kubernetes.io/last-applied-configuration: {}
+              f:labels:
+                .: {}
+                f:controller-tools.k8s.io: {}
+                f:fluxcd.io/sync-gc-mark: {}
+            f:spec:
+              f:conversion:
+                .: {}
+                f:strategy: {}
+              f:group: {}
+              f:names:
+                f:kind: {}
+                f:listKind: {}
+                f:plural: {}
+                f:singular: {}
+              f:preserveUnknownFields: {}
+              f:scope: {}
+              f:subresources:
+                .: {}
+                f:status: {}
+              f:validation:
+                .: {}
+                f:openAPIV3Schema:
+                  .: {}
+                  f:properties:
+                    .: {}
+                    f:apiVersion:
+                      .: {}
+                      f:description: {}
+                      f:type: {}
+                    f:kind:
+                      .: {}
+                      f:description: {}
+                      f:type: {}
+                    f:metadata:
+                      .: {}
+                      f:type: {}
+                    f:spec:
+                      .: {}
+                      f:properties:
+                        .: {}
+                        f:crd:
+                          .: {}
+                          f:properties:
+                            .: {}
+                            f:spec:
+                              .: {}
+                              f:properties:
+                                .: {}
+                                f:names:
+                                  .: {}
+                                  f:properties:
+                                    .: {}
+                                    f:kind:
+                                      .: {}
+                                      f:type: {}
+                                    f:shortNames:
+                                      .: {}
+                                      f:items: {}
+                                      f:type: {}
+                                  f:type: {}
+                                f:validation:
+                                  .: {}
+                                  f:type: {}
+                              f:type: {}
+                          f:type: {}
+                        f:targets:
+                          .: {}
+                          f:items: {}
+                          f:type: {}
+                      f:type: {}
+                    f:status:
+                      .: {}
+                      f:properties:
+                        .: {}
+                        f:byPod:
+                          .: {}
+                          f:items: {}
+                          f:type: {}
+                        f:created:
+                          .: {}
+                          f:type: {}
+                      f:type: {}
+              f:version: {}
+              f:versions: {}
+            f:status:
+              f:acceptedNames:
+                f:kind: {}
+                f:plural: {}
+              f:conditions: {}
+              f:storedVersions: {}
+          manager: kubectl
+          operation: Update
+          time: '2020-04-02T03:02:00Z'
+      name: constrainttemplates.templates.gatekeeper.sh
+      resourceVersion: '446879'
+      selfLink: /apis/apiextensions.k8s.io/v1beta1/customresourcedefinitions/constrainttemplates.templates.gatekeeper.sh
+      uid: 2ba60bbb-326d-4709-ac72-c937759095a2
+    spec:
+      conversion:
+        strategy: None
+      group: templates.gatekeeper.sh
+      names:
+        kind: ConstraintTemplate
+        listKind: ConstraintTemplateList
+        plural: constrainttemplates
+        singular: constrainttemplate
+      preserveUnknownFields: true
+      scope: Cluster
+      subresources:
+        status: {}
+      validation:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              description:
+                'APIVersion defines the versioned schema of this representation
+                of an object. Servers should convert recognized schemas to the latest
+                internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+              type: string
+            kind:
+              description:
+                'Kind is a string value representing the REST resource this
+                object represents. Servers may infer this from the endpoint the client
+                submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+              type: string
+            metadata:
+              type: object
+            spec:
+              properties:
+                crd:
+                  properties:
+                    spec:
+                      properties:
+                        names:
+                          properties:
+                            kind:
+                              type: string
+                            shortNames:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        validation:
+                          type: object
+                      type: object
+                  type: object
+                targets:
+                  items:
+                    properties:
+                      libs:
+                        items:
+                          type: string
+                        type: array
+                      rego:
+                        type: string
+                      target:
                         type: string
                     type: object
                   type: array
               type: object
-          type: object
-        status:
-          description: ConfigStatus defines the observed state of Config
-          type: object
-      type: object
-  version: v1alpha1
-  versions:
-    - name: v1alpha1
-      served: true
-      storage: true
-status:
-  acceptedNames:
-    kind: ''
-    plural: ''
-  conditions: []
-  storedVersions: []
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  labels:
-    gatekeeper.sh/system: 'yes'
-  name: gatekeeper-admin
-  namespace: gatekeeper-system
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  creationTimestamp: null
-  labels:
-    gatekeeper.sh/system: 'yes'
-  name: gatekeeper-manager-role
-  namespace: gatekeeper-system
-rules:
-  - apiGroups:
-      - ''
-    resources:
-      - secrets
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  creationTimestamp: null
-  labels:
-    gatekeeper.sh/system: 'yes'
-  name: gatekeeper-manager-role
-rules:
-  - apiGroups:
-      - '*'
-    resources:
-      - '*'
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - apiextensions.k8s.io
-    resources:
-      - customresourcedefinitions
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - config.gatekeeper.sh
-    resources:
-      - configs
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - config.gatekeeper.sh
-    resources:
-      - configs/status
-    verbs:
-      - get
-      - patch
-      - update
-  - apiGroups:
-      - constraints.gatekeeper.sh
-    resources:
-      - '*'
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - templates.gatekeeper.sh
-    resources:
-      - constrainttemplates
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - templates.gatekeeper.sh
-    resources:
-      - constrainttemplates/status
-    verbs:
-      - get
-      - patch
-      - update
-  - apiGroups:
-      - admissionregistration.k8s.io
-    resourceNames:
-      - gatekeeper-validating-webhook-configuration
-    resources:
-      - validatingwebhookconfigurations
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  labels:
-    gatekeeper.sh/system: 'yes'
-  name: gatekeeper-manager-rolebinding
-  namespace: gatekeeper-system
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: gatekeeper-manager-role
-subjects:
-  - kind: ServiceAccount
-    name: gatekeeper-admin
-    namespace: gatekeeper-system
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  labels:
-    gatekeeper.sh/system: 'yes'
-  name: gatekeeper-manager-rolebinding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: gatekeeper-manager-role
-subjects:
-  - kind: ServiceAccount
-    name: gatekeeper-admin
-    namespace: gatekeeper-system
----
-apiVersion: v1
-kind: Secret
-metadata:
-  labels:
-    gatekeeper.sh/system: 'yes'
-  name: gatekeeper-webhook-server-cert
-  namespace: gatekeeper-system
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    gatekeeper.sh/system: 'yes'
-  name: gatekeeper-webhook-service
-  namespace: gatekeeper-system
-spec:
-  ports:
-    - port: 443
-      targetPort: 8443
-  selector:
-    control-plane: controller-manager
-    gatekeeper.sh/system: 'yes'
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    control-plane: controller-manager
-    gatekeeper.sh/system: 'yes'
-  name: gatekeeper-controller-manager
-  namespace: gatekeeper-system
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      control-plane: controller-manager
-      gatekeeper.sh/system: 'yes'
-  template:
-    metadata:
-      labels:
-        control-plane: controller-manager
-        gatekeeper.sh/system: 'yes'
-    spec:
-      containers:
-        - args:
-            - --audit-interval=30
-            - --port=8443
-            - --logtostderr
-            - --exempt-namespace=gatekeeper-system
-          command:
-            - /manager
-          env:
-            - name: POD_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: metadata.namespace
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-          image: xunholy/gatekeeper:38be616a920e52ae4ef5f7907f39b056d760de74
-          imagePullPolicy: Always
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 9090
-          name: manager
-          ports:
-            - containerPort: 8443
-              name: webhook-server
-              protocol: TCP
-            - containerPort: 8888
-              name: metrics
-              protocol: TCP
-            - containerPort: 9090
-              name: healthz
-              protocol: TCP
-          readinessProbe:
-            httpGet:
-              path: /readyz
-              port: 9090
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 512Mi
-            requests:
-              cpu: 100m
-              memory: 256Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            runAsGroup: 999
-            runAsNonRoot: true
-            runAsUser: 1000
-          volumeMounts:
-            - mountPath: /certs
-              name: cert
-              readOnly: true
-      serviceAccountName: gatekeeper-admin
-      terminationGracePeriodSeconds: 60
-      volumes:
-        - name: cert
-          secret:
-            defaultMode: 420
-            secretName: gatekeeper-webhook-server-cert
----
-apiVersion: admissionregistration.k8s.io/v1beta1
-kind: ValidatingWebhookConfiguration
-metadata:
-  creationTimestamp: null
-  labels:
-    gatekeeper.sh/system: 'yes'
-  name: gatekeeper-validating-webhook-configuration
-webhooks:
-  - clientConfig:
-      caBundle: Cg==
-      service:
-        name: gatekeeper-webhook-service
-        namespace: gatekeeper-system
-        path: /v1/admit
-    failurePolicy: Ignore
-    name: validation.gatekeeper.sh
-    namespaceSelector:
-      matchExpressions:
-        - key: control-plane
-          operator: DoesNotExist
-        - key: admission.gatekeeper.sh/ignore
-          operator: DoesNotExist
-    rules:
-      - apiGroups:
-          - '*'
-        apiVersions:
-          - '*'
-        operations:
-          - CREATE
-          - UPDATE
-        resources:
-          - '*'
-    sideEffects: None
-    timeoutSeconds: 5
-  - clientConfig:
-      caBundle: Cg==
-      service:
-        name: gatekeeper-webhook-service
-        namespace: gatekeeper-system
-        path: /v1/admitlabel
-    failurePolicy: Fail
-    name: check-ignore-label.gatekeeper.sh
-    rules:
-      - apiGroups:
-          - ''
-        apiVersions:
-          - '*'
-        operations:
-          - CREATE
-          - UPDATE
-        resources:
-          - namespaces
-    sideEffects: None
-    timeoutSeconds: 5
----
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  creationTimestamp: null
-  labels:
-    controller-tools.k8s.io: '1.0'
-  name: constrainttemplates.templates.gatekeeper.sh
-spec:
-  group: templates.gatekeeper.sh
-  names:
-    kind: ConstraintTemplate
-    plural: constrainttemplates
-  scope: Cluster
-  subresources:
-    status: {}
-  validation:
-    openAPIV3Schema:
-      properties:
-        apiVersion:
-          description:
-            'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
-          type: string
-        kind:
-          description:
-            'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-          type: string
-        metadata:
-          type: object
-        spec:
-          properties:
-            crd:
+            status:
               properties:
-                spec:
-                  properties:
-                    names:
-                      properties:
-                        kind:
-                          type: string
-                        shortNames:
-                          items:
-                            type: string
-                          type: array
-                      type: object
-                    validation:
-                      type: object
-                  type: object
+                byPod:
+                  items:
+                    properties:
+                      errors:
+                        items:
+                          properties:
+                            code:
+                              type: string
+                            location:
+                              type: string
+                            message:
+                              type: string
+                          required:
+                            - code
+                            - message
+                          type: object
+                        type: array
+                      id:
+                        description:
+                          a unique identifier for the pod that wrote the
+                          status
+                        type: string
+                      observedGeneration:
+                        format: int64
+                        type: integer
+                    type: object
+                  type: array
+                created:
+                  type: boolean
               type: object
-            targets:
-              items:
-                properties:
-                  libs:
-                    items:
-                      type: string
-                    type: array
-                  rego:
-                    type: string
-                  target:
-                    type: string
-                type: object
-              type: array
-          type: object
-        status:
-          properties:
-            byPod:
-              items:
-                properties:
-                  errors:
-                    items:
-                      properties:
-                        code:
-                          type: string
-                        location:
-                          type: string
-                        message:
-                          type: string
-                      required:
-                        - code
-                        - message
-                      type: object
-                    type: array
-                  id:
-                    description: a unique identifier for the pod that wrote the status
-                    type: string
-                  observedGeneration:
-                    format: int64
-                    type: integer
-                type: object
-              type: array
-            created:
-              type: boolean
-          type: object
-  version: v1beta1
-  versions:
-    - name: v1beta1
-      served: true
-      storage: true
-    - name: v1alpha1
-      served: true
-      storage: false
-status:
-  acceptedNames:
-    kind: ''
-    plural: ''
-  conditions: []
-  storedVersions: []
+      version: v1beta1
+      versions:
+        - name: v1beta1
+          served: true
+          storage: true
+        - name: v1alpha1
+          served: true
+          storage: false
+    status:
+      acceptedNames:
+        kind: ConstraintTemplate
+        listKind: ConstraintTemplateList
+        plural: constrainttemplates
+        singular: constrainttemplate
+      conditions:
+        - lastTransitionTime: '2020-04-01T23:59:59Z'
+          message:
+            '[spec.versions[0].schema.openAPIV3Schema.type: Required value: must
+            not be empty at the root, spec.versions[1].schema.openAPIV3Schema.type: Required
+            value: must not be empty at the root]'
+          reason: Violations
+          status: 'True'
+          type: NonStructuralSchema
+        - lastTransitionTime: '2020-04-01T23:59:59Z'
+          message: no conflicts found
+          reason: NoConflicts
+          status: 'True'
+          type: NamesAccepted
+        - lastTransitionTime: '2020-04-01T23:59:59Z'
+          message: the initial names have been accepted
+          reason: InitialNamesAccepted
+          status: 'True'
+          type: Established
+      storedVersions:
+        - v1beta1
+kind: List
+metadata: {}
