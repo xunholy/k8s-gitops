@@ -43,7 +43,6 @@ _hydrate() {
 	_template-chart "${NAME}" "${CHART_NAME}"
 }
 
-[[ "$1" == "cert-manager" ]] && _hydrate "$1" "${CERT_MANAGER_CHART}" "${CERT_MANAGER_REPO}" 
 [[ "$1" == "sealed-secrets" ]] && _hydrate "$1" "${STABLE_CHART}" "${STABLE_REPO}" 
 if [[ "$1" == "gatekeeper" ]]; then
 	# kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml \
