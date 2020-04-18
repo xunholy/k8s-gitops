@@ -46,7 +46,8 @@ _hydrate() {
 [[ "$1" == "cert-manager" ]] && _hydrate "$1" "${CERT_MANAGER_CHART}" "${CERT_MANAGER_REPO}" 
 [[ "$1" == "sealed-secrets" ]] && _hydrate "$1" "${STABLE_CHART}" "${STABLE_REPO}" 
 if [[ "$1" == "gatekeeper" ]]; then
-	curl -o namespaces/gatekeeper-system/"${1}".yaml https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml
+	kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml \
+		--dry-run=none -o yaml > namespaces/gatekeeper-system/"${1}".yaml
 	sed -i'.bak' "s/quay.io\/open-policy-agent/docker.io\/raspbernetes/g" namespaces/gatekeeper-system/"${1}".yaml
 	BACKUP=namespaces/gatekeeper-system/"${1}".yaml.bak
 	[[ -f $BACKUP ]] && rm -f $BACKUP
