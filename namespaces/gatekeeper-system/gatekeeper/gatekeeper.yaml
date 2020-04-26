@@ -18,4 +18,4 @@ spec:
   values:
     image:
       repository: docker.io/raspbernetes/gatekeeper
-      release: v3.1.0-beta.7
+      release: v3.1.0-beta.8

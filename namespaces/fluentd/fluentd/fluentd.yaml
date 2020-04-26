@@ -1,0 +1,15 @@
+---
+# apiVersion: helm.fluxcd.io/v1
+# kind: HelmRelease
+# metadata:
+#   name: fluentd
+#   namespace: fluentd
+#   annotations:
+#     fluxcd.io/ignore: 'false'
+#     fluxcd.io/automated: 'false'
+# spec:
+#   releaseName: fluentd
+#   chart:
+#     repository: https://kubernetes-charts.storage.googleapis.com/
+#     name: fluentd
+#     version: 2.4.0
