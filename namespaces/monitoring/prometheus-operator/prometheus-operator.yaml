@@ -24,4 +24,6 @@ spec:
         repository: raspbernetes/prometheus-operator-config-reloader
         tag: v0.38.1
     alertmanager:
-      enabled: true
+      enabled: false
+    grafana:
+      enabled: false
