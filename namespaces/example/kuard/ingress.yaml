@@ -8,7 +8,7 @@ metadata:
     cert-manager.io/cluster-issuer: 'letsencrypt-staging'
 spec:
   rules:
-    - host: example.raspbernetes.com
+    - host: example.ingress.raspbernetes.com
       http:
         paths:
           - backend:
@@ -17,5 +17,5 @@ spec:
             path: /
   tls:
     - hosts:
-        - example.raspbernetes.com
+        - example.ingress.raspbernetes.com
       secretName: example-tls

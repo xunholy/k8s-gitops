@@ -4,4 +4,4 @@ kind: Namespace
 metadata:
   name: gatekeeper-system
   labels:
-    namespace: cert-manager
+    namespace: gatekeeper-system

@@ -1,0 +1,27 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: prometheus-operator
+  namespace: monitoring
+  annotations:
+    fluxcd.io/ignore: 'false'
+    fluxcd.io/automated: 'false'
+spec:
+  releaseName: prometheus-operator
+  chart:
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    name: prometheus-operator
+    version: 8.13.2
+  values:
+    prometheusOperator:
+      enabled: true
+      manageCrds: true
+      image:
+        repository: raspbernetes/prometheus-operator
+        tag: v0.38.1
+      configmapReloadImage:
+        repository: raspbernetes/prometheus-operator-config-reloader
+        tag: v0.38.1
+    alertmanager:
+      enabled: true

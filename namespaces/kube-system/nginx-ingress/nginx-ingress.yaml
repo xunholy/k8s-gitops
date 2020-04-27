@@ -41,7 +41,18 @@ spec:
       service:
         externalTrafficPolicy: Local
         loadBalancerIP: 192.168.1.155
-    defaultBackend:
-      enabled: false
+    # defaultBackend:
+    #   enabled: false
     podSecurityPolicy:
       enabled: true
+    defaultBackend:
+      enabled: true
+      image:
+        repository: onedr0p/custom-error-pages
+        tag: v1.0.1
+      resources:
+        requests:
+          memory: 250Mi
+          cpu: 25m
+        limits:
+          memory: 350Mi
