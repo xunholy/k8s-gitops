@@ -1,0 +1,14 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: acme-crt
+  namespace: kube-system
+spec:
+  secretName: acme-crt-secret
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  dnsNames:
+    - raspbernetes.com
+    - '*.raspbernetes.com'
