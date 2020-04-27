@@ -1,0 +1,15 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: jaeger
+  namespace: monitoring
+  annotations:
+    fluxcd.io/ignore: 'false'
+    fluxcd.io/automated: 'false'
+spec:
+  releaseName: jaeger
+  chart:
+    repository: https://jaegertracing.github.io/helm-charts
+    name: jaeger
+    version: 0.27.2
