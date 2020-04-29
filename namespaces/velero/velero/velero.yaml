@@ -1,42 +1,38 @@
 ---
-# apiVersion: helm.fluxcd.io/v1
-# kind: HelmRelease
-# metadata:
-#   name: velero
-#   namespace: velero
-#   annotations:
-#     fluxcd.io/ignore: 'false'
-#     fluxcd.io/automated: 'false'
-# spec:
-#   releaseName: velero
-#   helmVersion: v3
-#   chart:
-#     repository: https://vmware-tanzu.github.io/helm-charts
-#     name: velero
-#     version: 2.9.13
-#   values:
-#     credentials:
-#       existingSecret: cloud-credentials
-#     configuration:
-#       provider: gcp
-#       backupStorageLocation:
-#         name: gcp
-#         bucket: raspbernetes-velero
-#         config:
-#           region: australia-southeast1
-#       volumeSnapshotLocation:
-#         name: gcp
-#         config:
-#           region: australia-southeast1
-#     initContainers:
-#       - name: velero-plugin-for-gcp
-#         image: raspbernetes/velero-gcp-plugin:v1.0.1
-#         imagePullPolicy: IfNotPresent
-#         volumeMounts:
-#           - mountPath: /target
-#             name: plugins
-#     schedules:
-#       daily-backup:
-#         schedule: '*/30 * * * *'
-#         template:
-#           ttl: '120h'
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: velero
+  namespace: velero
+  annotations:
+    fluxcd.io/ignore: 'false'
+    fluxcd.io/automated: 'false'
+spec:
+  releaseName: velero
+  helmVersion: v3
+  chart:
+    repository: https://vmware-tanzu.github.io/helm-charts
+    name: velero
+    version: 2.9.15
+  values:
+    credentials:
+      existingSecret: cloud-credentials
+    configuration:
+      provider: gcp
+      backupStorageLocation:
+        name: gcp
+        bucket: raspbernetes-velero-backups
+      volumeSnapshotLocation:
+        name: gcp
+    initContainers:
+      - name: velero-plugin-for-gcp
+        image: raspbernetes/velero-gcp-plugin:db95b9c148cc262219ed44b92e792a7ec966f86b
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+    schedules:
+      daily-backup:
+        schedule: '*/30 * * * *'
+        template:
+          ttl: '120h'

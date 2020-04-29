@@ -52,7 +52,7 @@ spec:
       serviceAccountName: ingress-cert-reflector
       containers:
         - name: ns-watch
-          image: boxboat/kubectl:latest
+          image: raspbernetes/kubectl:v1.18.2
           command:
             - sh
             - -c
@@ -70,7 +70,7 @@ spec:
                 done
               done
         - name: secret-watch
-          image: boxboat/kubectl:latest
+          image: raspbernetes/kubectl:v1.18.2
           command:
             - sh
             - -c

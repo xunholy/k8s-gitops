@@ -17,9 +17,48 @@ spec:
     version: 1.36.3
   values:
     controller:
+      # extraContainers:
+      #   - name: cloudflared
+      #     image: raspbernetes/cloudflared:2020.4.0
+      #     imagePullPolicy: IfNotPresent
+      #     command: ['cloudflared', 'tunnel']
+      #     args:
+      #       - --url=127.0.0.1:80
+      #       - --hostname=raspbernetes.com
+      #       - --origincert=/etc/cloudflared/cert.pem
+      #       - --no-autoupdate
+      #       - --proxy-connect-timeout=60s
+      #       - --proxy-tls-timeout=60s
+      #       - --no-tls-verify
+      #       - --loglevel=debug
+      #     env:
+      #       - name: POD_NAME
+      #         valueFrom:
+      #           fieldRef:
+      #             fieldPath: metadata.name
+      #       - name: POD_NAMESPACE
+      #         valueFrom:
+      #           fieldRef:
+      #             fieldPath: metadata.namespace
+      #     resources:
+      #       limits:
+      #         cpu: 10m
+      #         memory: 20Mi
+      #       requests:
+      #         cpu: 10m
+      #         memory: 20Mi
+      #     volumeMounts:
+      #       - mountPath: /etc/cloudflared
+      #         name: tunnel-secret
+      #         readOnly: true
+      # extraVolumes:
+      #   - name: tunnel-secret
+      #     secret:
+      #       secretName: raspbernetes.com-cloudflared-cert
       extraArgs:
         default-ssl-certificate: 'kube-system/acme-crt-secret'
       config:
+        custom-http-errors: '404,403,500,503'
         forwarded-for-header: CF-Connecting-IP
         proxy-body-size: 50m
         # Cloudflare IP Addresses - Used to forward the real client IP address to the backend service
@@ -41,15 +80,14 @@ spec:
       service:
         externalTrafficPolicy: Local
         loadBalancerIP: 192.168.1.155
-    # defaultBackend:
-    #   enabled: false
     podSecurityPolicy:
       enabled: true
     defaultBackend:
       enabled: true
       image:
-        repository: onedr0p/custom-error-pages
-        tag: v1.0.1
+        repository: raspbernetes/custom-error-pages
+        tag: latest
+        pullPolicy: Always
       resources:
         requests:
           memory: 250Mi

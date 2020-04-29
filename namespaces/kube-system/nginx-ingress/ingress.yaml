@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress-default-backend
+  namespace: kube-system
+  annotations:
+    kubernetes.io/ingress.class: 'nginx'
+    cert-manager.io/cluster-issuer: 'letsencrypt-staging'
+    nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
+    nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
+spec:
+  rules:
+    - host: example.raspbernetes.com
+      http:
+        paths:
+          - backend:
+              serviceName: nginx-ingress-default-backend
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - example.raspbernetes.com
+      secretName: example.raspbernetes.com-ingress-cert
