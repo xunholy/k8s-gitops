@@ -15,7 +15,7 @@ spec:
   chart:
     repository: https://kubernetes-charts.storage.googleapis.com/
     name: prometheus-operator
-    version: 8.12.13
+    version: 8.13.3
   values:
     prometheusOperator:
       enabled: true
@@ -43,7 +43,7 @@ spec:
     alertmanager:
       enabled: true
     grafana:
-      enabled: enabled
+      enabled: true
       ingress:
         enabled: true
         annotations:
@@ -61,6 +61,70 @@ spec:
       sidecar:
         image: raspbernetes/k8s-sidecar:0.1.144
         imagePullPolicy: Always
+      dashboardProviders:
+        dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+            - name: 'default'
+              orgId: 1
+              folder: ''
+              type: file
+              disableDeletion: false
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/default
+      dashboards:
+        default:
+          nginx-dashboard:
+            url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+            datasource: Prometheus
+          velero:
+            url: https://grafana.com/api/dashboards/11055/revisions/2/download
+            datasource: Prometheus
+          flux:
+            url: https://grafana.com/api/dashboards/10475/revisions/1/download
+            datasource: Prometheus
+      additionalDataSources:
+        - name: loki
+          type: loki
+          access: proxy
+          url: http://loki.logging.svc.cluster.local:3100
+      downloadDashboardsImage:
+        repository: raspbernetes/curl
+        tag: 6e41cf7d1d5638a98512e430b8d5496fd01a3094
+      ## grafana Authentication can be enabled with the following values on grafana.ini
+      # The full public facing url you use in browser, used for redirects and emails
+      # https://grafana.com/docs/grafana/latest/auth/github/#enable-github-in-grafana
+      # Note: auth.github.enabled=false until chart supports existingSecret functionality.
+      # https://github.com/helm/charts/issues/22175
+      # grafana.ini:
+      #   auth.github:
+      #     enabled: true
+      #     allow_sign_up: false
+      #     scopes: user:email,read:org
+      #     auth_url: https://github.com/login/oauth/authorize
+      #     token_url: https://github.com/login/oauth/access_token
+      #     api_url: https://github.com/user
+      #     allowed_organizations: raspbernetes
+      #     client_id:
+      #     client_secret:
+      #   server:
+      #     root_url: https://grafana.raspbernetes.com
+    prometheus:
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: 'letsencrypt-staging'
+          nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
+          nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
+        hosts:
+          - prometheus.raspbernetes.com
+        path: /
+        tls:
+          - secretName: prometheus.raspbernetes.com-tls
+            hosts:
+              - prometheus.raspbernetes.com
     kube-state-metrics:
       image:
         repository: raspbernetes/kube-state-metrics

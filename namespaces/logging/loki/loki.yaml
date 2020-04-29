@@ -3,7 +3,7 @@ apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
   name: loki
-  namespace: logs
+  namespace: logging
   annotations:
     fluxcd.io/ignore: 'false'
     fluxcd.io/automated: 'false'

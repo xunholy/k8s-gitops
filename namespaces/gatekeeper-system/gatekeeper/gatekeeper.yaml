@@ -9,6 +9,7 @@ metadata:
     fluxcd.io/automated: 'false'
 spec:
   releaseName: gatekeeper-operator
+  helmVersion: v3
   rollback:
     enable: false
   chart:

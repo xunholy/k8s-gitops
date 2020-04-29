@@ -9,6 +9,7 @@ metadata:
     fluxcd.io/automated: 'false'
 spec:
   releaseName: nginx-ingress
+  helmVersion: v3
   rollback:
     enable: true
   chart:
@@ -55,6 +56,15 @@ spec:
       #   - name: tunnel-secret
       #     secret:
       #       secretName: raspbernetes.com-cloudflared-cert
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          namespace: kube-system
+          namespaceSelector:
+            any: true
+        prometheusRule:
+          enabled: false
       extraArgs:
         default-ssl-certificate: 'kube-system/acme-crt-secret'
       config:
@@ -67,6 +77,7 @@ spec:
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: 'true'
         use-proxy-protocol: 'false'
+        enable-modsecurity: 'true'
       image:
         repository: quay.io/kubernetes-ingress-controller/nginx-ingress-controller-arm
         tag: 0.30.0
