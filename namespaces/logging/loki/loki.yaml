@@ -17,8 +17,12 @@ spec:
   values:
     loki:
       enabled: true
+      serviceMonitor:
+        enabled: true
     promtail:
       enabled: true
+      serviceMonitor:
+        enabled: true
     fluent-bit:
       enabled: false
     grafana:

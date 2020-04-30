@@ -1,18 +1,18 @@
 ---
-apiVersion: helm.fluxcd.io/v1
-kind: HelmRelease
-metadata:
-  name: falco
-  namespace: falco
-  annotations:
-    fluxcd.io/ignore: 'false'
-    fluxcd.io/automated: 'false'
-spec:
-  releaseName: falco
-  chart:
-    repository: https://kubernetes-charts.storage.googleapis.com/
-    name: falco
-    version: 1.1.7
-  values:
-    podSecurityPolicy:
-      create: true
+# apiVersion: helm.fluxcd.io/v1
+# kind: HelmRelease
+# metadata:
+#   name: falco
+#   namespace: falco
+#   annotations:
+#     fluxcd.io/ignore: 'false'
+#     fluxcd.io/automated: 'false'
+# spec:
+#   releaseName: falco
+#   chart:
+#     repository: https://kubernetes-charts.storage.googleapis.com/
+#     name: falco
+#     version: 1.1.7
+#   values:
+#     podSecurityPolicy:
+#       create: true

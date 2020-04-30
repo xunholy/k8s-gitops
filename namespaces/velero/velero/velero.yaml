@@ -26,7 +26,7 @@ spec:
         name: gcp
     initContainers:
       - name: velero-plugin-for-gcp
-        image: raspbernetes/velero-gcp-plugin:db95b9c148cc262219ed44b92e792a7ec966f86b
+        image: raspbernetes/velero-gcp-plugin:v1.0.1
         imagePullPolicy: Always
         volumeMounts:
           - mountPath: /target

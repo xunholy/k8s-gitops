@@ -1,15 +1,15 @@
 ---
-apiVersion: helm.fluxcd.io/v1
-kind: HelmRelease
-metadata:
-  name: jaeger-operator
-  namespace: monitoring
-  annotations:
-    fluxcd.io/ignore: 'false'
-    fluxcd.io/automated: 'false'
-spec:
-  releaseName: jaeger-operator
-  chart:
-    repository: https://jaegertracing.github.io/helm-charts
-    name: jaeger-operator
-    version: 2.14.2
+# apiVersion: helm.fluxcd.io/v1
+# kind: HelmRelease
+# metadata:
+#   name: jaeger-operator
+#   namespace: monitoring
+#   annotations:
+#     fluxcd.io/ignore: 'false'
+#     fluxcd.io/automated: 'false'
+# spec:
+#   releaseName: jaeger-operator
+#   chart:
+#     repository: https://jaegertracing.github.io/helm-charts
+#     name: jaeger-operator
+#     version: 2.14.2
