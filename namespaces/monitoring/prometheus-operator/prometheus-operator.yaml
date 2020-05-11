@@ -15,7 +15,7 @@ spec:
   chart:
     repository: https://kubernetes-charts.storage.googleapis.com/
     name: prometheus-operator
-    version: 8.13.3
+    version: 8.13.4
   values:
     prometheusOperator:
       enabled: true
@@ -90,8 +90,8 @@ spec:
           access: proxy
           url: http://loki.logging.svc.cluster.local:3100
       downloadDashboardsImage:
-        repository: raspbernetes/curl
-        tag: latest
+        repository: curlimages/curl
+        tag: 7.70.0
       ## grafana Authentication can be enabled with the following values on grafana.ini
       # The full public facing url you use in browser, used for redirects and emails
       # https://grafana.com/docs/grafana/latest/auth/github/#enable-github-in-grafana
@@ -125,6 +125,16 @@ spec:
           - secretName: prometheus.raspbernetes.com-tls
             hosts:
               - prometheus.raspbernetes.com
+      prometheusSpec:
+        ruleSelector: {}
+        ruleNamespaceSelector: {}
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelector: {}
+        serviceMonitorNamespaceSelector: {}
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelector: {}
+        podMonitorNamespaceSelector: {}
+        podMonitorSelectorNilUsesHelmValues: false
     kube-state-metrics:
       image:
         repository: raspbernetes/kube-state-metrics

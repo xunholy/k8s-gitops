@@ -80,7 +80,7 @@ spec:
         enable-modsecurity: 'true'
       image:
         repository: quay.io/kubernetes-ingress-controller/nginx-ingress-controller-arm
-        tag: 0.30.0
+        tag: 0.31.1
       replicaCount: 2
       resources:
         limits:

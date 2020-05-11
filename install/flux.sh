@@ -35,7 +35,7 @@ sed -i'.bak' "s/docker.io\/fluxcd\/flux/docker.io\/raspbernetes\/flux/g" flux.ya
 [[ -f flux.yaml ]] && kubectl apply -f flux.yaml
 
 echo -e "\nCompleted..."
-echo "Follow these instructions to setup SSH keys: https://docs.fluxcd.io/en/latest/tutorials/get-started/#giving-write-access" 
+echo "Follow these instructions to setup SSH keys: https://docs.fluxcd.io/en/latest/tutorials/get-started/#giving-write-access"
 # TODO: https://docs.fluxcd.io/en/latest/guides/provide-own-ssh-key/
 
 if [[ -f "flux.yaml" && $CLEAN == true ]]; then

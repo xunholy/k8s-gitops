@@ -15,15 +15,10 @@ spec:
     name: velero
     version: 2.9.15
   values:
-    credentials:
-      existingSecret: cloud-credentials
-    configuration:
-      provider: gcp
-      backupStorageLocation:
-        name: gcp
-        bucket: raspbernetes-velero-backups
-      volumeSnapshotLocation:
-        name: gcp
+    image:
+      repository: twoequaldots/velero-arm64
+      tag: test
+      digest: sha256:4d01e153b09a4ba42d0876a63d92f0224f4135c2d13c1d0f8e15171e10e283d4
     initContainers:
       - name: velero-plugin-for-gcp
         image: raspbernetes/velero-gcp-plugin:v1.0.1
@@ -31,6 +26,28 @@ spec:
         volumeMounts:
           - mountPath: /target
             name: plugins
+    credentials:
+      existingSecret: cloud-credentials
+    configuration:
+      provider: gcp
+      backupStorageLocation:
+        name: default
+        bucket: raspbernetes-velero-backups
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    snapshotsEnabled: false
+    deployRestic: true
+    restic:
+      podVolumePath: /var/lib/kubelet/pods
+      privileged: false
+      resources:
+        requests:
+          memory: 200Mi
+          cpu: 15m
+        limits:
+          memory: 1000Mi
     schedules:
       daily-backup:
         schedule: '*/30 * * * *'
