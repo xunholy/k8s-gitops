@@ -1,7 +1,7 @@
 ---
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: gatekeeper-system
-  labels:
-    namespace: gatekeeper-system
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: gatekeeper-system
+#   labels:
+#     namespace: gatekeeper-system
