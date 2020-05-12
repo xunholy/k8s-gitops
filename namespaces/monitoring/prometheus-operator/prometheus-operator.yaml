@@ -61,6 +61,13 @@ spec:
       sidecar:
         image: raspbernetes/k8s-sidecar:0.1.144
         imagePullPolicy: Always
+      plugins:
+        - natel-discrete-panel
+        - pr0ps-trackmap-panel
+        - grafana-piechart-panel
+        - vonage-status-panel
+        - grafana-worldmap-panel
+        - btplc-status-dot-panel
       dashboardProviders:
         dashboardproviders.yaml:
           apiVersion: 1
