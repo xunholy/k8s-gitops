@@ -37,3 +37,12 @@ spec:
       image: 'quay.io/openebs/openebs-k8s-provisioner-arm64'
     helper:
       image: 'quay.io/openebs/linux-utils-arm64'
+    cstor:
+      pool:
+        image: 'quay.io/openebs/cstor-pool-arm64'
+      poolMgmt:
+        image: 'quay.io/openebs/cstor-pool-mgmt-arm64'
+      target:
+        image: 'quay.io/openebs/cstor-istgt-arm64'
+      volumeMgmt:
+        image: 'quay.io/openebs/cstor-volume-mgmt-arm64'
