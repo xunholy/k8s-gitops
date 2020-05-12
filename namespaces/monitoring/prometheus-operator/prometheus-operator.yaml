@@ -132,7 +132,7 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: openebs-hostpath
+              storageClassName: openebs-cstor-sparse
               resources:
                 requests:
                   storage: 25Gi
