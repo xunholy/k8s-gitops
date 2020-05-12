@@ -129,6 +129,13 @@ spec:
             hosts:
               - prometheus.raspbernetes.com
       prometheusSpec:
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: openebs-hostpath
+              resources:
+                requests:
+                  storage: 25Gi
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
