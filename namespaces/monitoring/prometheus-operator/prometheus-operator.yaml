@@ -84,6 +84,9 @@ spec:
           flux:
             url: https://grafana.com/api/dashboards/10475/revisions/1/download
             datasource: Prometheus
+          openebs:
+            url: https://grafana.com/api/dashboards/12171/revisions/1/download
+            datasource: Prometheus
       additionalDataSources:
         - name: loki
           type: loki

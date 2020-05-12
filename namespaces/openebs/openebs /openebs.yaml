@@ -1,0 +1,35 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: openebs
+  namespace: openebs
+  annotations:
+    fluxcd.io/ignore: 'false'
+    fluxcd.io/automated: 'false'
+spec:
+  releaseName: openebs
+  chart:
+    git: git@github.com:openebs/charts.git
+    path: stable/openebs
+    ref: master
+  values:
+    rbac:
+      pspEnabled: true
+    ndm:
+      image: 'quay.io/openebs/node-disk-manager-arm64'
+    ndmOperator:
+      image: 'quay.io/openebs/node-disk-operator-arm64'
+    webhook:
+      image: 'quay.io/openebs/admission-server-arm64'
+    apiserver:
+      image: 'quay.io/openebs/m-apiserver-arm64'
+    localprovisioner:
+      image: 'quay.io/openebs/provisioner-localpv-arm64'
+    snapshotOperator:
+      controller:
+        image: 'quay.io/openebs/snapshot-controller-arm64'
+      provisioner:
+        image: 'quay.io/openebs/snapshot-provisioner-arm64'
+    provisioner:
+      image: 'quay.io/openebs/openebs-k8s-provisioner-arm64'
