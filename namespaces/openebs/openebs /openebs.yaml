@@ -35,3 +35,5 @@ spec:
         image: 'quay.io/openebs/snapshot-provisioner-arm64'
     provisioner:
       image: 'quay.io/openebs/openebs-k8s-provisioner-arm64'
+    helper:
+      image: 'quay.io/openebs/linux-utils-arm64'
