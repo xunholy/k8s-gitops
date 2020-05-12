@@ -24,6 +24,8 @@ spec:
       image: 'quay.io/openebs/admission-server-arm64'
     apiserver:
       image: 'quay.io/openebs/m-apiserver-arm64'
+      sparse:
+        enabled: true
     localprovisioner:
       image: 'quay.io/openebs/provisioner-localpv-arm64'
     snapshotOperator:
