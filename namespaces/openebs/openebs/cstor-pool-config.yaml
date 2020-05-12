@@ -1,0 +1,19 @@
+---
+apiVersion: openebs.io/v1alpha1
+kind: StoragePoolClaim
+metadata:
+  name: cstor-pool
+  annotations:
+    cas.openebs.io/config: |
+      - name: PoolResourceRequests
+        value: |-
+            memory: 2Gi
+      - name: PoolResourceLimits
+        value: |-
+            memory: 25Gi
+spec:
+  name: cstor-pool
+  type: disk
+  maxPools: 3
+  poolSpec:
+    poolType: striped
