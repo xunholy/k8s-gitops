@@ -9,5 +9,5 @@ chartsSyncInterval: "5m"
 statusUpdateInterval: "60s"
 
 git:
-  ssh:    
+  ssh:
     secretName: flux-git-deploy
