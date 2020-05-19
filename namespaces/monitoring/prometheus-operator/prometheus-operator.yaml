@@ -17,6 +17,7 @@ spec:
     name: prometheus-operator
     version: 8.13.4
   values:
+    fullnameOverride: 'z'
     prometheusOperator:
       enabled: true
       manageCrds: true
@@ -139,10 +140,10 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: openebs-sparse-sc-statefulset
+              storageClassName: openebs-cstor-sparse
               resources:
                 requests:
-                  storage: 25Gi
+                  storage: 5Gi
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
