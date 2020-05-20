@@ -1,68 +1,68 @@
----
-apiVersion: helm.fluxcd.io/v1
-kind: HelmRelease
-metadata:
-  name: openebs
-  namespace: openebs
-  annotations:
-    fluxcd.io/ignore: 'false'
-    fluxcd.io/automated: 'false'
-spec:
-  releaseName: openebs
-  chart:
-    git: git@github.com:openebs/charts.git
-    path: stable/openebs
-    ref: master
-  values:
-    image:
-      repository: ''
-    rbac:
-      pspEnabled: true
-    ndm:
-      image: 'quay.io/openebs/node-disk-manager-arm64'
-      imageTag: 1.9.0
-      sparse:
-        count: '1'
-    ndmOperator:
-      image: 'quay.io/openebs/node-disk-operator-arm64'
-    webhook:
-      image: 'quay.io/openebs/admission-server-arm64'
-      imageTag: 1.9.0
-    apiserver:
-      image: 'quay.io/openebs/m-apiserver-arm64'
-      imageTag: 1.9.0
-      sparse:
-        enabled: true
-    localprovisioner:
-      image: 'quay.io/openebs/provisioner-localpv-arm64'
-      imageTag: 1.9.0
-    snapshotOperator:
-      controller:
-        image: 'quay.io/openebs/snapshot-controller-arm64'
-        imageTag: 1.9.0
-      provisioner:
-        image: 'quay.io/openebs/snapshot-provisioner-arm64'
-        imageTag: 1.9.0
-    provisioner:
-      image: 'quay.io/openebs/openebs-k8s-provisioner-arm64'
-      imageTag: 1.9.0
-    helper:
-      image: 'quay.io/openebs/linux-utils-arm64'
-      imageTag: 1.9.0
-    cstor:
-      pool:
-        image: 'raspbernetes/cstor-pool-arm64'
-        imageTag: 1.9.0
-      poolMgmt:
-        image: 'raspbernetes/cstor-pool-mgmt-arm64'
-        imageTag: 1.9.0
-      target:
-        image: 'quay.io/openebs/cstor-istgt-arm64'
-        imageTag: 1.9.0
-      volumeMgmt:
-        image: 'quay.io/openebs/cstor-volume-mgmt-arm64'
-        imageTag: 1.9.0
-    policies:
-      monitoring:
-        image: 'quay.io/openebs/m-exporter-arm64'
-        imageTag: 1.9.0
+# ---
+# apiVersion: helm.fluxcd.io/v1
+# kind: HelmRelease
+# metadata:
+#   name: openebs
+#   namespace: openebs
+#   annotations:
+#     fluxcd.io/ignore: 'false'
+#     fluxcd.io/automated: 'false'
+# spec:
+#   releaseName: openebs
+#   helmVersion: v3
+#   chart:
+#     git: git@github.com:openebs/charts.git
+#     path: stable/openebs
+#     ref: master
+#   values:
+#     image:
+#       repository: ''
+#     rbac:
+#       pspEnabled: true
+#     ndm:
+#       image: 'quay.io/openebs/node-disk-manager-arm64'
+#       sparse:
+#         count: '1'
+#     ndmOperator:
+#       image: 'quay.io/openebs/node-disk-operator-arm64'
+#     webhook:
+#       image: 'quay.io/openebs/admission-server-arm64'
+#       imageTag: 1.9.0
+#     apiserver:
+#       image: 'quay.io/openebs/m-apiserver-arm64'
+#       imageTag: 1.9.0
+#       sparse:
+#         enabled: true
+#     localprovisioner:
+#       image: 'quay.io/openebs/provisioner-localpv-arm64'
+#       imageTag: 1.9.0
+#     snapshotOperator:
+#       controller:
+#         image: 'quay.io/openebs/snapshot-controller-arm64'
+#         imageTag: 1.9.0
+#       provisioner:
+#         image: 'quay.io/openebs/snapshot-provisioner-arm64'
+#         imageTag: 1.9.0
+#     provisioner:
+#       image: 'quay.io/openebs/openebs-k8s-provisioner-arm64'
+#       imageTag: 1.9.0
+#     helper:
+#       image: 'quay.io/openebs/linux-utils-arm64'
+#       imageTag: 1.9.0
+#     cstor:
+#       pool:
+#         image: 'raspbernetes/cstor-pool-arm64'
+#         imageTag: 1.9.0
+#       poolMgmt:
+#         image: 'raspbernetes/cstor-pool-mgmt-arm64'
+#         imageTag: 1.9.0
+#       target:
+#         image: 'quay.io/openebs/cstor-istgt-arm64'
+#         imageTag: 1.9.0
+#       volumeMgmt:
+#         image: 'quay.io/openebs/cstor-volume-mgmt-arm64'
+#         imageTag: 1.9.0
+#     policies:
+#       monitoring:
+#         image: 'quay.io/openebs/m-exporter-arm64'
+#         imageTag: 1.9.0
