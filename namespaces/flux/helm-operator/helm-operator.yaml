@@ -3,18 +3,18 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: RELEASE-NAME-helm-operator
+  name: default-helm-operator
   labels:
     app: helm-operator
     chart: helm-operator-1.0.2
-    release: RELEASE-NAME
+    release: default
     heritage: Helm
 ---
 # Source: helm-operator/templates/kube.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: RELEASE-NAME-helm-operator-kube-config
+  name: default-helm-operator-kube-config
 data:
   config: |
     apiVersion: v1
@@ -34,11 +34,11 @@ data:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: RELEASE-NAME-helm-operator
+  name: default-helm-operator
   labels:
     app: helm-operator
     chart: helm-operator-1.0.2
-    release: RELEASE-NAME
+    release: default
     heritage: Helm
 rules:
   - apiGroups:
@@ -56,18 +56,18 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: RELEASE-NAME-helm-operator
+  name: default-helm-operator
   labels:
     app: helm-operator
     chart: helm-operator-1.0.2
-    release: RELEASE-NAME
+    release: default
     heritage: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: RELEASE-NAME-helm-operator
+  name: default-helm-operator
 subjects:
-  - name: RELEASE-NAME-helm-operator
+  - name: default-helm-operator
     namespace: "flux"
     kind: ServiceAccount
 ---
@@ -75,11 +75,11 @@ subjects:
 apiVersion: v1
 kind: Service
 metadata:
-  name: RELEASE-NAME-helm-operator
+  name: default-helm-operator
   labels:
     app: helm-operator
     chart: helm-operator-1.0.2
-    release: RELEASE-NAME
+    release: default
     heritage: Helm
 spec:
   type: ClusterIP
@@ -90,24 +90,24 @@ spec:
       name: http
   selector:
     app: helm-operator
-    release: RELEASE-NAME
+    release: default
 ---
 # Source: helm-operator/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: RELEASE-NAME-helm-operator
+  name: default-helm-operator
   labels:
     app: helm-operator
     chart: helm-operator-1.0.2
-    release: RELEASE-NAME
+    release: default
     heritage: Helm
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: helm-operator
-      release: RELEASE-NAME
+      release: default
   strategy:
     type:  Recreate
   template:
@@ -116,9 +116,9 @@ spec:
         checksum/repositories: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       labels:
         app: helm-operator
-        release: RELEASE-NAME
+        release: default
     spec:
-      serviceAccountName: RELEASE-NAME-helm-operator
+      serviceAccountName: default-helm-operator
       volumes:
       - name: git-key
         secret:

@@ -1,0 +1,32 @@
+name: build
+
+on:
+  pull_request:
+    paths:
+      - config/**
+      - scripts/**
+      - .github/workflows/build.yml
+
+jobs:
+  validate:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Shellcheck
+        uses: reviewdog/action-shellcheck@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          path: './install'
+          pattern: '*.sh'
+          exclude: './.git/*'
+
+      - name: Lint Yaml
+        uses: ibiqlik/action-yamllint@v1
+
+      - name: Kubeval
+        uses: instrumenta/kubeval-action@master
+        with:
+          files: 'namespaces/'
