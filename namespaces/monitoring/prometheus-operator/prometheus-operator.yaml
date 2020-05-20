@@ -15,7 +15,7 @@ spec:
   chart:
     repository: https://kubernetes-charts.storage.googleapis.com/
     name: prometheus-operator
-    version: 8.13.4
+    version: 8.13.8
   values:
     fullnameOverride: 'z'
     prometheusOperator:
@@ -137,13 +137,13 @@ spec:
             hosts:
               - prometheus.raspbernetes.com
       prometheusSpec:
-        # storageSpec:
-        #   volumeClaimTemplate:
-        #     spec:
-        #       storageClassName: openebs-cstor-sparse
-        #       resources:
-        #         requests:
-        #           storage: 5Gi
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: openebs-cstor-sparse
+              resources:
+                requests:
+                  storage: 5Gi
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
