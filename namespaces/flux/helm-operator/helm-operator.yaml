@@ -68,7 +68,7 @@ roleRef:
   name: default-helm-operator
 subjects:
   - name: default-helm-operator
-    namespace: "flux"
+    namespace: 'flux'
     kind: ServiceAccount
 ---
 # Source: helm-operator/templates/service.yaml
@@ -109,56 +109,56 @@ spec:
       app: helm-operator
       release: default
   strategy:
-    type:  Recreate
+    type: Recreate
   template:
     metadata:
       annotations:
-        checksum/repositories: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        checksum/repositories: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
       labels:
         app: helm-operator
         release: default
     spec:
       serviceAccountName: default-helm-operator
       volumes:
-      - name: git-key
-        secret:
-          secretName: flux-git-deploy
-          defaultMode: 0400
-      containers:
-      - name: flux-helm-operator
-        image: "docker.io/raspbernetes/helm-operator:v1.0.0-rc9"
-        imagePullPolicy: IfNotPresent
-        ports:
-        - name: http
-          containerPort: 3030
-        livenessProbe:
-          httpGet:
-            port: 3030
-            path: /healthz
-          initialDelaySeconds: 1
-          timeoutSeconds: 5
-        readinessProbe:
-          httpGet:
-            port: 3030
-            path: /healthz
-          initialDelaySeconds: 1
-          timeoutSeconds: 5
-        volumeMounts:
         - name: git-key
-          mountPath: /etc/fluxd/ssh
-          readOnly: true
-        args:
-        - --enabled-helm-versions=v3
-        - --log-format=fmt
-        - --git-timeout=20s
-        - --git-poll-interval=5m
-        - --charts-sync-interval=5m
-        - --status-update-interval=60s
-        - --update-chart-deps=true
-        - --log-release-diffs=false
-        - --workers=4
-        - --tiller-namespace=kube-system
-        resources:
-          requests:
-            cpu: 50m
-            memory: 64Mi
+          secret:
+            secretName: flux-git-deploy
+            defaultMode: 0400
+      containers:
+        - name: flux-helm-operator
+          image: 'docker.io/raspbernetes/helm-operator:v1.0.0-rc9'
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3030
+          livenessProbe:
+            httpGet:
+              port: 3030
+              path: /healthz
+            initialDelaySeconds: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 3030
+              path: /healthz
+            initialDelaySeconds: 1
+            timeoutSeconds: 5
+          volumeMounts:
+            - name: git-key
+              mountPath: /etc/fluxd/ssh
+              readOnly: true
+          args:
+            - --enabled-helm-versions=v3
+            - --log-format=fmt
+            - --git-timeout=20s
+            - --git-poll-interval=5m
+            - --charts-sync-interval=5m
+            - --status-update-interval=60s
+            - --update-chart-deps=true
+            - --log-release-diffs=false
+            - --workers=4
+            - --tiller-namespace=kube-system
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
