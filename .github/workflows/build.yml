@@ -1,15 +1,10 @@
 name: build
 
-on:
-  pull_request:
-    paths:
-      - config/**
-      - scripts/**
-      - .github/workflows/build.yml
+on: ['pull_request']
 
 jobs:
   validate:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2

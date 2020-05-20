@@ -12,3 +12,5 @@ helm template fluxcd/helm-operator \
     --name-template=default \
     --namespace flux \
     --values=config/helm-operator/values.yaml > namespaces/flux/helm-operator/helm-operator.yaml
+
+echo "Temporarily manually apply: k apply -f namespaces/flux/helm-operator/"
