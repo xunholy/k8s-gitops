@@ -1,4 +1,3 @@
-.k8s
-install/*yaml*
+# Ignore the following repositories and files
 .DS_Store
-output/
+.secrets/

@@ -1,0 +1,61 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: velero
+  namespace: velero
+  annotations:
+    fluxcd.io/ignore: 'false'
+    fluxcd.io/automated: 'false'
+spec:
+  releaseName: velero
+  helmVersion: v3
+  chart:
+    repository: https://vmware-tanzu.github.io/helm-charts
+    name: velero
+    version: 2.9.15
+  values:
+    image:
+      repository: twoequaldots/velero-arm64
+      tag: test
+      digest: sha256:4d01e153b09a4ba42d0876a63d92f0224f4135c2d13c1d0f8e15171e10e283d4
+    initContainers:
+      - name: velero-plugin-for-gcp
+        image: raspbernetes/velero-gcp-plugin:v1.0.1
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+      - name: velero-plugin-for-openebs
+        image: openebs/velero-plugin-arm64
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+    credentials:
+      existingSecret: cloud-credentials
+    configuration:
+      provider: gcp
+      backupStorageLocation:
+        name: default
+        bucket: raspbernetes-velero-backups
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    snapshotsEnabled: false
+    deployRestic: true
+    restic:
+      podVolumePath: /var/lib/kubelet/pods
+      privileged: false
+      resources:
+        requests:
+          memory: 200Mi
+          cpu: 15m
+        limits:
+          memory: 1000Mi
+    schedules:
+      daily-backup:
+        schedule: '*/30 * * * *'
+        template:
+          ttl: '120h'

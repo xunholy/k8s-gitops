@@ -1,0 +1,107 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: nginx-ingress
+  namespace: kube-system
+  annotations:
+    fluxcd.io/ignore: 'false'
+    fluxcd.io/automated: 'false'
+spec:
+  releaseName: nginx-ingress
+  helmVersion: v3
+  rollback:
+    enable: true
+  chart:
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    name: nginx-ingress
+    version: 1.36.3
+  values:
+    controller:
+      # extraContainers:
+      #   - name: cloudflared
+      #     image: raspbernetes/cloudflared:2020.4.0
+      #     imagePullPolicy: IfNotPresent
+      #     command: ['cloudflared', 'tunnel']
+      #     args:
+      #       - --url=127.0.0.1:80
+      #       - --hostname=raspbernetes.com
+      #       - --origincert=/etc/cloudflared/cert.pem
+      #       - --no-autoupdate
+      #       - --proxy-connect-timeout=60s
+      #       - --proxy-tls-timeout=60s
+      #       - --no-tls-verify
+      #       - --loglevel=debug
+      #     env:
+      #       - name: POD_NAME
+      #         valueFrom:
+      #           fieldRef:
+      #             fieldPath: metadata.name
+      #       - name: POD_NAMESPACE
+      #         valueFrom:
+      #           fieldRef:
+      #             fieldPath: metadata.namespace
+      #     resources:
+      #       limits:
+      #         cpu: 10m
+      #         memory: 20Mi
+      #       requests:
+      #         cpu: 10m
+      #         memory: 20Mi
+      #     volumeMounts:
+      #       - mountPath: /etc/cloudflared
+      #         name: tunnel-secret
+      #         readOnly: true
+      # extraVolumes:
+      #   - name: tunnel-secret
+      #     secret:
+      #       secretName: raspbernetes.com-cloudflared-cert
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          namespace: kube-system
+          namespaceSelector:
+            any: true
+        prometheusRule:
+          enabled: false
+      extraArgs:
+        default-ssl-certificate: 'kube-system/acme-crt-secret'
+      config:
+        custom-http-errors: '404,403,500,503'
+        forwarded-for-header: CF-Connecting-IP
+        proxy-body-size: 50m
+        # Cloudflare IP Addresses - Used to forward the real client IP address to the backend service
+        # https://www.cloudflare.com/ips/
+        proxy-real-ip-cidr: 103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,104.16.0.0/12,108.162.192.0/18,131.0.72.0/22,141.101.64.0/18,162.158.0.0/15,172.64.0.0/13,173.245.48.0/20,188.114.96.0/20,190.93.240.0/20,197.234.240.0/22,198.41.128.0/17,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
+        ssl-protocols: TLSv1.3 TLSv1.2
+        use-forwarded-headers: 'true'
+        use-proxy-protocol: 'false'
+        enable-modsecurity: 'true'
+      image:
+        repository: quay.io/kubernetes-ingress-controller/nginx-ingress-controller-arm
+        tag: 0.31.1
+      replicaCount: 2
+      resources:
+        limits:
+          memory: 600Mi
+        requests:
+          cpu: 25m
+          memory: 500Mi
+      service:
+        externalTrafficPolicy: Local
+        loadBalancerIP: 192.168.1.155
+    podSecurityPolicy:
+      enabled: true
+    defaultBackend:
+      enabled: true
+      image:
+        repository: raspbernetes/custom-error-pages
+        tag: latest
+        pullPolicy: Always
+      resources:
+        requests:
+          memory: 250Mi
+          cpu: 25m
+        limits:
+          memory: 350Mi

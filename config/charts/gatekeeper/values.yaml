@@ -1,3 +1,0 @@
-# Available override option: https://github.com/open-policy-agent/gatekeeper/blob/master/chart/gatekeeper-operator/values.yaml
-image:
-    repository: docker.io/raspbernetes/gatekeeper

@@ -1,0 +1,16 @@
+---
+# apiVersion: helm.fluxcd.io/v1
+# kind: HelmRelease
+# metadata:
+#   name: maesh
+#   namespace: maesh
+#   annotations:
+#     fluxcd.io/ignore: 'false'
+#     fluxcd.io/automated: 'false'
+# spec:
+#   releaseName: maesh
+#   helmVersion: v3
+#   chart:
+#     repository: https://containous.github.io/maesh/charts
+#     name: maesh
+#     version: 1.1.0
