@@ -26,7 +26,7 @@ fluxctl install \
     --git-email=${GHUSER}@users.noreply.github.com \
     --git-url=git@github.com:${GHUSER}/k8s-gitops.git \
     --git-path=namespaces \
-    --git-branch=develop \
+    --git-branch=master \
     --registry-disable-scanning \
     --git-readonly \
     --namespace=flux > flux.yaml
