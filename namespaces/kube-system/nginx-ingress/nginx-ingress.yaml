@@ -15,12 +15,12 @@ spec:
   chart:
     repository: https://kubernetes-charts.storage.googleapis.com/
     name: nginx-ingress
-    version: 1.36.3
+    version: 1.39.0
   values:
     controller:
       # extraContainers:
       #   - name: cloudflared
-      #     image: raspbernetes/cloudflared:2020.4.0
+      #     image: raspbernetes/cloudflared:2020.5.1
       #     imagePullPolicy: IfNotPresent
       #     command: ['cloudflared', 'tunnel']
       #     args:
@@ -28,9 +28,6 @@ spec:
       #       - --hostname=raspbernetes.com
       #       - --origincert=/etc/cloudflared/cert.pem
       #       - --no-autoupdate
-      #       - --proxy-connect-timeout=60s
-      #       - --proxy-tls-timeout=60s
-      #       - --no-tls-verify
       #       - --loglevel=debug
       #     env:
       #       - name: POD_NAME
@@ -80,8 +77,8 @@ spec:
         enable-modsecurity: 'true'
       image:
         repository: quay.io/kubernetes-ingress-controller/nginx-ingress-controller-arm
-        tag: 0.31.1
-      replicaCount: 2
+        tag: 0.32.0
+      replicaCount: 1
       resources:
         limits:
           memory: 600Mi
