@@ -19,16 +19,16 @@ metadata:
     release: default
   name: default-helm-operator
 rules:
-  - apiGroups:
-      - '*'
-    resources:
-      - '*'
-    verbs:
-      - '*'
-  - nonResourceURLs:
-      - '*'
-    verbs:
-      - '*'
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- nonResourceURLs:
+  - '*'
+  verbs:
+  - '*'
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
@@ -44,9 +44,9 @@ roleRef:
   kind: ClusterRole
   name: default-helm-operator
 subjects:
-  - kind: ServiceAccount
-    name: default-helm-operator
-    namespace: flux
+- kind: ServiceAccount
+  name: default-helm-operator
+  namespace: flux
 ---
 apiVersion: v1
 data:
@@ -80,10 +80,10 @@ metadata:
   namespace: flux
 spec:
   ports:
-    - name: http
-      port: 3030
-      protocol: TCP
-      targetPort: http
+  - name: http
+    port: 3030
+    protocol: TCP
+    targetPort: http
   selector:
     app: helm-operator
     release: default
@@ -116,52 +116,52 @@ spec:
         release: default
     spec:
       containers:
-        - args:
-            - --enabled-helm-versions=v3
-            - --log-format=fmt
-            - --git-timeout=20s
-            - --git-poll-interval=5m
-            - --charts-sync-interval=5m
-            - --status-update-interval=60s
-            - --update-chart-deps=true
-            - --log-release-diffs=false
-            - --workers=4
-            - --tiller-namespace=kube-system
-          image: docker.io/raspbernetes/helm-operator:v1.0.0-rc9
-          imagePullPolicy: IfNotPresent
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /healthz
-              port: 3030
-            initialDelaySeconds: 1
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
-          name: flux-helm-operator
-          ports:
-            - containerPort: 3030
-              name: http
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /healthz
-              port: 3030
-            initialDelaySeconds: 1
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
-          resources:
-            requests:
-              cpu: 50m
-              memory: 64Mi
-          volumeMounts:
-            - mountPath: /etc/fluxd/ssh
-              name: git-key
-              readOnly: true
+      - args:
+        - --enabled-helm-versions=v3
+        - --log-format=fmt
+        - --git-timeout=20s
+        - --git-poll-interval=5m
+        - --charts-sync-interval=5m
+        - --status-update-interval=60s
+        - --update-chart-deps=true
+        - --log-release-diffs=false
+        - --workers=4
+        - --tiller-namespace=kube-system
+        image: docker.io/raspbernetes/helm-operator:v1.0.0-rc9
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 3030
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: flux-helm-operator
+        ports:
+        - containerPort: 3030
+          name: http
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 3030
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        volumeMounts:
+        - mountPath: /etc/fluxd/ssh
+          name: git-key
+          readOnly: true
       serviceAccountName: default-helm-operator
       volumes:
-        - name: git-key
-          secret:
-            defaultMode: 256
-            secretName: flux-git-deploy
+      - name: git-key
+        secret:
+          defaultMode: 256
+          secretName: flux-git-deploy
