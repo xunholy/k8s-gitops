@@ -2,35 +2,32 @@
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: nginx-ingress
+  name: ingress-nginx
   namespace: kube-system
   annotations:
     fluxcd.io/ignore: 'false'
     fluxcd.io/automated: 'false'
 spec:
-  releaseName: nginx-ingress
+  releaseName: ingress-nginx
   helmVersion: v3
   rollback:
     enable: true
   chart:
-    repository: https://kubernetes-charts.storage.googleapis.com/
-    name: nginx-ingress
-    version: 1.36.3
+    repository: https://kubernetes.github.io/ingress-nginx
+    name: ingress-nginx
+    version: 2.3.0
   values:
     controller:
       # extraContainers:
       #   - name: cloudflared
-      #     image: raspbernetes/cloudflared:2020.4.0
-      #     imagePullPolicy: IfNotPresent
+      #     image: raspbernetes/cloudflared:2020.5.1
+      #     imagePullPolicy: Always
       #     command: ['cloudflared', 'tunnel']
       #     args:
-      #       - --url=127.0.0.1:80
-      #       - --hostname=raspbernetes.com
+      #       - --url=http://127.0.0.1:80
+      #       - --hostname=test.raspbernetes.com
       #       - --origincert=/etc/cloudflared/cert.pem
       #       - --no-autoupdate
-      #       - --proxy-connect-timeout=60s
-      #       - --proxy-tls-timeout=60s
-      #       - --no-tls-verify
       #       - --loglevel=debug
       #     env:
       #       - name: POD_NAME
@@ -80,8 +77,8 @@ spec:
         enable-modsecurity: 'true'
       image:
         repository: quay.io/kubernetes-ingress-controller/nginx-ingress-controller-arm
-        tag: 0.31.1
-      replicaCount: 2
+        tag: 0.32.0
+      replicaCount: 1
       resources:
         limits:
           memory: 600Mi
