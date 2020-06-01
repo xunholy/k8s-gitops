@@ -10,13 +10,11 @@ metadata:
 spec:
   releaseName: gatekeeper-operator
   helmVersion: v3
-  rollback:
-    enable: false
   chart:
     git: git@github.com:open-policy-agent/gatekeeper.git
-    path: chart/gatekeeper-operator
+    path: charts/gatekeeper
     ref: master
   values:
     image:
-      repository: docker.io/raspbernetes/gatekeeper
-      release: v3.1.0-beta.8
+      repository: raspbernetes/gatekeeper
+      release: v3.1.0-beta.9

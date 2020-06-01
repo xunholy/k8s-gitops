@@ -1,7 +1,8 @@
+# Ignoring helm-operator.yaml is this is download and comes from upstream with lint errors
 ignore: |
-  .yamllint
-  .github/
-  .secrets/
+    .yamllint
+    .github/
+    .secrets/
 
 extends: default
 rules:
