@@ -1,0 +1,170 @@
+---
+# Source: helm-operator/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: default-helm-operator
+  labels:
+    app: helm-operator
+    chart: helm-operator-1.1.0
+    release: default
+    heritage: Helm
+---
+# Source: helm-operator/templates/kube.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: default-helm-operator-kube-config
+data:
+  config: |
+    apiVersion: v1
+    clusters: []
+    contexts:
+    - context:
+        cluster: ""
+        namespace: default
+        user: ""
+      name: default
+    current-context: default
+    kind: Config
+    preferences: {}
+    users: []
+---
+# Source: helm-operator/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: default-helm-operator
+  labels:
+    app: helm-operator
+    chart: helm-operator-1.1.0
+    release: default
+    heritage: Helm
+rules:
+  - apiGroups:
+      - '*'
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - nonResourceURLs:
+      - '*'
+    verbs:
+      - '*'
+---
+# Source: helm-operator/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: default-helm-operator
+  labels:
+    app: helm-operator
+    chart: helm-operator-1.1.0
+    release: default
+    heritage: Helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: default-helm-operator
+subjects:
+  - name: default-helm-operator
+    namespace: "flux"
+    kind: ServiceAccount
+---
+# Source: helm-operator/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: default-helm-operator
+  labels:
+    app: helm-operator
+    chart: helm-operator-1.1.0
+    release: default
+    heritage: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3030
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: helm-operator
+    release: default
+---
+# Source: helm-operator/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: default-helm-operator
+  labels:
+    app: helm-operator
+    chart: helm-operator-1.1.0
+    release: default
+    heritage: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helm-operator
+      release: default
+  strategy:
+    type:  Recreate
+  template:
+    metadata:
+      annotations:
+        checksum/repositories: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      labels:
+        app: helm-operator
+        release: default
+    spec:
+      serviceAccountName: default-helm-operator
+      volumes:
+      - name: git-key
+        secret:
+          secretName: flux-git-deploy
+          defaultMode: 0400
+      containers:
+      - name: flux-helm-operator
+        image: "docker.io/raspbernetes/helm-operator:v1.0.0-rc9"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 3030
+        livenessProbe:
+          httpGet:
+            port: 3030
+            path: /healthz
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            port: 3030
+            path: /healthz
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: git-key
+          mountPath: /etc/fluxd/ssh
+          readOnly: true
+        args:
+        - --enabled-helm-versions=v3
+        - --log-format=fmt
+        - --git-timeout=20s
+        - --git-poll-interval=5m
+        - --charts-sync-interval=5m
+        - --status-update-interval=60s
+        - --update-chart-deps=true
+        - --log-release-diffs=false
+        - --workers=4
+        - --tiller-namespace=kube-system
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
