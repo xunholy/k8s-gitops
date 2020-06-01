@@ -5,14 +5,14 @@ metadata:
   labels:
     app: openebs
   name: openebs
-  namespace: openebs
+  namespace: storage
 spec:
   endpoints:
     - path: /metrics
       port: exporter
   namespaceSelector:
     matchNames:
-      - openebs
+      - storage
   selector:
     matchLabels:
       openebs.io/cas-type: cstor

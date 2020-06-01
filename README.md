@@ -10,13 +10,26 @@ This will install all required custom resource definitions (CRDs) and deploy the
 
 ## Cluster Components
 
+- kube-system
+  - kured
+  - metallb
+  - metrics-server
+  - nginx-ingress
+  - oauth2-proxy
+  - sealed-secrets
+- observability
+  - loki
+  - prometheus-operator
+    - grafana
+    - prometheus
+  - speedtest
 - security
-- logging
-- monitoring
-- alerting
-- tracing
-- backups
-- recovery
-- certificate
-- secrets
-- networking
+  - cert-manager
+  - falco
+  - gatekeeper
+- serverless
+  - openfaas
+- storage
+  - velero
+  - openebs
+  - rook-ceph
