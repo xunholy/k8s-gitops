@@ -2,7 +2,7 @@
 ignore: |
     .yamllint
     .github/
-    helm-operator.yaml
+    .secrets/
 
 extends: default
 rules:
