@@ -1,0 +1,27 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: cert-manager
+  namespace: security
+  annotations:
+    fluxcd.io/ignore: 'false'
+    fluxcd.io/automated: 'false'
+spec:
+  releaseName: cert-manager
+  helmVersion: v3
+  rollback:
+    enable: false
+  chart:
+    repository: https://charts.jetstack.io/
+    name: cert-manager
+    version: v0.15.1
+  values:
+    installCRDs: true
+    prometheus:
+      servicemonitor:
+        namespace: 'security'
+        enabled: true
+    extraArgs:
+      - --dns01-recursive-nameservers=1.1.1.1:53
+      - --dns01-recursive-nameservers-only
