@@ -1,6 +1,7 @@
 ignore: |
   .yamllint
   .github/
+  .secrets/
 
 extends: default
 rules:
