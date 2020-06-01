@@ -26,3 +26,10 @@ jobs:
           git config --global user.email '20387402+xUnholy@users.noreply.github.com'
           git add .
           git commit -sm "[Auto Generation] Adding hydrated manifests" || exit 0
+
+      - name: Push changes
+        if: steps.git-check.outputs.modified == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
