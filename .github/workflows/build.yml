@@ -11,9 +11,14 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v1
+        with:
+          kustomize-version: '3.6.1'
+
       - name: Generate Manifests
         run: |
-          ./install/helm.sh
+          ./install/helm-gen.sh
 
       - name: Check for modified files
         id: git-check
