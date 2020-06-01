@@ -3,7 +3,7 @@
 # kind: HelmRelease
 # metadata:
 #   name: jaeger
-#   namespace: monitoring
+#   namespace: observability
 #   annotations:
 #     fluxcd.io/ignore: 'false'
 #     fluxcd.io/automated: 'false'
