@@ -55,12 +55,6 @@ jobs:
       - name: Lint Yaml
         uses: ibiqlik/action-yamllint@v1
 
-      - name: Helm Check
-        uses: igabaydulin/helm-check-action@0.1.4
-        env:
-          CHART_LOCATION: ./helm-check-action-sample
-          CHART_VALUES: ./helm-check-action-sample/values/test.yaml
-
       - name: Kubeval
         uses: instrumenta/kubeval-action@master
         with:
