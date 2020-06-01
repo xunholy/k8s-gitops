@@ -15,4 +15,7 @@
 #     version: 1.1.7
 #   values:
 #     podSecurityPolicy:
-#       create: true
+#       create: false
+#     image:
+#       repository: raspbernetes/falco@sha256:46bcfbc74424d05896d529566d1ad9cbd73102de0029f5d7d799b0a9521560ed
+#       tag: ''
