@@ -3,47 +3,8 @@ name: build
 on: ['pull_request']
 
 jobs:
-  generate:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
-
-      - name: Setup Kustomize
-        uses: imranismail/setup-kustomize@v1
-        with:
-          kustomize-version: '3.6.1'
-
-      - name: Generate Manifests
-        run: |
-          ./install/helm-gen.sh
-
-      - name: Check for modified files
-        id: git-check
-        run: |
-          modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
-          echo ::set-output name=modified::$modified
-
-      - name: Commit latest release version
-        if: steps.git-check.outputs.modified == 'true'
-        run: |
-          git config --global user.name 'Michael Fornaro'
-          git config --global user.email '20387402+xUnholy@users.noreply.github.com'
-          git add .
-          git commit -sm "[Auto Generation] Adding hydrated manifests" || exit 0
-
-      - name: Push changes
-        if: steps.git-check.outputs.modified == 'true'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref }}
-
   validate:
     runs-on: ubuntu-latest
-    needs: generate
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -64,3 +25,68 @@ jobs:
         uses: instrumenta/kubeval-action@master
         with:
           files: 'namespaces/'
+
+  compliance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Execute OPA Tests
+        id: opa
+        run: |
+          result=$(docker run --rm --workdir /github/workspace \
+            -v $(pwd):/github/workspace \
+            openpolicyagent/opa:0.17.2 \
+            test policies/ -v || exit 0 )
+          result="${result//'%'/'%25'}"
+          result="${result//$'\n'/'%0A'}"
+          result="${result//$'\r'/'%0D'}"
+          echo "::set-output name=result::$result"
+
+      - name: Execute Conftest Tests - Table Output
+        id: conftest-table
+        run: |
+          result=$(docker run --rm --workdir /github/workspace \
+            -v $(pwd):/github/workspace \
+            instrumenta/conftest:v0.18.2 \
+            test -o table -p policies/ --all-namespaces --combine namespaces/ --no-color || exit 0)
+          result="${result//'%'/'%25'}"
+          result="${result//$'\n'/'%0A'}"
+          result="${result//$'\r'/'%0D'}"
+          echo "::set-output name=result::$result"
+
+      - name: Execute Conftest Tests - Stdout Output
+        id: conftest-stdout
+        run: |
+          result=$(docker run --rm --workdir /github/workspace \
+            -v $(pwd):/github/workspace \
+            instrumenta/conftest:v0.18.2 \
+            test -o stdout -p policies/ --all-namespaces namespaces/ --no-color || exit 0)
+          result="${result//'%'/'%25'}"
+          result="${result//$'\n'/'%0A'}"
+          result="${result//$'\r'/'%0D'}"
+          echo ::set-output name=result::$result
+
+      - name: Post Results
+        uses: unsplash/comment-on-pr@master
+        if: ${{ always() }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: |
+            ## OPA Test Results
+            ```
+            ${{ steps.opa.outputs.result }}
+            ```
+
+            ## Conftest Test Results
+            ```
+            ${{ steps.conftest-table.outputs.result }}
+            ```
+
+            ## Conftest Test Results
+            ```
+            ${{ steps.conftest-stdout.outputs.result }}
+            ```
+          check_for_duplicate_msg: true
