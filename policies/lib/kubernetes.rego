@@ -174,7 +174,14 @@ volumes[volume] {
 # Functions #
 #############
 
-flag_contains_string(obj, key, value ) {
-  elems := [elem | contains(obj.command[i], key); elem := obj.command[i]]
+flag_contains_string(array, key, value) {
+  elems := [elem | contains(array[i], key); elem := array[i]]
   contains(elems[_], value)
 }
+
+# flag_contains_string(array, key, value) {
+# 	elems := [elem | contains(array[i], key); elem := array[i]]
+# 	pattern := sprintf("%v=|,", [key])
+# 	v := regex.split(pattern, elems[_])
+# 	value != v[_]
+# }

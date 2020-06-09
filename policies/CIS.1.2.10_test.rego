@@ -10,6 +10,10 @@ test_no_violation {
 	test.no_violations(violation) with input as policy_input("--enable-admission-plugins=EventRateLimit")
 }
 
+# test_no_violation {
+# 	test.no_violations(violation) with input as policy_input("--example-no-violation")
+# }
+
 policy_input(kv) = {
   "apiVersion": "v1",
   "kind": "Pod",
