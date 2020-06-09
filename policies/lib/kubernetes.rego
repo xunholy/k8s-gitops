@@ -180,3 +180,7 @@ flag_contains_string(array, key, value) {
     v = { l | l := regex.split(pattern, elems[i])[_] }
     v[value]
 }
+
+contains_element(arr, elem) {
+    contains(arr[_], elem)
+}
