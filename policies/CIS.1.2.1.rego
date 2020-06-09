@@ -9,7 +9,7 @@ default_parameters = {
 
 params = object.union(default_parameters, kubernetes.parameters)
 
-# Below is checking if the pod has command field, might need to enable we check this only for the api server,
+# Below is checking if the pod has command field, might need to enable when check for the api server only,
 # Otherwise will fail all the pods that don't have command field
 # violation[msg] {
 #   kubernetes.containers[container]
