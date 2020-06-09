@@ -169,3 +169,12 @@ volumes[volume] {
 	pods[pod]
 	volume = pod.spec.volumes[_]
 }
+
+#############
+# Functions #
+#############
+
+flag_contains_string(obj, key, value ) {
+  elems := [elem | contains(obj.command[i], key); elem := obj.command[i]]
+  contains(elems[_], value)
+}
