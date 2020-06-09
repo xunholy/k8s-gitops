@@ -3,8 +3,8 @@ package cis_1_2_11
 import data.lib.kubernetes
 
 default_parameters = {
-	"key": "--enable-admission-plugins",
-	"deniedValue": "AlwaysAdmit"
+  "key": "--enable-admission-plugins",
+  "deniedValue": "AlwaysAdmit"
 }
 
 params = object.union(default_parameters, kubernetes.parameters)
