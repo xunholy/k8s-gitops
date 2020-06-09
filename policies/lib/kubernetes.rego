@@ -174,11 +174,6 @@ volumes[volume] {
 # Functions #
 #############
 
-# flag_contains_string(array, key, value) {
-#   elems := [elem | contains(array[i], key); elem := array[i]]
-#   contains(elems[_], value)
-# }
-
 flag_contains_string(array, key, value) {
     elems := [elem | contains(array[i], key); elem := array[i]]
     pattern := sprintf("%v=|,", [key])
