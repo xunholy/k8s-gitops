@@ -155,26 +155,28 @@ pod_containers(pod) = all_containers {
 }
 
 containers[container] {
-	pods[pod]
-	all_containers = pod_containers(pod)
-	container = all_containers[_]
+    pods[pod]
+    all_containers = pod_containers(pod)
+    container = all_containers[_]
 }
 
 containers[container] {
-	all_containers = pod_containers(object)
-	container = all_containers[_]
+    all_containers = pod_containers(object)
+    container = all_containers[_]
 }
 
 volumes[volume] {
-	pods[pod]
-	volume = pod.spec.volumes[_]
+    pods[pod]
+    volume = pod.spec.volumes[_]
 }
 
 #############
 # Functions #
 #############
 
-flag_contains_string(obj, key, value ) {
-  elems := [elem | contains(obj.command[i], key); elem := obj.command[i]]
-  contains(elems[_], value)
+flag_contains_string(array, key, value) {
+    elems := [elem | contains(array[i], key); elem := array[i]]
+    pattern := sprintf("%v=|,", [key])
+    v = { l | l := regex.split(pattern, elems[i])[_] }
+    v[value]
 }
