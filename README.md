@@ -1,5 +1,7 @@
 # Kubernetes Cluster Management
 
+https://raspbernetes.github.io/docs/
+
 ## Install FluxCD
 
 To install FluxCD use the following installation [script](install/flux.sh).
@@ -8,7 +10,7 @@ This will install all required custom resource definitions (CRDs) and deploy the
 
 > Note: If you've forked this repository you will need to update the following to match your own personal account `export GHUSER="raspbernetes"`.
 
-## Cluster Components
+<!-- ## Cluster Components
 
 - kube-system
   - kured
@@ -32,4 +34,10 @@ This will install all required custom resource definitions (CRDs) and deploy the
 - storage
   - velero
   - openebs
-  - rook-ceph
+  - rook-ceph -->
+
+## Contributors
+
+This project exists thanks to all the people who contribute.
+
+<a href="https://github.com/raspbernetes/k8s-gitops/graphs/contributors"><img src="https://opencollective.com/raspbernetes/contributors.svg?width=890&button=false" /></a>
