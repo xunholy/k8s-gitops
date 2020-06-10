@@ -20,6 +20,10 @@ default operation = ""
 
 operation = input.review.operation
 
+default labels = ""
+
+labels = metadata.labels
+
 default parameters = {}
 
 parameters = input.parameters {
@@ -163,6 +167,11 @@ containers[container] {
 containers[container] {
     all_containers = pod_containers(object)
     container = all_containers[_]
+}
+
+apiserver[container] {
+  labels.component = "kube-apiserver"
+  container = containers[container]
 }
 
 volumes[volume] {

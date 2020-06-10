@@ -3,28 +3,26 @@ package cis_1_2_1
 import data.lib.kubernetes
 
 default_parameters = {
-  "key": "--anonymous-auth",
-  "requiredValue": "false"
+    "key": "--anonymous-auth",
+    "deniedValue": "true"
 }
 
 params = object.union(default_parameters, kubernetes.parameters)
 
-# Below is checking if the pod has command field, might need to enable when check for the api server only,
-# Otherwise will fail all the pods that don't have command field
-# violation[msg] {
-#   kubernetes.containers[container]
-#   not kubernetes.has_field(container,"command")
-#   msg = kubernetes.format(sprintf("%s in the %s %s does not have --anonymous-auth flag in the command field", [container.name, kubernetes.kind, kubernetes.name]))
-# }
-
 violation[msg] {
-  kubernetes.containers[container]
-  not kubernetes.contains_element(container.command, params.requiredValue)
-  msg = kubernetes.format(sprintf("%s in the %s %s does not have --anonymous-auth flag", [container.name, kubernetes.kind, kubernetes.name]))
+    kubernetes.apiserver[container]
+    not kubernetes.has_field(container,"command")
+    msg = kubernetes.format(sprintf("%s in the %s %s should not have %s %s", [container.name, kubernetes.kind, kubernetes.name, params.key, params.deniedValue]))
 }
 
 violation[msg] {
-  kubernetes.containers[container]
-  not kubernetes.flag_contains_string(container.command, params.key, params.requiredValue)
-  msg = kubernetes.format(sprintf("%s in the %s %s should set --anonymous-auth to false", [container.name, kubernetes.kind, kubernetes.name]))
+    kubernetes.apiserver[container]
+    not kubernetes.contains_element(container.command, params.key)
+    msg = kubernetes.format(sprintf("%s in the %s %s should not have %s %s", [container.name, kubernetes.kind, kubernetes.name, params.key, params.deniedValue]))
+}
+
+violation[msg] {
+    kubernetes.apiserver[container]
+    kubernetes.flag_contains_string(container.command, params.key, params.deniedValue)
+    msg = kubernetes.format(sprintf("%s in the %s %s should not have %s %s", [container.name, kubernetes.kind, kubernetes.name, params.key, params.deniedValue]))
 }
