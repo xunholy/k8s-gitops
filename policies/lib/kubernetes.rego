@@ -170,8 +170,8 @@ containers[container] {
 }
 
 apiserver[container] {
-  labels.component = "kube-apiserver"
-  container = containers[container]
+    labels.component = "kube-apiserver"
+    container = containers[container]
 }
 
 volumes[volume] {
