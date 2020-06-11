@@ -4,7 +4,7 @@ import data.lib.kubernetes
 
 default_parameters = {
     "key": "--enable-admission-plugins",
-   "deniedValue": "AlwaysAdmit"
+    "deniedValue": "AlwaysAdmit"
 }
 
 params = object.union(default_parameters, kubernetes.parameters)

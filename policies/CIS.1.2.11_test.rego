@@ -3,7 +3,7 @@ package cis_1_2_11
 import data.lib.test
 
 test_violation {
-  test.violations(violation) with input as policy_input("kube-apiserver", "--enable-admission-plugins=AlwaysAdmit")
+    test.violations(violation) with input as policy_input("kube-apiserver", "--enable-admission-plugins=AlwaysAdmit")
 }
 
 test_no_violation {

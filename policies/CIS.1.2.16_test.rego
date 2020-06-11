@@ -3,15 +3,15 @@ package cis_1_2_16
 import data.lib.test
 
 test_violation {
-	  test.violations(violation) with input as policy_input("kube-apiserver", "--enable-admission-plugins=NodeRestriction")
+    test.violations(violation) with input as policy_input("kube-apiserver", "--enable-admission-plugins=NodeRestriction")
 }
 
 test_no_violation_01 {
-  	test.no_violations(violation) with input as policy_input("kube-apiserver", "--enable-admission-plugins=PodSecurityPolicy")
+    test.no_violations(violation) with input as policy_input("kube-apiserver", "--enable-admission-plugins=PodSecurityPolicy")
 }
 
 test_no_violation_02 {
-  	test.no_violations(violation) with input as policy_input("kube-proxy", "--enable-admission-plugins=NodeRestriction")
+    test.no_violations(violation) with input as policy_input("kube-proxy", "--enable-admission-plugins=NodeRestriction")
 }
 
 policy_input(component, kv) = {
