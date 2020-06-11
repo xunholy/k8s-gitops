@@ -1,10 +1,10 @@
-package cis_1_2_16
+package cis_1_2_1
 
 import data.lib.kubernetes
 
 default_parameters = {
-    "key": "--enable-admission-plugins",
-    "requiredValue": "PodSecurityPolicy"
+    "key": "--anonymous-auth",
+    "requiredValue": "false"
 }
 
 params = object.union(default_parameters, kubernetes.parameters)
