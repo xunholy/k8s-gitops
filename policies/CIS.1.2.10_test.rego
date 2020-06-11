@@ -3,23 +3,27 @@ package cis_1_2_10
 import data.lib.test
 
 test_violation {
-	test.violations(violation) with input as policy_input("--enable-admission-plugins=NodeRestriction")
+	  test.violations(violation) with input as policy_input("kube-apiserver","--enable-admission-plugins=NodeRestriction")
 }
 
-test_no_violation {
-	test.no_violations(violation) with input as policy_input("--enable-admission-plugins=EventRateLimit")
+test_no_violation_01 {
+	  test.no_violations(violation) with input as policy_input("kube-apiserver","--enable-admission-plugins=EventRateLimit")
 }
 
-# test_no_violation {
-# 	test.no_violations(violation) with input as policy_input("--example-no-violation")
-# }
+test_no_violation_02 {
+	  test.no_violations(violation) with input as policy_input("kube-proxy", "--enable-admission-plugins=NodeRestriction")
+}
 
-policy_input(kv) = {
+policy_input(component, kv) = {
   "apiVersion": "v1",
   "kind": "Pod",
   "metadata": {
     "name": "kube-apiserver",
-    "namespace": "kube-system"
+    "namespace": "kube-system",
+    "labels": {
+      "component": component,
+      "tier": "control-plane"
+    }
   },
   "spec": {
     "containers": [
