@@ -149,6 +149,19 @@ clusterroles[clusterrole] {
     clusterrole = object
 }
 
+is_clusterrole_binding {
+    kind = "ClusterRoleBinding"
+}
+
+is_clusterrole_binding {
+    kind = "ClusterRoleBindings"
+}
+
+clusterrolebindings[clusterrolebinding] {
+    is_clusterrole_binding
+    clusterrolebinding = object
+}
+
 pod_containers(pod) = all_containers {
 	keys = {"containers", "initContainers"}
 	all_containers = [c | keys[k]; c = pod.spec[k][_]]
