@@ -10,6 +10,10 @@ test_no_violation {
     test.no_violations(violation) with input as policy_input("system:cluster-admin", "cluster-admin")
 }
 
+test_no_violation_2 {
+    test.no_violations(violation) with input as policy_input("stackdriver:fluentd-gcp", "stackdriver:fluentd-gcp")
+}
+
 policy_input(name, ref) = {
     "apiVersion": "rbac.authorization.k8s.io/v1",
     "kind": "ClusterRoleBinding",
