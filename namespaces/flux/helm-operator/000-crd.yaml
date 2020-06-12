@@ -80,8 +80,8 @@ spec:
                     name:
                       type: string
                 git:
-                  description: Git URL is the URL of the Git repository, e.g. git@github.com:org/repo,
-                    http://github.com/org/repo, or ssh://git@example.com:2222/org/repo.git.
+                  description: Git URL is the URL of the Git repository, e.g. `git@github.com:org/repo`,
+                    `http://github.com/org/repo`, or `ssh://git@example.com:2222/org/repo.git`.
                   type: string
                 name:
                   description: Name is the name of the Helm chart _without_ an alias,
@@ -96,8 +96,8 @@ spec:
                     Defaults to 'master', or the configured default Git ref.
                   type: string
                 repository:
-                  description: RepoURL is the URL of the Helm repository, e.g. https://kubernetes-charts.storage.googleapis.com
-                    or https://charts.example.com.
+                  description: RepoURL is the URL of the Helm repository, e.g. `https://kubernetes-charts.storage.googleapis.com`
+                    or `https://charts.example.com`.
                   type: string
                 secretRef:
                   description: SecretRef holds the authentication secret for accessing
@@ -108,6 +108,8 @@ spec:
                   - name
                   properties:
                     name:
+                      type: string
+                    namespace:
                       type: string
                 skipDepUpdate:
                   description: SkipDepUpdate will tell the operator to skip running
@@ -329,6 +331,10 @@ spec:
                     - ChartFetched
                     - Released
                     - RolledBack
+            lastAttemptedRevision:
+              description: LastAttemptedRevision is the revision of the latest chart
+                sync, and may be of a failed release.
+              type: string
             observedGeneration:
               description: ObservedGeneration is the most recent generation observed
                 by the operator.
