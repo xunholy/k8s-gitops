@@ -11,10 +11,10 @@ spec:
       port: 8080
       protocol: TCP
       targetPort:
-# targetPort defaults to the port configured above if left blank.
+  # targetPort defaults to the port configured above if left blank.
   selector:
     app: hello
-—--
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -64,7 +64,7 @@ spec:
         - name: tunnel
           image: raspbernetes/cloudflared:48b097a763db0cb8e8222057a4e6fe95775376ac
           imagePullPolicy: IfNotPresent
-          command: ["cloudflared", "tunnel"]
+          command: ['cloudflared', 'tunnel']
           args:
             - --url=http://127.0.0.1:8080
             - --hostname=test.raspbernetes.com
@@ -93,6 +93,6 @@ spec:
               readOnly: true
       terminationGracePeriodSeconds: 60
       volumes:
-      - name: tunnel-secret
-        secret:
-          secretName: raspbernetes.com-cloudflared-cert
+        - name: tunnel-secret
+          secret:
+            secretName: raspbernetes.com-cloudflared-cert
