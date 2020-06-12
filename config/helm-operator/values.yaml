@@ -4,11 +4,24 @@ helm:
 
 image:
   repository: docker.io/raspbernetes/helm-operator
-  tag: v1.0.0-rc9
+  tag: v1.1.0
 
-chartsSyncInterval: "5m"
-statusUpdateInterval: "60s"
+chartsSyncInterval: "3m"
+statusUpdateInterval: "30s"
+createCRD: true
+
+rbac:
+  pspEnabled: true
 
 git:
+  pollInterval: "1800m"
   ssh:
     secretName: flux-git-deploy
+
+resources:
+  limits:
+    cpu: 0.5
+    memory: 1Gi
+  requests:
+    cpu: 50m
+    memory: 64Mi
