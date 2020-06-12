@@ -12,57 +12,43 @@ spec:
   helmVersion: v3
   chart:
     git: git@github.com:openebs/charts.git
-    path: stable/openebs
+    path: charts/openebs
     ref: master
   values:
-    image:
-      repository: ''
     rbac:
       pspEnabled: true
     ndm:
-      image: 'quay.io/openebs/node-disk-manager-arm64'
+      image: 'openebs/node-disk-manager-arm64'
       sparse:
         count: '1'
     ndmOperator:
-      image: 'quay.io/openebs/node-disk-operator-arm64'
+      image: 'openebs/node-disk-operator-arm64'
     webhook:
-      image: 'quay.io/openebs/admission-server-arm64'
-      imageTag: 1.9.0
+      image: 'openebs/admission-server-arm64'
     apiserver:
-      image: 'quay.io/openebs/m-apiserver-arm64'
-      imageTag: 1.9.0
+      image: 'openebs/m-apiserver-arm64'
       sparse:
         enabled: true
     localprovisioner:
-      image: 'quay.io/openebs/provisioner-localpv-arm64'
-      imageTag: 1.9.0
+      image: 'openebs/provisioner-localpv-arm64'
     snapshotOperator:
       controller:
-        image: 'quay.io/openebs/snapshot-controller-arm64'
-        imageTag: 1.9.0
+        image: 'openebs/snapshot-controller-arm64'
       provisioner:
-        image: 'quay.io/openebs/snapshot-provisioner-arm64'
-        imageTag: 1.9.0
+        image: 'openebs/snapshot-provisioner-arm64'
     provisioner:
-      image: 'quay.io/openebs/openebs-k8s-provisioner-arm64'
-      imageTag: 1.9.0
+      image: 'openebs/openebs-k8s-provisioner-arm64'
     helper:
-      image: 'quay.io/openebs/linux-utils-arm64'
-      imageTag: 1.9.0
+      image: 'openebs/linux-utils-arm64'
     cstor:
       pool:
-        image: 'raspbernetes/cstor-pool-arm64'
-        imageTag: 1.9.0
+        image: 'openebs/cstor-pool-arm64'
       poolMgmt:
-        image: 'raspbernetes/cstor-pool-mgmt-arm64'
-        imageTag: 1.9.0
+        image: 'openebs/cstor-pool-mgmt-arm64'
       target:
-        image: 'quay.io/openebs/cstor-istgt-arm64'
-        imageTag: 1.9.0
+        image: 'openebs/cstor-istgt-arm64'
       volumeMgmt:
-        image: 'quay.io/openebs/cstor-volume-mgmt-arm64'
-        imageTag: 1.9.0
+        image: 'openebs/cstor-volume-mgmt-arm64'
     policies:
       monitoring:
-        image: 'quay.io/openebs/m-exporter-arm64'
-        imageTag: 1.9.0
+        image: 'openebs/m-exporter-arm64'
