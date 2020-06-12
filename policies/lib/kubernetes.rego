@@ -20,6 +20,10 @@ default operation = ""
 
 operation = input.review.operation
 
+default labels = ""
+
+labels = metadata.labels
+
 default parameters = {}
 
 parameters = input.parameters {
@@ -149,6 +153,19 @@ clusterroles[clusterrole] {
     clusterrole = object
 }
 
+is_clusterrole_binding {
+    kind = "ClusterRoleBinding"
+}
+
+is_clusterrole_binding {
+    kind = "ClusterRoleBindings"
+}
+
+clusterrolebindings[clusterrolebinding] {
+    is_clusterrole_binding
+    clusterrolebinding = object
+}
+
 pod_containers(pod) = all_containers {
 	keys = {"containers", "initContainers"}
 	all_containers = [c | keys[k]; c = pod.spec[k][_]]
@@ -165,6 +182,11 @@ containers[container] {
     container = all_containers[_]
 }
 
+apiserver[container] {
+    labels.component = "kube-apiserver"
+    container = containers[container]
+}
+
 volumes[volume] {
     pods[pod]
     volume = pod.spec.volumes[_]
@@ -179,4 +201,8 @@ flag_contains_string(array, key, value) {
     pattern := sprintf("%v=|,", [key])
     v = { l | l := regex.split(pattern, elems[i])[_] }
     v[value]
+}
+
+contains_element(arr, elem) {
+    contains(arr[_], elem)
 }
