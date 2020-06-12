@@ -8,7 +8,13 @@ violation[msg] {
     msg = kubernetes.format(sprintf("ClusterRoleBinding %v - Binding to cluster-admin role is not allowed", [clusterrolebinding.metadata.name]))
 }
 
-is_clusterrole_admin(clusterrolebinding) {
-    clusterrolebinding.roleRef.name == "cluster-admin"
-    startswith(clusterrolebinding.metadata.name, "system:") == false
+violation[msg] {
+    kubernetes.rolebindings[rolebinding]
+    is_clusterrole_admin(rolebinding)
+    msg = kubernetes.format(sprintf("RoleBinding %v - Binding to cluster-admin role is not allowed", [rolebinding.metadata.name]))
+}
+
+is_clusterrole_admin(rolebinding) {
+    rolebinding.roleRef.name == "cluster-admin"
+    startswith(rolebinding.metadata.name, "system:") == false
 }

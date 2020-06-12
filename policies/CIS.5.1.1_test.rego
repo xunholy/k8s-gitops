@@ -3,20 +3,32 @@ package cis_5_1_1
 import data.lib.test
 
 test_violation {
-    test.violations(violation) with input as policy_input("example:view:binding", "cluster-admin")
+    test.violations(violation) with input as policy_input("ClusterRoleBinding", "example:view:binding", "cluster-admin")
+}
+
+test_violation_2 {
+    test.violations(violation) with input as policy_input("RoleBinding", "example:view:binding", "cluster-admin")
 }
 
 test_no_violation {
-    test.no_violations(violation) with input as policy_input("system:cluster-admin", "cluster-admin")
+    test.no_violations(violation) with input as policy_input("ClusterRoleBinding", "system:cluster-admin", "cluster-admin")
 }
 
 test_no_violation_2 {
-    test.no_violations(violation) with input as policy_input("stackdriver:fluentd-gcp", "stackdriver:fluentd-gcp")
+    test.no_violations(violation) with input as policy_input("RoleBinding", "system:cluster-admin", "cluster-admin")
 }
 
-policy_input(name, ref) = {
+test_no_violation_3 {
+    test.no_violations(violation) with input as policy_input("ClusterRoleBinding", "stackdriver:fluentd-gcp", "stackdriver:fluentd-gcp")
+}
+
+test_no_violation_4 {
+    test.no_violations(violation) with input as policy_input("RoleBinding", "stackdriver:fluentd-gcp", "stackdriver:fluentd-gcp")
+}
+
+policy_input(rolebindingkind, name, ref) = {
     "apiVersion": "rbac.authorization.k8s.io/v1",
-    "kind": "ClusterRoleBinding",
+    "kind": rolebindingkind,
     "metadata": {
         "name": name
     },
