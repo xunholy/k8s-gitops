@@ -6,7 +6,7 @@ test_violation {
     test.violations(violation) with input as policy_input("etcd", "--peer-auto-tls=true")
 }
 
-test_no_violation_01 {
+test_no_violation {
     test.no_violations(violation) with input as policy_input("etcd", "--peer-auto-tls=false")
 }
 
@@ -18,7 +18,7 @@ policy_input(component, kv) = {
   "apiVersion": "v1",
   "kind": "Pod",
   "metadata": {
-    "name": "kube-apiserver",
+    "name": "etcd",
     "namespace": "kube-system",
     "labels": {
       "component": component,
@@ -29,12 +29,12 @@ policy_input(component, kv) = {
     "containers": [
       {
         "command": [
-          "kube-apiserver",
+          "etcd",
           kv
         ],
-        "image": "k8s.gcr.io/kube-apiserver:v1.18.3",
+        "image": "k8s.gcr.io/etcd:v1.18.3",
         "imagePullPolicy": "IfNotPresent",
-        "name": "kube-apiserver"
+        "name": "etcd"
       }
     ]
   }

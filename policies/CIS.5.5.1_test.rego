@@ -6,7 +6,7 @@ test_violation {
     test.violations(violation) with input as policy_input("kube-apiserver", "--enable-admission-plugins=NodeRestriction")
 }
 
-test_no_violation_01 {
+test_no_violation {
     test.no_violations(violation) with input as policy_input("kube-apiserver", "--enable-admission-plugins=ImagePolicyWebhook")
 }
 
