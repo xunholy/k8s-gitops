@@ -1,17 +1,17 @@
-package cis_1_2_17
+package cis_2_3
 
 import data.lib.test
 
 test_violation {
-    test.violations(violation) with input as policy_input("kube-apiserver", "--enable-admission-plugins=")
+    test.violations(violation) with input as policy_input("etcd", "--auto-tls=true")
 }
 
-test_no_violation {
-    test.no_violations(violation) with input as policy_input("kube-apiserver", "--enable-admission-plugins=NodeRestriction")
+test_no_violation_01 {
+    test.no_violations(violation) with input as policy_input("etcd", "--auto-tls=false")
 }
 
 test_no_violation_02 {
-    test.no_violations(violation) with input as policy_input("kube-proxy", "--enable-admission-plugins=")
+    test.no_violations(violation) with input as policy_input("kube-proxy", "--auto-tls=true")
 }
 
 policy_input(component, kv) = {
