@@ -2,19 +2,19 @@ package cis_1_2_1
 
 import data.lib.test
 
-test_violation_no_flags {
+test_violation {
     test.violations(violation) with input as policy_input("kube-apiserver", "")
 }
 
-test_violation_denied_value {
+test_violation_2 {
     test.violations(violation) with input as policy_input("kube-apiserver", "--anonymous-auth=true")
 }
 
-test_no_violation_false_an {
+test_no_violation {
     test.no_violations(violation) with input as policy_input("kube-apiserver","--anonymous-auth=false")
 }
 
-test_no_violation_not_apiserver {
+test_no_violation_2 {
     test.no_violations(violation) with input as policy_input("kube-proxy", "")
 }
 

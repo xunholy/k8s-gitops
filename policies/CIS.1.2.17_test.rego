@@ -10,7 +10,6 @@ test_no_violation {
     test.no_violations(violation) with input as policy_input("kube-apiserver", "--enable-admission-plugins=NodeRestriction")
 }
 
-
 test_no_violation_02 {
     test.no_violations(violation) with input as policy_input("kube-proxy", "--enable-admission-plugins=")
 }
