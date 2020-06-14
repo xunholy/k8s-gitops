@@ -187,6 +187,11 @@ apiserver[container] {
     container = containers[container]
 }
 
+etcd[container] {
+    labels.component = "etcd"
+    container = containers[container]
+}
+
 volumes[volume] {
     pods[pod]
     volume = pod.spec.volumes[_]
