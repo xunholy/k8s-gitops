@@ -153,6 +153,19 @@ clusterroles[clusterrole] {
     clusterrole = object
 }
 
+is_role {
+  kind = "Role"
+}
+
+is_role {
+  kind = "Roles"
+}
+
+roles[role] {
+    is_role
+    role = object
+}
+
 is_clusterrole_binding {
     kind = "ClusterRoleBinding"
 }
