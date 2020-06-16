@@ -1,10 +1,10 @@
-package cis_1_4_1
+package cis_1_4_2
 
 import data.lib.kubernetes
 
 default_parameters = {
-    "key": "--profiling",
-    "requiredValue": "false"
+    "key": "--bind-address",
+    "requiredValue": "127.0.0.1"
 }
 
 params = object.union(default_parameters, kubernetes.parameters)
