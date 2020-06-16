@@ -38,7 +38,7 @@ test_no_violation_4 {
     test.no_violations(violation) with input as policy_input("ClusterRole", "system:node", "*", "*", "create")
 }
 
-test_no_violation_4 {
+test_no_violation_5 {
     test.no_violations(violation) with input as policy_input("Role", "system:node", "*", "*", "create")
 }
 
