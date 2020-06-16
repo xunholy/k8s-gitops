@@ -11,7 +11,7 @@ test_violation_2 {
 }
 
 test_no_violation {
-    test.no_violations(violation) with input as policy_input("kube-apiserver","--anonymous-auth=false")
+    test.no_violations(violation) with input as policy_input("kube-apiserver", "--anonymous-auth=false")
 }
 
 test_no_violation_2 {

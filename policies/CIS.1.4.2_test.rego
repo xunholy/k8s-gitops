@@ -1,17 +1,17 @@
-package cis_1_4_1
+package cis_1_4_2
 
 import data.lib.test
 
 test_violation {
-    test.violations(violation) with input as policy_input("scheduler", "--enable-admission-plugins=NodeRestriction")
+    test.violations(violation) with input as policy_input("scheduler", "--bind-address=127.0.0.3")
 }
 
 test_no_violation {
-    test.no_violations(violation) with input as policy_input("scheduler", "--profiling=false")
+    test.no_violations(violation) with input as policy_input("scheduler", "--bind-address=127.0.0.1")
 }
 
 test_no_violation_02 {
-    test.no_violations(violation) with input as policy_input("kube-proxy", "--enable-admission-plugins=NodeRestriction")
+    test.no_violations(violation) with input as policy_input("kube-proxy", "--bind-address=127.0.0.1")
 }
 
 policy_input(component, kv) = {

@@ -205,6 +205,16 @@ etcd[container] {
     container = containers[container]
 }
 
+scheduler[container] {
+    labels.component = "scheduler"
+    container = containers[container]
+}
+
+controller[container] {
+    labels.component = "controller"
+    container = containers[container]
+}
+
 volumes[volume] {
     pods[pod]
     volume = pod.spec.volumes[_]
