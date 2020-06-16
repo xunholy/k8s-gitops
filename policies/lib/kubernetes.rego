@@ -224,3 +224,8 @@ flag_contains_string(array, key, value) {
 contains_element(arr, elem) {
     contains(arr[_], elem)
 }
+
+value_by_key(array,key) = value {
+    elems := [elem | contains(array[i], key); elem := array[i]]
+    [_, value] := split(elems[_], "=")
+}
