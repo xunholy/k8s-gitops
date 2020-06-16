@@ -3,11 +3,11 @@ package cis_1_4_1
 import data.lib.test
 
 test_violation {
-    test.violations(violation) with input as policy_input("scheduler", "--enable-admission-plugins=NodeRestriction")
+    test.violations(violation) with input as policy_input("kube-scheduler", "--enable-admission-plugins=NodeRestriction")
 }
 
 test_no_violation {
-    test.no_violations(violation) with input as policy_input("scheduler", "--profiling=false")
+    test.no_violations(violation) with input as policy_input("kube-scheduler", "--profiling=false")
 }
 
 test_no_violation_02 {
