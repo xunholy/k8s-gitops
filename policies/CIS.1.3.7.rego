@@ -1,16 +1,16 @@
-package cis_1_4_1
+package cis_1_3_7
 
 import data.lib.kubernetes
 
 default_parameters = {
-    "key": "--profiling",
-    "requiredValue": "false"
+    "key": "--bind-address",
+    "requiredValue": "127.0.0.1"
 }
 
 params = object.union(default_parameters, kubernetes.parameters)
 
 violation[msg] {
-    kubernetes.scheduler[container]
+    kubernetes.controller[container]
     not kubernetes.flag_contains_string(container.command, params.key, params.requiredValue)
     msg = kubernetes.format(sprintf("%s in the %s %s does not have %s %s", [container.name, kubernetes.kind, kubernetes.name, params.key, params.requiredValue]))
 }

@@ -8,11 +8,11 @@ test_violation {
 }
 
 test_no_violation {
-    test.no_violations(violation) with input as policy_input("kube-apiserver","")
+    test.no_violations(violation) with input as policy_input("kube-apiserver", "")
 }
 
 test_no_violation_02 {
-    test.no_violations(violation) with input as policy_input("kube-apiserver","--kubelet-https=true")
+    test.no_violations(violation) with input as policy_input("kube-apiserver", "--kubelet-https=true")
 }
 
 test_no_violation_03 {

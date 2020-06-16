@@ -1,13 +1,13 @@
-package cis_1_4_1
+package cis_1_3_2
 
 import data.lib.test
 
 test_violation {
-    test.violations(violation) with input as policy_input("scheduler", "--enable-admission-plugins=NodeRestriction")
+    test.violations(violation) with input as policy_input("controller", "--enable-admission-plugins=NodeRestriction")
 }
 
 test_no_violation {
-    test.no_violations(violation) with input as policy_input("scheduler", "--profiling=false")
+    test.no_violations(violation) with input as policy_input("controller", "--profiling=false")
 }
 
 test_no_violation_02 {

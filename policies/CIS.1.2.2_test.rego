@@ -3,7 +3,7 @@ package cis_1_2_2
 import data.lib.test
 
 test_violation{
-    test.violations(violation) with input as policy_input("kube-apiserver","--basic-auth-file=filename")
+    test.violations(violation) with input as policy_input("kube-apiserver", "--basic-auth-file=filename")
 }
 
 test_no_violation{
