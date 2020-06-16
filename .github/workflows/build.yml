@@ -26,7 +26,26 @@ jobs:
       - name: Kubeval
         uses: instrumenta/kubeval-action@master
         with:
-          files: 'namespaces/'
+          files: 'anthos/'
+
+      - name: Kube-score
+        id: kube-score
+        run: |
+          result=$(docker run --rm --workdir /github/workspace \
+            -v "$(pwd)":/github/workspace \
+            zegl/kube-score:latest \
+            score $(find ./anthos/ -name '*.yaml') || exit 0)
+          result="${result//'%'/'%25'}"
+          result="${result//$'\n'/'%0A'}"
+          result="${result//$'\r'/'%0D'}"
+          echo $result
+
+      - name: Nomos
+        run: |
+          docker run --rm --workdir /github/workspace \
+            -v $(pwd):/github/workspace \
+            xunholy/nomos:v1.3.2-stable \
+            vet --path /github/workspace/anthos/
 
   compliance:
     runs-on: ubuntu-latest
@@ -36,26 +55,13 @@ jobs:
         with:
           submodules: true
 
-      - name: Execute OPA Tests
-        id: opa
-        run: |
-          result=$(docker run --rm --workdir /github/workspace \
-            -v $(pwd):/github/workspace \
-            openpolicyagent/opa:0.17.2 \
-            test security-policies/policies/ -v || exit 0 )
-          result="${result//'%'/'%25'}"
-          result="${result//$'\n'/'%0A'}"
-          result="${result//$'\r'/'%0D'}"
-          echo $result
-          echo "::set-output name=result::$result"
-
       - name: Execute Conftest Tests - Table Output
         id: conftest-table
         run: |
           result=$(docker run --rm --workdir /github/workspace \
             -v $(pwd):/github/workspace \
             instrumenta/conftest:v0.18.2 \
-            test -o table -p security-policies/policies/ --all-namespaces --combine namespaces/ --no-color || exit 0)
+            test -o table -p security-policies/policies/ --all-namespaces --combine anthos/ --no-color || exit 0)
           result="${result//'%'/'%25'}"
           result="${result//$'\n'/'%0A'}"
           result="${result//$'\r'/'%0D'}"
@@ -68,7 +74,7 @@ jobs:
           result=$(docker run --rm --workdir /github/workspace \
             -v $(pwd):/github/workspace \
             instrumenta/conftest:v0.18.2 \
-            test -o stdout -p security-policies/policies/ --all-namespaces namespaces/ --no-color || exit 0)
+            test -o stdout -p security-policies/policies/ --all-namespaces anthos/ --no-color || exit 0)
           result="${result//'%'/'%25'}"
           result="${result//$'\n'/'%0A'}"
           result="${result//$'\r'/'%0D'}"
@@ -82,11 +88,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           msg: |
-            ## OPA Test Results
-            ```
-            ${{ steps.opa.outputs.result }}
-            ```
-
             ## Conftest Test Results
             ```
             ${{ steps.conftest-stdout.outputs.result }}
