@@ -3,11 +3,11 @@ package cis_1_3_7
 import data.lib.test
 
 test_violation {
-    test.violations(violation) with input as policy_input("controller", "--bind-address=127.0.0.3")
+    test.violations(violation) with input as policy_input("kube-controller-manager", "--bind-address=127.0.0.3")
 }
 
 test_no_violation {
-    test.no_violations(violation) with input as policy_input("controller", "--bind-address=127.0.0.1")
+    test.no_violations(violation) with input as policy_input("kube-controller-manager", "--bind-address=127.0.0.1")
 }
 
 test_no_violation_02 {

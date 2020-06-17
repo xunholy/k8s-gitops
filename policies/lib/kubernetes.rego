@@ -206,12 +206,12 @@ etcd[container] {
 }
 
 scheduler[container] {
-    labels.component = "scheduler"
+    labels.component = "kube-scheduler"
     container = containers[container]
 }
 
 controller[container] {
-    labels.component = "controller"
+    labels.component = "kube-controller-manager"
     container = containers[container]
 }
 
