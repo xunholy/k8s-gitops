@@ -28,13 +28,20 @@ jobs:
         with:
           files: 'anthos/'
 
-      - name: Execute kube-score
-        id: kube-score
+      # - name: Kube-score
+      #   id: kube-score
+      #   run: |
+      #     docker run --rm --workdir /github/workspace \
+      #       -v $(pwd):/github/workspace \
+      #       zegl/kube-score:latest \
+      #       score ./anthos/**/*.yaml
+
+      - name: Nomos
         run: |
           docker run --rm --workdir /github/workspace \
             -v $(pwd):/github/workspace \
-            zegl/kube-score:latest \
-            score ./anthos/**/*.yaml
+            xunholy/nomos:v1.3.2-stable \
+            vet --path /github/workspace/anthos/
 
   compliance:
     runs-on: ubuntu-latest
