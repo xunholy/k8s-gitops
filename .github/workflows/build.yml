@@ -28,13 +28,17 @@ jobs:
         with:
           files: 'anthos/'
 
-      # - name: Kube-score
-      #   id: kube-score
-      #   run: |
-      #     docker run --rm --workdir /github/workspace \
-      #       -v $(pwd):/github/workspace \
-      #       zegl/kube-score:latest \
-      #       score ./anthos/**/*.yaml
+      - name: Kube-score
+        id: kube-score
+        run: |
+          result=$(docker run --rm --workdir /github/workspace \
+            -v "$(pwd)":/github/workspace \
+            zegl/kube-score:latest \
+            score $(find ./anthos/ -name '*.yaml') || exit 0)
+          result="${result//'%'/'%25'}"
+          result="${result//$'\n'/'%0A'}"
+          result="${result//$'\r'/'%0D'}"
+          echo $result
 
       - name: Nomos
         run: |
