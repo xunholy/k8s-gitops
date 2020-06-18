@@ -1,0 +1,40 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app: helm-operator
+    chart: helm-operator-1.1.0
+    heritage: Helm
+    release: default
+  name: default-helm-operator-psp
+rules:
+  - apiGroups:
+      - policy
+    resourceNames:
+      - default-helm-operator
+    resources:
+      - podsecuritypolicies
+    verbs:
+      - use
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  labels:
+    app: helm-operator
+    chart: helm-operator-1.1.0
+    heritage: Helm
+    release: default
+  name: default-helm-operator
+rules:
+  - apiGroups:
+      - '*'
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - nonResourceURLs:
+      - '*'
+    verbs:
+      - '*'

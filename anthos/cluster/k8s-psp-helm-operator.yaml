@@ -1,0 +1,31 @@
+---
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+  labels:
+    app: helm-operator
+    chart: helm-operator-1.1.0
+    heritage: Helm
+    release: default
+  name: default-helm-operator
+spec:
+  allowPrivilegeEscalation: true
+  allowedCapabilities:
+    - '*'
+  fsGroup:
+    rule: RunAsAny
+  hostIPC: false
+  hostNetwork: false
+  hostPID: false
+  privileged: false
+  readOnlyRootFilesystem: false
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+    - '*'

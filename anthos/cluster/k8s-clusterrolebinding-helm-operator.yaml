@@ -1,0 +1,36 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app: helm-operator
+    chart: helm-operator-1.1.0
+    heritage: Helm
+    release: default
+  name: default-helm-operator-psp
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: default-helm-operator-psp
+subjects:
+  - kind: ServiceAccount
+    name: default-helm-operator
+    namespace: flux
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app: helm-operator
+    chart: helm-operator-1.1.0
+    heritage: Helm
+    release: default
+  name: default-helm-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: default-helm-operator
+subjects:
+  - kind: ServiceAccount
+    name: default-helm-operator
+    namespace: flux

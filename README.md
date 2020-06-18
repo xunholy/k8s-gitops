@@ -12,39 +12,16 @@
     <a href="https://github.com/raspbernetes/k8s-gitops"><img src="https://img.shields.io/github/stars/raspbernetes/k8s-gitops?style=social.svg" alt="Stars"></a>
 </p>
 
-## Install FluxCD
+## Anthos Config Management
 
-To install FluxCD use the following installation [script](install/flux.sh).
+| Directory | Description |
+|---------- | ----------- |
+| cluster/ | The cluster/ directory contains configs that apply to entire clusters, rather than to namespaces. By default, any config in the cluster/ directory applies to every cluster enrolled in Config Sync. You can limit which clusters a config can affect by using a ClusterSelector. |
+| clusterregistry/ | The clusterregistry/ directory is optional, and contains configs for ClusterSelectors. ClusterSelectors limit which clusters a config applies to, and are referenced in configs found in the cluster/ and namespaces/ directories. |
+| namespaces/ | The namespaces/ directory contains configs for namespaces and namespace-scoped objects. The structure within namespaces/ is the mechanism that drives namespace inheritance. See that topic for details. |
+| system/ | The system/ directory contains configs for the Operator. See Installing Config Sync for more information on configuring Config Sync. |
 
-This will install all required custom resource definitions (CRDs) and deploy the manifests to run flux, it will also use the unofficial raspbernetes image as this supports multi-archiectures.
 
-> Note: If you've forked this repository you will need to update the following to match your own personal account `export GHUSER="raspbernetes"`.
-
-<!-- ## Cluster Components
-
-- kube-system
-  - kured
-  - metallb
-  - metrics-server
-  - nginx-ingress
-  - oauth2-proxy
-  - sealed-secrets
-- observability
-  - loki
-  - prometheus-operator
-    - grafana
-    - prometheus
-  - speedtest
-- security
-  - cert-manager
-  - falco
-  - gatekeeper
-- serverless
-  - openfaas
-- storage
-  - velero
-  - openebs
-  - rook-ceph -->
 
 ## Contributors
 
