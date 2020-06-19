@@ -34,7 +34,7 @@ jobs:
           helmRelease: anthos/
           helmVersion: v3
           kubernetesVersion: master
-          ignoreValues: false
+          ignoreValues: true
 
       - name: Kube-score
         id: kube-score
