@@ -32,7 +32,7 @@ jobs:
         uses: stefanprodan/hrval-action@v3.2.0
         with:
           helmRelease: anthos/
-          helmVersion: v3
+          helmVersion: v2
           kubernetesVersion: 1.18.2
           ignoreValues: false
 
