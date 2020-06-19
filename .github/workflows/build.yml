@@ -29,10 +29,11 @@ jobs:
           files: 'anthos/'
 
       - name: Validate Helm Releases
-        uses: stefanprodan/hrval-action@v3.1.0
+        uses: stefanprodan/hrval-action@v3.2.0
         with:
           helmRelease: anthos/
-          kubernetesVersion: 1.18.2
+          helmVersion: v3
+          kubernetesVersion: master
           ignoreValues: false
 
       - name: Kube-score
