@@ -33,7 +33,7 @@ jobs:
         with:
           helmRelease: anthos/
           helmVersion: v3
-          kubernetesVersion: 1.18.2
+          kubernetesVersion: 1.18.0
           ignoreValues: false
 
       - name: Kube-score
