@@ -75,6 +75,16 @@ jobs:
           echo $result
           echo ::set-output name=result::$result
 
+      - name: Execute Conftest Tests - Helm charts
+        id: conftest-helm
+        uses: rust84/hrval-action@master
+        with:
+          helmRelease: namespaces/
+          helmVersion: v3
+          ignoreValues: false
+          action: conftest
+          policyDir: security-policies
+
       - name: Post Results
         uses: unsplash/comment-on-pr@master
         if: ${{ always() }}
@@ -90,5 +100,10 @@ jobs:
             ## Conftest Test Results
             ```
             ${{ steps.conftest-stdout.outputs.result }}
+            ```
+
+            ## Conftest Test Results - Helm charts
+            ```
+            ${{ steps.conftest-helm.outputs.result }}
             ```
           check_for_duplicate_msg: true
