@@ -15,7 +15,7 @@ spec:
   chart:
     repository: https://kubernetes-charts.storage.googleapis.com/
     name: prometheus-operator
-    version: 8.13.8
+    version: 8.15.6
   values:
     fullnameOverride: 'z'
     prometheusOperator:
@@ -23,8 +23,8 @@ spec:
       manageCrds: true
       createCustomResource: true
       image:
-        repository: raspbernetes/prometheus-operator
-        tag: v0.38.1
+        repository: quay.io/coreos/prometheus-operator
+        tag: v0.40.0
         pullPolicy: Always
       tlsProxy:
         image:
@@ -39,8 +39,8 @@ spec:
         repository: jimmidyson/configmap-reload
         tag: v0.3.0
       prometheusConfigReloaderImage:
-        repository: raspbernetes/prometheus-operator-config-reloader
-        tag: v0.38.1
+        repository: quay.io/coreos/prometheus-config-reloader
+        tag: v0.40.0
     alertmanager:
       enabled: true
     grafana:
