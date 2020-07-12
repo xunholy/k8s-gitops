@@ -1,0 +1,19 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kiali
+  namespace: istio-system
+spec:
+  hosts:
+    - 'kiali.raspbernetes.com'
+  gateways:
+    - istio-system/istio-system-ingress-gateway
+  http:
+    - match:
+        - port: 80
+      route:
+        - destination:
+            host: kiali
+            port:
+              number: 20001
