@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - '.github/workflows/helm-operator.yml'
-      - 'config/helm-operator'
+      - 'config/helm-operator/*'
       - 'scripts/helm-gen.sh'
 
 jobs:

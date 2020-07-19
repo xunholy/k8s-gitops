@@ -620,4 +620,4 @@ spec:
       - name: git-key
         secret:
           defaultMode: 256
-          secretName: flux-git-deploy
+          secretName: flux-git-ssh-private-key
