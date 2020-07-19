@@ -5,7 +5,7 @@ on:
     paths:
       - '.github/workflows/helm-operator.yml'
       - 'config/helm-operator'
-      - 'install/helm-gen.sh'
+      - 'scripts/helm-gen.sh'
 
 jobs:
   generate:
@@ -23,7 +23,7 @@ jobs:
 
       - name: Generate Manifests
         run: |
-          ./install/helm-gen.sh
+          ./scripts/helm-gen.sh
 
       - name: Check for modified files
         id: git-check
