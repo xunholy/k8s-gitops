@@ -16,7 +16,7 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
-          path: './install'
+          path: './scripts'
           pattern: '*.sh'
           exclude: './.git/*'
 
