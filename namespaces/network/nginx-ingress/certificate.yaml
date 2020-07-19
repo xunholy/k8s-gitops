@@ -3,7 +3,7 @@ apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: acme-crt
-  namespace: kube-system
+  namespace: network
 spec:
   secretName: acme-crt-secret
   issuerRef:

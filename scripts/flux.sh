@@ -4,8 +4,6 @@ set -eou pipefail
 
 CLEAN=${CLEAN:-true}
 
-export GHUSER="raspbernetes"
-
 if [[ ! $(fluxctl) ]]; then
     LOCAL_OS=$(uname)
     if [[ $LOCAL_OS == Darwin ]]; then
@@ -21,26 +19,24 @@ fi
 # Ignore if namespace already exists
 [[ ! $(kubectl get ns flux) ]] && kubectl create ns flux
 
-fluxctl install \
-    --git-user=${GHUSER} \
-    --git-email=${GHUSER}@users.noreply.github.com \
-    --git-url=git@github.com:${GHUSER}/k8s-gitops.git \
-    --git-path=namespaces \
-    --git-branch=master \
-    --registry-disable-scanning \
-    --git-readonly \
-    --namespace=flux > flux.yaml
+if [[ -f .secrets/k8s-secret-fluxcd-ssh.yaml ]]; then
+    echo "Applying existing SSH key pair"
+    kubectl apply -f .secrets/k8s-secret-fluxcd-ssh.yaml
+fi
 
-sed -i'.bak' "s/docker.io\/fluxcd\/flux/docker.io\/raspbernetes\/flux/g" flux.yaml
+helm repo add fluxcd https://charts.fluxcd.io
+
+helm template fluxcd/flux \
+    --name-template=default \
+    --values=config/flux/values.yaml > flux.yaml
 
 [[ -f flux.yaml ]] && kubectl apply -f flux.yaml
 
 echo -e "\nCompleted..."
-echo "Follow these instructions to setup SSH keys: https://docs.fluxcd.io/en/latest/tutorials/get-started/#giving-write-access"
-# TODO: https://docs.fluxcd.io/en/latest/guides/provide-own-ssh-key/
+echo "Note: Follow these instructions to setup SSH keys if this is your first time: https://docs.fluxcd.io/en/latest/tutorials/get-started/#giving-write-access"
 
 if [[ -f "flux.yaml" && $CLEAN == true ]]; then
     echo -e "\nCleaning up manifests."
     echo "Set CLEAN=false if you wish for this not to occur."
-    rm -rf flux.yaml flux.yaml.bak
+    rm -rf flux.yaml
 fi

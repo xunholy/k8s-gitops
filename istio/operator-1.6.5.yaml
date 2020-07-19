@@ -229,7 +229,7 @@ spec:
       serviceAccountName: istio-operator
       containers:
         - name: istio-operator
-          image: docker.io/querycapistio/operator:1.6.5
+          image: docker.io/raspbernetes/istio-operator:1.6.5
           command:
             - operator
             - server
