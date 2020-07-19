@@ -16,7 +16,7 @@ rbac:
 git:
   pollInterval: "1800m"
   ssh:
-    secretName: flux-git-deploy
+    secretName: flux-git-ssh-private-key
 
 resources:
   limits:
