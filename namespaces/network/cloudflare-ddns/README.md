@@ -4,4 +4,4 @@ kubectl create secret generic cloudflare-ddns \
   --from-literal=zones="raspbernetes.com" \
   --from-literal=hosts="ingress.raspbernetes.com" \
   --from-literal=record-types="A;A;AAAA" \
-  --namespace network --dry-run -o yaml > secret.yaml
+  --namespace network --dry-run -o yaml > .secrets/k8s-secret-cloudflare-ddns.yaml
