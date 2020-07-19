@@ -1,0 +1,19 @@
+image:
+  repository: docker.io/raspbernetes/flux
+
+env:
+  secretName: flux-git-ssh-private-key
+
+rbac:
+  create: true
+  pspEnabled: true
+
+git:
+  url: git@github.com:raspbernetes/k8s-gitops.git
+  readonly: true
+  branch: master
+  path: namespaces
+  secretName: flux-git-ssh-private-key
+
+registry:
+  disableScanning: true
