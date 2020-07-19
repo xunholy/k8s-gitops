@@ -15,7 +15,7 @@ spec:
   chart:
     repository: https://kubernetes-charts.storage.googleapis.com/
     name: prometheus-operator
-    version: 8.15.6
+    version: 9.1.0
   values:
     fullnameOverride: 'z'
     prometheusOperator:
@@ -60,7 +60,9 @@ spec:
             hosts:
               - grafana.raspbernetes.com
       sidecar:
-        image: raspbernetes/k8s-sidecar:0.1.144
+        image:
+          repository: raspbernetes/k8s-sidecar
+          tag: 0.1.144
         imagePullPolicy: Always
       plugins:
         - natel-discrete-panel
