@@ -8,7 +8,7 @@ metadata:
     fluxcd.io/ignore: 'false'
     fluxcd.io/automated: 'false'
 spec:
-  releaseName: gatekeeper-operator
+  releaseName: gatekeeper
   helmVersion: v3
   chart:
     git: git@github.com:open-policy-agent/gatekeeper.git
@@ -17,4 +17,4 @@ spec:
   values:
     image:
       repository: raspbernetes/gatekeeper
-      release: v3.1.0-beta.9
+      release: v3.1.0-beta.10
