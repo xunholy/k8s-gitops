@@ -28,6 +28,7 @@ helm repo add fluxcd https://charts.fluxcd.io
 
 helm template fluxcd/flux \
     --name-template=default \
+    --namespace flux \
     --values=config/flux/values.yaml > flux.yaml
 
 [[ -f flux.yaml ]] && kubectl apply -f flux.yaml
