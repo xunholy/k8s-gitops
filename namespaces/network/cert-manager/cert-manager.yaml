@@ -3,7 +3,7 @@ apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
   name: cert-manager
-  namespace: security
+  namespace: network
   annotations:
     fluxcd.io/ignore: 'false'
     fluxcd.io/automated: 'false'
@@ -20,7 +20,7 @@ spec:
     installCRDs: true
     prometheus:
       servicemonitor:
-        namespace: 'security'
+        namespace: 'network'
         enabled: true
     extraArgs:
       - --dns01-recursive-nameservers=1.1.1.1:53

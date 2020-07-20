@@ -17,7 +17,7 @@ spec:
   values:
     image:
       repository: 'quay.io/pusher/oauth2_proxy'
-      tag: v5.1.0-arm64
+      tag: v5.1.1-arm64
     config:
       existingSecret: oauth2-proxy
     extraArgs:

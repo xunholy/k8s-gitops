@@ -14,5 +14,5 @@ spec:
           cloudflare:
             email: michaelfornaro@gmail.com
             apiTokenSecretRef:
-              name: cloudflare-api-token-secret
+              name: cloudflare-cert-manager-token
               key: api-token
