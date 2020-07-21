@@ -14,4 +14,3 @@
 #     git: git@github.com:open-policy-agent/gatekeeper.git
 #     path: charts/gatekeeper
 #     ref: master
-
