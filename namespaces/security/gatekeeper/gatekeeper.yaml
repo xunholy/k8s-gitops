@@ -1,20 +1,16 @@
----
-apiVersion: helm.fluxcd.io/v1
-kind: HelmRelease
-metadata:
-  name: gatekeeper
-  namespace: security
-  annotations:
-    fluxcd.io/ignore: 'false'
-    fluxcd.io/automated: 'false'
-spec:
-  releaseName: gatekeeper
-  helmVersion: v3
-  chart:
-    git: git@github.com:open-policy-agent/gatekeeper.git
-    path: charts/gatekeeper
-    ref: master
-  values:
-    image:
-      repository: raspbernetes/gatekeeper
-      release: v3.1.0-beta.10
+# ---
+# apiVersion: helm.fluxcd.io/v1
+# kind: HelmRelease
+# metadata:
+#   name: gatekeeper
+#   namespace: security
+#   annotations:
+#     fluxcd.io/ignore: 'false'
+#     fluxcd.io/automated: 'false'
+# spec:
+#   releaseName: gatekeeper
+#   helmVersion: v3
+#   chart:
+#     git: git@github.com:open-policy-agent/gatekeeper.git
+#     path: charts/gatekeeper
+#     ref: master

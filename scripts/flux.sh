@@ -24,6 +24,11 @@ if [[ -f .secrets/k8s-secret-fluxcd-ssh.yaml ]]; then
     kubectl apply -f .secrets/k8s-secret-fluxcd-ssh.yaml
 fi
 
+if [[ -f .secrets/k8s-secret-fluxcd-ssh.yaml ]]; then
+    echo "Applying existing sealed-secret key"
+    kubectl apply -f .secrets/k8s-secret-sealed-secret-private-key.yaml
+fi
+
 helm repo add fluxcd https://charts.fluxcd.io
 
 helm template fluxcd/flux \

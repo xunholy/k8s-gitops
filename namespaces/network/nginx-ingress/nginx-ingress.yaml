@@ -15,7 +15,7 @@ spec:
   chart:
     repository: https://kubernetes.github.io/ingress-nginx
     name: ingress-nginx
-    version: 2.3.0
+    version: 2.11.1
   values:
     controller:
       # extraContainers:
@@ -57,13 +57,13 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
-          namespace: kube-system
+          namespace: network
           namespaceSelector:
             any: true
         prometheusRule:
           enabled: false
       extraArgs:
-        default-ssl-certificate: 'kube-system/acme-crt-secret'
+        default-ssl-certificate: 'network/acme-crt-secret'
       config:
         custom-http-errors: '404,403,500,503'
         forwarded-for-header: CF-Connecting-IP
@@ -75,9 +75,6 @@ spec:
         use-forwarded-headers: 'true'
         use-proxy-protocol: 'false'
         enable-modsecurity: 'true'
-      image:
-        repository: quay.io/kubernetes-ingress-controller/nginx-ingress-controller-arm
-        tag: 0.32.0
       replicaCount: 1
       resources:
         limits:
