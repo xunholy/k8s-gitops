@@ -108,6 +108,10 @@ spec:
       downloadDashboardsImage:
         repository: curlimages/curl
         tag: 7.70.0
+      admin:
+        existingSecret: 'grafana-admin-creds'
+        userKey: admin-user
+        passwordKey: admin-password
       ## grafana Authentication can be enabled with the following values on grafana.ini
       # The full public facing url you use in browser, used for redirects and emails
       # https://grafana.com/docs/grafana/latest/auth/github/#enable-github-in-grafana
