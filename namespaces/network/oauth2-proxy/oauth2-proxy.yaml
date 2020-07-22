@@ -33,7 +33,7 @@ spec:
         - raspbernetes.com
       annotations:
         kubernetes.io/ingress.class: nginx
-        cert-manager.io/cluster-issuer: 'letsencrypt-staging'
+        cert-manager.io/cluster-issuer: 'letsencrypt-prod'
       tls:
         - secretName: raspbernetes.com-tls
           hosts:
