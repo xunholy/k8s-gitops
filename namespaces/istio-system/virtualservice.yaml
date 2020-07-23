@@ -8,12 +8,13 @@ spec:
   hosts:
     - 'kiali.raspbernetes.com'
   gateways:
-    - istio-system/istio-system-ingress-gateway
+    - istio-system-ingress-gateway
   http:
     - match:
         - port: 80
+        - port: 443
       route:
         - destination:
-            host: kiali
             port:
               number: 20001
+            host: kiali

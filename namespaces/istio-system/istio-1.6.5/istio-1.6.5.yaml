@@ -86,6 +86,7 @@ spec:
               cpu: 10m
               memory: 40Mi
           service:
+            loadBalancerIP: 192.168.1.150
             ports:
               - name: status-port
                 port: 15020
@@ -129,7 +130,7 @@ spec:
           httpGet:
             path: /ready
             port: 8080
-          initialDelaySeconds: 1
+          initialDelaySeconds: 5
           periodSeconds: 3
           timeoutSeconds: 5
         resources:
@@ -315,7 +316,7 @@ spec:
         logLevel: warning
         privileged: false
         readinessFailureThreshold: 30
-        readinessInitialDelaySeconds: 1
+        readinessInitialDelaySeconds: 5
         readinessPeriodSeconds: 2
         resources:
           limits:
@@ -417,6 +418,7 @@ spec:
       podAntiAffinityTermLabelSelector: []
       security:
         cert_file: /kiali-cert/cert-chain.pem
+        # TODO: Investigate security.enabled=true
         enabled: false
         private_key_file: /kiali-cert/key.pem
       service:

@@ -116,7 +116,7 @@ spec:
       # The full public facing url you use in browser, used for redirects and emails
       # https://grafana.com/docs/grafana/latest/auth/github/#enable-github-in-grafana
       # Note: auth.github.enabled=false until chart supports existingSecret functionality.
-      # https://github.com/helm/charts/issues/22175
+      # https://github.com/helm/charts/issues/22473
       # grafana.ini:
       #   auth.github:
       #     enabled: true
