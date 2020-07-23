@@ -11,10 +11,9 @@ spec:
     - istio-system-ingress-gateway
   http:
     - match:
-        - port: 80
         - port: 443
       route:
         - destination:
             port:
               number: 20001
-            host: kiali
+            host: kiali.istio-system.svc.cluster.local
