@@ -2,11 +2,11 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: kiali
-  namespace: istio-system
+  name: grafana
+  namespace: observability
 spec:
   hosts:
-    - 'kiali.raspbernetes.com'
+    - 'grafana.raspbernetes.com'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
@@ -15,5 +15,5 @@ spec:
       route:
         - destination:
             port:
-              number: 20001
-            host: kiali.istio-system.svc.cluster.local
+              number: 80
+            host: prometheus-operator-grafana.observability.svc.cluster.local
