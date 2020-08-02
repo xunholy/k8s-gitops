@@ -1,9 +1,10 @@
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
-  name: example
+  name: istio
   namespace: istio-system
 spec:
+  # revision: canary
   addonComponents:
     grafana:
       enabled: false
