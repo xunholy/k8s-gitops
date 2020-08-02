@@ -580,7 +580,7 @@ spec:
         - --log-release-diffs=false
         - --workers=4
         - --tiller-namespace=kube-system
-        image: docker.io/raspbernetes/helm-operator:v1.1.0
+        image: docker.io/raspbernetes/helm-operator:v1.2.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
