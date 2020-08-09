@@ -8,6 +8,7 @@
   <!-- <a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/Raspbernetes/backers/badge.svg" /></a> -->
   <a href="https://discord.gg/mey6zUn"><img src="https://img.shields.io/badge/discord-chat-7289DA.svg" alt="Discord"></a>
   <a href="https://github.com/raspbernetes/k8s-gitops/graphs/contributors"><img src="https://img.shields.io/github/contributors/raspbernetes/k8s-gitops.svg" alt="Contributors"></a>
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-gitops?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-gitops.svg?type=shield"/></a>
   <a href="https://github.com/raspbernetes/k8s-gitops/issues"><img src="https://img.shields.io/github/issues-raw/raspbernetes/k8s-gitops.svg" alt="Open Issues"></a>
     <a href="https://github.com/raspbernetes/k8s-gitops"><img src="https://img.shields.io/github/stars/raspbernetes/k8s-gitops?style=social.svg" alt="Stars"></a>
 </p>
@@ -39,3 +40,6 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 ## License
 
 Raspbernetes is [Apache 2.0 licensed](./LICENSE).
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-gitops.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-gitops?ref=badge_large)
