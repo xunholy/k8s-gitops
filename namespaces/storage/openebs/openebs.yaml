@@ -13,16 +13,16 @@ spec:
   chart:
     repository: https://openebs.github.io/charts
     name: openebs
-    version: 1.12.2
+    version: 1.12.3
   values:
     rbac:
       pspEnabled: true
     ndm:
-      image: 'openebs/node-disk-manager-arm64'
+      image: 'openebs/node-disk-manager'
       sparse:
         count: '1'
     ndmOperator:
-      image: 'openebs/node-disk-operator-arm64'
+      image: 'openebs/node-disk-operator'
     webhook:
       image: 'openebs/admission-server-arm64'
     apiserver:
