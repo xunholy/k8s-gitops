@@ -18,11 +18,8 @@ spec:
     rbac:
       pspEnabled: true
     ndm:
-      image: 'openebs/node-disk-manager'
       sparse:
         count: '1'
-    ndmOperator:
-      image: 'openebs/node-disk-operator'
     webhook:
       image: 'openebs/admission-server-arm64'
     apiserver:
@@ -38,8 +35,6 @@ spec:
         image: 'openebs/snapshot-provisioner-arm64'
     provisioner:
       image: 'openebs/openebs-k8s-provisioner-arm64'
-    helper:
-      image: 'openebs/linux-utils-arm64'
     cstor:
       pool:
         image: 'openebs/cstor-pool-arm64'
