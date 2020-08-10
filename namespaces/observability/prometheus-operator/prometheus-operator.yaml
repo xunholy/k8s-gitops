@@ -161,13 +161,13 @@ spec:
             hosts:
               - prometheus.raspbernetes.com
       prometheusSpec:
-        # storageSpec:
-        #   volumeClaimTemplate:
-        #     spec:
-        #       storageClassName: openebs-cstor-sparse
-        #       resources:
-        #         requests:
-        #           storage: 5Gi
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: openebs-cstor-sparse
+              resources:
+                requests:
+                  storage: 10Gi
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
