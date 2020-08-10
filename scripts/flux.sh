@@ -18,7 +18,7 @@ fi
 
 # Untaint master nodes
 # TODO: Enable Ansible to allow configuring the taints to be added/removed.
-kubectl taint nodes --all node-role.kubernetes.io/master-
+[[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master-) ]] && echo "Masters untainted"
 
 # Ignore if namespace already exists
 [[ ! $(kubectl get ns flux) ]] && kubectl create ns flux
