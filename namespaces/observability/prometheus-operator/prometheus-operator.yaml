@@ -46,7 +46,7 @@ spec:
     grafana:
       enabled: true
       ingress:
-        enabled: false
+        enabled: true
         annotations:
           kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: 'letsencrypt-prod'
@@ -147,7 +147,7 @@ spec:
       #     root_url: https://grafana.raspbernetes.com
     prometheus:
       ingress:
-        enabled: false
+        enabled: true
         annotations:
           kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: 'letsencrypt-prod'
