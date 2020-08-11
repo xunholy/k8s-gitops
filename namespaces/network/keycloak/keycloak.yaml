@@ -1,0 +1,19 @@
+# TODO: https://github.com/raspbernetes/k8s-gitops/issues/70
+# ---
+# apiVersion: helm.fluxcd.io/v1
+# kind: HelmRelease
+# metadata:
+#   name: keycloak
+#   namespace: network
+#   annotations:
+#     fluxcd.io/ignore: 'false'
+#     fluxcd.io/automated: 'false'
+# spec:
+#   releaseName: keycloak
+#   helmVersion: v3
+#   rollback:
+#     enable: false
+#   chart:
+#     repository: https://codecentric.github.io/helm-charts
+#     name: keycloak
+#     version: 8.2.2

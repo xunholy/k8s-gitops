@@ -3,6 +3,7 @@ ignore: |
     .yamllint
     .github/
     .secrets/
+    *.encrypted.yaml
 
 extends: default
 rules:
