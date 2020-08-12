@@ -1,0 +1,11 @@
+charts:
+  - name: sealed-secrets
+    version: 1.10.3
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    namespace: security
+    output: namespaces/security/sealed-secrets
+  - name: cert-manager
+    version: v0.15.1
+    repository: https://charts.jetstack.io/
+    namespace: network
+    output: namespaces/network/cert-manager

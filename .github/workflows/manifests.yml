@@ -1,0 +1,37 @@
+name: manifests
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/*.yml'
+      - 'config/*'
+      - 'scripts/helm.sh'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Generate Manifests
+        run: |
+          docker run --rm --workdir /github/workspace \
+            -v $(pwd):/github/workspace \
+            raspbernetes/builder:latest \
+            bash scripts/helm.sh
+
+      - name: Commit latest release version
+        run: |
+          git config --global user.name 'Michael Fornaro'
+          git config --global user.email '20387402+xUnholy@users.noreply.github.com'
+          git add .
+          git commit -sm "[Auto Generation] Adding hydrated manifests" || exit 0
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
