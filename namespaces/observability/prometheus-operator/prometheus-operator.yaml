@@ -115,6 +115,9 @@ spec:
           openebs-02:
             url: https://raw.githubusercontent.com/openebs/openebs/master/k8s/openebs-pg-dashboard.json
             datasource: Prometheus
+          speedtest:
+            url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/prometheus-operator/grafana-dashboards/internet_speed.json
+            datasource: Prometheus
       additionalDataSources:
         - name: loki
           type: loki
