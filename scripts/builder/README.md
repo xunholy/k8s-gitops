@@ -11,7 +11,7 @@ Test Image:
 docker run --rm --workdir /github/workspace \
   -v $(pwd):/github/workspace \
   raspbernetes/builder:latest \
-  bash scripts/helm.gen
+  bash scripts/helm.sh
 ```
 
 Push Image:
@@ -19,9 +19,3 @@ Push Image:
 ```bash
 docker push raspbernetes/builder:latest
 ```
-
-
-$(docker run --rm --workdir /github/workspace \
-            -v $(pwd):/github/workspace \
-            openpolicyagent/opa:0.17.2 \
-            test security-policies/policies/ -v || exit 0 )
