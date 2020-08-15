@@ -4,6 +4,7 @@ metadata:
   name: istio
   namespace: istio-system
 spec:
+  # TODO
   # revision: canary
   addonComponents:
     grafana:
@@ -214,6 +215,14 @@ spec:
       proxyMetadata: {}
     disablePolicyChecks: false
     enablePrometheusMerge: false
+    # TODO: https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig
+    # enableTracing: true
+    # enableEnvoyAccessLogService: true
+    # outboundTrafficPolicy:
+    #   mode: 'REGISTRY_ONLY'
+    # defaultServiceExportTo: <TBC>
+    # defaultVirtualServiceExportTo: <TBC>
+    # defaultDestinationRuleExportTo: <TBC>
   tag: 1.6.5
   values:
     base:
@@ -284,6 +293,8 @@ spec:
       istiod:
         enableAnalysis: false
         enabled: true
+      # TODO: https://istio.io/latest/docs/ops/best-practices/security/#configure-third-party-service-account-tokens
+      # third-party-jwt may not be available with current cluster configuration
       jwtPolicy: third-party-jwt
       logAsJson: false
       logging:
@@ -338,6 +349,7 @@ spec:
             cpu: 10m
             memory: 10Mi
       sds:
+        # enabled: true
         token:
           aud: istio-ca
       sts:
