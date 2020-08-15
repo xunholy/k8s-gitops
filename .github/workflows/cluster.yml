@@ -1,6 +1,6 @@
 name: cluster
 
-on: ['pull_request']
+on: ['push']
 
 jobs:
   validate:
