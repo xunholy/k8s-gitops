@@ -11,10 +11,10 @@ fi
 
 # Untaint master nodes
 # TODO: Enable Ansible to allow configuring the taints to be added/removed.
-[[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master-) ]] && echo "Masters untainted"
+[[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master- 2>&1) ]] && echo "Masters untainted"
 
 # Ignore if namespace already exists
-[[ ! $(kubectl get ns flux) ]] && kubectl create ns flux
+[[ ! $(kubectl get ns flux 2>&1) ]] && kubectl create ns flux
 
 if [[ -f .secrets/k8s-secret-fluxcd-ssh.yaml ]]; then
     echo "Applying existing SSH key pair"
