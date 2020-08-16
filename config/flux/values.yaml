@@ -11,7 +11,7 @@ rbac:
 git:
   url: git@github.com:raspbernetes/k8s-gitops.git
   readonly: true
-  branch: master
+  branch: grafana
   path: namespaces
   secretName: flux-git-ssh-private-key
 

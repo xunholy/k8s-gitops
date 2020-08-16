@@ -1,26 +1,26 @@
----
-apiVersion: helm.fluxcd.io/v1
-kind: HelmRelease
-metadata:
-  name: flagger
-  namespace: flux
-  annotations:
-    fluxcd.io/ignore: 'false'
-    fluxcd.io/automated: 'false'
-spec:
-  releaseName: flagger
-  helmVersion: v3
-  chart:
-    repository: https://flagger.app
-    name: flagger
-    version: 1.0.1
-  values:
-    image:
-      repository: raspbernetes/flagger
-      tag: v1.0.1
-    rbac:
-      pspEnabled: true
-    crd:
-      create: false
-    meshProvider: nginx
-    metricsServer: http://z-prometheus.observability.svc.cluster.local:9090
+# ---
+# apiVersion: helm.fluxcd.io/v1
+# kind: HelmRelease
+# metadata:
+#   name: flagger
+#   namespace: flux
+#   annotations:
+#     fluxcd.io/ignore: 'false'
+#     fluxcd.io/automated: 'false'
+# spec:
+#   releaseName: flagger
+#   helmVersion: v3
+#   chart:
+#     repository: https://flagger.app
+#     name: flagger
+#     version: 1.0.1
+#   values:
+#     image:
+#       repository: raspbernetes/flagger
+#       tag: v1.0.1
+#     rbac:
+#       pspEnabled: true
+#     crd:
+#       create: false
+#     meshProvider: nginx
+#     metricsServer: http://z-prometheus.observability.svc.cluster.local:9090
