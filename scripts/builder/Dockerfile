@@ -51,4 +51,9 @@ RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) && \
   curl -sL -o /usr/local/bin/fluxctl https://github.com/fluxcd/flux/releases/download/${FLUXCTL_VERSION}/fluxctl_linux_${ARCH} && \
   sudo chmod +x /usr/local/bin/fluxctl
 
+# Install kustomize
+# Note: If arm64 is not support consider compiling from source code.
+# https://kubernetes-sigs.github.io/kustomize/installation/source/#install-the-kustomize-cli-from-local-source-with-cloning-the-repo
+RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+
 CMD bash
