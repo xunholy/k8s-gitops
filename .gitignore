@@ -1,2 +1,5 @@
 # Ignore the following repositories and files
 .DS_Store
+
+# Ignore directories
+.kube

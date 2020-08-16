@@ -1,21 +1,22 @@
+# Builder Image
+
+This image is intended to be an image that encapsulates all the build dependencies. It can be used in the CI workflow or locally.
+
 Build Image:
 
 ```bash
-docker build -t raspbernetes/builder:latest \
-  -f scripts/builder/Dockerfile .
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t docker.io/raspbernetes/builder:latest \
+  -f scripts/builder/Dockerfile . --push
 ```
 
-Test Image:
+Usage:
 
 ```bash
 docker run --rm --workdir /github/workspace \
   -v $(pwd):/github/workspace \
-  raspbernetes/builder:latest \
-  bash scripts/helm.sh
-```
-
-Push Image:
-
-```bash
-docker push raspbernetes/builder:latest
+  -v $HOME/.kube/:/github/workspace/.kube/ \
+  docker.io/raspbernetes/builder:latest \
+  scripts/validate.sh
 ```
