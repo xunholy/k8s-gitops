@@ -7,7 +7,7 @@ Build Image:
 ```bash
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  -t raspbernetes/builder:latest \
+  -t docker.io/xunholy/builder:latest \
   -f scripts/builder/Dockerfile . --push
 ```
 
@@ -16,6 +16,7 @@ Usage:
 ```bash
 docker run --rm --workdir /github/workspace \
   -v $(pwd):/github/workspace \
-  raspbernetes/builder:latest \
-  scripts/helm.sh
+  -v $HOME/.kube/:/github/workspace/.kube/ \
+  docker.io/xunholy/builder:latest \
+  scripts/validate.sh
 ```
