@@ -3,7 +3,7 @@ name: builder-image
 on:
   push:
     paths:
-      - '.github/workflows/release.yml'
+      - '.github/workflows/builder-image.yml'
       - 'scripts/builder/Dockerfile'
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
             --tag raspbernetes/builder:${{ github.sha }} \
-            -f ./build/builder/Dockerfile \
+            -f ./scripts/builder/Dockerfile \
             . --push
 
       - name: Build Container Image
@@ -40,6 +40,6 @@ jobs:
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
             --tag raspbernetes/builder:latest \
-            -f ./build/builder/Dockerfile \
+            -f ./scripts/builder/Dockerfile \
             . --push
 

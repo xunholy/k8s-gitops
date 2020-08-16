@@ -49,7 +49,7 @@ RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) && \
 # Install fluxctl
 RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) && \
   curl -sL -o /usr/local/bin/fluxctl https://github.com/fluxcd/flux/releases/download/${FLUXCTL_VERSION}/fluxctl_linux_${ARCH} && \
-  sudo chmod +x /usr/local/bin/fluxctl
+  chmod +x /usr/local/bin/fluxctl
 
 # Install kustomize
 # Note: If arm64 is not support consider compiling from source code.
