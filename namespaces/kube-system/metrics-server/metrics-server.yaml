@@ -17,6 +17,8 @@ spec:
     name: metrics-server
     version: 2.11.1
   values:
+    rbac:
+      pspEnabled: true
     image:
       repository: gcr.io/google_containers/metrics-server-arm64
       tag: v0.3.6

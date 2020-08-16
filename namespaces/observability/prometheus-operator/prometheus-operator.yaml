@@ -11,11 +11,11 @@ spec:
   releaseName: prometheus-operator
   helmVersion: v3
   rollback:
-    enable: true
+    enable: false
   chart:
     repository: https://kubernetes-charts.storage.googleapis.com/
     name: prometheus-operator
-    version: 9.1.0
+    version: 9.3.1
   values:
     fullnameOverride: 'z'
     prometheusOperator:
@@ -43,10 +43,27 @@ spec:
         tag: v0.40.0
     alertmanager:
       enabled: true
+      ingress:
+        enabled: false
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+          nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
+          nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
+        hosts:
+          - alert-manager.raspbernetes.com
+        path: /
+        tls:
+          - secretName: alert-manager.raspbernetes.com-tls
+            hosts:
+              - alert-manager.raspbernetes.com
     grafana:
       enabled: true
+      image:
+        repository: grafana/grafana
+        tag: 7.1.3
       ingress:
-        enabled: true
+        enabled: false
         annotations:
           kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: 'letsencrypt-prod'
@@ -130,27 +147,33 @@ spec:
         existingSecret: 'grafana-admin-creds'
         userKey: admin-user
         passwordKey: admin-password
+      extraSecretMounts:
+        - name: auth-generic-oauth-secret-mount
+          secretName: auth-generic-oauth-secret
+          defaultMode: 0440
+          mountPath: /etc/secrets/auth_generic_oauth
+          readOnly: true
       ## grafana Authentication can be enabled with the following values on grafana.ini
       # The full public facing url you use in browser, used for redirects and emails
       # https://grafana.com/docs/grafana/latest/auth/github/#enable-github-in-grafana
       # Note: auth.github.enabled=false until chart supports existingSecret functionality.
       # https://github.com/helm/charts/issues/22473
-      # grafana.ini:
-      #   auth.github:
-      #     enabled: true
-      #     allow_sign_up: false
-      #     scopes: user:email,read:org
-      #     auth_url: https://github.com/login/oauth/authorize
-      #     token_url: https://github.com/login/oauth/access_token
-      #     api_url: https://github.com/user
-      #     allowed_organizations: raspbernetes
-      #     client_id:
-      #     client_secret:
-      #   server:
-      #     root_url: https://grafana.raspbernetes.com
+      grafana.ini:
+        auth.github:
+          enabled: true
+          allow_sign_up: true
+          scopes: user:email,read:org
+          auth_url: https://github.com/login/oauth/authorize
+          token_url: https://github.com/login/oauth/access_token
+          api_url: https://api.github.com/user
+          allowed_organizations: raspbernetes
+          client_id: $__file{/etc/secrets/auth_generic_oauth/client_id}
+          client_secret: $__file{/etc/secrets/auth_generic_oauth/client_secret}
+        server:
+          root_url: https://grafana.raspbernetes.com
     prometheus:
       ingress:
-        enabled: true
+        enabled: false
         annotations:
           kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: 'letsencrypt-prod'
