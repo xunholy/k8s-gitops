@@ -1,27 +1,27 @@
-# ---
-# apiVersion: helm.fluxcd.io/v1
-# kind: HelmRelease
-# metadata:
-#   name: metrics-server
-#   namespace: kube-system
-#   annotations:
-#     fluxcd.io/ignore: 'false'
-#     fluxcd.io/automated: 'false'
-# spec:
-#   releaseName: metrics-server
-#   helmVersion: v3
-#   rollback:
-#     enable: true
-#   chart:
-#     repository: https://kubernetes-charts.storage.googleapis.com/
-#     name: metrics-server
-#     version: 2.11.1
-#   values:
-#     rbac:
-#       pspEnabled: true
-#     image:
-#       repository: gcr.io/google_containers/metrics-server-arm64
-#       tag: v0.3.6
-#     args:
-#       - --kubelet-insecure-tls=true
-#       - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: metrics-server
+  namespace: kube-system
+  annotations:
+    fluxcd.io/ignore: 'false'
+    fluxcd.io/automated: 'false'
+spec:
+  releaseName: metrics-server
+  helmVersion: v3
+  rollback:
+    enable: true
+  chart:
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    name: metrics-server
+    version: 2.11.1
+  values:
+    rbac:
+      pspEnabled: true
+    image:
+      repository: gcr.io/google_containers/metrics-server-arm64
+      tag: v0.3.6
+    args:
+      - --kubelet-insecure-tls=true
+      - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
