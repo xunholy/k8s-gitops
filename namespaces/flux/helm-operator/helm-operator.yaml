@@ -111,6 +111,10 @@ spec:
                   description: Version is the targeted Helm chart version, e.g. 7.0.1.
                   type: string
               type: object
+            disableOpenAPIValidation:
+              description: DisableOpenAPIValidation controls whether OpenAPI validation
+                is enforced.
+              type: boolean
             forceUpgrade:
               description: Force will mark this Helm release to `--force` upgrades.
                 This forces the resource updates through delete/recreate if needed.
@@ -186,6 +190,27 @@ spec:
                 Helm release. The default namespace equals to the namespace of the
                 HelmRelease resource.
               type: string
+            test:
+              description: The test settings for this Helm release.
+              properties:
+                cleanup:
+                  description: Cleanup, when targeting Helm 2, determines whether
+                    to delete test pods between each test run initiated by the Helm
+                    Operator.
+                  type: boolean
+                enable:
+                  description: Enable will mark this Helm release for tests.
+                  type: boolean
+                ignoreFailures:
+                  description: IgnoreFailures will cause a Helm release to be rolled
+                    back if it fails otherwise it will be left in a released state
+                  type: boolean
+                timeout:
+                  description: Timeout is the time to wait for any individual Kubernetes
+                    operation (like Jobs for hooks) during test.
+                  format: int64
+                  type: integer
+              type: object
             timeout:
               description: Timeout is the time to wait for any individual Kubernetes
                 operation (like Jobs for hooks) during installation and upgrade operations.
@@ -313,12 +338,14 @@ spec:
                     - Unknown
                     type: string
                   type:
-                    description: Type of the condition, one of ('ChartFetched', 'Released',
-                      'RolledBack').
+                    description: Type of the condition, one of ('ChartFetched', 'Deployed',
+                      'Released', 'RolledBack', 'Tested').
                     enum:
                     - ChartFetched
+                    - Deployed
                     - Released
                     - RolledBack
+                    - Tested
                     type: string
                 required:
                 - status
@@ -336,13 +363,19 @@ spec:
               type: integer
             phase:
               description: Phase the release is in, one of ('ChartFetched', 'ChartFetchFailed',
-                'Installing', 'Upgrading', 'Succeeded', 'RollingBack', 'RolledBack',
+                'Installing', 'Upgrading', 'Deployed', 'DeployFailed', 'Testing',
+                'TestFailed', 'Tested', 'Succeeded', 'RollingBack', 'RolledBack',
                 'RollbackFailed')
               enum:
               - ChartFetched
               - ChartFetchFailed
               - Installing
               - Upgrading
+              - Deployed
+              - DeployFailed
+              - Testing
+              - TestFailed
+              - Tested
               - Succeeded
               - Failed
               - RollingBack
@@ -388,7 +421,7 @@ kind: ServiceAccount
 metadata:
   labels:
     app: helm-operator
-    chart: helm-operator-1.1.0
+    chart: helm-operator-1.2.0
     heritage: Helm
     release: default
   name: default-helm-operator
@@ -401,7 +434,7 @@ metadata:
     seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
   labels:
     app: helm-operator
-    chart: helm-operator-1.1.0
+    chart: helm-operator-1.2.0
     heritage: Helm
     release: default
   name: default-helm-operator
@@ -430,7 +463,7 @@ kind: ClusterRole
 metadata:
   labels:
     app: helm-operator
-    chart: helm-operator-1.1.0
+    chart: helm-operator-1.2.0
     heritage: Helm
     release: default
   name: default-helm-operator-psp
@@ -449,7 +482,7 @@ kind: ClusterRole
 metadata:
   labels:
     app: helm-operator
-    chart: helm-operator-1.1.0
+    chart: helm-operator-1.2.0
     heritage: Helm
     release: default
   name: default-helm-operator
@@ -470,7 +503,7 @@ kind: ClusterRoleBinding
 metadata:
   labels:
     app: helm-operator
-    chart: helm-operator-1.1.0
+    chart: helm-operator-1.2.0
     heritage: Helm
     release: default
   name: default-helm-operator-psp
@@ -488,7 +521,7 @@ kind: ClusterRoleBinding
 metadata:
   labels:
     app: helm-operator
-    chart: helm-operator-1.1.0
+    chart: helm-operator-1.2.0
     heritage: Helm
     release: default
   name: default-helm-operator
@@ -526,7 +559,7 @@ kind: Service
 metadata:
   labels:
     app: helm-operator
-    chart: helm-operator-1.1.0
+    chart: helm-operator-1.2.0
     heritage: Helm
     release: default
   name: default-helm-operator
@@ -547,7 +580,7 @@ kind: Deployment
 metadata:
   labels:
     app: helm-operator
-    chart: helm-operator-1.1.0
+    chart: helm-operator-1.2.0
     heritage: Helm
     release: default
   name: default-helm-operator
@@ -571,6 +604,7 @@ spec:
       containers:
       - args:
         - --enabled-helm-versions=v3
+        - --kubeconfig=/root/.kube/config
         - --log-format=fmt
         - --git-timeout=20s
         - --git-poll-interval=1800m
@@ -612,11 +646,18 @@ spec:
             cpu: 50m
             memory: 64Mi
         volumeMounts:
+        - mountPath: /root/.kube
+          name: config
+          readOnly: true
         - mountPath: /etc/fluxd/ssh
           name: git-key
           readOnly: true
       serviceAccountName: default-helm-operator
       volumes:
+      - configMap:
+          defaultMode: 384
+          name: default-helm-operator-kube-config
+        name: config
       - name: git-key
         secret:
           defaultMode: 256
