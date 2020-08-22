@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eou pipefail
 
-HELM_OPERATOR_VERSION=v1.1.0
+HELM_OPERATOR_VERSION=v1.2.0
 
 mkdir -p output
 
