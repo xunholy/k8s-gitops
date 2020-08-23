@@ -148,10 +148,15 @@ spec:
         userKey: admin-user
         passwordKey: admin-password
       extraSecretMounts:
-        - name: auth-generic-oauth-secret-mount
-          secretName: auth-generic-oauth-secret
+        - name: auth-github-oauth-secret-mount
+          secretName: auth-github-oauth-secret
           defaultMode: 0440
-          mountPath: /etc/secrets/auth_generic_oauth
+          mountPath: /etc/secrets/auth_github_oauth
+          readOnly: true
+        - name: auth-github-oauth-secret-mount
+          secretName: auth-github-oauth-secret
+          defaultMode: 0440
+          mountPath: /etc/secrets/auth_github_oauth
           readOnly: true
       ## grafana Authentication can be enabled with the following values on grafana.ini
       # The full public facing url you use in browser, used for redirects and emails
@@ -159,6 +164,10 @@ spec:
       # Note: auth.github.enabled=false until chart supports existingSecret functionality.
       # https://github.com/helm/charts/issues/22473
       grafana.ini:
+        server:
+          root_url: https://grafana.raspbernetes.com
+        auth.basic:
+          disable_login_form: true
         auth.github:
           enabled: true
           allow_sign_up: true
@@ -167,10 +176,18 @@ spec:
           token_url: https://github.com/login/oauth/access_token
           api_url: https://api.github.com/user
           allowed_organizations: raspbernetes
+          client_id: $__file{/etc/secrets/auth_github_oauth/client_id}
+          client_secret: $__file{/etc/secrets/auth_github_oauth/client_secret}
+        auth.generic_oauth:
+          enabled: true
+          allow_sign_up: true
+          name: Dex
           client_id: $__file{/etc/secrets/auth_generic_oauth/client_id}
           client_secret: $__file{/etc/secrets/auth_generic_oauth/client_secret}
-        server:
-          root_url: https://grafana.raspbernetes.com
+          scopes: openid profile email groups
+          auth_url: https://dex.raspbernetes.com/auth
+          token_url: https://dex.raspbernetes.com/token
+          api_url: https://dex.raspbernetes.com/userinfo
     prometheus:
       ingress:
         enabled: false
