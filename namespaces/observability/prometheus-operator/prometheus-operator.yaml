@@ -154,10 +154,10 @@ spec:
           defaultMode: 0440
           mountPath: /etc/secrets/auth_github_oauth
           readOnly: true
-        - name: auth-github-oauth-secret-mount
-          secretName: auth-github-oauth-secret
+        - name: auth-generic-oauth-secret-mount
+          secretName: auth-generic-oauth-secret
           defaultMode: 0440
-          mountPath: /etc/secrets/auth_github_oauth
+          mountPath: /etc/secrets/auth_generic_oauth
           readOnly: true
       ## grafana Authentication can be enabled with the following values on grafana.ini
       # The full public facing url you use in browser, used for redirects and emails
