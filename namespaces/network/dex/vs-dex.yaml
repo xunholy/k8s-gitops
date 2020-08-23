@@ -1,0 +1,19 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: dex
+  namespace: network
+spec:
+  hosts:
+    - 'dex.raspbernetes.com'
+  gateways:
+    - istio-system/istio-system-ingress-gateway
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            port:
+              number: 5556
+            host: dex.network.svc.cluster.local

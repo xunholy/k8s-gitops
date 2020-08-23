@@ -143,6 +143,7 @@ spec:
       downloadDashboardsImage:
         repository: curlimages/curl
         tag: 7.70.0
+      # Unused because disable_login_form=false however, used for backup authentication
       admin:
         existingSecret: 'grafana-admin-creds'
         userKey: admin-user
