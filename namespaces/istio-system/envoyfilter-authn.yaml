@@ -1,0 +1,77 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: authn-filter
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      app: kiali
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          portNumber: 20001
+          filterChain:
+            filter:
+              name: 'envoy.http_connection_manager'
+              subFilter:
+                name: 'envoy.router'
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.ext_authz
+          typed_config:
+            '@type': type.googleapis.com/envoy.config.filter.http.ext_authz.v2.ExtAuthz
+            http_service:
+              server_uri:
+                uri: http://oauth2-proxy.network.svc.cluster.local:80
+                cluster: outbound|80||oauth2-proxy.network.svc.cluster.local
+                timeout: 10s
+              authorizationRequest:
+                allowedHeaders:
+                  patterns:
+                    - exact: 'cookie'
+                    - exact: 'x-forwarded-access-token'
+                    - exact: 'x-forwarded-user'
+                    - exact: 'x-forwarded-email'
+                    - exact: 'authorization'
+                    - exact: 'x-forwarded-proto'
+                    - exact: 'proxy-authorization'
+                    - exact: 'user-agent'
+                    - exact: 'x-forwarded-host'
+                    - exact: 'from'
+                    - exact: 'x-forwarded-for'
+                    - exact: 'accept'
+                    - prefix: 'x-forwarded'
+                    - prefix: 'x-auth-request'
+                    - prefix: _oauth2_proxy
+                    - exact: cookie
+              authorizationResponse:
+                allowed_upstream_headers:
+                  patterns:
+                    - exact: authorization
+                    - exact: Cookie
+                    - exact: cookie
+                    - prefix: x-forwarded
+                    - prefix: x-auth-request
+                    - prefix: _oauth2_proxy
+                allowedClientHeaders:
+                  patterns:
+                    - exact: 'location'
+                    - exact: 'proxy-authenticate'
+                    - exact: 'set-cookie'
+                    - exact: 'authorization'
+                    - exact: 'www-authenticate'
+                    - prefix: 'x-forwarded'
+                    - prefix: 'x-auth-request'
+                allowedUpstreamHeaders:
+                  patterns:
+                    - exact: 'location'
+                    - exact: 'proxy-authenticate'
+                    - exact: 'set-cookie'
+                    - exact: 'authorization'
+                    - exact: 'www-authenticate'
+                    - prefix: 'x-forwarded'
+                    - prefix: 'x-auth-request'
