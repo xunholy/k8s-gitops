@@ -26,6 +26,10 @@ spec:
                       operator: In
                       values:
                         - arm64
+        podAnnotations:
+          sidecar.istio.io/inject: 'true'
+        serviceAnnotations:
+          sidecar.istio.io/inject: 'true'
     prometheus:
       enabled: false
       k8s:
@@ -419,7 +423,7 @@ spec:
       dashboard:
         auth:
           strategy: anonymous
-        grafanaInClusterURL: http://grafana:3000
+        grafanaInClusterURL: http://prometheus-operator-grafana.observability.svc.cluster.local
         jaegerInClusterURL: http://tracing/jaeger
         passphraseKey: passphrase
         secretName: kiali
@@ -519,7 +523,7 @@ spec:
       injectLabel: istio-injection
       objectSelector:
         autoInject: true
-        enabled: false
+        enabled: true
       rewriteAppHTTPProbe: true
     telemetry:
       enabled: true
