@@ -1,0 +1,29 @@
+config:
+  # Remember you can have multiple connectors of the same 'type' (with di fferent 'id's)
+  # If you need e.g. logins with groups for two different Microsoft 'tenants'
+  connectors:
+    # GitHub configure 'OAuth Apps' -> 'New OAuth App', add callback URL
+    # https://github.com/settings/developers
+    - type: github
+      id: github
+      name: GitHub
+      config:
+        clientID: REDACTED
+        clientSecret: REDACTED
+        redirectURI: https://dex.raspbernetes.com/callback
+        # 'orgs' can be used to map groups from Github
+        # https://github.com/coreos/dex/blob/master/Documentation/connectors/github.md
+        orgs:
+          - name: raspbernetes
+  # The 'name' must match the k8s API server's 'oidc-client-id'
+  staticClients:
+    - id: oauth2-proxy
+      name: 'oauth2-proxy'
+      secret: REDACTED
+      redirectURIs:
+        - 'https://kiali.raspbernetes.com/oauth2/callback'
+    - id: grafana
+      name: 'grafana'
+      secret: 'REDACTED'
+      redirectURIs:
+        - https://grafana.raspbernetes.com/login/generic_oauth
