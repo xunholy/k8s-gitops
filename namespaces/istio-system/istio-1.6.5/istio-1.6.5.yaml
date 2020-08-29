@@ -15,6 +15,7 @@ spec:
       enabled: false
     kiali:
       enabled: true
+      namespace: observability
       k8s:
         replicaCount: 1
         affinity:
