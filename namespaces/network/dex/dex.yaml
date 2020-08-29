@@ -10,30 +10,23 @@ metadata:
 spec:
   releaseName: dex
   chart:
-    git: git@github.com:mintel/dex-k8s-authenticator.git
-    ref: master
-    path: charts/dex
-    version: 1.2.0
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    name: dex
+    version: 2.13.0
   values:
-    image:
-      repository: raspbernetes/dex
-      tag: v2.24.0
-    global:
-      deployEnv: prod
-    ingress:
-      enabled: false
-      annotations:
-        kubernetes.io/ingress.class: nginx
-        cert-manager.io/cluster-issuer: 'letsencrypt-prod'
-        nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
-        nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
-      hosts:
-        - dex.raspbernetes.com
-      path: /
-      tls:
-        - secretName: dex.raspbernetes.com-tls
-          hosts:
-            - dex.raspbernetes.com
+    image: raspbernetes/dex
+    imageTag: v2.24.0
+    grpc: false
+    ports:
+      web:
+        servicePort: 5556
+    certs:
+      image: gcr.io/google_containers/kubernetes-dashboard-init-arm
+      web:
+        create: false
+      grpc:
+        create: false
+    telemetry: true
     config:
       issuer: https://dex.raspbernetes.com
       storage:
@@ -60,35 +53,23 @@ spec:
         idTokens: '24h'
       logger:
         level: debug
-        format: json
       oauth2:
-        responseTypes: ['code', 'token', 'id_token']
+        alwaysShowLoginScreen: false
         skipApprovalScreen: true
-      # Remember you can have multiple connectors of the same 'type' (with different 'id's)
-      # If you need e.g. logins with groups for two different Microsoft 'tenants'
-      connectors:
-        # GitHub configure 'OAuth Apps' -> 'New OAuth App', add callback URL
-        # https://github.com/settings/developers
-        - type: github
-          id: github
-          name: GitHub
-          config:
-            clientID: REDACTED
-            clientSecret: REDACTED
-            redirectURI: https://dex.raspbernetes.com/callback
-            # 'orgs' can be used to map groups from Github
-            # https://github.com/coreos/dex/blob/master/Documentation/connectors/github.md
-            orgs:
-              - name: raspbernetes
-      # The 'name' must match the k8s API server's 'oidc-client-id'
-      staticClients:
-        - id: oauth2-proxy
-          name: 'oauth2-proxy'
-          secret: REDACTED
-          redirectURIs:
-            - 'https://kiali.raspbernetes.com/oauth2/callback'
-        - id: grafana
-          name: 'grafana'
-          secret: 'REDACTED'
-          redirectURIs:
-            - https://grafana.raspbernetes.com/login/generic_oauth
+        responseTypes: ['code', 'token', 'id_token']
+    ingress:
+      enabled: false
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+        nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
+        nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
+      hosts:
+        - dex.raspbernetes.com
+      path: /
+      tls:
+        - secretName: dex.raspbernetes.com-tls
+          hosts:
+            - dex.raspbernetes.com
+  valueFileSecrets:
+    - name: 'dex-helm-values'

@@ -11,7 +11,8 @@ spec:
     - istio-system/istio-system-ingress-gateway
   http:
     - match:
-        - port: 443
+        - uri:
+            prefix: '/'
       route:
         - destination:
             port:
