@@ -23,6 +23,7 @@ spec:
     policy: upsert-only
     registry: 'txt'
     replicas: 1
+    logLevel: debug
     rbac:
       create: true
       pspEnabled: true
