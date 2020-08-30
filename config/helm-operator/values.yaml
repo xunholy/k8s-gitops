@@ -26,11 +26,12 @@ resources:
     cpu: 50m
     memory: 64Mi
 
+# Disabled due to circular dependency with prometheus-operator being deployed via Flux
 prometheus:
-  enabled: true
+  enabled: false
   serviceMonitor:
     # Enables ServiceMonitor creation for the Prometheus Operator
-    create: true
+    create: false
     interval:
     scrapeTimeout:
     namespace:
