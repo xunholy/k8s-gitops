@@ -21,7 +21,7 @@ spec:
         name: https
         protocol: HTTPS
       hosts:
-        - '*.raspbernetes.com'
+        - '*'
       tls:
         credentialName: wildcard-cert
         mode: SIMPLE

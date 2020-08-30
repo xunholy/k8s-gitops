@@ -11,7 +11,7 @@ spec:
   releaseName: kured
   helmVersion: v3
   chart:
-    repository: https://kubernetes-charts.storage.googleapis.com/
+    repository: https://weaveworks.github.io/kured
     name: kured
     version: 2.1.1
   values:
