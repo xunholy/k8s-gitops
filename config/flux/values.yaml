@@ -18,25 +18,25 @@ git:
 registry:
   disableScanning: true
 
-# prometheus:
-#   enabled: true
-#   serviceMonitor:
-#     # Enables ServiceMonitor creation for the Prometheus Operator
-#     create: true
-#     interval: 30s
-#     scrapeTimeout: 10s
-#     namespace: flux
-#     additionalLabels: {}
+prometheus:
+  enabled: true
+  serviceMonitor:
+    # Enables ServiceMonitor creation for the Prometheus Operator
+    create: true
+    interval: 30s
+    scrapeTimeout: 10s
+    namespace: flux
+    additionalLabels: {}
 
-# syncGarbageCollection:
-#   enabled: true
-#   dry: false
+syncGarbageCollection:
+  enabled: true
+  dry: false
 
-# dashboards:
-#   # If enabled, flux will create a configmap with a dashboard in json that's going to be picked up by grafana
-#   # See https://github.com/helm/charts/tree/master/stable/grafana#configuration - `sidecar.dashboards.enabled`
-#   enabled: true
-#   # The namespace where the dashboard is deployed, defaults to the installation namespace
-#   namespace:
-#   # The prefix of the generated configmaps
-#   nameprefix: dashboard
+dashboards:
+  # If enabled, flux will create a configmap with a dashboard in json that's going to be picked up by grafana
+  # See https://github.com/helm/charts/tree/master/stable/grafana#configuration - `sidecar.dashboards.enabled`
+  enabled: true
+  # # The namespace where the dashboard is deployed, defaults to the installation namespace
+  # namespace:
+  # # The prefix of the generated configmaps
+  # nameprefix: dashboard
