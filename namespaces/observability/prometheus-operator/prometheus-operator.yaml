@@ -81,6 +81,8 @@ spec:
           repository: raspbernetes/k8s-sidecar
           tag: 0.1.144
         imagePullPolicy: Always
+        dashboards:
+          enabled: true
       plugins:
         - natel-discrete-panel
         - pr0ps-trackmap-panel
