@@ -18,11 +18,12 @@ git:
 registry:
   disableScanning: true
 
+# Disabled due to circular dependency with prometheus-operator being deployed via Flux
 prometheus:
-  enabled: true
+  enabled: false
   serviceMonitor:
     # Enables ServiceMonitor creation for the Prometheus Operator
-    create: true
+    create: false
     interval: 30s
     scrapeTimeout: 10s
     namespace: flux
