@@ -3,17 +3,18 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: kiali
-  namespace: istio-system
+  namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: raspbernetes.com
 spec:
   hosts:
     - 'kiali.raspbernetes.com'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
-    - match:
-        - port: 443
-      route:
+    - route:
         - destination:
             port:
               number: 20001
             host: kiali.observability.svc.cluster.local
+          weight: 100

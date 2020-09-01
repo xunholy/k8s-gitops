@@ -4,6 +4,8 @@ kind: VirtualService
 metadata:
   name: prometheus
   namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: raspbernetes.com
 spec:
   hosts:
     - 'prometheus.raspbernetes.com'
