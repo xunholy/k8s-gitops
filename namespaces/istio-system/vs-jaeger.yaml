@@ -4,6 +4,8 @@ kind: VirtualService
 metadata:
   name: jaeger
   namespace: istio-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: raspbernetes.com
 spec:
   hosts:
     - 'jaeger.raspbernetes.com'
