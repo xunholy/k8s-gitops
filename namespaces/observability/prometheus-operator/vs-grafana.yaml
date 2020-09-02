@@ -4,6 +4,8 @@ kind: VirtualService
 metadata:
   name: grafana
   namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: raspbernetes.com
 spec:
   hosts:
     - 'grafana.raspbernetes.com'
