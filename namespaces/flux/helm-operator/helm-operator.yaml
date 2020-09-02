@@ -727,7 +727,6 @@ spec:
     metadata:
       annotations:
         checksum/repositories: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        prometheus.io/scrape: "true"
       labels:
         app: helm-operator
         release: default
@@ -793,25 +792,3 @@ spec:
         secret:
           defaultMode: 256
           secretName: flux-git-ssh-private-key
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  labels:
-    app: helm-operator
-    chart: helm-operator-1.2.0
-    heritage: Helm
-    release: default
-  name: default-helm-operator
-  namespace: flux
-spec:
-  endpoints:
-  - honorLabels: true
-    port: http
-  namespaceSelector:
-    matchNames:
-    - flux
-  selector:
-    matchLabels:
-      app: helm-operator
-      release: default
