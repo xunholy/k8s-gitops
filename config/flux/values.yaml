@@ -11,7 +11,7 @@ rbac:
 git:
   url: git@github.com:raspbernetes/k8s-gitops.git
   readonly: true
-  branch: external-dns
+  branch: master
   path: namespaces
   secretName: flux-git-ssh-private-key
 
