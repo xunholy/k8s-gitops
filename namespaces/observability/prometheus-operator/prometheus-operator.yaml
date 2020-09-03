@@ -207,6 +207,7 @@ spec:
             hosts:
               - prometheus.raspbernetes.com
       prometheusSpec:
+        configMaps: ['prometheus-config']
         storageSpec:
           volumeClaimTemplate:
             spec:
