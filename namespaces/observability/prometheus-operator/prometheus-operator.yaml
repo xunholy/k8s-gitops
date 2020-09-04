@@ -207,7 +207,27 @@ spec:
             hosts:
               - prometheus.raspbernetes.com
       prometheusSpec:
-        configMaps: ['prometheus-config']
+        additionalScrapeConfigs:
+          - job_name: 'felix_metrics'
+            scrape_interval: 5s
+            scheme: http
+            kubernetes_sd_configs:
+              - role: endpoints
+            relabel_configs:
+              - source_labels: [__meta_kubernetes_service_name]
+                regex: felix-metrics-svc
+                replacement: $1
+                action: keep
+          - job_name: 'typha_metrics'
+            scrape_interval: 5s
+            scheme: http
+            kubernetes_sd_configs:
+              - role: endpoints
+            relabel_configs:
+              - source_labels: [__meta_kubernetes_service_name]
+                regex: typha-metrics-svc
+                replacement: $1
+                action: keep
         storageSpec:
           volumeClaimTemplate:
             spec:
