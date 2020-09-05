@@ -1,6 +1,6 @@
 # TODO: https://github.com/raspbernetes/k8s-gitops/issues/70
 # ---
-# apiVersion: helm.fluxcd.io/v1
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
 # kind: HelmRelease
 # metadata:
 #   name: keycloak

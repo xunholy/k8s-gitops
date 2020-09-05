@@ -18,4 +18,4 @@ spec:
         - destination:
             port:
               number: 80
-            host: prometheus-operator-grafana.observability.svc.cluster.local
+            host: grafana.observability.svc.cluster.local

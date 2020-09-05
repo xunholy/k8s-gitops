@@ -4,63 +4,19 @@ metadata:
   name: istio
   namespace: istio-system
 spec:
-  # TODO
-  # revision: canary
+  # revision: 1.7.1
   addonComponents:
-    grafana:
-      enabled: false
-      k8s:
-        replicaCount: 1
     istiocoredns:
       enabled: false
-    kiali:
-      enabled: true
-      namespace: observability
-      k8s:
-        replicaCount: 1
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: beta.kubernetes.io/arch
-                      operator: In
-                      values:
-                        - arm64
-        podAnnotations:
-          sidecar.istio.io/inject: 'true'
-        serviceAnnotations:
-          sidecar.istio.io/inject: 'true'
     prometheus:
       enabled: false
-      k8s:
-        replicaCount: 1
-    tracing:
-      enabled: true
-      k8s:
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: beta.kubernetes.io/arch
-                      operator: In
-                      values:
-                        - arm64
   components:
     base:
       enabled: true
-    citadel:
-      enabled: false
-      k8s:
-        strategy:
-          rollingUpdate:
-            maxSurge: 100%
-            maxUnavailable: 25%
     cni:
       enabled: false
     egressGateways:
-      - enabled: true
+      - enabled: false
         k8s:
           affinity:
             nodeAffinity:
@@ -71,10 +27,43 @@ spec:
                         operator: In
                         values:
                           - arm64
+          env:
+            - name: ISTIO_META_ROUTER_MODE
+              value: sni-dnat
+          hpaSpec:
+            maxReplicas: 5
+            metrics:
+              - resource:
+                  name: cpu
+                  targetAverageUtilization: 80
+                type: Resource
+            minReplicas: 1
+            scaleTargetRef:
+              apiVersion: apps/v1
+              kind: Deployment
+              name: istio-egressgateway
           resources:
+            limits:
+              cpu: 2000m
+              memory: 1024Mi
             requests:
-              cpu: 10m
-              memory: 40Mi
+              cpu: 100m
+              memory: 128Mi
+          service:
+            ports:
+              - name: http2
+                port: 80
+                targetPort: 8080
+              - name: https
+                port: 443
+                targetPort: 8443
+              - name: tls
+                port: 15443
+                targetPort: 15443
+          strategy:
+            rollingUpdate:
+              maxSurge: 100%
+              maxUnavailable: 25%
         name: istio-egressgateway
     ingressGateways:
       - enabled: true
@@ -88,28 +77,47 @@ spec:
                         operator: In
                         values:
                           - arm64
+          env:
+            - name: ISTIO_META_ROUTER_MODE
+              value: sni-dnat
+          hpaSpec:
+            maxReplicas: 5
+            metrics:
+              - resource:
+                  name: cpu
+                  targetAverageUtilization: 80
+                type: Resource
+            minReplicas: 1
+            scaleTargetRef:
+              apiVersion: apps/v1
+              kind: Deployment
+              name: istio-ingressgateway
           resources:
+            limits:
+              cpu: 2000m
+              memory: 1024Mi
             requests:
-              cpu: 10m
-              memory: 40Mi
+              cpu: 100m
+              memory: 128Mi
           service:
             loadBalancerIP: 192.168.1.150
             ports:
               - name: status-port
-                port: 15020
-                targetPort: 15020
+                port: 15021
+                targetPort: 15021
               - name: http2
                 port: 80
                 targetPort: 8080
               - name: https
                 port: 443
                 targetPort: 8443
-              - name: tcp
-                port: 31400
-                targetPort: 31400
               - name: tls
                 port: 15443
                 targetPort: 15443
+          strategy:
+            rollingUpdate:
+              maxSurge: 100%
+              maxUnavailable: 25%
         name: istio-ingressgateway
     istiodRemote:
       enabled: false
@@ -127,23 +135,13 @@ spec:
               fieldRef:
                 apiVersion: v1
                 fieldPath: metadata.namespace
-          - name: GODEBUG
-            value: gctrace=1
-          - name: PILOT_TRACE_SAMPLING
-            value: '100'
-          - name: CONFIG_NAMESPACE
-            value: istio-config
         readinessProbe:
           httpGet:
             path: /ready
             port: 8080
           initialDelaySeconds: 5
-          periodSeconds: 3
-          timeoutSeconds: 5
-        resources:
-          requests:
-            cpu: 10m
-            memory: 100Mi
+          periodSeconds: 5
+          timeoutSeconds: 10
         strategy:
           rollingUpdate:
             maxSurge: 100%
@@ -169,10 +167,6 @@ spec:
             apiVersion: apps/v1
             kind: Deployment
             name: istio-policy
-        resources:
-          requests:
-            cpu: 10m
-            memory: 100Mi
         strategy:
           rollingUpdate:
             maxSurge: 100%
@@ -206,36 +200,26 @@ spec:
             cpu: 4800m
             memory: 4G
           requests:
-            cpu: 50m
-            memory: 100Mi
+            cpu: 1000m
+            memory: 1G
         strategy:
           rollingUpdate:
             maxSurge: 100%
             maxUnavailable: 25%
   hub: docker.io/querycapistio
   meshConfig:
-    enableAutoMtls: true
-    accessLogFile: /dev/stdout
     defaultConfig:
       proxyMetadata: {}
-    disablePolicyChecks: false
-    enablePrometheusMerge: false
-    # TODO: https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig
-    # enableTracing: true
-    # enableEnvoyAccessLogService: true
-    # outboundTrafficPolicy:
-    #   mode: 'REGISTRY_ONLY'
-    # defaultServiceExportTo: <TBC>
-    # defaultVirtualServiceExportTo: <TBC>
-    # defaultDestinationRuleExportTo: <TBC>
-  tag: 1.6.5
+    enablePrometheusMerge: true
+  tag: 1.7.2
   values:
     base:
+      enableCRDTemplates: false
       validationURL: ''
     clusterResources: true
     gateways:
       istio-egressgateway:
-        autoscaleEnabled: false
+        autoscaleEnabled: true
         env: {}
         name: istio-egressgateway
         secretVolumes:
@@ -249,20 +233,14 @@ spec:
         zvpn: {}
       istio-ingressgateway:
         applicationPorts: ''
-        autoscaleEnabled: false
+        autoscaleEnabled: true
         debug: info
         domain: ''
         env: {}
         meshExpansionPorts:
-          - name: tcp-pilot-grpc-tls
-            port: 15011
-            targetPort: 15011
           - name: tcp-istiod
             port: 15012
             targetPort: 15012
-          - name: tcp-citadel-grpc-tls
-            port: 8060
-            targetPort: 8060
           - name: tcp-dns-tls
             port: 853
             targetPort: 8853
@@ -277,8 +255,6 @@ spec:
         type: LoadBalancer
         zvpn: {}
     global:
-      # outboundTrafficPolicy:
-      #   mode: 'REGISTRY_ONLY'
       # arch:
       #   amd64: 2
       #   ppc64le: 2
@@ -292,14 +268,11 @@ spec:
         requests:
           cpu: 10m
       enableHelmTest: false
-      imagePullPolicy: 'Always'
+      imagePullPolicy: ''
       imagePullSecrets: []
       istioNamespace: istio-system
       istiod:
         enableAnalysis: false
-        enabled: true
-      # TODO: https://istio.io/latest/docs/ops/best-practices/security/#configure-third-party-service-account-tokens
-      # third-party-jwt may not be available with current cluster configuration
       jwtPolicy: third-party-jwt
       logAsJson: false
       logging:
@@ -323,8 +296,6 @@ spec:
         clusterDomain: cluster.local
         componentLogLevel: misc:error
         enableCoreDump: false
-        envoyStatsd:
-          enabled: false
         excludeIPRanges: ''
         excludeInboundPorts: ''
         excludeOutboundPorts: ''
@@ -334,27 +305,26 @@ spec:
         privileged: false
         readinessFailureThreshold: 30
         readinessInitialDelaySeconds: 5
-        readinessPeriodSeconds: 2
+        readinessPeriodSeconds: 5
         resources:
           limits:
             cpu: 2000m
             memory: 1024Mi
           requests:
-            cpu: 10m
-            memory: 40Mi
+            cpu: 100m
+            memory: 128Mi
         statusPort: 15020
         tracer: zipkin
       proxy_init:
         image: proxyv2
         resources:
           limits:
-            cpu: 100m
-            memory: 50Mi
+            cpu: 2000m
+            memory: 1024Mi
           requests:
             cpu: 10m
             memory: 10Mi
       sds:
-        # enabled: true
         token:
           aud: istio-ca
       sts:
@@ -395,7 +365,7 @@ spec:
       envSecrets: {}
       image:
         repository: grafana/grafana
-        tag: 6.7.4
+        tag: 7.0.5
       nodeSelector: {}
       persist: false
       podAntiAffinityLabelSelector: []
@@ -436,12 +406,11 @@ spec:
       podAntiAffinityTermLabelSelector: []
       security:
         cert_file: /kiali-cert/cert-chain.pem
-        # TODO: Investigate security.enabled=true
         enabled: false
         private_key_file: /kiali-cert/key.pem
       service:
         annotations: {}
-      tag: v1.20.0
+      tag: v1.22
     mixer:
       adapters:
         kubernetesenv:
@@ -459,7 +428,7 @@ spec:
             enabled: false
             sampleProbability: 1
         stdio:
-          enabled: true
+          enabled: false
           outputAsJson: false
         useAdapterCRDs: false
       policy:
@@ -467,11 +436,11 @@ spec:
           kubernetesenv:
             enabled: true
           useAdapterCRDs: false
-        autoscaleEnabled: false
+        autoscaleEnabled: true
         image: mixer
         sessionAffinityEnabled: false
       telemetry:
-        autoscaleEnabled: false
+        autoscaleEnabled: true
         env:
           GOMAXPROCS: '6'
         image: mixer
@@ -486,7 +455,7 @@ spec:
         tolerations: []
     pilot:
       appNamespaces: []
-      autoscaleEnabled: false
+      autoscaleEnabled: true
       autoscaleMax: 5
       autoscaleMin: 1
       configMap: true
@@ -517,14 +486,14 @@ spec:
       scrapeInterval: 15s
       security:
         enabled: true
-      tag: v2.15.1
+      tag: v2.19.2
       tolerations: []
     sidecarInjectorWebhook:
       enableNamespacesByDefault: false
       injectLabel: istio-injection
       objectSelector:
         autoInject: true
-        enabled: true
+        enabled: false
       rewriteAppHTTPProbe: true
     telemetry:
       enabled: true
@@ -532,9 +501,11 @@ spec:
         enabled: false
       v2:
         enabled: true
-        metadataExchange: {}
+        metadataExchange:
+          wasmEnabled: false
         prometheus:
           enabled: true
+          wasmEnabled: false
         stackdriver:
           configOverride: {}
           enabled: false
@@ -550,7 +521,7 @@ spec:
         persist: false
         spanStorageType: badger
         storageClassName: ''
-        tag: 'latest'
+        tag: '1.18.1'
       nodeSelector: {}
       opencensus:
         exporters:

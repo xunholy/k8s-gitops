@@ -1,19 +1,39 @@
 ---
-apiVersion: helm.fluxcd.io/v1
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: velero
   namespace: backups
-  annotations:
-    fluxcd.io/ignore: 'false'
-    fluxcd.io/automated: 'false'
 spec:
-  releaseName: velero
-  helmVersion: v3
+  interval: 5m
   chart:
-    repository: https://vmware-tanzu.github.io/helm-charts
-    name: velero
-    version: 2.12.0
+    spec:
+      chart: velero
+      version: 2.12.0
+      sourceRef:
+        kind: HelmRepository
+        name: vmware-charts
+        namespace: gitops-system
+      interval: 1m
+  test:
+    enable: true
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  # Depends on having the sealed secret cloud-credentials un-encrypted. Also depends on prometheus-operator
+  # due to service monitor resources.
+  dependsOn:
+    - name: sealed-secrets
+      namespace: kube-system
+    - name: kube-prometheus-stack
+      namespace: observability
   values:
     image:
       repository: twoequaldots/velero-arm64

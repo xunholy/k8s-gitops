@@ -1,8 +1,8 @@
 ---
-# This file is being created initially via the fluxctl installation.
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: flux
-  labels:
-    namespace: flux
+# # This file is being created initially via the fluxctl installation.
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: flux
+#   labels:
+#     namespace: flux

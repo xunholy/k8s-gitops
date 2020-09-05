@@ -2,13 +2,13 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: alert-manager
+  name: prometheus
   namespace: observability
   annotations:
     external-dns.alpha.kubernetes.io/target: raspbernetes.com
 spec:
   hosts:
-    - 'alert-manager.raspbernetes.com'
+    - 'prometheus.raspbernetes.com'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
@@ -17,5 +17,5 @@ spec:
       route:
         - destination:
             port:
-              number: 9093
-            host: z-alertmanager.observability.svc.cluster.local
+              number: 9090
+            host: prometheus-prometheus.observability.svc.cluster.local

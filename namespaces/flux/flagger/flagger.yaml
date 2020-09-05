@@ -1,26 +1,38 @@
----
-apiVersion: helm.fluxcd.io/v1
-kind: HelmRelease
-metadata:
-  name: flagger
-  namespace: flux
-  annotations:
-    fluxcd.io/ignore: 'false'
-    fluxcd.io/automated: 'false'
-spec:
-  releaseName: flagger
-  helmVersion: v3
-  chart:
-    repository: https://flagger.app
-    name: flagger
-    version: 1.0.1
-  values:
-    image:
-      repository: raspbernetes/flagger
-      tag: v1.0.1
-    rbac:
-      pspEnabled: true
-    crd:
-      create: false
-    meshProvider: nginx
-    metricsServer: http://z-prometheus.observability.svc.cluster.local:9090
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: flagger
+#   namespace: flux
+# spec:
+#   interval: 5m
+#   chart:
+#     spec:
+#       chart: flagger
+#       version: 1.0.1
+#       sourceRef:
+#         kind: HelmRepository
+#         name: flagger-charts
+#         namespace: gitops-system
+#       interval: 1m
+#   test:
+#     enable: false # Enable helm test
+#   install:
+#     remediation: # perform remediation when helm install fails
+#       retries: 3
+#   upgrade:
+#     remediation: # perform remediation when helm upgrade fails
+#       retries: 3
+#       remediateLastFailure: true # remediate the last failure, when no retries remain
+#     cleanupOnFail: true
+#   rollback:
+#     timeout: 1m
+#     cleanupOnFail: true
+#   values:
+#     image:
+#       repository: raspbernetes/flagger
+#       tag: v1.0.1
+#     crd:
+#       create: false
+#     meshProvider: nginx
+#     metricsServer: http://x-prometheus.observability.svc.cluster.local:9090

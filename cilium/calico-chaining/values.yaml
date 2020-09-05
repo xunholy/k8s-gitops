@@ -1,0 +1,14 @@
+operator:
+  image: docker.io/cilium/operator-dev:v1.9.0-rc0
+agent:
+  image: docker.io/cilium/cilium-dev:v1.9.0-rc0
+config:
+  enableIdentityMark: false
+  disableEnvoyVersionCheck: true
+global:
+  cni:
+    chainingMode: generic-veth
+    customConf: true
+    configMap: cni-configuration
+  tunnel: disabled
+  masquerade: false

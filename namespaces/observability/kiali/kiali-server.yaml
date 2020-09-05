@@ -1,6 +1,6 @@
 # # Source: https://github.com/kiali/helm-charts
 # ---
-# apiVersion: helm.fluxcd.io/v1
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
 # kind: HelmRelease
 # metadata:
 #   name: kiali-server
