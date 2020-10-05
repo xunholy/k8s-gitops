@@ -17,7 +17,7 @@ helm repo add cilium https://helm.cilium.io/
 #### Helm Template (Optional)
 
 ```bash
-helm template cilium/cilium --version v1.9.0-rc0 \
+helm template cilium/cilium --version 1.8.90 \
   --namespace=kube-system \
   --values=cilium/calico-chaining/values.yaml > cilium/calico-chaining/cilium.yaml
 ```

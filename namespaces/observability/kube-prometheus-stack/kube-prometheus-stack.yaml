@@ -34,6 +34,7 @@ spec:
       namespace: kube-system
   timeout: 20m
   values:
+    fullnameOverride: x
     prometheusOperator:
       enabled: true
       manageCrds: true
