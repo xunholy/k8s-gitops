@@ -18,4 +18,4 @@ spec:
         - destination:
             port:
               number: 9093
-            host: alertmanager-operated.observability.svc.cluster.local
+            host: x-alertmanager.observability.svc.cluster.local

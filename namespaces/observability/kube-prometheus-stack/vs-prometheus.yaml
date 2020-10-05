@@ -18,4 +18,4 @@ spec:
         - destination:
             port:
               number: 9090
-            host: prometheus-prometheus.observability.svc.cluster.local
+            host: x-prometheus.observability.svc.cluster.local
