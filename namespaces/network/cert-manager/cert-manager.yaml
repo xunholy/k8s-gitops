@@ -37,6 +37,7 @@ spec:
       namespace: observability
   values:
     global:
+      logLevel: 4
       leaderElection:
         # Override the namespace used to store the ConfigMap for leader election
         namespace: 'network'
