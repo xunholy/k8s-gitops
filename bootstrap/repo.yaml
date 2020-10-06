@@ -1,0 +1,30 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: k8s-gitops
+  namespace: gitops-system
+spec:
+  interval: 5m
+  ref:
+    branch: fluxv2-init
+  url: https://github.com/raspbernetes/k8s-gitops.git
+  ignore: |
+    # exclude all
+    /*
+    # include deploy dir
+    !/namespaces/
+    /namespaces/**/*.md
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: k8s-gitops
+  namespace: gitops-system
+spec:
+  interval: 5m
+  path: './namespaces/'
+  sourceRef:
+    kind: GitRepository
+    name: k8s-gitops
+  prune: true

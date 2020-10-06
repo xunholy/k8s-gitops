@@ -1,40 +1,75 @@
-# ---
-# apiVersion: helm.fluxcd.io/v1
-# kind: HelmRelease
-# metadata:
-#   name: oauth2-proxy
-#   namespace: network
-#   annotations:
-#     fluxcd.io/ignore: 'false'
-#     fluxcd.io/automated: 'false'
-# spec:
-#   releaseName: oauth2-proxy
-#   helmVersion: v3
-#   chart:
-#     repository: https://kubernetes-charts.storage.googleapis.com/
-#     name: oauth2-proxy
-#     version: 3.1.0
-#   values:
-#     image:
-#       repository: 'quay.io/pusher/oauth2_proxy'
-#       tag: v5.1.1-arm64
-#     config:
-#       existingSecret: oauth2-proxy-github
-#     extraArgs:
-#       provider: github
-#       github-org: raspbernetes
-#       email-domain: '*'
-#       cookie-domain: raspbernetes.com
-#       whitelist-domain: raspbernetes.com
-#     ingress:
-#       enabled: false
-#       path: /oauth2
-#       hosts:
-#         - raspbernetes.com
-#       annotations:
-#         kubernetes.io/ingress.class: nginx
-#         cert-manager.io/cluster-issuer: 'letsencrypt-prod'
-#       tls:
-#         - secretName: raspbernetes.com-tls
-#           hosts:
-#             - raspbernetes.com
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: oauth2-proxy
+  namespace: network
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: oauth2-proxy
+      version: 3.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: kubernetes-stable-charts
+        namespace: gitops-system
+      interval: 5m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 5
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  # Depends on having the sealed secret oauth2-proxy-dex un-encrypted. Also requires dex + cert-manager to be running.
+  dependsOn:
+    - name: dex
+    - name: cert-manager
+    - name: sealed-secrets
+      namespace: kube-system
+  values:
+    image:
+      repository: 'quay.io/pusher/oauth2_proxy'
+      tag: v5.1.1-arm64
+    config:
+      existingSecret: oauth2-proxy-dex
+    extraArgs:
+      provider: oidc
+      provider-display-name: 'DEX OIDC Provider'
+      oidc-issuer-url: https://dex.raspbernetes.com
+      cookie-secure: true
+      cookie-domain: .raspbernetes.com
+      whitelist-domain: .raspbernetes.com
+      email-domain: '*'
+      session-store-type: cookie
+      pass-basic-auth: false
+      pass-access-token: true
+      pass-authorization-header: true
+      set-authorization-header: true
+      set-xauthrequest: true
+      standard-logging: true
+      auth-logging: true
+      request-logging: true
+      skip-provider-button: true
+      ssl-insecure-skip-verify: true
+      upstream: static://200
+      http-address: 0.0.0.0:4180
+    ingress:
+      enabled: false
+      path: /oauth2
+      hosts:
+        - raspbernetes.com
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+      tls:
+        - secretName: raspbernetes.com-tls
+          hosts:
+            - raspbernetes.com

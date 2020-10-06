@@ -102,8 +102,9 @@ jobs:
             ${{ steps.conftest-stdout.outputs.result }}
             ```
 
-            ## Conftest Test Results - Helm charts
-            ```
-            ${{ steps.conftest-helm.outputs.result }}
-            ```
+            # TODO: Update with the new fluxv2 resources
+            # ## Conftest Test Results - Helm charts
+            # ```
+            # ${{ steps.conftest-helm.outputs.result }}
+            # ```
           check_for_duplicate_msg: true

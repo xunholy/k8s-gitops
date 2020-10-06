@@ -1,23 +1,46 @@
 ---
-apiVersion: helm.fluxcd.io/v1
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: cert-manager
   namespace: network
-  annotations:
-    fluxcd.io/ignore: 'false'
-    fluxcd.io/automated: 'false'
 spec:
-  releaseName: cert-manager
-  helmVersion: v3
-  rollback:
-    enable: false
+  interval: 5m
   chart:
-    repository: https://charts.jetstack.io/
-    name: cert-manager
-    version: v0.16.1
+    spec:
+      chart: cert-manager
+      # version: v1.0.2
+      sourceRef:
+        kind: HelmRepository
+        name: jetstack-charts
+        namespace: gitops-system
+      interval: 5m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 5
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  # Depends on having the sealed secret cloudflare-cert-manager-token un-encrypted. Also depends on prometheus-operator
+  # due to service monitor resources.
+  dependsOn:
+    - name: sealed-secrets
+      namespace: kube-system
+    - name: kube-prometheus-stack
+      namespace: observability
   values:
     global:
+      logLevel: 4
+      leaderElection:
+        # Override the namespace used to store the ConfigMap for leader election
+        namespace: 'network'
       podSecurityPolicy:
         enabled: true
     installCRDs: true
@@ -26,5 +49,9 @@ spec:
       servicemonitor:
         enabled: true
     extraArgs:
+      - --cluster-resource-namespace=network
+      - --enable-certificate-owner-ref=true
       - --dns01-recursive-nameservers=1.1.1.1:53
       - --dns01-recursive-nameservers-only
+      # - --default-issuer-name=letsencrypt-prod
+      # - --default-issuer-kind=ClusterIssuer
