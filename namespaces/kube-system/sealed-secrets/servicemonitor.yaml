@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sealed-secrets
+  namespace: kube-system
+spec:
+  endpoints:
+  - path: /metrics
+    port: http
+    scrapeTimeout: 90s
+    interval: 30s
+  namespaceSelector:
+    matchNames:
+      - kube-system
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: sealed-secrets
+      app.kubernetes.io/name: sealed-secrets
