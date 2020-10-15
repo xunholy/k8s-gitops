@@ -158,6 +158,9 @@ spec:
           speedtest:
             url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/prometheus-operator/grafana-dashboards/internet_speed.json
             datasource: Prometheus
+          sealed-secrets:
+            url: https://raw.githubusercontent.com/bitnami-labs/sealed-secrets/master/contrib/prometheus-mixin/dashboards/sealed-secrets-controller.json
+            datasource: Prometheus
       additionalDataSources:
         - name: loki
           type: loki
