@@ -11,7 +11,7 @@ spec:
     interval: 30s
   namespaceSelector:
     matchNames:
-      - kube-system
+    - kube-system
   selector:
     matchLabels:
       app.kubernetes.io/instance: sealed-secrets
