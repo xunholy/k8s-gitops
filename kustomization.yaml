@@ -1,4 +1,0 @@
-namespace: flux
-
-resources:
-  - output/helm-operator.yaml
