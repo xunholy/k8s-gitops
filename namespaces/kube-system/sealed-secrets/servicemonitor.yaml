@@ -7,7 +7,6 @@ spec:
   endpoints:
   - path: /metrics
     targetPort: 8080
-    scrapeTimeout: 60s
     interval: 15s
   namespaceSelector:
     matchNames:
