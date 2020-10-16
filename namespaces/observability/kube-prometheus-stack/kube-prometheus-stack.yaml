@@ -155,6 +155,12 @@ spec:
           speedtest:
             url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/prometheus-operator/grafana-dashboards/internet_speed.json
             datasource: Prometheus
+          toolkit-cluster:
+            url: https://raw.githubusercontent.com/fluxcd/toolkit/main/manifests/monitoring/grafana/dashboards/cluster.json
+            datasource: Prometheus
+          toolkit-control-plane:
+            url: https://raw.githubusercontent.com/fluxcd/toolkit/main/manifests/monitoring/grafana/dashboards/control-plane.json
+            datasource: Prometheus
           velero:
             url: https://grafana.com/api/dashboards/11055/revisions/2/download
             datasource: Prometheus
