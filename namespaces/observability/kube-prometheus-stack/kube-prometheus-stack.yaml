@@ -143,10 +143,10 @@ spec:
           istio-control-plane:
             url: https://grafana.com/api/dashboards/7645/revisions/22/download
             datasource: Prometheus
-          openebs-01:
+          openebs:
             url: https://grafana.com/api/dashboards/12171/revisions/1/download
             datasource: Prometheus
-          openebs-02:
+          openebs-pg-dashboard:
             url: https://raw.githubusercontent.com/openebs/openebs/master/k8s/openebs-pg-dashboard.json
             datasource: Prometheus
           sealed-secrets:
