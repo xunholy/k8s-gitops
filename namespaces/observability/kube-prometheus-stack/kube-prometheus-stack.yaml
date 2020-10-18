@@ -249,7 +249,7 @@ spec:
             cpu: "250m"
           limits:
             memory: 512Mi
-            cpi: "500m"
+            cpu: "500m"
         storageSpec:
           volumeClaimTemplate:
             spec:
