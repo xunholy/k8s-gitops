@@ -73,7 +73,7 @@ spec:
       logger:
         level: debug
       oauth2:
-        # alwaysShowLoginScreen: false
+        alwaysShowLoginScreen: false
         skipApprovalScreen: true
         responseTypes: ['code', 'token', 'id_token']
     ingress:

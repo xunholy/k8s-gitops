@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 9.4.7
+      version: 10.1.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
@@ -39,10 +39,10 @@ spec:
       enabled: true
       manageCrds: true
       createCustomResource: true
-      image:
-        repository: quay.io/coreos/prometheus-operator
-        tag: v0.40.0
-        pullPolicy: Always
+      # image:
+      #   repository: quay.io/coreos/prometheus-operator
+      #   tag: v0.40.0
+      #   pullPolicy: Always
       tlsProxy:
         image:
           repository: raspbernetes/ghostunnel
@@ -52,12 +52,12 @@ spec:
           image:
             repository: jettech/kube-webhook-certgen
             tag: v1.3.0
-      configmapReloadImage:
-        repository: jimmidyson/configmap-reload
-        tag: v0.4.0
-      prometheusConfigReloaderImage:
-        repository: quay.io/coreos/prometheus-config-reloader
-        tag: v0.40.0
+      # configmapReloadImage:
+      #   repository: jimmidyson/configmap-reload
+      #   tag: v0.4.0
+      # prometheusConfigReloaderImage:
+      #   repository: quay.io/coreos/prometheus-config-reloader
+      #   tag: v0.40.0
     alertmanager:
       fullnameOverride: alertmanager
       enabled: true
@@ -83,7 +83,7 @@ spec:
       enabled: true
       image:
         repository: grafana/grafana
-        tag: 7.2.0
+        tag: 7.2.1
       ingress:
         enabled: false
         annotations:
@@ -249,10 +249,10 @@ spec:
         resources:
           requests:
             memory: "128Mi"
-            cpu: "250m"
+            cpu: "125m"
           limits:
-            memory: 512Mi
-            cpu: "500m"
+            memory: 1024Mi
+            cpu: "250m"
         storageSpec:
           volumeClaimTemplate:
             spec:
