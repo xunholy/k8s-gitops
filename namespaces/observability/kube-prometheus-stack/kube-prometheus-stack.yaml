@@ -168,7 +168,7 @@ spec:
         - name: loki
           type: loki
           access: proxy
-          url: http://loki.logging.svc.cluster.local:3100
+          url: http://loki.observability.svc.cluster.local:3100
       downloadDashboardsImage:
         repository: curlimages/curl
         tag: 7.72.0
