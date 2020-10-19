@@ -221,6 +221,9 @@ spec:
         auth.generic_oauth.group_mapping:
           role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || 'Viewer'"
           org_id: 1
+        auth.github.group_mapping:
+          role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || 'Viewer'"
+          org_id: 1
     prometheus:
       fullnameOverride: prometheus
       ingress:
