@@ -244,14 +244,15 @@ spec:
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
       ##
       prometheusSpec:
+        retention: 5d
         # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
         portName: http-web
         resources:
           requests:
-            memory: "128Mi"
+            memory: "1024Mi"
             cpu: "125m"
           limits:
-            memory: 1024Mi
+            memory: 2048Mi
             cpu: "250m"
         storageSpec:
           volumeClaimTemplate:
