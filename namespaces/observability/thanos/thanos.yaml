@@ -1,0 +1,68 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: thanos
+  namespace: observability
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: thanos
+      version: 0.3.28
+      sourceRef:
+        kind: HelmRepository
+        name: grafana-loki-charts
+        namespace: gitops-system
+      interval: 5m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  # Depends on having prometheus-operator due to service monitor resources.
+  # dependsOn:
+  #   - name: kube-prometheus-stack
+  #     namespace: observability
+  values:
+    image:
+      repository: quay.io/thanos/thanos
+      tag: v0.15.0
+    query:
+      replicaCount: 2
+      replicaLabels:
+        - replica
+      http:
+        ingress:
+          enabled: false
+          annotations:
+            kubernetes.io/ingress.class: nginx
+            cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+            nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
+            nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
+          hosts:
+            - thanos.raspbernetes.com
+          tls:
+          - secretName: thanos.raspbernetes.com-tls
+            hosts:
+              - thanos.raspbernetes.com
+    compact:
+      retentionResolution1h: 5y
+    objstore:
+      type: GCS
+      config:
+        bucket: "thanos"
+        service_account: |-
+          {
+          }
+  # valuesFrom:
+  # - secretKeyRef:
+  #     name: thanos-helm-values

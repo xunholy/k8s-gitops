@@ -155,6 +155,30 @@ spec:
           speedtest:
             url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/prometheus-operator/grafana-dashboards/internet_speed.json
             datasource: Prometheus
+          thanos-overview:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/overview.json
+            datasource: Prometheus
+          thanos-compact:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/compact.json
+            datasource: Prometheus
+          thanos-querier:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/query.json
+            datasource: Prometheus
+          thanos-store:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/store.json
+            datasource: Prometheus
+          thanos-receiver:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/receive.json
+            datasource: Prometheus
+          thanos-sidecar:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/sidecar.json
+            datasource: Prometheus
+          thanos-ruler:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/rule.json
+            datasource: Prometheus
+          thanos-replicate:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/bucket-replicate.json
+            datasource: Prometheus
           toolkit-cluster:
             url: https://raw.githubusercontent.com/fluxcd/toolkit/main/manifests/monitoring/grafana/dashboards/cluster.json
             datasource: Prometheus
@@ -165,6 +189,11 @@ spec:
             url: https://grafana.com/api/dashboards/11055/revisions/2/download
             datasource: Prometheus
       additionalDataSources:
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://thanos-query-http:10902/
+          isDefault: true
         - name: loki
           type: loki
           access: proxy
@@ -261,6 +290,19 @@ spec:
               resources:
                 requests:
                   storage: 10Gi
+        thanos:
+          image: quay.io/thanos/thanos:v0.15.0
+          version: v0.15.0
+          # resources:
+          #   requests:
+          #     memory: "1024Mi"
+          #     cpu: "125m"
+          #   limits:
+          #     memory: 2048Mi
+          #     cpu: "250m"
+          objectStorageConfig:
+            name: thanos-objstore-config
+            key: thanos.yaml
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
