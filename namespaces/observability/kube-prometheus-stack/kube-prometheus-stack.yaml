@@ -291,11 +291,11 @@ spec:
                 requests:
                   storage: 10Gi
         thanos:
-          image: quay.io/thanos/thanos:v0.15.0
-          version: v0.15.0
+          image: raspbernetes/thanos:latest
+          version: latest
           objectStorageConfig:
             name: thanos-objstore-config
-            key: thanos.yaml
+            key: values.yaml
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false

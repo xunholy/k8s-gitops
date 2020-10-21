@@ -12,7 +12,7 @@ spec:
       version: 0.3.28
       sourceRef:
         kind: HelmRepository
-        name: grafana-loki-charts
+        name: banzaicloud-charts
         namespace: gitops-system
       interval: 5m
   test:
@@ -30,8 +30,8 @@ spec:
     cleanupOnFail: true
   values:
     image:
-      repository: quay.io/thanos/thanos
-      tag: v0.15.0
+      repository: raspbernetes/thanos
+      tag: latest
     query:
       replicaCount: 2
       replicaLabels:
