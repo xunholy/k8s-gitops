@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
   name: openebs-charts
-  namespace: gitops-system
+  namespace: gotk-system
 spec:
   interval: 24h
   url: https://openebs.github.io/charts

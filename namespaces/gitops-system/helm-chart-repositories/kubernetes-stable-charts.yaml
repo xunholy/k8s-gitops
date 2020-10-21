@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
   name: kubernetes-stable-charts
-  namespace: gitops-system
+  namespace: gotk-system
 spec:
   interval: 24h
   url: https://kubernetes-charts.storage.googleapis.com/

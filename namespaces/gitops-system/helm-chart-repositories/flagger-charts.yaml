@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
   name: flagger-charts
-  namespace: gitops-system
+  namespace: gotk-system
   creationTimestamp: null
 spec:
   interval: 24h

@@ -1,4 +1,4 @@
-By default, the source-controller watches for sources only in the gitops-system namespace, this way cluster admins can prevent untrusted sources from being registered by users.
+By default, the source-controller watches for sources only in the gotk-system namespace, this way cluster admins can prevent untrusted sources from being registered by users.
 
 ```bash
 export GITHUB_TOKEN="<PAT>"
@@ -25,6 +25,6 @@ gotk create source git k8s-gitops \
 ```bash
 gotk install \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
-  --namespace=gitops-system \
+  --namespace=gotk-system \
   --arch=arm64
 ```

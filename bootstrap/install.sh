@@ -21,7 +21,7 @@ gotk check --pre
 gotk install \
   --version=latest \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
-  --namespace=gitops-system \
+  --namespace=gotk-system \
   --network-policy=false \
   --arch=arm64
 
