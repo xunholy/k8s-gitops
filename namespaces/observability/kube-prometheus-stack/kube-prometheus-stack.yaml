@@ -104,6 +104,11 @@ spec:
         imagePullPolicy: Always
         dashboards:
           enabled: true
+          searchNamespace: ALL
+        datasources:
+          enabled: true
+          # Disabled due to thanos being set as the new default datasource instead of prometheus
+          defaultDatasourceEnabled: false
       plugins:
         - natel-discrete-panel
         - pr0ps-trackmap-panel
