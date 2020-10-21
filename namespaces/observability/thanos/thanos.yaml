@@ -28,10 +28,6 @@ spec:
   rollback:
     timeout: 1m
     cleanupOnFail: true
-  # Depends on having prometheus-operator due to service monitor resources.
-  # dependsOn:
-  #   - name: kube-prometheus-stack
-  #     namespace: observability
   values:
     image:
       repository: quay.io/thanos/thanos
@@ -40,6 +36,13 @@ spec:
       replicaCount: 2
       replicaLabels:
         - replica
+    # resources:
+    #   limits:
+    #     cpu: 2000m
+    #     memory: 16Gi
+    #   requests:
+    #     cpu: 1000m
+    #     memory: 4Gi
       http:
         ingress:
           enabled: false
@@ -54,15 +57,11 @@ spec:
           - secretName: thanos.raspbernetes.com-tls
             hosts:
               - thanos.raspbernetes.com
-    compact:
-      retentionResolution1h: 5y
     objstore:
       type: GCS
       config:
         bucket: "thanos"
-        service_account: |-
-          {
-          }
-  # valuesFrom:
-  # - secretKeyRef:
-  #     name: thanos-helm-values
+  valuesFrom:
+  - kind: Secret
+    name: thanos-objstore-config
+
