@@ -68,4 +68,3 @@ spec:
   valuesFrom:
   - kind: Secret
     name: thanos-objstore-config
-

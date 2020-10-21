@@ -286,7 +286,7 @@ spec:
             memory: "1024Mi"
             cpu: "125m"
           limits:
-            memory: 2048Mi
+            memory: 1536Mi
             cpu: "250m"
         storageSpec:
           volumeClaimTemplate:
@@ -299,8 +299,8 @@ spec:
           image: raspbernetes/thanos:latest
           version: latest
           objectStorageConfig:
-            name: thanos
-            key: object-store.yaml
+            name: thanos-objstore-config
+            key: values.yaml
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
