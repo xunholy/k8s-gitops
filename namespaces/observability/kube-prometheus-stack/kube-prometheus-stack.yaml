@@ -294,8 +294,8 @@ spec:
           image: raspbernetes/thanos:latest
           version: latest
           objectStorageConfig:
-            name: thanos-objstore-config
-            key: values.yaml
+            name: thanos
+            key: object-store.yaml
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
