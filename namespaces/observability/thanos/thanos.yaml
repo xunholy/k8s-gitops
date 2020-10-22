@@ -64,7 +64,7 @@ spec:
     objstore:
       type: GCS
       config:
-        bucket: "thanos"
+        bucket: "thanos-raspbernetes-storage"
   valuesFrom:
   - kind: Secret
     name: thanos-objstore-config
