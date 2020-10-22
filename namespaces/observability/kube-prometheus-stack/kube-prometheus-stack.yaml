@@ -83,7 +83,7 @@ spec:
       enabled: true
       image:
         repository: grafana/grafana
-        tag: 7.2.1
+        tag: 7.2.2
       ingress:
         enabled: false
         annotations:
@@ -298,6 +298,7 @@ spec:
         thanos:
           image: raspbernetes/thanos:latest
           version: latest
+          # Thanos chart will generate the secret: thanos
           objectStorageConfig:
             name: thanos
             key: object-store.yaml
