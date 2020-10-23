@@ -32,6 +32,8 @@ spec:
   dependsOn:
     - name: sealed-secrets
       namespace: kube-system
+    - name: thanos
+      namespace: observability
   timeout: 20m
   values:
     fullnameOverride: x

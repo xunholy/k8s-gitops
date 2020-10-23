@@ -58,13 +58,13 @@ spec:
           hosts:
             - thanos.raspbernetes.com
           tls:
-          - secretName: thanos.raspbernetes.com-tls
-            hosts:
-              - thanos.raspbernetes.com
+            - secretName: thanos.raspbernetes.com-tls
+              hosts:
+                - thanos.raspbernetes.com
     objstore:
       type: GCS
       config:
         bucket: "thanos-raspbernetes-storage"
   valuesFrom:
-  - kind: Secret
-    name: thanos-objstore-config
+    - kind: Secret
+      name: thanos-objstore-config
