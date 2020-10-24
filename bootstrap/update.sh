@@ -12,9 +12,9 @@ fi
 gotk install \
   --version="${VERSION}" \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
-  --namespace=gitops-system \
+  --namespace=gotk-system \
   --network-policy=false \
   --arch=arm64 \
-  --export > "./namespaces/gitops-system/toolkit-components.yaml"
+  --export > "./namespaces/gotk-system/toolkit-components.yaml"
 
 git add -A && git commit -sam "update toolkit version: ${VERSION}" && git push

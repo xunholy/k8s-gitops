@@ -1,9 +1,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: k8s-at-home-charts
-  namespace: gitops-system
+  name: bitnami-charts
+  namespace: gotk-system
 spec:
   interval: 24h
-  url: https://k8s-at-home.com/charts/
+  url: https://charts.bitnami.com/bitnami
   timeout: 3m

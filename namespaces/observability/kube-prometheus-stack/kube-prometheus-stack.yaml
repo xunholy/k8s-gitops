@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
-        namespace: gitops-system
+        namespace: gotk-system
       interval: 5m
   test:
     enable: false # Enable helm test
@@ -32,6 +32,8 @@ spec:
   dependsOn:
     - name: sealed-secrets
       namespace: kube-system
+    - name: thanos
+      namespace: observability
   timeout: 20m
   values:
     fullnameOverride: x
@@ -83,7 +85,7 @@ spec:
       enabled: true
       image:
         repository: grafana/grafana
-        tag: 7.2.1
+        tag: 7.2.2
       ingress:
         enabled: false
         annotations:
@@ -104,6 +106,11 @@ spec:
         imagePullPolicy: Always
         dashboards:
           enabled: true
+          searchNamespace: ALL
+        datasources:
+          enabled: true
+          # Disabled due to thanos being set as the new default datasource instead of prometheus
+          defaultDatasourceEnabled: false
       plugins:
         - natel-discrete-panel
         - pr0ps-trackmap-panel
@@ -155,6 +162,30 @@ spec:
           speedtest:
             url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/prometheus-operator/grafana-dashboards/internet_speed.json
             datasource: Prometheus
+          thanos-overview:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/overview.json
+            datasource: Prometheus
+          thanos-compact:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/compact.json
+            datasource: Prometheus
+          thanos-querier:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/query.json
+            datasource: Prometheus
+          thanos-store:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/store.json
+            datasource: Prometheus
+          thanos-receiver:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/receive.json
+            datasource: Prometheus
+          thanos-sidecar:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/sidecar.json
+            datasource: Prometheus
+          thanos-ruler:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/rule.json
+            datasource: Prometheus
+          thanos-replicate:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/bucket-replicate.json
+            datasource: Prometheus
           toolkit-cluster:
             url: https://raw.githubusercontent.com/fluxcd/toolkit/main/manifests/monitoring/grafana/dashboards/cluster.json
             datasource: Prometheus
@@ -165,6 +196,11 @@ spec:
             url: https://grafana.com/api/dashboards/11055/revisions/2/download
             datasource: Prometheus
       additionalDataSources:
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://thanos-query-http:10902/
+          isDefault: true
         - name: loki
           type: loki
           access: proxy
@@ -244,7 +280,7 @@ spec:
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
       ##
       prometheusSpec:
-        retention: 5d
+        retention: 6h
         # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
         portName: http-web
         resources:
@@ -252,8 +288,8 @@ spec:
             memory: "1024Mi"
             cpu: "125m"
           limits:
-            memory: 2048Mi
-            cpu: "250m"
+            memory: 1536Mi
+            cpu: "500m"
         storageSpec:
           volumeClaimTemplate:
             spec:
@@ -261,6 +297,13 @@ spec:
               resources:
                 requests:
                   storage: 10Gi
+        thanos:
+          image: raspbernetes/thanos:latest
+          version: latest
+          # Thanos chart will generate the secret: thanos
+          objectStorageConfig:
+            name: thanos
+            key: object-store.yaml
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false

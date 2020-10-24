@@ -1,10 +1,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: flagger-charts
-  namespace: gitops-system
-  creationTimestamp: null
+  name: weaveworks-kured-charts
+  namespace: gotk-system
 spec:
   interval: 24h
-  url: https://flagger.app
+  url: https://weaveworks.github.io/kured
   timeout: 3m

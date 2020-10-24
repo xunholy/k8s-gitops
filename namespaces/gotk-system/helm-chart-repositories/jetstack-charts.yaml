@@ -1,9 +1,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: grafana-loki-charts
-  namespace: gitops-system
+  name: jetstack-charts
+  namespace: gotk-system
 spec:
   interval: 24h
-  url: https://grafana.github.io/loki/charts
+  url: https://charts.jetstack.io/
   timeout: 3m

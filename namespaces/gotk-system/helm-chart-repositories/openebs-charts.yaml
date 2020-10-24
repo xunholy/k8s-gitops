@@ -1,9 +1,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: vmware-charts
-  namespace: gitops-system
+  name: openebs-charts
+  namespace: gotk-system
 spec:
   interval: 24h
-  url: https://vmware-tanzu.github.io/helm-charts
+  url: https://openebs.github.io/charts
   timeout: 3m

@@ -1,9 +1,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: openfaas-charts
-  namespace: gitops-system
+  name: banzaicloud-charts
+  namespace: gotk-system
 spec:
   interval: 24h
-  url: https://openfaas.github.io/faas-netes/
+  url: https://kubernetes-charts.banzaicloud.com
   timeout: 3m

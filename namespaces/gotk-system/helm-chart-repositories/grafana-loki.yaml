@@ -1,9 +1,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: openebs-charts
-  namespace: gitops-system
+  name: grafana-loki-charts
+  namespace: gotk-system
 spec:
   interval: 24h
-  url: https://openebs.github.io/charts
+  url: https://grafana.github.io/loki/charts
   timeout: 3m
