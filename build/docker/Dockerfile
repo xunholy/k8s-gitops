@@ -1,6 +1,6 @@
 FROM ubuntu
 
-ARG TARGETPLATFORM
+ARG TARGETARCH
 ARG KUBESEAL_VERSION=0.12.5
 ARG YQ_VERSION=3.3.2
 ARG FLUXCTL_VERSION=1.20.1
@@ -37,18 +37,15 @@ RUN curl https://baltocdn.com/helm/signing.asc | apt-key add - && \
   apt-get install -y helm
 
 # Install yq
-RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) && \
-  curl -sL https://github.com/mikefarah/yq/releases/download/3.3.0/yq_linux_${ARCH} -o /usr/bin/yq && \
+RUN curl -sL https://github.com/mikefarah/yq/releases/download/3.3.0/yq_linux_${TARGETARCH} -o /usr/bin/yq && \
   chmod +x /usr/bin/yq
 
 # Install kubeseal
-RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) && \
-  curl -sL -o /usr/local/bin/kubeseal https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-linux-${ARCH} && \
+RUN curl -sL -o /usr/local/bin/kubeseal https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-linux-${TARGETARCH} && \
   chmod +x /usr/local/bin/kubeseal
 
 # Install fluxctl
-RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) && \
-  curl -sL -o /usr/local/bin/fluxctl https://github.com/fluxcd/flux/releases/download/${FLUXCTL_VERSION}/fluxctl_linux_${ARCH} && \
+RUN curl -sL -o /usr/local/bin/fluxctl https://github.com/fluxcd/flux/releases/download/${FLUXCTL_VERSION}/fluxctl_linux_${TARGETARCH} && \
   chmod +x /usr/local/bin/fluxctl
 
 # Install kustomize
