@@ -5,5 +5,5 @@ shopt -s globstar nullglob
 
 for FILE in **/*.encrypted.yaml; do
   echo "Validating $FILE"
-  kubeseal --validate < "$FILE" --controller-name=sealed-secrets --kubeconfig .kube/config
+  kubeseal --validate < "$FILE" --controller-name=sealed-secrets --kubeconfig "$HOME/.kube/config"
 done

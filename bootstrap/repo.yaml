@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 5m
   ref:
-    branch: master
+    branch: main
   url: https://github.com/raspbernetes/k8s-gitops.git
   ignore: |
     # exclude all

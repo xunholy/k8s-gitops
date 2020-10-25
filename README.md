@@ -11,7 +11,7 @@
   <a href="https://github.com/raspbernetes/k8s-gitops/graphs/contributors"><img src="https://img.shields.io/github/contributors/raspbernetes/k8s-gitops.svg" alt="Contributors"></a>
   <a href="https://github.com/raspbernetes/k8s-gitops/issues"><img src="https://img.shields.io/github/issues-raw/raspbernetes/k8s-gitops.svg" alt="Open Issues"></a>
   <a href="https://github.com/raspbernetes/k8s-gitops"><img src="https://img.shields.io/github/stars/raspbernetes/k8s-gitops?style=social.svg" alt="Stars"></a>
-  <a href="https://github.com/raspbernetes/k8s-gitops/commits/master" alt="last commit"><img src="https://img.shields.io/github/last-commit/raspbernetes/k8s-gitops?color=purple" /></a>
+  <a href="https://github.com/raspbernetes/k8s-gitops/commits/main" alt="last commit"><img src="https://img.shields.io/github/last-commit/raspbernetes/k8s-gitops?color=purple" /></a>
 </div>
 
 # Overview
