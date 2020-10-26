@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-VERSION="0.1.6"
+VERSION="0.1.8"
 
 if [[ ! $(gotk) ]]; then
   echo "gotk needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli"
