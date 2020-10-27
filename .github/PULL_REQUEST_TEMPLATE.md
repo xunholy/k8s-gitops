@@ -4,8 +4,6 @@ Please provide a description for what this PR is for.
 
 ## Checklist
 
-To help us figure out who should review this PR, please put an X in all the areas that this PR affects.
-
 - [ ] All commits are signed off. See the section [Developer’s Certificate of Origin](https://developercertificate.org/)
 - [ ] Provide a title or release-note blurb suitable for the release notes.
 - [ ] All commits contain a well written commit description including a title, description and a Fixes: #XXX line if the commit addresses a particular GitHub issue.
