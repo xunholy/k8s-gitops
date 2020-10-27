@@ -1,15 +1,16 @@
+# Additional entries into Istio’s internal service registry
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-  name: googleapis-se
+  name: googleapis
   namespace: 'istio-system'
 spec:
   hosts:
-    - '*.googleapis.com'
+    - 'storage.googleapis.com'
   ports:
     - name: https-googleapis
       number: 443
-      protocol: HTTPS
-  resolution: NONE
+      protocol: TLS
+  resolution: DNS
   location: MESH_EXTERNAL
