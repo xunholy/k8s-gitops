@@ -208,10 +208,12 @@ spec:
             maxUnavailable: 25%
   hub: docker.io/querycapistio
   meshConfig:
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY
     defaultConfig:
       proxyMetadata: {}
     enablePrometheusMerge: true
-  tag: 1.7.2
+  tag: 1.7.3
   values:
     base:
       enableCRDTemplates: false
