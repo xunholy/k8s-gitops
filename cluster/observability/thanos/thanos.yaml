@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: banzaicloud-charts
-        namespace: gotk-system
+        namespace: flux-system
       interval: 5m
   test:
     enable: false # Enable helm test
@@ -40,13 +40,13 @@ spec:
       replicaCount: 2
       replicaLabels:
         - replica
-    # resources:
-    #   limits:
-    #     cpu: 2000m
-    #     memory: 16Gi
-    #   requests:
-    #     cpu: 1000m
-    #     memory: 4Gi
+      # resources:
+      #   limits:
+      #     cpu: 2000m
+      #     memory: 16Gi
+      #   requests:
+      #     cpu: 1000m
+      #     memory: 4Gi
       http:
         ingress:
           enabled: false
@@ -64,7 +64,7 @@ spec:
     objstore:
       type: GCS
       config:
-        bucket: "thanos-raspbernetes-storage"
+        bucket: 'thanos-raspbernetes-storage'
   valuesFrom:
     - kind: Secret
       name: thanos-objstore-config

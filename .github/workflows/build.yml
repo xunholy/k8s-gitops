@@ -102,3 +102,34 @@ jobs:
             ${{ steps.conftest-stdout.outputs.result }}
             ```
           check_for_duplicate_msg: true
+
+      - uses: actions/github-script@0.9.0
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `####  OPA Validation \`${{ steps.opa.outcome }}\`
+            #### CONFTEST Validation \`${{ steps.conftest-stdout.outcome }}\`
+
+            <details><summary>Show OPA Test Results</summary>
+
+            \`\`\`${{ steps.opa.outputs.result }}\`\`\`
+
+            </details>
+
+            <details><summary>Show CONFTEST Results</summary>
+
+            \`\`\` ${{ steps.conftest-stdout.outputs.result }}\`\`\`
+
+            </details>
+
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })

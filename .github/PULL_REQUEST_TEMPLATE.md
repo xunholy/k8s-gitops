@@ -1,12 +1,12 @@
 # Description
 
-Please provide a description for what this PR is for.
+Please provide a description of what this PR is for.
 
 ## Checklist
 
 - [ ] All commits are signed off. See the section [Developer’s Certificate of Origin](https://developercertificate.org/)
 - [ ] Provide a title or release-note blurb suitable for the release notes.
-- [ ] All commits contain a well written commit description including a title, description and a Fixes: #XXX line if the commit addresses a particular GitHub issue.
+- [ ] All commits contain a well-written commit description including a title, description, and a Fixes: #XXX line if the commit addresses a particular GitHub issue.
 - [ ] All workflow validation and compliance checks are passing.
 
 ## Issue Ref (Optional)
