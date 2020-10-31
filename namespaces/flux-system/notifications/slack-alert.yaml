@@ -3,7 +3,7 @@ apiVersion: notification.toolkit.fluxcd.io/v1beta1
 kind: Alert
 metadata:
   name: k8s-gitops
-  namespace: gotk-system
+  namespace: flux-system
 spec:
   providerRef:
     name: slack

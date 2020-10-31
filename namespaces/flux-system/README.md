@@ -1,11 +1,11 @@
-By default, the source-controller watches for sources only in the gotk-system namespace, this way cluster admins can prevent untrusted sources from being registered by users.
+By default, the source-controller watches for sources only in the flux-system namespace, this way cluster admins can prevent untrusted sources from being registered by users.
 
 ```bash
 export GITHUB_TOKEN="<PAT>"
 ```
 
 ```bash
-gotk bootstrap github \
+flux bootstrap github \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
   --path=cluster \
   --version=latest \
@@ -15,7 +15,7 @@ gotk bootstrap github \
 ```
 
 ```bash
-gotk create source git k8s-gitops \
+flux create source git k8s-gitops \
   --url=https://github.com/raspbernetes/k8s-gitops \
   --branch=fluxv2-init \
   --interval=30s \
@@ -23,8 +23,8 @@ gotk create source git k8s-gitops \
 ```
 
 ```bash
-gotk install \
+flux install \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
-  --namespace=gotk-system \
+  --namespace=flux-system \
   --arch=arm64
 ```

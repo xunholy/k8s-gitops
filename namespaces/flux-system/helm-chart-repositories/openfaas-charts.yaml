@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
   name: openfaas-charts
-  namespace: gotk-system
+  namespace: flux-system
 spec:
   interval: 24h
   url: https://openfaas.github.io/faas-netes/

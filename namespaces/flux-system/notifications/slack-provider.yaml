@@ -3,7 +3,7 @@ apiVersion: notification.toolkit.fluxcd.io/v1beta1
 kind: Provider
 metadata:
   name: slack
-  namespace: gotk-system
+  namespace: flux-system
 spec:
   type: slack
   channel: general

@@ -3,7 +3,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
   name: helm-controller
-  namespace: gotk-system
+  namespace: flux-system
 spec:
   selector:
     matchLabels:
@@ -15,7 +15,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
   name: kustomize-controller
-  namespace: gotk-system
+  namespace: flux-system
 spec:
   selector:
     matchLabels:
@@ -27,7 +27,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
   name: notification-controller
-  namespace: gotk-system
+  namespace: flux-system
 spec:
   selector:
     matchLabels:
@@ -39,7 +39,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
   name: source-controller
-  namespace: gotk-system
+  namespace: flux-system
 spec:
   selector:
     matchLabels:
