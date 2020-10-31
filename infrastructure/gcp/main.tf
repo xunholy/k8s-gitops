@@ -11,24 +11,6 @@ locals {
   ]
 }
 
-provider "google" {
-  region = var.region
-}
-
-resource "google_storage_bucket" "tfstate" {
-  default_event_based_hold = "false"
-  force_destroy            = "false"
-  location                 = "ASIA"
-  name                     = "raspbernetes"
-  project                  = "raspbernetes"
-  requester_pays           = "false"
-  storage_class            = "STANDARD"
-
-  versioning {
-    enabled = "true"
-  }
-}
-
 resource "google_service_account" "velero" {
   account_id   = "velero"
   display_name = "Service account for Velero"
