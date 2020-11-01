@@ -1,0 +1,45 @@
+name: terraform
+
+on:
+  workflow_dispatch:
+    inputs:
+      cloud:
+        description: 'Which cloud terraform apply will be executed against'
+        required: true
+        default: 'gcp'
+
+env:
+  tf_actions_working_dir: infrastructure/${{ github.event.inputs.cloud }}
+  terraform_version: 0.13.5
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.tf_actions_working_dir }}
+    steps:
+    - name: checkout
+      id: checkout_code
+      uses: actions/checkout@v2
+
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '290.0.1'
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ env.terraform_version }}
+
+    - name: Terraform Init
+      id: init
+      run: terraform init
+      continue-on-error: false
+
+    - name: Terraform Apply
+      id: apply
+      run: terraform apply -no-color
+      continue-on-error: false

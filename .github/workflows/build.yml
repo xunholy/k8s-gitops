@@ -26,7 +26,7 @@ jobs:
       - name: Kubeval
         uses: instrumenta/kubeval-action@master
         with:
-          files: 'namespaces/'
+          files: 'cluster/'
 
   compliance:
     runs-on: ubuntu-latest
@@ -36,26 +36,14 @@ jobs:
         with:
           submodules: true
 
-      - name: Execute OPA Tests
-        id: opa
-        run: |
-          result=$(docker run --rm --workdir /github/workspace \
-            -v $(pwd):/github/workspace \
-            openpolicyagent/opa:0.17.2 \
-            test security-policies/policies/ -v || exit 0 )
-          result="${result//'%'/'%25'}"
-          result="${result//$'\n'/'%0A'}"
-          result="${result//$'\r'/'%0D'}"
-          echo $result
-          echo "::set-output name=result::$result"
-
       - name: Execute Conftest Tests - Table Output
         id: conftest-table
+        continue-on-error: true
         run: |
           result=$(docker run --rm --workdir /github/workspace \
             -v $(pwd):/github/workspace \
             instrumenta/conftest:v0.18.2 \
-            test -o table -p security-policies/policies/ --all-namespaces --combine namespaces/ --no-color || exit 0)
+            test -o table -p security-policies/policies/ --all-namespaces --combine cluster/ --no-color || exit 0)
           result="${result//'%'/'%25'}"
           result="${result//$'\n'/'%0A'}"
           result="${result//$'\r'/'%0D'}"
@@ -63,42 +51,39 @@ jobs:
           echo "::set-output name=result::$result"
 
       - name: Execute Conftest Tests - Stdout Output
-        id: conftest-stdout
+        id: conftest
+        continue-on-error: true
         run: |
           result=$(docker run --rm --workdir /github/workspace \
             -v $(pwd):/github/workspace \
             instrumenta/conftest:v0.18.2 \
-            test -o stdout -p security-policies/policies/ --all-namespaces namespaces/ --no-color || exit 0)
+            test -o stdout -p security-policies/policies/ --all-namespaces cluster/ --no-color || exit 0)
           result="${result//'%'/'%25'}"
           result="${result//$'\n'/'%0A'}"
           result="${result//$'\r'/'%0D'}"
           echo $result
           echo ::set-output name=result::$result
 
-      - name: Execute Conftest Tests - Helm charts
-        id: conftest-helm
-        uses: rust84/hrval-action@master
+      - uses: actions/github-script@0.9.0
+        if: github.event_name == 'pull_request'
         with:
-          helmRelease: namespaces/
-          helmVersion: v3
-          ignoreValues: false
-          action: conftest
-          policyDir: security-policies
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Kubernetes Conftest Validation 🖌  \`${{ steps.conftest.outcome }}\`
 
-      - name: Post Results
-        uses: unsplash/comment-on-pr@master
-        if: ${{ always() }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          msg: |
-            ## OPA Test Results
-            ```
-            ${{ steps.opa.outputs.result }}
-            ```
+            <details><summary>Show Kubernetes Conftest Report</summary>
 
-            ## Conftest Test Results
-            ```
-            ${{ steps.conftest-stdout.outputs.result }}
-            ```
-          check_for_duplicate_msg: true
+            \`\`\`
+            ${{ steps.conftest.outputs.result }}
+            \`\`\`
+
+            </details>
+
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`.\`, Workflow: \`${{ github.workflow }}\`*`;
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
