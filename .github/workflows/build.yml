@@ -36,20 +36,6 @@ jobs:
         with:
           submodules: true
 
-      - name: Execute OPA Tests
-        id: opa
-        continue-on-error: true
-        run: |
-          result=$(docker run --rm --workdir /github/workspace \
-            -v $(pwd):/github/workspace \
-            openpolicyagent/opa:0.17.2 \
-            test security-policies/policies/ -v || exit 0 )
-          result="${result//'%'/'%25'}"
-          result="${result//$'\n'/'%0A'}"
-          result="${result//$'\r'/'%0D'}"
-          echo $result
-          echo "::set-output name=result::$result"
-
       - name: Execute Conftest Tests - Table Output
         id: conftest-table
         continue-on-error: true
@@ -65,7 +51,7 @@ jobs:
           echo "::set-output name=result::$result"
 
       - name: Execute Conftest Tests - Stdout Output
-        id: conftest-stdout
+        id: conftest
         continue-on-error: true
         run: |
           result=$(docker run --rm --workdir /github/workspace \
@@ -78,37 +64,17 @@ jobs:
           echo $result
           echo ::set-output name=result::$result
 
-      - name: Execute Conftest Tests - Helm charts
-        id: conftest-helm
-        uses: rust84/hrval-action@master
-        continue-on-error: true
-        with:
-          helmRelease: cluster/
-          helmVersion: v3
-          ignoreValues: false
-          action: conftest
-          policyDir: security-policies
-
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `####  OPA Validation \`${{ steps.opa.outcome }}\`
-            #### CONFTEST Validation \`${{ steps.conftest-stdout.outcome }}\`
+            const output = `#### Kubernetes Conftest Validation 🖌  \`${{ steps.conftest.outcome }}\`
 
-            <details><summary>Show OPA Test Results</summary>
-
-            \`\`\`
-            "${{ steps.opa.outputs.result }}"
-            \`\`\`
-
-            </details>
-
-            <details><summary>Show CONFTEST Results</summary>
+            <details><summary>Show Kubernetes Conftest Report</summary>
 
             \`\`\`
-            "${{ steps.conftest-stdout.outputs.result }}"
+            "${{ steps.conftest.outputs.result }}"
             \`\`\`
 
             </details>
