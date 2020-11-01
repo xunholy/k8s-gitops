@@ -26,7 +26,7 @@ jobs:
       - name: Kubeval
         uses: instrumenta/kubeval-action@master
         with:
-          files: 'namespaces/'
+          files: 'cluster/'
 
   compliance:
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
           result=$(docker run --rm --workdir /github/workspace \
             -v $(pwd):/github/workspace \
             instrumenta/conftest:v0.18.2 \
-            test -o table -p security-policies/policies/ --all-namespaces --combine namespaces/ --no-color || exit 0)
+            test -o table -p security-policies/policies/ --all-namespaces --combine cluster/ --no-color || exit 0)
           result="${result//'%'/'%25'}"
           result="${result//$'\n'/'%0A'}"
           result="${result//$'\r'/'%0D'}"
@@ -68,7 +68,7 @@ jobs:
           result=$(docker run --rm --workdir /github/workspace \
             -v $(pwd):/github/workspace \
             instrumenta/conftest:v0.18.2 \
-            test -o stdout -p security-policies/policies/ --all-namespaces namespaces/ --no-color || exit 0)
+            test -o stdout -p security-policies/policies/ --all-namespaces cluster/ --no-color || exit 0)
           result="${result//'%'/'%25'}"
           result="${result//$'\n'/'%0A'}"
           result="${result//$'\r'/'%0D'}"
@@ -79,7 +79,7 @@ jobs:
         id: conftest-helm
         uses: rust84/hrval-action@master
         with:
-          helmRelease: namespaces/
+          helmRelease: cluster/
           helmVersion: v3
           ignoreValues: false
           action: conftest
