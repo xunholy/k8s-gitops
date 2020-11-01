@@ -3,7 +3,7 @@ name: terraform
 on:
   pull_request:
     paths:
-      - '.github/workflows/terraform.yml'
+      - '.github/workflows/terraform-plan.yml'
       - 'infrastructure/**'
 
 env:
