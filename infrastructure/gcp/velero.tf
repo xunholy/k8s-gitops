@@ -34,7 +34,7 @@ resource "google_service_account_iam_binding" "velero" {
 resource "google_storage_bucket" "velero" {
   default_event_based_hold = "false"
   force_destroy            = "false"
-  location                 = "ASIA"
+  location                 = "US"
   name                     = "raspbernetes-velero-backups"
   project                  = "raspbernetes"
   requester_pays           = "false"
