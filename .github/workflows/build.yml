@@ -74,7 +74,7 @@ jobs:
             <details><summary>Show Kubernetes Conftest Report</summary>
 
             \`\`\`
-            "${{ steps.conftest.outputs.result }}"
+            ${{ steps.conftest.outputs.result }}
             \`\`\`
 
             </details>
