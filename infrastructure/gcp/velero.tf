@@ -40,13 +40,3 @@ resource "google_storage_bucket" "velero" {
   requester_pays           = "false"
   storage_class            = "STANDARD"
 }
-
-resource "google_storage_bucket" "thanos" {
-  default_event_based_hold = "false"
-  force_destroy            = "false"
-  location                 = "ASIA"
-  name                     = "thanos-raspbernetes-storage"
-  project                  = "raspbernetes"
-  requester_pays           = "false"
-  storage_class            = "STANDARD"
-}
