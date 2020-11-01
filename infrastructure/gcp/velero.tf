@@ -23,9 +23,9 @@ resource "google_project_iam_custom_role" "velero" {
   permissions = local.velero_permissions
 }
 
-resource "google_service_account_iam_binding" "velero" {
-  service_account_id = google_service_account.velero.name
-  role               = google_project_iam_custom_role.velero.name
+resource "google_project_iam_binding" "velero" {
+  project = var.project_id
+  role    = google_project_iam_custom_role.velero.name
   members = [
     "serviceAccount:${google_service_account.velero.email}",
   ]

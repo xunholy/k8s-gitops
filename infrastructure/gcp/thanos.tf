@@ -20,7 +20,7 @@ locals {
 
 resource "google_service_account" "thanos" {
   account_id   = "thanos"
-  display_name = "Service account for thanos"
+  display_name = "Service account for Thanos"
 }
 
 resource "google_project_iam_custom_role" "thanos" {
@@ -30,9 +30,9 @@ resource "google_project_iam_custom_role" "thanos" {
   permissions = local.thanos_permissions
 }
 
-resource "google_service_account_iam_binding" "thanos" {
-  service_account_id = google_service_account.thanos.name
-  role               = google_project_iam_custom_role.thanos.name
+resource "google_project_iam_binding" "thanos" {
+  project = var.project_id
+  role    = google_project_iam_custom_role.thanos.name
   members = [
     "serviceAccount:${google_service_account.thanos.email}",
   ]
