@@ -13,4 +13,3 @@ terraformer import google --resources=gcs,forwardingRules,httpHealthChecks --con
 ## Tips
 
 Consider terraform repository structure [best practices](https://www.terraform-best-practices.com/code-structure)
-
