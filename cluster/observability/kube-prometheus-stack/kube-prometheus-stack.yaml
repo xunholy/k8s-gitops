@@ -118,6 +118,7 @@ spec:
         - vonage-status-panel
         - grafana-worldmap-panel
         - btplc-status-dot-panel
+        - cloudflare-app
       dashboardProviders:
         dashboardproviders.yaml:
           apiVersion: 1
