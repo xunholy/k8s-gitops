@@ -1,16 +1,30 @@
-# ---
-# apiVersion: helm.toolkit.fluxcd.io/v2beta1
-# kind: HelmRelease
-# metadata:
-#   name: gatekeeper
-#   namespace: security
-#   annotations:
-#     fluxcd.io/ignore: 'false'
-#     fluxcd.io/automated: 'false'
-# spec:
-#   releaseName: gatekeeper
-#   helmVersion: v3
-#   chart:
-#     git: git@github.com:open-policy-agent/gatekeeper.git
-#     path: charts/gatekeeper
-#     ref: master
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: gatekeeper
+  namespace: security
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: gatekeeper
+      version: 3.2.0-rc.1
+      sourceRef:
+        kind: HelmRepository
+        name: gatekeeper-charts
+        namespace: gotk-system
+      interval: 5m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true

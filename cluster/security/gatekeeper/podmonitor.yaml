@@ -1,0 +1,13 @@
+# This will scrap for both audit and controller-manager as the label is consistent in both pods.
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: gatekeeper
+  namespace: gatekeeper-system
+spec:
+  selector:
+    matchLabels:
+      app: gatekeeper
+  podMetricsEndpoints:
+    - port: metrics
