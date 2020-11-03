@@ -41,12 +41,12 @@ RUN curl -sL https://github.com/mikefarah/yq/releases/download/3.3.0/yq_linux_${
   chmod +x /usr/bin/yq
 
 # Install kubeseal
-RUN curl -sL -o /usr/local/bin/kubeseal https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-linux-${TARGETARCH} && \
-  chmod +x /usr/local/bin/kubeseal
+RUN curl -sL -o /usr/bin/kubeseal https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-linux-${TARGETARCH} && \
+  chmod +x /usr/bin/kubeseal
 
 # Install fluxctl
-RUN curl -sL -o /usr/local/bin/fluxctl https://github.com/fluxcd/flux/releases/download/${FLUXCTL_VERSION}/fluxctl_linux_${TARGETARCH} && \
-  chmod +x /usr/local/bin/fluxctl
+RUN curl -sL -o /usr/bin/fluxctl https://github.com/fluxcd/flux/releases/download/${FLUXCTL_VERSION}/fluxctl_linux_${TARGETARCH} && \
+  chmod +x /usr/bin/fluxctl
 
 # Install kustomize
 # Note: If arm64 is not support consider compiling from source code.

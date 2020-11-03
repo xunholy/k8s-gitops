@@ -1,0 +1,323 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: observability
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: 10.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community-charts
+        namespace: flux-system
+      interval: 5m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  # Depends on having the sealed secret to un-encrypted required secrets.
+  dependsOn:
+    - name: sealed-secrets
+      namespace: kube-system
+    - name: thanos
+      namespace: observability
+  timeout: 20m
+  values:
+    fullnameOverride: x
+    prometheusOperator:
+      enabled: true
+      manageCrds: true
+      createCustomResource: true
+      # image:
+      #   repository: quay.io/coreos/prometheus-operator
+      #   tag: v0.40.0
+      #   pullPolicy: Always
+      tlsProxy:
+        image:
+          repository: raspbernetes/ghostunnel
+          tag: v1.5.3
+      admissionWebhooks:
+        patch:
+          image:
+            repository: jettech/kube-webhook-certgen
+            tag: v1.3.0
+      # configmapReloadImage:
+      #   repository: jimmidyson/configmap-reload
+      #   tag: v0.4.0
+      # prometheusConfigReloaderImage:
+      #   repository: quay.io/coreos/prometheus-config-reloader
+      #   tag: v0.40.0
+    alertmanager:
+      fullnameOverride: alertmanager
+      enabled: true
+      alertmanagerSpec:
+        # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
+        portName: http-web
+      ingress:
+        enabled: false
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+          nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
+          nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
+        hosts:
+          - alert-manager.raspbernetes.com
+        path: /
+        tls:
+          - secretName: alert-manager.raspbernetes.com-tls
+            hosts:
+              - alert-manager.raspbernetes.com
+    grafana:
+      fullnameOverride: grafana
+      enabled: true
+      image:
+        repository: grafana/grafana
+        tag: 7.2.2
+      ingress:
+        enabled: false
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+          nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
+          nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
+        hosts:
+          - grafana.raspbernetes.com
+        path: /
+        tls:
+          - secretName: grafana.raspbernetes.com-tls
+            hosts:
+              - grafana.raspbernetes.com
+      sidecar:
+        image:
+          tag: 0.1.193
+        imagePullPolicy: Always
+        dashboards:
+          enabled: true
+          searchNamespace: ALL
+        datasources:
+          enabled: true
+          # Disabled due to thanos being set as the new default datasource instead of prometheus
+          defaultDatasourceEnabled: false
+      plugins:
+        - natel-discrete-panel
+        - pr0ps-trackmap-panel
+        - grafana-piechart-panel
+        - vonage-status-panel
+        - grafana-worldmap-panel
+        - btplc-status-dot-panel
+        - cloudflare-app
+      dashboardProviders:
+        dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+            - name: 'default'
+              orgId: 1
+              folder: ''
+              type: file
+              disableDeletion: false
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/default
+      dashboards:
+        default:
+          cert-manager:
+            url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
+            datasource: Prometheus
+          istio-mesh:
+            url: https://grafana.com/api/dashboards/7639/revisions/22/download
+            datasource: Prometheus
+          istio-service:
+            url: https://grafana.com/api/dashboards/7636/revisions/22/download
+            datasource: Prometheus
+          istio-workload:
+            url: https://grafana.com/api/dashboards/7630/revisions/22/download
+            datasource: Prometheus
+          istio-performence:
+            url: https://grafana.com/api/dashboards/11829/revisions/22/download
+            datasource: Prometheus
+          istio-control-plane:
+            url: https://grafana.com/api/dashboards/7645/revisions/22/download
+            datasource: Prometheus
+          openebs:
+            url: https://grafana.com/api/dashboards/12171/revisions/1/download
+            datasource: Prometheus
+          openebs-pg-dashboard:
+            url: https://raw.githubusercontent.com/openebs/openebs/master/k8s/openebs-pg-dashboard.json
+            datasource: Prometheus
+          sealed-secrets:
+            url: https://raw.githubusercontent.com/bitnami-labs/sealed-secrets/master/contrib/prometheus-mixin/dashboards/sealed-secrets-controller.json
+            datasource: Prometheus
+          speedtest:
+            url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/prometheus-operator/grafana-dashboards/internet_speed.json
+            datasource: Prometheus
+          thanos-overview:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/overview.json
+            datasource: Prometheus
+          thanos-compact:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/compact.json
+            datasource: Prometheus
+          thanos-querier:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/query.json
+            datasource: Prometheus
+          thanos-store:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/store.json
+            datasource: Prometheus
+          thanos-receiver:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/receive.json
+            datasource: Prometheus
+          thanos-sidecar:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/sidecar.json
+            datasource: Prometheus
+          thanos-ruler:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/rule.json
+            datasource: Prometheus
+          thanos-replicate:
+            url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/bucket-replicate.json
+            datasource: Prometheus
+          toolkit-cluster:
+            url: https://raw.githubusercontent.com/fluxcd/toolkit/main/manifests/monitoring/grafana/dashboards/cluster.json
+            datasource: Prometheus
+          toolkit-control-plane:
+            url: https://raw.githubusercontent.com/fluxcd/toolkit/main/manifests/monitoring/grafana/dashboards/control-plane.json
+            datasource: Prometheus
+          velero:
+            url: https://grafana.com/api/dashboards/11055/revisions/2/download
+            datasource: Prometheus
+      additionalDataSources:
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://thanos-query-http:10902/
+          isDefault: true
+        - name: loki
+          type: loki
+          access: proxy
+          url: http://loki.observability.svc.cluster.local:3100
+      downloadDashboardsImage:
+        repository: curlimages/curl
+        tag: 7.72.0
+      # Unused because disable_login_form=true however, used for backup authentication
+      admin:
+        existingSecret: 'grafana-admin-creds'
+        userKey: admin-user
+        passwordKey: admin-password
+      extraSecretMounts:
+        - name: auth-github-oauth-secret-mount
+          secretName: auth-github-oauth-secret
+          defaultMode: 0440
+          mountPath: /etc/secrets/auth_github_oauth
+          readOnly: true
+        - name: auth-generic-oauth-secret-mount
+          secretName: auth-generic-oauth-secret
+          defaultMode: 0440
+          mountPath: /etc/secrets/auth_generic_oauth
+          readOnly: true
+      ## grafana Authentication can be enabled with the following values on grafana.ini
+      # The full public facing url you use in browser, used for redirects and emails
+      # https://grafana.com/docs/grafana/latest/auth/github/#enable-github-in-grafana
+      # Note: auth.github.enabled=false until chart supports existingSecret functionality.
+      # https://github.com/helm/charts/issues/22473
+      grafana.ini:
+        server:
+          root_url: https://grafana.raspbernetes.com
+        auth.basic:
+          disable_login_form: true
+        auth.github:
+          enabled: true
+          allow_sign_up: true
+          scopes: user:email,read:org
+          auth_url: https://github.com/login/oauth/authorize
+          token_url: https://github.com/login/oauth/access_token
+          api_url: https://api.github.com/user
+          allowed_organizations: raspbernetes
+          client_id: $__file{/etc/secrets/auth_github_oauth/client_id}
+          client_secret: $__file{/etc/secrets/auth_github_oauth/client_secret}
+        auth.generic_oauth:
+          enabled: true
+          allow_sign_up: true
+          name: Dex
+          client_id: $__file{/etc/secrets/auth_generic_oauth/client_id}
+          client_secret: $__file{/etc/secrets/auth_generic_oauth/client_secret}
+          scopes: openid profile email groups
+          auth_url: https://dex.raspbernetes.com/auth
+          token_url: https://dex.raspbernetes.com/token
+          api_url: https://dex.raspbernetes.com/userinfo
+        auth.generic_oauth.group_mapping:
+          role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || 'Viewer'"
+          org_id: 1
+        auth.github.group_mapping:
+          role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || 'Viewer'"
+          org_id: 1
+    prometheus:
+      fullnameOverride: prometheus
+      ingress:
+        enabled: false
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+          nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
+          nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
+        hosts:
+          - prometheus.raspbernetes.com
+        path: /
+        tls:
+          - secretName: prometheus.raspbernetes.com-tls
+            hosts:
+              - prometheus.raspbernetes.com
+      ## Settings affecting prometheusSpec
+      ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
+      ##
+      prometheusSpec:
+        retention: 6h
+        # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
+        portName: http-web
+        resources:
+          requests:
+            memory: '1024Mi'
+            cpu: '125m'
+          limits:
+            memory: 1536Mi
+            cpu: '500m'
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: openebs-cstor-sparse
+              resources:
+                requests:
+                  storage: 10Gi
+        thanos:
+          image: raspbernetes/thanos:latest
+          version: latest
+          # Thanos chart will generate the secret: thanos
+          objectStorageConfig:
+            name: thanos
+            key: object-store.yaml
+        ruleSelector: {}
+        ruleNamespaceSelector: {}
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelector: {}
+        serviceMonitorNamespaceSelector: {}
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelector: {}
+        podMonitorNamespaceSelector: {}
+        podMonitorSelectorNilUsesHelmValues: false
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+      image:
+        repository: raspbernetes/kube-state-metrics
+        tag: v1.9.5
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter

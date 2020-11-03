@@ -2,19 +2,19 @@
 
 set -eou pipefail
 
-VERSION="0.1.6"
+VERSION="0.2.1"
 
-if [[ ! $(gotk) ]]; then
-  echo "gotk needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli"
+if [[ ! $(flux) ]]; then
+  echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli"
   exit 1
 fi
 
-gotk install \
+flux install \
   --version="${VERSION}" \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
-  --namespace=gotk-system \
+  --namespace=flux-system \
   --network-policy=false \
   --arch=arm64 \
-  --export > "./namespaces/gotk-system/toolkit-components.yaml"
+  --export > "./namespaces/flux-system/toolkit-components.yaml"
 
 git add -A && git commit -sam "update toolkit version: ${VERSION}" && git push

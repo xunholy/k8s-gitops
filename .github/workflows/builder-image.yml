@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/builder-image.yml'
-      - 'scripts/build/docker/Dockerfile'
+      - 'build/docker/Dockerfile'
 
 jobs:
   build:
@@ -53,4 +53,3 @@ jobs:
           push: true
           tags: |
             raspbernetes/builder:latest
-

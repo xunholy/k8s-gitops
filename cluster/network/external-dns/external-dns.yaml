@@ -1,0 +1,65 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: external-dns
+  namespace: network
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: external-dns
+      version: 3.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts
+        namespace: flux-system
+      interval: 5m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  # Depends on prometheus-operator due to service monitor resources.
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: observability
+  values:
+    image:
+      registry: docker.io
+      repository: raspbernetes/external-dns
+      tag: v0.7.3
+      pullPolicy: IfNotPresent
+    provider: cloudflare
+    policy: upsert-only
+    registry: 'txt'
+    replicas: 1
+    logLevel: debug
+    rbac:
+      create: true
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: observability
+    crd:
+      create: true
+    sources:
+      - service
+      - ingress
+      - istio-gateway
+      - istio-virtualservice
+    domainFilters:
+      - raspbernetes.com
+    cloudflare:
+      secretName: 'cloudflare-external-dns'
+      email: 'michaelfornaro@gmail.com'
+      proxied: true

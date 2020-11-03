@@ -1,0 +1,70 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: thanos
+  namespace: observability
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: thanos
+      version: 0.3.28
+      sourceRef:
+        kind: HelmRepository
+        name: banzaicloud-charts
+        namespace: flux-system
+      interval: 5m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  # Depends on having sealed-secret to un-encrypted required secrets: thanos-objstore-config.
+  dependsOn:
+    - name: sealed-secrets
+      namespace: kube-system
+  values:
+    image:
+      repository: raspbernetes/thanos
+      tag: latest
+    query:
+      replicaCount: 2
+      replicaLabels:
+        - replica
+      # resources:
+      #   limits:
+      #     cpu: 2000m
+      #     memory: 16Gi
+      #   requests:
+      #     cpu: 1000m
+      #     memory: 4Gi
+      http:
+        ingress:
+          enabled: false
+          annotations:
+            kubernetes.io/ingress.class: nginx
+            cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+            nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
+            nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
+          hosts:
+            - thanos.raspbernetes.com
+          tls:
+            - secretName: thanos.raspbernetes.com-tls
+              hosts:
+                - thanos.raspbernetes.com
+    objstore:
+      type: GCS
+      config:
+        bucket: 'thanos-raspbernetes-storage'
+  valuesFrom:
+    - kind: Secret
+      name: thanos-objstore-config

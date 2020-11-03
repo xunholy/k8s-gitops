@@ -5,8 +5,8 @@ set -eou pipefail
 # TODO: automatically update the ~/.kube/config with required context generated.
 KUBECONFIG=~/.kube/config:~/projects/k8s-cluster-installation/ansible/playbooks/output/k8s-config.yaml kubectl config view --flatten > ~/.kube/config
 
-if [[ ! $(gotk) ]]; then
-  echo "gotk needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli"
+if [[ ! $(flux) ]]; then
+  echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli"
   exit 1
 fi
 
@@ -15,13 +15,13 @@ fi
 [[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master-) ]] && echo "Masters untainted"
 
 # Check the cluster meets the fluxv2 prerequisites
-gotk check --pre
+flux check --pre
 [[ $? -ne 0 ]] && echo "Prerequisites were not satisfied" && exit 1
 
-gotk install \
+flux install \
   --version=latest \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
-  --namespace=gotk-system \
+  --namespace=flux-system \
   --network-policy=false \
   --arch=arm64
 

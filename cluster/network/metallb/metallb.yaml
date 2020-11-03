@@ -1,0 +1,50 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: metallb
+  namespace: network
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: metallb
+      version: 0.12.0
+      sourceRef:
+        kind: HelmRepository
+        name: kubernetes-stable-charts
+        namespace: flux-system
+      interval: 5m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  values:
+    controller:
+      image:
+        repository: metallb/controller
+        tag: v0.9.3
+    speaker:
+      image:
+        repository: metallb/speaker
+        tag: v0.9.3
+    prometheus:
+      serviceMonitor:
+        enabled: false
+      prometheusRule:
+        enabled: false
+    configInline:
+      address-pools:
+        - name: default
+          protocol: layer2
+          addresses:
+            - 192.168.1.150-192.168.1.155
