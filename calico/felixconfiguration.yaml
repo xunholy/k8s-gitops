@@ -10,7 +10,7 @@ spec:
   bpfLogLevel: ''
   ipipEnabled: true
   logSeverityScreen: Info
-  # prometheusMetricsEnabled: true # https://docs.projectcalico.org/maintenance/monitor/monitor-component-metrics
+  prometheusMetricsEnabled: true # https://docs.projectcalico.org/maintenance/monitor/monitor-component-metrics
   reportingInterval: 0s
   # sidecarAccelerationEnabled: true # https://docs.projectcalico.org/networking/sidecar-acceleration
   # policySyncPathPrefix: '/var/run/nodeagent' # https://docs.projectcalico.org/security/app-layer-policy
