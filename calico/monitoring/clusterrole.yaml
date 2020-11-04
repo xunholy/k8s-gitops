@@ -1,0 +1,33 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: calico-prometheus-user
+rules:
+  - apiGroups: ['']
+    resources:
+      - endpoints
+      - services
+      - pods
+    verbs: ['get', 'list', 'watch']
+  - nonResourceURLs: ['/metrics']
+    verbs: ['get']
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: calico-prometheus-user
+  namespace: calico-monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: calico-prometheus-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: calico-prometheus-user
+subjects:
+  - kind: ServiceAccount
+    name: calico-prometheus-user
+    namespace: calico-monitoring

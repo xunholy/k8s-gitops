@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-config
-  namespace: observability
+  namespace: calico-monitoring
 data:
   prometheus.yml: |-
     global:
