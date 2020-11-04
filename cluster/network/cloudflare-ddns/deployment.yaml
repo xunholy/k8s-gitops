@@ -40,6 +40,11 @@ spec:
                 secretKeyRef:
                   name: cloudflare-ddns
                   key: record-types
+            # https://github.com/docker-hotio/docker-cloudflare-ddns#log-levels
+            - name: LOG_LEVEL
+              value: '3'
+            - name: INTERVAL
+              value: '300'
           resources:
             requests:
               cpu: 100m
