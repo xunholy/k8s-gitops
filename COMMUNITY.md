@@ -15,5 +15,6 @@ This is a great way to learn from others in the OSS community and to help learn 
 | *Username* | *Repo* | *Description* |
 | :---------:|:------:|---------------|
 |[@xUnholy](https://github.com/xUnholy)|[k8s-gitops](https://github.com/raspbernetes/k8s-gitops)|Kubernetes cluster managed by GitOps - Git as a single source of truth, automated pipelines, declarative everything, next-generation DevOps|
+|[@dcplaya](https://github.com/dcplaya)|[k8s-gitops](https://github.com/dcplaya/k8s-gitops)|Kubernetes (k3s) cluster with ansible roles for installs|
 
 *Note: Want to add your *repo* to the list? Feel free to raise a pull request adding your details!*
