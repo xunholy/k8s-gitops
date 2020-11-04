@@ -1,0 +1,11 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Provider
+metadata:
+  name: slack
+  namespace: flux-system
+spec:
+  type: slack
+  channel: general
+  # secret containing the webhook address
+  address: https://hooks.slack.com/services/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

@@ -1,0 +1,19 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: Runner
+metadata:
+  name: org-runner
+  namespace: actions-runner-system
+spec:
+  organization: raspbernetes
+  image: docker.io/summerwind/actions-runner:v2.273.5
+  env: []
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: Runner
+metadata:
+  name: k8s-gitops-runner
+  namespace: actions-runner-system
+spec:
+  repository: raspbernetes/k8s-gitops
+  image: docker.io/summerwind/actions-runner:v2.273.5
+  env: []

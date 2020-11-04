@@ -1,0 +1,21 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: alert-manager
+  namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: raspbernetes.com
+spec:
+  hosts:
+    - 'alert-manager.raspbernetes.com'
+  gateways:
+    - istio-system/istio-system-ingress-gateway
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            port:
+              number: 9093
+            host: x-alertmanager.observability.svc.cluster.local

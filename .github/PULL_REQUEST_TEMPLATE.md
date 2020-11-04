@@ -1,17 +1,14 @@
 # Description
 
-Please provide a description for what this PR is for.
+Please provide a description of what this PR is for.
 
-## Type Of Change
+## Checklist
 
-To help us figure out who should review this PR, please put an X in all the areas that this PR affects.
-
-- [ ] Docs
-- [ ] Installation
-- [ ] Performance and Scalability
-- [ ] Security
-- [ ] Test and/or Release
-- [ ] User Experience
+- [ ] All commits are signed off. See the section [Developer’s Certificate of Origin](https://developercertificate.org/)
+- [ ] Provide a title or release-note blurb suitable for the release notes.
+- [ ] All pre-commit hook validation passed successfully.
+- [ ] All commits contain a well-written commit description including a title, description, and a Fixes: #XXX line if the commit addresses a particular GitHub issue.
+- [ ] All workflow validation and compliance checks are passing.
 
 ## Issue Ref (Optional)
 

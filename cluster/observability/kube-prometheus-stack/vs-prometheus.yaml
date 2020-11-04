@@ -1,0 +1,21 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: prometheus
+  namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: raspbernetes.com
+spec:
+  hosts:
+    - 'prometheus.raspbernetes.com'
+  gateways:
+    - istio-system/istio-system-ingress-gateway
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            port:
+              number: 9090
+            host: x-prometheus.observability.svc.cluster.local

@@ -1,0 +1,49 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: loki
+  namespace: observability
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: loki-stack
+      version: 2.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: grafana-loki-charts
+        namespace: flux-system
+      interval: 5m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  # Depends on having prometheus-operator due to service monitor resources.
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: observability
+  values:
+    loki:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    promtail:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    fluent-bit:
+      enabled: false
+    grafana:
+      enabled: false
+    prometheus:
+      enabled: false
