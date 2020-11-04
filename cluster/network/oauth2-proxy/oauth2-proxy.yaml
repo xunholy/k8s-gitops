@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: oauth2-proxy
-      version: 3.1.0
+      version: 3.2.3
       sourceRef:
         kind: HelmRepository
         name: kubernetes-stable-charts
@@ -31,7 +31,9 @@ spec:
   # Depends on having the sealed secret oauth2-proxy-dex un-encrypted. Also requires dex + cert-manager to be running.
   dependsOn:
     - name: dex
+      namespace: network
     - name: cert-manager
+      namespace: network
     - name: sealed-secrets
       namespace: kube-system
   values:
