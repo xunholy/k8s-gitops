@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
   name: gatekeeper-charts
-  namespace: gotk-system
+  namespace: flux-system
   creationTimestamp: null
 spec:
   interval: 24h
