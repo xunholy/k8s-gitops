@@ -13,7 +13,8 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - '*'
+        - 'raspbernetes.com'
+        - '*.raspbernetes.com'
       tls:
         httpsRedirect: true
     - port:
@@ -21,7 +22,8 @@ spec:
         name: https
         protocol: HTTPS
       hosts:
-        - '*'
+        - 'raspbernetes.com'
+        - '*.raspbernetes.com'
       tls:
         credentialName: wildcard-cert
         mode: SIMPLE

@@ -2,17 +2,17 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: metallb
-  namespace: network
+  name: litmus
+  namespace: litmus
 spec:
   interval: 5m
   chart:
     spec:
-      chart: metallb
-      version: 0.12.1
+      chart: litmus
+      version: 1.9.0
       sourceRef:
         kind: HelmRepository
-        name: kubernetes-stable-charts
+        name: litmuschaos-charts
         namespace: flux-system
       interval: 5m
   test:
@@ -29,22 +29,19 @@ spec:
     timeout: 1m
     cleanupOnFail: true
   values:
-    controller:
+    operator:
       image:
-        repository: metallb/controller
-        tag: v0.9.3
-    speaker:
+        repository: litmuschaos/chaos-operator
+        tag: multiarch-1.9.0
+        pullPolicy: IfNotPresent
+    runner:
       image:
-        repository: metallb/speaker
-        tag: v0.9.3
-    prometheus:
-      serviceMonitor:
-        enabled: false
-      prometheusRule:
-        enabled: false
-    configInline:
-      address-pools:
-        - name: default
-          protocol: layer2
-          addresses:
-            - 192.168.1.150-192.168.1.155
+        repository: litmuschaos/chaos-runner
+        tag: multiarch-1.9.0
+    # exporter is disabled due to no multi-arch image support
+    exporter:
+      enabled: false
+      image:
+        repository: litmuschaos/chaos-exporter
+        tag: 1.9.0
+        pullPolicy: IfNotPresent
