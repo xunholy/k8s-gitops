@@ -2,7 +2,7 @@
 
 Since emerging the Raspbernetes project the community has been overwhelmingly friendly, helpful and insightful, there is a lot of awesome engineers who have helped inspire this project.
 
-Whether you're begging your learning journey or are a Kubernetes veteran we'd love to have you involved and engaged in helping build this fantastic community.
+Whether you're beginning your learning journey or are a Kubernetes veteran we'd love to have you involved and engaged in helping build this fantastic community.
 
 Join us on Discord [here](https://discord.gg/RGvKzVg).
 
