@@ -33,8 +33,8 @@ spec:
     - name: sealed-secrets
       namespace: kube-system
   values:
-    image: raspbernetes/dex
-    imageTag: v2.24.0
+    image: ghcr.io/dexidp/dex
+    imageTag: v2.26.0
     grpc: false
     ports:
       web:
@@ -63,10 +63,10 @@ spec:
         # tlsCert: /etc/dex/tls/tls.crt
         # tlsKey: /etc/dex/tls/tls.key
       frontend:
-        theme: 'coreos'
+        theme: 'tectonic'
         issuer: 'Raspbernetes'
         issuerUrl: 'https://raspbernetes.com'
-        logoUrl: https://example.com/images/logo-250x25.png
+        logoUrl: https://github.com/raspbernetes/docs/blob/master/website/static/img/logo.png
       expiry:
         signingKeys: '6h'
         idTokens: '24h'
