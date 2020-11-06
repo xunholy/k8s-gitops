@@ -33,7 +33,7 @@ spec:
     - name: sealed-secrets
       namespace: kube-system
   values:
-    image: ghcr.io/dexidp/dex
+    image: dexidp/dex
     imageTag: v2.26.0
     grpc: false
     ports:
