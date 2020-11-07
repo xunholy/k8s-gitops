@@ -41,10 +41,6 @@ spec:
       enabled: true
       manageCrds: true
       createCustomResource: true
-      # image:
-      #   repository: quay.io/coreos/prometheus-operator
-      #   tag: v0.40.0
-      #   pullPolicy: Always
       tlsProxy:
         image:
           repository: raspbernetes/ghostunnel
@@ -54,12 +50,6 @@ spec:
           image:
             repository: jettech/kube-webhook-certgen
             tag: v1.3.0
-      # configmapReloadImage:
-      #   repository: jimmidyson/configmap-reload
-      #   tag: v0.4.0
-      # prometheusConfigReloaderImage:
-      #   repository: quay.io/coreos/prometheus-config-reloader
-      #   tag: v0.40.0
     alertmanager:
       fullnameOverride: alertmanager
       enabled: true

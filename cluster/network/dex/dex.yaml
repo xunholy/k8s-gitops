@@ -76,6 +76,8 @@ spec:
         alwaysShowLoginScreen: false
         skipApprovalScreen: true
         responseTypes: ['code', 'token', 'id_token']
+      # Disable default email auth and only use oauth2 providers configured as connectors
+      enablePasswordDB: false
     ingress:
       enabled: false
       annotations:
