@@ -1,0 +1,10 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Provider
+metadata:
+  name: github
+spec:
+  type: github
+  address: https://github.com/raspbernetes/k8s-gitops
+  secretRef:
+    name: git-api-token
