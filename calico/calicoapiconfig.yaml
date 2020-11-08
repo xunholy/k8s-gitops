@@ -1,0 +1,6 @@
+apiVersion: projectcalico.org/v3
+kind: CalicoAPIConfig
+metadata:
+spec:
+  datastoreType: 'etcdv3'
+  etcdEndpoints: 'https://127.0.0.1:2379'
