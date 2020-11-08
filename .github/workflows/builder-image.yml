@@ -5,6 +5,12 @@ on:
     paths:
       - '.github/workflows/builder-image.yml'
       - 'build/docker/Dockerfile'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Use this tag instead of most recent'
+        required: false
+        default: latest
 
 jobs:
   build:
@@ -52,4 +58,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            raspbernetes/builder:latest
+            raspbernetes/builder:${{ github.event.inputs.tag }}
