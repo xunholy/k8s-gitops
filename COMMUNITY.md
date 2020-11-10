@@ -20,5 +20,6 @@ This is a great way to learn from others in the OSS community and to help learn 
 |[@anthr76](https://github.com/anthr76)|[infra](https://github.com/anthr76/infra)|Multi-arch Git-Ops with infrastructure declared as code using Terraform|
 |[@carpenike](https://github.com/carpenike)|[k8s-gitops](https://github.com/carpenike/k8s-gitops)|Home services running on Kubernetes Cluster automated via GitOps philosophies.|
 |[@crutonjohn](https://github.com/crutonjohn)|[gitops](https://github.com/crutonjohn/gitops)|Flux, Vanilla k8s with `kubeadm`, heterogeneous architecture with Pi4s and Dell 610s|
+|[@rust84](https://github.com/rusty84)|[k8s-gitops](https://github.com/rust84/k8s-gitops)|Kubernetes (k3s) cluster built on Raspberry Pi4 and Intel NUC hardware, using GitOps principles.|
 
 *Note: Want to add your *repo* to the list? Feel free to raise a pull request adding your details!*
