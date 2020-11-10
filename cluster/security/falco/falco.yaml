@@ -1,0 +1,56 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: falco
+  namespace: security
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: falco
+      version: '>=1.5.3 <2.0.0'
+      sourceRef:
+        kind: HelmRepository
+        name: falcosecurity-charts
+        namespace: flux-system
+      interval: 10m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  values:
+    docker:
+      enabled: true
+      socket: /var/run/docker.sock
+    containerd:
+      enabled: false
+      socket: /run/containerd/containerd.sock
+    podSecurityPolicy:
+      create: true
+    ebpf:
+      # Enable eBPF support for Falco
+      enabled: false
+      settings:
+        # Needed to enable eBPF JIT at runtime for performance reasons.
+        # Can be skipped if eBPF JIT is enabled from outside the container
+        hostNetwork: true
+    auditLog:
+      # true here activates the K8s Audit Log feature for Falco
+      enabled: false
+      dynamicBackend:
+        # true here configures an AuditSink who will receive the K8s audit logs
+        enabled: false
+        # define if auditsink client config should point to a fixed url, not the
+        # default webserver service
+        url: ''

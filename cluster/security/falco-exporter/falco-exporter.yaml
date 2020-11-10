@@ -1,0 +1,49 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: falco-exporter
+  namespace: security
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: falco-exporter
+      version: '>=0.3.8 <1.0.0'
+      sourceRef:
+        kind: HelmRepository
+        name: falcosecurity-charts
+        namespace: flux-system
+      interval: 10m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  values:
+    podSecurityPolicy:
+      create: true
+    grafanaDashboard:
+      enabled: false
+      namespace: default
+    serviceMonitor:
+      # Enable the deployment of a Service Monitor for the Prometheus Operator.
+      enabled: false
+      # Specify Additional labels to be added on the Service Monitor.
+      additionalLabels: {}
+      # Specify a user defined interval. When not specified Prometheus default interval is used.
+      interval: ''
+      # Specify a user defined scrape timeout. When not specified Prometheus default scrape timeout is used.
+      scrapeTimeout: ''
+    scc:
+      # true here enabled creation of Security Context Constraints in Openshift
+      create: false
