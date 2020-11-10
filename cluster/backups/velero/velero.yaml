@@ -28,13 +28,10 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  # Depends on having the sealed secret cloud-credentials un-encrypted. Also depends on prometheus-operator
-  # due to service monitor resources.
+  # Depends on having the sealed secret cloud-credentials un-encrypted.
   dependsOn:
     - name: sealed-secrets
       namespace: kube-system
-    - name: kube-prometheus-stack
-      namespace: observability
   values:
     initContainers:
       - name: velero-plugin-for-gcp
@@ -58,8 +55,6 @@ spec:
         bucket: raspbernetes-velero-backups
     metrics:
       enabled: true
-      serviceMonitor:
-        enabled: true
     snapshotsEnabled: false
     deployRestic: false
     restic:

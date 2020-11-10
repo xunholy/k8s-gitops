@@ -29,10 +29,6 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  # Depends on kube-prometheus-stack due to service monitor resources.
-  dependsOn:
-    - name: kube-prometheus-stack
-      namespace: observability
   values:
     image:
       repository: raspbernetes/kured
@@ -40,4 +36,4 @@ spec:
     service:
       create: true
     metrics:
-      create: true
+      create: false

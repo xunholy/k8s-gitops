@@ -29,13 +29,10 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  # Depends on having the sealed secret cloudflare-cert-manager-token un-encrypted. Also depends on prometheus-operator
-  # due to service monitor resources.
+  # Depends on having the sealed secret cloudflare-cert-manager-token un-encrypted.
   dependsOn:
     - name: sealed-secrets
       namespace: kube-system
-    - name: kube-prometheus-stack
-      namespace: observability
   values:
     global:
       logLevel: 4
@@ -48,7 +45,7 @@ spec:
     prometheus:
       enabled: true
       servicemonitor:
-        enabled: true
+        enabled: false
     extraArgs:
       - --cluster-resource-namespace=network
       - --enable-certificate-owner-ref=true

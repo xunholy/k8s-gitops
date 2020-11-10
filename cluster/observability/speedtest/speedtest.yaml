@@ -29,9 +29,6 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  # Depends on having prometheus-operator due to service monitor resources.
-  dependsOn:
-    - name: kube-prometheus-stack
   values:
     serviceMonitor:
-      enabled: true
+      enabled: false

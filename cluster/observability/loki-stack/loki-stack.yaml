@@ -29,19 +29,15 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  # Depends on having prometheus-operator due to service monitor resources.
-  dependsOn:
-    - name: kube-prometheus-stack
-      namespace: observability
   values:
     loki:
       enabled: true
       serviceMonitor:
-        enabled: true
+        enabled: false
     promtail:
       enabled: true
       serviceMonitor:
-        enabled: true
+        enabled: false
     fluent-bit:
       enabled: false
     grafana:
