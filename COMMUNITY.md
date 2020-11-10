@@ -17,5 +17,6 @@ This is a great way to learn from others in the OSS community and to help learn 
 |[@xUnholy](https://github.com/xUnholy)|[k8s-gitops](https://github.com/raspbernetes/k8s-gitops)|Kubernetes cluster managed by GitOps - Git as a single source of truth, automated pipelines, declarative everything, next-generation DevOps|
 |[@dcplaya](https://github.com/dcplaya)|[k8s-gitops](https://github.com/dcplaya/k8s-gitops)|Kubernetes (k3s) cluster with ansible roles for installs|
 |[@rkage](https://github.com/rkage)|[GitOps](https://github.com/mcfio/GitOps)|Opinionated Kubernetes cluster built on Raspberry Pi4's|
+|[@anthr76](https://github.com/anthr76)|[infra](https://github.com/anthr76/infra)|Multi-arch Git-Ops with infrastructure declared as code using Terraform|
 
 *Note: Want to add your *repo* to the list? Feel free to raise a pull request adding your details!*
