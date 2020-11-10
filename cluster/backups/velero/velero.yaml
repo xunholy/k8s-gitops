@@ -36,10 +36,6 @@ spec:
     - name: kube-prometheus-stack
       namespace: observability
   values:
-    image:
-      repository: twoequaldots/velero-arm64
-      tag: test
-      digest: sha256:4d01e153b09a4ba42d0876a63d92f0224f4135c2d13c1d0f8e15171e10e283d4
     initContainers:
       - name: velero-plugin-for-gcp
         image: raspbernetes/velero-gcp-plugin:v1.0.1
