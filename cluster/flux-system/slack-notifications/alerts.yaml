@@ -23,7 +23,7 @@ metadata:
 spec:
   providerRef:
     name: slack
-  eventSeverity: info
+  eventSeverity: error
   eventSources:
     - kind: HelmRelease
       namespace: 'observability'

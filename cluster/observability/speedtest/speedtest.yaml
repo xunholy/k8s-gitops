@@ -26,7 +26,8 @@ spec:
       remediateLastFailure: true # remediate the last failure, when no retries remain
     cleanupOnFail: true
   rollback:
-    timeout: 1m
+    timeout: 10m
+    recreate: true
     cleanupOnFail: true
   # Depends on having prometheus-operator due to service monitor resources.
   dependsOn:

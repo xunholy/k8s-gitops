@@ -25,7 +25,8 @@ spec:
       remediateLastFailure: true
     cleanupOnFail: true
   rollback:
-    timeout: 1m
+    timeout: 10m
+    recreate: true
     cleanupOnFail: true
   # Depends on having the sealed secret cloud-credentials un-encrypted. Also depends on prometheus-operator
   # due to service monitor resources.

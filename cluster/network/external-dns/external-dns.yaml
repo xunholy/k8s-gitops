@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: bitnami-charts
         namespace: flux-system
-      interval: 5m
+      interval: 10m
   test:
     enable: false # Enable helm test
   install:
@@ -26,7 +26,8 @@ spec:
       remediateLastFailure: true # remediate the last failure, when no retries remain
     cleanupOnFail: true
   rollback:
-    timeout: 1m
+    timeout: 10m
+    recreate: true
     cleanupOnFail: true
   # Depends on prometheus-operator due to service monitor resources.
   dependsOn:
