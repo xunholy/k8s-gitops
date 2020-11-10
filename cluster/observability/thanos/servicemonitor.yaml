@@ -9,9 +9,6 @@ spec:
   endpoints:
     - port: http
       interval: 15s
-  namespaceSelector:
-    matchNames:
-      - observability
   selector:
     matchLabels:
       app.kubernetes.io/component: compact
@@ -26,9 +23,6 @@ spec:
   endpoints:
     - port: http
       interval: 15s
-  namespaceSelector:
-    matchNames:
-      - observability
   selector:
     matchLabels:
       app.kubernetes.io/component: rule
@@ -43,9 +37,6 @@ spec:
   endpoints:
     - port: http
       interval: 15s
-  namespaceSelector:
-    matchNames:
-      - observability
   selector:
     matchLabels:
       app.kubernetes.io/component: query
@@ -60,9 +51,6 @@ spec:
   endpoints:
     - port: http
       interval: 15s
-  namespaceSelector:
-    matchNames:
-      - observability
   selector:
     matchLabels:
       app.kubernetes.io/component: sidecar
@@ -77,9 +65,6 @@ spec:
   endpoints:
     - port: http
       interval: 15s
-  namespaceSelector:
-    matchNames:
-      - observability
   selector:
     matchLabels:
       app.kubernetes.io/component: store
