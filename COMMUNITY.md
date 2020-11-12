@@ -22,5 +22,6 @@ This is a great way to learn from others in the OSS community and to help learn 
 |[@crutonjohn](https://github.com/crutonjohn)|[gitops](https://github.com/crutonjohn/gitops)|Flux, Vanilla k8s with `kubeadm`, heterogeneous architecture with Pi4s and Dell 610s|
 |[@rust84](https://github.com/rusty84)|[k8s-gitops](https://github.com/rust84/k8s-gitops)|Kubernetes (k3s) cluster built on Raspberry Pi4 and Intel NUC hardware, using GitOps principles.|
 |[@billimek](https://github.com/billimek)|[k8s-gitops](https://github.com/billimek/k8s-gitops)|GitOps principles to define kubernetes k3s cluster state via code, running on mixed-architecture hardware|
+|[@onedr0p](https://github.com/onedr0p)|[home-cluster](https://github.com/onedr0p/home-cluster)|My home Kubernetes (k3s) cluster managed by GitOps (Flux2)|
 
 *Note: Want to add your *repo* to the list? Feel free to raise a pull request adding your details!*
