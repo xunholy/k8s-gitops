@@ -25,27 +25,26 @@ usage(){
 }
 
 encrypt() {
-  # TODO: support encrypting a secret with an explicit path in the repo
-  for FILE in .secrets/sops/*."${FILE_EXT}"; do
-    # strip file suffix and extension
-    FILENAME=${FILE%.$FILE_EXT}
-    [[ ${FILE} =~ ${FILENAME_SUFFIX} ]] && echo "Skipping already encrypted file: ${FILE}" && continue
-    sops --encrypt "${FILE}" > "${FILENAME}.${FILENAME_SUFFIX}.${FILE_EXT}"
-    # remove unencrypted value
-    rm -f "${FILE}"
-  done
+    # TODO: support encrypting a secret with an explicit path in the repo
+    for FILE in .secrets/sops/*."${FILE_EXT}"; do
+        # strip file suffix and extension
+        FILENAME=${FILE%.$FILE_EXT}
+        [[ ${FILE} =~ ${FILENAME_SUFFIX} ]] && echo "Skipping already encrypted file: ${FILE}" && continue
+        sops --encrypt "${FILE}" > "${FILENAME}.${FILENAME_SUFFIX}.${FILE_EXT}"
+        # remove unencrypted value
+        rm -f "${FILE}"
+    done
 }
 
 decrypt() {
-  mkdir -p .secrets/sops/unencrypted
-  for FILE in .secrets/sops/*."${FILENAME_SUFFIX}"."${FILE_EXT}"; do
-    # strip file suffix and extension
-    FILENAME=${FILE%.$FILENAME_SUFFIX.$FILE_EXT}
-    # strip parent dir paths
-    FILENAME=${FILENAME##*/}
-    sops --decrypt "${FILE}" > .secrets/sops/unencrypted/"${FILENAME}.${FILE_EXT}"
-    break
-  done
+    mkdir -p .secrets/sops/unencrypted
+    for FILE in .secrets/sops/*."${FILENAME_SUFFIX}"."${FILE_EXT}"; do
+        # strip file suffix and extension
+        FILENAME=${FILE%.$FILENAME_SUFFIX.$FILE_EXT}
+        # strip parent dir paths
+        FILENAME=${FILENAME##*/}
+        sops --decrypt "${FILE}" > .secrets/sops/unencrypted/"${FILENAME}.${FILE_EXT}"
+    done
 }
 
 case "${1:-}" in
