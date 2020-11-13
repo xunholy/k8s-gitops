@@ -1,6 +1,6 @@
 ---
 # creation rules are evaluated sequentially, the first match wins
 creation_rules:
-  # gcp files using GCP KMS
+  # secret files using GCP KMS
   - path_regex: .secrets/sops/.*
     gcp_kms: projects/raspbernetes/locations/global/keyRings/sops/cryptoKeys/sops-key
