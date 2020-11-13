@@ -30,7 +30,7 @@ if [[ -f .secrets/k8s-secret-sealed-secret-private-key.yaml ]]; then
   kubectl apply -f .secrets/k8s-secret-sealed-secret-private-key.yaml
 fi
 
-if [[ -f bootstrap/repo.yaml ]]; then
+if [[ -f cluster/flux-system/repo.yaml ]]; then
   echo "Applying Repo Sync"
-  kubectl apply -f bootstrap/repo.yaml
+  kubectl apply -f cluster/flux-system/repo.yaml
 fi

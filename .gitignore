@@ -4,3 +4,4 @@
 # Ignore directories
 **/.kube
 **/.terraform
+**/.secrets/sops/unencrypted
