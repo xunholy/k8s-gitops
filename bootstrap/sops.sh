@@ -1,15 +1,62 @@
 #!/usr/bin/env bash
 
-set -eou pipefail
+set -eo pipefail
+
+[[ -n $DEBUG ]] && set -x
 
 shopt -s extglob
 
-for FILE in .secrets/*.yaml; do
-  echo "$FILE"
-  sops --encrypt --gcp-kms projects/raspbernetes/locations/global/keyRings/sops/cryptoKeys/sops-key "$FILE" > "$FILE.enc.yaml"
-  break
-done
+FILENAME_SUFFIX='enc'
+FILE_EXT='yaml'
 
+usage(){
+    echo "Usage:"
+    echo ""
+    echo "  [env] sops <command>"
+    echo ""
+    echo "The commands are:"
+    echo ""
+    echo "  encrypt       (e)   Approve a Kubernetes certificate signing request"
+    echo "  decrypt       (d)   Create a Kubernetes certificate signing request and apply manifest"
+    echo ""
+    echo "Environment variables:"
+    echo ""
+    echo "  \$DEBUG       Set logging to verbose. (optional)"
+}
 
+encrypt() {
+  # TODO: support encrypting a secret with an explicit path in the repo
+  for FILE in .secrets/sops/*."${FILE_EXT}"; do
+    # strip file suffix and extension
+    FILENAME=${FILE%.$FILE_EXT}
+    [[ ${FILE} =~ ${FILENAME_SUFFIX} ]] && echo "Skipping already encrypted file: ${FILE}" && continue
+    sops --encrypt "${FILE}" > "${FILENAME}.${FILENAME_SUFFIX}.${FILE_EXT}"
+    # remove unencrypted value
+    rm -f "${FILE}"
+  done
+}
 
+decrypt() {
+  mkdir -p .secrets/sops/unencrypted
+  for FILE in .secrets/sops/*."${FILENAME_SUFFIX}"."${FILE_EXT}"; do
+    # strip file suffix and extension
+    FILENAME=${FILE%.$FILENAME_SUFFIX.$FILE_EXT}
+    # strip parent dir paths
+    FILENAME=${FILENAME##*/}
+    sops --decrypt "${FILE}" > .secrets/sops/unencrypted/"${FILENAME}.${FILE_EXT}"
+    break
+  done
+}
 
+case "${1:-}" in
+    encrypt|e)
+        encrypt
+        ;;
+    decrypt|d)
+        decrypt
+        ;;
+    *)
+        usage >&2
+        exit 1
+        ;;
+esac
