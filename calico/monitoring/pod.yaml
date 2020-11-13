@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: prometheus-pod
+  namespace: calico-monitoring
+  labels:
+    app: prometheus-pod
+    role: monitoring
+spec:
+  serviceAccountName: calico-prometheus-user
+  containers:
+    - name: prometheus-pod
+      image: prom/prometheus
+      resources:
+        limits:
+          memory: '128Mi'
+          cpu: '500m'
+      volumeMounts:
+        - name: config-volume
+          mountPath: /etc/prometheus/prometheus.yml
+          subPath: prometheus.yml
+      ports:
+        - containerPort: 9090
+  volumes:
+    - name: config-volume
+      configMap:
+        name: prometheus-config

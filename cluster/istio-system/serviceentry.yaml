@@ -1,0 +1,65 @@
+# Additional entries into Istio’s internal service registry
+---
+# Usage: velero
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: googleapis
+  namespace: 'istio-system'
+spec:
+  hosts:
+    - '*.googleapis.com'
+  ports:
+    - name: https-googleapis
+      number: 443
+      protocol: TLS
+  resolution: NONE
+  location: MESH_EXTERNAL
+---
+# Usage: oauth2-proxy
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: raspbernetes
+  namespace: 'istio-system'
+spec:
+  hosts:
+    - '*.raspbernetes.com'
+  ports:
+    - name: https-raspbernetes
+      number: 443
+      protocol: TLS
+  resolution: NONE
+  location: MESH_EXTERNAL
+---
+# Usage: cloudflare-ddns
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: cloudflare
+  namespace: 'istio-system'
+spec:
+  hosts:
+    - '*.cloudflare.com'
+  ports:
+    - name: https-cloudflare
+      number: 443
+      protocol: TLS
+  resolution: NONE
+  location: MESH_EXTERNAL
+---
+# Usage: cert-manager
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: letsencrypt
+  namespace: 'istio-system'
+spec:
+  hosts:
+    - '*.letsencrypt.org'
+  ports:
+    - name: https-letsencrypt
+      number: 443
+      protocol: TLS
+  resolution: NONE
+  location: MESH_EXTERNAL

@@ -1,6 +1,9 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 categories:
+  - title: 'Community'
+    label:
+      - 'community'
   - title: 'Features'
     labels:
       - 'feature_request'

@@ -1,0 +1,15 @@
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Receiver
+metadata:
+  name: k8s-gitops
+  namespace: flux-system
+spec:
+  type: github
+  events:
+    - 'ping'
+    - 'push'
+  secretRef:
+    name: webhook-token
+  resources:
+    - kind: GitRepository
+      name: k8s-gitops

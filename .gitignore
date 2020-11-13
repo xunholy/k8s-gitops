@@ -2,4 +2,5 @@
 .DS_Store
 
 # Ignore directories
-.kube
+**/.kube
+**/.terraform

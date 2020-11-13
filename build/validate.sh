@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-set -eou pipefail
+set -exou pipefail
 shopt -s globstar nullglob
 
 for FILE in **/*.encrypted.yaml; do
   echo "Validating $FILE"
-  kubeseal --validate < "$FILE" --controller-name=sealed-secrets --kubeconfig .kube/config
+  kubeseal --validate --controller-name=sealed-secrets --kubeconfig .kube/config < "$FILE"
 done

@@ -1,0 +1,73 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: velero
+  namespace: backups
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: velero
+      version: '>=2.12.0 <3.0.0'
+      sourceRef:
+        kind: HelmRepository
+        name: vmware-charts
+        namespace: flux-system
+      interval: 1m
+  test:
+    enable: true
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  # Depends on having the sealed secret cloud-credentials un-encrypted.
+  dependsOn:
+    - name: sealed-secrets
+      namespace: kube-system
+  values:
+    initContainers:
+      - name: velero-plugin-for-gcp
+        image: raspbernetes/velero-gcp-plugin:v1.0.1
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+      - name: velero-plugin-for-openebs
+        image: openebs/velero-plugin-arm64
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+    credentials:
+      existingSecret: cloud-credentials
+    configuration:
+      provider: gcp
+      backupStorageLocation:
+        name: default
+        bucket: raspbernetes-velero-backups
+    metrics:
+      enabled: true
+    snapshotsEnabled: false
+    deployRestic: false
+    restic:
+      podVolumePath: /var/lib/kubelet/pods
+      privileged: false
+      resources:
+        requests:
+          memory: 200Mi
+          cpu: 15m
+        limits:
+          memory: 1000Mi
+    schedules:
+      daily-backup:
+        schedule: '*/30 * * * *'
+        template:
+          ttl: '120h'

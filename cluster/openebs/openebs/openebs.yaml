@@ -1,0 +1,62 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: openebs
+  namespace: openebs
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: openebs
+      version: '>=2.2.1 <3.0.0'
+      sourceRef:
+        kind: HelmRepository
+        name: openebs-charts
+        namespace: flux-system
+      interval: 10m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  values:
+    ndm:
+      sparse:
+        count: '1'
+    webhook:
+      image: 'openebs/admission-server-arm64'
+    apiserver:
+      image: 'openebs/m-apiserver-arm64'
+      sparse:
+        enabled: true
+    localprovisioner:
+      image: 'openebs/provisioner-localpv-arm64'
+    snapshotOperator:
+      controller:
+        image: 'openebs/snapshot-controller-arm64'
+      provisioner:
+        image: 'openebs/snapshot-provisioner-arm64'
+    provisioner:
+      image: 'openebs/openebs-k8s-provisioner-arm64'
+    cstor:
+      pool:
+        image: 'openebs/cstor-pool-arm64'
+      poolMgmt:
+        image: 'openebs/cstor-pool-mgmt-arm64'
+      target:
+        image: 'openebs/cstor-istgt-arm64'
+      volumeMgmt:
+        image: 'openebs/cstor-volume-mgmt-arm64'
+    policies:
+      monitoring:
+        image: 'openebs/m-exporter-arm64'
