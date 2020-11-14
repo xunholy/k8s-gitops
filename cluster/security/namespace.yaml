@@ -5,3 +5,4 @@ metadata:
   name: security
   labels:
     namespace: security
+    istio-injection: enabled

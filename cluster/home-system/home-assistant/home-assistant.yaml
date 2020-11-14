@@ -34,3 +34,5 @@ spec:
       enabled: true
       size: 5Gi
       storageClass: openebs-cstor-sparse
+    service:
+      portName: http-api

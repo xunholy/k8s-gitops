@@ -74,6 +74,9 @@ spec:
     grafana:
       fullnameOverride: grafana
       enabled: true
+      # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
+      service:
+        portName: http-service
       image:
         repository: grafana/grafana
         tag: 7.3.1

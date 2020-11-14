@@ -5,3 +5,4 @@ metadata:
   name: openebs
   labels:
     namespace: openebs
+    istio-injection: disabled
