@@ -5,3 +5,4 @@ metadata:
   name: home-system
   labels:
     namespace: home-system
+    istio-injection: enabled

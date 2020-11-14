@@ -24,6 +24,7 @@ metadata:
   namespace: 'istio-system'
 spec:
   hosts:
+    - 'raspbernetes.com'
     - '*.raspbernetes.com'
   ports:
     - name: https-raspbernetes
@@ -40,6 +41,7 @@ metadata:
   namespace: 'istio-system'
 spec:
   hosts:
+    - 'cloudflare.com'
     - '*.cloudflare.com'
   ports:
     - name: https-cloudflare
@@ -62,4 +64,21 @@ spec:
       number: 443
       protocol: TLS
   resolution: NONE
+  location: MESH_EXTERNAL
+---
+# Usage: dex
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: github
+  namespace: 'istio-system'
+spec:
+  hosts:
+    - 'github.com'
+    - 'api.github.com'
+  ports:
+    - name: https-letsencrypt
+      number: 443
+      protocol: TLS
+  resolution: DNS
   location: MESH_EXTERNAL
