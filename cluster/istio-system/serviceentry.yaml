@@ -42,12 +42,12 @@ metadata:
 spec:
   hosts:
     - 'cloudflare.com'
-    - '*.cloudflare.com'
+    - 'api.cloudflare.com'
   ports:
     - name: https-cloudflare
       number: 443
       protocol: TLS
-  resolution: NONE
+  resolution: DNS
   location: MESH_EXTERNAL
 ---
 # Usage: cert-manager

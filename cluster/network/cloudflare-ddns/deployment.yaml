@@ -15,6 +15,8 @@ spec:
     metadata:
       labels:
         app: cloudflare-ddns
+      annotations:
+        sidecar.istio.io/inject: 'false'
     spec:
       containers:
         - name: cloudflare-ddns
