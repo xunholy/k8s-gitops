@@ -4,7 +4,7 @@ metadata:
   name: istio
   namespace: istio-system
 spec:
-  # revision: 1.7.1
+  revision: 1.7.4
   addonComponents:
     istiocoredns:
       enabled: false

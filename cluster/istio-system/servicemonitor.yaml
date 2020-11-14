@@ -1,27 +1,51 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: istio-federation
+  name: envoy-stats-monitor
   namespace: istio-system
+  labels:
+    monitoring: istio-proxies
+    release: istio
 spec:
-  namespaceSelector:
-    matchNames:
-      - istio-system
   selector:
-    matchLabels:
-      app: prometheus
+    matchExpressions:
+      - { key: istio-prometheus-ignore, operator: DoesNotExist }
+  namespaceSelector:
+    any: true
+  jobLabel: envoy-stats
   endpoints:
-    - interval: 30s
-      scrapeTimeout: 30s
-      params:
-        'match[]':
-          - '{__name__=~"workload:(.*)"}'
-          - '{__name__=~"pilot(.*)"}'
-      path: /federate
-      targetPort: 9090
-      honorLabels: true
-      metricRelabelings:
-        - sourceLabels: ['__name__']
-          regex: 'workload:(.*)'
-          targetLabel: '__name__'
+    - path: /stats/prometheus
+      targetPort: 15090
+      interval: 15s
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_container_port_name]
+          action: keep
+          regex: '.*-envoy-prom'
+        - action: labeldrop
+          regex: '__meta_kubernetes_pod_label_(.+)'
+        - sourceLabels: [__meta_kubernetes_namespace]
           action: replace
+          targetLabel: namespace
+        - sourceLabels: [__meta_kubernetes_pod_name]
+          action: replace
+          targetLabel: pod_name
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: istio-component-monitor
+  namespace: istio-system
+  labels:
+    monitoring: istio-components
+    release: istio
+spec:
+  jobLabel: istio
+  targetLabels: [app]
+  selector:
+    matchExpressions:
+      - { key: istio, operator: In, values: [pilot] }
+  namespaceSelector:
+    any: true
+  endpoints:
+    - port: http-monitoring
+      interval: 15s
