@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-VERSION="0.2.2"
+VERSION="0.2.5"
 
 if [[ ! $(flux) ]]; then
   echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli"
