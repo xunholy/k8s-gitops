@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-VERSION="0.2.5"
+VERSION="0.2.2"
 
 if [[ ! $(flux) ]]; then
   echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli"
@@ -17,4 +17,5 @@ flux install \
   --arch=arm64 \
   --export > "./cluster/flux-system/toolkit-components.yaml"
 
-git add -A && git commit -sam "update toolkit version: ${VERSION}" && git push
+# Uncomment for local useage
+# git add -A && git commit -sam "update toolkit version: ${VERSION}" && git push
