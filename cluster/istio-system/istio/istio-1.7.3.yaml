@@ -44,8 +44,8 @@ spec:
               name: istio-egressgateway
           resources:
             limits:
-              cpu: 2000m
-              memory: 1024Mi
+              cpu: 500m
+              memory: 512Mi
             requests:
               cpu: 100m
               memory: 128Mi
@@ -94,8 +94,8 @@ spec:
               name: istio-ingressgateway
           resources:
             limits:
-              cpu: 2000m
-              memory: 1024Mi
+              cpu: 500m
+              memory: 512Mi
             requests:
               cpu: 100m
               memory: 128Mi
@@ -213,7 +213,7 @@ spec:
     defaultConfig:
       proxyMetadata: {}
     enablePrometheusMerge: true
-  tag: 1.7.3
+  tag: 1.7.4
   values:
     base:
       enableCRDTemplates: false
@@ -310,8 +310,8 @@ spec:
         readinessPeriodSeconds: 5
         resources:
           limits:
-            cpu: 2000m
-            memory: 1024Mi
+            cpu: 200m
+            memory: 256Mi
           requests:
             cpu: 100m
             memory: 128Mi
@@ -321,8 +321,8 @@ spec:
         image: proxyv2
         resources:
           limits:
-            cpu: 2000m
-            memory: 1024Mi
+            cpu: 200m
+            memory: 128Mi
           requests:
             cpu: 10m
             memory: 10Mi
