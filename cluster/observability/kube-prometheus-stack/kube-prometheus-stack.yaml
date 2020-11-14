@@ -130,20 +130,22 @@ spec:
           cert-manager:
             url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
             datasource: Prometheus
+          # Istio dashboards must be kept in parity with the version deployed
+          # https://grafana.com/grafana/dashboards/7639/revisions
           istio-mesh:
-            url: https://grafana.com/api/dashboards/7639/revisions/22/download
+            url: https://grafana.com/api/dashboards/7639/revisions/38/download
             datasource: Prometheus
           istio-service:
-            url: https://grafana.com/api/dashboards/7636/revisions/22/download
+            url: https://grafana.com/api/dashboards/7636/revisions/38/download
             datasource: Prometheus
           istio-workload:
-            url: https://grafana.com/api/dashboards/7630/revisions/22/download
+            url: https://grafana.com/api/dashboards/7630/revisions/38/download
             datasource: Prometheus
           istio-performence:
-            url: https://grafana.com/api/dashboards/11829/revisions/22/download
+            url: https://grafana.com/api/dashboards/11829/revisions/38/download
             datasource: Prometheus
           istio-control-plane:
-            url: https://grafana.com/api/dashboards/7645/revisions/22/download
+            url: https://grafana.com/api/dashboards/7645/revisions/38/download
             datasource: Prometheus
           openebs:
             url: https://grafana.com/api/dashboards/12171/revisions/1/download
