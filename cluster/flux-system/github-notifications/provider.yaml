@@ -3,6 +3,7 @@ apiVersion: notification.toolkit.fluxcd.io/v1beta1
 kind: Provider
 metadata:
   name: github
+  namespace: flux-system
 spec:
   type: github
   address: https://github.com/raspbernetes/k8s-gitops
