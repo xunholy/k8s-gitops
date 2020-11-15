@@ -5,4 +5,4 @@ metadata:
   name: observability
   labels:
     namespace: observability
-    istio-injection: enabled
+    istio-injection: disabled
