@@ -1,0 +1,94 @@
+image:
+  repository: docker.io/cilium/cilium-dev
+  tag: v1.9.0
+
+# autoDirectNodeRoutes enables installation of PodCIDR routes between worker
+# nodes if worker nodes share a common L2 network segment.
+autoDirectNodeRoutes: true
+
+hubble:
+  enabled: true
+  metrics:
+    enabled:
+      - dns:query;ignoreAAAA
+      - drop
+      - tcp
+      - flow
+      - icmp
+      - http
+  listenAddress: ':4244'
+  relay:
+    enabled: true
+    image:
+      repository: docker.io/cilium/hubble-relay-dev
+      tag: v1.9.0
+  ui:
+    enabled: true
+    frontend:
+      image:
+        repository: docker.io/mcfio/hubble-ui-dev
+        tag: v0.7.3
+    backend:
+      image:
+        repository: docker.io/mcfio/hubble-ui-backend-dev
+        tag: v0.7.3
+    proxy:
+      image:
+        repository: docker.io/envoyproxy/envoy
+        tag: v1.16.0
+
+ipam:
+  operator:
+    # default: "10.0.0.0/8", however, using existing podCIDR
+    clusterPoolIPv4PodCIDR: 172.16.0.0/16
+    clusterPoolIPv4MaskSize: 24
+
+# kubeProxyReplacement enables kube-proxy replacement in Cilium BPF datapath
+kubeProxyReplacement: strict
+
+# kubeProxyReplacement healthz server bind address
+# To enable set the value to '0.0.0.0:10256' for all ipv4
+# addresses and this '[::]:10256' for all ipv6 addresses.
+# By default it is disabled.
+kubeProxyReplacementHealthzBindAddr: '0.0.0.0:10256'
+
+# prometheus enables serving metrics on the configured port at /metrics
+prometheus:
+  enabled: true
+  port: 9090
+  # This requires the prometheus CRDs to be available (see https://github.com/prometheus-operator/prometheus-operator/blob/master/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml)
+  serviceMonitor:
+    enabled: false
+
+operator:
+  image:
+    repository: cilium/operator-dev
+    tag: v1.9.0
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+# kubeConfigPath: ~/.kube/config
+k8sServiceHost: 192.168.1.200
+k8sServicePort: 8443
+
+# nativeRoutingCIDR allows to explicitly specify the CIDR for native routing. This
+# value corresponds to the configured cluster-cidr.
+nativeRoutingCIDR: 192.168.1.0/24
+
+# tunnel is the encapsulation configuration for communication between nodes
+tunnel: disabled
+
+# loadBalancer is the general configuration for service load balancing
+loadBalancer:
+  # algorithm is the name of the load balancing algorithm for backend
+  # selection e.g. random or maglev
+  algorithm: maglev
+  # mode is the operation mode of load balancing for remote backends
+  # e.g. snat, dsr, hybrid
+  mode: dsr
+
+# disableEnvoyVersionCheck removes the check for Envoy, which can be useful on
+# AArch64 as the images do not currently ship a version of Envoy.
+disableEnvoyVersionCheck: true
