@@ -28,6 +28,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: update/pre-commit-auto-update
           title: Auto-update pre-commit hooks
+          signoff: true
+          committer: "Michael Fornaro 20387402+xUnholy@users.noreply.github.com"
+          author: "Michael Fornaro 20387402+xUnholy@users.noreply.github.com"
           commit-message: Auto-update pre-commit hooks
           body: |
             Update versions of tools in pre-commit
