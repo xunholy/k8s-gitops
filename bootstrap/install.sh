@@ -25,9 +25,9 @@ flux install \
   --network-policy=false \
   --arch=arm64
 
-if [[ -f .secrets/k8s-secret-sealed-secret-private-key.yaml ]]; then
+if [[ -f .secrets/git-crypt/k8s-secret-sealed-secret-private-key.yaml ]]; then
   echo "Applying existing sealed-secret key"
-  kubectl apply -f .secrets/k8s-secret-sealed-secret-private-key.yaml
+  kubectl apply -f .secrets/git-crypt/k8s-secret-sealed-secret-private-key.yaml
 fi
 
 if [[ -f cluster/flux-system/repo.yaml ]]; then
