@@ -30,9 +30,9 @@ jobs:
           branch: update/flux
           title: Auto-update flux version
           signoff: true
-          committer: "Michael Fornaro 20387402+xUnholy@users.noreply.github.com"
-          author: "Michael Fornaro 20387402+xUnholy@users.noreply.github.com"
+          committer: "Michael Fornaro <20387402+xUnholy@users.noreply.github.com>"
+          author: "Michael Fornaro <20387402+xUnholy@users.noreply.github.com>"
           commit-message: Auto-update flux version
           body: |
-            Update flux version of tools
+            Signed-off-by: Michael Fornaro <20387402+xUnholy@users.noreply.github.com>
           labels: dependencies
