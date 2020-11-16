@@ -3,12 +3,6 @@ name: flux
 on:
   schedule:
     - cron: '0 0 * * *'
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Use this tag instead of most recent'
-        required: false
-        default: latest
 
 jobs:
   auto-update:
