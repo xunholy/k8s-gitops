@@ -3,6 +3,10 @@
 The following installation guide can be followed [here](https://docs.cilium.io/en/v1.9/gettingstarted/kubeproxy-free/#kubeproxy-free)
 
 ```bash
+kubectl -n kube-system delete ds kube-proxy
+```
+
+```bash
 helm repo add cilium https://helm.cilium.io/
 ```
 

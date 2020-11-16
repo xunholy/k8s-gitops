@@ -111,6 +111,9 @@ spec:
               - name: https
                 port: 443
                 targetPort: 8443
+              - name: tcp
+                port: 31400
+                targetPort: 31400
               - name: tls
                 port: 15443
                 targetPort: 15443
@@ -142,6 +145,10 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
           timeoutSeconds: 10
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
         strategy:
           rollingUpdate:
             maxSurge: 100%
@@ -208,6 +215,8 @@ spec:
             maxUnavailable: 25%
   hub: docker.io/querycapistio
   meshConfig:
+    # Enable Envoy’s access logging
+    accessLogFile: /dev/stdout
     outboundTrafficPolicy:
       mode: REGISTRY_ONLY
     defaultConfig:
@@ -221,7 +230,7 @@ spec:
     clusterResources: true
     gateways:
       istio-egressgateway:
-        autoscaleEnabled: true
+        autoscaleEnabled: false
         env: {}
         name: istio-egressgateway
         secretVolumes:
