@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: metallb
-      version: '>=0.12.1 <1.0.0'
+      version: '>=1.0.1 <2.0.0'
       sourceRef:
         kind: HelmRepository
-        name: kubernetes-stable-charts
+        name: bitnami-charts
         namespace: flux-system
       interval: 10m
   test:
@@ -33,11 +33,11 @@ spec:
     controller:
       image:
         repository: metallb/controller
-        tag: v0.9.3
+        tag: v0.9.5
     speaker:
       image:
         repository: metallb/speaker
-        tag: v0.9.3
+        tag: v0.9.5
     prometheus:
       serviceMonitor:
         enabled: false

@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: external-dns
-      version: '>=3.5.1 <4.0.0'
+      version: '>=4.0.0 <5.0.0'
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
@@ -33,7 +33,7 @@ spec:
     image:
       registry: docker.io
       repository: raspbernetes/external-dns
-      tag: v0.7.3
+      tag: v0.7.4
       pullPolicy: IfNotPresent
     provider: cloudflare
     policy: upsert-only
@@ -50,10 +50,11 @@ spec:
     crd:
       create: true
     sources:
-      - service
-      - ingress
+      # Disable service and ingress to avoid exposing services externally that are not routed through istio
+      # - service
+      # - ingress
       - istio-virtualservice
-      # Remove istio gateway as it adds a wildcard CNAME which is not able to be proxied in cloudflare
+      # Disable istio gateway as it adds a wildcard CNAME which is not able to be proxied in cloudflare
       # - istio-gateway
     domainFilters:
       - raspbernetes.com

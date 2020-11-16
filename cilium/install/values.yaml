@@ -8,12 +8,14 @@ autoDirectNodeRoutes: true
 
 hubble:
   enabled: true
+  # Enables the provided list of Hubble metrics.
   metrics:
     enabled:
       - dns:query;ignoreAAAA
       - drop
       - tcp
       - flow
+      - port-distribution
       - icmp
       - http
   listenAddress: ':4244'
@@ -53,6 +55,7 @@ kubeProxyReplacement: strict
 kubeProxyReplacementHealthzBindAddr: '0.0.0.0:10256'
 
 # prometheus enables serving metrics on the configured port at /metrics
+# Enables metrics for cilium-agent.
 prometheus:
   enabled: true
   port: 9090
@@ -64,6 +67,7 @@ operator:
   image:
     repository: cilium/operator-dev
     tag: v1.9.0
+  # Enables metrics for cilium-operator.
   prometheus:
     enabled: true
     serviceMonitor:
