@@ -67,7 +67,7 @@ operator:
   prometheus:
     enabled: true
     serviceMonitor:
-      enabled: true
+      enabled: false
 
 # kubeConfigPath: ~/.kube/config
 k8sServiceHost: 192.168.1.200
