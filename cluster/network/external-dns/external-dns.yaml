@@ -52,8 +52,9 @@ spec:
     sources:
       - service
       - ingress
-      - istio-gateway
       - istio-virtualservice
+      # Remove istio gateway as it adds a wildcard CNAME which is not able to be proxied in cloudflare
+      # - istio-gateway
     domainFilters:
       - raspbernetes.com
     cloudflare:
