@@ -30,9 +30,18 @@ spec:
     recreate: true
     cleanupOnFail: true
   values:
+    extraEnv:
+      TZ: 'Australia/Melbourne'
     persistence:
       enabled: true
       size: 5Gi
       storageClass: openebs-cstor-sparse
     service:
       portName: http-api
+    vscode:
+      enabled: true
+      image:
+        repository: codercom/code-server
+        tag: 3.7.1
+      extraEnv:
+        HASS_SERVER: 'http://localhost:8123'
