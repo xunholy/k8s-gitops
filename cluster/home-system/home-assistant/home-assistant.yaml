@@ -30,6 +30,7 @@ spec:
     recreate: true
     cleanupOnFail: true
   values:
+    hostNetwork: true
     extraEnv:
       TZ: 'Australia/Melbourne'
     persistence:
