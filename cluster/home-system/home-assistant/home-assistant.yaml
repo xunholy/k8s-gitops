@@ -45,3 +45,8 @@ spec:
         tag: 3.7.1
       extraEnv:
         HASS_SERVER: 'http://localhost:8123'
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
