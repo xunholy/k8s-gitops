@@ -2,9 +2,13 @@ locals {
   sops_permissions = [
     "cloudkms.cryptoKeys.list",
     "cloudkms.cryptoKeys.get",
+    "cloudkms.cryptoKeyVersions.get",
+    "cloudkms.cryptoKeyVersions.list",
     "cloudkms.cryptoKeyVersions.useToDecrypt",
     "cloudkms.cryptoKeyVersions.useToEncrypt",
     "cloudkms.cryptoKeyVersions.viewPublicKey",
+    "cloudkms.keyRings.get",
+    "cloudkms.keyRings.list",
     "resourcemanager.projects.get"
   ]
 }
