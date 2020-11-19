@@ -32,7 +32,7 @@ resource "google_project_iam_custom_role" "sops" {
 
 # Approved list of GCP users with the ability to encrypt/decrypt project secret
 resource "google_kms_key_ring_iam_member" "key_ring" {
-  key_ring_id = google_kms_key_ring.sops.key_ring_id
+  key_ring_id = google_kms_key_ring.sops.id
   role        = google_project_iam_custom_role.sops.role_id
   members = [
     "user:saurabh.c.pandit@gmail.com",
