@@ -1,17 +1,17 @@
-# locals {
-#   sops_permissions = [
-#     "cloudkms.cryptoKeys.list",
-#     "cloudkms.cryptoKeys.get",
-#     "cloudkms.cryptoKeyVersions.get",
-#     "cloudkms.cryptoKeyVersions.list",
-#     "cloudkms.cryptoKeyVersions.useToDecrypt",
-#     "cloudkms.cryptoKeyVersions.useToEncrypt",
-#     "cloudkms.cryptoKeyVersions.viewPublicKey",
-#     "cloudkms.keyRings.get",
-#     "cloudkms.keyRings.list",
-#     "resourcemanager.projects.get"
-#   ]
-# }
+locals {
+  sops_permissions = [
+    "cloudkms.cryptoKeys.list",
+    "cloudkms.cryptoKeys.get",
+    "cloudkms.cryptoKeyVersions.get",
+    "cloudkms.cryptoKeyVersions.list",
+    "cloudkms.cryptoKeyVersions.useToDecrypt",
+    "cloudkms.cryptoKeyVersions.useToEncrypt",
+    "cloudkms.cryptoKeyVersions.viewPublicKey",
+    "cloudkms.keyRings.get",
+    "cloudkms.keyRings.list",
+    "resourcemanager.projects.get"
+  ]
+}
 
 resource "google_kms_key_ring" "sops" {
   name     = "sops"
@@ -27,17 +27,17 @@ resource "google_kms_crypto_key" "sops" {
   }
 }
 
-# resource "google_project_iam_custom_role" "sops" {
-#   role_id     = "sops"
-#   title       = "SOPS Role"
-#   description = "This role grants all required SOPS permissions"
-#   permissions = local.sops_permissions
-# }
+resource "google_project_iam_custom_role" "sops" {
+  role_id     = "sops"
+  title       = "SOPS Role"
+  description = "This role grants all required SOPS permissions"
+  permissions = local.sops_permissions
+}
 
 # Approved list of GCP users with the ability to encrypt/decrypt project secret
 resource "google_kms_key_ring_iam_binding" "sops" {
   key_ring_id = google_kms_key_ring.sops.id
-  role        = "roles/cloudkms.cryptoKeyDecrypter"
+  role        = "projects/raspbernetes/roles/${google_project_iam_custom_role.sops.role_id}"
   members = [
     "user:saurabh.c.pandit@gmail.com",
   ]
