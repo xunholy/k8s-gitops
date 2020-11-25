@@ -218,11 +218,12 @@ spec:
     # Enable Envoy’s access logging
     accessLogFile: /dev/stdout
     outboundTrafficPolicy:
-      mode: REGISTRY_ONLY
+      # REGISTRY_ONLY will restrict to only service in the mesh service registry
+      mode: ALLOW_ANY
     defaultConfig:
       proxyMetadata: {}
     enablePrometheusMerge: true
-  tag: 1.7.4
+  tag: 1.7.4-distroless
   values:
     base:
       enableCRDTemplates: false
