@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: '>=11.0.0 <12.0.0'
+      version: '>=12.2.3 <13.0.0'
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
@@ -291,11 +291,11 @@ spec:
         portName: http-web
         resources:
           requests:
-            memory: '1024Mi'
-            cpu: '125m'
+            memory: '1536Mi'
+            cpu: '1000m'
           limits:
             memory: 2048Mi
-            cpu: '1000m'
+            cpu: '1250m'
         storageSpec:
           volumeClaimTemplate:
             spec:
