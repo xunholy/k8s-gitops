@@ -42,6 +42,9 @@ spec:
       enabled: true
       manageCrds: true
       createCustomResource: true
+      # Setting this option to 0 to disable cpu limits
+      # see https://github.com/prometheus-operator/prometheus-operator/blob/master/cmd/operator/main.go#L175
+      configReloaderCpu: 0
       tlsProxy:
         image:
           repository: raspbernetes/ghostunnel
@@ -295,7 +298,8 @@ spec:
             cpu: '1000m'
           limits:
             memory: 2048Mi
-            cpu: '1250m'
+            # Remove CPU Limit due to throttling
+            # cpu: '1250m'
         storageSpec:
           volumeClaimTemplate:
             spec:
