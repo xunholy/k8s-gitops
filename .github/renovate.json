@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "extends": [
+    "config:base",
+    ":gitSignOff"
+  ],
+  "gitAuthor": "Renovate Bot <renovate@whitesourcesoftware.com>",
+  "commitBody": "Signed-off-by: Michael Fornaro <20387402+xUnholy@users.noreply.github.com>",
+  "labels": [
+    "dependencies"
+  ],
+  "reviewersFromCodeOwners": true
+}

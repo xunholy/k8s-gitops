@@ -1,0 +1,11 @@
+# These owners will be the default owners for everything in
+# the repo.
+#
+# Order is important; the last matching pattern takes the most
+# precedence.
+#
+# Unless a later match takes precedence,
+# @xUnholy will be requested for
+# review when someone opens a pull request.
+
+*     @xUnholy
