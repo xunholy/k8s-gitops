@@ -29,7 +29,7 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  # Depends on having the sealed secret to un-encrypted required secrets.
+  # Depends on having the sealed secret to un-encrypted required secrets, and thanos
   dependsOn:
     - name: sealed-secrets
       namespace: kube-system
@@ -57,26 +57,17 @@ spec:
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
+    # Disable kubeControllerManager & kubeScheduler to test stability
+    kubeControllerManager:
+      enabled: false
+    kubeScheduler:
+      enabled: false
     alertmanager:
       fullnameOverride: alertmanager
       enabled: true
       alertmanagerSpec:
         # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
         portName: http-web
-      ingress:
-        enabled: false
-        annotations:
-          kubernetes.io/ingress.class: nginx
-          cert-manager.io/cluster-issuer: 'letsencrypt-prod'
-          nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
-          nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
-        hosts:
-          - alert-manager.raspbernetes.com
-        path: /
-        tls:
-          - secretName: alert-manager.raspbernetes.com-tls
-            hosts:
-              - alert-manager.raspbernetes.com
     grafana:
       fullnameOverride: grafana
       enabled: true
@@ -85,25 +76,8 @@ spec:
         portName: http-service
       image:
         repository: grafana/grafana
-        tag: 7.3.1
-      ingress:
-        enabled: false
-        annotations:
-          kubernetes.io/ingress.class: nginx
-          cert-manager.io/cluster-issuer: 'letsencrypt-prod'
-          nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
-          nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
-        hosts:
-          - grafana.raspbernetes.com
-        path: /
-        tls:
-          - secretName: grafana.raspbernetes.com-tls
-            hosts:
-              - grafana.raspbernetes.com
+        tag: 7.3.4
       sidecar:
-        image:
-          tag: 0.1.193
-        imagePullPolicy: Always
         dashboards:
           enabled: true
           searchNamespace: ALL
@@ -217,9 +191,6 @@ spec:
           type: loki
           access: proxy
           url: http://loki.observability.svc.cluster.local:3100
-      downloadDashboardsImage:
-        repository: curlimages/curl
-        tag: 7.72.0
       # Unused because disable_login_form=true however, used for backup authentication
       admin:
         existingSecret: 'grafana-admin-creds'
@@ -274,20 +245,6 @@ spec:
           org_id: 1
     prometheus:
       fullnameOverride: prometheus
-      ingress:
-        enabled: false
-        annotations:
-          kubernetes.io/ingress.class: nginx
-          cert-manager.io/cluster-issuer: 'letsencrypt-prod'
-          nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
-          nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
-        hosts:
-          - prometheus.raspbernetes.com
-        path: /
-        tls:
-          - secretName: prometheus.raspbernetes.com-tls
-            hosts:
-              - prometheus.raspbernetes.com
       ## Settings affecting prometheusSpec
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
       ##
