@@ -54,6 +54,9 @@ spec:
           image:
             repository: jettech/kube-webhook-certgen
             tag: v1.3.0
+    # Disable kubeProxy whilst using Cilium as it's not deployed
+    kubeProxy:
+      enabled: false
     alertmanager:
       fullnameOverride: alertmanager
       enabled: true
@@ -314,6 +317,12 @@ spec:
           objectStorageConfig:
             name: thanos
             key: object-store.yaml
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
