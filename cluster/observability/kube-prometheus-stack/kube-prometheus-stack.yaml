@@ -326,7 +326,7 @@ spec:
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       image:
-        repository: k8s.gcr.io/kube-state-metrics/kube-state-metrics
-        tag: v2.0.0-alpha.3
+        repository: raspbernetes/kube-state-metrics
+        tag: v1.9.7
     prometheus-node-exporter:
       fullnameOverride: node-exporter
