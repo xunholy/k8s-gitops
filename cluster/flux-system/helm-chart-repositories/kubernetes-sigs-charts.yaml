@@ -2,10 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: flagger-charts
+  name: kubernetes-sigs-charts
   namespace: flux-system
-  creationTimestamp: null
 spec:
   interval: 24h
-  url: https://flagger.app
+  url: https://kubernetes-sigs.github.io/descheduler
   timeout: 3m
