@@ -292,7 +292,7 @@ spec:
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
       ##
       prometheusSpec:
-        retention: 6h
+        retention: 4h
         # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
         portName: http-web
         resources:
@@ -300,9 +300,8 @@ spec:
             memory: '1536Mi'
             cpu: '1000m'
           limits:
-            memory: 2048Mi
-            # Remove CPU Limit due to throttling
-            # cpu: '1250m'
+            memory: 2560Mi
+            cpu: '2000m'
         storageSpec:
           volumeClaimTemplate:
             spec:
@@ -321,8 +320,8 @@ spec:
             requests:
               memory: 128Mi
               cpu: 100m
-            limits:
-              memory: 256Mi
+            # limits:
+            #   memory: 256Mi
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
