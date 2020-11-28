@@ -1,4 +1,3 @@
-# TODO: istio-injection=disabled due to velero failure which required further investigation
 ---
 apiVersion: v1
 kind: Namespace
@@ -6,4 +5,4 @@ metadata:
   name: backups
   labels:
     namespace: backups
-    istio-injection: disabled
+    istio-injection: enabled
