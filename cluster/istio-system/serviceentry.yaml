@@ -9,6 +9,8 @@ metadata:
 spec:
   hosts:
     - '*.googleapis.com'
+    - 'oauth2.googleapis.com'
+    - 'storage.googleapis.com'
   ports:
     - name: https-googleapis
       number: 443

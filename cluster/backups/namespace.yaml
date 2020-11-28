@@ -5,4 +5,4 @@ metadata:
   name: backups
   labels:
     namespace: backups
-    istio-injection: enabled
+    istio-injection: disabled
