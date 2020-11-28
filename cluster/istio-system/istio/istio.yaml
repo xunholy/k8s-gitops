@@ -223,7 +223,7 @@ spec:
     defaultConfig:
       proxyMetadata: {}
     enablePrometheusMerge: true
-  tag: 1.7.4-distroless
+  tag: 1.7.5-distroless
   values:
     base:
       enableCRDTemplates: false
