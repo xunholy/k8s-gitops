@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -146,6 +147,7 @@ spec:
           description: RunnerReplicaSetSpec defines the desired state of RunnerDeployment
           properties:
             replicas:
+              nullable: true
               type: integer
             template:
               properties:
@@ -504,6 +506,8 @@ spec:
                           - name
                         type: object
                       type: array
+                    dockerEnabled:
+                      type: boolean
                     dockerdContainerResources:
                       description: ResourceRequirements describes the compute resource requirements.
                       properties:
@@ -643,6 +647,8 @@ spec:
                           - name
                         type: object
                       type: array
+                    group:
+                      type: string
                     image:
                       type: string
                     imagePullPolicy:
@@ -1633,6 +1639,8 @@ spec:
                           - name
                         type: object
                       type: array
+                    workDir:
+                      type: string
                   type: object
               type: object
           required:
@@ -1707,6 +1715,7 @@ spec:
           description: RunnerReplicaSetSpec defines the desired state of RunnerReplicaSet
           properties:
             replicas:
+              nullable: true
               type: integer
             template:
               properties:
@@ -2065,6 +2074,8 @@ spec:
                           - name
                         type: object
                       type: array
+                    dockerEnabled:
+                      type: boolean
                     dockerdContainerResources:
                       description: ResourceRequirements describes the compute resource requirements.
                       properties:
@@ -2204,6 +2215,8 @@ spec:
                           - name
                         type: object
                       type: array
+                    group:
+                      type: string
                     image:
                       type: string
                     imagePullPolicy:
@@ -3194,10 +3207,11 @@ spec:
                           - name
                         type: object
                       type: array
+                    workDir:
+                      type: string
                   type: object
               type: object
           required:
-            - replicas
             - template
           type: object
         status:
@@ -3618,6 +3632,8 @@ spec:
                   - name
                 type: object
               type: array
+            dockerEnabled:
+              type: boolean
             dockerdContainerResources:
               description: ResourceRequirements describes the compute resource requirements.
               properties:
@@ -3757,6 +3773,8 @@ spec:
                   - name
                 type: object
               type: array
+            group:
+              type: string
             image:
               type: string
             imagePullPolicy:
@@ -4747,6 +4765,8 @@ spec:
                   - name
                 type: object
               type: array
+            workDir:
+              type: string
           type: object
         status:
           description: RunnerStatus defines the observed state of Runner
@@ -5111,6 +5131,7 @@ spec:
         - args:
             - --metrics-addr=127.0.0.1:8080
             - --enable-leader-election
+            - --sync-period=10m
           command:
             - /manager
           env:
@@ -5134,7 +5155,7 @@ spec:
                   optional: true
             - name: GITHUB_APP_PRIVATE_KEY
               value: /etc/actions-runner-controller/github_app_private_key
-          image: summerwind/actions-runner-controller:v0.9.4
+          image: summerwind/actions-runner-controller:v0.13.1
           name: manager
           ports:
             - containerPort: 9443
@@ -5143,7 +5164,7 @@ spec:
           resources:
             limits:
               cpu: 100m
-              memory: 30Mi
+              memory: 100Mi
             requests:
               cpu: 100m
               memory: 20Mi
