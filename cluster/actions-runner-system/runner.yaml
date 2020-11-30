@@ -5,7 +5,7 @@ metadata:
   namespace: actions-runner-system
 spec:
   organization: raspbernetes
-  image: docker.io/summerwind/actions-runner:v2.273.5
+  image: docker.io/summerwind/actions-runner:v2.274.2
   env: []
 ---
 apiVersion: actions.summerwind.dev/v1alpha1
@@ -15,5 +15,5 @@ metadata:
   namespace: actions-runner-system
 spec:
   repository: raspbernetes/k8s-gitops
-  image: docker.io/summerwind/actions-runner:v2.273.5
+  image: docker.io/summerwind/actions-runner:v2.274.2
   env: []
