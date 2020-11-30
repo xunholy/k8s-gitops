@@ -59,7 +59,7 @@ spec:
       enabled: false
     # Disable kubeControllerManager & kubeScheduler to test stability
     kubeControllerManager:
-      enabled: false
+      enabled: true
     kubeScheduler:
       enabled: false
     alertmanager:
