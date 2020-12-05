@@ -67,7 +67,7 @@ spec:
         theme: 'tectonic'
         issuer: 'Raspbernetes'
         issuerUrl: 'https://raspbernetes.com'
-        logoUrl: https://github.com/raspbernetes/docs/blob/master/website/static/img/logo.png
+        logoUrl: https://raw.githubusercontent.com/raspbernetes/docs/master/website/static/img/logo.png
       expiry:
         signingKeys: '6h'
         idTokens: '24h'
