@@ -1720,7 +1720,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: ghcr.io/fluxcd/helm-controller-arm64:v0.4.1
+        image: ghcr.io/fluxcd/helm-controller-arm64:v0.4.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
