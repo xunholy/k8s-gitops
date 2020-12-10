@@ -3,7 +3,8 @@
 set -eou pipefail
 
 # TODO: automatically update the ~/.kube/config with required context generated.
-KUBECONFIG=~/.kube/config:~/projects/k8s-cluster-installation/ansible/playbooks/output/k8s-config.yaml kubectl config view --flatten > ~/.kube/config
+KUBECONFIG=~/.kube/config:~/projects/k8s-cluster-installation/ansible/playbooks/output/k8s-config.yaml kubectl config view --flatten > ~/.kube/config.tmp && \
+  mv ~/.kube/config.tmp ~/.kube/config
 
 if [[ ! $(flux) ]]; then
   echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli"
