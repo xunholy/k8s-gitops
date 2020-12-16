@@ -4,7 +4,7 @@ on:
   # Try merging pull requests belonging to a workflow run.
   workflow_run:
     workflows:
-      - ci
+      - build
     types:
       - completed
   # Try merging a pull request when it is approved.
