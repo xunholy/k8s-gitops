@@ -18,5 +18,5 @@ helm install cilium cilium/cilium \
 ```
 
 ```bash
-kubectl -n kube-system patch deployments.apps cilium-operator --patch '{"spec": {"template": {"spec": {"containers": [{"name": "cilium-operator","image": "cilium/operator-dev:v1.9.0"}]}}}}'
+kubectl -n kube-system patch deployments.apps cilium-operator --patch '{"spec": {"template": {"spec": {"containers": [{"name": "cilium-operator","image": "cilium/operator-dev:v1.9.1"}]}}}}'
 ```
