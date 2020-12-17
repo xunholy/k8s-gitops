@@ -30,4 +30,4 @@ jobs:
           MERGE_METHOD: squash
           MERGE_COMMIT_MESSAGE: pull-request-title
           MERGE_FORKS: false
-          MERGE_DELETE_BRANCH: true
+          MERGE_DELETE_BRANCH: false
