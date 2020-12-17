@@ -1,0 +1,37 @@
+name: automerge
+
+on:
+  # Try merging pull requests belonging to a workflow run.
+  workflow_run:
+    workflows:
+      - ci
+    types:
+      - completed
+  # Try merging a pull request when it is approved.
+  pull_request_review:
+    types:
+      - submitted
+  # Try merging the specified pull request or all open pull requests if none is specified.
+  workflow_dispatch:
+    inputs:
+      pull-request:
+        description: Pull Request Number
+        required: false
+jobs:
+  merge:
+    if: github.event.review.state == 'approved' || !github.event.review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - uses: reitermarkus/automerge@v1
+        with:
+          token: ${{ secrets.ORG_GITHUB_TOKEN }}
+          merge-method: squash
+          squash-title: true
+          do-not-merge-labels: hold
+          required-labels: merge
+          pull-request: ${{ github.event.inputs.pull-request }}
+          dry-run: false
