@@ -22,16 +22,12 @@ jobs:
     if: github.event.review.state == 'approved' || !github.event.review
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: main
-
-      - uses: reitermarkus/automerge@v1
-        with:
-          token: ${{ secrets.ORG_GITHUB_TOKEN }}
-          merge-method: squash
-          squash-title: true
-          do-not-merge-labels: hold
-          required-labels: merge
-          pull-request: ${{ github.event.inputs.pull-request }}
-          dry-run: false
+      - name: automerge
+        uses: "pascalgn/automerge-action@v0.12.0"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: merge
+          MERGE_METHOD: squash
+          MERGE_COMMIT_MESSAGE: pull-request-title
+          MERGE_FORKS: false
+          MERGE_DELETE_BRANCH: true
