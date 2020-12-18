@@ -1,28 +1,27 @@
-name: automerge
+name: dependabot
 
 on:
-  # Try merging pull requests belonging to a workflow run.
-  workflow_run:
-    workflows:
-      - build
-    types:
-      - completed
+  # Note: Not supported currently by automerge-action@v0.12.0
+  # # Try merging pull requests belonging to a workflow run.
+  # workflow_run:
+  #   workflows:
+  #     - ci
+  #   types:
+  #     - completed
   # Try merging a pull request when it is approved.
   pull_request_review:
     types:
       - submitted
-  # Try merging the specified pull request or all open pull requests if none is specified.
-  workflow_dispatch:
-    inputs:
-      pull-request:
-        description: Pull Request Number
-        required: false
+  check_suite:
+    types:
+      - completed
+
 jobs:
   merge:
-    if: github.event.review.state == 'approved' || !github.event.review
+    if: (github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]') && (github.event.review.state == 'approved' || !github.event.review)
     runs-on: ubuntu-latest
     steps:
-      - name: automerge
+      - name: Auto Merge
         uses: "pascalgn/automerge-action@v0.12.0"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

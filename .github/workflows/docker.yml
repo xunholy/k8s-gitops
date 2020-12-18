@@ -1,10 +1,12 @@
-name: builder-image
+name: docker
 
 on:
   push:
     paths:
-      - '.github/workflows/builder-image.yml'
+      - '.github/workflows/docker.yml'
       - 'build/docker/Dockerfile'
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       tag:
@@ -58,4 +60,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            raspbernetes/builder:${{ github.event.inputs.tag }}
+            raspbernetes/builder:latest
