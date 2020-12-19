@@ -39,23 +39,8 @@ spec:
       advanced:
         log_output:
           - console
-        network_key:
-          - 204
-          - 61
-          - 75
-          - 23
-          - 44
-          - 230
-          - 24
-          - 203
-          - 53
-          - 5
-          - 248
-          - 32
-          - 50
-          - 84
-          - 44
-          - 159
+        # TODO: Update with auto-generated network keys
+        # network_key: []
       frontend:
         port: 8080
       experimental:
