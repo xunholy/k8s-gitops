@@ -8,6 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://litmuschaos.github.io/litmus-helm/
       chart: litmus
       version: '>=1.9.0 <2.0.0'
       sourceRef:

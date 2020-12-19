@@ -1,0 +1,12 @@
+version: "3.0"
+services:
+  builder:
+    image: raspbernetes/builder:latest
+    working_dir: /opt/app
+    volumes:
+      - .:/opt/app:rw
+
+networks:
+  default:
+    external:
+      name: bridge

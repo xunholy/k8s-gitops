@@ -1,0 +1,42 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: node-feature-discovery
+  namespace: kube-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: node-feature-discovery
+      version: 2.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 10m
+  values:
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: 'node-feature-discovery'
+    image:
+      repository: docker.io/raspbernetes/node-feature-discovery
+      tag: v0.6.0
+    sources:
+      - custom
+      - pci
+      - usb
+    config: |
+      sources:
+        usb:
+          deviceClassWhitelist:
+            - "02"
+            - "03"
+            - "0e"
+            - "ef"
+            - "fe"
+            - "ff"
+          deviceLabelFields:
+            - "class"
+            - "vendor"
+            - "device"
