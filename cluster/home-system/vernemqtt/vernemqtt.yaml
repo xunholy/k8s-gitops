@@ -18,6 +18,9 @@ spec:
       interval: 10m
   values:
     replicaCount: 1
+    image:
+      repository: lovellfelix/vernemq
+      tag: 1.11.0-b0
     serviceMonitor:
       create: false
     service:

@@ -1,0 +1,97 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mosquitto
+  namespace: home-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://vernemq.github.io/docker-vernemq
+      chart: mosquitto
+      version: 0.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 10m
+  values:
+    replicaCount: 1
+    service:
+      type: LoadBalancer
+      loadBalancerIP: 192.168.1.152
+    resources:
+      {}
+      # We usually recommend not to specify default resources and to leave this as a conscious
+      # choice for the user. This also increases chances charts run on environments with little
+      # resources, such as Minikube. If you do want to specify resources, uncomment the following
+      # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    persistence:
+      enabled: False
+      annotations: {}
+      ## mosquitto data Persistent Volume Storage Class
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+      ##   GKE, AWS & OpenStack)
+      ##
+      # storageClass: "-"
+      ##
+      ## If you want to reuse an existing claim, you can pass the name of the PVC using
+      ## the existingClaim variable
+      # existingClaim: mosquitto-data
+      accessMode: ReadWriteOnce
+      size: 5Gi
+
+    # customConfig:
+
+    # Any extra volumes to define for the pod
+    extraVolumes:
+      []
+      # - name: example-name
+      #   hostPath:
+      #     path: /path/on/host
+      #     type: DirectoryOrCreate
+
+    # Any extra volume mounts to define for the containers
+    extraVolumeMounts: []
+    #   - name: example-name
+    #     mountPath: /path/in/container
+
+    monitoring:
+      podMonitor:
+        enabled: false
+      sidecar:
+        enabled: true
+        port: 9234
+        args:
+          - '--use-splitted-config'
+        envs:
+          - name: MQTT_CLIENT_ID
+            value: exporter
+          - name: BROKER_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        image:
+          repository: nolte/mosquitto-exporter
+          tag: v0.6.3
+          pullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: 300m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
