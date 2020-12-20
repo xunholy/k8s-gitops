@@ -8,7 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://charts.helm.sh/stable
+      # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: metallb
       version: 1.1.0
       sourceRef:
