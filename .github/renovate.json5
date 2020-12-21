@@ -1,7 +1,7 @@
 {
   "extends": [
     "config:base",
-    ":gitSignOff"
+    // ":gitSignOff"
   ],
   "enabled": true,
   "timezone": "Australia/Melbourne",
