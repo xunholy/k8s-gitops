@@ -1,14 +1,14 @@
 {
   "extends": [
     "config:base",
-    // ":gitSignOff"
+    ":gitSignOff"
   ],
   "enabled": true,
   "timezone": "Australia/Melbourne",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
-  "gitAuthor": "Michael Fornaro <20387402+xUnholy@users.noreply.github.com>",
-  "commitBody": "Signed-off-by: Michael Fornaro <20387402+xUnholy@users.noreply.github.com>",
+  "gitAuthor": "MIℂHΛΞL FѲRИΛRѲ <20387402+xUnholy@users.noreply.github.com>",
+  "commitBody": "Signed-off-by: MIℂHΛΞL FѲRИΛRѲ <20387402+xUnholy@users.noreply.github.com>",
   // Do not notify on closed unmerged PRs
   "suppressNotifications": ["prIgnoreNotification"],
   // Do not rebase PRs
