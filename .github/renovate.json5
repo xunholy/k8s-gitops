@@ -13,7 +13,7 @@
   // Do not rebase PRs
   "rebaseWhen": "conflicted",
   "assignees": ["@xUnholy"],
-  "reviewersFromCodeOwners": true
+  "reviewersFromCodeOwners": true,
   "helm-values": {
     "fileMatch": ["cluster/.+\\.yaml$"]
   },
