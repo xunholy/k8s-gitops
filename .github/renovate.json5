@@ -83,12 +83,19 @@
       "versioning": "loose",
       "packageNames": ["plexinc/pms-docker"]
     },
-    // Enable auto-merge
+    // Enable auto-merge docker
     {
       "datasources": ["docker"],
       "automerge": true,
       "requiredStatusChecks": null,
       "updateTypes": ["minor", "patch"],
+    },
+    // Enable auto-merge helm
+    {
+      "datasources": ["helm"],
+      "automerge": true,
+      "requiredStatusChecks": null,
+      "updateTypes": ["patch"],
     }
   ]
 }
