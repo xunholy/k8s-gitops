@@ -38,7 +38,7 @@ spec:
         # Required: MQTT base topic for Zigbee2MQTT MQTT messages
         base_topic: zigbee2mqtt
         # Required: MQTT server URL (use mqtts:// for SSL/TLS connection)
-        server: 'mqtt://mosquitto'
+        server: 'mqtt://192.168.1.152:1883'
       # Required: USB / Serial settings
       serial:
         # Required: Location of your zigbee device
