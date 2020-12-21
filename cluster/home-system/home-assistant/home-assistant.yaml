@@ -32,12 +32,13 @@ spec:
     cleanupOnFail: true
   values:
     hostNetwork: true
-    extraEnv:
+    env:
       TZ: 'Australia/Melbourne'
     persistence:
-      enabled: true
-      size: 5Gi
-      storageClass: openebs-cstor-sparse
+      config:
+        enabled: true
+        size: 5Gi
+        storageClass: openebs-cstor-sparse
     service:
       portName: http-api
     vscode:
