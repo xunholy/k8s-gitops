@@ -8,8 +8,9 @@ spec:
   interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://openebs.github.io/charts
       chart: openebs
-      version: '>=2.3.0 <3.0.0'
+      version: 2.4.2
       sourceRef:
         kind: HelmRepository
         name: openebs-charts

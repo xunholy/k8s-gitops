@@ -6,6 +6,30 @@ image:
 # nodes if worker nodes share a common L2 network segment.
 autoDirectNodeRoutes: true
 
+# externalIPs is the configuration for ExternalIPs service handling
+externalIPs:
+  # enabled enables ExternalIPs functionality
+  enabled: true
+
+# endpointRoutes enables use of per endpoint routes instead of routing vis
+# the cilium_host interface
+endpointRoutes:
+  enabled: false
+
+# hostServices is the configuration for ClusterIP service handling in host namespace
+hostServices:
+  # enabled enables host reachable functionality
+  enabled: true
+
+# nodePort is the configuration for NodePort service handling
+nodePort:
+  # enabled enables NodePort functionality
+  enabled: true
+
+# masquerade enables masquerading of traffic leaving the node for
+# destinations outside of the cluster.
+masquerade: true
+
 hubble:
   enabled: true
   # Enables the provided list of Hubble metrics.

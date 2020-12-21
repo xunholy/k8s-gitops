@@ -8,6 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://open-policy-agent.github.io/gatekeeper/charts
       chart: gatekeeper
       version: 3.2.0-rc.1
       sourceRef:

@@ -1,0 +1,33 @@
+name: renovate-helmrelease-schedule
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 * * * *"
+
+jobs:
+  renovate-helmrelease:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Update Helm Releases
+      run: |
+        docker-compose run -T --rm builder bootstrap/renovate-helm-releases.sh
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: update/pre-commit-auto-update
+        delete-branch: true
+        title: Auto-update pre-commit hooks
+        signoff: true
+        committer: "Michael Fornaro <20387402+xUnholy@users.noreply.github.com>"
+        author: "Michael Fornaro <20387402+xUnholy@users.noreply.github.com>"
+        commit-message: Auto-update pre-commit hooks
+        body: |
+          Signed-off-by: Michael Fornaro <20387402+xUnholy@users.noreply.github.com>
+        labels: dependencies, merge

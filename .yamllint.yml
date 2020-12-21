@@ -3,6 +3,8 @@ ignore: |
     .github/
     .secrets/
     *.encrypted.yaml
+    docker-compose.yml
+    cluster/home-system/zigbee2mqtt/zigbee2mqtt.yaml
 
 extends: default
 rules:

@@ -8,6 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://charts.helm.sh/stable
       chart: dex
       version: 2.15.2
       sourceRef:

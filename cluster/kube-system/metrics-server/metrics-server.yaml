@@ -8,6 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://charts.helm.sh/stable
       chart: metrics-server
       version: '2.11.4'
       sourceRef:
