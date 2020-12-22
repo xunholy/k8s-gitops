@@ -47,7 +47,7 @@ spec:
         # Optional: disable LED of the adapter if supported (default: false)
         disable_led: false
         # Optional: adapter type, not needed unless you are experiencing problems (default: shown below, options: zstack, deconz)
-        adapter: null
+        # adapter: null
       # Optional: advanced settings
       advanced:
         # Optional: ZigBee pan ID
