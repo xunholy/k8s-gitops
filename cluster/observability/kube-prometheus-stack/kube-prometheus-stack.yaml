@@ -45,7 +45,7 @@ spec:
       createCustomResource: true
       # Setting this option to 0 to disable cpu limits
       # see https://github.com/prometheus-operator/prometheus-operator/blob/master/cmd/operator/main.go#L175
-      configReloaderCpu: 0
+      # configReloaderCpu: 0
       tlsProxy:
         image:
           repository: raspbernetes/ghostunnel
@@ -62,7 +62,7 @@ spec:
     kubeControllerManager:
       enabled: true
     kubeScheduler:
-      enabled: false
+      enabled: true
     alertmanager:
       fullnameOverride: alertmanager
       enabled: true
@@ -278,8 +278,8 @@ spec:
             requests:
               memory: 128Mi
               cpu: 100m
-            # limits:
-            #   memory: 256Mi
+            limits:
+              memory: 256Mi
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false

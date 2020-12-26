@@ -11,9 +11,8 @@ if [[ ! $(flux) ]]; then
   exit 1
 fi
 
-# Untaint master nodes
-# TODO: Enable Ansible to allow configuring the taints to be added/removed.
-[[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master-) ]] && echo "Masters untainted"
+# Untaint master nodes if you don't have enough workers in your homelab
+# [[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master-) ]] && echo "Masters untainted"
 
 # Check the cluster meets the fluxv2 prerequisites
 flux check --pre
