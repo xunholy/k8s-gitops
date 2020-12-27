@@ -54,6 +54,15 @@ spec:
       backupStorageLocation:
         name: default
         bucket: raspbernetes-velero-backups
+      volumeSnapshotLocation:
+        provider: openebs.io/cstor-blockstore
+        name: default
+        config:
+          prefix: cstor
+          bucket: raspbernetes-openebs-backups
+          namespace: openebs
+          backupPathPrefix: newbackup
+          provider: gcp
     metrics:
       enabled: true
     snapshotsEnabled: false
