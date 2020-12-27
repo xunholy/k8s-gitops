@@ -37,13 +37,13 @@ spec:
     # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
     initContainers:
       - name: velero-plugin-for-gcp
-        image: raspbernetes/velero-gcp-plugin:v1.0.1
+        image: raspbernetes/velero-gcp-plugin:v1.1.0
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
             name: plugins
       - name: velero-plugin-for-openebs
-        image: openebs/velero-plugin-arm64
+        image: openebs/velero-plugin:2.4.1
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
@@ -88,6 +88,24 @@ spec:
     # Backup schedules to create.
     schedules:
       daily-backup:
-        schedule: '*/30 * * * *'
+        schedule: '0 6 * * *'
         template:
           ttl: '120h'
+      zigbee2mqtt-hourly:
+        schedule: '0 * * * *'
+        template:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: zigbee2mqtt
+          ttl: '120h'
+          includedNamespaces:
+            - home-system
+      home-assistant-hourly:
+        schedule: '0 * * * *'
+        template:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: home-assistant
+          ttl: '120h'
+          includedNamespaces:
+            - home-system
