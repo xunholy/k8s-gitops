@@ -34,6 +34,7 @@ spec:
     - name: sealed-secrets
       namespace: kube-system
   values:
+    # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
     initContainers:
       - name: velero-plugin-for-gcp
         image: raspbernetes/velero-gcp-plugin:v1.0.1
@@ -47,13 +48,25 @@ spec:
         volumeMounts:
           - mountPath: /target
             name: plugins
+    # Info about the secret to be used by the Velero deployment, which
+    # should contain credentials for the cloud provider IAM account you've
+    # set up for Velero.
     credentials:
+      # Name of a pre-existing secret (if any) in the Velero namespace
+      # that should be used to get IAM account credentials. Optional.
       existingSecret: cloud-credentials
+    # Parameters for the `default` BackupStorageLocation and VolumeSnapshotLocation,
+    # and additional server settings.
     configuration:
+      # Cloud provider being used (e.g. aws, azure, gcp).
       provider: gcp
+      # Parameters for the `default` BackupStorageLocation. See
+      # https://velero.io/docs/v1.5/api-types/backupstoragelocation/
       backupStorageLocation:
         name: default
         bucket: raspbernetes-velero-backups
+      # Parameters for the `default` VolumeSnapshotLocation. See
+      # https://velero.io/docs/v1.5/api-types/volumesnapshotlocation/
       volumeSnapshotLocation:
         provider: openebs.io/cstor-blockstore
         name: default
@@ -63,19 +76,16 @@ spec:
           namespace: openebs
           backupPathPrefix: newbackup
           provider: gcp
+    # Settings for Velero's prometheus metrics. Enabled by default.
     metrics:
       enabled: true
-    snapshotsEnabled: false
+    # Whether to create backupstoragelocation crd, if false => do not create a default backup location
+    backupsEnabled: true
+    # Whether to create volumesnapshotlocation crd, if false => disable snapshot feature
+    snapshotsEnabled: true
+    # Whether to deploy the restic daemonset.
     deployRestic: false
-    restic:
-      podVolumePath: /var/lib/kubelet/pods
-      privileged: false
-      resources:
-        requests:
-          memory: 200Mi
-          cpu: 15m
-        limits:
-          memory: 1000Mi
+    # Backup schedules to create.
     schedules:
       daily-backup:
         schedule: '*/30 * * * *'
