@@ -5,6 +5,9 @@ metadata:
   name: helm-controller
   namespace: flux-system
 spec:
+  namespaceSelector:
+    matchNames:
+      - flux-system
   selector:
     matchLabels:
       app: helm-controller
@@ -17,6 +20,9 @@ metadata:
   name: kustomize-controller
   namespace: flux-system
 spec:
+  namespaceSelector:
+    matchNames:
+      - flux-system
   selector:
     matchLabels:
       app: kustomize-controller
@@ -29,6 +35,9 @@ metadata:
   name: notification-controller
   namespace: flux-system
 spec:
+  namespaceSelector:
+    matchNames:
+      - flux-system
   selector:
     matchLabels:
       app: notification-controller
@@ -41,6 +50,9 @@ metadata:
   name: source-controller
   namespace: flux-system
 spec:
+  namespaceSelector:
+    matchNames:
+      - flux-system
   selector:
     matchLabels:
       app: source-controller

@@ -26,21 +26,27 @@ spec:
   eventSeverity: error
   eventSources:
     - kind: HelmRelease
-      namespace: 'observability'
+      namespace: 'backups'
       name: '*'
     - kind: HelmRelease
-      namespace: 'network'
+      namespace: 'home-system'
       name: '*'
     - kind: HelmRelease
       namespace: 'kube-system'
       name: '*'
     - kind: HelmRelease
-      namespace: 'backups'
-      name: '*'
-    - kind: HelmRelease
       namespace: 'litmus'
       name: '*'
     - kind: HelmRelease
+      namespace: 'network'
+      name: '*'
+    - kind: HelmRelease
+      namespace: 'observability'
+      name: '*'
+    - kind: HelmRelease
       namespace: 'openebs'
+      name: '*'
+    - kind: HelmRelease
+      namespace: 'security'
       name: '*'
   suspend: false
