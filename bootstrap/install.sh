@@ -6,18 +6,16 @@ set -eou pipefail
 KUBECONFIG=~/.kube/config:~/projects/k8s-cluster-installation/ansible/playbooks/output/k8s-config.yaml kubectl config view --flatten > ~/.kube/config.tmp && \
   mv ~/.kube/config.tmp ~/.kube/config
 
-if [[ ! $(flux) ]]; then
-  echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli"
-  exit 1
-fi
+flux >/dev/null || \
+  echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli" && exit 1
 
 # Untaint master nodes
 # TODO: Enable Ansible to allow configuring the taints to be added/removed.
 [[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master-) ]] && echo "Masters untainted"
 
 # Check the cluster meets the fluxv2 prerequisites
-flux check --pre
-[[ $? -ne 0 ]] && echo "Prerequisites were not satisfied" && exit 1
+flux check --pre || \
+  echo "Prerequisites were not satisfied" && exit 1
 
 flux install \
   --version=latest \
