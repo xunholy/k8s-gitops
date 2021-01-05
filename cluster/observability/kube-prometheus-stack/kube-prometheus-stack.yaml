@@ -41,15 +41,9 @@ spec:
     fullnameOverride: x
     prometheusOperator:
       enabled: true
-      manageCrds: true
-      createCustomResource: true
       # Setting this option to 0 to disable cpu limits
       # see https://github.com/prometheus-operator/prometheus-operator/blob/master/cmd/operator/main.go#L175
       # configReloaderCpu: 0
-      tlsProxy:
-        image:
-          repository: raspbernetes/ghostunnel
-          tag: v1.5.3
       admissionWebhooks:
         patch:
           image:
@@ -58,11 +52,6 @@ spec:
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
-    # Disable kubeControllerManager & kubeScheduler to test stability
-    kubeControllerManager:
-      enabled: true
-    kubeScheduler:
-      enabled: true
     alertmanager:
       fullnameOverride: alertmanager
       enabled: true
@@ -72,8 +61,8 @@ spec:
     grafana:
       fullnameOverride: grafana
       enabled: true
-      # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
       service:
+        # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
         portName: http-service
       image:
         repository: grafana/grafana
@@ -192,11 +181,11 @@ spec:
           type: loki
           access: proxy
           url: http://loki.observability.svc.cluster.local:3100
-      # Unused because disable_login_form=true however, used for backup authentication
-      admin:
-        existingSecret: 'grafana-admin-creds'
-        userKey: admin-user
-        passwordKey: admin-password
+      # Unused because disable_login_form=true however, can used for backup authentication
+      # admin:
+      #   existingSecret: 'grafana-admin-creds'
+      #   userKey: admin-user
+      #   passwordKey: admin-password
       extraSecretMounts:
         - name: auth-github-oauth-secret-mount
           secretName: auth-github-oauth-secret
