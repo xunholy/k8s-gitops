@@ -1,4 +1,4 @@
-name: dependabot
+name: auto-merge
 
 on:
   # Note: Not supported currently by automerge-action@v0.12.0
