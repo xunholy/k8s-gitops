@@ -52,6 +52,20 @@ spec:
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
+    kubeControllerManager:
+      service:
+        port: 10257
+        targetPort: 10257
+      serviceMonitor:
+        https: true
+        insecureSkipVerify: true
+    kubeScheduler:
+      service:
+        port: 10259
+        targetPort: 10259
+      serviceMonitor:
+        https: true
+        insecureSkipVerify: true
     alertmanager:
       fullnameOverride: alertmanager
       enabled: true
@@ -136,7 +150,7 @@ spec:
             url: https://raw.githubusercontent.com/bitnami-labs/sealed-secrets/master/contrib/prometheus-mixin/dashboards/sealed-secrets-controller.json
             datasource: Prometheus
           speedtest:
-            url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/prometheus-operator/grafana-dashboards/internet_speed.json
+            url: https://raw.githubusercontent.com/billimek/prometheus-speedtest-exporter/master/speedtest-exporter.json
             datasource: Prometheus
           thanos-overview:
             url: https://raw.githubusercontent.com/thanos-io/thanos/b5431c44a6f40fd8f2aef54747dd1eaf9dfcbd25/examples/dashboards/overview.json
