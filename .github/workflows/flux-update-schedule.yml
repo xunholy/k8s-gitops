@@ -1,4 +1,4 @@
-name: flux
+name: flux-update-schedule
 
 on:
   schedule:
