@@ -40,7 +40,7 @@ resource "google_project_iam_binding" "velero" {
 
 resource "google_storage_bucket_iam_binding" "binding" {
   bucket = google_storage_bucket.openebs.name
-  role = "projects/raspbernetes/roles/${google_project_iam_custom_role.velero.role_id}"
+  role   = "projects/raspbernetes/roles/${google_project_iam_custom_role.velero.role_id}"
   members = [
     "serviceAccount:${google_service_account.velero.email}",
   ]
