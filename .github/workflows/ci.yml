@@ -22,7 +22,7 @@ jobs:
           pattern: '*.sh'
           exclude: './.git/*'
       - name: Lint Yaml
-        uses: ibiqlik/action-yamllint@v1
+        uses: ibiqlik/action-yamllint@v3
   validate:
     runs-on: ubuntu-latest
     steps:
