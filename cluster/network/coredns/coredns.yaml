@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: coredns
+  namespace: network
+spec:
+  interval: 5m
+  releaseName: coredns
+  chart:
+    spec:
+      # renovate: registryUrl=https://coredns.github.io/helm
+      chart: coredns
+      version: 1.14.0
+      sourceRef:
+        kind: HelmRepository
+        name: coredns-charts
+        namespace: flux-system
+      interval: 5m
