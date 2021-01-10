@@ -68,7 +68,7 @@ jobs:
           echo $result
           echo ::set-output name=result::$result
 
-      - uses: actions/github-script@0.9.0
+      - uses: actions/github-script@v3.1
         if: github.event_name == 'pull_request'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
