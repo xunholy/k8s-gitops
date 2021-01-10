@@ -1,7 +1,13 @@
 version: 2
 updates:
-- package-ecosystem: gitsubmodule
+  # Maintain repo git submodules
+  - package-ecosystem: gitsubmodule
   directory: "/"
   schedule:
     interval: daily
   open-pull-requests-limit: 10
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
