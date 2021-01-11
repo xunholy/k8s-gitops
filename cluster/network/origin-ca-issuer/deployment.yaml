@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/instance: default
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: 'controller'
-    helm.sh/chart: origin-ca-issuer-0.5.0
+    helm.sh/chart: origin-ca-issuer-0.5.1
 spec:
   replicas: 1
   selector:
@@ -27,7 +27,7 @@ spec:
         app.kubernetes.io/instance: default
         app.kubernetes.io/component: 'controller'
         app.kubernetes.io/managed-by: Helm
-        helm.sh/chart: origin-ca-issuer-0.5.0
+        helm.sh/chart: origin-ca-issuer-0.5.1
     spec:
       serviceAccount: default-origin-ca-issuer
       serviceAccountName: default-origin-ca-issuer
@@ -43,7 +43,7 @@ spec:
           resources:
             limits:
               cpu: 100m
-              memory: 50Mi
+              memory: 100Mi
             requests:
               cpu: 100m
               memory: 50Mi
