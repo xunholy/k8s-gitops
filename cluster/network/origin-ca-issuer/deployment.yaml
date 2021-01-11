@@ -27,7 +27,7 @@ spec:
         app.kubernetes.io/instance: default
         app.kubernetes.io/component: 'controller'
         app.kubernetes.io/managed-by: Helm
-        helm.sh/chart: origin-ca-issuer-0.5.
+        helm.sh/chart: origin-ca-issuer-0.5.0
     spec:
       serviceAccount: default-origin-ca-issuer
       serviceAccountName: default-origin-ca-issuer
