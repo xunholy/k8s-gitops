@@ -27,13 +27,13 @@ spec:
         app.kubernetes.io/instance: default
         app.kubernetes.io/component: 'controller'
         app.kubernetes.io/managed-by: Helm
-        helm.sh/chart: origin-ca-issuer-0.5.0
+        helm.sh/chart: origin-ca-issuer-0.5.
     spec:
       serviceAccount: default-origin-ca-issuer
       serviceAccountName: default-origin-ca-issuer
       containers:
         - name: origin-ca-issuer
-          image: 'cloudflare/origin-ca-issuer@sha256:76a0cadffd13cf77d75f6c1b7510ed8100706a776ad5a8d3345b192e8ac012d0'
+          image: 'cloudflare/origin-ca-issuer:v0.5.1'
           imagePullPolicy: Always
           env:
             - name: POD_NAMESPACE
