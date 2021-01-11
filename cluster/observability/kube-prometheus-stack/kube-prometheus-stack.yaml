@@ -52,6 +52,7 @@ spec:
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
+    # https://github.com/prometheus-community/helm-charts/issues/204
     kubeControllerManager:
       service:
         port: 10257
@@ -115,13 +116,13 @@ spec:
             url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
             datasource: Prometheus
           cilium-dashboard:
-            url: https://raw.githubusercontent.com/cilium/cilium/v1.9.0/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
+            url: https://raw.githubusercontent.com/cilium/cilium/v1.9.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
             datasource: Prometheus
           cilium-operator-dashboard:
-            url: https://raw.githubusercontent.com/cilium/cilium/v1.9.0/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
+            url: https://raw.githubusercontent.com/cilium/cilium/v1.9.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
             datasource: Prometheus
           hubble-dashboard:
-            url: https://raw.githubusercontent.com/cilium/cilium/v1.9.0/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
+            url: https://raw.githubusercontent.com/cilium/cilium/v1.9.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
             datasource: Prometheus
           # Istio dashboards must be kept in parity with the version deployed
           # https://grafana.com/grafana/dashboards/7639/revisions

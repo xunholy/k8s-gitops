@@ -1,4 +1,4 @@
-name: renovate-helmrelease-schedule
+name: renovate-annotation-schedule
 
 on:
   workflow_dispatch:
