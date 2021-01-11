@@ -17,3 +17,51 @@ spec:
         name: coredns-charts
         namespace: flux-system
       interval: 5m
+  values:
+    rbac:
+      create: true
+    replicaCount: 1
+    # In this mode CoreDNS is deployed as any kubernetes app in user specified namespace.
+    # The CoreDNS service can be exposed outside the cluster by using using either the NodePort or LoadBalancer type of service.
+    # This mode is chosen by setting isClusterService to false
+    isClusterService: false
+    serviceType: LoadBalancer
+    service:
+      externalIPs:
+        - 192.168.1.155
+      externalTrafficPolicy: Local
+    # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
+    servers:
+      - zones:
+          - zone: raspbernetes.com.
+            scheme: dns://
+            # use_tcp: true
+        port: 53
+        plugins:
+          - name: errors
+          - name: health
+            configBlock: |-
+              lameduck 5s
+          - name: ready
+          - name: kubernetes
+            parameters: cluster.local in-addr.arpa ip6.arpa
+            configBlock: |-
+              pods insecure
+              fallthrough in-addr.arpa ip6.arpa
+              ttl 30
+          - name: prometheus
+            parameters: 0.0.0.0:9153
+          - name: forward
+            parameters: . /etc/resolv.conf
+          - name: cache
+            parameters: 30
+          - name: loop
+          - name: reload
+          - name: loadbalance
+    prometheus:
+      # Set this to true to create Service for Prometheus metrics
+      service:
+        enabled: true
+      # Disabled due to service monitor resources being created statically to remove chart dependencies.
+      monitor:
+        enabled: false
