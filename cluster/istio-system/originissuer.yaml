@@ -3,7 +3,7 @@ apiVersion: cert-manager.k8s.cloudflare.com/v1
 kind: OriginIssuer
 metadata:
   name: prod-issuer
-  namespace: network
+  namespace: istio-system
 spec:
   requestType: OriginECC
   auth:
