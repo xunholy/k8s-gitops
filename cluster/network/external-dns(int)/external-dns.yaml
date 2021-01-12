@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: external-dns
+  name: external-dns-internal
   namespace: network
 spec:
   interval: 5m
@@ -37,7 +37,9 @@ spec:
       tag: v0.7.4
       pullPolicy: IfNotPresent
     provider: coredns
-    policy: upsert-only
+    coredns:
+      etcdEndpoints: http://etcd:2379
+    policy: sync
     registry: 'txt'
     replicas: 1
     logLevel: debug
@@ -47,19 +49,16 @@ spec:
       enabled: true
       serviceMonitor:
         enabled: false
-        namespace: observability
     crd:
       create: true
     sources:
       # Disable service and ingress to avoid exposing services externally that are not routed through istio
       # - service
       # - ingress
+      - crd
       - istio-virtualservice
       # Disable istio gateway as it adds a wildcard CNAME which is not able to be proxied in cloudflare
       # - istio-gateway
     domainFilters:
       - raspbernetes.com
-    cloudflare:
-      secretName: 'cloudflare-external-dns'
-      email: 'michaelfornaro@gmail.com'
-      proxied: true
+    annotationFilter: 'external-dns.alpha.kubernetes.io/internal=true'

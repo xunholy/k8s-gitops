@@ -6,6 +6,7 @@ metadata:
   namespace: home-system
   annotations:
     external-dns.alpha.kubernetes.io/target: raspbernetes.com
+    external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
     - 'home-assistant.raspbernetes.com'

@@ -20,7 +20,8 @@ spec:
     image:
       registry: docker.io
       repository: raspbernetes/etcd
-      tag: latest
+      tag: v1.3
+      pullPolicy: Always
     statefulset:
       replicaCount: 1
     auth:

@@ -47,19 +47,20 @@ spec:
       enabled: true
       serviceMonitor:
         enabled: false
-        namespace: observability
+    # Disabled as the external-dns instance used for external records manages the CRD and uses the CRD source.
     crd:
-      create: true
+      create: false
     sources:
       # Disable service and ingress to avoid exposing services externally that are not routed through istio
       # - service
       # - ingress
-      - crd
+      # - crd
       - istio-virtualservice
       # Disable istio gateway as it adds a wildcard CNAME which is not able to be proxied in cloudflare
       # - istio-gateway
     domainFilters:
       - raspbernetes.com
+    annotationFilter: 'external-dns.alpha.kubernetes.io/external=true'
     cloudflare:
       secretName: 'cloudflare-external-dns'
       email: 'michaelfornaro@gmail.com'
