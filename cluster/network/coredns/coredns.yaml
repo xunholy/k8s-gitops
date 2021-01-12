@@ -35,9 +35,10 @@ spec:
     # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
     servers:
       - zones:
+          - zone: .
+            scheme: dns://
           - zone: raspbernetes.com.
             scheme: dns://
-            # use_tcp: true
         port: 53
         plugins:
           - name: log
@@ -58,15 +59,18 @@ spec:
           # Serves a /metrics endpoint on :9153, required for serviceMonitor
           - name: prometheus
             parameters: 0.0.0.0:9153
-          # plugin/forward: this plugin can only be used once per Server Block
+          # Forward everything else to Cloudflare DNS
+          # Note: plugin/forward: this plugin can only be used once per Server Block
           - name: forward
-            parameters: . /etc/resolv.conf
-          # - name: forward
-          #   parameters: . 1.1.1.1
+            parameters: . 1.1.1.1
+          # Set up cache
           - name: cache
             parameters: 30
+          # Detect forwarding loops
           - name: loop
+          # Allow automatic reloading of Corefile
           - name: reload
+          # The loadbalance will act as a round-robin DNS load balancer by randomizing the order of A, AAAA, and MX records in the answer.
           - name: loadbalance
         # - name: etcd
         #   parameters: raspbernetes.com
