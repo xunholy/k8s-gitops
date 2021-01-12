@@ -1,0 +1,87 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: coredns
+  namespace: network
+spec:
+  interval: 5m
+  releaseName: coredns
+  chart:
+    spec:
+      # renovate: registryUrl=https://coredns.github.io/helm
+      chart: coredns
+      version: 1.14.0
+      sourceRef:
+        kind: HelmRepository
+        name: coredns-charts
+        namespace: flux-system
+      interval: 5m
+  # dependsOn:
+  #   - name: etcd
+  #     namespace: network
+  values:
+    rbac:
+      create: true
+    replicaCount: 1
+    # In this mode CoreDNS is deployed as any kubernetes app in user specified namespace.
+    # The CoreDNS service can be exposed outside the cluster by using using either the NodePort or LoadBalancer type of service.
+    # This mode is chosen by setting isClusterService to false
+    isClusterService: false
+    serviceType: LoadBalancer
+    service:
+      loadBalancerIP: 192.168.1.155
+      externalTrafficPolicy: Cluster
+    # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
+    servers:
+      - zones:
+          - zone: .
+            scheme: dns://
+          - zone: raspbernetes.com.
+            scheme: dns://
+        port: 53
+        plugins:
+          - name: log
+          - name: errors
+          # Serves a /health endpoint on :8080, required for livenessProbe
+          - name: health
+            configBlock: |-
+              lameduck 5s
+          # Serves a /ready endpoint on :8181, required for readinessProbe
+          - name: ready
+          # Required to query kubernetes API for data
+          - name: kubernetes
+            parameters: cluster.local in-addr.arpa ip6.arpa
+            configBlock: |-
+              pods insecure
+              fallthrough in-addr.arpa ip6.arpa
+              ttl 30
+          # Serves a /metrics endpoint on :9153, required for serviceMonitor
+          - name: prometheus
+            parameters: 0.0.0.0:9153
+          - name: etcd
+            parameters: raspbernetes.com
+            configBlock: |-
+              stubzones
+              path /skydns
+              endpoint http://etcd:2379
+          # Forward everything else to Cloudflare DNS
+          # Note: plugin/forward: this plugin can only be used once per Server Block
+          - name: forward
+            parameters: . 1.1.1.1
+          # Set up cache
+          - name: cache
+            parameters: 30
+          # Detect forwarding loops
+          - name: loop
+          # Allow automatic reloading of Corefile
+          - name: reload
+          # The loadbalance will act as a round-robin DNS load balancer by randomizing the order of A, AAAA, and MX records in the answer.
+          - name: loadbalance
+        prometheus:
+          # Set this to true to create Service for Prometheus metrics
+          service:
+            enabled: true
+          # Disabled due to service monitor resources being created statically to remove chart dependencies.
+          monitor:
+            enabled: false
