@@ -25,7 +25,7 @@ spec:
         - 'raspbernetes.com'
         - '*.raspbernetes.com'
       tls:
-        credentialName: wildcard-cert
+        credentialName: raspbernetes-com-tls
         mode: SIMPLE
         minProtocolVersion: TLSV1_2
         maxProtocolVersion: TLSV1_3
