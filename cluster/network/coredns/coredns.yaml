@@ -17,6 +17,9 @@ spec:
         name: coredns-charts
         namespace: flux-system
       interval: 5m
+  # dependsOn:
+  #   - name: etcd
+  #     namespace: network
   values:
     rbac:
       create: true
@@ -27,9 +30,8 @@ spec:
     isClusterService: false
     serviceType: LoadBalancer
     service:
-      externalIPs:
-        - 192.168.1.155
-      externalTrafficPolicy: Local
+      loadBalancerIP: 192.168.1.155
+      externalTrafficPolicy: Cluster
     # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
     servers:
       - zones:
@@ -51,13 +53,22 @@ spec:
               ttl 30
           - name: prometheus
             parameters: 0.0.0.0:9153
+          # plugin/forward: this plugin can only be used once per Server Block
           - name: forward
             parameters: . /etc/resolv.conf
+          # - name: forward
+          #   parameters: . 1.1.1.1
           - name: cache
             parameters: 30
           - name: loop
           - name: reload
           - name: loadbalance
+          # - name: etcd
+          #   parameters: raspbernetes.com
+          #   configBlock: |-
+          #     stubzones
+          #     path /skydns
+          #     endpoint http://etcd.network.svc.cluster.local:2379
     prometheus:
       # Set this to true to create Service for Prometheus metrics
       service:
