@@ -5,7 +5,7 @@ metadata:
   name: jaeger
   namespace: istio-system
   annotations:
-    external-dns.alpha.kubernetes.io/target: '192.168.1.155'
+    external-dns.alpha.kubernetes.io/target: '192.168.1.150'
     external-dns.alpha.kubernetes.io/internal: 'true'
 spec:
   hosts:

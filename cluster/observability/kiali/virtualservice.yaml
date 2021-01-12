@@ -5,7 +5,7 @@ metadata:
   name: kiali
   namespace: observability
   annotations:
-    external-dns.alpha.kubernetes.io/target: raspbernetes.com
+    external-dns.alpha.kubernetes.io/target: 192.168.1.150
     external-dns.alpha.kubernetes.io/internal: 'true'
 spec:
   hosts:
