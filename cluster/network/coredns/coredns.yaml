@@ -21,6 +21,12 @@ spec:
   #   - name: etcd
   #     namespace: network
   values:
+    # Using a personal image as it's bundled with external plugins
+    # This image is reusable and can be viewed with the available plugins here https://github.com/xUnholy/coredns
+    image:
+      repository: xunholy/coredns
+      tag: '1.8.0'
+      pullPolicy: IfNotPresent
     rbac:
       create: true
     replicaCount: 1
