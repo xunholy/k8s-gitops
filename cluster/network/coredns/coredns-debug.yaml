@@ -21,7 +21,7 @@ spec:
   #   - name: etcd
   #     namespace: network
   values:
-    # Using a personal image as it's bundled with external plugins
+    # Custom image bundled with external plugins; currently not in use.
     # This image is reusable and can be viewed with the available plugins here https://github.com/xUnholy/coredns
     # image:
     #   repository: xunholy/coredns
@@ -71,20 +71,20 @@ spec:
           #     stubzones
           #     path /skydns
           #     endpoint http://etcd:2379
-          - name: file
-            parameters: /etc/coredns/raspbernetes.db
           # Forward everything else to Cloudflare DNS
           # Note: plugin/forward: this plugin can only be used once per Server Block
           - name: forward
             parameters: . 1.1.1.1
             configBlock: |-
               except raspbernetes.com *.raspbernetes.com
+          - name: file
+            parameters: /etc/coredns/raspbernetes.db raspbernetes.com
           # Set up cache
           - name: cache
             parameters: 30
-          # Detect forwarding loops
+          # Detects simple forwarding loops and halts the CoreDNS process if a loop is found.
           - name: loop
-          # Allow automatic reloading of Corefile
+          # Allows automatic reload of a changed Corefile.
           - name: reload
           # The loadbalance will act as a round-robin DNS load balancer by randomizing the order of A, AAAA, and MX records in the answer.
           - name: loadbalance
