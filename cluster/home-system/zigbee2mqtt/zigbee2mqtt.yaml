@@ -6,6 +6,7 @@ metadata:
   namespace: home-system
 spec:
   interval: 5m
+  releaseName: zigbee2mqtt
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
@@ -51,15 +52,31 @@ spec:
       # Optional: advanced settings
       advanced:
         # Optional: ZigBee pan ID
-        pan_id: 0x1a63
+        pan_id: 0x1a67
         # Optional: Logging level, options: debug, info, warn, error (default: info)
         log_level: debug
         # Optional: Output location of the log (default: shown below), leave empty to supress logging (log_output: [])
         # possible options: 'console', 'file', 'syslog'
         log_output:
           - console
-        # TODO: Update with auto-generated network keys
-        # network_key: []
+        # Auto-generated network keys
+        network_key:
+          - 231
+          - 204
+          - 161
+          - 29
+          - 71
+          - 71
+          - 193
+          - 178
+          - 61
+          - 150
+          - 133
+          - 136
+          - 244
+          - 166
+          - 238
+          - 120
       frontend:
         port: 8080
       # Optional: experimental options
@@ -74,11 +91,11 @@ spec:
       data:
         enabled: true
         mountPath: /data
-        storageClass: 'openebs-cstor-sparse'
+        storageClass: 'openebs-jiva-default'
         accessMode: ReadWriteOnce
         size: '1Gi'
-    podAnnotations:
-      backup.velero.io/backup-volumes: data
+    # podAnnotations:
+    #   backup.velero.io/backup-volumes: data
     additionalVolumeMounts:
       - name: usb
         mountPath: /dev/ttyUSB0
