@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: openebs
+  name: storage
   labels:
-    namespace: openebs
+    namespace: storage
     istio-injection: disabled
