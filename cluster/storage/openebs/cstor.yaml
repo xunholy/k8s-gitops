@@ -16,6 +16,9 @@ spec:
         namespace: flux-system
       interval: 10m
   values:
+    ndm:
+      sparse:
+        count: '1'
     csiController:
       resizer:
         image:
