@@ -38,7 +38,7 @@ spec:
       config:
         enabled: true
         size: 5Gi
-        storageClass: cstor-replica-pool
+        storageClass: cstor-replica-pool-limited
     service:
       portName: http-api
     vscode:
