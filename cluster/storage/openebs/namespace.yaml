@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: velero
+  labels:
+    namespace: velero
+    istio-injection: disabled

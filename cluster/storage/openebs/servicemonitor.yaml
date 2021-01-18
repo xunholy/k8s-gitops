@@ -6,7 +6,7 @@
 #   labels:
 #     app: openebs
 #   name: openebs
-#   namespace: storage
+#   namespace: openebs
 # spec:
 #   endpoints:
 #     - path: /metrics

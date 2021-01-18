@@ -4,17 +4,16 @@ metadata:
   name: cstor
   namespace: openebs
 spec:
-  interval: 6h
-  maxHistory: 2
+  interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://openebs.github.io/cstor-operators
       chart: cstor
       version: 2.5.0
       sourceRef:
         kind: HelmRepository
         name: cstor-chart
         namespace: flux-system
+      interval: 10m
   values:
     csiController:
       resizer:
