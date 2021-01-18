@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: storage
+  name: velero
   labels:
-    namespace: storage
+    namespace: velero
     istio-injection: disabled
