@@ -52,12 +52,12 @@ spec:
           tag: 3.8.0
         workingDir: '/config'
         args:
-          - --auth
-          - 'none'
           - --user-data-dir
           - '/config/.vscode'
-          - --extensions-dir
-          - '/config/.vscode'
+          - --auth
+          - 'none'
+        ingress:
+          enabled: false
         volumeMounts:
           - name: config
             mountPath: /config
