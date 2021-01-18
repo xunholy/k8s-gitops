@@ -19,3 +19,21 @@ spec:
               number: 8123
             host: home-assistant.home-system.svc.cluster.local
           weight: 100
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: home-assistant-code
+  namespace: home-system
+spec:
+  hosts:
+    - 'home-assistant-code.raspbernetes.com'
+  gateways:
+    - istio-system/istio-system-ingress-gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 12321
+            host: home-assistant-codeserver.home-system.svc.cluster.local
+          weight: 100

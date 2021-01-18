@@ -44,9 +44,6 @@ spec:
     addons:
       codeserver:
         enabled: true
-        service:
-          type: LoadBalancer
-          loadBalancerIP: 192.168.1.155
         image:
           repository: codercom/code-server
           tag: 3.8.0
