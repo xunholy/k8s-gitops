@@ -1,4 +1,5 @@
-# ---
+# Commented while debugging split-horizon
+---
 # apiVersion: networking.istio.io/v1alpha3
 # kind: VirtualService
 # metadata:
@@ -6,6 +7,7 @@
 #   namespace: observability
 #   annotations:
 #     external-dns.alpha.kubernetes.io/target: raspbernetes.com
+#     external-dns.alpha.kubernetes.io/internal: 'true'
 # spec:
 #   hosts:
 #     - 'thanos.raspbernetes.com'

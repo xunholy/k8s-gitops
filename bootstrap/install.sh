@@ -2,8 +2,7 @@
 
 set -eou pipefail
 
-# TODO: automatically update the ~/.kube/config with required context generated.
-KUBECONFIG=~/.kube/config:~/projects/k8s-cluster-installation/ansible/playbooks/output/k8s-config.yaml kubectl config view --flatten > ~/.kube/config.tmp && \
+KUBECONFIG=~/projects/k8s-cluster-installation/ansible/playbooks/output/k8s-config.yaml:~/.kube/config kubectl config view --flatten > ~/.kube/config.tmp && \
   mv ~/.kube/config.tmp ~/.kube/config
 
 if [[ ! $(flux) ]]; then
@@ -22,8 +21,7 @@ flux install \
   --version=latest \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
   --namespace=flux-system \
-  --network-policy=false \
-  --arch=arm64
+  --network-policy=false
 
 if [[ -f .secrets/git-crypt/k8s-secret-sealed-secret-private-key.yaml ]]; then
   echo "Applying existing sealed-secret key"

@@ -5,3 +5,4 @@
 **/.kube
 **/.terraform
 **/.secrets/sops/unencrypted
+**/hack

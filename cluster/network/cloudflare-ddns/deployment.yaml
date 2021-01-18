@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: cloudflare-ddns
-          image: hotio/cloudflare-ddns:stable
+          image: hotio/cloudflareddns:latest
           env:
             - name: CF_APITOKEN
               valueFrom:
