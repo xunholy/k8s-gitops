@@ -21,4 +21,4 @@ allowVolumeExpansion: true
 parameters:
   cas-type: cstor
   cstorPoolCluster: cspc-pool
-  replicaCount: '3'
+  replicaCount: '2'
