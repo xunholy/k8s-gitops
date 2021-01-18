@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: velero
+  name: openebs
   labels:
-    namespace: velero
+    namespace: openebs
     istio-injection: disabled
