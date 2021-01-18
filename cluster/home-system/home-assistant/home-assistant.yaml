@@ -41,13 +41,26 @@ spec:
         storageClass: cstor-replica-pool-limited
     service:
       portName: http-api
-    vscode:
-      enabled: true
-      image:
-        repository: codercom/code-server
-        tag: 3.8.0
-      extraEnv:
-        HASS_SERVER: 'http://localhost:8123'
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: LoadBalancer
+          loadBalancerIP: 192.168.1.155
+        image:
+          repository: codercom/code-server
+          tag: 3.8.0
+        workingDir: '/config'
+        args:
+          - --auth
+          - 'none'
+          - --user-data-dir
+          - '/config/.vscode'
+          - --extensions-dir
+          - '/config/.vscode'
+        volumeMounts:
+          - name: config
+            mountPath: /config
     probes:
       liveness:
         enabled: false
