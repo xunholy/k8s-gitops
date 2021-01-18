@@ -38,7 +38,7 @@ spec:
       config:
         enabled: true
         size: 5Gi
-        storageClass: openebs-jiva-default
+        storageClass: cstor-replica-pool
     service:
       portName: http-api
     vscode:

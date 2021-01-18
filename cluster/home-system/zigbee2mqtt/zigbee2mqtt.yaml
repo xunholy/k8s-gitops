@@ -91,7 +91,7 @@ spec:
       data:
         enabled: true
         mountPath: /data
-        storageClass: 'openebs-jiva-default'
+        storageClass: 'cstor-replica-pool'
         accessMode: ReadWriteOnce
         size: '1Gi'
     # podAnnotations:
