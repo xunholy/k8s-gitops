@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - certificate.yaml
+  - envoyfilter-authn.yaml
+  - gateway.yaml
+  - namespace.yaml
+  - networkpolicy.yaml
+  - originissuer.yaml
+  - peerauthentication.yaml
+  - secret.encrypted.yaml
+  - serviceentry.yaml
+  - servicemonitor.yaml
+  - virtualservice.yaml
