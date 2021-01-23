@@ -74,7 +74,6 @@ spec:
           prefix: cstor
           bucket: raspbernetes-openebs-backups
           namespace: openebs
-          backupPathPrefix: newbackup
           provider: gcp
     # Settings for Velero's prometheus metrics. Enabled by default.
     metrics:
