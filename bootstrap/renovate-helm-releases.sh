@@ -6,8 +6,8 @@ shopt -s extglob
 
 # shellcheck disable=SC2155
 REPO_ROOT=$(git rev-parse --show-toplevel)
-CLUSTER_ROOT="${REPO_ROOT}/cluster"
-HELM_REPO_FILES=$(find "$CLUSTER_ROOT/flux-system/helm-chart-repositories" -name '*.yaml')
+CLUSTER_ROOT="${REPO_ROOT}/namespaces"
+HELM_REPO_FILES=$(find "$CLUSTER_ROOT/base/flux-system/helm-chart-repositories" -name '*.yaml')
 HELM_RELEASE_FILES=$(find "$CLUSTER_ROOT" -name '*.yaml')
 
 for HELM_REPO_FILE in $HELM_REPO_FILES; do
