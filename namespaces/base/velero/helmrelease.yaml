@@ -71,8 +71,8 @@ spec:
         provider: openebs.io/cstor-blockstore
         name: default
         config:
-          prefix: cstor
           bucket: raspbernetes-openebs-backups
+          prefix: cstor
           namespace: openebs
           provider: gcp
     # Settings for Velero's prometheus metrics. Enabled by default.
@@ -96,7 +96,11 @@ spec:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: zigbee2mqtt
+          snapshotVolumes: true
+          storageLocation: default
           ttl: '120h'
+          volumeSnapshotLocations:
+            - default
           includedNamespaces:
             - home-system
       home-assistant-hourly:
@@ -105,6 +109,10 @@ spec:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: home-assistant
+          snapshotVolumes: true
+          storageLocation: default
           ttl: '120h'
+          volumeSnapshotLocations:
+            - default
           includedNamespaces:
             - home-system
