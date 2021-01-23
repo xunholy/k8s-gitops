@@ -97,7 +97,11 @@ spec:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: zigbee2mqtt
+          snapshotVolumes: true
+          storageLocation: default
           ttl: '120h'
+          volumeSnapshotLocations:
+            - default
           includedNamespaces:
             - home-system
       home-assistant-hourly:
@@ -106,6 +110,10 @@ spec:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: home-assistant
+          snapshotVolumes: true
+          storageLocation: default
           ttl: '120h'
+          volumeSnapshotLocations:
+            - default
           includedNamespaces:
             - home-system
