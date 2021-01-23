@@ -28,7 +28,8 @@ if [[ -f .secrets/git-crypt/k8s-secret-sealed-secret-private-key.yaml ]]; then
   kubectl apply -f .secrets/git-crypt/k8s-secret-sealed-secret-private-key.yaml
 fi
 
-if [[ -f cluster/flux-system/repo.yaml ]]; then
+# TODO: add cluster ARG to script
+if [[ -f clusters/production/repo.yaml ]]; then
   echo "Applying Repo Sync"
-  kubectl apply -f cluster/flux-system/repo.yaml
+  kubectl apply -f clusters/production/repo.yaml
 fi

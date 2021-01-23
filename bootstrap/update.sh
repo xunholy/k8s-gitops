@@ -14,7 +14,7 @@ flux install \
   --network-policy=false \
   --arch=arm64 \
   --log-level=info \
-  --export > "./cluster/flux-system/toolkit-components.yaml"
+  --export > "./namespaces/base/flux-system/toolkit-components.yaml"
 
 # Uncomment for local useage
 # git add -A && git commit -sam "update toolkit version to latest" && git push
