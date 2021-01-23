@@ -22,6 +22,8 @@ spec:
       ndm:
         sparse:
           count: '1'
+    cvcOperator:
+      componentName: cvc-operator-svc
     csiController:
       resizer:
         image:
