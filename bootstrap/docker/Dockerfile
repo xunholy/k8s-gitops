@@ -46,7 +46,7 @@ RUN curl -sL -o /usr/bin/kubeseal https://github.com/bitnami-labs/sealed-secrets
 
 # Install flux
 RUN curl -sL -o flux.tar.gz https://github.com/fluxcd/flux2/releases/download/v${FLUX_VERSION}/flux_${FLUX_VERSION}_linux_${TARGETARCH}.tar.gz && \
-  tar -C /usr/bin/flux xvzf flux.tar.gz && \
+  tar -C /usr/bin -xvzf flux.tar.gz && \
   chmod +x /usr/bin/flux
 
 # Install kustomize
