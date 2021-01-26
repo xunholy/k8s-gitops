@@ -1,9 +1,9 @@
 FROM ubuntu
 
 ARG TARGETARCH
-ARG KUBESEAL_VERSION=0.12.5
-ARG YQ_VERSION=3.3.2
-ARG FLUXCTL_VERSION=1.20.1
+ARG KUBESEAL_VERSION=0.14.1
+ARG YQ_VERSION=3.4.1
+ARG FLUX_VERSION=0.6.3
 
 WORKDIR /
 
@@ -44,9 +44,10 @@ RUN curl -sL https://github.com/mikefarah/yq/releases/download/3.3.0/yq_linux_${
 RUN curl -sL -o /usr/bin/kubeseal https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-linux-${TARGETARCH} && \
   chmod +x /usr/bin/kubeseal
 
-# Install fluxctl
-RUN curl -sL -o /usr/bin/fluxctl https://github.com/fluxcd/flux/releases/download/${FLUXCTL_VERSION}/fluxctl_linux_${TARGETARCH} && \
-  chmod +x /usr/bin/fluxctl
+# Install flux
+RUN curl -sL -o flux.tar.gz https://github.com/fluxcd/flux2/releases/download/v${FLUX_VERSION}/flux_${FLUX_VERSION}_linux_${TARGETARCH}.tar.gz && \
+  tar -C /usr/bin/flux xvzf flux.tar.gz && \
+  chmod +x /usr/bin/flux
 
 # Install kustomize
 # Note: If arm64 is not support consider compiling from source code.
