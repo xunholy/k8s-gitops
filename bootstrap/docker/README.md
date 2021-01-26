@@ -17,6 +17,6 @@ Usage:
 docker run --rm --workdir /github/workspace \
   -v $(pwd):/github/workspace \
   -v $HOME/.kube/:/github/workspace/.kube/ \
-  docker.io/raspbernetes/builder:latest \
-  scripts/validate.sh
+  docker.io/xunholy/builder:latest \
+  bootstrap/validate.sh
 ```
