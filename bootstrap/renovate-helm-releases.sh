@@ -8,7 +8,7 @@ shopt -s extglob
 REPO_ROOT=$(git rev-parse --show-toplevel)
 CLUSTER_ROOT="${REPO_ROOT}/namespaces"
 HELM_REPO_FILES=$(find "$CLUSTER_ROOT/base/flux-system/helm-chart-repositories" -name '*.yaml')
-HELM_RELEASE_FILES=$(find "$CLUSTER_ROOT" -name '*.yaml')
+HELM_RELEASE_FILES=$(find "$CLUSTER_ROOT" -name 'helmrelease.yaml')
 
 for HELM_REPO_FILE in $HELM_REPO_FILES; do
     # Check resource type equals Kind=HelmRepository

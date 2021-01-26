@@ -8,13 +8,15 @@ spec:
   interval: 5m
   ref:
     branch: main
-  url: https://github.com/raspbernetes/k8s-gitops.git
+  url: https://github.com/xunholy/k8s-gitops.git
   ignore: |
     # exclude all
     /*
     # include deploy dir
-    !/cluster/
-    /cluster/**/*.md
+    !/clusters/production
+    !/namespaces/base
+    !/namespaces/staging
+    /namespaces/**/*.md
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization

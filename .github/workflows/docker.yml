@@ -49,7 +49,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            raspbernetes/builder:${{ github.sha }}
+            xunholy/builder:${{ github.sha }}
 
       - name: Build and Push
         if: github.ref == 'refs/heads/main'
@@ -60,4 +60,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            raspbernetes/builder:latest
+            xunholy/builder:latest
