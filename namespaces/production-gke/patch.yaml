@@ -19,6 +19,10 @@ spec:
   values:
     image:
       tag: v5.1.1-amd64
+    extraArgs:
+      oidc-issuer-url: https://dex.gke.raspbernetes.com
+      cookie-domain: .raspbernetes.com
+      whitelist-domain: .raspbernetes.com
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -53,3 +57,39 @@ metadata:
 spec:
   hosts:
     - 'grafana.gke.raspbernetes.com'
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: auth
+  namespace: network
+  annotations:
+    external-dns.alpha.kubernetes.io/target: gke.raspbernetes.com
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  hosts:
+    - 'auth.gke.raspbernetes.com'
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: dex
+  namespace: network
+  annotations:
+    external-dns.alpha.kubernetes.io/target: gke.raspbernetes.com
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  hosts:
+    - 'dex.gke.raspbernetes.com'
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: sealed-secrets
+  namespace: kube-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: gke.raspbernetes.com
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  hosts:
+    - 'sealed-secrets.gke.raspbernetes.com'
