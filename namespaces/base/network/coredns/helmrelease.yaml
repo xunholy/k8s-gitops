@@ -2,11 +2,11 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: coredns-debug
+  name: coredns
   namespace: network
 spec:
   interval: 5m
-  releaseName: coredns-debug
+  releaseName: coredns
   chart:
     spec:
       # renovate: registryUrl=https://coredns.github.io/helm
