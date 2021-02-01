@@ -1,4 +1,14 @@
 ---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-cert
+  namespace: istio-system
+spec:
+  dnsNames:
+    - gke.raspbernetes.com
+    - '*.gke.raspbernetes.com'
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
