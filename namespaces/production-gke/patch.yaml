@@ -18,5 +18,38 @@ spec:
       interval: 10m
   values:
     image:
-      repository: 'quay.io/pusher/oauth2_proxy'
       tag: v5.1.1-amd64
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-system-ingress-gateway
+  namespace: 'istio-system'
+spec:
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - '*.gke.raspbernetes.com'
+      tls:
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - '*.gke.raspbernetes.com'
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: grafana
+  namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: gke.raspbernetes.com
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  hosts:
+    - 'grafana.gke.raspbernetes.com'
