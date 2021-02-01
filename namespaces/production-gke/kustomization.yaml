@@ -14,7 +14,6 @@ resources:
   - ../base/network
   - ../base/network/cert-manager
   - ../base/network/cloudflare-ddns
-  - ../base/network/coredns
   - ../base/network/dex
   - ../base/network/external-dns
   - ../base/network/oauth2-proxy
@@ -23,7 +22,6 @@ resources:
   - ../base/observability/kiali
   - ../base/observability/kube-prometheus-stack
   - ../base/observability/loki-stack
-  - ../base/observability/speedtest
   - ../base/observability/thanos
   - ../base/security
   - ../base/security/gatekeeper

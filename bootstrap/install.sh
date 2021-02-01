@@ -27,6 +27,7 @@ fi
 flux check --pre
 [[ $? -ne 0 ]] && echo "Prerequisites were not satisfied" && exit 1
 
+echo "Applying cluster: ${CLUSTER}"
 flux bootstrap github \
   --owner="${GITHUB_USER}" \
   --repository="${GITHUB_REPO}" \
