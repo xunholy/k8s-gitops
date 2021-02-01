@@ -10,6 +10,13 @@ if [[ ! $(flux) ]]; then
   exit 1
 fi
 
+# flux bootstrap github \
+#   --owner=xunholy \
+#   --repository=k8s-gitops \
+#   --path=clusters/production \
+#   --branch=main \
+#   --personal
+
 # Untaint master nodes if you don't have enough workers in your homelab
 # [[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master-) ]] && echo "Masters untainted"
 
