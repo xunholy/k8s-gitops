@@ -265,13 +265,6 @@ spec:
           limits:
             memory: 2560Mi
             cpu: '2000m'
-        storageSpec:
-          volumeClaimTemplate:
-            spec:
-              storageClassName: cstor-replica-pool-limited
-              resources:
-                requests:
-                  storage: 10Gi
         thanos:
           image: raspbernetes/thanos:v0.17.1
           version: v0.17.1
