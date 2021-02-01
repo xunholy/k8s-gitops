@@ -56,6 +56,29 @@ spec:
       cookie-domain: .raspbernetes.com
       whitelist-domain: .raspbernetes.com
 ---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dex
+  namespace: network
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.helm.sh/stable
+      chart: dex
+      version: 2.15.2
+      sourceRef:
+        kind: HelmRepository
+        name: kubernetes-stable-charts
+        namespace: flux-system
+      interval: 10m
+  values:
+    certs:
+      image: gcr.io/google_containers/kubernetes-dashboard-init-arm
+    config:
+      issuer: https://dex.gke.raspbernetes.com
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
