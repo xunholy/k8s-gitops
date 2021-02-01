@@ -79,6 +79,34 @@ spec:
     config:
       issuer: https://dex.gke.raspbernetes.com
 ---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: observability
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # CRDs are applied in core/crd/kube-prometheus-stack.yaml
+      # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
+      chart: kube-prometheus-stack
+      version: 13.4.1
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community-charts
+        namespace: flux-system
+      interval: 10m
+  values:
+    grafana:
+      grafana.ini:
+        server:
+          root_url: https://grafana.gke.raspbernetes.com
+        auth.generic_oauth:
+          auth_url: https://dex.gke.raspbernetes.com/auth
+          token_url: https://dex.gke.raspbernetes.com/token
+          api_url: https://dex.gke.raspbernetes.com/userinfo
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
