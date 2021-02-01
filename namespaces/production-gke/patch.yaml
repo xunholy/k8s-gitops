@@ -25,28 +25,6 @@ spec:
       whitelist-domain: .raspbernetes.com
 ---
 apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: istio-system-ingress-gateway
-  namespace: 'istio-system'
-spec:
-  servers:
-    - port:
-        number: 80
-        name: http
-        protocol: HTTP
-      hosts:
-        - '*.gke.raspbernetes.com'
-      tls:
-        httpsRedirect: true
-    - port:
-        number: 443
-        name: https
-        protocol: HTTPS
-      hosts:
-        - '*.gke.raspbernetes.com'
----
-apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: grafana
@@ -93,3 +71,21 @@ metadata:
 spec:
   hosts:
     - 'sealed-secrets.gke.raspbernetes.com'
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: thanos
+  namespace: observability
+spec:
+  hosts:
+    - 'thanos.gke.raspbernetes.com'
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kiali
+  namespace: observability
+spec:
+  hosts:
+    - 'kiali.gke.raspbernetes.com'
