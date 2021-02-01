@@ -153,7 +153,7 @@ metadata:
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
-    - 'hubble.raspbernetes.com'
+    - 'hubble.gke.raspbernetes.com'
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
