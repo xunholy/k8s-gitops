@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-export GITHUB_TOKEN=
+export GITHUB_TOKEN=${GITHUB_TOKEN}
 export GITHUB_USER=xunholy
 export GITHUB_REPO=k8s-gitops
 export CLUSTER="${CLUSTER:-production}"
