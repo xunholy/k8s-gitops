@@ -21,7 +21,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./core
+  path: ./core/production-gke
   prune: false
   sourceRef:
     kind: GitRepository
