@@ -13,8 +13,6 @@ resources:
   - ../base/litmus
   - ../base/network
   - ../base/network/cert-manager
-  # cloudflare-ddns needs to be replaced with static ELB L7 IP
-  # - ../base/network/cloudflare-ddns
   - ../base/network/dex
   - ../base/network/external-dns
   - ../base/network/oauth2-proxy
