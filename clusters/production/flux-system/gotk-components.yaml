@@ -1,3 +1,6 @@
+---
+# GitOps Toolkit revision latest
+# Components: source-controller,kustomize-controller,helm-controller,notification-controller
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -2293,7 +2296,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: ghcr.io/fluxcd/kustomize-controller:v0.7.2
+        image: ghcr.io/fluxcd/kustomize-controller:v0.7.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -2422,6 +2425,8 @@ spec:
   selector:
     matchLabels:
       app: source-controller
+  strategy:
+    type: Recreate
   template:
     metadata:
       annotations:
@@ -2444,18 +2449,20 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: ghcr.io/fluxcd/source-controller:v0.7.1
+        image: ghcr.io/fluxcd/source-controller:v0.7.3
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
-            path: /
-            port: http
+            path: /healthz
+            port: healthz
         name: manager
         ports:
         - containerPort: 9090
           name: http
         - containerPort: 8080
           name: http-prom
+        - containerPort: 9440
+          name: healthz
         readinessProbe:
           httpGet:
             path: /
@@ -2484,3 +2491,4 @@ spec:
         name: data
       - emptyDir: {}
         name: tmp
+---
