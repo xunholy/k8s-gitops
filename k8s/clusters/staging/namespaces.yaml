@@ -8,7 +8,7 @@ spec:
   interval: 10m0s
   dependsOn:
     - name: core
-  path: ./namespaces/overlays/staging
+  path: ./k8s/namespaces/overlays/staging
   prune: true
   sourceRef:
     kind: GitRepository
@@ -21,7 +21,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./core/overlays/staging
+  path: ./k8s/core/overlays/staging
   prune: false
   sourceRef:
     kind: GitRepository

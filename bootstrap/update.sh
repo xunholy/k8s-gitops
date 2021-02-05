@@ -13,4 +13,4 @@ flux install \
   --namespace=flux-system \
   --network-policy=false \
   --log-level=info \
-  --export > "./clusters/production/flux-system/gotk-components.yaml"
+  --export > "./k8s/clusters/production/flux-system/gotk-components.yaml"

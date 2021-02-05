@@ -8,7 +8,7 @@ spec:
   interval: 10m0s
   dependsOn:
     - name: core
-  path: ./namespaces/overlays/production-gke
+  path: ./k8s/namespaces/overlays/production
   prune: true
   sourceRef:
     kind: GitRepository
@@ -21,7 +21,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./core/overlays/production-gke
+  path: ./k8s/core/overlays/production
   prune: false
   sourceRef:
     kind: GitRepository
