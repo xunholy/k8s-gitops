@@ -19,7 +19,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./clusters/production-gke
+  path: ./k8s/clusters/production-gke
   prune: true
   sourceRef:
     kind: GitRepository
