@@ -1,11 +1,24 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: kube-prometheus-stack-crd-source
+  namespace: flux-system
+spec:
+  interval: 10m
+  url: https://github.com/prometheus-community/helm-charts.git
+  ref:
+    tag: kube-prometheus-stack-13.5.0
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
-resources:
-  - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-13.4.1/charts/kube-prometheus-stack/crds/crd-alertmanagerconfigs.yaml
-  - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-13.4.1/charts/kube-prometheus-stack/crds/crd-alertmanagers.yaml
-  - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-13.4.1/charts/kube-prometheus-stack/crds/crd-podmonitors.yaml
-  - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-13.4.1/charts/kube-prometheus-stack/crds/crd-probes.yaml
-  - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-13.4.1/charts/kube-prometheus-stack/crds/crd-prometheuses.yaml
-  - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-13.4.1/charts/kube-prometheus-stack/crds/crd-prometheusrules.yaml
-  - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-13.4.1/charts/kube-prometheus-stack/crds/crd-servicemonitors.yaml
-  - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-13.4.1/charts/kube-prometheus-stack/crds/crd-thanosrulers.yaml
+metadata:
+  name: kube-prometheus-stack-crd
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  path: ./charts/kube-prometheus-stack/crds
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: kube-prometheus-stack-crd-source
