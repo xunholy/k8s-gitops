@@ -12,9 +12,5 @@ flux install \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
   --namespace=flux-system \
   --network-policy=false \
-  --arch=arm64 \
   --log-level=info \
-  --export > "./cluster/flux-system/toolkit-components.yaml"
-
-# Uncomment for local useage
-# git add -A && git commit -sam "update toolkit version to latest" && git push
+  --export > "./k8s/clusters/production/flux-system/gotk-components.yaml"

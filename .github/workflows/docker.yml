@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/docker.yml'
-      - 'build/docker/Dockerfile'
+      - 'bootstrap/docker/Dockerfile'
     branches:
       - main
   workflow_dispatch:
@@ -45,19 +45,19 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./build/docker/Dockerfile
+          file: ./bootstrap/docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            raspbernetes/builder:${{ github.sha }}
+            xunholy/builder:${{ github.sha }}
 
       - name: Build and Push
         if: github.ref == 'refs/heads/main'
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./build/docker/Dockerfile
+          file: ./bootstrap/docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            raspbernetes/builder:latest
+            xunholy/builder:latest

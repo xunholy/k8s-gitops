@@ -1,0 +1,32 @@
+name: auto-merge
+
+on:
+  # Note: Not supported currently by automerge-action@v0.12.0
+  # # Try merging pull requests belonging to a workflow run.
+  # workflow_run:
+  #   workflows:
+  #     - ci
+  #   types:
+  #     - completed
+  # Try merging a pull request when it is approved.
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+
+jobs:
+  merge:
+    if: (github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]') && (github.event.review.state == 'approved' || !github.event.review)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto Merge
+        uses: "pascalgn/automerge-action@v0.13.0"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: merge
+          MERGE_METHOD: squash
+          MERGE_COMMIT_MESSAGE: pull-request-title
+          MERGE_FORKS: false
+          MERGE_DELETE_BRANCH: false

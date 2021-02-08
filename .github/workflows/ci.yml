@@ -22,7 +22,7 @@ jobs:
           pattern: '*.sh'
           exclude: './.git/*'
       - name: Lint Yaml
-        uses: ibiqlik/action-yamllint@v1
+        uses: ibiqlik/action-yamllint@v3
   validate:
     runs-on: ubuntu-latest
     steps:
@@ -30,10 +30,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Kubeval
-        uses: instrumenta/kubeval-action@master
-        with:
-          files: 'cluster/'
+      # TODO: enable with new dir stucture
+      # - name: Kubeval
+      #   uses: instrumenta/kubeval-action@master
+      #   with:
+      #     files: 'cluster/'
   compliance:
     runs-on: ubuntu-latest
     steps:
@@ -48,7 +49,7 @@ jobs:
           result=$(docker run --rm --workdir /github/workspace \
             -v $(pwd):/github/workspace \
             instrumenta/conftest:v0.18.2 \
-            test -o table -p security-policies/policies/ --all-namespaces --combine cluster/ --no-color || exit 0)
+            test -o table -p security-policies/policies/ --all-namespaces --combine namespaces/ --no-color || exit 0)
           result="${result//'%'/'%25'}"
           result="${result//$'\n'/'%0A'}"
           result="${result//$'\r'/'%0D'}"
@@ -61,14 +62,14 @@ jobs:
           result=$(docker run --rm --workdir /github/workspace \
             -v $(pwd):/github/workspace \
             instrumenta/conftest:v0.18.2 \
-            test -o stdout -p security-policies/policies/ --all-namespaces cluster/ --no-color || exit 0)
+            test -o stdout -p security-policies/policies/ --all-namespaces namespaces/ --no-color || exit 0)
           result="${result//'%'/'%25'}"
           result="${result//$'\n'/'%0A'}"
           result="${result//$'\r'/'%0D'}"
           echo $result
           echo ::set-output name=result::$result
 
-      - uses: actions/github-script@0.9.0
+      - uses: actions/github-script@v3.1
         if: github.event_name == 'pull_request'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

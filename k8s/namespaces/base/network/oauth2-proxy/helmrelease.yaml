@@ -1,0 +1,67 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: oauth2-proxy
+  namespace: network
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.helm.sh/stable
+      chart: oauth2-proxy
+      version: 3.2.5
+      sourceRef:
+        kind: HelmRepository
+        name: kubernetes-stable-charts
+        namespace: flux-system
+      interval: 10m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 5
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  # Depends on having the sealed secret oauth2-proxy-dex un-encrypted. Also requires dex + cert-manager to be running.
+  dependsOn:
+    - name: dex
+      namespace: network
+    - name: cert-manager
+      namespace: network
+    - name: sealed-secrets
+      namespace: kube-system
+  values:
+    image:
+      repository: 'quay.io/pusher/oauth2_proxy'
+      tag: v5.1.1-arm64
+    config:
+      existingSecret: oauth2-proxy-dex
+    extraArgs:
+      provider: oidc
+      provider-display-name: 'DEX OIDC Provider'
+      oidc-issuer-url: https://dex.raspbernetes.com
+      cookie-secure: true
+      cookie-domain: .raspbernetes.com
+      whitelist-domain: .raspbernetes.com
+      email-domain: '*'
+      session-store-type: cookie
+      pass-basic-auth: false
+      pass-access-token: true
+      pass-authorization-header: true
+      set-authorization-header: true
+      set-xauthrequest: true
+      standard-logging: true
+      auth-logging: true
+      request-logging: true
+      skip-provider-button: true
+      ssl-insecure-skip-verify: true
+      upstream: static://200
+      http-address: 0.0.0.0:4180

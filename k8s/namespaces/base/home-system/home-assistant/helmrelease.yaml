@@ -1,0 +1,65 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: home-assistant
+  namespace: home-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: home-assistant
+      version: 5.4.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 10m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  values:
+    hostNetwork: true
+    env:
+      TZ: 'Australia/Melbourne'
+    persistence:
+      config:
+        enabled: true
+        size: 5Gi
+        storageClass: cstor-replica-pool-limited
+    service:
+      portName: http-api
+    addons:
+      codeserver:
+        enabled: true
+        image:
+          repository: codercom/code-server
+          tag: 3.8.0
+        workingDir: '/config'
+        args:
+          - --user-data-dir
+          - '/config/.vscode'
+          - --auth
+          - 'none'
+        ingress:
+          enabled: false
+        volumeMounts:
+          - name: config
+            mountPath: /config
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false

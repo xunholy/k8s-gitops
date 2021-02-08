@@ -1,0 +1,52 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: metallb
+  namespace: network
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.bitnami.com/bitnami
+      chart: metallb
+      version: 2.0.4
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts
+        namespace: flux-system
+      interval: 10m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  values:
+    controller:
+      image:
+        repository: metallb/controller
+        tag: v0.9.5
+    speaker:
+      image:
+        repository: metallb/speaker
+        tag: v0.9.5
+    prometheus:
+      serviceMonitor:
+        enabled: false
+      prometheusRule:
+        enabled: false
+    configInline:
+      address-pools:
+        - name: default
+          protocol: layer2
+          addresses:
+            - 192.168.1.150-192.168.1.155

@@ -1,0 +1,118 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: velero
+  namespace: velero
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://vmware-tanzu.github.io/helm-charts
+      chart: velero
+      version: 2.14.7
+      sourceRef:
+        kind: HelmRepository
+        name: vmware-charts
+        namespace: flux-system
+      interval: 1m
+  test:
+    enable: true
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  # Depends on having the sealed secret cloud-credentials un-encrypted.
+  dependsOn:
+    - name: sealed-secrets
+      namespace: kube-system
+  values:
+    # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
+    initContainers:
+      - name: velero-plugin-for-gcp
+        image: raspbernetes/velero-gcp-plugin:v1.1.0
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+      - name: velero-plugin-for-openebs
+        image: openebs/velero-plugin:2.5.0
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+    # Info about the secret to be used by the Velero deployment, which
+    # should contain credentials for the cloud provider IAM account you've
+    # set up for Velero.
+    credentials:
+      # Name of a pre-existing secret (if any) in the Velero namespace
+      # that should be used to get IAM account credentials. Optional.
+      existingSecret: cloud-credentials
+    # Parameters for the `default` BackupStorageLocation and VolumeSnapshotLocation,
+    # and additional server settings.
+    configuration:
+      # Cloud provider being used (e.g. aws, azure, gcp).
+      provider: gcp
+      # Parameters for the `default` BackupStorageLocation. See
+      # https://velero.io/docs/v1.5/api-types/backupstoragelocation/
+      backupStorageLocation:
+        name: default
+        bucket: raspbernetes-velero-backups
+      # Parameters for the `default` VolumeSnapshotLocation. See
+      # https://velero.io/docs/v1.5/api-types/volumesnapshotlocation/
+      volumeSnapshotLocation:
+        provider: openebs.io/cstor-blockstore
+        name: default
+        config:
+          bucket: raspbernetes-openebs-backups
+          prefix: cstor
+          namespace: openebs
+          provider: gcp
+    # Settings for Velero's prometheus metrics. Enabled by default.
+    metrics:
+      enabled: true
+    # Whether to create backupstoragelocation crd, if false => do not create a default backup location
+    backupsEnabled: true
+    # Whether to create volumesnapshotlocation crd, if false => disable snapshot feature
+    snapshotsEnabled: true
+    # Whether to deploy the restic daemonset.
+    deployRestic: false
+    # Backup schedules to create.
+    schedules:
+      daily-backup:
+        schedule: '0 6 * * *'
+        template:
+          ttl: '120h'
+      zigbee2mqtt-hourly:
+        schedule: '0 0/1 * * *'
+        template:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: zigbee2mqtt
+          snapshotVolumes: true
+          storageLocation: default
+          ttl: '120h'
+          volumeSnapshotLocations:
+            - default
+          includedNamespaces:
+            - home-system
+      home-assistant-hourly:
+        schedule: '0 0/1 * * *'
+        template:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: home-assistant
+          snapshotVolumes: true
+          storageLocation: default
+          ttl: '120h'
+          volumeSnapshotLocations:
+            - default
+          includedNamespaces:
+            - home-system

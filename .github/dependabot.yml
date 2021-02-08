@@ -1,7 +1,22 @@
+# https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/configuration-options-for-dependency-updates
 version: 2
 updates:
-- package-ecosystem: gitsubmodule
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
+  - package-ecosystem: gitsubmodule
+    directory: '/'
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - 'merge'
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    labels:
+      - 'merge'
+  - package-ecosystem: 'terraform'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    labels:
+      - 'merge'
