@@ -36,6 +36,7 @@ resources:
   - ../../base/security
   - ../../base/security/gatekeeper
   - ../../base/storage/openebs
+  - ../../base/storage/openebs/cstor-pool.yaml
   - ../../base/velero
 patchesStrategicMerge:
   - patch.yaml
