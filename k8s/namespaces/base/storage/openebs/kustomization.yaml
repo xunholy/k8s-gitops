@@ -6,4 +6,3 @@ resources:
   - helmrelease.yaml
   - servicemonitor.yaml
   - storageclass.yaml
-  - cstor-pool.yaml

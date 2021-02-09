@@ -56,7 +56,7 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: cstor-replica-pool-limited
+              storageClassName: cstor-replica-pool
               resources:
                 requests:
                   storage: 10Gi

@@ -38,7 +38,7 @@ spec:
       config:
         enabled: true
         size: 5Gi
-        storageClass: cstor-replica-pool-limited
+        storageClass: cstor-replica-pool
     service:
       portName: http-api
     addons:

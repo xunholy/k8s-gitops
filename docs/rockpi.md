@@ -12,7 +12,7 @@ Either can be purchased with the below links:
 
 ## Instruction
 
-When running `apt upgrade` you will get the following error:
+When running `apt-get upgrade` you will get the following error:
 
 ```bash
 Err:4 http://apt.radxa.com/buster-stable buster InRelease
@@ -29,11 +29,11 @@ N: See apt-secure(8) manpage for repository creation and user configuration deta
 Step 1: Install wget
 
 ```bash
-sudo apt update
+sudo apt-get update
 sudo apt-get install -y wget
 ```
 
-Step 2: Edit /etc/apt/sources.list.d/apt-radxa-com.lis
+Step 2: Edit /etc/apt/sources.list.d/apt-radxa-com.list
 
 ```bash
 deb http://apt.radxa.com/buster-stable/ buster main
