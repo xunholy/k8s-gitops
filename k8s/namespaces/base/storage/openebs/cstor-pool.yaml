@@ -17,13 +17,13 @@ spec:
         kubernetes.io/hostname: k8s-worker-02
       dataRaidGroups:
         - blockDevices:
-            - blockDeviceName: sparse-d4c615b153beb9382ddaacc6edf4ab99
+            - blockDeviceName: sparse-f5e163eedc6a9e0ec6acd33e1a20a72f
       poolConfig:
         dataRaidGroupType: stripe
     - nodeSelector:
         kubernetes.io/hostname: k8s-worker-03
       dataRaidGroups:
         - blockDevices:
-            - blockDeviceName: sparse-f5e163eedc6a9e0ec6acd33e1a20a72f
+            - blockDeviceName: sparse-d4c615b153beb9382ddaacc6edf4ab99
       poolConfig:
         dataRaidGroupType: stripe

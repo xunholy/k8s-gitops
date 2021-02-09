@@ -16,6 +16,8 @@ spec:
         name: cstor-chart
         namespace: flux-system
       interval: 10m
+  install:
+    skipCRDs: true
   values:
     # Required when using the same device that hosts the OS FS partition
     openebs-ndm:
