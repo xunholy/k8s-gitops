@@ -11,7 +11,7 @@ KUBECONFIG=~/projects/k8s-cluster-installation/ansible/playbooks/output/k8s-conf
   mv ~/.kube/config.tmp ~/.kube/config
 
 flux >/dev/null || \
-  echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli" && exit 1
+  ( echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli" && exit 1 )
 
 # Untaint master nodes if you don't have enough workers in your homelab
 # [[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master-) ]] && echo "Masters untainted"
@@ -23,7 +23,7 @@ fi
 
 # Check the cluster meets the fluxv2 prerequisites
 flux check --pre || \
-  echo "Prerequisites were not satisfied" && exit 1
+  ( echo "Prerequisites were not satisfied" && exit 1 )
 
 echo "Applying cluster: ${CLUSTER}"
 flux bootstrap github \
