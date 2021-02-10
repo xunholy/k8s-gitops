@@ -7,6 +7,13 @@ metadata:
 spec:
   pools:
     - nodeSelector:
+        kubernetes.io/hostname: k8s-worker-01
+      dataRaidGroups:
+        - blockDevices:
+            - blockDeviceName: sparse-859ecd67c32c17331ad1ad0abde080bb
+      poolConfig:
+        dataRaidGroupType: stripe
+    - nodeSelector:
         kubernetes.io/hostname: k8s-worker-02
       dataRaidGroups:
         - blockDevices:

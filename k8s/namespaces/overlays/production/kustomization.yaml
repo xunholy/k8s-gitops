@@ -13,7 +13,6 @@ resources:
   - ../../base/kube-system
   - ../../base/kube-system/cilium
   - ../../base/kube-system/descheduler
-  - ../../base/kube-system/kured
   - ../../base/kube-system/metrics-server
   - ../../base/kube-system/sealed-secrets
   - ../../base/litmus
@@ -36,6 +35,7 @@ resources:
   - ../../base/security
   - ../../base/security/gatekeeper
   - ../../base/storage/openebs
+  - ../../base/storage/openebs/cstor-pool.yaml
   - ../../base/velero
 patchesStrategicMerge:
   - patch.yaml

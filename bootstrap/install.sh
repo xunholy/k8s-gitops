@@ -7,11 +7,12 @@ export GITHUB_USER=xunholy
 export GITHUB_REPO=k8s-gitops
 export CLUSTER="${CLUSTER:-production}"
 
-KUBECONFIG=~/projects/k8s-cluster-installation/ansible/playbooks/output/k8s-config.yaml:~/.kube/config kubectl config view --flatten > ~/.kube/config.tmp && \
+KUBECONFIG=~/projects/install/ansible/playbooks/output/k8s-config.yaml:~/.kube/config kubectl config view --flatten > ~/.kube/config.tmp && \
   mv ~/.kube/config.tmp ~/.kube/config
 
 flux >/dev/null || \
   ( echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli" && exit 1 )
+
 
 # Untaint master nodes if you don't have enough workers in your homelab
 # [[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master-) ]] && echo "Masters untainted"
@@ -29,7 +30,7 @@ echo "Applying cluster: ${CLUSTER}"
 flux bootstrap github \
   --owner="${GITHUB_USER}" \
   --repository="${GITHUB_REPO}" \
-  --path=clusters/"${CLUSTER}" \
+  --path=k8s/clusters/"${CLUSTER}" \
   --branch=main \
   --network-policy=false \
   --personal
