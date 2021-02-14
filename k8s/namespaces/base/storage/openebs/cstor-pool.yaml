@@ -7,23 +7,23 @@ metadata:
 spec:
   pools:
     - nodeSelector:
-        kubernetes.io/hostname: k8s-worker-01
+        kubernetes.io/hostname: k8s-node-01
       dataRaidGroups:
         - blockDevices:
-            - blockDeviceName: sparse-859ecd67c32c17331ad1ad0abde080bb
+            - blockDeviceName: sparse-53fc52698fb4419820ad1bc449696594
       poolConfig:
         dataRaidGroupType: stripe
     - nodeSelector:
-        kubernetes.io/hostname: k8s-worker-02
+        kubernetes.io/hostname: k8s-node-02
       dataRaidGroups:
         - blockDevices:
-            - blockDeviceName: sparse-f5e163eedc6a9e0ec6acd33e1a20a72f
+            - blockDeviceName: sparse-b24dccda18506c6d7cfd9fd568c9508c
       poolConfig:
         dataRaidGroupType: stripe
     - nodeSelector:
-        kubernetes.io/hostname: k8s-worker-03
+        kubernetes.io/hostname: k8s-node-03
       dataRaidGroups:
         - blockDevices:
-            - blockDeviceName: sparse-d4c615b153beb9382ddaacc6edf4ab99
+            - blockDeviceName: sparse-80b8e58ec0893234bd5037b265da19c5
       poolConfig:
         dataRaidGroupType: stripe
