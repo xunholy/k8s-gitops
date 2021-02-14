@@ -21,6 +21,7 @@ spec:
   install:
     remediation: # perform remediation when helm install fails
       retries: 3
+    skipCRDs: true
   upgrade:
     remediation: # perform remediation when helm upgrade fails
       retries: 3
