@@ -8,7 +8,7 @@ spec:
   interval: 10m
   url: https://github.com/openebs/cstor-operators.git
   ref:
-    tag: v2.5.2
+    tag: v2.6.0
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
