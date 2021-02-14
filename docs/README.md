@@ -59,6 +59,6 @@ Special thanks to the many backers and sponsors who help support this project!!
 Addtionally a lot of inspiration for my cluster came from the people that have shared their clusters over at [awesome-home-kubernetes](https://github.com/k8s-at-home/awesome-home-kubernetes)
 ## License
 
-Raspbernetes is [Apache 2.0 licensed](./LICENSE).
+This repo is [Apache 2.0 licensed](./LICENSE).
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-gitops.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-gitops?ref=badge_large)
