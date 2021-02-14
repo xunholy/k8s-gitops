@@ -18,7 +18,6 @@ metadata:
 spec:
   interval: 10m0s
   retryInterval: 1m
-  timeout: 3m
   path: ./deploy/helm/charts/crds
   prune: false
   sourceRef:
