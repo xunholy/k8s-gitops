@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.jetstack.io/
       chart: cert-manager
-      # version: v1.0.2
+      version: v1.2.0
       sourceRef:
         kind: HelmRepository
         name: jetstack-charts
@@ -19,6 +19,7 @@ spec:
   test:
     enable: false # Enable helm test
   install:
+    skipCRDs: true
     remediation: # perform remediation when helm install fails
       retries: 5
   upgrade:
@@ -39,7 +40,7 @@ spec:
       logLevel: 4
       leaderElection:
         # Override the namespace used to store the ConfigMap for leader election
-        namespace: 'network'
+        namespace: "network"
       podSecurityPolicy:
         enabled: true
     installCRDs: true

@@ -7,7 +7,6 @@ resources:
   - ../../base/home-system/home-assistant
   - ../../base/home-system/mosquitto
   - ../../base/home-system/zigbee2mqtt
-  - ../../base/istio-operator
   - ../../base/istio-system
   - ../../base/istio-system/istio
   - ../../base/kube-system
