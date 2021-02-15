@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: vmware-charts
         namespace: flux-system
-      interval: 1m
+      interval: 10m
   test:
     enable: true
   install:
@@ -87,31 +87,31 @@ spec:
     # Backup schedules to create.
     schedules:
       daily-backup:
-        schedule: '0 6 * * *'
+        schedule: "0 6 * * *"
         template:
-          ttl: '120h'
+          ttl: "120h"
       zigbee2mqtt-hourly:
-        schedule: '0 0/1 * * *'
+        schedule: "0 0/1 * * *"
         template:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: zigbee2mqtt
           snapshotVolumes: true
           storageLocation: default
-          ttl: '120h'
+          ttl: "120h"
           volumeSnapshotLocations:
             - default
           includedNamespaces:
             - home-system
       home-assistant-hourly:
-        schedule: '0 0/1 * * *'
+        schedule: "0 0/1 * * *"
         template:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: home-assistant
           snapshotVolumes: true
           storageLocation: default
-          ttl: '120h'
+          ttl: "120h"
           volumeSnapshotLocations:
             - default
           includedNamespaces:
