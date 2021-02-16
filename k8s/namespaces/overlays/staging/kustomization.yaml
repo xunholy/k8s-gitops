@@ -3,17 +3,16 @@ kind: Kustomization
 resources:
   - ../../base/actions-runner-system
   - ../../base/flux-system
-  - ../../base/home-system
-  - ../../base/home-system/home-assistant
-  - ../../base/home-system/mosquitto
-  - ../../base/home-system/zigbee2mqtt
-  - ../../base/istio-operator
+  # TODO: Requries secondary ZZH device
+  # - ../../base/home-system
+  # - ../../base/home-system/home-assistant
+  # - ../../base/home-system/mosquitto
+  # - ../../base/home-system/zigbee2mqtt
   - ../../base/istio-system
   - ../../base/istio-system/istio
   - ../../base/kube-system
   - ../../base/kube-system/cilium
   - ../../base/kube-system/descheduler
-  - ../../base/kube-system/kured
   - ../../base/kube-system/metrics-server
   - ../../base/kube-system/sealed-secrets
   - ../../base/litmus
@@ -36,6 +35,8 @@ resources:
   - ../../base/security
   - ../../base/security/gatekeeper
   - ../../base/storage/openebs
+  # TODO: cspc must be created after blockdevices have been created.
+  # - ../../base/storage/openebs/cstor-pool.yaml
   - ../../base/velero
-# patchesStrategicMerge:
-#   - patch.yaml
+patchesStrategicMerge:
+  - patch.yaml

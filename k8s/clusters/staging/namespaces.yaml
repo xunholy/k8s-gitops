@@ -8,6 +8,9 @@ spec:
   interval: 10m0s
   dependsOn:
     - name: core
+    - name: kube-prometheus-stack-crd
+    - name: openebs-crd
+    - name: openebs-ndm-crd
   path: ./k8s/namespaces/overlays/staging
   prune: true
   sourceRef:
