@@ -13,7 +13,6 @@ KUBECONFIG=~/projects/install/ansible/playbooks/output/k8s-config.yaml:~/.kube/c
 flux >/dev/null || \
   ( echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli" && exit 1 )
 
-
 # Untaint master nodes if you don't have enough workers in your homelab
 # [[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master-) ]] && echo "Masters untainted"
 

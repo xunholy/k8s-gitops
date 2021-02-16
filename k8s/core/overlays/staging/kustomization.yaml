@@ -6,3 +6,4 @@ resources:
   - ../../base/crds/openebs-ndm.yaml
   - ../../base/crds/sealed-secrets.yaml
   - ../../base/istio-operator
+  - ../../base/cert-manager.yaml
