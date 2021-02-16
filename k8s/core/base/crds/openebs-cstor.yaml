@@ -43,7 +43,7 @@ spec:
     - apiVersion: apiextensions.k8s.io/v1
       kind: CustomResourceDefinition
       name: cstorvolumes.cstor.openebs.io
-    - apiVersion: apiextensions.k8s.io/v1beta1
+    - apiVersion: apiextensions.k8s.io/v1
       kind: CustomResourceDefinition
       name: cstorvolumeattachments.cstor.openebs.io
     - apiVersion: apiextensions.k8s.io/v1
@@ -58,7 +58,7 @@ spec:
     - apiVersion: apiextensions.k8s.io/v1
       kind: CustomResourceDefinition
       name: migrationtasks.openebs.io
-    - apiVersion: apiextensions.k8s.io/v1beta1
+    - apiVersion: apiextensions.k8s.io/v1
       kind: CustomResourceDefinition
       name: upgradetasks.openebs.io
     - apiVersion: apiextensions.k8s.io/v1
