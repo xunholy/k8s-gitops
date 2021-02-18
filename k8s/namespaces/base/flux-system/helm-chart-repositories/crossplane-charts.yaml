@@ -6,5 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://charts.crossplane.io/alpha
+  url: https://charts.crossplane.io/stable
   timeout: 3m
