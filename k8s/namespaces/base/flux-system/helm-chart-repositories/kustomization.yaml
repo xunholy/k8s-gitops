@@ -4,6 +4,7 @@ resources:
   - banzaicloud-charts.yaml
   - bitnami-charts.yaml
   - coredns-charts.yaml
+  - crossplane-charts.yaml
   - flagger-charts.yaml
   - gatekeeper-charts.yaml
   - grafana-loki.yaml
