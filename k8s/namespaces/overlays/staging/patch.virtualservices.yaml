@@ -1,0 +1,117 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: grafana
+  namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
+    external-dns.alpha.kubernetes.io/external: "true"
+spec:
+  hosts:
+    - "grafana.stg.raspbernetes.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: auth
+  namespace: network
+  annotations:
+    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
+    external-dns.alpha.kubernetes.io/external: "true"
+spec:
+  hosts:
+    - "auth.stg.raspbernetes.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: dex
+  namespace: network
+  annotations:
+    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
+    external-dns.alpha.kubernetes.io/external: "true"
+spec:
+  hosts:
+    - "dex.stg.raspbernetes.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: sealed-secrets
+  namespace: kube-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
+    external-dns.alpha.kubernetes.io/external: "true"
+spec:
+  hosts:
+    - "sealed-secrets.stg.raspbernetes.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: thanos
+  namespace: observability
+spec:
+  hosts:
+    - "thanos.stg.raspbernetes.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kiali
+  namespace: observability
+spec:
+  hosts:
+    - "kiali.stg.raspbernetes.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: receiver
+  namespace: flux-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
+    external-dns.alpha.kubernetes.io/external: "true"
+spec:
+  hosts:
+    - "receiver.stg.raspbernetes.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: jaeger
+  namespace: istio-system
+spec:
+  hosts:
+    - "jaeger.stg.raspbernetes.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: hubble-ui
+  namespace: kube-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
+    external-dns.alpha.kubernetes.io/external: "true"
+spec:
+  hosts:
+    - "hubble.stg.raspbernetes.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: prometheus
+  namespace: observability
+spec:
+  hosts:
+    - "prometheus.stg.raspbernetes.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: alert-manager
+  namespace: observability
+spec:
+  hosts:
+    - "alert-manager.stg.raspbernetes.com"
