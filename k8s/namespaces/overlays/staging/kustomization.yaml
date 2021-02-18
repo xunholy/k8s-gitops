@@ -39,4 +39,8 @@ resources:
   # - ../../base/storage/openebs/cstor-pool.yaml
   - ../../base/velero
 patchesStrategicMerge:
-  - patch.yaml
+  - patch.certificates.yaml
+  - patch.helmreleases.yaml
+  - patch.istio.yaml
+  - patch.sealed-secrets.yaml
+  - patch.virtualservices.yaml
