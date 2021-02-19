@@ -5,7 +5,7 @@ metadata:
   name: openebs-crd-source
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 24h
   url: https://github.com/openebs/cstor-operators.git
   ref:
     tag: v2.6.0

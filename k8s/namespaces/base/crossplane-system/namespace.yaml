@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: crossplane
+  name: crossplane-system
   labels:
-    namespace: crossplane
+    namespace: crossplane-system
     istio-injection: disabled
