@@ -90,7 +90,7 @@ prometheus:
 operator:
   image:
     repository: cilium/operator-dev
-    tag: v1.9.1
+    tag: v1.9.4
   # Enables metrics for cilium-operator.
   prometheus:
     enabled: true
