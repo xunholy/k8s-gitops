@@ -2,7 +2,17 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: wildcard-cert
+  name: raspbernetes-com-le
+  namespace: istio-system
+spec:
+  dnsNames:
+    - stg.raspbernetes.com
+    - "*.stg.raspbernetes.com"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: raspbernetes-com-cf
   namespace: istio-system
 spec:
   dnsNames:
