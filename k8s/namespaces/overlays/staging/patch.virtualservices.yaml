@@ -4,9 +4,6 @@ kind: VirtualService
 metadata:
   name: grafana
   namespace: observability
-  annotations:
-    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
-    external-dns.alpha.kubernetes.io/external: "true"
 spec:
   hosts:
     - "grafana.stg.raspbernetes.com"
@@ -16,9 +13,6 @@ kind: VirtualService
 metadata:
   name: auth
   namespace: network
-  annotations:
-    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
-    external-dns.alpha.kubernetes.io/external: "true"
 spec:
   hosts:
     - "auth.stg.raspbernetes.com"
@@ -28,9 +22,6 @@ kind: VirtualService
 metadata:
   name: dex
   namespace: network
-  annotations:
-    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
-    external-dns.alpha.kubernetes.io/external: "true"
 spec:
   hosts:
     - "dex.stg.raspbernetes.com"
@@ -40,9 +31,6 @@ kind: VirtualService
 metadata:
   name: sealed-secrets
   namespace: kube-system
-  annotations:
-    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
-    external-dns.alpha.kubernetes.io/external: "true"
 spec:
   hosts:
     - "sealed-secrets.stg.raspbernetes.com"
@@ -70,9 +58,6 @@ kind: VirtualService
 metadata:
   name: receiver
   namespace: flux-system
-  annotations:
-    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
-    external-dns.alpha.kubernetes.io/external: "true"
 spec:
   hosts:
     - "receiver.stg.raspbernetes.com"
@@ -91,9 +76,6 @@ kind: VirtualService
 metadata:
   name: hubble-ui
   namespace: kube-system
-  annotations:
-    external-dns.alpha.kubernetes.io/target: stg.raspbernetes.com
-    external-dns.alpha.kubernetes.io/external: "true"
 spec:
   hosts:
     - "hubble.stg.raspbernetes.com"
