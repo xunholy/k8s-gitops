@@ -1,6 +1,6 @@
 image:
   repository: docker.io/cilium/cilium-dev
-  tag: v1.9.1
+  tag: v1.9.4
 
 # autoDirectNodeRoutes enables installation of PodCIDR routes between worker
 # nodes if worker nodes share a common L2 network segment.
@@ -47,7 +47,7 @@ hubble:
     enabled: true
     image:
       repository: docker.io/cilium/hubble-relay-dev
-      tag: v1.9.1
+      tag: v1.9.4
   ui:
     enabled: true
     frontend:
@@ -61,7 +61,7 @@ hubble:
     proxy:
       image:
         repository: docker.io/envoyproxy/envoy
-        tag: v1.16.2
+        tag: v1.17.0
 
 ipam:
   operator:
@@ -90,7 +90,7 @@ prometheus:
 operator:
   image:
     repository: cilium/operator-dev
-    tag: v1.9.1
+    tag: v1.9.4
   # Enables metrics for cilium-operator.
   prometheus:
     enabled: true
