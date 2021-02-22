@@ -6,32 +6,11 @@ metadata:
   namespace: istio-system
 spec:
   components:
-    egressGateways:
-      - enabled: false
-        k8s:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: beta.kubernetes.io/arch
-                        operator: In
-                        values:
-                          - arm64
     ingressGateways:
       - enabled: true
         k8s:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: beta.kubernetes.io/arch
-                        operator: In
-                        values:
-                          - arm64
           service:
-            loadBalancerIP: 192.168.1.150
+            loadBalancerIP: 192.168.1.151
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
