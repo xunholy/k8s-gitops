@@ -47,7 +47,7 @@ hubble:
     enabled: true
     image:
       repository: docker.io/cilium/hubble-relay-dev
-      tag: v1.9.1
+      tag: v1.9.4
   ui:
     enabled: true
     frontend:
