@@ -61,7 +61,7 @@ hubble:
     proxy:
       image:
         repository: docker.io/envoyproxy/envoy
-        tag: v1.17.0
+        tag: v1.17.1
 
 ipam:
   operator:
