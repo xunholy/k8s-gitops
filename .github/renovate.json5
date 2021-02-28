@@ -12,18 +12,18 @@
   "suppressNotifications": ["prIgnoreNotification"],
   "timezone": "Australia/Melbourne",
   "kubernetes": {
-    "fileMatch": ["cluster/.+\\.yaml$"],
+    "fileMatch": ["k8s/.+\\.yaml$"],
     "ignorePaths": [
-      "cluster/flux-system/",
-      "cluster/actions-runner-system/"
+      "k8s/namespaces/base/flux-system/",
+      "k8s/namespaces/base/actions-runner-system/"
     ]
   },
   "helm-values": {
-    "fileMatch": ["cluster/.+helmrelease\\.yaml$"],
+    "fileMatch": ["k8s/.+helmrelease\\.yaml$"],
   },
   "regexManagers": [
     {
-      "fileMatch": ["cluster/.+helmrelease\\.yaml$"],
+      "fileMatch": ["k8s/.+helmrelease\\.yaml$"],
       "matchStrings": ["registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"],
       "datasourceTemplate": "helm"
     }
