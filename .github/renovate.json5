@@ -65,7 +65,7 @@
       "automerge": true,
       "requiredStatusChecks": null,
       "updateTypes": ["patch"],
-    }
+    },
     {
       "datasources": ["helm"],
       "updateTypes": ["major"],
@@ -80,6 +80,6 @@
       "datasources": ["helm"],
       "updateTypes": ["patch"],
       "labels": ["renovate/helm-release", "dependency/patch"]
-    },
+    }
   ]
 }
