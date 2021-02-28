@@ -3,14 +3,14 @@ name: docker
 on:
   push:
     paths:
-      - '.github/workflows/docker.yml'
-      - 'bootstrap/docker/Dockerfile'
+      - ".github/workflows/docker.yml"
+      - "bootstrap/docker/Dockerfile"
     branches:
       - main
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Use this tag instead of most recent'
+        description: "Use this tag instead of most recent"
         required: false
         default: latest
 
@@ -35,24 +35,25 @@ jobs:
           driver-opts: image=moby/buildkit:master
 
       - name: Login to DockerHub
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and Push
-        if: github.ref != 'refs/heads/main'
+        if: github.event_name == 'pull_request'
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./bootstrap/docker/Dockerfile
           platforms: linux/amd64,linux/arm64
-          push: true
+          push: false
           tags: |
             xunholy/builder:${{ github.sha }}
 
       - name: Build and Push
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v2
         with:
           context: .
