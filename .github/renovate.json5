@@ -19,21 +19,23 @@
     ]
   },
   "helm-values": {
-    "fileMatch": ["cluster/.+\\.yaml$"],
+    "fileMatch": ["cluster/.+helmrelease\\.yaml$"],
   },
   "regexManagers": [
     {
-      "fileMatch": ["cluster/.+\\.yaml$"],
+      "fileMatch": ["cluster/.+helmrelease\\.yaml$"],
       "matchStrings": ["registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"],
       "datasourceTemplate": "helm"
     }
   ],
   "packageRules": [
     // Setup datasources
+    // auto-merge docker patch version increments
     {
-      "datasources": ["helm"],
-      "commitMessageTopic": "Helm chart {{depName}}",
-      "separateMinorPatch": true
+      "datasources": ["docker"],
+      "automerge": true,
+      "requiredStatusChecks": null,
+      "updateTypes": ["patch"],
     },
     // Add labels according to package and update types
     {
@@ -54,6 +56,18 @@
     },
     {
       "datasources": ["helm"],
+      "commitMessageTopic": "Helm chart {{depName}}",
+      "separateMinorPatch": true
+    },
+    // auto-merge helm patch version increments
+    {
+      "datasources": ["helm"],
+      "automerge": true,
+      "requiredStatusChecks": null,
+      "updateTypes": ["patch"],
+    }
+    {
+      "datasources": ["helm"],
       "updateTypes": ["major"],
       "labels": ["renovate/helm-release", "dependency/major"]
     },
@@ -67,19 +81,5 @@
       "updateTypes": ["patch"],
       "labels": ["renovate/helm-release", "dependency/patch"]
     },
-    // auto-merge docker patch version increments
-    {
-      "datasources": ["docker"],
-      "automerge": true,
-      "requiredStatusChecks": null,
-      "updateTypes": ["patch"],
-    },
-    // auto-merge helm patch version increments
-    {
-      "datasources": ["helm"],
-      "automerge": true,
-      "requiredStatusChecks": null,
-      "updateTypes": ["patch"],
-    }
   ]
 }
