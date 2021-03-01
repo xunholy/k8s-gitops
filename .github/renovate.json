@@ -1,0 +1,81 @@
+{
+  "assignees": ["@xUnholy"],
+  "enabled": true,
+  "extends": ["config:base",":gitSignOff"],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "logLevel": "debug",
+  "platform": "github",
+  "rebaseWhen": "conflicted",
+  "reviewersFromCodeOwners": true,
+  "semanticCommits": true,
+  "suppressNotifications": ["prIgnoreNotification"],
+  "timezone": "Australia/Melbourne",
+  "kubernetes": {
+    "fileMatch": ["k8s/.+\\.yaml$"],
+    "ignorePaths": [
+      "k8s/namespaces/base/flux-system/",
+      "k8s/namespaces/base/actions-runner-system/"
+    ]
+  },
+  "helm-values": {
+    "fileMatch": ["k8s/.+helmrelease\\.yaml$"]
+  },
+  "regexManagers": [
+    {
+      "fileMatch": ["k8s/.+helmrelease\\.yaml$"],
+      "matchStrings": ["registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"],
+      "datasourceTemplate": "helm"
+    }
+  ],
+  "packageRules": [
+    {
+      "datasources": ["docker"],
+      "automerge": true,
+      "requiredStatusChecks": null,
+      "updateTypes": ["patch"]
+    },
+    {
+      "datasources": ["docker"],
+      "updateTypes": ["major"],
+      "labels": ["renovate/image-release", "dependency/major"],
+      "enabled": true
+    },
+    {
+      "datasources": ["docker"],
+      "updateTypes": ["minor"],
+      "labels": ["renovate/image-release", "dependency/minor"]
+    },
+    {
+      "datasources": ["docker"],
+      "updateTypes": ["patch"],
+      "labels": ["renovate/image-release", "dependency/patch"]
+    },
+    {
+      "datasources": ["helm"],
+      "commitMessageTopic": "Helm chart {{depName}}",
+      "separateMinorPatch": true
+    },
+    {
+      "datasources": ["helm"],
+      "automerge": true,
+      "requiredStatusChecks": null,
+      "updateTypes": ["patch"]
+    },
+    {
+      "datasources": ["helm"],
+      "updateTypes": ["major"],
+      "labels": ["renovate/helm-release", "dependency/major"]
+    },
+    {
+      "datasources": ["helm"],
+      "updateTypes": ["minor"],
+      "labels": ["renovate/helm-release", "dependency/minor"]
+    },
+    {
+      "datasources": ["helm"],
+      "updateTypes": ["patch"],
+      "labels": ["renovate/helm-release", "dependency/patch"]
+    }
+  ]
+}
