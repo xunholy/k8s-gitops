@@ -20,5 +20,11 @@ jobs:
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v24.67.5
         with:
-          configurationFile: .github/example.json
-          token: "x-access-token:${{ steps.get_token.outputs.app_token }}"
+          configurationFile: .github/renovate.json
+          token: ${{ secrets.RENOVATE_TOKEN }}
+      # TODO: Address issues with github authentication using Github App instead of PAT
+      # - name: Self-hosted Renovate
+      #   uses: renovatebot/github-action@v24.67.5
+      #   with:
+      #     configurationFile: .github/renovate.json
+      #     token: "x-access-token:${{ steps.get_token.outputs.app_token }}"

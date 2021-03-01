@@ -17,6 +17,7 @@
   "kubernetes": {
     "fileMatch": ["k8s/.+\\.yaml$"],
     "ignorePaths": [
+      "k8s/clusters/",
       "k8s/namespaces/base/flux-system/",
       "k8s/namespaces/base/actions-runner-system/"
     ]
