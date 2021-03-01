@@ -1,9 +1,10 @@
 {
   "assignees": ["@xUnholy"],
-  "enabled": true,
-  "extends": ["config:base",":gitSignOff"],
+  "branchPrefix": "self-hosted/",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
+  "enabled": true,
+  "extends": ["config:base",":gitSignOff"],
   "gitAuthor": "Renovate Bot <renovate@whitesourcesoftware.com>",
   "logLevel": "debug",
   "onboarding": false,
