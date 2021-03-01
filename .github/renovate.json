@@ -4,6 +4,7 @@
   "extends": ["config:base",":gitSignOff"],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
+  "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
   "logLevel": "debug",
   "onboarding": false,
   "platform": "github",
