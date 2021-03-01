@@ -9,6 +9,9 @@
   "onboarding": false,
   "platform": "github",
   "rebaseWhen": "conflicted",
+  "repositories": [
+    "xUnholy/k8s-gitops"
+  ],
   "requireConfig": false,
   "reviewersFromCodeOwners": true,
   "semanticCommits": true,

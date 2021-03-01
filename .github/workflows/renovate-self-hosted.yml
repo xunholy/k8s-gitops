@@ -3,6 +3,11 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0/15 * * * *"
+  push:
+    paths:
+      - ".github/workflows/renovate-self-hosted.yml"
+    branches:
+      - main
 jobs:
   renovate:
     runs-on: ubuntu-latest
