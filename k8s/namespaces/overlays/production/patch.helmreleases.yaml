@@ -46,3 +46,17 @@ spec:
             - default
           includedNamespaces:
             - home-system
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: metallb
+  namespace: network
+spec:
+  values:
+    configInline:
+      address-pools:
+        - name: default
+          protocol: layer2
+          addresses:
+            - 192.168.1.150-192.168.1.155

@@ -10,7 +10,6 @@ resources:
   # - ../../base/home-system/mosquitto
   # - ../../base/home-system/zigbee2mqtt
   - ../../base/istio-system
-  - ../../base/istio-system/istio
   - ../../base/kube-system
   - ../../base/kube-system/cilium
   - ../../base/kube-system/descheduler
@@ -18,18 +17,18 @@ resources:
   - ../../base/kube-system/sealed-secrets
   - ../../base/litmus
   - ../../base/network
-  - ../../base/network/cert-manager
-  - ../../base/network/cloudflare-ddns
-  - ../../base/network/coredns
-  - ../../base/network/dex
-  - ../../base/network/external-dns
+  # - ../../base/network/cert-manager
+  # - ../../base/network/cloudflare-ddns
+  # - ../../base/network/coredns
+  # - ../../base/network/dex
+  # - ../../base/network/external-dns
   - ../../base/network/metallb
   # TODO: Requries secondary ZZH device
   # - ../../base/network/node-feature-discovery
   - ../../base/network/oauth2-proxy
   - ../../base/network/origin-ca-issuer
   - ../../base/observability
-  - ../../base/observability/kiali
+  # - ../../base/observability/kiali
   - ../../base/observability/kube-prometheus-stack
   - ../../base/observability/loki-stack
   - ../../base/observability/speedtest
@@ -39,7 +38,7 @@ resources:
   - ../../base/storage/openebs
   # TODO: cspc must be created after blockdevices have been created.
   # - ../../base/storage/openebs/cstor-pool.yaml
-  - ../../base/velero
+  # - ../../base/velero
 patchesStrategicMerge:
   - patch.certificates.yaml
   - patch.helmreleases.yaml
