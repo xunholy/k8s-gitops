@@ -13,7 +13,7 @@
   "rebaseWhen": "conflicted",
   "repositories": ["xUnholy/k8s-gitops"],
   "requireConfig": false,
-  "reviewersFromCodeOwners": true,
+  "reviewersFromCodeOwners": false,
   "semanticCommits": "enabled",
   "suppressNotifications": ["prIgnoreNotification"],
   "timezone": "Australia/Melbourne",

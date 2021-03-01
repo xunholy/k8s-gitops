@@ -6,6 +6,7 @@ on:
   push:
     paths:
       - ".github/workflows/renovate-self-hosted.yml"
+      - ".github/renovate.json"
     branches:
       - main
 jobs:
