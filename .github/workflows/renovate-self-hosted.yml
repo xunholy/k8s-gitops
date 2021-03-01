@@ -1,0 +1,24 @@
+name: renovate-self-hosted
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0/15 * * * *"
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get token
+        id: get_token
+        uses: machine-learning-apps/actions-app-token@master
+        with:
+          APP_PEM: ${{ secrets.RENOVATE_APP_PEM }}
+          APP_ID: ${{ secrets.RENOVATE_APP_ID }}
+
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
+
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v21.30.0
+        with:
+          configurationFile: example/renovate-config.js
+          token: "x-access-token:${{ steps.get_token.outputs.app_token }}"
