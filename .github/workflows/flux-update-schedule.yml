@@ -15,7 +15,7 @@ jobs:
         run: brew install fluxcd/tap/flux
 
       - name: Run Flux Auto-Update
-        run: ./bootstrap/update.sh
+        run: ./scripts/update.sh
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
@@ -24,8 +24,8 @@ jobs:
           branch: update/flux
           title: Auto-update flux version
           signoff: true
-          committer: "Michael Fornaro <20387402+xUnholy@users.noreply.github.com>"
-          author: "Michael Fornaro <20387402+xUnholy@users.noreply.github.com>"
+          committer: 'Michael Fornaro <20387402+xUnholy@users.noreply.github.com>'
+          author: 'Michael Fornaro <20387402+xUnholy@users.noreply.github.com>'
           commit-message: Auto-update flux version
           body: |
             Signed-off-by: Michael Fornaro <20387402+xUnholy@users.noreply.github.com>

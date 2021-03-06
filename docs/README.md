@@ -31,7 +31,7 @@ When bootstrapping your cluster for the first time you ***must*** remove the `se
 Install the GitOps Toolkit into your cluster to begin syncing your *repo* using the following command:
 
 ```bash
-bootstrap/install.sh
+scripts/install.sh
 ```
 
 ## Contributors

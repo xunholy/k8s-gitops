@@ -18,5 +18,5 @@ docker run --rm --workdir /github/workspace \
   -v $(pwd):/github/workspace \
   -v $HOME/.kube/:/github/workspace/.kube/ \
   docker.io/xunholy/builder:latest \
-  bootstrap/validate.sh
+  scripts/validate.sh
 ```
