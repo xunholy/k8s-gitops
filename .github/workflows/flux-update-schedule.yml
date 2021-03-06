@@ -29,4 +29,4 @@ jobs:
           commit-message: Auto-update flux version
           body: |
             Signed-off-by: Michael Fornaro <20387402+xUnholy@users.noreply.github.com>
-          labels: dependencies, merge
+          labels: flux, merge
