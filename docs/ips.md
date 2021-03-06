@@ -1,4 +1,6 @@
-# Production
+# IP Allocation
+
+## Production
 
 | Application/Node          | Type               |             IP/CIDR             |
 | ------------------------- | ------------------ | :-----------------------------: |
@@ -16,7 +18,7 @@
 | zigbee2mqtt               | LoadBalancer       |          192.168.1.153          |
 | zigbee2mqtt (code-server) | LoadBalancer       |          192.168.1.154          |
 
-# Staging
+## Staging
 
 | Application               | Type               |             IP/CIDR             |
 | ------------------------- | ------------------ | :-----------------------------: |
