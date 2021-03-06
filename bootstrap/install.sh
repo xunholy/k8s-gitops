@@ -2,23 +2,28 @@
 
 set -eou pipefail
 
-export GITHUB_TOKEN=${GITHUB_TOKEN}
 export GITHUB_USER=xunholy
+export GITHUB_TOKEN=${GITHUB_TOKEN}
 export GITHUB_REPO=k8s-gitops
 export CLUSTER="${CLUSTER:-production}"
 
-KUBECONFIG=~/projects/install/ansible/playbooks/output/k8s-config.yaml:~/.kube/config kubectl config view --flatten > ~/.kube/config.tmp && \
-  mv ~/.kube/config.tmp ~/.kube/config
+## This will deep merge your kube config assuming you used the k8s-cluster-installation to bootstrap your cluster.
+## You will need to modify the PATH to the location of the playbooks on your local machine.
+# KUBECONFIG=~/projects/install/ansible/playbooks/output/k8s-config.yaml:~/.kube/config kubectl config view --flatten > ~/.kube/config.tmp && \
+#   mv ~/.kube/config.tmp ~/.kube/config
 
 flux >/dev/null || \
   ( echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli" && exit 1 )
 
-# Untaint master nodes if you don't have enough workers in your homelab
+## Untaint master nodes if you don't have enough workers in your homelab.
 # [[ ! $(kubectl taint nodes --all node-role.kubernetes.io/master-) ]] && echo "Masters untainted"
 
-if [[ -f .secrets/git-crypt/k8s-secret-sealed-secret-private-key.yaml ]]; then
+## Use the existing sealed-secret private key if it exists.
+## Currently uses only prod key as this is shared between all clusters currently.
+## To decrypt this secret requires you to have IAM permissions to GCP KMS.
+if [[ -f k8s/clusters/production/secrets/sealed-secret-private-key.enc.yaml ]]; then
   echo "Applying existing sealed-secret key"
-  kubectl apply -f .secrets/git-crypt/k8s-secret-sealed-secret-private-key.yaml
+  sops --decrypt "k8s/clusters/production/secrets/sealed-secret-private-key.enc.yaml" | kubectl apply -f -
 fi
 
 # Check the cluster meets the fluxv2 prerequisites
