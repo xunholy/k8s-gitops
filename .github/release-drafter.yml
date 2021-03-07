@@ -1,9 +1,18 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 categories:
-  - title: 'Community'
+  - title: 'Community Contributions'
     label:
       - 'community'
+  - title: 'Flux Component(s)'
+    labels:
+      - 'flux'
+  - title: 'Helm Chart(s)'
+    labels:
+      - 'renovate/helm-release'
+  - title: 'Image(s)'
+    labels:
+      - 'renovate/image-release'
   - title: 'Features'
     labels:
       - 'feature_request'

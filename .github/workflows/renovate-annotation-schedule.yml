@@ -15,7 +15,7 @@ jobs:
 
       - name: Update Helm Releases
         run: |
-          docker-compose run -T --rm builder bootstrap/renovate-helm-releases.sh
+          docker-compose run -T --rm builder scripts/renovate-helm-releases.sh
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
@@ -30,4 +30,4 @@ jobs:
           commit-message: Auto-update renovate helm annotations
           body: |
             Signed-off-by: Michael Fornaro <20387402+xUnholy@users.noreply.github.com>
-          labels: dependencies, merge
+          labels: renovate/helm-release, merge

@@ -3,14 +3,14 @@ name: docker
 on:
   push:
     paths:
-      - ".github/workflows/docker.yml"
-      - "bootstrap/docker/Dockerfile"
+      - '.github/workflows/docker.yml'
+      - 'scripts/docker/Dockerfile'
     branches:
       - main
   workflow_dispatch:
     inputs:
       tag:
-        description: "Use this tag instead of most recent"
+        description: 'Use this tag instead of most recent'
         required: false
         default: latest
 
@@ -46,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./bootstrap/docker/Dockerfile
+          file: ./scripts/docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: false
           tags: |
@@ -57,7 +57,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./bootstrap/docker/Dockerfile
+          file: ./scripts/docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |

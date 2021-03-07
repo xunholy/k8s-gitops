@@ -2,6 +2,8 @@
 
 set -eou pipefail
 
+export CLUSTER="${CLUSTER:-production}"
+
 if [[ ! $(flux) ]]; then
   echo "flux needs to be installed - https://toolkit.fluxcd.io/get-started/#install-the-toolkit-cli"
   exit 1
@@ -13,4 +15,4 @@ flux install \
   --namespace=flux-system \
   --network-policy=false \
   --log-level=info \
-  --export > "./k8s/clusters/production/flux-system/gotk-components.yaml"
+  --export > "./k8s/clusters/${CLUSTER}/flux-system/gotk-components.yaml"
