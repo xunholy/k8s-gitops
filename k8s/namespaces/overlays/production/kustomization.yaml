@@ -33,8 +33,8 @@ resources:
   # - ../../base/security
   # - ../../base/security/gatekeeper
   - ../../base/storage/openebs
-  # TODO: cspc must be created after blockdevices have been created.
-  # - ../../base/storage/openebs/cstor-pool.yaml
+  # blockdevices will persist across devices
+  - ../../base/storage/openebs/cstor-pool.yaml
   - ../../base/velero
 patchesStrategicMerge:
   - patch.helmreleases.yaml

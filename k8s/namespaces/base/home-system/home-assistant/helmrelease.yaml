@@ -37,7 +37,7 @@ spec:
     persistence:
       config:
         enabled: true
-        size: 5Gi
+        size: 2Gi
         storageClass: cstor-replica-pool
     service:
       portName: http-api
