@@ -1,0 +1,20 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: velero
+  namespace: network
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: velero
+  policyTypes:
+    - Egress
+  egress:
+    # Egress traffic to kubernetes service
+    - to:
+        - ipBlock:
+            cidr: 10.144.0.1/32
+      ports:
+        - protocol: TCP
+          port: 443
