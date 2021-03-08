@@ -2,21 +2,6 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: raspbernetes-com-le
-  namespace: istio-system
-spec:
-  # The secret name where cert-manager should store the signed certificate
-  secretName: wildcard-cert
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
-  dnsNames:
-    - raspbernetes.com
-    - "*.raspbernetes.com"
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
   name: raspbernetes-com-cf
   namespace: istio-system
 spec:
@@ -24,7 +9,7 @@ spec:
   secretName: raspbernetes-com-tls
   dnsNames:
     - raspbernetes.com
-    - "*.raspbernetes.com"
+    - '*.raspbernetes.com'
   # Duation of the certificate
   duration: 168h
   # Renew a day before the certificate expiration
