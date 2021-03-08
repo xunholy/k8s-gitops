@@ -40,10 +40,10 @@ spec:
       logLevel: 4
       leaderElection:
         # Override the namespace used to store the ConfigMap for leader election
-        namespace: "network"
+        namespace: 'network'
       podSecurityPolicy:
         enabled: true
-    installCRDs: true
+    installCRDs: false
     prometheus:
       enabled: true
       servicemonitor:
