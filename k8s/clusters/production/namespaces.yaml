@@ -32,5 +32,5 @@ spec:
   healthChecks:
     - apiVersion: apps/v1
       kind: Deployment
-      name: backend
+      name: istiod
       namespace: istio-system

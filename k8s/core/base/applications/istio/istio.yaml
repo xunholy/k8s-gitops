@@ -2,7 +2,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   name: istio
-  namespace: istio-operator
+  namespace: istio-system
 spec:
   # revision: 1.7.4
   addonComponents:
