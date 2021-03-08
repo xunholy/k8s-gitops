@@ -43,7 +43,7 @@ spec:
         namespace: 'network'
       podSecurityPolicy:
         enabled: true
-    installCRDs: false
+    installCRDs: true
     prometheus:
       enabled: true
       servicemonitor:

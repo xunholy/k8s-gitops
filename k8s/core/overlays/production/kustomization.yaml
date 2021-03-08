@@ -3,7 +3,8 @@ kind: Kustomization
 resources:
   - ../../base/applications/istio
   - ../../base/applications/istio-operator
-  - ../../base/crds/cert-manager.yaml
+  ## TODO: Create CRDs when cert-manager support hydrated CRD/ dir
+  # - ../../base/crds/cert-manager.yaml
   - ../../base/crds/kube-prometheus-stack.yaml
   - ../../base/crds/openebs-cstor.yaml
   - ../../base/crds/openebs-ndm.yaml
