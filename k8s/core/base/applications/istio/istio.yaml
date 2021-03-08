@@ -2,7 +2,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   name: istio
-  namespace: istio-system
+  namespace: istio-operator
 spec:
   # revision: 1.7.4
   addonComponents:
@@ -100,7 +100,7 @@ spec:
               cpu: 100m
               memory: 128Mi
           service:
-            loadBalancerIP: ""
+            loadBalancerIP: ''
             ports:
               - name: status-port
                 port: 15021
@@ -188,7 +188,7 @@ spec:
                 apiVersion: v1
                 fieldPath: metadata.namespace
           - name: GOMAXPROCS
-            value: "6"
+            value: '6'
         hpaSpec:
           maxReplicas: 5
           metrics:
@@ -227,7 +227,7 @@ spec:
   values:
     base:
       enableCRDTemplates: false
-      validationURL: ""
+      validationURL: ''
     clusterResources: true
     gateways:
       istio-egressgateway:
@@ -244,10 +244,10 @@ spec:
         type: ClusterIP
         zvpn: {}
       istio-ingressgateway:
-        applicationPorts: ""
+        applicationPorts: ''
         autoscaleEnabled: true
         debug: info
-        domain: ""
+        domain: ''
         env: {}
         meshExpansionPorts:
           - name: tcp-istiod
@@ -280,7 +280,7 @@ spec:
         requests:
           cpu: 10m
       enableHelmTest: false
-      imagePullPolicy: ""
+      imagePullPolicy: ''
       imagePullSecrets: []
       istioNamespace: istio-system
       istiod:
@@ -295,24 +295,24 @@ spec:
       meshNetworks: {}
       mountMtlsCerts: false
       multiCluster:
-        clusterName: ""
+        clusterName: ''
         enabled: false
-      network: ""
+      network: ''
       omitSidecarInjectorConfigMap: false
       oneNamespace: false
       operatorManageWebhooks: false
       pilotCertProvider: istiod
-      priorityClassName: ""
+      priorityClassName: ''
       proxy:
         autoInject: enabled
         clusterDomain: cluster.local
         componentLogLevel: misc:error
         enableCoreDump: false
-        excludeIPRanges: ""
-        excludeInboundPorts: ""
-        excludeOutboundPorts: ""
+        excludeIPRanges: ''
+        excludeInboundPorts: ''
+        excludeOutboundPorts: ''
         image: proxyv2
-        includeIPRanges: "*"
+        includeIPRanges: '*'
         logLevel: warning
         privileged: false
         readinessFailureThreshold: 30
@@ -345,15 +345,15 @@ spec:
         datadog:
           address: $(HOST_IP):8126
         lightstep:
-          accessToken: ""
-          address: ""
+          accessToken: ''
+          address: ''
         stackdriver:
           debug: false
           maxNumberOfAnnotations: 200
           maxNumberOfAttributes: 200
           maxNumberOfMessageEvents: 200
         zipkin:
-          address: ""
+          address: ''
       trustDomain: cluster.local
       useMCP: false
     grafana:
@@ -392,14 +392,14 @@ spec:
         externalPort: 3000
         name: http
         type: ClusterIP
-      storageClassName: ""
+      storageClassName: ''
       tolerations: []
     istiocoredns:
       coreDNSImage: coredns/coredns
       coreDNSPluginImage: istio/coredns-plugin:0.2-istio-1.1
       coreDNSTag: 1.6.2
     istiodRemote:
-      injectionURL: ""
+      injectionURL: ''
     kiali:
       contextPath: /kiali
       createDemoSecret: false
@@ -432,9 +432,9 @@ spec:
           metricsExpiryDuration: 10m
         stackdriver:
           auth:
-            apiKey: ""
+            apiKey: ''
             appCredentials: false
-            serviceAccountPath: ""
+            serviceAccountPath: ''
           enabled: false
           tracer:
             enabled: false
@@ -454,7 +454,7 @@ spec:
       telemetry:
         autoscaleEnabled: true
         env:
-          GOMAXPROCS: "6"
+          GOMAXPROCS: '6'
         image: mixer
         loadshedding:
           latencyThreshold: 100ms
@@ -532,8 +532,8 @@ spec:
           max_traces: 50000
         persist: false
         spanStorageType: badger
-        storageClassName: ""
-        tag: "1.18.1"
+        storageClassName: ''
+        tag: '1.18.1'
       nodeSelector: {}
       opencensus:
         exporters:
@@ -542,7 +542,7 @@ spec:
         hub: docker.io/omnition
         resources:
           limits:
-            cpu: "1"
+            cpu: '1'
             memory: 2Gi
           requests:
             cpu: 200m
@@ -572,4 +572,4 @@ spec:
             cpu: 150m
             memory: 900Mi
         tag: 2.20.0
-    version: ""
+    version: ''

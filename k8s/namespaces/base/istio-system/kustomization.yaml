@@ -4,9 +4,8 @@ resources:
   - certificate.yaml
   - envoyfilter-authn.yaml
   - gateway.yaml
-  ## Currently moved to core due to depenedencies
-  # - namespace.yaml
-  # - networkpolicy.yaml
+  - namespace.yaml
+  - networkpolicy.yaml
   - originissuer.yaml
   - peerauthentication.yaml
   - secret.encrypted.yaml

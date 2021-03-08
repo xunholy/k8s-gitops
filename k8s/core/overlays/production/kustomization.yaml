@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ../../base/applications/istio
   - ../../base/applications/istio-operator
+  - ../../base/crds/cert-manager.yaml
   - ../../base/crds/kube-prometheus-stack.yaml
   - ../../base/crds/openebs-cstor.yaml
   - ../../base/crds/openebs-ndm.yaml
