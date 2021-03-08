@@ -5,14 +5,16 @@ metadata:
   name: node-feature-discovery
   namespace: network
 spec:
-  podSelector: {}
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: node-feature-discovery
   policyTypes:
     - Egress
   egress:
     # Egress traffic to kubernetes service
     - to:
         - ipBlock:
-            cidr: 34.76.197.27/32
+            cidr: 10.144.0.1/32
       ports:
         - protocol: TCP
           port: 443
