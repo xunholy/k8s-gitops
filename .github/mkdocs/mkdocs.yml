@@ -39,7 +39,7 @@ theme:
     # https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#anchor-tracking
     - navigation.tracking
 
-docs_dir: docs/
+docs_dir: ../../docs/
 
 extra:
   # https://squidfunk.github.io/mkdocs-material/setup/setting-up-versioning/#versioning
