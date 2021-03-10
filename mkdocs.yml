@@ -1,0 +1,56 @@
+# Project information
+site_name: xUnholy | Raspbernetes
+site_description: Personal home-lab or for home infrastructure in a declaritive state.
+site_author: Michael Fornaro
+site_url: https://xunholy.github.io/k8s-gitops/
+
+# Repository
+repo_name: xunholy/k8s-gitops
+repo_url: https://github.com/xunholy/k8s-gitops
+edit_uri: 'edit/main/docs/'
+
+# Configuration
+theme:
+  name: material
+  logo: https://raspbernetes.github.io/img/logo.svg
+  language: en
+  palette:
+    scheme: preference
+    primary: deep purple
+    accent: indigo
+
+docs_dir: docs/
+
+# Customization
+extra:
+  version:
+    provider: mike
+
+extra_css:
+  - _static/custom.css
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - meta
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      highlight_code: true
+  - pymdownx.tabbed
+  - pymdownx.tilde
+  - pymdownx.progressbar
+  - pymdownx.tasklist
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+nav:
+  - Introduction: index.md
+  - Getting Started: tooling/getting-started.md
