@@ -1,6 +1,6 @@
 # Project information
 site_name: xUnholy | Raspbernetes
-site_description: Personal home-lab or for home infrastructure in a declaritive state.
+site_description: This repo is a declarative implementation of a Kubernetes cluster using GitOps.
 site_author: Michael Fornaro
 site_url: https://xunholy.github.io/k8s-gitops/
 
@@ -28,16 +28,16 @@ theme:
   icon:
     repo: fontawesome/brands/github
   features:
-    # https://squidfunk.github.io/mkdocs-material/setup/setting-up-site-search/#search-suggestions
-    - search.suggest
-    # https://squidfunk.github.io/mkdocs-material/setup/setting-up-site-search/#search-highlighting
-    - search.highlight
-    # https://squidfunk.github.io/mkdocs-material/setup/setting-up-site-search/#search-sharing
-    - search.share
     # https://squidfunk.github.io/mkdocs-material/setup/setting-up-the-header/#automatic-hiding
     - header.autohide
     # https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#anchor-tracking
     - navigation.tracking
+    # https://squidfunk.github.io/mkdocs-material/setup/setting-up-site-search/#search-highlighting
+    - search.highlight
+    # https://squidfunk.github.io/mkdocs-material/setup/setting-up-site-search/#search-sharing
+    - search.share
+    # https://squidfunk.github.io/mkdocs-material/setup/setting-up-site-search/#search-suggestions
+    - search.suggest
 
 docs_dir: ../../docs/
 
@@ -75,6 +75,7 @@ plugins:
 #   - UA-XXXXXXXX-X
 #   - auto
 
+# https://www.mkdocs.org/user-guide/configuration/#markdown_extensions
 markdown_extensions:
   - admonition
   - meta
@@ -103,4 +104,5 @@ nav:
       - Sealed Secrets: guides/sealed-secrets.md
       - Mozilla SOPS: guides/mozilla-sops.md
   - Contributing: contributing/index.md
+  - Sponsor: sponsor/index.md
   - FAQ: faq/index.md
