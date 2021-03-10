@@ -2,7 +2,7 @@ name: security
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
 jobs:
   trivy:
