@@ -2,10 +2,15 @@
 
 set -eou pipefail
 
-export GITHUB_USER=xunholy
-export GITHUB_TOKEN=${GITHUB_TOKEN}
-export GITHUB_REPO=k8s-gitops
-export CLUSTER="${CLUSTER:-production}"
+DEFAULT_CLUSTER="production"
+DEFUALT_GITHUB_REPO="k8s-gitops"
+DEFAULT_GITHUB_USER="xunholy"
+
+export CLUSTER="${CLUSTER:-$DEFAULT_CLUSTER}"
+export GITHUB_REPO="${GITHUB_REPO:-$DEFUALT_GITHUB_REPO}"
+export GITHUB_USER="${GITHUB_USER:-$DEFAULT_GITHUB_USER}"
+
+export GITHUB_TOKEN="${GITHUB_TOKEN}"
 
 ## This will deep merge your kube config assuming you used the k8s-cluster-installation to bootstrap your cluster.
 ## You will need to modify the PATH to the location of the playbooks on your local machine.
