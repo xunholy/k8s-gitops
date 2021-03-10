@@ -1,4 +1,4 @@
-name: Release Drafter
+name: release
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  update_release_draft:
+  update_draft:
     runs-on: ubuntu-latest
     steps:
       # Drafts your next Release notes as Pull Requests are merged into "main"
