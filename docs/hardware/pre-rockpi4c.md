@@ -7,6 +7,7 @@ The following are prerequisites to create a kubernetes on the RockPi(s) 4C
 Since I decided to use an eMMC module rather than the typical microSD I needed to purchase either a eMMC to USB adapter or eMMC to microSD adapter. I purchased both and they work equally as fine except you can save some **$$$** if you choose to purchase the eMMC to microSD adapter.
 
 Either can be purchased with the below links:
+
 - [eMMC microSD adapter](https://ameridroid.com/products/emmc-adapter?_pos=2&_sid=dbd8c41c9&_ss=r)
 - [eMMC USB3.0 adapter](https://ameridroid.com/products/usb-3-0-emmc-module-writer?_pos=8&_sid=dbd8c41c9&_ss=r)
 
@@ -24,27 +25,27 @@ N: Updating from such a repository can't be done securely, and is therefore disa
 N: See apt-secure(8) manpage for repository creation and user configuration details.
 ```
 
-**Fix**
+To fix this error use the following steps.
 
-Step 1: Install wget
+Install wget
 
 ```bash
 sudo apt-get update
 sudo apt-get install -y wget
 ```
 
-Step 2: Edit /etc/apt/sources.list.d/apt-radxa-com.list
+Edit /etc/apt/sources.list.d/apt-radxa-com.list
 
 ```bash
 deb http://apt.radxa.com/buster-stable/ buster main
 deb http://apt.radxa.com/buster-testing/ buster main
 ```
 
-Step 3: Get the public key
+Add the public apt-key
 
 ```bash
 wget -O - apt.radxa.com/buster-testing/public.key | sudo apt-key add -
 wget -O - apt.radxa.com/buster-stable/public.key | sudo apt-key add -
 ```
 
-Follow instructions here to complete the kubernetes bootstrap process: https://github.com/raspbernetes/k8s-cluster-installation
+You will no longer have the above mentioned issue. Follow instructions here to complete the kubernetes bootstrap process: https://github.com/raspbernetes/k8s-cluster-installation
