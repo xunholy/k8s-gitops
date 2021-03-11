@@ -1,6 +1,6 @@
 # Rock Pi 4C
 
-The following are prerequisites to create a kubernetes on the RockPi(s) 4C
+The following are prerequisites to create a Kubernetes on the RockPi(s) 4C
 
 ## Hardware
 
@@ -48,4 +48,4 @@ wget -O - apt.radxa.com/buster-testing/public.key | sudo apt-key add -
 wget -O - apt.radxa.com/buster-stable/public.key | sudo apt-key add -
 ```
 
-You will no longer have the above mentioned issue. Follow instructions here to complete the kubernetes bootstrap process: https://github.com/raspbernetes/k8s-cluster-installation
+You will no longer have the above mentioned issue. Follow instructions here to complete the Kubernetes bootstrap process: https://github.com/raspbernetes/k8s-cluster-installation

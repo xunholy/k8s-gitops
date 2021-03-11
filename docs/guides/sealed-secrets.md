@@ -3,7 +3,7 @@
 !!! note "Work in progress"
     This document is a work in progress.
 
-When bootstrapping your cluster for the first time you must store a unique public & private key for your sealed-secrets controller to use for managing your sensative keys and passwords in your Kubernetes cluster.
+When bootstrapping your cluster for the first time you must store a unique public & private key for your sealed-secrets controller to use for managing your sensitive keys and passwords in your Kubernetes cluster.
 
 ## Install the CLI tool
 
