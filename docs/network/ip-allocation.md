@@ -1,5 +1,8 @@
 # IP Allocation
 
+!!! note "Work in progress"
+    This document is a work in progress.
+
 ## Production
 
 | Application/Node          | Type               |             IP/CIDR             |

@@ -3,6 +3,8 @@
 !!! note "Work in progress"
     This document is a work in progress.
 
+If you find value to my open source project(s), you can become a sponsor and also don't forget to star the *repo*.
+
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/raspbernetes#backer)]

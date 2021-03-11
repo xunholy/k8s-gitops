@@ -1,6 +1,6 @@
 # Rock Pi 4C
 
-The following are pre-requisites to bootstrap kubernetes onto a cluster of Rock Pis
+The following are prerequisites to create a kubernetes on the RockPi(s) 4C
 
 ## Hardware
 

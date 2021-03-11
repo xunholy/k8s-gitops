@@ -103,6 +103,12 @@ nav:
       - Installation: guides/installation.md
       - Sealed Secrets: guides/sealed-secrets.md
       - Mozilla SOPS: guides/mozilla-sops.md
+      - Repository Structure: guides/repo-structure.md
+  - Hardware:
+      - RockPis: hardware/pre-rockpi4c.md
+  - Network:
+      - IP Allocation: network/ip-allocation.md
+      - Certificates: network/certificates.md
   - Contributing: contributing/index.md
   - Sponsor: sponsor/index.md
   - FAQ: faq/index.md

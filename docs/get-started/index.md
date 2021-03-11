@@ -13,7 +13,7 @@ brew install fluxcd/tap/flux
 
 ## Install Flux
 
-*For full installation guide visit the Flux [bootstrap guide](https://toolkit.fluxcd.io/get-started/#install-flux-components)*
+*For the full installation guide visit the Flux [bootstrap guide](https://toolkit.fluxcd.io/get-started/#install-flux-components)*
 
 Validate the cluster and its connectivity
 
