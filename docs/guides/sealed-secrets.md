@@ -71,7 +71,7 @@ Create an alias for the CLI tool (*recommended*)
 alias kubeseal='kubeseal --cert k8s/clusters/<cluster>/secrets/sealed-secret-public-cert.yaml --controller-name sealed-secrets --format yaml'
 ```
 
-Encrypt new kubernetes secret
+Encrypt new Kubernetes secret
 
 ```bash
 kubeseal < secret.yaml > secret.encrypted.yaml
