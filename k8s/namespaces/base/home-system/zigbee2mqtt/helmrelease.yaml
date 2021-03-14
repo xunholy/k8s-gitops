@@ -11,7 +11,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: zigbee2mqtt
-      version: 4.3.0
+      version: 6.2.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: koenkk/zigbee2mqtt
-      tag: 1.17.0
+      tag: 1.18.1
     env:
       TZ: Australia/Melbourne
       ZIGBEE2MQTT_DATA: /data
@@ -120,7 +120,7 @@ spec:
         enabled: true
         image:
           repository: codercom/code-server
-          tag: 3.9.0
+          tag: 3.9.1
         workingDir: '/data'
         args:
           - --user-data-dir
