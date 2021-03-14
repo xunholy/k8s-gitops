@@ -20,10 +20,10 @@ spec:
     skipCRDs: true
   values:
     # Required when using the same device that hosts the OS FS partition
-    openebs-ndm:
-      ndm:
-        sparse:
-          count: '1'
+    # openebs-ndm:
+    #   ndm:
+    #     sparse:
+    #       count: '1'
     cvcOperator:
       componentName: cvc-operator-svc
     csiController:

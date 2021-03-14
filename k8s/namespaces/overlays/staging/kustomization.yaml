@@ -42,6 +42,6 @@ resources:
 patchesStrategicMerge:
   - patch.certificates.yaml
   - patch.helmreleases.yaml
-  - patch.istio.yaml
+  # - patch.istio.yaml
   - patch.sealed-secrets.yaml
   - patch.virtualservices.yaml

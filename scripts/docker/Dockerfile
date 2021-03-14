@@ -1,9 +1,9 @@
 FROM ubuntu
 
 ARG TARGETARCH
-ARG KUBESEAL_VERSION=0.14.1
+ARG KUBESEAL_VERSION=0.15.0
+ARG KUSTOMIZE_VERSION=3.9.3
 ARG YQ_VERSION=3.4.1
-ARG FLUX_VERSION=0.6.3
 
 WORKDIR /
 
@@ -44,14 +44,14 @@ RUN curl -sL https://github.com/mikefarah/yq/releases/download/3.3.0/yq_linux_${
 RUN curl -sL -o /usr/bin/kubeseal https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-linux-${TARGETARCH} && \
   chmod +x /usr/bin/kubeseal
 
-# Install flux
-RUN curl -sL -o flux.tar.gz https://github.com/fluxcd/flux2/releases/download/v${FLUX_VERSION}/flux_${FLUX_VERSION}_linux_${TARGETARCH}.tar.gz && \
-  tar -C /usr/bin -xvzf flux.tar.gz && \
-  chmod +x /usr/bin/flux
-
 # Install kustomize
-# Note: If arm64 is not support consider compiling from source code.
-# https://kubernetes-sigs.github.io/kustomize/installation/source/#install-the-kustomize-cli-from-local-source-with-cloning-the-repo
-RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+RUN curl -sL -o kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_linux_${TARGETARCH}.tar.gz && \
+  tar -C /usr/bin -xvzf kustomize.tar.gz && \
+  chmod +x /usr/bin/kustomize
+
+# Install kubeval
+RUN curl -sL -o kubeval.tar.gz https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-${TARGETARCH}.tar.gz && \
+  tar -C /usr/bin -xvzf kubeval.tar.gz && \
+  chmod +x /usr/bin/kubeval
 
 CMD bash
