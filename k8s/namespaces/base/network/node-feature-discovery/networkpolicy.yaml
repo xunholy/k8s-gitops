@@ -11,7 +11,7 @@ spec:
   policyTypes:
     - Egress
   egress:
-    # Egress traffic to kubernetes service
+    # Egress traffic to kube-apiserver
     - to:
         - ipBlock:
             cidr: 10.144.0.1/32

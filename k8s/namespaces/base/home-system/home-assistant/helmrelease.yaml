@@ -31,6 +31,10 @@ spec:
     recreate: true
     cleanupOnFail: true
   values:
+    controllerType: deployment
+    image:
+      repository: homeassistant/home-assistant
+      tag: 2021.3.4
     hostNetwork: true
     env:
       TZ: 'Australia/Melbourne'
@@ -53,13 +57,20 @@ spec:
           - '/config/.vscode'
           - --auth
           - 'none'
+          - --extensions-dir
+          - '/config/.vscode'
         ingress:
           enabled: false
         volumeMounts:
           - name: config
             mountPath: /config
+    prometheus:
+      serviceMonitor:
+        enabled: false
     probes:
       liveness:
         enabled: false
       readiness:
+        enabled: false
+      startup:
         enabled: false

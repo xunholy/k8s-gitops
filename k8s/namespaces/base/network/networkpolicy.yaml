@@ -33,12 +33,15 @@ spec:
           protocol: UDP
         - port: 53
           protocol: TCP
-    # Egress traffic to any pod in current namespace will be allowed
+    # Egress traffic to any pod in the cluster will be allowed
     - {}
     # Egress traffic to any endpoint outside of the cluster will be allowed.
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
+    - to:
+        - ipBlock:
+            cidr: 10.144.15.153/32
     # Egress traffic to any pod in current namespace will be allowed
     - to:
         - podSelector: {}
