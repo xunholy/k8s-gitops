@@ -86,7 +86,7 @@ spec:
                 fieldPath: status.podIP
         image:
           repository: nolte/mosquitto-exporter
-          tag: v0.6.3
+          tag: 2020.10.16
           pullPolicy: IfNotPresent
         resources:
           limits:
