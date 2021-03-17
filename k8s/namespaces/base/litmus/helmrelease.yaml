@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://litmuschaos.github.io/litmus-helm/
       chart: litmus
-      version: 1.13.4
+      version: 1.13.5
       sourceRef:
         kind: HelmRepository
         name: litmuschaos-charts
