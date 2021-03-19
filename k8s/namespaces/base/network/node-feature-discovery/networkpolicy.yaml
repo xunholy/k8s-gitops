@@ -11,10 +11,21 @@ spec:
   policyTypes:
     - Egress
   egress:
-    # Egress traffic to kube-apiserver
+    # Egress traffic to kube-apiserver svc
     - to:
         - ipBlock:
             cidr: 10.144.0.1/32
       ports:
         - protocol: TCP
           port: 443
+    # Egress traffic to kube-apiserver endpoints
+    - to:
+        - ipBlock:
+            cidr: 192.168.1.111/32
+        - ipBlock:
+            cidr: 192.168.1.112/32
+        - ipBlock:
+            cidr: 192.168.1.113/32
+      ports:
+        - protocol: TCP
+          port: 6443
