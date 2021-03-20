@@ -21,7 +21,7 @@ spec:
       configmap.reloader.stakater.com/reload: 'node-feature-discovery'
     image:
       repository: docker.io/raspbernetes/node-feature-discovery
-      tag: v0.7.0
+      tag: v0.8.0
     sources:
       - custom
       - pci
