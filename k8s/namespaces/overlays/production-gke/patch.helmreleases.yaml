@@ -1,0 +1,53 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: external-dns
+  namespace: network
+spec:
+  values:
+    policy: upsert-only
+    cloudflare:
+      proxied: false
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: oauth2-proxy
+  namespace: network
+spec:
+  values:
+    image:
+      tag: v5.1.1-amd64
+    extraArgs:
+      oidc-issuer-url: https://dex.gke.raspbernetes.com
+      cookie-domain: .raspbernetes.com
+      whitelist-domain: .raspbernetes.com
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dex
+  namespace: network
+spec:
+  values:
+    certs:
+      image: gcr.io/google_containers/kubernetes-dashboard-init-arm
+    config:
+      issuer: https://dex.gke.raspbernetes.com
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: observability
+spec:
+  values:
+    grafana:
+      grafana.ini:
+        server:
+          root_url: https://grafana.gke.raspbernetes.com
+        auth.generic_oauth:
+          auth_url: https://dex.gke.raspbernetes.com/auth
+          token_url: https://dex.gke.raspbernetes.com/token
+          api_url: https://dex.gke.raspbernetes.com/userinfo

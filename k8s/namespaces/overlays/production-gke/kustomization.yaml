@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - ../../base/actions-runner-system
   - ../../base/flux-system
-  - ../../base/istio-operator
   - ../../base/istio-system
   - ../../base/kube-system
   - ../../base/kube-system/cilium
@@ -26,4 +25,7 @@ resources:
   - ../../base/storage/openebs
   - ../../base/velero
 patchesStrategicMerge:
-  - patch.yaml
+  - patch.certificates.yaml
+  - patch.helmreleases.yaml
+  - patch.sealed-secrets.yaml
+  - patch.virtualservices.yaml

@@ -17,11 +17,11 @@ resources:
   - ../../base/kube-system/sealed-secrets
   - ../../base/litmus
   - ../../base/network
-  # - ../../base/network/cert-manager
-  # - ../../base/network/cloudflare-ddns
-  # - ../../base/network/coredns
-  # - ../../base/network/dex
-  # - ../../base/network/external-dns
+  - ../../base/network/cert-manager
+  - ../../base/network/cloudflare-ddns
+  - ../../base/network/coredns
+  - ../../base/network/dex
+  - ../../base/network/external-dns
   - ../../base/network/metallb
   # TODO: Requries secondary ZZH device
   # - ../../base/network/node-feature-discovery
@@ -42,6 +42,5 @@ resources:
 patchesStrategicMerge:
   - patch.certificates.yaml
   - patch.helmreleases.yaml
-  # - patch.istio.yaml
   - patch.sealed-secrets.yaml
   - patch.virtualservices.yaml
