@@ -16,6 +16,9 @@ spec:
         name: node-feature-discovery-chart
         namespace: flux-system
       interval: 10m
+  dependsOn:
+    - name: cert-manager
+      namespace: network
   values:
     image:
       repository: docker.io/raspbernetes/node-feature-discovery
@@ -78,3 +81,51 @@ spec:
                 - usbId:
                     vendor: ['051d']
                     device: ['0002']
+  postRenderers:
+    - kustomize:
+        patchesStrategicMerge:
+          - apiVersion: apps/v1
+            kind: DaemonSet
+            metadata:
+              name: nfd-worker
+              namespace: network
+            spec:
+              template:
+                spec:
+                  containers:
+                    - name: nfd-worker
+                      args:
+                        - '--server=nfd-master:8080'
+                        - '--ca-file=/etc/kubernetes/node-feature-discovery/certs/ca.crt'
+                        - '--key-file=/etc/kubernetes/node-feature-discovery/certs/tls.key'
+                        - '--cert-file=/etc/kubernetes/node-feature-discovery/certs/tls.crt'
+                      volumeMounts:
+                        - name: nfd-worker-cert
+                          mountPath: '/etc/kubernetes/node-feature-discovery/certs'
+                          readOnly: true
+                  volumes:
+                    - name: nfd-worker-cert
+                      secret:
+                        secretName: nfd-worker-cert
+          - apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: nfd-master
+              namespace: network
+            spec:
+              template:
+                spec:
+                  containers:
+                    - name: nfd-master
+                      args:
+                        - '--ca-file=/etc/kubernetes/node-feature-discovery/certs/ca.crt'
+                        - '--key-file=/etc/kubernetes/node-feature-discovery/certs/tls.key'
+                        - '--cert-file=/etc/kubernetes/node-feature-discovery/certs/tls.crt'
+                      volumeMounts:
+                        - name: nfd-master-cert
+                          mountPath: '/etc/kubernetes/node-feature-discovery/certs'
+                          readOnly: true
+                  volumes:
+                    - name: nfd-master-cert
+                      secret:
+                        secretName: nfd-master-cert
