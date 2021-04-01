@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: koenkk/zigbee2mqtt
-      tag: 1.18.1
+      tag: 1.18.2
     env:
       TZ: Australia/Melbourne
       ZIGBEE2MQTT_DATA: /data
