@@ -34,7 +34,7 @@ resources:
   # - ../../base/security/gatekeeper
   - ../../base/storage/openebs
   # blockdevices will persist across devices
-  - ../../base/storage/openebs/cstor-pool.yaml
+  # - ../../base/storage/openebs/cstor-pool.yaml
   - ../../base/velero
   - ../../base/velero/velero
 patchesStrategicMerge:
