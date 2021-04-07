@@ -9,5 +9,5 @@ resources:
   - ../../base/crds/openebs-cstor.yaml
   - ../../base/crds/openebs-ndm.yaml
   - ../../base/crds/sealed-secrets.yaml
-patchesStrategicMerge:
-  - patch.istio.yaml
+# patchesStrategicMerge:
+#   - patch.istio.yaml
