@@ -19,6 +19,7 @@ spec:
   test:
     enable: false # Enable helm test
   install:
+    # TODO: Fix once CRD/ in helm chart is supported correctly, will also need to update kustomize in core
     skipCRDs: true
     remediation: # perform remediation when helm install fails
       retries: 5
@@ -43,7 +44,7 @@ spec:
         namespace: 'network'
       podSecurityPolicy:
         enabled: true
-    installCRDs: true
+    installCRDs: false
     prometheus:
       enabled: true
       servicemonitor:

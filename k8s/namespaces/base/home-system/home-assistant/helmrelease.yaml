@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: home-assistant
-      version: 6.3.1
+      version: 7.3.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -30,19 +30,23 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
+  dependsOn:
+    - name: sealed-secrets
+      namespace: kube-system
+    - name: cstor
+      namespace: cstor
   values:
     controllerType: deployment
     image:
       repository: homeassistant/home-assistant
-      tag: 2021.3.4
+      tag: 2021.4.0
     hostNetwork: true
     env:
       TZ: 'Australia/Melbourne'
     persistence:
       config:
         enabled: true
-        size: 2Gi
-        storageClass: cstor-replica-pool
+        existingClaim: home-assistant-config
     service:
       portName: http-api
     addons:
@@ -53,7 +57,7 @@ spec:
           loadBalancerIP: 192.168.1.155
         image:
           repository: codercom/code-server
-          tag: 3.9.1
+          tag: 3.9.2
         workingDir: '/config'
         args:
           - --user-data-dir

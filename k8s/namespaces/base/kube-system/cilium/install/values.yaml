@@ -1,6 +1,6 @@
 image:
-  repository: docker.io/cilium/cilium-dev
-  tag: v1.9.4
+  repository: docker.io/cilium/cilium
+  tag: v1.10.0-rc0
 
 # autoDirectNodeRoutes enables installation of PodCIDR routes between worker
 # nodes if worker nodes share a common L2 network segment.
@@ -46,18 +46,18 @@ hubble:
   relay:
     enabled: true
     image:
-      repository: docker.io/cilium/hubble-relay-dev
-      tag: v1.9.4
+      repository: docker.io/cilium/hubble-relay
+      tag: v1.10.0-rc0
   ui:
     enabled: true
     frontend:
       image:
-        repository: docker.io/mcfio/hubble-ui-dev
-        tag: v0.7.3
+        repository: docker.io/raspbernetes/hubble-ui-dev
+        tag: v0.7.5
     backend:
       image:
-        repository: docker.io/mcfio/hubble-ui-backend-dev
-        tag: v0.7.3
+        repository: docker.io/raspbernetes/hubble-ui-backend
+        tag: v0.7.5
     proxy:
       image:
         repository: docker.io/envoyproxy/envoy
@@ -65,18 +65,20 @@ hubble:
 
 ipam:
   operator:
-    # default: "10.0.0.0/8", however, using existing podCIDR
-    clusterPoolIPv4PodCIDR: 172.16.0.0/16
+    # default: "10.0.0.0/8", however, can use existing podCIDR
+    clusterPoolIPv4PodCIDR: '10.0.0.0/8'
     clusterPoolIPv4MaskSize: 24
 
 # kubeProxyReplacement enables kube-proxy replacement in Cilium BPF datapath
-kubeProxyReplacement: strict
+# TODO: Disabled due to RockPi kernel <= 4.4
+kubeProxyReplacement: disabled
 
 # kubeProxyReplacement healthz server bind address
 # To enable set the value to '0.0.0.0:10256' for all ipv4
 # addresses and this '[::]:10256' for all ipv6 addresses.
 # By default it is disabled.
-kubeProxyReplacementHealthzBindAddr: '0.0.0.0:10256'
+# TODO: Can't be used as RockPi Kernel is <=4.4
+# kubeProxyReplacementHealthzBindAddr: '0.0.0.0:10256'
 
 # prometheus enables serving metrics on the configured port at /metrics
 # Enables metrics for cilium-agent.
@@ -88,9 +90,10 @@ prometheus:
     enabled: false
 
 operator:
+  rollOutPods: true
   image:
-    repository: cilium/operator-dev
-    tag: v1.9.4
+    repository: cilium/operator
+    tag: v1.10.0-rc0
   # Enables metrics for cilium-operator.
   prometheus:
     enabled: true
@@ -119,4 +122,4 @@ loadBalancer:
 
 # disableEnvoyVersionCheck removes the check for Envoy, which can be useful on
 # AArch64 as the images do not currently ship a version of Envoy.
-disableEnvoyVersionCheck: true
+disableEnvoyVersionCheck: false

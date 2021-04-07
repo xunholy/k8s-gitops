@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://openebs.github.io/cstor-operators
       chart: cstor
-      version: 2.6.0
+      version: 2.7.2
       sourceRef:
         kind: HelmRepository
         name: cstor-chart

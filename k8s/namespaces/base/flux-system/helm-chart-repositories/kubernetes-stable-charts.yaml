@@ -5,6 +5,6 @@ metadata:
   name: kubernetes-stable-charts
   namespace: flux-system
 spec:
-  interval: 24h
+  interval: 30m
   url: https://charts.helm.sh/stable
   timeout: 3m

@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: docker.io/raspbernetes/node-feature-discovery
-      tag: v0.8.0
+      tag: v0.8.1
     worker:
       tolerations:
         - effect: 'NoExecute'

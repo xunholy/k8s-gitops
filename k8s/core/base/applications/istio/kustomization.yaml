@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - istio.yaml
   - namespace.yaml
-  - networkpolicy.yaml
+#  - networkpolicy.yaml
