@@ -11,7 +11,7 @@ spec:
       # CRDs are applied in core/crd/kube-prometheus-stack.yaml
       # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
-      version: 14.0.1
+      version: 14.5.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
@@ -82,7 +82,7 @@ spec:
         portName: http-service
       image:
         repository: grafana/grafana
-        tag: 7.5.1
+        tag: 7.5.2
       sidecar:
         dashboards:
           enabled: true
