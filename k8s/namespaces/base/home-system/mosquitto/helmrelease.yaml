@@ -21,46 +21,29 @@ spec:
     service:
       type: LoadBalancer
       loadBalancerIP: 192.168.1.152
-    persistence:
-      config:
-        enabled: false
-
-    # Any extra volumes to define for the pod
-    extraVolumes:
-      []
-      # - name: example-name
-      #   hostPath:
-      #     path: /path/on/host
-      #     type: DirectoryOrCreate
-
-    # Any extra volume mounts to define for the containers
-    extraVolumeMounts: []
-    #   - name: example-name
-    #     mountPath: /path/in/container
-
-    monitoring:
-      podMonitor:
-        enabled: false
-      sidecar:
-        enabled: true
-        port: 9234
-        args:
-          - '--use-splitted-config'
-        envs:
-          - name: MQTT_CLIENT_ID
-            value: exporter
-          - name: BROKER_HOST
-            valueFrom:
-              fieldRef:
-                fieldPath: status.podIP
-        image:
-          repository: nolte/mosquitto-exporter
-          tag: 2020.10.16
-          pullPolicy: IfNotPresent
-        resources:
-          limits:
-            cpu: 300m
-            memory: 128Mi
-          requests:
-            cpu: 100m
-            memory: 64Mi
+    # monitoring:
+    #   podMonitor:
+    #     enabled: false
+    #   sidecar:
+    #     enabled: true
+    #     port: 9234
+    #     args:
+    #       - '--use-splitted-config'
+    #     envs:
+    #       - name: MQTT_CLIENT_ID
+    #         value: exporter
+    #       - name: BROKER_HOST
+    #         valueFrom:
+    #           fieldRef:
+    #             fieldPath: status.podIP
+    #     image:
+    #       repository: nolte/mosquitto-exporter
+    #       tag: 2020.10.16
+    #       pullPolicy: IfNotPresent
+    #     resources:
+    #       limits:
+    #         cpu: 300m
+    #         memory: 128Mi
+    #       requests:
+    #         cpu: 100m
+    #         memory: 64Mi
