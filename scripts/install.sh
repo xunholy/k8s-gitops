@@ -31,6 +31,9 @@ if [[ -f k8s/clusters/production/secrets/sealed-secret-private-key.enc.yaml ]]; 
   sops --decrypt "k8s/clusters/production/secrets/sealed-secret-private-key.enc.yaml" | kubectl apply -f -
 fi
 
+## TODO: Apply cert-manager CRDs due to lack of CRD support in helm chart
+# kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.crds.yaml
+
 # Check the cluster meets the fluxv2 prerequisites
 flux check --pre || \
   ( echo "Prerequisites were not satisfied" && exit 1 )

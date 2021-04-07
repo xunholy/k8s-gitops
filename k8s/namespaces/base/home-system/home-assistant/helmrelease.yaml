@@ -30,6 +30,11 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
+  dependsOn:
+    - name: sealed-secrets
+      namespace: kube-system
+    - name: cstor
+      namespace: cstor
   values:
     controllerType: deployment
     image:
