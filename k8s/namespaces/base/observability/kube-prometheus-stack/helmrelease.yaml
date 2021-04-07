@@ -49,7 +49,7 @@ spec:
         patch:
           image:
             repository: jettech/kube-webhook-certgen
-            tag: v1.5.1
+            tag: v1.5.2
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
