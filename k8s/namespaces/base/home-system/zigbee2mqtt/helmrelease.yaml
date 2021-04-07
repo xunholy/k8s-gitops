@@ -90,10 +90,8 @@ spec:
     persistence:
       data:
         enabled: true
-        mountPath: /data
-        storageClass: 'cstor-replica-pool'
-        accessMode: ReadWriteOnce
-        size: '1Gi'
+        existingClaim: zigbee2mqtt-data
+        mountPath: '/data'
     # podAnnotations:
     #   backup.velero.io/backup-volumes: data
     additionalVolumeMounts:

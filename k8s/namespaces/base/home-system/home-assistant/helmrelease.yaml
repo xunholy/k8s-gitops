@@ -41,8 +41,7 @@ spec:
     persistence:
       config:
         enabled: true
-        size: 2Gi
-        storageClass: cstor-replica-pool
+        existingClaim: home-assistant-config
     service:
       portName: http-api
     addons:
