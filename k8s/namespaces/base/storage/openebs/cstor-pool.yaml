@@ -10,20 +10,20 @@ spec:
         kubernetes.io/hostname: k8s-node-01
       dataRaidGroups:
         - blockDevices:
-            - blockDeviceName: blockdevice-f7e11e3a989e518ab61d301eea0fd8c8
+            - blockDeviceName: blockdevice-fafa98d1ca759f6c03a471cebb58f5b7
       poolConfig:
         dataRaidGroupType: stripe
     - nodeSelector:
         kubernetes.io/hostname: k8s-node-02
       dataRaidGroups:
         - blockDevices:
-            - blockDeviceName: blockdevice-afc8a3ff2e4eeb8717b405e1f545ffc7
+            - blockDeviceName: blockdevice-353dac09d685476cd752e86bebe8bdba
       poolConfig:
         dataRaidGroupType: stripe
     - nodeSelector:
         kubernetes.io/hostname: k8s-node-03
       dataRaidGroups:
         - blockDevices:
-            - blockDeviceName: blockdevice-a1ff471c4aaea324f03283aab86266ce
+            - blockDeviceName: blockdevice-4bef939ccfd6d3e0de0eac87f7f86230
       poolConfig:
         dataRaidGroupType: stripe

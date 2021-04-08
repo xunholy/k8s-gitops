@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: node-feature-discovery-chart
+  name: oauth2-proxy
   namespace: flux-system
 spec:
   interval: 30m
-  url: https://kubernetes-sigs.github.io/node-feature-discovery/charts
+  url: https://oauth2-proxy.github.io/manifests
   timeout: 3m
