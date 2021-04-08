@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:rolling
 
 ARG TARGETARCH
 ARG KUBESEAL_VERSION=0.15.0
