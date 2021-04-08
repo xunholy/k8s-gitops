@@ -34,7 +34,7 @@ spec:
     - name: sealed-secrets
       namespace: kube-system
     - name: cstor
-      namespace: cstor
+      namespace: openebs
   values:
     controllerType: deployment
     image:

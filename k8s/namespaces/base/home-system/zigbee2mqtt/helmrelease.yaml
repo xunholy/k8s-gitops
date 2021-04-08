@@ -11,7 +11,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: zigbee2mqtt
-      version: 7.2.0
+      version: 7.1.1
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -20,6 +20,8 @@ spec:
   dependsOn:
     - name: sealed-secrets
       namespace: kube-system
+    - name: cstor
+      namespace: openebs
   values:
     image:
       repository: koenkk/zigbee2mqtt
