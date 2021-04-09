@@ -35,6 +35,11 @@ spec:
     - name: sealed-secrets
       namespace: kube-system
   values:
+    image:
+      repository: dexidp/dex
+      tag: v2.28.1
+    env:
+      KUBERNETES_POD_NAMESPACE: network
     config:
       issuer: https://dex.raspbernetes.com
       storage:
@@ -63,3 +68,4 @@ spec:
   valuesFrom:
     - kind: Secret
       name: dex-helm-values
+      optional: false
