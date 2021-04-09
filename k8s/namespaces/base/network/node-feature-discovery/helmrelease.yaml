@@ -17,6 +17,8 @@ spec:
         namespace: flux-system
       interval: 10m
   values:
+    master:
+      replicaCount: 2
     image:
       repository: docker.io/raspbernetes/node-feature-discovery
       tag: v0.8.1
