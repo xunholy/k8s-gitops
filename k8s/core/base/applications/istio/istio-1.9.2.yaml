@@ -47,6 +47,21 @@ spec:
       enabled: true
   hub: docker.io/querycapistio
   meshConfig:
+    extensionProviders:
+      - name: oauth2-proxy
+        envoyExtAuthzHttp:
+          service: oauth2-proxy.network.svc.cluster.local
+          port: 80
+          includeHeadersInCheck: ['authorization', 'cookie']
+          headersToUpstreamOnAllow:
+            [
+              'authorization',
+              'path',
+              'x-auth-request-user',
+              'x-auth-request-email',
+              'x-auth-request-access-token',
+            ]
+          headersToDownstreamOnDeny: ['content-type', 'set-cookie']
     accessLogFile: /dev/stdout
     defaultConfig:
       proxyMetadata: {}
