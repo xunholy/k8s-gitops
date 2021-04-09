@@ -68,7 +68,7 @@ With a newly generated private key from sealed-secrets you will need to re-encry
 Create an alias for the CLI tool (*recommended*)
 
 ```bash
-alias kubeseal='kubeseal --cert k8s/clusters/<cluster>/secrets/sealed-secret-public-cert.yaml --controller-name sealed-secrets --format yaml'
+alias kubeseal='kubeseal --cert k8s/clusters/<cluster>/secrets/sealed-secret-public-cert.pem --controller-name sealed-secrets --format yaml'
 ```
 
 Encrypt new Kubernetes secret
@@ -88,13 +88,13 @@ Storing the private key allows an offline decryption, this is not recommended an
 Unencrypt the sealed-secret private key
 
 ```bash
-sops --decrypt k8s/clusters/<cluster>/secrets/sealed-secret-private-key.enc.yaml > k8s/clusters/<cluster>/secrets/sealed-secret-private-key.yaml
+sops --decrypt k8s/clusters/<cluster>/secrets/sealed-secret-private-key.enc.yaml -oyaml > k8s/clusters/<cluster>/secrets/sealed-secret-private-key.yaml
 ```
 
 Unseal the encrypted secret(s)
 
 ```bash
-kubeseal --recovery-unseal --recovery-private-key .secrets/git-crypt/k8s-secret-sealed-secret-private-key.yaml < <path-to-file>/secret.encrypted.yaml
+kubeseal --recovery-unseal --recovery-private-key ./k8s/clusters/<cluster>/secrets/sealed-secret-private-key.yaml < <path-to-file>/secret.encrypted.yaml
 ```
 
 Re-Encrypt the sealed-secret private key
