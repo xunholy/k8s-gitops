@@ -1,0 +1,25 @@
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ext-authz
+  namespace: istio-system
+spec:
+  # The selector applies to the ingress gateway in the istio-system namespace.
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+  # The action "CUSTOM" delegates the access control to an external authorizer, this is different from
+  # the ALLOW/DENY action that enforces the access control right inside the proxy.
+  action: CUSTOM
+  # The provider specifies the name of the external authorizer defined in the meshconfig, which tells where and how to
+  # talk to the external auth service. We will cover this more later.
+  provider:
+    name: 'oauth2-proxy'
+  # The rule specifies that the access control is triggered only if the request path has the prefix "/admin/".
+  # This allows you to easily enable or disable the external authorization based on the requests, avoiding the external
+  # check request if it is not needed.
+  rules:
+    - to:
+        - operation:
+            hosts: ['sealed-secrets.raspbernetes.com']
