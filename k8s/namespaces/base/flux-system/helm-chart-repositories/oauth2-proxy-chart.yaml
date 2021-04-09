@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: oauth2-proxy
+  name: oauth2-proxy-chart
   namespace: flux-system
 spec:
   interval: 30m
