@@ -15,57 +15,6 @@ metadata:
   namespace: istio-operator
   name: istio-operator
 ---
-# Source: istio-operator/templates/crd-operator.yaml
-# SYNC WITH manifests/charts/base/files
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  name: istiooperators.install.istio.io
-spec:
-  group: install.istio.io
-  names:
-    kind: IstioOperator
-    plural: istiooperators
-    singular: istiooperator
-    shortNames:
-      - iop
-  scope: Namespaced
-  subresources:
-    status: {}
-  validation:
-    openAPIV3Schema:
-      properties:
-        apiVersion:
-          description:
-            'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values.
-            More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#resources'
-          type: string
-        kind:
-          description:
-            'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase.
-            More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-          type: string
-        spec:
-          description:
-            'Specification of the desired state of the istio control plane resource.
-            More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#spec-and-status'
-          type: object
-        status:
-          description:
-            'Status describes each of istio control plane component status at the current time.
-            0 means NONE, 1 means UPDATING, 2 means HEALTHY, 3 means ERROR, 4 means RECONCILING.
-            More info: https://github.com/istio/api/blob/master/operator/v1alpha1/istio.operator.v1alpha1.pb.html &
-            https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#spec-and-status'
-          type: object
-  versions:
-    - name: v1alpha1
-      served: true
-      storage: true
----
 # Source: istio-operator/templates/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -99,12 +48,6 @@ rules:
     verbs:
       - '*'
   - apiGroups:
-      - rbac.istio.io
-    resources:
-      - '*'
-    verbs:
-      - '*'
-  - apiGroups:
       - security.istio.io
     resources:
       - '*'
@@ -132,9 +75,7 @@ rules:
       - daemonsets
       - deployments
       - deployments/finalizers
-      - ingresses
       - replicasets
-      - statefulsets
     verbs:
       - '*'
   - apiGroups:
@@ -150,6 +91,7 @@ rules:
     verbs:
       - get
       - create
+      - update
   - apiGroups:
       - policy
     resources:
@@ -166,6 +108,14 @@ rules:
     verbs:
       - '*'
   - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - create
+      - update
+  - apiGroups:
       - ''
     resources:
       - configmaps
@@ -173,6 +123,7 @@ rules:
       - events
       - namespaces
       - pods
+      - pods/proxy
       - persistentvolumeclaims
       - secrets
       - services
@@ -207,6 +158,7 @@ spec:
     - name: http-metrics
       port: 8383
       targetPort: 8383
+      protocol: TCP
   selector:
     name: istio-operator
 ---
@@ -229,11 +181,21 @@ spec:
       serviceAccountName: istio-operator
       containers:
         - name: istio-operator
-          image: docker.io/raspbernetes/istio-operator:1.7.2
+          image: docker.io/querycapistio/operator:1.9.2-distroless
           command:
             - operator
             - server
-          imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 1337
+            runAsUser: 1337
+            runAsNonRoot: true
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               cpu: 200m
@@ -243,12 +205,16 @@ spec:
               memory: 128Mi
           env:
             - name: WATCH_NAMESPACE
-              value: istio-system
+              value: 'istio-system'
             - name: LEADER_ELECTION_NAMESPACE
-              value: istio-operator
+              value: 'istio-operator'
             - name: POD_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
             - name: OPERATOR_NAME
-              value: istio-operator
+              value: 'istio-operator'
+            - name: WAIT_FOR_RESOURCES_TIMEOUT
+              value: '300s'
+            - name: REVISION
+              value: ''
