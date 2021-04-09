@@ -53,7 +53,7 @@ spec:
       web:
         http: 0.0.0.0:5556
       frontend:
-        theme: 'coreos'
+        theme: 'tectonic'
         issuer: 'Raspbernetes'
         issuerUrl: 'https://raspbernetes.com'
         logoUrl: https://raw.githubusercontent.com/raspbernetes/docs/master/website/static/img/logo.png
