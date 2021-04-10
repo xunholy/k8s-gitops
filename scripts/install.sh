@@ -45,4 +45,6 @@ flux bootstrap github \
   --path=k8s/clusters/"${CLUSTER}" \
   --branch=main \
   --network-policy=false \
-  --personal
+  --personal=true \
+  --private=false
+

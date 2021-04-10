@@ -13,7 +13,7 @@ spec:
   # the ALLOW/DENY action that enforces the access control right inside the proxy.
   action: CUSTOM
   # The provider specifies the name of the external authorizer defined in the meshconfig, which tells where and how to
-  # talk to the external auth service. We will cover this more later.
+  # talk to the external auth service.
   provider:
     name: 'oauth2-proxy'
   # The rule specifies that the access control is triggered only if the request path has the prefix "/admin/".
