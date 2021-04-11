@@ -1,6 +1,7 @@
 name: flux-update-schedule
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
 
@@ -17,12 +18,18 @@ jobs:
       - name: Run Flux Auto-Update
         run: ./scripts/update.sh
 
+      - name: Get Version
+        id: version
+        run: |
+          VERSION=$(flux --version)
+          echo "::set-output name=version::${VERSION}"
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: update/flux
-          title: Auto-update flux version
+          title: 'Auto-update ${{ steps.version.output.version }}'
           signoff: true
           committer: 'Michael Fornaro <20387402+xUnholy@users.noreply.github.com>'
           author: 'Michael Fornaro <20387402+xUnholy@users.noreply.github.com>'
