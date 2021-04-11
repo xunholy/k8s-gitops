@@ -29,7 +29,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: update/flux
-          title: 'Auto-update ${{ steps.version.output.version }}'
+          title: 'Auto-update ${{ steps.version.outputs.version }}'
           signoff: true
           committer: 'Michael Fornaro <20387402+xUnholy@users.noreply.github.com>'
           author: 'Michael Fornaro <20387402+xUnholy@users.noreply.github.com>'

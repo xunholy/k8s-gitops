@@ -23,18 +23,6 @@ jobs:
           exclude: './.git/*'
       - name: Lint Yaml
         uses: ibiqlik/action-yamllint@v3
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: true
-      # TODO: enable with new dir stucture
-      # - name: Kubeval
-      #   uses: instrumenta/kubeval-action@master
-      #   with:
-      #     files: 'cluster/'
   compliance:
     runs-on: ubuntu-latest
     steps:
