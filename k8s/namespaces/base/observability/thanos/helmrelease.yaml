@@ -30,16 +30,12 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  # Depends on having sealed-secret to un-encrypted required secrets: thanos-objstore-config.
-  dependsOn:
-    - name: sealed-secrets
-      namespace: kube-system
   values:
     image:
       repository: raspbernetes/thanos
       tag: v0.17.2
     query:
-      replicaCount: 2
+      replicaCount: 1
       replicaLabels:
         - replica
       # resources:
@@ -49,24 +45,9 @@ spec:
       #   requests:
       #     cpu: 1000m
       #     memory: 4Gi
-      http:
-        ingress:
-          enabled: false
-          annotations:
-            kubernetes.io/ingress.class: nginx
-            cert-manager.io/cluster-issuer: 'letsencrypt-prod'
-            nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
-            nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
-          hosts:
-            - thanos.raspbernetes.com
-          tls:
-            - secretName: thanos.raspbernetes.com-tls
-              hosts:
-                - thanos.raspbernetes.com
     objstore:
       type: GCS
       config:
         bucket: 'thanos-raspbernetes-storage'
-  valuesFrom:
-    - kind: Secret
-      name: thanos-objstore-config
+        service_account: |-
+          "${THANOS_SERVICE_ACCOUNT}"
