@@ -9,13 +9,16 @@ spec:
   dependsOn:
     - name: core
     - name: kube-prometheus-stack-crd
-    - name: istio
   path: ./k8s/namespaces/overlays/production
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
   validation: none
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization

@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  password: Y2hhbmdlLW1l
+  user: YWRtaW4=
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: basic-auth
