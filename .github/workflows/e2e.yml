@@ -1,9 +1,14 @@
 name: e2e
 
 on:
-  pull_request:
-    branches:
-      - main
+  push:
+    branches-ignore:
+      - 'main'
+    tags-ignore:
+      - '*'
+  # pull_request:
+  #   branches:
+  #     - main
 
 jobs:
   kubernetes:
