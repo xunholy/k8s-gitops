@@ -2,8 +2,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../base/applications/istio/flux-kustomize.yaml
-  - ../../base/applications/istio-operator/flux-kustomize.yaml
+  - ../../base/applications/istio.yaml
+  - ../../base/applications/istio-operator.yaml
   - ../../base/crds/cert-manager
   - ../../base/crds/kube-prometheus-stack.yaml
   - ../../base/crds/openebs-cstor.yaml
@@ -11,4 +11,3 @@ resources:
   - ../../base/crds/sealed-secrets.yaml
 # patchesStrategicMerge:
 #   - patch.istio.yaml
-
