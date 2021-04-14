@@ -5,10 +5,12 @@ set -eou pipefail
 DEFAULT_CLUSTER="production"
 DEFUALT_GITHUB_REPO="k8s-gitops"
 DEFAULT_GITHUB_USER="xunholy"
+DEFAULT_GITHUB_BRANCH="main"
 
 export CLUSTER="${CLUSTER:-$DEFAULT_CLUSTER}"
 export GITHUB_REPO="${GITHUB_REPO:-$DEFUALT_GITHUB_REPO}"
 export GITHUB_USER="${GITHUB_USER:-$DEFAULT_GITHUB_USER}"
+export GITHUB_BRANCH="${GITHUB_BRANCH:-$DEFAULT_GITHUB_BRANCH}"
 
 export GITHUB_TOKEN="${GITHUB_TOKEN}"
 
@@ -43,7 +45,7 @@ flux bootstrap github \
   --owner="${GITHUB_USER}" \
   --repository="${GITHUB_REPO}" \
   --path=k8s/clusters/"${CLUSTER}" \
-  --branch=main \
+  --branch="${GITHUB_BRANCH}" \
   --network-policy=false \
   --personal=true \
   --private=false
