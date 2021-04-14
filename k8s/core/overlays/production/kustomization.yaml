@@ -2,8 +2,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # - ../../base/applications/istio
-  # - ../../base/applications/istio-operator
+  - ../../base/applications/istio/flux-kustomize.yaml
+  - ../../base/applications/istio-operator/flux-kustomize.yaml
   - ../../base/crds/cert-manager
   - ../../base/crds/kube-prometheus-stack.yaml
   - ../../base/crds/openebs-cstor.yaml
@@ -11,43 +11,4 @@ resources:
   - ../../base/crds/sealed-secrets.yaml
 # patchesStrategicMerge:
 #   - patch.istio.yaml
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: istio-operator
-  namespace: flux-system
-spec:
-  interval: 5m
-  path: './k8s/core/base/applications/istio-operator'
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  # TODO: Replace with operator deployment
-  # healthChecks:
-  #   - apiVersion: apps/v1
-  #     kind: Deployment
-  #     name: istio-operatpr
-  #     namespace: istio-operator
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: istio
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: istio-operator
-      namespace: flux-system
-  interval: 5m
-  path: './k8s/core/base/applications/istio'
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: istiod
-      namespace: istio-system
+
