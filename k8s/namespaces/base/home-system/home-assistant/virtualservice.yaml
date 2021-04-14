@@ -9,7 +9,7 @@ metadata:
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
-    - 'home-assistant.${CLUSTER_TLD}'
+    - 'hass.${CLUSTER_TLD}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
@@ -27,7 +27,7 @@ metadata:
   namespace: home-system
 spec:
   hosts:
-    - 'home-assistant-code.${CLUSTER_TLD}'
+    - 'hass-code.${CLUSTER_TLD}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
