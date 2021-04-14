@@ -34,8 +34,8 @@ jobs:
           --path=./k8s/clusters/production
       - name: Verify cluster reconciliation
         run: |
-          kubectl -n flux-system wait kustomization/core --for=condition=ready --timeout=1m
-          kubectl -n flux-system wait kustomization/namespaces --for=condition=ready --timeout=1m
+          kubectl -n flux-system wait kustomization/core --for=condition=ready --timeout=3m
+          kubectl -n flux-system wait kustomization/namespaces --for=condition=ready --timeout=3m
       # - name: Verify helm reconciliation
       #   run: |
       #     kubectl -n nginx wait helmrelease/nginx --for=condition=ready --timeout=1m
