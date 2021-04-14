@@ -31,18 +31,3 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  values:
-    ingress:
-      enabled: false
-      annotations:
-        kubernetes.io/ingress.class: nginx
-        cert-manager.io/cluster-issuer: 'letsencrypt-prod'
-        nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
-        nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
-      hosts:
-        - sealed-secrets.raspbernetes.com
-      path: /v1/cert.pem
-      tls:
-        - secretName: sealed-secrets.raspbernetes.com-tls
-          hosts:
-            - sealed-secrets.raspbernetes.com
