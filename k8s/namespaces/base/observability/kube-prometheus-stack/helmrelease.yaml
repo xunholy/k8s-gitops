@@ -197,30 +197,13 @@ spec:
           type: loki
           access: proxy
           url: http://loki.observability.svc.cluster.local:3100
-      # Unused because disable_login_form=true however, can used for backup authentication
-      # admin:
-      #   existingSecret: 'grafana-admin-creds'
-      #   userKey: admin-user
-      #   passwordKey: admin-password
-      extraSecretMounts:
-        - name: auth-github-oauth-secret-mount
-          secretName: auth-github-oauth-secret
-          defaultMode: 0440
-          mountPath: /etc/secrets/auth_github_oauth
-          readOnly: true
-        - name: auth-generic-oauth-secret-mount
-          secretName: auth-generic-oauth-secret
-          defaultMode: 0440
-          mountPath: /etc/secrets/auth_generic_oauth
-          readOnly: true
-      ## grafana Authentication can be enabled with the following values on grafana.ini
-      # The full public facing url you use in browser, used for redirects and emails
-      # https://grafana.com/docs/grafana/latest/auth/github/#enable-github-in-grafana
-      # Note: auth.github.enabled=false until chart supports existingSecret functionality.
-      # https://github.com/helm/charts/issues/22473
+      admin:
+        existingSecret: 'grafana-admin-creds'
+        userKey: '${GRAFANA_ADMIN_USER}'
+        passwordKey: '${GRAFANA_ADMIN_PASSWORD}'
       grafana.ini:
         server:
-          root_url: https://grafana.raspbernetes.com
+          root_url: 'https://grafana.${CLUSTER_TLD}'
         auth.basic:
           disable_login_form: true
         auth.github:
@@ -231,18 +214,18 @@ spec:
           token_url: https://github.com/login/oauth/access_token
           api_url: https://api.github.com/user
           allowed_organizations: raspbernetes
-          client_id: $__file{/etc/secrets/auth_github_oauth/client_id}
-          client_secret: $__file{/etc/secrets/auth_github_oauth/client_secret}
+          client_id: '${GRAFANA_AUTH_GITHUB_CLIENT_ID}'
+          client_secret: '${GRAFANA_AUTH_GITHUB_CLIENT_SECRET}'
         auth.generic_oauth:
           enabled: true
           allow_sign_up: true
           name: Dex
-          client_id: $__file{/etc/secrets/auth_generic_oauth/client_id}
-          client_secret: $__file{/etc/secrets/auth_generic_oauth/client_secret}
+          client_id: '${GRAFANA_AUTH_GENERIC_CLIENT_ID}'
+          client_secret: '${GRAFANA_AUTH_GENERIC_CLIENT_PASSWORD}'
           scopes: openid profile email groups
-          auth_url: https://dex.raspbernetes.com/auth
-          token_url: https://dex.raspbernetes.com/token
-          api_url: https://dex.raspbernetes.com/userinfo
+          auth_url: 'https://dex.${CLUSTER_TLD}/auth'
+          token_url: 'https://dex.${CLUSTER_TLD}/token'
+          api_url: 'https://dex.${CLUSTER_TLD}/userinfo'
         auth.generic_oauth.group_mapping:
           role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || 'Viewer'"
           org_id: 1

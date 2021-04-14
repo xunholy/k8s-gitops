@@ -70,8 +70,8 @@ spec:
           id: github
           name: GitHub
           config:
-            clientID: '${GITHUB_CLIENT_ID}'
-            clientSecret: '${GITHUB_CLIENT_SECRET}'
+            clientID: '${DEX_GITHUB_CLIENT_ID}'
+            clientSecret: '${DEX_GITHUB_CLIENT_SECRET}'
             redirectURI: https://dex.raspbernetes.com/callback
             # 'orgs' can be used to map groups from Github
             # https://github.com/coreos/dex/blob/master/Documentation/connectors/github.md
@@ -81,11 +81,11 @@ spec:
       staticClients:
         - id: oauth2-proxy
           name: 'oauth2-proxy'
-          secret: '${OAUTH2_PROXY_SECRET}'
+          secret: '${DEX_OAUTH2_PROXY_SECRET}'
           redirectURIs:
             - 'https://kiali.raspbernetes.com/oauth2/callback'
         - id: grafana
           name: 'grafana'
-          secret: '${GRAFANA_SECRET}'
+          secret: '${DEX_GRAFANA_SECRET}'
           redirectURIs:
             - https://grafana.raspbernetes.com/login/generic_oauth
