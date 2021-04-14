@@ -4,9 +4,12 @@ kind: VirtualService
 metadata:
   name: zigbee2mqtt-code
   namespace: home-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLUSTER_TLD}'
+    external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
-    - 'zigbee2mqtt-code.raspbernetes.com'
+    - 'z2m-code.${CLUSTER_TLD}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
@@ -15,4 +18,22 @@ spec:
             port:
               number: 12321
             host: zigbee2mqtt-codeserver.home-system.svc.cluster.local
+          weight: 100
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: zigbee2mqtt-code
+  namespace: home-system
+spec:
+  hosts:
+    - 'z2m.${CLUSTER_TLD}'
+  gateways:
+    - istio-system/istio-system-ingress-gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 8080
+            host: zigbee2mqtt.home-system.svc.cluster.local
           weight: 100
