@@ -45,6 +45,8 @@ jobs:
         if: failure()
         run: |
           kubectl get kustomization -A
+          kubectl get pods -A
+          kubectl get deployments -A
           kubectl -n flux-system get all
           kubectl -n flux-system logs deploy/source-controller
           kubectl -n flux-system logs deploy/kustomize-controller

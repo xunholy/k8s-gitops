@@ -11,6 +11,7 @@ spec:
     - name: kube-prometheus-stack-crd
     - name: openebs-crd
     - name: openebs-ndm-crd
+    - name: istio
   path: ./k8s/namespaces/overlays/production
   prune: true
   sourceRef:
