@@ -49,4 +49,3 @@ flux bootstrap github \
   --network-policy=false \
   --personal=true \
   --private=false
-

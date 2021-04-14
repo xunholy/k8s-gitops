@@ -2,15 +2,14 @@ ignore: |
   .yamllint.yml
   .github/
   .pre-commit-config.yaml
-  .secrets/
   *.encrypted.yaml
-  docker-compose.yml
-  namespaces/base/home-system/zigbee2mqtt/helmrelease.yaml
+  *.enc.yaml
+  *.enc.yml
 
 extends: default
 rules:
   truthy:
-    allowed-values: ["true", "false", "on"]
+    allowed-values: ['true', 'false', 'on']
   comments:
     min-spaces-from-content: 1
   line-length:
