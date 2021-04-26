@@ -97,7 +97,6 @@ markdown_extensions:
 
 nav:
   - Introduction: index.md
-  - Core Concepts: core-concepts/index.md
   - Get Started: get-started/index.md
   - Guides:
       - Installation: guides/installation.md
