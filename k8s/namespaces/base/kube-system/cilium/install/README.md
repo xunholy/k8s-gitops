@@ -12,7 +12,7 @@ helm repo add cilium https://helm.cilium.io/
 
 ```bash
 helm install cilium cilium/cilium \
-  --version=1.9.5 \
+  --version=1.10.0-rc0 \
   --namespace=kube-system \
   --values=k8s/namespaces/base/kube-system/cilium/install/values.yaml
 ```

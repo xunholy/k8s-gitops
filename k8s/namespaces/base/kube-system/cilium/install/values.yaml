@@ -52,7 +52,7 @@ hubble:
     enabled: true
     frontend:
       image:
-        repository: docker.io/raspbernetes/hubble-ui-dev
+        repository: docker.io/raspbernetes/hubble-ui
         tag: v0.7.5
     backend:
       image:
@@ -61,7 +61,7 @@ hubble:
     proxy:
       image:
         repository: docker.io/envoyproxy/envoy
-        tag: v1.17.1
+        tag: v1.16.1
 
 ipam:
   operator:
@@ -71,14 +71,14 @@ ipam:
 
 # kubeProxyReplacement enables kube-proxy replacement in Cilium BPF datapath
 # TODO: Disabled due to RockPi kernel <= 4.4
-kubeProxyReplacement: disabled
+kubeProxyReplacement: strict
 
 # kubeProxyReplacement healthz server bind address
 # To enable set the value to '0.0.0.0:10256' for all ipv4
 # addresses and this '[::]:10256' for all ipv6 addresses.
 # By default it is disabled.
 # TODO: Can't be used as RockPi Kernel is <=4.4
-# kubeProxyReplacementHealthzBindAddr: '0.0.0.0:10256'
+kubeProxyReplacementHealthzBindAddr: '0.0.0.0:10256'
 
 # prometheus enables serving metrics on the configured port at /metrics
 # Enables metrics for cilium-agent.
@@ -101,7 +101,7 @@ operator:
       enabled: false
 
 # kubeConfigPath: ~/.kube/config
-k8sServiceHost: 192.168.1.200
+k8sServiceHost: 192.168.1.205
 k8sServicePort: 8443
 
 # nativeRoutingCIDR allows to explicitly specify the CIDR for native routing. This
