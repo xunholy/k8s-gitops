@@ -45,5 +45,5 @@ spec:
       enabled: false
       image:
         repository: litmuschaos/chaos-exporter
-        tag: 1.13.2
+        tag: 1.13.3
         pullPolicy: IfNotPresent
