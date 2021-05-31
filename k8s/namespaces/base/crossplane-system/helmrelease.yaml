@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.crossplane.io/stable
       chart: crossplane
-      version: 1.1.0
+      version: 1.2.1
       sourceRef:
         kind: HelmRepository
         name: crossplane-charts
