@@ -68,7 +68,7 @@ With a newly generated private key from sealed-secrets you will need to re-encry
 Create an alias for the CLI tool (*recommended*)
 
 ```bash
-alias kubeseal='kubeseal --cert k8s/clusters/<cluster>/secrets/sealed-secret-public-cert.pem --controller-name sealed-secrets --format yaml'
+alias kubeseal='kubeseal --cert k8s/clusters/<cluster>/secrets/sealed-secret-public-cert.yaml --controller-name sealed-secrets --format yaml'
 ```
 
 Encrypt new Kubernetes secret
