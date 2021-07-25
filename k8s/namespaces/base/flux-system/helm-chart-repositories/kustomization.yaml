@@ -21,6 +21,7 @@ resources:
   - openfaas-charts.yaml
   - prometheus-community-charts.yaml
   - sealed-secrets-charts.yaml
+  - stakater-charts.yaml
   - vernemq-charts.yaml
   - vmware-charts.yaml
   - weaveworks-kured-charts.yaml
