@@ -104,8 +104,9 @@ spec:
         hostPath:
           path: /dev/ttyUSB0
     service:
-      type: LoadBalancer
-      loadBalancerIP: 192.168.1.153
+      main:
+        type: LoadBalancer
+        loadBalancerIP: 192.168.1.153
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
