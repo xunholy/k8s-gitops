@@ -39,7 +39,7 @@ spec:
     controllerType: deployment
     image:
       repository: homeassistant/home-assistant
-      tag: 2021.5.0
+      tag: 2021.7.4
     hostNetwork: true
     env:
       TZ: 'Australia/Melbourne'
@@ -57,7 +57,7 @@ spec:
           loadBalancerIP: 192.168.1.155
         image:
           repository: codercom/code-server
-          tag: 3.9.3
+          tag: 3.10.2
         workingDir: '/config'
         args:
           - --user-data-dir

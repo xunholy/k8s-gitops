@@ -11,7 +11,7 @@ spec:
       # CRDs are applied in core/crd/kube-prometheus-stack.yaml
       # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
-      version: 15.4.4
+      version: 15.4.6
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
@@ -82,7 +82,7 @@ spec:
         portName: http-service
       image:
         repository: grafana/grafana
-        tag: 7.5.10
+        tag: 8.0.6
       sidecar:
         dashboards:
           enabled: true
@@ -266,7 +266,7 @@ spec:
             memory: 2560Mi
             cpu: '2000m'
         thanos:
-          image: raspbernetes/thanos:v0.17.2
+          image: raspbernetes/thanos:v0.22.0
           version: v0.17.1
           # Thanos chart will generate the secret: thanos
           objectStorageConfig:
