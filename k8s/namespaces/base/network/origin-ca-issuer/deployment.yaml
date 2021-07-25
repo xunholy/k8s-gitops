@@ -33,7 +33,7 @@ spec:
       serviceAccountName: default-origin-ca-issuer
       containers:
         - name: origin-ca-issuer
-          image: 'cloudflare/origin-ca-issuer:v0.5.1'
+          image: 'cloudflare/origin-ca-issuer:v0.6.0'
           imagePullPolicy: Always
           env:
             - name: POD_NAMESPACE
