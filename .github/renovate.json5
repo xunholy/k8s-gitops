@@ -1,0 +1,55 @@
+{
+  // General RenovateBot configuration
+  "extends": [
+    ":enableRenovate",
+    "config:base",
+    ":dependencyDashboard",
+    ":gitSignOff",
+    ":semanticCommits",
+    ":separatePatchReleases",
+    "docker:enableMajor",
+  ],
+  "timezone": "Australia/Melbourne",
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "suppressNotifications": ["prIgnoreNotification"],
+  "rebaseWhen": "conflicted",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "commitMessageSuffix": "",
+  // Set up Renovate Managers
+  "helm-values": {
+    "fileMatch": [
+      "k8s/.+/helmrelease\\.yaml$"
+    ]
+  },
+  "kubernetes": {
+    "fileMatch": [
+      "k8s/.+\\.yaml$"
+    ],
+    "ignorePaths": [
+      "k8s/clusters/",
+      "k8s/namespaces/base/flux-system/",
+      "k8s/namespaces/base/actions-runner-system/"
+    ],
+  },
+  "regexManagers": [
+    // regexManager to read and process HelmRelease files
+    {
+      "fileMatch": [
+        "k8s/.+\\.yaml$"
+      ],
+      "matchStrings": [
+        // helm releases
+        "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n",
+      ],
+      "datasourceTemplate": "helm"
+    },
+  ],
+  "packageRules": [
+    // Setup datasources
+    {
+      "matchDatasources": ["helm"],
+      "ignoreDeprecated": true
+    },
+  ]
+}
