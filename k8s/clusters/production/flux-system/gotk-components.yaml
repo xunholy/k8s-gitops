@@ -1,6 +1,3 @@
----
-# Flux version: v0.16.1
-# Components: source-controller,kustomize-controller,helm-controller,notification-controller
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -3487,4 +3484,3 @@ spec:
         name: data
       - emptyDir: {}
         name: tmp
----
