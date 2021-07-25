@@ -37,7 +37,7 @@ spec:
   values:
     image:
       repository: dexidp/dex
-      tag: v2.28.1
+      tag: v2.29.0
     env:
       KUBERNETES_POD_NAMESPACE: network
     config:
