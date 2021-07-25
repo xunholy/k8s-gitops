@@ -1,5 +1,6 @@
 {
   "assignees": ["@xUnholy"],
+  "username": "xUnholy",
   "branchPrefix": "self-hosted/",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
