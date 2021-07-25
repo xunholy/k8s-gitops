@@ -28,9 +28,9 @@ flux >/dev/null || \
 ## Use the existing sealed-secret private key if it exists.
 ## Currently uses only prod key as this is shared between all clusters currently.
 ## To decrypt this secret requires you to have IAM permissions to GCP KMS.
-if [[ -f k8s/clusters/production/secrets/sealed-secret-private-key.enc.yaml ]]; then
+if [[ -f "k8s/clusters/${CLUSTER}/secrets/sealed-secret-private-key.enc.yaml" ]]; then
   echo "Applying existing sealed-secret key"
-  sops --decrypt "k8s/clusters/production/secrets/sealed-secret-private-key.enc.yaml" | kubectl apply -f -
+  sops --decrypt "k8s/clusters/${CLUSTER}/secrets/sealed-secret-private-key.enc.yaml" | kubectl apply -f -
 fi
 
 ## TODO: Apply cert-manager CRDs due to lack of CRD support in helm chart

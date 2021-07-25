@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://kubernetes-sigs.github.io/descheduler
       chart: descheduler-helm-chart
-      version: 0.19.1
+      version: 0.21.0
       sourceRef:
         kind: HelmRepository
         name: kubernetes-sigs-charts
@@ -19,7 +19,6 @@ spec:
   values:
     image:
       repository: raspbernetes/descheduler
-      tag: 'v0.20.0'
     deschedulerPolicy:
       strategies:
         RemoveDuplicates:

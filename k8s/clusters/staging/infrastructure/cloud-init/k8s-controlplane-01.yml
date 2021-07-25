@@ -30,8 +30,8 @@ users:
     # ssh_pwauth: true
     lock_passwd: true
     ssh_pwauth: false
-    # ssh_authorized_keys:
-    #   - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIColLgCbJjKalCtO0kD4qqxr986IHmhR6g8MIPNkXlbj 20387402+xUnholy@users.noreply.github.com'
+    ssh_authorized_keys:
+      - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIColLgCbJjKalCtO0kD4qqxr986IHmhR6g8MIPNkXlbj 20387402+xUnholy@users.noreply.github.com'
 
 write_files:
   - path: /etc/netplan/50-cloud-init.yaml
