@@ -5,7 +5,8 @@ ignore: |
   .secrets/
   *.encrypted.yaml
   docker-compose.yml
-  namespaces/base/home-system/zigbee2mqtt/helmrelease.yaml
+  k8s/namespaces/base/home-system/zigbee2mqtt/helmrelease.yaml
+  **/cloud-init/**/*
 
 extends: default
 rules:
