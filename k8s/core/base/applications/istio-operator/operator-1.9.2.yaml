@@ -181,7 +181,7 @@ spec:
       serviceAccountName: istio-operator
       containers:
         - name: istio-operator
-          image: docker.io/querycapistio/operator:1.9.2-distroless
+          image: docker.io/querycapistio/operator:1.9.4-distroless
           command:
             - operator
             - server

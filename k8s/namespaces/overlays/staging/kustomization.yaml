@@ -14,6 +14,7 @@ resources:
   - ../../base/kube-system/cilium
   - ../../base/kube-system/descheduler
   - ../../base/kube-system/metrics-server
+  - ../../base/kube-system/reloader
   - ../../base/kube-system/sealed-secrets
   - ../../base/litmus
   - ../../base/network
