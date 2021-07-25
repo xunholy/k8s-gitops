@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.dexidp.io
       chart: dex
-      version: 0.3.0
+      version: 0.3.3
       sourceRef:
         kind: HelmRepository
         name: dex-chart
@@ -37,7 +37,7 @@ spec:
   values:
     image:
       repository: dexidp/dex
-      tag: v2.28.1
+      tag: v2.29.0
     env:
       KUBERNETES_POD_NAMESPACE: network
     config:
