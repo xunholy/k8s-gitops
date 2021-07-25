@@ -37,7 +37,7 @@ spec:
   values:
     image:
       repository: raspbernetes/thanos
-      tag: v0.17.2
+      tag: v0.22.0
     query:
       replicaCount: 2
       replicaLabels:
