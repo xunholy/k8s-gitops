@@ -8,6 +8,12 @@ on:
 jobs:
   auto-update:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - cluster-id: production
+          - cluster-id: staging
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -17,6 +23,8 @@ jobs:
 
       - name: Run Flux Auto-Update
         run: ./scripts/update.sh
+        env:
+          CLUSTER: ${{ matrix.cluster-id }}
 
       - name: Get Version
         id: version
@@ -28,7 +36,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: update/flux
+          branch: update/${{ matrix.cluster-id }}-flux
           title: 'Auto-update ${{ steps.version.outputs.version }}'
           signoff: true
           committer: 'Michael Fornaro <20387402+xUnholy@users.noreply.github.com>'
