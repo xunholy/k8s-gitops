@@ -13,6 +13,7 @@ jobs:
       matrix:
         include:
           - cluster-id: production
+          - cluster-id: production-gke
           - cluster-id: staging
     steps:
       - name: Checkout
