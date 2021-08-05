@@ -36,6 +36,12 @@ jobs:
         with:
           submodules: true
 
+      - uses: izhangzhihao/delete-comment@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          delete_user_name:  github-actions[bot]
+          issue_number: ${{ github.event.number }}
+
       - name: Execute Conftest Tests - Table Output
         id: conftest-table
         continue-on-error: true
