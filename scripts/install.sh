@@ -16,7 +16,7 @@ export GITHUB_TOKEN="${GITHUB_TOKEN}"
 
 ## This will deep merge your kube config assuming you used the k8s-cluster-installation to bootstrap your cluster.
 ## You will need to modify the PATH to the location of the playbooks on your local machine.
-# KUBECONFIG=~/projects/install/ansible/playbooks/output/k8s-config.yaml:~/.kube/config kubectl config view --flatten > ~/.kube/config.tmp && \
+# KUBECONFIG=~/projects/k8s-cluster-installation/ansible/playbooks/output/k8s-config.yaml:~/.kube/config kubectl config view --flatten > ~/.kube/config.tmp && \
 #   mv ~/.kube/config.tmp ~/.kube/config
 
 flux >/dev/null || \

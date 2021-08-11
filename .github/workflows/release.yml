@@ -1,0 +1,27 @@
+name: release
+
+on:
+  workflow_dispatch: {}
+  # Execute every Sunday at 00:00.
+  schedule:
+    - cron: '0 0 * * 0'
+
+
+jobs:
+  update_draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Latest Release
+        uses: InsonusK/get-latest-release@v1.0.1
+        id: release_id
+        with:
+          myToken: ${{ github.token }}
+          exclude_types: "prerelease|release"
+          view_top: 1
+
+      - name: Publish Release
+        uses: eregon/publish-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_id: ${{ steps.release_id.outputs.id }}

@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          submodules: true
 
       - name: Shellcheck
         uses: reviewdog/action-shellcheck@v1
