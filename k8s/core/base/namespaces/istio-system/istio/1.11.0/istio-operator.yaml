@@ -2,7 +2,7 @@
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
-  name: istio-1.9.2
+  name: istio-1.11.0
   namespace: istio-system
 spec:
   components:
@@ -68,7 +68,7 @@ spec:
       proxyMetadata: {}
     enablePrometheusMerge: true
   profile: default
-  tag: 1.9.2-distroless
+  tag: 1.11.0-distroless
   values:
     base:
       enableCRDTemplates: false
