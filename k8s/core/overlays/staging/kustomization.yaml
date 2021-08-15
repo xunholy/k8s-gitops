@@ -5,6 +5,4 @@ resources:
   - ../../base/applications/istio-operator.yaml
   - ../../base/crds/cert-manager
   - ../../base/crds/kube-prometheus-stack.yaml
-  - ../../base/crds/openebs-cstor.yaml
-  - ../../base/crds/openebs-ndm.yaml
   - ../../base/crds/sealed-secrets.yaml
