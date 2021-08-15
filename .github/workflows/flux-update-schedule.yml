@@ -42,7 +42,7 @@ jobs:
           signoff: true
           committer: 'Michael Fornaro <20387402+xUnholy@users.noreply.github.com>'
           author: 'Michael Fornaro <20387402+xUnholy@users.noreply.github.com>'
-          commit-message: Auto-update flux version
+          commit-message: Auto-update ${{ matrix.cluster-id }} flux version
           body: |
             Signed-off-by: Michael Fornaro <20387402+xUnholy@users.noreply.github.com>
-          labels: flux, merge
+          labels: flux, merge, ${{ matrix.cluster-id }}
