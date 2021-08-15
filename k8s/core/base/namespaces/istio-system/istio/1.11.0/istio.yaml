@@ -9,7 +9,7 @@ spec:
     - name: istio-operator
       namespace: flux-system
   interval: 10m0s
-  path: ./k8s/core/base/applications/istio/1.11.0
+  path: ./k8s/core/base/namespaces/istio-system/istio/1.11.0
   prune: true
   sourceRef:
     kind: GitRepository
@@ -19,3 +19,5 @@ spec:
       kind: Deployment
       name: istiod
       namespace: istio-system
+  ignore: |
+    ./k8s/core/base/namespaces/istio-system/istio/1.11.0/istio.yaml

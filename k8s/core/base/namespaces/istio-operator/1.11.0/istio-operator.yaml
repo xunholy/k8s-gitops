@@ -16,3 +16,5 @@ spec:
       kind: Deployment
       name: istio-operator
       namespace: istio-operator
+  ignore: |
+    ./k8s/core/base/namespaces/istio-operator/1.11.0/istio-operator.yaml
