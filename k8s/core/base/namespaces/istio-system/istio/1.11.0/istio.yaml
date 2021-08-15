@@ -19,5 +19,3 @@ spec:
       kind: Deployment
       name: istiod
       namespace: istio-system
-  ignore: |
-    ./k8s/core/base/namespaces/istio-system/istio/1.11.0/istio.yaml
