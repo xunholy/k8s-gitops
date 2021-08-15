@@ -11,80 +11,82 @@ spec:
     cni:
       enabled: false
     egressGateways:
-      - enabled: false
-        name: istio-egressgateway
-        k8s:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: beta.kubernetes.io/arch
-                        operator: In
-                        values:
-                          - arm64
+    - enabled: false
+      k8s:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: beta.kubernetes.io/arch
+                  operator: In
+                  values:
+                  - arm64
+      name: istio-egressgateway
     ingressGateways:
-      - enabled: true
-        name: istio-ingressgateway
-        k8s:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: beta.kubernetes.io/arch
-                        operator: In
-                        values:
-                          - arm64
-          resources:
-            requests:
-              cpu: 100m
-              memory: 128Mi
-          service:
-            loadBalancerIP: '192.168.1.150'
+    - enabled: true
+      k8s:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: beta.kubernetes.io/arch
+                  operator: In
+                  values:
+                  - arm64
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        service:
+          loadBalancerIP: 192.168.1.150
+      name: istio-ingressgateway
     istiodRemote:
       enabled: false
     pilot:
       enabled: true
   hub: docker.io/querycapistio
   meshConfig:
-    extensionProviders:
-      - name: oauth2-proxy
-        envoyExtAuthzHttp:
-          service: oauth2-proxy.network.svc.cluster.local
-          port: 80
-          includeHeadersInCheck: ['authorization', 'cookie']
-          headersToUpstreamOnAllow:
-            [
-              'authorization',
-              'path',
-              'x-auth-request-user',
-              'x-auth-request-email',
-              'x-auth-request-access-token',
-            ]
-          headersToDownstreamOnDeny: ['content-type', 'set-cookie']
     accessLogFile: /dev/stdout
     defaultConfig:
       proxyMetadata: {}
     enablePrometheusMerge: true
+    extensionProviders:
+    - envoyExtAuthzHttp:
+        headersToDownstreamOnDeny:
+        - content-type
+        - set-cookie
+        headersToUpstreamOnAllow:
+        - authorization
+        - path
+        - x-auth-request-user
+        - x-auth-request-email
+        - x-auth-request-access-token
+        includeHeadersInCheck:
+        - authorization
+        - cookie
+        port: 80
+        service: oauth2-proxy.network.svc.cluster.local
+      name: oauth2-proxy
   profile: default
   tag: 1.11.0-distroless
   values:
     base:
       enableCRDTemplates: false
-      validationURL: ''
+      validationURL: ""
     gateways:
       istio-egressgateway:
         autoscaleEnabled: false
         env: {}
         name: istio-egressgateway
         secretVolumes:
-          - mountPath: /etc/istio/egressgateway-certs
-            name: egressgateway-certs
-            secretName: istio-egressgateway-certs
-          - mountPath: /etc/istio/egressgateway-ca-certs
-            name: egressgateway-ca-certs
-            secretName: istio-egressgateway-ca-certs
+        - mountPath: /etc/istio/egressgateway-certs
+          name: egressgateway-certs
+          secretName: istio-egressgateway-certs
+        - mountPath: /etc/istio/egressgateway-ca-certs
+          name: egressgateway-ca-certs
+          secretName: istio-egressgateway-ca-certs
         type: ClusterIP
         zvpn: {}
       istio-ingressgateway:
@@ -92,12 +94,12 @@ spec:
         env: {}
         name: istio-ingressgateway
         secretVolumes:
-          - mountPath: /etc/istio/ingressgateway-certs
-            name: ingressgateway-certs
-            secretName: istio-ingressgateway-certs
-          - mountPath: /etc/istio/ingressgateway-ca-certs
-            name: ingressgateway-ca-certs
-            secretName: istio-ingressgateway-ca-certs
+        - mountPath: /etc/istio/ingressgateway-certs
+          name: ingressgateway-certs
+          secretName: istio-ingressgateway-certs
+        - mountPath: /etc/istio/ingressgateway-ca-certs
+          name: ingressgateway-ca-certs
+          secretName: istio-ingressgateway-ca-certs
         type: LoadBalancer
         zvpn: {}
     global:
@@ -112,7 +114,7 @@ spec:
       defaultResources:
         requests:
           cpu: 10m
-      imagePullPolicy: ''
+      imagePullPolicy: ""
       imagePullSecrets: []
       istioNamespace: istio-system
       istiod:
@@ -124,22 +126,22 @@ spec:
       meshNetworks: {}
       mountMtlsCerts: false
       multiCluster:
-        clusterName: ''
+        clusterName: ""
         enabled: false
-      network: ''
+      network: ""
       omitSidecarInjectorConfigMap: false
       oneNamespace: false
       operatorManageWebhooks: false
       pilotCertProvider: istiod
-      priorityClassName: ''
+      priorityClassName: ""
       proxy:
         autoInject: disabled
         clusterDomain: cluster.local
         componentLogLevel: misc:error
         enableCoreDump: false
-        excludeIPRanges: ''
-        excludeInboundPorts: ''
-        excludeOutboundPorts: ''
+        excludeIPRanges: ""
+        excludeInboundPorts: ""
+        excludeOutboundPorts: ""
         image: proxyv2
         includeIPRanges: '*'
         logLevel: warning
@@ -177,7 +179,7 @@ spec:
         zipkin: {}
       useMCP: false
     istiodRemote:
-      injectionURL: ''
+      injectionURL: ""
     pilot:
       autoscaleEnabled: true
       autoscaleMax: 5

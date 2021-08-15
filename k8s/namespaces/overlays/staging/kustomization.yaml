@@ -35,7 +35,7 @@ resources:
   - ../../base/observability/speedtest
   - ../../base/observability/thanos
   - ../../base/security
-  - ../../base/security/gatekeeper
+  # - ../../base/security/gatekeeper
   - ../../base/storage/openebs
   # TODO: cspc must be created after blockdevices have been created.
   # - ../../base/storage/openebs/cstor-pool.yaml
