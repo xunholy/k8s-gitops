@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./k8s/core/base/applications/istio-operator/1.11.0
+  path: ./k8s/core/base/namespaces/istio-operator/1.11.0
   prune: true
   sourceRef:
     kind: GitRepository
