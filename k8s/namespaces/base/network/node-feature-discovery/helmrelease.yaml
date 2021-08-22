@@ -21,7 +21,7 @@ spec:
       replicaCount: 2
     image:
       repository: docker.io/raspbernetes/node-feature-discovery
-      tag: v0.8.1
+      tag: v0.9.0
     worker:
       ## Tolerations to run daemonset on master nodes
       # tolerations:
