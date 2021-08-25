@@ -30,20 +30,4 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  values:
-    operator:
-      image:
-        repository: litmuschaos/chaos-operator
-        tag: multiarch-1.9.0
-        pullPolicy: IfNotPresent
-    runner:
-      image:
-        repository: litmuschaos/chaos-runner
-        tag: multiarch-1.9.0
-    # exporter is disabled due to no multi-arch image support
-    exporter:
-      enabled: false
-      image:
-        repository: litmuschaos/chaos-exporter
-        tag: 2.0.0
-        pullPolicy: IfNotPresent
+

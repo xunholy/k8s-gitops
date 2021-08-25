@@ -4,6 +4,5 @@ resources:
   - ../../base/namespaces/istio-system
   - ../../base/namespaces/istio-system/istio/1.11.0/istio.yaml
   - ../../base/namespaces/istio-operator/1.11.0/istio-operator.yaml
-  - ../../base/crds/cert-manager
   - ../../base/crds/kube-prometheus-stack.yaml
   - ../../base/crds/sealed-secrets.yaml

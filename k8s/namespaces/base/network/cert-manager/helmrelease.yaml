@@ -19,7 +19,7 @@ spec:
   test:
     enable: false # Enable helm test
   install:
-    skipCRDs: true
+    skipCRDs: false
     remediation: # perform remediation when helm install fails
       retries: 5
   upgrade:
@@ -37,19 +37,16 @@ spec:
       namespace: kube-system
   values:
     global:
-      logLevel: 4
+      # Set the verbosity of cert-manager. Range of 0 - 6 with 6 being the most verbose.
+      logLevel: 6
       leaderElection:
         # Override the namespace used to store the ConfigMap for leader election
         namespace: 'network'
-      podSecurityPolicy:
-        enabled: true
-    installCRDs: false
-    prometheus:
-      enabled: true
-      servicemonitor:
-        enabled: false
     extraArgs:
+      # Use this flag to set a namespace that cert-manager will use to store
+      # supporting resources required for each ClusterIssuer (default is kube-system)
       - --cluster-resource-namespace=network
+      # When this flag is enabled, secrets will be automatically removed when the certificate resource is deleted
       - --enable-certificate-owner-ref=true
       - --dns01-recursive-nameservers=1.1.1.1:53,8.8.8.8:53
       - --dns01-recursive-nameservers-only

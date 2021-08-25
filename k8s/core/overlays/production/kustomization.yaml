@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - ../../base/applications/istio.yaml
   - ../../base/applications/istio-operator.yaml
-  - ../../base/crds/cert-manager
   - ../../base/crds/kube-prometheus-stack.yaml
   - ../../base/crds/sealed-secrets.yaml
 # patchesStrategicMerge:
