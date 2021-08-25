@@ -39,7 +39,7 @@ spec:
     controllerType: deployment
     image:
       repository: homeassistant/home-assistant
-      tag: 2021.8.6
+      tag: 2021.8.8
     hostNetwork: true
     env:
       TZ: 'Australia/Melbourne'
