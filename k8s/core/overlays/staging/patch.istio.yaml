@@ -7,7 +7,7 @@ metadata:
 spec:
   components:
     ingressGateways:
-      - enabled: true
-        k8s:
-          service:
-            loadBalancerIP: 192.168.1.160
+    - enabled: true
+      k8s:
+        service:
+          loadBalancerIP: 192.168.1.180

@@ -56,4 +56,14 @@ spec:
         - name: default
           protocol: layer2
           addresses:
-            - 192.168.1.160-192.168.1.165
+            - 192.168.1.180-192.168.1.185
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: coredns
+  namespace: network
+spec:
+  values:
+    service:
+      loadBalancerIP: 192.168.1.181
