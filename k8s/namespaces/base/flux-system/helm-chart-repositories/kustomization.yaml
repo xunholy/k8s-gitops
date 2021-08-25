@@ -11,6 +11,7 @@ resources:
   - grafana-loki.yaml
   - jetstack-charts.yaml
   - k8s-at-home-charts.yaml
+  - kubefed-charts.yaml
   - kubernetes-sigs-charts.yaml
   - kubernetes-stable-charts.yaml
   - litmuschaos-charts.yaml

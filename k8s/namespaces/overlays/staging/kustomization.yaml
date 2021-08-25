@@ -13,6 +13,7 @@ resources:
   - ../../base/kube-system
   - ../../base/kube-system/cilium
   - ../../base/kube-system/descheduler
+  - ../../base/kube-system/kubefed
   - ../../base/kube-system/metrics-server
   - ../../base/kube-system/reloader
   - ../../base/kube-system/sealed-secrets
