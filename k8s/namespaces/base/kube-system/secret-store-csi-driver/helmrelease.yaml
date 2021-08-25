@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bitnami-labs.github.io/sealed-secrets
       chart: sealed-secrets
-      version: 0.2.0
+      version: 1.16.1
       sourceRef:
         kind: HelmRepository
         name: secret-store-csi-driver-chart
