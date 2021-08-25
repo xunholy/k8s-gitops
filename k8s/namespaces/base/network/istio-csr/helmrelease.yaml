@@ -60,8 +60,8 @@ spec:
         - cert-manager-istio-csr.network.svc
     volumes:
       - name: root-ca
-        secret:
-          secretName: istio-ca-root-cert
+        configMap:
+          name: istio-ca-root-cert
     volumeMounts:
       - name: root-ca
         mountPath: /etc/tls
