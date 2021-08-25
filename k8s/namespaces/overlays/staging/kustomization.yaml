@@ -24,8 +24,7 @@ resources:
   - ../../base/network/dex
   - ../../base/network/external-dns
   - ../../base/network/metallb
-  # TODO: Requries secondary ZZH device
-  # - ../../base/network/node-feature-discovery
+  - ../../base/network/node-feature-discovery
   - ../../base/network/oauth2-proxy
   - ../../base/network/origin-ca-issuer
   - ../../base/observability
