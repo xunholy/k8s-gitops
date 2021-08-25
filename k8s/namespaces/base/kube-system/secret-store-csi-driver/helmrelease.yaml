@@ -13,7 +13,7 @@ spec:
       version: 0.2.0
       sourceRef:
         kind: HelmRepository
-        name: secret-store-csi-driver-chart
+        name: secrets-store-csi-driver-chart
         namespace: flux-system
       interval: 10m
   test:
