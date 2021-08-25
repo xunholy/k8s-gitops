@@ -21,6 +21,7 @@ resources:
   - openfaas-charts.yaml
   - prometheus-community-charts.yaml
   - sealed-secrets-charts.yaml
+  - secret-store-csi-driver-chart.yaml
   - stakater-charts.yaml
   - vernemq-charts.yaml
   - vmware-charts.yaml
