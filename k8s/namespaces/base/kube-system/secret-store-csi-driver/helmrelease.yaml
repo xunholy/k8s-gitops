@@ -8,7 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://bitnami-labs.github.io/sealed-secrets
+      # renovate: registryUrl=https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/master/charts
       chart: secrets-store-csi-driver
       version: 0.2.0
       sourceRef:
