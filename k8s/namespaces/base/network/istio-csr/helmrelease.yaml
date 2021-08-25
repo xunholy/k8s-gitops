@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.jetstack.io/
       chart: cert-manager-istio-csr
-      version: v0.2.0
+      version: v0.2.1
       sourceRef:
         kind: HelmRepository
         name: jetstack-charts
