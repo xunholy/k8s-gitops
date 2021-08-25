@@ -16,6 +16,7 @@ resources:
   - ../../base/kube-system/metrics-server
   - ../../base/kube-system/reloader
   - ../../base/kube-system/sealed-secrets
+  - ../../base/kube-system/secret-store-csi-driver
   - ../../base/litmus
   - ../../base/network
   - ../../base/network/cert-manager
@@ -23,6 +24,7 @@ resources:
   - ../../base/network/coredns
   - ../../base/network/dex
   - ../../base/network/external-dns
+  - ../../base/network/istio-csr
   - ../../base/network/metallb
   - ../../base/network/node-feature-discovery
   - ../../base/network/oauth2-proxy
