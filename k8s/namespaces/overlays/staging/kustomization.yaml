@@ -13,7 +13,9 @@ resources:
   - ../../base/kube-system
   - ../../base/kube-system/cilium
   - ../../base/kube-system/descheduler
-  - ../../base/kube-system/kubefed
+  # TODO: Currently does not support ARM64
+  # https://github.com/kubernetes-sigs/kubefed/issues/1449
+  # - ../../base/kube-system/kubefed
   - ../../base/kube-system/metrics-server
   - ../../base/kube-system/reloader
   - ../../base/kube-system/sealed-secrets
@@ -25,7 +27,9 @@ resources:
   - ../../base/network/coredns
   - ../../base/network/dex
   - ../../base/network/external-dns
-  - ../../base/network/istio-csr
+  # TODO: Currently does not support ARM64
+  # https://github.com/cert-manager/istio-csr/issues/89
+  # - ../../base/network/istio-csr
   - ../../base/network/metallb
   - ../../base/network/node-feature-discovery
   - ../../base/network/oauth2-proxy
