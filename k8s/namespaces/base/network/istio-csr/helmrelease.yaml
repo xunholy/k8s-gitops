@@ -57,7 +57,7 @@ spec:
         # presented to istio-agents. istio-agents must route to istio-csr using one
         # of these DNS names.
         certificateDNSNames:
-        - cert-manager-istio-csr.network.svc
+          - cert-manager-istio-csr.network.svc
     volumes:
       - name: root-ca
         configMap:

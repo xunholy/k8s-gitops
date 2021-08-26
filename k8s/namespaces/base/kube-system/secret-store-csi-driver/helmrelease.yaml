@@ -41,4 +41,3 @@ spec:
       enabled: true
     ## Enable secret rotation feature [alpha]
     enableSecretRotation: true
-  
