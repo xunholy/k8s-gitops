@@ -33,11 +33,6 @@ jobs:
         run: |
           kubectl -n flux-system wait kustomization/core --for=condition=ready --timeout=3m
           kubectl -n flux-system wait kustomization/namespaces --for=condition=ready --timeout=3m
-      # - name: Verify helm reconciliation
-      #   run: |
-      #     kubectl -n nginx wait helmrelease/nginx --for=condition=ready --timeout=1m
-      #     kubectl -n redis wait helmrelease/redis --for=condition=ready --timeout=1m
-      #     kubectl -n podinfo wait helmrelease/podinfo --for=condition=ready --timeout=1m
       - name: Debug failure
         if: failure()
         run: |
