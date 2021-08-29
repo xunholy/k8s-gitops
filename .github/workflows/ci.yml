@@ -91,12 +91,3 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
-
-  approve:
-    if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Auto Approve
-        uses: hmarr/auto-approve-action@v2.1.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}

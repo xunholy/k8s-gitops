@@ -1,17 +1,12 @@
-name: e2e
+name: kubernetes
 
 on:
-  push:
-    branches-ignore:
-      - 'main'
-    tags-ignore:
-      - '*'
-  # pull_request:
-  #   branches:
-  #     - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  kubernetes:
+  e2e:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
