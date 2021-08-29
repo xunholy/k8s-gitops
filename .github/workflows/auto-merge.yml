@@ -18,7 +18,7 @@ on:
 
 jobs:
   merge:
-    if: (github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]') && (github.event.review.state == 'approved' || !github.event.review)
+    if: (github.actor == 'dependabot[bot]' || github.actor == 'renovate-self-hosted[bot]') && (github.event.review.state == 'approved' || !github.event.review)
     runs-on: ubuntu-latest
     steps:
       - name: Auto Merge

@@ -7,12 +7,6 @@ on:
       - 'scripts/docker/Dockerfile'
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Use this tag instead of most recent'
-        required: false
-        default: latest
 
 jobs:
   build:
@@ -32,7 +26,6 @@ jobs:
         with:
           install: true
           version: latest
-          driver-opts: image=moby/buildkit:master
 
       - name: Login to DockerHub
         if: github.event_name != 'pull_request'
@@ -41,32 +34,35 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and Push
-        if: github.event_name == 'pull_request'
-        uses: docker/build-push-action@v2
+      - name: "Add Image Metadata"
+        id: meta
+        uses: docker/metadata-action@v3
         with:
-          context: .
-          file: ./scripts/docker/Dockerfile
-          platforms: linux/amd64,linux/arm64
-          push: false
+          images: xunholy/builder
+          flavor: |
+            latest=auto
           tags: |
-            xunholy/builder:${{ github.sha }}
+            type=sha,
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=edge,branch=$repo.default_branch
+          labels: |
+            org.opencontainers.image.title=Raspbernetes Builder
 
       - name: Build and Push
-        if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./scripts/docker/Dockerfile
           platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            xunholy/builder:latest
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'docker.io/xunholy/builder:latest'
+          image-ref: ${{ steps.meta.outputs.tags }}
           format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'

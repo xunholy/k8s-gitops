@@ -1,20 +1,23 @@
 {
-  "assignees": ["@xUnholy"],
   "username": "xUnholy",
   "branchPrefix": "self-hosted/",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
+  "dependencyDashboardAutoclose": true,
   "enabled": true,
   "extends": ["config:base", ":gitSignOff"],
   "gitAuthor": "Renovate Bot <renovate@whitesourcesoftware.com>",
+  "commitBody": "Signed-off-by: {{{gitAuthor}}}",
   "platform": "github",
   "prConcurrentLimit": 0,
   "prHourlyLimit": 0,
   "rebaseWhen": "conflicted",
   "repositories": ["xUnholy/k8s-gitops"],
+  "onboarding": false,
   "requireConfig": false,
   "reviewersFromCodeOwners": false,
   "semanticCommits": "enabled",
+  "configWarningReuseIssue": true,
   "suppressNotifications": ["prIgnoreNotification"],
   "timezone": "Australia/Melbourne",
   "kubernetes": {
@@ -37,12 +40,6 @@
   ],
   "packageRules": [
     {
-      "automerge": true,
-      "requiredStatusChecks": null,
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["patch"]
-    },
-    {
       "labels": ["renovate/image-release", "dependency/major"],
       "enabled": true,
       "matchDatasources": ["docker"],
@@ -62,12 +59,6 @@
       "commitMessageTopic": "Helm chart {{depName}}",
       "separateMinorPatch": true,
       "matchDatasources": ["helm"]
-    },
-    {
-      "automerge": true,
-      "requiredStatusChecks": null,
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["patch"]
     },
     {
       "labels": ["renovate/helm-release", "dependency/major"],
