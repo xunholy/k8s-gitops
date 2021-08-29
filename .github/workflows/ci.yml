@@ -24,7 +24,7 @@ jobs:
       - name: Lint Yaml
         uses: ibiqlik/action-yamllint@v3
         with:
-          config_file: .github/.yamllint.yml
+          config_file: .yamllint.yml
 
   compliance:
     runs-on: ubuntu-latest
