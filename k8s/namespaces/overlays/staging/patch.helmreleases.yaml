@@ -75,3 +75,14 @@ spec:
           raspbernetes.com.   IN NS     ns.dns.raspbernetes.com.
           raspbernetes.com.   IN A      192.168.1.180
           *.stg.raspbernetes.com. IN CNAME  raspbernetes.com.
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mosquitto
+  namespace: home-system
+spec:
+  values:
+    service:
+      main:
+        loadBalancerIP: 192.168.1.152

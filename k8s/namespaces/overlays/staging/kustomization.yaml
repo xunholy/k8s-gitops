@@ -6,7 +6,7 @@ resources:
   - ../../base/flux-system
   - ../../base/home-system
   # - ../../base/home-system/home-assistant
-  # - ../../base/home-system/mosquitto
+  - ../../base/home-system/mosquitto
   - ../../base/home-system/zigbee2mqtt/poe-controller
   - ../../base/istio-system
   - ../../base/kube-system
