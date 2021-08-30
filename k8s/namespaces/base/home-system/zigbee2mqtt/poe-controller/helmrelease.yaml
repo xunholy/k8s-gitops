@@ -23,12 +23,12 @@ spec:
       tag: 1.21.0
     env:
       TZ: Australia/Melbourne
-      # ZIGBEE2MQTT_DATA: /data
-    # persistence:
-    #   config:
-    #     enabled: true
-    #     existingClaim: zigbee2mqtt-config-v1
-    #     mountPath: "/data"
+      ZIGBEE2MQTT_DATA: /data
+    persistence:
+      config:
+        enabled: true
+        existingClaim: zigbee2mqtt-data
+        mountPath: "/data"
     config:
       # These will be applied ONLY on first run
       # Required: Home Assistant integration (MQTT discovery) (default: false)
