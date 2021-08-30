@@ -23,7 +23,7 @@ spec:
       tag: 1.21.0
     env:
       TZ: Australia/Melbourne
-      ZIGBEE2MQTT_DATA: /data
+      # ZIGBEE2MQTT_DATA: /data
     # persistence:
     #   config:
     #     enabled: true
