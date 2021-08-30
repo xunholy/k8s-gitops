@@ -1,0 +1,62 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: zigbee2mqtt
+  namespace: home-system
+spec:
+  interval: 5m
+  releaseName: zigbee2mqtt
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: zigbee2mqtt
+      version: 9.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/koenkk/zigbee2mqtt
+      tag: 1.21.0
+    env:
+      TZ: Australia/Melbourne
+      ZIGBEE2MQTT_DATA: /data
+    persistence:
+      config:
+        enabled: true
+        existingClaim: zigbee2mqtt-config-v1
+        mountPath: "/data"
+    config:
+      # These will be applied ONLY on first run
+      # Required: Home Assistant integration (MQTT discovery) (default: false)
+      homeassistant: true
+      # Required: allow new devices to join.
+      # WARNING: Disable this after all devices have been paired! (default: false)
+      permit_join: true
+      # Required: MQTT settings
+      mqtt:
+        base_topic: zigbee2mqtt
+        # Required: MQTT server URL (use mqtts:// for SSL/TLS connection)
+        server: 'mqtt://mosquitto:1883'
+      # Required: USB / Serial settings
+      serial:
+        port: "tcp://192.168.1.165:6638"
+      # Optional: advanced settings
+      advanced:
+        # Optional: Logging level, options: debug, info, warn, error (default: info)
+        log_level: debug
+        # Optional: Output location of the log (default: shown below), leave empty to supress logging (log_output: [])
+        # possible options: 'console', 'file', 'syslog'
+        log_output:
+          - console
+      frontend:
+        port: 8080
+      # Optional: experimental options
+      experimental:
+        new_api: true
+      # Optional: see 'Device specific configuration' https://www.zigbee2mqtt.io/information/configuration.html#specifying-devices-and-groups-in-a-separate-file
+      device_options:
+        retain: true
