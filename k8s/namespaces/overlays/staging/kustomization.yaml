@@ -15,11 +15,12 @@ resources:
   # TODO: Currently does not support ARM64
   # https://github.com/kubernetes-sigs/kubefed/issues/1449
   # - ../../base/kube-system/kubefed
-  - ../../base/kube-system/metrics-server
+  # TODO: Image is broken
+  # - ../../base/kube-system/metrics-server
   - ../../base/kube-system/reloader
   - ../../base/kube-system/sealed-secrets
   - ../../base/kube-system/secret-store-csi-driver
-  - ../../base/litmus
+  # - ../../base/litmus
   - ../../base/network
   - ../../base/network/cert-manager
   - ../../base/network/cloudflare-ddns
@@ -35,7 +36,7 @@ resources:
   - ../../base/network/origin-ca-issuer
   - ../../base/observability
   # - ../../base/observability/kiali
-  - ../../base/observability/kube-prometheus-stack
+  # - ../../base/observability/kube-prometheus-stack
   - ../../base/observability/loki-stack
   - ../../base/observability/speedtest
   - ../../base/observability/thanos

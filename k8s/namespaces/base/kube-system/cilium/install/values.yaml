@@ -131,4 +131,5 @@ cluster:
 
 clustermesh:
   # -- Deploy clustermesh-apiserver for clustermesh
-  useAPIServer: true
+  # TODO: Investigate image that is ARM64 supported
+  useAPIServer: false
