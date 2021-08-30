@@ -35,3 +35,5 @@
 | metallb                   | Daemonset          | 192.168.1.180 <-> 192.168.1.185 |
 | istio                     | LoadBalancer       |        192.168.1.180/32         |
 | coredns                   | LoadBalancer       |        192.168.1.181/32         |
+| mosquitto                 | LoadBalancer       |        192.168.1.182/32         |
+| zigbee2mqtt               | LoadBalancer       |        192.168.1.183/32         |

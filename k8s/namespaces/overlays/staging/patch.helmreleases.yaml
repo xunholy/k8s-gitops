@@ -85,4 +85,4 @@ spec:
   values:
     service:
       main:
-        loadBalancerIP: 192.168.1.152
+        loadBalancerIP: 192.168.1.182
