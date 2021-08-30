@@ -38,11 +38,14 @@ spec:
       permit_join: true
       # Required: MQTT settings
       mqtt:
+        # Required: MQTT base topic for Zigbee2MQTT MQTT messages
         base_topic: zigbee2mqtt
         # Required: MQTT server URL (use mqtts:// for SSL/TLS connection)
         server: 'mqtt://mosquitto:1883'
       # Required: USB / Serial settings
       serial:
+        # Required: Location of your zigbee device
+        # To autodetect the port, set 'port: null'
         port: "tcp://192.168.1.165:6638"
       # Optional: advanced settings
       advanced:
@@ -52,6 +55,24 @@ spec:
         # possible options: 'console', 'file', 'syslog'
         log_output:
           - console
+        # Auto-generated network keys
+        network_key:
+          - 239
+          - 124
+          - 122
+          - 220
+          - 142
+          - 130
+          - 27
+          - 213
+          - 248
+          - 86
+          - 72
+          - 182
+          - 185
+          - 93
+          - 50
+          - 227
       frontend:
         port: 8080
       # Optional: experimental options
