@@ -10,14 +10,16 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: mosquitto
-      version: 3.3.0
+      version: 4.0.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
         namespace: flux-system
       interval: 10m
   values:
-    replicaCount: 1
+    image:
+      repository: eclipse-mosquitto
+      tag: 2.0.11
     service:
       main:
         type: LoadBalancer
