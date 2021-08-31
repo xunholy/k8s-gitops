@@ -27,22 +27,22 @@ spec:
   values:
     config:
       issuer: https://dex.stg.raspbernetes.com
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: kube-prometheus-stack
-  namespace: observability
-spec:
-  values:
-    grafana:
-      grafana.ini:
-        server:
-          root_url: https://grafana.stg.raspbernetes.com
-        auth.generic_oauth:
-          auth_url: https://dex.stg.raspbernetes.com/auth
-          token_url: https://dex.stg.raspbernetes.com/token
-          api_url: https://dex.stg.raspbernetes.com/userinfo
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: kube-prometheus-stack
+#   namespace: observability
+# spec:
+#   values:
+#     grafana:
+#       grafana.ini:
+#         server:
+#           root_url: https://grafana.stg.raspbernetes.com
+#         auth.generic_oauth:
+#           auth_url: https://dex.stg.raspbernetes.com/auth
+#           token_url: https://dex.stg.raspbernetes.com/token
+#           api_url: https://dex.stg.raspbernetes.com/userinfo
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
