@@ -37,6 +37,9 @@ spec:
     - name: sealed-secrets
       namespace: kube-system
   values:
+    webhook:
+      url:
+        host: cert-manager-webhook.network.svc
     global:
       # Set the verbosity of cert-manager. Range of 0 - 6 with 6 being the most verbose.
       logLevel: 6
