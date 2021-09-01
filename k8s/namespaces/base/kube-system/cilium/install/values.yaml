@@ -8,6 +8,10 @@ bgp:
   announce:
     loadbalancerIP: true
 
+nodePort:
+  # -- Enable the Cilium NodePort service implementation.
+  enabled: false
+
 containerRuntime:
   integration: containerd
 
