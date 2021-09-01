@@ -5,16 +5,18 @@ set -eou pipefail
 DEFAULT_CLUSTER="production"
 DEFUALT_GITHUB_REPO="k8s-gitops"
 DEFAULT_GITHUB_USER="xunholy"
+DEFAULT_GITHUB_BRANCH="main"
 
 export CLUSTER="${CLUSTER:-$DEFAULT_CLUSTER}"
 export GITHUB_REPO="${GITHUB_REPO:-$DEFUALT_GITHUB_REPO}"
 export GITHUB_USER="${GITHUB_USER:-$DEFAULT_GITHUB_USER}"
+export GITHUB_BRANCH="${GITHUB_BRANCH:-$DEFAULT_GITHUB_BRANCH}"
 
 export GITHUB_TOKEN="${GITHUB_TOKEN}"
 
 ## This will deep merge your kube config assuming you used the k8s-cluster-installation to bootstrap your cluster.
 ## You will need to modify the PATH to the location of the playbooks on your local machine.
-# KUBECONFIG=~/projects/install/ansible/playbooks/output/k8s-config.yaml:~/.kube/config kubectl config view --flatten > ~/.kube/config.tmp && \
+# KUBECONFIG=~/projects/k8s-cluster-installation/ansible/playbooks/output/k8s-config.yaml:~/.kube/config kubectl config view --flatten > ~/.kube/config.tmp && \
 #   mv ~/.kube/config.tmp ~/.kube/config
 
 flux >/dev/null || \
@@ -26,10 +28,13 @@ flux >/dev/null || \
 ## Use the existing sealed-secret private key if it exists.
 ## Currently uses only prod key as this is shared between all clusters currently.
 ## To decrypt this secret requires you to have IAM permissions to GCP KMS.
-if [[ -f k8s/clusters/production/secrets/sealed-secret-private-key.enc.yaml ]]; then
+if [[ -f "k8s/clusters/${CLUSTER}/secrets/sealed-secret-private-key.enc.yaml" ]]; then
   echo "Applying existing sealed-secret key"
-  sops --decrypt "k8s/clusters/production/secrets/sealed-secret-private-key.enc.yaml" | kubectl apply -f -
+  sops --decrypt "k8s/clusters/${CLUSTER}/secrets/sealed-secret-private-key.enc.yaml" | kubectl apply -f -
 fi
+
+## TODO: Apply cert-manager CRDs due to lack of CRD support in helm chart
+# kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.crds.yaml
 
 # Check the cluster meets the fluxv2 prerequisites
 flux check --pre || \
@@ -40,6 +45,8 @@ flux bootstrap github \
   --owner="${GITHUB_USER}" \
   --repository="${GITHUB_REPO}" \
   --path=k8s/clusters/"${CLUSTER}" \
-  --branch=main \
+  --branch="${GITHUB_BRANCH}" \
   --network-policy=false \
-  --personal
+  --personal=true \
+  --private=false
+

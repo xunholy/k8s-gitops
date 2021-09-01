@@ -1,15 +1,15 @@
-image:
-  repository: docker.io/cilium/cilium-dev
-  tag: v1.9.4
-
 # autoDirectNodeRoutes enables installation of PodCIDR routes between worker
 # nodes if worker nodes share a common L2 network segment.
 autoDirectNodeRoutes: true
 
-# externalIPs is the configuration for ExternalIPs service handling
-externalIPs:
-  # enabled enables ExternalIPs functionality
-  enabled: true
+# Cilium leverages MetalLB's simplified BGP announcement system for service type: LoadBalancer
+bgp:
+  enabled: false
+  announce:
+    loadbalancerIP: true
+
+containerRuntime:
+  integration: containerd
 
 # endpointRoutes enables use of per endpoint routes instead of routing vis
 # the cilium_host interface
@@ -19,11 +19,6 @@ endpointRoutes:
 # hostServices is the configuration for ClusterIP service handling in host namespace
 hostServices:
   # enabled enables host reachable functionality
-  enabled: true
-
-# nodePort is the configuration for NodePort service handling
-nodePort:
-  # enabled enables NodePort functionality
   enabled: true
 
 # masquerade enables masquerading of traffic leaving the node for
@@ -45,37 +40,34 @@ hubble:
   listenAddress: ':4244'
   relay:
     enabled: true
-    image:
-      repository: docker.io/cilium/hubble-relay-dev
-      tag: v1.9.4
   ui:
     enabled: true
-    frontend:
-      image:
-        repository: docker.io/mcfio/hubble-ui-dev
-        tag: v0.7.3
-    backend:
-      image:
-        repository: docker.io/mcfio/hubble-ui-backend-dev
-        tag: v0.7.3
-    proxy:
-      image:
-        repository: docker.io/envoyproxy/envoy
-        tag: v1.17.1
 
 ipam:
+  # -- Configure IP Address Management mode.
+  # ref: https://docs.cilium.io/en/stable/concepts/networking/ipam/
+  mode: "cluster-pool"
   operator:
-    # default: "10.0.0.0/8", however, using existing podCIDR
-    clusterPoolIPv4PodCIDR: 172.16.0.0/16
+    # -- IPv4 CIDR range to delegate to individual nodes for IPAM.
+    clusterPoolIPv4PodCIDR: '10.0.0.0/8'
+    # -- IPv4 CIDR mask size to delegate to individual nodes for IPAM.
     clusterPoolIPv4MaskSize: 24
+    # -- IPv6 CIDR range to delegate to individual nodes for IPAM.
+    clusterPoolIPv6PodCIDR: "fd00::/104"
+    # -- IPv6 CIDR mask size to delegate to individual nodes for IPAM.
+    clusterPoolIPv6MaskSize: 120
 
 # kubeProxyReplacement enables kube-proxy replacement in Cilium BPF datapath
+# TODO: Disabled due to RockPi kernel <= 4.4
+# Valid options are "disabled", "probe", "partial", "strict".
+# ref: https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/
 kubeProxyReplacement: strict
 
 # kubeProxyReplacement healthz server bind address
 # To enable set the value to '0.0.0.0:10256' for all ipv4
 # addresses and this '[::]:10256' for all ipv6 addresses.
 # By default it is disabled.
+# TODO: Can't be used as RockPi Kernel is <=4.4
 kubeProxyReplacementHealthzBindAddr: '0.0.0.0:10256'
 
 # prometheus enables serving metrics on the configured port at /metrics
@@ -88,9 +80,8 @@ prometheus:
     enabled: false
 
 operator:
-  image:
-    repository: cilium/operator-dev
-    tag: v1.9.4
+  # -- Roll out cilium-operator pods automatically when configmap is updated.
+  rollOutPods: true
   # Enables metrics for cilium-operator.
   prometheus:
     enabled: true
@@ -98,7 +89,7 @@ operator:
       enabled: false
 
 # kubeConfigPath: ~/.kube/config
-k8sServiceHost: 192.168.1.200
+k8sServiceHost: 192.168.1.205
 k8sServicePort: 8443
 
 # nativeRoutingCIDR allows to explicitly specify the CIDR for native routing. This
@@ -119,4 +110,16 @@ loadBalancer:
 
 # disableEnvoyVersionCheck removes the check for Envoy, which can be useful on
 # AArch64 as the images do not currently ship a version of Envoy.
-disableEnvoyVersionCheck: true
+disableEnvoyVersionCheck: false
+
+cluster:
+  # -- Name of the cluster. Only required for Cluster Mesh.
+  name: default
+  # -- (int) Unique ID of the cluster. Must be unique across all connected
+  # clusters and in the range of 1 to 255. Only required for Cluster Mesh.
+  id:
+
+clustermesh:
+  # -- Deploy clustermesh-apiserver for clustermesh
+  # TODO: Investigate image that is ARM64 supported
+  useAPIServer: false

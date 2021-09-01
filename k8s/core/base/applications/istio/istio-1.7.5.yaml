@@ -1,3 +1,4 @@
+---
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -100,7 +101,7 @@ spec:
               cpu: 100m
               memory: 128Mi
           service:
-            loadBalancerIP: ''
+            loadBalancerIP: '192.168.1.150'
             ports:
               - name: status-port
                 port: 15021

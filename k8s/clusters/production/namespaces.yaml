@@ -9,13 +9,13 @@ spec:
   dependsOn:
     - name: core
     - name: kube-prometheus-stack-crd
-    - name: openebs-crd
-    - name: openebs-ndm-crd
+    - name: istio
   path: ./k8s/namespaces/overlays/production
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
+  validation: none
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
@@ -29,8 +29,3 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: istiod
-      namespace: istio-system

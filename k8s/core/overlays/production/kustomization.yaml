@@ -1,13 +1,10 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../base/applications/istio
-  - ../../base/applications/istio-operator
-  ## TODO: Create CRDs when cert-manager support hydrated CRD/ dir
-  # - ../../base/crds/cert-manager.yaml
+  - ../../base/applications/istio.yaml
+  - ../../base/applications/istio-operator.yaml
   - ../../base/crds/kube-prometheus-stack.yaml
-  - ../../base/crds/openebs-cstor.yaml
-  - ../../base/crds/openebs-ndm.yaml
   - ../../base/crds/sealed-secrets.yaml
-patchesStrategicMerge:
-  - patch.istio.yaml
+# patchesStrategicMerge:
+#   - patch.istio.yaml

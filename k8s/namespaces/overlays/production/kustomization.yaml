@@ -12,6 +12,7 @@ resources:
   # - ../../base/kube-system/cilium
   # - ../../base/kube-system/descheduler
   # - ../../base/kube-system/metrics-server
+  - ../../base/kube-system/reloader
   - ../../base/kube-system/sealed-secrets
   # - ../../base/litmus
   - ../../base/network
@@ -34,7 +35,7 @@ resources:
   # - ../../base/security/gatekeeper
   - ../../base/storage/openebs
   # blockdevices will persist across devices
-  - ../../base/storage/openebs/cstor-pool.yaml
+  # - ../../base/storage/openebs/cstor-pool.yaml
   - ../../base/velero
   - ../../base/velero/velero
 patchesStrategicMerge:

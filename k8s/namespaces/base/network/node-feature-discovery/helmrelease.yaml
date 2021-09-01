@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts
       chart: node-feature-discovery
-      version: 0.8.0
+      version: 0.9.0
       sourceRef:
         kind: HelmRepository
         name: node-feature-discovery-chart
@@ -20,17 +20,21 @@ spec:
     - name: cert-manager
       namespace: network
   values:
+    master:
+      replicaCount: 2
     image:
       repository: docker.io/raspbernetes/node-feature-discovery
-      tag: v0.8.0
+      tag: v0.9.0
     worker:
-      tolerations:
-        - effect: 'NoExecute'
-          operator: 'Exists'
-        - effect: 'NoSchedule'
-          operator: 'Exists'
+      ## Tolerations to run daemonset on master nodes
+      # tolerations:
+      #   - effect: 'NoExecute'
+      #     operator: 'Exists'
+      #   - effect: 'NoSchedule'
+      #     operator: 'Exists'
       config: |-
         core:
+          sleepInterval: 60s
           sources:
             - custom
             - pci

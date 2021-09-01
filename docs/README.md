@@ -6,15 +6,14 @@
 <div align="center">
   <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-gitops?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-gitops.svg?type=shield"/></a>
   <a href="https://github.com/raspbernetes/k8s-gitops/actions" alt="Build"><img src="https://github.com/raspbernetes/k8s-gitops/workflows/build/badge.svg" /></a>
-  <a href="https://kubernetes.io/" alt="k8s"><img src="https://img.shields.io/badge/k8s-v1.20.4-orange" /></a>
-  <a href="https://github.com/raspbernetes/k8s-gitops/graphs/contributors"><img src="https://img.shields.io/github/contributors/raspbernetes/k8s-gitops.svg" alt="Contributors"></a>
-  <a href="https://github.com/raspbernetes/k8s-gitops/issues"><img src="https://img.shields.io/github/issues-raw/raspbernetes/k8s-gitops.svg" alt="Open Issues"></a>
-  <a href="https://github.com/raspbernetes/k8s-gitops"><img src="https://img.shields.io/github/stars/raspbernetes/k8s-gitops?style=social.svg" alt="Stars"></a>
+  <a href="https://kubernetes.io/" alt="k8s"><img src="https://img.shields.io/badge/k8s-v1.22.1-orange" /></a>
+  <!-- <a href="https://github.com/raspbernetes/k8s-gitops/graphs/contributors"><img src="https://img.shields.io/github/contributors/raspbernetes/k8s-gitops.svg" alt="Contributors"></a> -->
+  <!-- <a href="https://github.com/raspbernetes/k8s-gitops/issues"><img src="https://img.shields.io/github/issues-raw/raspbernetes/k8s-gitops.svg" alt="Open Issues"></a> -->
+  <!-- <a href="https://github.com/raspbernetes/k8s-gitops"><img src="https://img.shields.io/github/stars/raspbernetes/k8s-gitops?style=social.svg" alt="Stars"></a> -->
   <a href="https://github.com/raspbernetes/k8s-gitops/commits/main" alt="last commit"><img src="https://img.shields.io/github/last-commit/raspbernetes/k8s-gitops?color=purple" /></a>
   <a href="https://github.com/pre-commit/pre-commit" alt="pre-commit"><img src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white" /></a>
   <a href="https://discord.gg/mey6zUn"><img src="https://img.shields.io/discord/673534664354430999?color=%237289da&label=discord&logo=discord" alt="Discord"></a>
 </div>
-
 
 # Overview
 

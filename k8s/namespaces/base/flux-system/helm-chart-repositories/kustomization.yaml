@@ -5,19 +5,25 @@ resources:
   - bitnami-charts.yaml
   - coredns-charts.yaml
   - crossplane-charts.yaml
+  - dex-chart.yaml
   - flagger-charts.yaml
   - gatekeeper-charts.yaml
   - grafana-loki.yaml
   - jetstack-charts.yaml
   - k8s-at-home-charts.yaml
+  - kubefed-charts.yaml
   - kubernetes-sigs-charts.yaml
   - kubernetes-stable-charts.yaml
   - litmuschaos-charts.yaml
+  - node-feature-discovery-chart.yaml
+  - oauth2-proxy-chart.yaml
   - openebs-charts.yaml
   - openebs-cstor-charts.yaml
   - openfaas-charts.yaml
   - prometheus-community-charts.yaml
   - sealed-secrets-charts.yaml
+  - secrets-store-csi-driver-chart.yaml
+  - stakater-charts.yaml
   - vernemq-charts.yaml
   - vmware-charts.yaml
   - weaveworks-kured-charts.yaml

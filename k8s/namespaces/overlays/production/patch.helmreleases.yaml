@@ -1,12 +1,12 @@
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: external-dns
-  namespace: network
-spec:
-  values:
-    policy: upsert-only
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: external-dns
+#   namespace: network
+# spec:
+#   values:
+#     policy: upsert-only
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -17,31 +17,31 @@ spec:
   values:
     schedules:
       daily-backup:
-        schedule: "0 6 * * *"
+        schedule: '0 6 * * *'
         template:
-          ttl: "120h"
+          ttl: '120h'
       zigbee2mqtt-hourly:
-        schedule: "0 0/1 * * *"
+        schedule: '0 0/1 * * *'
         template:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: zigbee2mqtt
           snapshotVolumes: true
           storageLocation: default
-          ttl: "120h"
+          ttl: '120h'
           volumeSnapshotLocations:
             - default
           includedNamespaces:
             - home-system
       home-assistant-hourly:
-        schedule: "0 0/1 * * *"
+        schedule: '0 0/1 * * *'
         template:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: home-assistant
           snapshotVolumes: true
           storageLocation: default
-          ttl: "120h"
+          ttl: '120h'
           volumeSnapshotLocations:
             - default
           includedNamespaces:

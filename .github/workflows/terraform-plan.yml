@@ -60,7 +60,7 @@ jobs:
         run: terraform plan -no-color
         continue-on-error: false
 
-      - uses: actions/github-script@v3.1
+      - uses: actions/github-script@v4.1
         if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"

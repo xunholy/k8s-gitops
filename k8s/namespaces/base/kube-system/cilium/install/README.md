@@ -12,11 +12,7 @@ helm repo add cilium https://helm.cilium.io/
 
 ```bash
 helm install cilium cilium/cilium \
-  --version=1.9.4 \
+  --version=1.10.3 \
   --namespace=kube-system \
-  --values=cilium/install/values.yaml
-```
-
-```bash
-kubectl -n kube-system patch deployments.apps cilium-operator --patch '{"spec": {"template": {"spec": {"containers": [{"name": "cilium-operator","image": "cilium/operator-dev:v1.9.4"}]}}}}'
+  --values=k8s/namespaces/base/kube-system/cilium/install/values.yaml
 ```

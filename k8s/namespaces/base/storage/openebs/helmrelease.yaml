@@ -10,47 +10,18 @@ spec:
     spec:
       # renovate: registryUrl=https://openebs.github.io/cstor-operators
       chart: cstor
-      version: 2.6.0
+      version: 2.12.0
       sourceRef:
         kind: HelmRepository
         name: cstor-chart
         namespace: flux-system
       interval: 10m
-  install:
-    skipCRDs: true
   values:
     # Required when using the same device that hosts the OS FS partition
-    # openebs-ndm:
-    #   ndm:
-    #     sparse:
-    #       count: '1'
-    cvcOperator:
-      componentName: cvc-operator-svc
-    csiController:
-      resizer:
-        image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/csi-resizer
-      snapshotter:
-        image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/csi-snapshotter
-      snapshotController:
-        image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/snapshot-controller
-          tag: v4.0.0
-      attacher:
-        image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/csi-attacher
-      provisioner:
-        image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/csi-provisioner
-    csiNode:
-      driverRegistrar:
-        image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/csi-node-driver-registrar
-          tag: v2.1.0
+    openebs-ndm:
+      ndm:
+        sparse:
+          count: '1'
+    # # TODO: Check service label is fixed upstream
+    # cvcOperator:
+    #   componentName: cvc-operator-svc

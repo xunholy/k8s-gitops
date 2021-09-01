@@ -1,5 +1,5 @@
 config:
-  # Remember you can have multiple connectors of the same 'type' (with di fferent 'id's)
+  # Remember you can have multiple connectors of the same 'type' (with different 'id's)
   # If you need e.g. logins with groups for two different Microsoft 'tenants'
   connectors:
     # GitHub configure 'OAuth Apps' -> 'New OAuth App', add callback URL

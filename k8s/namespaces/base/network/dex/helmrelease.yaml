@@ -8,12 +8,12 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://charts.helm.sh/stable
+      # renovate: registryUrl=https://charts.dexidp.io
       chart: dex
-      version: 2.15.2
+      version: 0.6.3
       sourceRef:
         kind: HelmRepository
-        name: kubernetes-stable-charts
+        name: dex-chart
         namespace: flux-system
       interval: 10m
   test:
@@ -35,35 +35,23 @@ spec:
     - name: sealed-secrets
       namespace: kube-system
   values:
-    image: dexidp/dex
-    imageTag: v2.26.0
-    grpc: false
-    ports:
-      web:
-        servicePort: 5556
-    certs:
-      image: gcr.io/google_containers/kubernetes-dashboard-init-arm
-      web:
-        create: false
-      grpc:
-        create: false
-    telemetry: true
+    image:
+      repository: dexidp/dex
+      tag: v2.30.0
+    env:
+      KUBERNETES_POD_NAMESPACE: network
     config:
       issuer: https://dex.raspbernetes.com
       storage:
         type: kubernetes
         config:
           inCluster: true
+      oauth2:
+        alwaysShowLoginScreen: false
+        responseTypes: ['code', 'token', 'id_token']
+        skipApprovalScreen: true
       web:
         http: 0.0.0.0:5556
-        # If enabled, be sure to configure tls settings above, or use a tool
-        # such as let-encrypt to manage the certs.
-        # Currently this chart does not support both http and https, and the port
-        # is fixed to 5556
-        #
-        # https: 0.0.0.0:5556
-        # tlsCert: /etc/dex/tls/tls.crt
-        # tlsKey: /etc/dex/tls/tls.key
       frontend:
         theme: 'tectonic'
         issuer: 'Raspbernetes'
@@ -74,26 +62,10 @@ spec:
         idTokens: '24h'
       logger:
         level: debug
-      oauth2:
-        alwaysShowLoginScreen: false
-        skipApprovalScreen: true
-        responseTypes: ['code', 'token', 'id_token']
+        format: json
       # Disable default email auth and only use oauth2 providers configured as connectors
       enablePasswordDB: false
-    ingress:
-      enabled: false
-      annotations:
-        kubernetes.io/ingress.class: nginx
-        cert-manager.io/cluster-issuer: 'letsencrypt-prod'
-        nginx.ingress.kubernetes.io/auth-url: 'https://raspbernetes.com/oauth2/auth'
-        nginx.ingress.kubernetes.io/auth-signin: 'https://raspbernetes.com/oauth2/start?rd=$escaped_request_uri'
-      hosts:
-        - dex.raspbernetes.com
-      path: /
-      tls:
-        - secretName: dex.raspbernetes.com-tls
-          hosts:
-            - dex.raspbernetes.com
   valuesFrom:
     - kind: Secret
       name: dex-helm-values
+      optional: false

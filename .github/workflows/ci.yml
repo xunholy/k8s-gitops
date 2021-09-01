@@ -11,8 +11,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          submodules: true
+
       - name: Shellcheck
         uses: reviewdog/action-shellcheck@v1
         with:
@@ -21,20 +20,12 @@ jobs:
           path: '.'
           pattern: '*.sh'
           exclude: './.git/*'
+
       - name: Lint Yaml
         uses: ibiqlik/action-yamllint@v3
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
         with:
-          submodules: true
-      # TODO: enable with new dir stucture
-      # - name: Kubeval
-      #   uses: instrumenta/kubeval-action@master
-      #   with:
-      #     files: 'cluster/'
+          config_file: .yamllint.yml
+
   compliance:
     runs-on: ubuntu-latest
     steps:
@@ -42,6 +33,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
+
+      - uses: izhangzhihao/delete-comment@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          delete_user_name:  github-actions[bot]
+          issue_number: ${{ github.event.number }}
 
       - name: Execute Conftest Tests - Table Output
         id: conftest-table
@@ -56,6 +53,7 @@ jobs:
           result="${result//$'\r'/'%0D'}"
           echo $result
           echo "::set-output name=result::$result"
+
       - name: Execute Conftest Tests - Stdout Output
         id: conftest
         continue-on-error: true
@@ -70,7 +68,7 @@ jobs:
           echo $result
           echo ::set-output name=result::$result
 
-      - uses: actions/github-script@v3.1
+      - uses: actions/github-script@v4.1
         if: github.event_name == 'pull_request'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -93,11 +91,62 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
-  approve:
-    if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
+
+  kubernetes:
     runs-on: ubuntu-latest
     steps:
-      - name: Auto Approve
-        uses: hmarr/auto-approve-action@v2.1.0
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup tools
+        uses: ./.github/actions/tools
+      - name: Setup Flux
+        uses: fluxcd/flux2/action@main
+      - name: Setup Kubernetes
+        uses: engineerd/setup-kind@v0.5.0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          version: "v0.11.1"
+      - name: Install Flux in Kubernetes Kind
+        run: flux install
+      - name: Setup cluster reconciliation
+        run: |
+          flux create source git flux-system \
+          --url=${{ github.event.repository.html_url }} \
+          --branch=${GITHUB_REF#refs/heads/}
+          flux create kustomization flux-system \
+          --source=flux-system \
+          --path=./k8s/clusters/production
+      - name: Verify cluster reconciliation
+        run: |
+          kubectl -n flux-system wait kustomization/core --for=condition=ready --timeout=3m
+          kubectl -n flux-system wait kustomization/namespaces --for=condition=ready --timeout=3m
+      - name: Debug failure
+        if: failure()
+        run: |
+          kubectl get kustomization -A
+          kubectl get pods -A
+          kubectl get deployments -A
+          kubectl -n flux-system get all
+          kubectl -n flux-system logs deploy/source-controller
+          kubectl -n flux-system logs deploy/kustomize-controller
+          kubectl -n flux-system logs deploy/helm-controller
+
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-results.sarif'

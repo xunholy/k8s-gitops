@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - namespace.yaml
-  - networkpolicy.yaml
+  #  - networkpolicy.yaml
   - secret.encrypted.yaml

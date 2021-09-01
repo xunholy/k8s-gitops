@@ -6,6 +6,6 @@ metadata:
   name: coredns-charts
   namespace: flux-system
 spec:
-  interval: 24h
+  interval: 30m
   url: https://coredns.github.io/helm
   timeout: 3m
