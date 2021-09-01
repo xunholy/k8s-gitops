@@ -5,6 +5,9 @@ ignore: |
   *.encrypted.yaml
   *.enc.yaml
   *.enc.yml
+  docker-compose.yml
+  k8s/namespaces/base/home-system/zigbee2mqtt/helmrelease.yaml
+  **/cloud-init/**/*
 
 extends: default
 rules:

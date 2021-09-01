@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: istio-operator
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  path: ./k8s/core/base/namespaces/istio-operator/1.11.0
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: istio-operator
+      namespace: istio-operator

@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://litmuschaos.github.io/litmus-helm/
       chart: litmus
-      version: 1.13.5
+      version: 2.0.32
       sourceRef:
         kind: HelmRepository
         name: litmuschaos-charts
@@ -30,20 +30,3 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  values:
-    operator:
-      image:
-        repository: litmuschaos/chaos-operator
-        tag: multiarch-1.9.0
-        pullPolicy: IfNotPresent
-    runner:
-      image:
-        repository: litmuschaos/chaos-runner
-        tag: multiarch-1.9.0
-    # exporter is disabled due to no multi-arch image support
-    exporter:
-      enabled: false
-      image:
-        repository: litmuschaos/chaos-exporter
-        tag: 1.13.2
-        pullPolicy: IfNotPresent

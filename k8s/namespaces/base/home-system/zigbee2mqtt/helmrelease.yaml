@@ -11,7 +11,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: zigbee2mqtt
-      version: 7.1.1
+      version: 9.0.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -25,7 +25,7 @@ spec:
   values:
     image:
       repository: koenkk/zigbee2mqtt
-      tag: 1.18.2
+      tag: 1.21.1
     env:
       TZ: Australia/Melbourne
       ZIGBEE2MQTT_DATA: /data
@@ -104,8 +104,9 @@ spec:
         hostPath:
           path: /dev/ttyUSB0
     service:
-      type: LoadBalancer
-      loadBalancerIP: '${CLUSTER_LB_ZIGBEE2MQTT}'
+      main:
+        type: LoadBalancer
+        loadBalancerIP: '${CLUSTER_LB_ZIGBEE2MQTT}'
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -120,7 +121,7 @@ spec:
         enabled: true
         image:
           repository: codercom/code-server
-          tag: 3.9.2
+          tag: 3.11.1
         workingDir: '/data'
         args:
           - --user-data-dir

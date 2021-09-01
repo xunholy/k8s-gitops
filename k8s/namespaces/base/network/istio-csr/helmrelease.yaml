@@ -1,0 +1,67 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: istio-csr
+  namespace: network
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.jetstack.io/
+      chart: cert-manager-istio-csr
+      version: v0.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: jetstack-charts
+        namespace: flux-system
+      interval: 10m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  dependsOn:
+    - name: cert-manager
+      namespace: network
+  values:
+    app:
+      certmanager:
+        # -- Don't delete created CertificateRequests once they have been signed.
+        preserveCertificateRequests: true
+        issuer:
+          # -- Issuer name set on created CertificateRequests for both istio-csr's
+          # serving certificate and incoming gRPC CSRs.
+          name: letsencrypt-prod
+          # -- Issuer kind set on created CertificateRequests for both istio-csr's
+          # serving certificate and incoming gRPC CSRs.
+          kind: Issuer
+          # -- Issuer group name set on created CertificateRequests for both
+          # istio-csr's serving certificate and incoming gRPC CSRs.
+          group: cert-manager.io
+      tls:
+        # -- An optional file location to a PEM encoded root CA that the root CA
+        # ConfigMap in all namespaces will be populated with. If empty, the CA
+        # returned from cert-manager for the serving certificate will be used.
+        rootCAFile: # /var/certs/ca.pem
+        # -- The DNS names to request for the server's serving certificate which is
+        # presented to istio-agents. istio-agents must route to istio-csr using one
+        # of these DNS names.
+        certificateDNSNames:
+          - cert-manager-istio-csr.network.svc
+    volumes:
+      - name: root-ca
+        configMap:
+          name: istio-ca-root-cert
+    volumeMounts:
+      - name: root-ca
+        mountPath: /etc/tls

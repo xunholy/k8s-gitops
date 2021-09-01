@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: home-assistant
-      version: 7.3.0
+      version: 10.1.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -39,7 +39,7 @@ spec:
     controllerType: deployment
     image:
       repository: homeassistant/home-assistant
-      tag: 2021.4.0
+      tag: 2021.9.0
     hostNetwork: true
     env:
       TZ: 'Australia/Melbourne'
@@ -57,7 +57,7 @@ spec:
           loadBalancerIP: '${CLUSTER_LB_HOME_ASSISTANT_CODE_SERVER}'
         image:
           repository: codercom/code-server
-          tag: 3.9.2
+          tag: 3.11.1
         workingDir: '/config'
         args:
           - --user-data-dir

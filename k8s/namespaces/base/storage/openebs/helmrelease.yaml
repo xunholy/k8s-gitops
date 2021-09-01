@@ -10,20 +10,18 @@ spec:
     spec:
       # renovate: registryUrl=https://openebs.github.io/cstor-operators
       chart: cstor
-      version: 2.7.2
+      version: 2.12.0
       sourceRef:
         kind: HelmRepository
         name: cstor-chart
         namespace: flux-system
       interval: 10m
-  install:
-    skipCRDs: true
-  # values:
-  #   # Required when using the same device that hosts the OS FS partition
-  #   openebs-ndm:
-  #     ndm:
-  #       sparse:
-  #         count: '1'
-  #   # TODO: Check service label is fixed upstream
-  #   cvcOperator:
-  #     componentName: cvc-operator-svc
+  values:
+    # Required when using the same device that hosts the OS FS partition
+    openebs-ndm:
+      ndm:
+        sparse:
+          count: '1'
+    # # TODO: Check service label is fixed upstream
+    # cvcOperator:
+    #   componentName: cvc-operator-svc
