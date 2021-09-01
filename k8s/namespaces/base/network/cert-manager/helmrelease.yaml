@@ -37,6 +37,7 @@ spec:
     - name: sealed-secrets
       namespace: kube-system
   values:
+    installCRDs: true
     webhook:
       url:
         host: cert-manager-webhook.network.svc

@@ -2,11 +2,6 @@
 # nodes if worker nodes share a common L2 network segment.
 autoDirectNodeRoutes: true
 
-# externalIPs is the configuration for ExternalIPs service handling
-externalIPs:
-  # enabled enables ExternalIPs functionality
-  enabled: true
-
 # Cilium leverages MetalLB's simplified BGP announcement system for service type: LoadBalancer
 bgp:
   enabled: false
@@ -24,11 +19,6 @@ endpointRoutes:
 # hostServices is the configuration for ClusterIP service handling in host namespace
 hostServices:
   # enabled enables host reachable functionality
-  enabled: true
-
-# nodePort is the configuration for NodePort service handling
-nodePort:
-  # enabled enables NodePort functionality
   enabled: true
 
 # masquerade enables masquerading of traffic leaving the node for
