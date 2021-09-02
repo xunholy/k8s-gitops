@@ -50,7 +50,7 @@ spec:
       serial:
         # Required: Location of your zigbee device
         # To autodetect the port, set 'port: null'
-        port: "tcp://${EXT_ZIGBEE_CONTROLLER}:6638"
+        port: "tcp://${EXT_ZIGBEE_CONTROLLER}"
       # Optional: advanced settings
       advanced:
         # Optional: Logging level, options: debug, info, warn, error (default: info)
