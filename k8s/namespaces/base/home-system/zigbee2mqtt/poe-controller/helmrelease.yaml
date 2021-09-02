@@ -17,6 +17,9 @@ spec:
         name: k8s-at-home-charts
         namespace: flux-system
       interval: 5m
+  dependsOn:
+    - name: mosquitto
+      namespace: home-automation
   values:
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
@@ -47,7 +50,7 @@ spec:
       serial:
         # Required: Location of your zigbee device
         # To autodetect the port, set 'port: null'
-        port: "tcp://${EXT_ZIGBEE_CONTROLLER}"
+        port: "tcp://${EXT_ZIGBEE_CONTROLLER}:6638"
       # Optional: advanced settings
       advanced:
         # Optional: Logging level, options: debug, info, warn, error (default: info)
