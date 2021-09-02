@@ -9,7 +9,6 @@ spec:
   dependsOn:
     - name: core
     - name: kube-prometheus-stack-crd
-    - name: istio
   path: ./k8s/namespaces/overlays/production
   prune: true
   sourceRef:
