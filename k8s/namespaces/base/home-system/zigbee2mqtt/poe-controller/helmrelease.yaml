@@ -55,7 +55,7 @@ spec:
       # Optional: advanced settings
       advanced:
         # # Optional: ZigBee pan ID
-        # pan_id: 6755
+        pan_id: GENERATE
         # Optional: Logging level, options: debug, info, warn, error (default: info)
         log_level: debug
         # Optional: Output location of the log (default: shown below), leave empty to supress logging (log_output: [])
@@ -64,22 +64,22 @@ spec:
           - console
         # Auto-generated network keys
         # network_key:
-        #   - 239
-        #   - 124
-        #   - 122
-        #   - 220
-        #   - 142
-        #   - 130
-        #   - 27
-        #   - 213
-        #   - 248
-        #   - 86
-        #   - 72
-        #   - 182
-        #   - 185
-        #   - 93
-        #   - 50
-        #   - 227
+        #   - 152
+        #   - 87
+        #   - 59
+        #   - 10
+        #   - 170
+        #   - 162
+        #   - 195
+        #   - 60
+        #   - 89
+        #   - 159
+        #   - 102
+        #   - 171
+        #   - 161
+        #   - 49
+        #   - 236
+        #   - 13
       frontend:
         port: 8080
       # Optional: experimental options
