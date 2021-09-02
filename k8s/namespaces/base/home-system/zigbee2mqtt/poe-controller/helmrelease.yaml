@@ -54,6 +54,8 @@ spec:
         port: "tcp://${EXT_ZIGBEE_CONTROLLER}:6638"
       # Optional: advanced settings
       advanced:
+        # Optional: ZigBee pan ID
+        pan_id: 6755
         # Optional: Logging level, options: debug, info, warn, error (default: info)
         log_level: debug
         # Optional: Output location of the log (default: shown below), leave empty to supress logging (log_output: [])
