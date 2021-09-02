@@ -19,7 +19,7 @@ spec:
       interval: 5m
   dependsOn:
     - name: mosquitto
-      namespace: home-automation
+      namespace: home-system
   values:
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
