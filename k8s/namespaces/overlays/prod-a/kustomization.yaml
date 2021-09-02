@@ -39,4 +39,4 @@ resources:
   - ../../base/velero
   - ../../base/velero/velero
 patchesStrategicMerge:
-  - patch.helmreleases.yaml
+  - patch.yaml
