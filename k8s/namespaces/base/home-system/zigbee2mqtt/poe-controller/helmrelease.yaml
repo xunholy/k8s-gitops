@@ -27,7 +27,8 @@ spec:
     env:
       TZ: Australia/Melbourne
       ZIGBEE2MQTT_DATA: /data
-      DEBUG: zigbee-herdsman*
+      # Enables extremely verbos logging
+      # DEBUG: zigbee-herdsman*
     persistence:
       config:
         enabled: true
@@ -50,8 +51,7 @@ spec:
       serial:
         # Required: Location of your zigbee device
         # To autodetect the port, set 'port: null'
-        # port: "tcp://${EXT_ZIGBEE_CONTROLLER}"
-        port: "tcp://192.168.1.165:6638"
+        port: "tcp://${EXT_ZIGBEE_CONTROLLER}:6638"
       # Optional: advanced settings
       advanced:
         # Optional: Logging level, options: debug, info, warn, error (default: info)
