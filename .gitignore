@@ -6,3 +6,4 @@
 **/.terraform
 **/.secrets/sops/unencrypted
 **/hack
+output

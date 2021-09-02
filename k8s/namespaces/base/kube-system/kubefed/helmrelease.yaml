@@ -17,3 +17,52 @@ spec:
         namespace: flux-system
       interval: 10m
   values:
+    # Default values for kubefed.
+    # This is a YAML-formatted file.
+    # Declare variables to be passed into your templates.
+
+    ## Configuration values for kubefed controllermanager deployment.
+    ##
+    controllermanager:
+      controller:
+        repository: kubespheredev
+        image: kubefed
+        tag: v0.8.1-multi-arch
+        imagePullPolicy: IfNotPresent
+        logLevel: 2
+        forceRedeployment: false
+        env: {}
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+      webhook:
+        repository: kubespheredev
+        image: kubefed
+        tag: v0.8.1-multi-arch
+        imagePullPolicy: IfNotPresent
+        logLevel: 8
+        forceRedeployment: false
+        env: {}
+        resources:
+          limits:
+            cpu: 100m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+      certManager:
+        enabled: false
+        rootCertificate:
+          organizations: []
+          dnsNames:
+            - ca.webhook.kubefed
+          commonName: ca.webhook.kubefed
+      postInstallJob:
+        repository: bitnami
+        image: kubectl
+        tag: 1.17.16
+        imagePullPolicy: IfNotPresent
