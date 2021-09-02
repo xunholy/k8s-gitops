@@ -94,7 +94,7 @@ k8sServicePort: 8443
 
 # nativeRoutingCIDR allows to explicitly specify the CIDR for native routing. This
 # value corresponds to the configured cluster-cidr.
-nativeRoutingCIDR: 192.168.1.0/24
+nativeRoutingCIDR: 10.96.0.0/16
 
 # tunnel is the encapsulation configuration for communication between nodes
 tunnel: disabled
