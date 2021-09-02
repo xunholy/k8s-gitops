@@ -16,3 +16,7 @@ helm install cilium cilium/cilium \
   --namespace=kube-system \
   --values=k8s/namespaces/base/kube-system/cilium/install/values.yaml
 ```
+
+Post successful installation of Cilium it's option to run the Cilium network connectivity tests
+
+https://docs.cilium.io/en/v1.10/operations/troubleshooting/#cilium-connectivity-tests
