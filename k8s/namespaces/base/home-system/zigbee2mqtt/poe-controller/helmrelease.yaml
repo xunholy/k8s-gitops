@@ -17,6 +17,9 @@ spec:
         name: k8s-at-home-charts
         namespace: flux-system
       interval: 5m
+  dependsOn:
+    - name: mosquitto
+      namespace: home-system
   values:
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
@@ -24,7 +27,8 @@ spec:
     env:
       TZ: Australia/Melbourne
       ZIGBEE2MQTT_DATA: /data
-      DEBUG: zigbee-herdsman*
+      # Enables extremely verbos logging
+      # DEBUG: zigbee-herdsman*
     persistence:
       config:
         enabled: true
@@ -47,9 +51,11 @@ spec:
       serial:
         # Required: Location of your zigbee device
         # To autodetect the port, set 'port: null'
-        port: "tcp://192.168.1.165:6638"
+        port: "tcp://${EXT_ZIGBEE_CONTROLLER}:6638"
       # Optional: advanced settings
       advanced:
+        # # Optional: ZigBee pan ID
+        pan_id: GENERATE
         # Optional: Logging level, options: debug, info, warn, error (default: info)
         log_level: debug
         # Optional: Output location of the log (default: shown below), leave empty to supress logging (log_output: [])
@@ -57,23 +63,23 @@ spec:
         log_output:
           - console
         # Auto-generated network keys
-        network_key:
-          - 239
-          - 124
-          - 122
-          - 220
-          - 142
-          - 130
-          - 27
-          - 213
-          - 248
-          - 86
-          - 72
-          - 182
-          - 185
-          - 93
-          - 50
-          - 227
+        # network_key:
+        #   - 152
+        #   - 87
+        #   - 59
+        #   - 10
+        #   - 170
+        #   - 162
+        #   - 195
+        #   - 60
+        #   - 89
+        #   - 159
+        #   - 102
+        #   - 171
+        #   - 161
+        #   - 49
+        #   - 236
+        #   - 13
       frontend:
         port: 8080
       # Optional: experimental options

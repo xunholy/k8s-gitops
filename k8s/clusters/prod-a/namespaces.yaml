@@ -9,13 +9,23 @@ spec:
   dependsOn:
     - name: core
     - name: kube-prometheus-stack-crd
-    - name: istio
-  path: ./k8s/namespaces/overlays/production
+  path: ./k8s/namespaces/overlays/prod-a
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
   validation: none
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config
+      - kind: Secret
+        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
@@ -24,8 +34,19 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./k8s/core/overlays/production
+  path: ./k8s/core/overlays/prod-a
   prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config
+      - kind: Secret
+        name: cluster-secrets

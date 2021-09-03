@@ -36,13 +36,19 @@ spec:
     - name: cstor
       namespace: openebs
   values:
-    controllerType: deployment
     image:
       repository: homeassistant/home-assistant
       tag: 2021.9.0
     hostNetwork: true
     env:
       TZ: 'Australia/Melbourne'
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
     persistence:
       config:
         enabled: true
@@ -52,9 +58,6 @@ spec:
     addons:
       codeserver:
         enabled: true
-        service:
-          type: LoadBalancer
-          loadBalancerIP: 192.168.1.155
         image:
           repository: codercom/code-server
           tag: 3.11.1
@@ -71,13 +74,3 @@ spec:
         volumeMounts:
           - name: config
             mountPath: /config
-    prometheus:
-      serviceMonitor:
-        enabled: false
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false

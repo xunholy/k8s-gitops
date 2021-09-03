@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-    branch: main
+    branch: sops-migration
   secretRef:
     name: flux-system
   url: ssh://git@github.com/xunholy/k8s-gitops
@@ -19,7 +19,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./k8s/clusters/production
+  path: ./k8s/clusters/prod-a
   prune: true
   sourceRef:
     kind: GitRepository
