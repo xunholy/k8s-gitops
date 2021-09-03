@@ -44,6 +44,11 @@ if [[ -f "k8s/clusters/${CLUSTER}/secrets/cluster-secrets.enc.yaml" ]]; then
   sops --decrypt "k8s/clusters/${CLUSTER}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
 fi
 
+if [[ -f "k8s/clusters/${CLUSTER}/secrets/cluster-config.yaml" ]]; then
+  echo "Applying cluster secrets"
+  kubectl apply -f "k8s/clusters/${CLUSTER}/secrets/cluster-config.yaml"
+fi
+
 ## TODO: Apply cert-manager CRDs due to lack of CRD support in helm chart
 # kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.crds.yaml
 
