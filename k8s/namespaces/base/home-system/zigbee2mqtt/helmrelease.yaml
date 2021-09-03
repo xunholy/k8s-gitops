@@ -106,7 +106,7 @@ spec:
     service:
       main:
         type: LoadBalancer
-        loadBalancerIP: 192.168.1.153
+        loadBalancerIP: '${CLUSTER_LB_ZIGBEE2MQTT}'
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

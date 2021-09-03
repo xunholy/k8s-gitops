@@ -19,7 +19,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./k8s/clusters/staging
+  path: ./k8s/clusters/prod-b
   prune: true
   sourceRef:
     kind: GitRepository

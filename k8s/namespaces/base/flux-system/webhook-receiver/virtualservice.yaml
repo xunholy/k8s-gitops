@@ -6,11 +6,11 @@ metadata:
   name: receiver
   namespace: flux-system
   annotations:
-    external-dns.alpha.kubernetes.io/target: raspbernetes.com
+    external-dns.alpha.kubernetes.io/target: '${CLUSTER_TLD}'
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
-    - 'receiver.raspbernetes.com'
+    - 'receiver.${CLUSTER_TLD}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
