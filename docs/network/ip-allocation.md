@@ -3,7 +3,7 @@
 !!! note "Work in progress"
     This document is a work in progress.
 
-## Production
+## Production - Zone A
 
 | Application/Node          | Type               |             IP/CIDR             |
 | ------------------------- | ------------------ | :-----------------------------: |
@@ -21,7 +21,7 @@
 | zigbee2mqtt               | LoadBalancer       |        192.168.1.153/32         |
 | zigbee2mqtt (code-server) | LoadBalancer       |        192.168.1.154/32         |
 
-## Staging
+## Production - Zone B
 
 | Application               | Type               |             IP/CIDR             |
 | ------------------------- | ------------------ | :-----------------------------: |
@@ -37,3 +37,10 @@
 | coredns                   | LoadBalancer       |        192.168.1.181/32         |
 | mosquitto                 | LoadBalancer       |        192.168.1.182/32         |
 | zigbee2mqtt               | LoadBalancer       |        192.168.1.183/32         |
+
+## External Services
+
+| Application               | Type               |             IP/CIDR             |
+| ------------------------- | ------------------ | :-----------------------------: |
+| Zigbee Controller         | N/A                |        192.168.1.165/32         |
+| Ender 5 Pro 3D Printer    | N/A                |        x.x.x.x/32               |
