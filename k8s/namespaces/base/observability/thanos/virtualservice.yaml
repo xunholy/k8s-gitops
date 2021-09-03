@@ -6,7 +6,7 @@ metadata:
   namespace: observability
 spec:
   hosts:
-    - 'thanos.raspbernetes.com'
+    - 'thanos.${CLUSTER_TLD}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:

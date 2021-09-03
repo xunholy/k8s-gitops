@@ -23,4 +23,4 @@ spec:
     service:
       main:
         type: LoadBalancer
-        loadBalancerIP: 192.168.1.152
+        loadBalancerIP: '${CLUSTER_LB_MOSQUITTO}'

@@ -5,11 +5,11 @@ metadata:
   name: home-assistant
   namespace: home-system
   annotations:
-    external-dns.alpha.kubernetes.io/target: raspbernetes.com
+    external-dns.alpha.kubernetes.io/target: '${CLUSTER_TLD}'
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
-    - 'home-assistant.raspbernetes.com'
+    - 'hass.${CLUSTER_TLD}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
@@ -27,7 +27,7 @@ metadata:
   namespace: home-system
 spec:
   hosts:
-    - 'home-assistant-code.raspbernetes.com'
+    - 'hass-code.${CLUSTER_TLD}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:

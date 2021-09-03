@@ -36,7 +36,7 @@ spec:
     isClusterService: false
     serviceType: LoadBalancer
     service:
-      loadBalancerIP: 192.168.1.151
+      loadBalancerIP: '${CLUSTER_LB_COREDNS}'
       externalTrafficPolicy: Cluster
     # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
     servers:

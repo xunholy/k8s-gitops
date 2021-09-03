@@ -2,8 +2,9 @@ ignore: |
   .yamllint.yml
   .github/
   .pre-commit-config.yaml
-  .secrets/
   *.encrypted.yaml
+  *.enc.yaml
+  *.enc.yml
   docker-compose.yml
   k8s/namespaces/base/home-system/zigbee2mqtt/helmrelease.yaml
   **/cloud-init/**/*
@@ -11,7 +12,7 @@ ignore: |
 extends: default
 rules:
   truthy:
-    allowed-values: ["true", "false", "on"]
+    allowed-values: ['true', 'false', 'on']
   comments:
     min-spaces-from-content: 1
   line-length:

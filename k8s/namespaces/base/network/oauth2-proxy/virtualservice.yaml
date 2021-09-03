@@ -5,11 +5,11 @@ metadata:
   name: auth
   namespace: network
   annotations:
-    external-dns.alpha.kubernetes.io/target: raspbernetes.com
+    external-dns.alpha.kubernetes.io/target: '${CLUSTER_TLD}'
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
-    - 'auth.raspbernetes.com'
+    - 'auth.${CLUSTER_TLD}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:

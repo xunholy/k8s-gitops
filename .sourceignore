@@ -7,7 +7,5 @@
 !/k8s
 
 # Exclude sub-foler(s) and file(s)
-/k8s/clusters/production/infrastructure/
-/k8s/clusters/production/secrets/
-/k8s/clusters/staging/infrastructure/
-/k8s/clusters/staging/secrets/
+/k8s/clusters/**/infrastructure/
+/k8s/clusters/**/secrets/
