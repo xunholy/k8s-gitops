@@ -9,7 +9,7 @@ spec:
   dependsOn:
     - name: core
     - name: kube-prometheus-stack-crd
-  path: ./k8s/namespaces/overlays/staging
+  path: ./k8s/namespaces/overlays/prod-b
   prune: true
   sourceRef:
     kind: GitRepository
@@ -22,7 +22,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./k8s/core/overlays/staging
+  path: ./k8s/core/overlays/prod-b
   prune: false
   sourceRef:
     kind: GitRepository
