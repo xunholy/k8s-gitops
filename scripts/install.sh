@@ -35,7 +35,13 @@ fi
 
 if [[ -f "k8s/clusters/${CLUSTER}/secrets/sealed-secret-private-key.enc.yaml" ]]; then
   echo "Applying SOPS key"
+  kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
   sops --decrypt "k8s/clusters/${CLUSTER}/secrets/sops-gpg.enc.yml" | kubectl apply -f -
+fi
+
+if [[ -f "k8s/clusters/${CLUSTER}/secrets/cluster-secrets.enc.yaml" ]]; then
+  echo "Applying cluster secrets"
+  sops --decrypt "k8s/clusters/${CLUSTER}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
 fi
 
 ## TODO: Apply cert-manager CRDs due to lack of CRD support in helm chart
