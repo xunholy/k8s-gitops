@@ -16,6 +16,7 @@ spec:
       k8s:
         service:
           loadBalancerIP: 192.168.1.180
+      name: istio-ingressgateway
     # pilot:
     #   k8s:
     #     env:
