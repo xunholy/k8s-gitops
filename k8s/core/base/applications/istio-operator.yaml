@@ -16,3 +16,15 @@ spec:
       kind: Deployment
       name: istio-operator
       namespace: istio-operator
+  validation: none
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config
+      - kind: Secret
+        name: cluster-secrets

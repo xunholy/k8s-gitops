@@ -4,9 +4,9 @@ resources:
   # - ../../base/actions-runner-system
   - ../../base/flux-system
   - ../../base/home-system
-  - ../../base/home-system/home-assistant
-  - ../../base/home-system/mosquitto
-  - ../../base/home-system/zigbee2mqtt/poe-controller
+  # - ../../base/home-system/home-assistant
+  # - ../../base/home-system/mosquitto
+  # - ../../base/home-system/zigbee2mqtt/poe-controller
   - ../../base/istio-system
   - ../../base/kube-system
   # - ../../base/kube-system/cilium

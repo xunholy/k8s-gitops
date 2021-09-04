@@ -5,7 +5,7 @@ resources:
   - ../../base/crossplane-system
   - ../../base/flux-system
   - ../../base/home-system
-  # - ../../base/home-system/home-assistant
+  - ../../base/home-system/home-assistant
   - ../../base/home-system/mosquitto
   - ../../base/home-system/zigbee2mqtt/poe-controller
   - ../../base/istio-system
