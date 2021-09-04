@@ -7,13 +7,12 @@ metadata:
 spec:
   # The secret name where cert-manager should store the signed certificate
   secretName: ingress-cert
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
   # cert-manager regenerates a new private key on each issuance
   # https://cert-manager.io/docs/usage/certificate/#rotation-private-key
   privateKey:
     rotationPolicy: Always
-  duration: 2160h # 90d
-  renewBefore: 360h # 15d
-  privateKey:
     algorithm: RSA
     encoding: PKCS1
     size: 2048
