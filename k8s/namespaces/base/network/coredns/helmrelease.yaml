@@ -17,9 +17,9 @@ spec:
         name: coredns-charts
         namespace: flux-system
       interval: 5m
-  # dependsOn:
-  #   - name: etcd
-  #     namespace: network
+  dependsOn:
+    - name: metallb
+      namespace: network
   values:
     # Custom image bundled with external plugins; currently not in use.
     # This image is reusable and can be viewed with the available plugins here https://github.com/xUnholy/coredns
