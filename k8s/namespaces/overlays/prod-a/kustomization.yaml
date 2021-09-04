@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   # - ../../base/actions-runner-system
+  # - ../../base/crossplane-system
   - ../../base/flux-system
   - ../../base/home-system
   # - ../../base/home-system/home-assistant
@@ -11,6 +12,10 @@ resources:
   - ../../base/kube-system
   # - ../../base/kube-system/cilium
   # - ../../base/kube-system/descheduler
+  # TODO: Currently does not support ARM64
+  # https://github.com/kubernetes-sigs/kubefed/issues/1449
+  # - ../../base/kube-system/kubefed
+  # TODO: Image is broken
   # - ../../base/kube-system/metrics-server
   - ../../base/kube-system/reloader
   - ../../base/kube-system/sealed-secrets
@@ -22,13 +27,13 @@ resources:
   - ../../base/network/coredns
   - ../../base/network/dex
   - ../../base/network/external-dns
-  # TODO: Currently does not support ARM64
-  # https://github.com/cert-manager/istio-csr/issues/89
-  # - ../../base/network/istio-csr
+  - ../../base/network/istio-csr
   - ../../base/network/metallb
   - ../../base/network/node-feature-discovery
   - ../../base/network/oauth2-proxy
-  - ../../base/network/origin-ca-issuer
+  # TODO: Disabled as the chart is not published and this is not currently
+  # adding any real value. https://github.com/cloudflare/origin-ca-issuer/issues/17
+  # - ../../base/network/origin-ca-issuer
   - ../../base/observability
   # - ../../base/observability/kiali
   # - ../../base/observability/kube-prometheus-stack
@@ -38,9 +43,10 @@ resources:
   # - ../../base/security
   # - ../../base/security/gatekeeper
   - ../../base/storage/openebs
-  # blockdevices will persist across devices
+  # TODO: cspc must be created after blockdevices have been created.
+  # blockdevices will persist across devices  
   # - ../../base/storage/openebs/cstor-pool.yaml
-  - ../../base/velero
-  - ../../base/velero/velero
+  # - ../../base/velero
+  # - ../../base/velero/velero
 patchesStrategicMerge:
   - patch.yaml

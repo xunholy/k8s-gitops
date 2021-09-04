@@ -14,18 +14,20 @@ spec:
         protocol: HTTP
       hosts:
         - '${CLUSTER_DOMAIN}'
+        - '*.${CLUSTER_DOMAIN}'
         - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
-      # tls:
-      #   httpsRedirect: true
+      tls:
+        httpsRedirect: true
     - port:
         number: 443
         name: https
         protocol: HTTPS
       hosts:
         - '${CLUSTER_DOMAIN}'
+        - '*.${CLUSTER_DOMAIN}'
         - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
       tls:
         credentialName: ingress-cert
         mode: SIMPLE
-        # minProtocolVersion: TLSV1_2
-        # maxProtocolVersion: TLSV1_3
+        minProtocolVersion: TLSV1_2
+        maxProtocolVersion: TLSV1_3

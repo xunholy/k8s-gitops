@@ -20,6 +20,9 @@ resources:
   - openebs-charts.yaml
   - openebs-cstor-charts.yaml
   - openfaas-charts.yaml
+  # TODO: Currently the chart is not published, additionally does not have an index.yaml
+  # that can be referenced. https://github.com/cloudflare/origin-ca-issuer/issues/17
+  # - origin-ca-issuer-chart.yaml
   - prometheus-community-charts.yaml
   - sealed-secrets-charts.yaml
   - secrets-store-csi-driver-chart.yaml

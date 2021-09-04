@@ -4,7 +4,7 @@ resources:
   - authz.yaml
   - certificate-le.yaml
   # - certificate-cf.yaml
-  - envoyfilter-authn.yaml
+  # - envoyfilter-authn.yaml
   - gateway.yaml
   # - namespace.yaml
   # - networkpolicy.yaml
