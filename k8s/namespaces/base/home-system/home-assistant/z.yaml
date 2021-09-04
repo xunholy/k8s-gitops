@@ -1,0 +1,54 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: home-assistant
+  namespace: home-automation
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: home-assistant
+      version: 10.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/home-assistant/home-assistant
+      tag: 2021.8.8
+    env:
+      TZ: "Europe/Amsterdam"
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    persistence:
+      config:
+        enabled: true
+        existingClaim: home-assistant-data
+
+    addons:
+      codeserver:
+        enabled: true
+        git:
+          deployKeySecret: home-assistant-deploykey
+        args:
+          - --auth
+          - none
+          - --user-data-dir
+          - "/config/.vscode"
+          - --extensions-dir
+          - "/config/.vscode"
+
+        workingDir: "/config"
+
+        volumeMounts:
+          - name: config
+            mountPath: /config

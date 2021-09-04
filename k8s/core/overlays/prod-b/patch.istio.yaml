@@ -2,7 +2,7 @@
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
-  name: istio
+  name: istio-1.11.0
   namespace: istio-system
 spec:
   # meshConfig:
