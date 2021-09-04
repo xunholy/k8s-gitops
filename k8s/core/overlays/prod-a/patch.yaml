@@ -1,0 +1,14 @@
+---
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio-1.11.0
+  namespace: istio-system
+spec:
+  components:
+    ingressGateways:
+      - enabled: true
+        k8s:
+          service:
+            loadBalancerIP: 192.168.1.150
+        name: istio-ingressgateway
