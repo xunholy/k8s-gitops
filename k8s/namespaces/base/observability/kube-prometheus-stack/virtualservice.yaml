@@ -6,7 +6,7 @@ metadata:
   namespace: observability
 spec:
   hosts:
-    - 'alert-manager.${CLUSTER_TLD}'
+    - 'alert-manager.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
@@ -24,11 +24,11 @@ metadata:
   name: grafana
   namespace: observability
   annotations:
-    external-dns.alpha.kubernetes.io/target: '${CLUSTER_TLD}'
+    external-dns.alpha.kubernetes.io/target: '${CLUSTER_DOMAIN}'
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
-    - 'grafana.${CLUSTER_TLD}'
+    - 'grafana.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
@@ -47,7 +47,7 @@ metadata:
   namespace: observability
 spec:
   hosts:
-    - 'prometheus.${CLUSTER_TLD}'
+    - 'prometheus.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:

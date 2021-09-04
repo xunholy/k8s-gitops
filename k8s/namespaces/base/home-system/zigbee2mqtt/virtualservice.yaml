@@ -5,11 +5,11 @@ metadata:
   name: zigbee2mqtt-code
   namespace: home-system
   annotations:
-    external-dns.alpha.kubernetes.io/target: '${CLUSTER_TLD}'
+    external-dns.alpha.kubernetes.io/target: '${CLUSTER_DOMAIN}'
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
-    - 'z2m-code.${CLUSTER_TLD}'
+    - 'z2m-code.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
@@ -27,7 +27,7 @@ metadata:
   namespace: home-system
 spec:
   hosts:
-    - 'z2m.${CLUSTER_TLD}'
+    - 'z2m.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:

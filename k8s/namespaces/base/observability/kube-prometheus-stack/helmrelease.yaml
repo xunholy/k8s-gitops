@@ -203,7 +203,7 @@ spec:
         passwordKey: '${GRAFANA_ADMIN_PASSWORD}'
       grafana.ini:
         server:
-          root_url: 'https://grafana.${CLUSTER_TLD}'
+          root_url: 'https://grafana.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
         auth.basic:
           disable_login_form: true
         auth.github:
@@ -223,9 +223,9 @@ spec:
           client_id: '${GRAFANA_AUTH_GENERIC_CLIENT_ID}'
           client_secret: '${GRAFANA_AUTH_GENERIC_CLIENT_PASSWORD}'
           scopes: openid profile email groups
-          auth_url: 'https://dex.${CLUSTER_TLD}/auth'
-          token_url: 'https://dex.${CLUSTER_TLD}/token'
-          api_url: 'https://dex.${CLUSTER_TLD}/userinfo'
+          auth_url: 'https://dex.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}/auth'
+          token_url: 'https://dex.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}/token'
+          api_url: 'https://dex.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}/userinfo'
         auth.generic_oauth.group_mapping:
           role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || 'Viewer'"
           org_id: 1
