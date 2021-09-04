@@ -13,8 +13,8 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - 'raspbernetes.com'
-        - '*.raspbernetes.com'
+        - '${CLUSTER_DOMAIN}'
+        - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
       tls:
         httpsRedirect: true
     - port:
@@ -22,8 +22,8 @@ spec:
         name: https
         protocol: HTTPS
       hosts:
-        - 'raspbernetes.com'
-        - '*.raspbernetes.com'
+        - '${CLUSTER_DOMAIN}'
+        - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
       tls:
         credentialName: wildcard-cert
         mode: SIMPLE

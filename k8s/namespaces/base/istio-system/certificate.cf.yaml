@@ -8,7 +8,7 @@ spec:
   # The secret name where cert-manager should store the signed certificate
   secretName: raspbernetes-com-tls
   dnsNames:
-    - raspbernetes.com
+    - ${CLUSTER_DOMAIN}
     - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
   # Duation of the certificate
   duration: 168h

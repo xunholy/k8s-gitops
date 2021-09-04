@@ -11,5 +11,5 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - raspbernetes.com
+    - ${CLUSTER_DOMAIN}
     - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
