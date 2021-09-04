@@ -14,6 +14,19 @@ spec:
     ingressGateways:
     - enabled: true
       k8s:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: beta.kubernetes.io/arch
+                  operator: In
+                  values:
+                  - arm64
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
         service:
           loadBalancerIP: 192.168.1.180
       name: istio-ingressgateway
