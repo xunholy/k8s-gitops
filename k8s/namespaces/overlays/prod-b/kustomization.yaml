@@ -48,5 +48,6 @@ resources:
   # - ../../base/storage/openebs/cstor-pool.yaml
   # - ../../base/velero
   # - ../../base/velero/velero
-patchesStrategicMerge:
-  - patch.yaml
+
+# patchesStrategicMerge:
+#   - patch.yaml
