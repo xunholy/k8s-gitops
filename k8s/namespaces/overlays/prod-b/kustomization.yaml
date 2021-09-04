@@ -10,7 +10,7 @@ resources:
   - ../../base/home-system/zigbee2mqtt/poe-controller
   - ../../base/istio-system
   - ../../base/kube-system
-  # - ../../base/kube-system/cilium
+  - ../../base/kube-system/cilium
   # - ../../base/kube-system/descheduler
   # TODO: Currently does not support ARM64
   # https://github.com/kubernetes-sigs/kubefed/issues/1449

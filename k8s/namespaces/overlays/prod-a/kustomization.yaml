@@ -10,6 +10,7 @@ resources:
   # - ../../base/home-system/zigbee2mqtt/poe-controller
   - ../../base/istio-system
   - ../../base/kube-system
+  # Disabled to RockPis only running 4.4 kernal
   # - ../../base/kube-system/cilium
   # - ../../base/kube-system/descheduler
   # TODO: Currently does not support ARM64
