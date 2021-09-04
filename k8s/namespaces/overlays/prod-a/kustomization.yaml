@@ -14,6 +14,7 @@ resources:
   # - ../../base/kube-system/metrics-server
   - ../../base/kube-system/reloader
   - ../../base/kube-system/sealed-secrets
+  - ../../base/kube-system/secret-store-csi-driver
   # - ../../base/litmus
   - ../../base/network
   - ../../base/network/cert-manager
@@ -21,16 +22,19 @@ resources:
   - ../../base/network/coredns
   - ../../base/network/dex
   - ../../base/network/external-dns
+  # TODO: Currently does not support ARM64
+  # https://github.com/cert-manager/istio-csr/issues/89
+  # - ../../base/network/istio-csr
   - ../../base/network/metallb
   - ../../base/network/node-feature-discovery
   - ../../base/network/oauth2-proxy
-  # - ../../base/network/origin-ca-issuer
+  - ../../base/network/origin-ca-issuer
   - ../../base/observability
   # - ../../base/observability/kiali
   # - ../../base/observability/kube-prometheus-stack
-  # - ../../base/observability/loki-stack
+  - ../../base/observability/loki-stack
   # - ../../base/observability/speedtest
-  # - ../../base/observability/thanos
+  - ../../base/observability/thanos
   # - ../../base/security
   # - ../../base/security/gatekeeper
   - ../../base/storage/openebs

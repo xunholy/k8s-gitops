@@ -38,16 +38,13 @@ resources:
   # - ../../base/observability/kiali
   # - ../../base/observability/kube-prometheus-stack
   - ../../base/observability/loki-stack
-  - ../../base/observability/speedtest
+  # - ../../base/observability/speedtest
   - ../../base/observability/thanos
-  - ../../base/security
+  # - ../../base/security
   # - ../../base/security/gatekeeper
   - ../../base/storage/openebs
   # TODO: cspc must be created after blockdevices have been created.
   # - ../../base/storage/openebs/cstor-pool.yaml
-  # - ../../base/velero
+  - ../../base/velero
 patchesStrategicMerge:
-  - patch.certificates.yaml
-  - patch.helmreleases.yaml
-  - patch.sealed-secrets.yaml
-  - patch.virtualservices.yaml
+  - patch.yaml

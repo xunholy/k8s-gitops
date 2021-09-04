@@ -9,7 +9,7 @@ spec:
   secretName: raspbernetes-com-tls
   dnsNames:
     - raspbernetes.com
-    - '*.raspbernetes.com'
+    - '*.${CLUSTER_TLD}'
   # Duation of the certificate
   duration: 168h
   # Renew a day before the certificate expiration

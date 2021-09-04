@@ -103,4 +103,4 @@ spec:
           raspbernetes.com.   IN SOA    ns.dns.raspbernetes.com. hostmaster.raspbernetes.com. 1610541154 7200 1800 86400 30
           raspbernetes.com.   IN NS     ns.dns.raspbernetes.com.
           raspbernetes.com.   IN A      192.168.1.150
-          *.raspbernetes.com. IN CNAME  raspbernetes.com.
+          *.${CLUSTER_TLD}. IN CNAME  raspbernetes.com.
