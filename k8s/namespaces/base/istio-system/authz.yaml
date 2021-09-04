@@ -22,4 +22,6 @@ spec:
   rules:
     - to:
         - operation:
-            hosts: ['sealed-secrets.raspbernetes.com']
+            hosts:
+              - 'sealed-secrets.raspbernetes.com'
+              - 'hass.raspbernetes.com'
