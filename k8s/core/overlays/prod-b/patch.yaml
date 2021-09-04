@@ -56,9 +56,3 @@ spec:
     #           configMap:
     #             defaultMode: 420
     #             name: istio-ca-root-cert
-
-
-kustomize build failed: no matches for Id 
-install.istio.io_v1alpha1_IstioOperator|istio-system|istio-1.11.0; 
-failed to find unique target for patch 
-install.istio.io_v1alpha1_IstioOperator|istio-1.11.0
