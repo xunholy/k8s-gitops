@@ -39,7 +39,6 @@ spec:
     image:
       repository: homeassistant/home-assistant
       tag: 2021.9.0
-    hostNetwork: true
     env:
       TZ: 'Australia/Melbourne'
     probes:
@@ -53,14 +52,9 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant-config
-    service:
-      portName: http-api
     addons:
       codeserver:
         enabled: true
-        image:
-          repository: codercom/code-server
-          tag: 3.11.1
         workingDir: '/config'
         args:
           - --user-data-dir
