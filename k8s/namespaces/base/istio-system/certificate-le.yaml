@@ -7,8 +7,8 @@ metadata:
 spec:
   # The secret name where cert-manager should store the signed certificate
   secretName: ingress-cert
-  duration: 2160h # 90d
-  renewBefore: 360h # 15d
+  duration: 2160h0m0s # 90d
+  renewBefore: 360h0m0s # 15d
   # cert-manager regenerates a new private key on each issuance
   # https://cert-manager.io/docs/usage/certificate/#rotation-private-key
   privateKey:
@@ -27,5 +27,5 @@ spec:
     - ${CLUSTER_DOMAIN}
     - '*.${CLUSTER_DOMAIN}'
     - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
-  ipAddresses:
-    - ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
+  # ipAddresses:
+  #   - ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
