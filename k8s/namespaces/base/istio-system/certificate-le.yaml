@@ -6,11 +6,27 @@ metadata:
   namespace: istio-system
 spec:
   # The secret name where cert-manager should store the signed certificate
-  secretName: wildcard-cert
+  secretName: ingress-cert
+  # cert-manager regenerates a new private key on each issuance
+  # https://cert-manager.io/docs/usage/certificate/#rotation-private-key
+  privateKey:
+    rotationPolicy: Always
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
+  commonName: ${CLUSTER_DOMAIN}
   dnsNames:
     - ${CLUSTER_DOMAIN}
     - '*.${CLUSTER_DOMAIN}'
     - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
+  ipAddresses:
+    - ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
