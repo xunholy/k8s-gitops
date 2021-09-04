@@ -9,7 +9,7 @@ metadata:
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
-    - 'z2m-code.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
+    - 'z2m-code.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
@@ -27,7 +27,7 @@ metadata:
   namespace: home-system
 spec:
   hosts:
-    - 'z2m.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
+    - 'z2m.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:

@@ -9,7 +9,7 @@ metadata:
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
-    - 'auth.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
+    - 'auth.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:

@@ -6,7 +6,7 @@ metadata:
   namespace: observability
 spec:
   hosts:
-    - 'thanos.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
+    - 'thanos.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:

@@ -6,7 +6,7 @@ metadata:
   namespace: kube-system
 spec:
   hosts:
-    - 'hubble.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
+    - 'hubble.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:

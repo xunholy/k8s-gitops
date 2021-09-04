@@ -9,7 +9,7 @@ metadata:
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
-    - 'sealed-secrets.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
+    - 'sealed-secrets.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:

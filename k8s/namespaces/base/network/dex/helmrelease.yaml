@@ -37,7 +37,7 @@ spec:
     env:
       KUBERNETES_POD_NAMESPACE: network
     config:
-      issuer: 'https://dex.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
+      issuer: 'https://dex.${CLUSTER_DOMAIN}'
       storage:
         type: kubernetes
         config:

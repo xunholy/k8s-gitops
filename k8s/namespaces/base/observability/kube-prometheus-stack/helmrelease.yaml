@@ -203,7 +203,7 @@ spec:
         passwordKey: '${GRAFANA_ADMIN_PASSWORD}'
       grafana.ini:
         server:
-          root_url: 'https://grafana.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
+          root_url: 'https://grafana.${CLUSTER_DOMAIN}'
         auth.basic:
           disable_login_form: true
         auth.github:

@@ -6,7 +6,7 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-    - 'jaeger.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
+    - 'jaeger.${CLUSTER_DOMAIN}'
   gateways:
     - istio-system/istio-system-ingress-gateway
   http:
