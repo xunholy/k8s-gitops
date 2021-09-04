@@ -12,4 +12,5 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - ${CLUSTER_DOMAIN}
+    - '*.${CLUSTER_DOMAIN}'
     - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
