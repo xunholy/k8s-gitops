@@ -8,6 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://raw.githubusercontent.com/cloudflare/origin-ca-issuer/trunk/charts
       chart: origin-ca-issuer
       version: 0.6.0
       sourceRef:
