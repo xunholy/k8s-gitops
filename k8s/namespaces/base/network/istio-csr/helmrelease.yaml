@@ -44,7 +44,7 @@ spec:
           name: letsencrypt-prod
           # -- Issuer kind set on created CertificateRequests for both istio-csr's
           # serving certificate and incoming gRPC CSRs.
-          kind: Issuer
+          kind: ClusterIssuer
           # -- Issuer group name set on created CertificateRequests for both
           # istio-csr's serving certificate and incoming gRPC CSRs.
           group: cert-manager.io
