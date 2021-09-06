@@ -53,6 +53,7 @@ spec:
         # ConfigMap in all namespaces will be populated with. If empty, the CA
         # returned from cert-manager for the serving certificate will be used.
         # rootCAFile: /etc/tls/root-cert.pem
+        # rootCAFile: /etc/tls/root-cert.pem
         # -- The DNS names to request for the server's serving certificate which is
         # presented to istio-agents. istio-agents must route to istio-csr using one
         # of these DNS names.
