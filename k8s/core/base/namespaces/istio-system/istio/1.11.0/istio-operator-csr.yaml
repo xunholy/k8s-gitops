@@ -5,7 +5,6 @@ metadata:
   name: istio-1.11.0
   namespace: istio-system
 spec:
-  revision: canary
   components:
     base:
       enabled: true
@@ -55,7 +54,7 @@ spec:
         overlays:
         - apiVersion: apps/v1
           kind: Deployment
-          name: istiod-canary
+          name: istiod
           patches:
           # Mount istiod serving and webhook certificate from Secret mount
           - path: spec.template.spec.containers.[name:discovery].args[-1]
@@ -110,7 +109,7 @@ spec:
         service: oauth2-proxy.network.svc.cluster.local
       name: oauth2-proxy
   profile: default
-  tag: 1.11.0-distroless
+  tag: 1.11.0
   values:
     base:
       enableCRDTemplates: false
@@ -176,7 +175,7 @@ spec:
       pilotCertProvider: istiod
       priorityClassName: ""
       proxy:
-        autoInject: disabled
+        autoInject: enabled
         clusterDomain: cluster.local
         componentLogLevel: misc:error
         enableCoreDump: false
