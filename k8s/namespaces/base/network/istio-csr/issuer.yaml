@@ -10,6 +10,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: istio-ca
+  namespace: istio-system
 spec:
   isCA: true
   duration: 2160h # 90d
@@ -18,7 +19,6 @@ spec:
   subject:
     organizations:
     - cluster.local
-    - raspbernetes
   issuerRef:
     name: selfsigned
     kind: ClusterIssuer

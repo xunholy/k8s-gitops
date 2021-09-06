@@ -52,12 +52,25 @@ spec:
         # -- An optional file location to a PEM encoded root CA that the root CA
         # ConfigMap in all namespaces will be populated with. If empty, the CA
         # returned from cert-manager for the serving certificate will be used.
-        rootCAFile: # /var/certs/ca.pem
+        rootCAFile: /etc/tls/root-cert.pem
         # -- The DNS names to request for the server's serving certificate which is
         # presented to istio-agents. istio-agents must route to istio-csr using one
         # of these DNS names.
         certificateDNSNames:
           - cert-manager-istio-csr.network.svc
+      istio:
+        # -- The istio revisions that are currently installed in the cluster.
+        # Changing this field will modify the DNS names that will be requested for
+        # the istiod certificate. The common name for the istiod certificate is
+        # hard coded to the `default` revision DNS name.
+        # Some issuers may require that the common name on certificates match one
+        # of the DNS names. If 1. Your issuer has this constraint, and 2. You are
+        # not using `default` as a revision, add the `default` revision here
+        # anyway. The resulting certificate will include a DNS name that won't be
+        # used, but will pass this constraint.
+        revisions:
+          - default
+          - canary
     volumes:
       - name: root-ca
         configMap:
