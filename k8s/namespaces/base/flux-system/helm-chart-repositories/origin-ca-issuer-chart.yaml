@@ -8,4 +8,3 @@ spec:
   interval: 30m
   url: https://raw.githubusercontent.com/cloudflare/origin-ca-issuer/trunk/charts
   timeout: 3m
-
