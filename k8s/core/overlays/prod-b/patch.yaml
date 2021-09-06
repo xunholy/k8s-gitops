@@ -5,6 +5,7 @@ metadata:
   name: istio-1.11.0
   namespace: istio-system
 spec:
+  tag: 1.11.0
   meshConfig:
     trustDomain: cluster.local
   values:
