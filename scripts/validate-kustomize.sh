@@ -57,8 +57,9 @@ echo "INFO - Validating kustomize overlays"
 find . -type f -name $kustomize_config -print0 | while IFS= read -r -d $'\0' file;
   do
     echo "INFO - Validating kustomization ${file/%$kustomize_config}"
+    # Secrets are ignored with --skip-kinds due to using SOPS with FluxCD
     # shellcheck disable=SC2086
-    kustomize build "${file/%$kustomize_config}" $kustomize_flags | kubeval --ignore-missing-schemas --strict --additional-schema-locations=file:///tmp/flux-crd-schemas
+    kustomize build "${file/%$kustomize_config}" $kustomize_flags | kubeval --ignore-missing-schemas --strict --additional-schema-locations=file:///tmp/flux-crd-schemas --skip-kinds Secret
     if [[ ${PIPESTATUS[0]} != 0 ]]; then
       exit 1
     fi
