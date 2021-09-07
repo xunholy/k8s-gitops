@@ -6,6 +6,13 @@ metadata:
   namespace: istio-system
 spec:
   components:
+    base:
+      enabled: false
+    cni:
+      enabled: false
+    egressGateways:
+    - enabled: false
+      name: istio-egressgateway
     ingressGateways:
     - enabled: true
       name: istio-ingressgateway
@@ -40,4 +47,16 @@ spec:
             cpu: 500m
             memory: 128Mi
         service:
-          loadBalancerIP: 192.168.1.180
+          loadBalancerIP: 192.168.1.150
+    istiodRemote:
+      enabled: false
+    pilot:
+      enabled: false
+  profile: empty
+  hub: docker.io/querycapistio
+  tag: 1.11.0-distroless
+  values:
+    gateways:
+      istio-ingressgateway:
+        # Enable gateway injection
+        injectionTemplate: gateway
