@@ -2,10 +2,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # Create istio-system namespace
   - ../../base/namespaces/istio-system
-  - ../../base/namespaces/istio-system/istio/1.11.0/
-  - ../../base/namespaces/istio-operator/1.11.0/
+  - ../../base/namespaces/istio-ingress
+  - ../../base/namespaces/istio-operator
   - ../../base/crds/kube-prometheus-stack.yaml
   - ../../base/crds/sealed-secrets.yaml
 
