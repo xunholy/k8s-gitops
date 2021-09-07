@@ -60,5 +60,3 @@ spec:
       istio-ingressgateway:
         # Enable gateway injection
         injectionTemplate: gateway
-
-   
