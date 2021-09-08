@@ -5,5 +5,4 @@ resources:
   - gateway.yaml
   # - networkpolicy.yaml
   - originissuer.yaml
-  - peerauthentication.yaml
   - secret.encrypted.yaml
