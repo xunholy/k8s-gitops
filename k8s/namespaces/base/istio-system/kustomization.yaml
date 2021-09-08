@@ -2,15 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - authz.yaml
-  - certificate-le.yaml
-  # - certificate-cf.yaml
-  # - envoyfilter-authn.yaml
-  - gateway.yaml
-  # - namespace.yaml
   # - networkpolicy.yaml
-  # - originissuer.yaml
   - peerauthentication.yaml
-  - secret.encrypted.yaml
-  - serviceentry.yaml
-  - servicemonitor.yaml
-  - virtualservice.yaml
+  # TODO: Not required when istiod isn't set to REGISTRY_ONLY
+  # - serviceentry.yaml
+  # TODO: Disabled while prometheus is disabled
+  # - servicemonitor.yaml
