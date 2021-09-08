@@ -5,11 +5,8 @@ metadata:
   name: ingress
   namespace: istio-system
 spec:
+  profile: empty
   components:
-    base:
-      enabled: false
-    cni:
-      enabled: false
     egressGateways:
     - enabled: false
       name: istio-egressgateway
@@ -28,7 +25,7 @@ spec:
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
               - matchExpressions:
-                - key: beta.kubernetes.io/arch
+                - key: kubernetes.io/arch
                   operator: In
                   values:
                   - arm64
@@ -48,13 +45,6 @@ spec:
             memory: 128Mi
         service:
           loadBalancerIP: 192.168.1.150
-    istiodRemote:
-      enabled: false
-    pilot:
-      enabled: false
-  profile: empty
-  hub: docker.io/querycapistio
-  tag: 1.11.0-distroless
   values:
     gateways:
       istio-ingressgateway:
