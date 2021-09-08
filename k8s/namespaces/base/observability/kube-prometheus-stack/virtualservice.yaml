@@ -8,7 +8,7 @@ spec:
   hosts:
     - 'alert-manager.${CLUSTER_DOMAIN}'
   gateways:
-    - istio-system/istio-system-ingress-gateway
+    - istio-ingress/istio-ingressgateway
   http:
     - match:
         - port: 443
@@ -30,7 +30,7 @@ spec:
   hosts:
     - 'grafana.${CLUSTER_DOMAIN}'
   gateways:
-    - istio-system/istio-system-ingress-gateway
+    - istio-ingress/istio-ingressgateway
   http:
     - match:
         - port: 443
@@ -49,7 +49,7 @@ spec:
   hosts:
     - 'prometheus.${CLUSTER_DOMAIN}'
   gateways:
-    - istio-system/istio-system-ingress-gateway
+    - istio-ingress/istio-ingressgateway
   http:
     - match:
         - port: 443

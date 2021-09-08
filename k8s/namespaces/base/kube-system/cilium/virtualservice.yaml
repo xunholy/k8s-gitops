@@ -8,7 +8,7 @@ spec:
   hosts:
     - 'hubble.${CLUSTER_DOMAIN}'
   gateways:
-    - istio-system/istio-system-ingress-gateway
+    - istio-ingress/istio-ingressgateway
   http:
     - match:
         - port: 443

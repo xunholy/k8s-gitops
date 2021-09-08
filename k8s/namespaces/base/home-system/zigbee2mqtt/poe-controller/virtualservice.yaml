@@ -8,7 +8,7 @@ spec:
   hosts:
     - 'z2m.${CLUSTER_DOMAIN}'
   gateways:
-    - istio-system/istio-system-ingress-gateway
+    - istio-ingress/istio-ingressgateway
   http:
     - route:
         - destination:
