@@ -8,6 +8,7 @@ resources:
   - ../../base/home-system/home-assistant
   - ../../base/home-system/mosquitto
   - ../../base/home-system/zigbee2mqtt/poe-controller
+  - ../../base/istio-ingress
   - ../../base/istio-system
   - ../../base/kube-system
   - ../../base/kube-system/cilium
