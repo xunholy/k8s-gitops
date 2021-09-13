@@ -22,11 +22,6 @@ containerRuntime:
 endpointRoutes:
   enabled: false
 
-# hostServices is the configuration for ClusterIP service handling in host namespace
-hostServices:
-  # enabled enables host reachable functionality
-  enabled: true
-
 # masquerade enables masquerading of traffic leaving the node for
 # destinations outside of the cluster.
 masquerade: true
@@ -166,6 +161,6 @@ hostPort:
 # -- Configure ClusterIP service handling in the host namespace (the node).
 hostServices:
   # -- Enable host reachable services.
-  enabled: false
+  enabled: true
   # -- Supported list of protocols to apply ClusterIP translation to.
   protocols: tcp,udp
