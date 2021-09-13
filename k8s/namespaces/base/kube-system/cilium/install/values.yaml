@@ -11,6 +11,8 @@ bgp:
 nodePort:
   # -- Enable the Cilium NodePort service implementation.
   enabled: false
+  # -- Port range to use for NodePort services.
+  range: "30000,32767"
 
 containerRuntime:
   integration: containerd
@@ -30,6 +32,7 @@ hostServices:
 masquerade: true
 
 hubble:
+  # -- Enable Hubble (true by default).
   enabled: true
   # Enables the provided list of Hubble metrics.
   metrics:
@@ -43,9 +46,15 @@ hubble:
       - http
   listenAddress: ':4244'
   relay:
+    # -- Enable Hubble Relay (requires hubble.enabled=true)
     enabled: true
+    # -- Roll out Hubble Relay pods automatically when configmap is updated.
+    rollOutPods: true
   ui:
+    # -- Whether to enable the Hubble UI.
     enabled: true
+    # -- Roll out Hubble-ui pods automatically when configmap is updated.
+    rollOutPods: true
 
 ipam:
   # -- Configure IP Address Management mode.
@@ -60,6 +69,10 @@ ipam:
     clusterPoolIPv6PodCIDR: "fd00::/104"
     # -- IPv6 CIDR mask size to delegate to individual nodes for IPAM.
     clusterPoolIPv6MaskSize: 120
+
+ipv6:
+  # -- Enable IPv6 support.
+  enabled: false
 
 # kubeProxyReplacement enables kube-proxy replacement in Cilium BPF datapath
 # TODO: Disabled due to RockPi kernel <= 4.4
@@ -98,7 +111,7 @@ k8sServicePort: 8443
 
 # nativeRoutingCIDR allows to explicitly specify the CIDR for native routing. This
 # value corresponds to the configured cluster-cidr.
-nativeRoutingCIDR: 10.244.0.0/16
+nativeRoutingCIDR: 10.0.0.0/8
 
 # tunnel is the encapsulation configuration for communication between nodes
 tunnel: disabled
@@ -124,6 +137,35 @@ cluster:
   id:
 
 clustermesh:
-  # -- Deploy clustermesh-apiserver for clustermesh
   # TODO: Investigate image that is ARM64 supported
+  # -- Deploy clustermesh-apiserver for clustermesh
   useAPIServer: false
+  apiserver:
+    # -- Clustermesh API server image.
+    image:
+      repository: quay.io/cilium/clustermesh-apiserver
+      tag: v1.10.4
+    etcd:
+      # -- Clustermesh API server etcd image.
+      image:
+        repository: quay.io/coreos/etcd
+        tag: v3.4.13
+        pullPolicy: IfNotPresent
+
+# -- Roll out cilium agent pods automatically when configmap is updated.
+rollOutCiliumPods: true
+
+externalIPs:
+  # -- Enable ExternalIPs service support.
+  enabled: true
+
+hostPort:
+  # -- Enable hostPort service support.
+  enabled: false
+
+# -- Configure ClusterIP service handling in the host namespace (the node).
+hostServices:
+  # -- Enable host reachable services.
+  enabled: false
+  # -- Supported list of protocols to apply ClusterIP translation to.
+  protocols: tcp,udp

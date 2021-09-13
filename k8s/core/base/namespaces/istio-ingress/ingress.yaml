@@ -34,7 +34,7 @@ spec:
                 - key: istio
                   operator: In
                   values:
-                  - cluster-ingress-gateway
+                  - ingressgateway
               topologyKey: kubernetes.io/hostname
         resources:
           requests:
