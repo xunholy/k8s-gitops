@@ -8,7 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/master/charts
+      # renovate: registryUrl=https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
       chart: secrets-store-csi-driver
       version: 0.2.0
       sourceRef:
