@@ -196,11 +196,6 @@ spec:
           type: loki
           access: proxy
           url: http://loki.observability.svc.cluster.local:3100
-      admin:
-        # Unused now that the userKey and passwordKey are encrypted values
-        # existingSecret: 'grafana-admin-creds'
-        # userKey: '${GRAFANA_ADMIN_USER}'
-        # passwordKey: '${GRAFANA_ADMIN_PASSWORD}'
       grafana.ini:
         server:
           root_url: 'https://grafana.${CLUSTER_DOMAIN}'
