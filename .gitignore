@@ -7,3 +7,7 @@
 **/.secrets/sops/unencrypted
 **/hack
 output
+
+# Ignore decrypted secrets if they're not removed locally
+k8s/clusters/prod-a/secrets/sealed-secret-private-key.yaml
+k8s/clusters/prod-b/secrets/sealed-secret-private-key.yaml
