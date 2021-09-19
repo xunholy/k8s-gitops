@@ -8,7 +8,6 @@ spec:
   interval: 10m0s
   dependsOn:
     - name: core
-    - name: kube-prometheus-stack-crd
   path: ./k8s/namespaces/overlays/prod-b
   prune: true
   sourceRef:
