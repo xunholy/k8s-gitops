@@ -19,10 +19,14 @@ spec:
   test:
     enable: false # Enable helm test
   install:
+    # Create new CRDs, update (replace) existing ones, but do not delete CRDs which no longer exist in the current helm release.
+    crds: CreateReplace
     remediation: # perform remediation when helm install fails
       retries: 3
     skipCRDs: true
   upgrade:
+    # Create new CRDs, update (replace) existing ones, but do not delete CRDs which no longer exist in the current helm release.
+    crds: CreateReplace
     remediation: # perform remediation when helm upgrade fails
       retries: 3
       remediateLastFailure: true # remediate the last failure, when no retries remain
