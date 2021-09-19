@@ -48,16 +48,12 @@ spec:
       # Setting this option to 0 to disable cpu limits
       # see https://github.com/prometheus-operator/prometheus-operator/blob/master/cmd/operator/main.go#L175
       # configReloaderCpu: 0
-      admissionWebhooks:
-        patch:
-          image:
-            repository: jettech/kube-webhook-certgen
-            tag: v1.5.2
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
     # https://github.com/prometheus-community/helm-charts/issues/204
     kubeControllerManager:
+      enabled: true
       service:
         port: 10257
         targetPort: 10257
