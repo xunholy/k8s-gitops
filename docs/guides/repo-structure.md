@@ -106,7 +106,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: metallb
-  namespace: network
+  namespace: network-system
 spec:
   interval: 5m
   chart:
@@ -134,7 +134,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: metallb
-  namespace: network
+  namespace: network-system
 spec:
   values:
     configInline:

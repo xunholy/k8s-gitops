@@ -22,19 +22,19 @@ resources:
   - ../../base/kube-system/sealed-secrets
   - ../../base/kube-system/secret-store-csi-driver
   # - ../../base/litmus
-  - ../../base/network
-  - ../../base/network/cert-manager
-  - ../../base/network/cloudflare-ddns
-  - ../../base/network/coredns
-  - ../../base/network/dex
-  - ../../base/network/external-dns
-  - ../../base/network/istio-csr
-  - ../../base/network/metallb
-  - ../../base/network/node-feature-discovery
-  - ../../base/network/oauth2-proxy
+  - ../../base/network-system
+  - ../../base/network-system/cert-manager
+  - ../../base/network-system/cloudflare-ddns
+  - ../../base/network-system/coredns
+  - ../../base/network-system/dex
+  - ../../base/network-system/external-dns
+  - ../../base/network-system/istio-csr
+  - ../../base/network-system/metallb
+  - ../../base/network-system/node-feature-discovery
+  - ../../base/network-system/oauth2-proxy
   # TODO: Disabled as the chart is not published and this is not currently
   # adding any real value. https://github.com/cloudflare/origin-ca-issuer/issues/17
-  # - ../../base/network/origin-ca-issuer
+  # - ../../base/network-system/origin-ca-issuer
   - ../../base/observability
   # - ../../base/observability/kiali
   - ../../base/observability/kube-prometheus-stack
@@ -47,8 +47,8 @@ resources:
   # TODO: cspc must be created after blockdevices have been created.
   # blockdevices will persist across devices
   # - ../../base/storage/openebs/cstor-pool.yaml
-  # - ../../base/velero
-  # - ../../base/velero/velero
+  - ../../base/velero
+  - ../../base/velero/velero
 
 # patchesStrategicMerge:
 #   - patch.yaml
