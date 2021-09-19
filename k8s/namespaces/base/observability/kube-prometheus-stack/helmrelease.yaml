@@ -221,7 +221,7 @@ spec:
           allow_sign_up: true
           name: Dex
           client_id: '${GRAFANA_AUTH_GENERIC_CLIENT_ID}'
-          client_secret: '${GRAFANA_AUTH_GENERIC_CLIENT_PASSWORD}'
+          client_secret: '${GRAFANA_AUTH_GENERIC_CLIENT_SECRET}'
           scopes: openid profile email groups
           auth_url: 'https://dex.${CLUSTER_DOMAIN}/auth'
           token_url: 'https://dex.${CLUSTER_DOMAIN}/token'
