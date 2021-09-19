@@ -271,8 +271,5 @@ spec:
         podMonitorSelectorNilUsesHelmValues: false
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
-      image:
-        repository: raspbernetes/kube-state-metrics
-        tag: v1.9.7
     prometheus-node-exporter:
       fullnameOverride: node-exporter
