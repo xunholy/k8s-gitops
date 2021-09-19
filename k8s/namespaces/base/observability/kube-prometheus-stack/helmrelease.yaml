@@ -8,7 +8,6 @@ spec:
   interval: 5m
   chart:
     spec:
-      # CRDs are applied in core/crd/kube-prometheus-stack.yaml
       # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
       version: 18.0.10
@@ -20,9 +19,13 @@ spec:
   test:
     enable: false # Enable helm test
   install:
+    # Create new CRDs, update (replace) existing ones, but do not delete CRDs which no longer exist in the current helm release.
+    crds: CreateReplace
     remediation: # perform remediation when helm install fails
       retries: 3
   upgrade:
+    # Create new CRDs, update (replace) existing ones, but do not delete CRDs which no longer exist in the current helm release.
+    crds: CreateReplace
     remediation: # perform remediation when helm upgrade fails
       retries: 3
       remediateLastFailure: true # remediate the last failure, when no retries remain

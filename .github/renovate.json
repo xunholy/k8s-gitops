@@ -51,7 +51,7 @@
       "matchUpdateTypes": ["minor"]
     },
     {
-      "labels": ["renovate/image-release", "dependency/patch"],
+      "labels": ["renovate/image-release", "dependency/patch", "merge"],
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["patch"]
     },
@@ -71,7 +71,7 @@
       "matchUpdateTypes": ["minor"]
     },
     {
-      "labels": ["renovate/helm-release", "dependency/patch"],
+      "labels": ["renovate/helm-release", "dependency/patch", "merge"],
       "matchDatasources": ["helm"],
       "matchUpdateTypes": ["patch"]
     }

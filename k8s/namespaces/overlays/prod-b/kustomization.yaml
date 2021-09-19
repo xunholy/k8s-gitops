@@ -37,7 +37,7 @@ resources:
   # - ../../base/network/origin-ca-issuer
   - ../../base/observability
   # - ../../base/observability/kiali
-  # - ../../base/observability/kube-prometheus-stack
+  - ../../base/observability/kube-prometheus-stack
   - ../../base/observability/loki-stack
   # - ../../base/observability/speedtest
   - ../../base/observability/thanos
