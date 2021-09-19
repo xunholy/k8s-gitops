@@ -33,7 +33,7 @@ if [[ -f "k8s/clusters/${CLUSTER}/secrets/sealed-secret-private-key.enc.yaml" ]]
   sops --decrypt "k8s/clusters/${CLUSTER}/secrets/sealed-secret-private-key.enc.yaml" | kubectl apply -f -
 fi
 
-if [[ -f "k8s/clusters/${CLUSTER}/secrets/sealed-secret-private-key.enc.yaml" ]]; then
+if [[ -f "k8s/clusters/${CLUSTER}/secrets/sops-gpg.enc.yml" ]]; then
   echo "Applying SOPS key"
   kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
   sops --decrypt "k8s/clusters/${CLUSTER}/secrets/sops-gpg.enc.yml" | kubectl apply -f -

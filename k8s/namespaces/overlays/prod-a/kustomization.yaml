@@ -11,7 +11,7 @@ resources:
   - ../../base/istio-ingress
   - ../../base/istio-system
   - ../../base/kube-system
-  # Disabled to RockPis only running 4.4 kernal
+  # Disabled to RockPis only running 4.4 kernel
   # - ../../base/kube-system/cilium
   # - ../../base/kube-system/descheduler
   # TODO: Currently does not support ARM64
@@ -23,19 +23,19 @@ resources:
   - ../../base/kube-system/sealed-secrets
   - ../../base/kube-system/secret-store-csi-driver
   # - ../../base/litmus
-  - ../../base/network
-  - ../../base/network/cert-manager
-  - ../../base/network/cloudflare-ddns
-  - ../../base/network/coredns
-  - ../../base/network/dex
-  - ../../base/network/external-dns
-  - ../../base/network/istio-csr
-  - ../../base/network/metallb
-  - ../../base/network/node-feature-discovery
-  - ../../base/network/oauth2-proxy
+  - ../../base/network-system
+  - ../../base/network-system/cert-manager
+  - ../../base/network-system/cloudflare-ddns
+  - ../../base/network-system/coredns
+  - ../../base/network-system/dex
+  - ../../base/network-system/external-dns
+  - ../../base/network-system/istio-csr
+  - ../../base/network-system/metallb
+  - ../../base/network-system/node-feature-discovery
+  - ../../base/network-system/oauth2-proxy
   # TODO: Disabled as the chart is not published and this is not currently
   # adding any real value. https://github.com/cloudflare/origin-ca-issuer/issues/17
-  # - ../../base/network/origin-ca-issuer
+  # - ../../base/network-system/origin-ca-issuer
   - ../../base/observability
   # - ../../base/observability/kiali
   # - ../../base/observability/kube-prometheus-stack

@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: network
+  labels:
+    namespace: network-system
+    istio-injection: disabled
