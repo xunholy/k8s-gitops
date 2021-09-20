@@ -58,7 +58,6 @@ spec:
               configMap:
                 defaultMode: 420
                 name: istio-ca-root-cert
-  hub: docker.io/querycapistio
   meshConfig:
     accessLogFile: /dev/stdout
     trustDomain: cluster.local
@@ -71,6 +70,7 @@ spec:
         headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"]
         headersToDownstreamOnDeny: ["content-type", "set-cookie"]
   profile: minimal
+  hub: docker.io/querycapistio
   tag: 1.11.0-distroless
   values:
     global:

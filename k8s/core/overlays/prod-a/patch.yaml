@@ -3,7 +3,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   name: ingress
-  namespace: istio-system
+  namespace: istio-ingress
 spec:
   components:
     ingressGateways:
@@ -21,7 +21,7 @@ spec:
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
               - matchExpressions:
-                - key: beta.kubernetes.io/arch
+                - key: kubernetes.io/arch
                   operator: In
                   values:
                   - arm64
