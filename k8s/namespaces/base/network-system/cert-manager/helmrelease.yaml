@@ -32,10 +32,6 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  # Depends on having the sealed secret cloudflare-cert-manager-token un-encrypted.
-  dependsOn:
-    - name: sealed-secrets
-      namespace: kube-system
   values:
     installCRDs: true
     # webhook:

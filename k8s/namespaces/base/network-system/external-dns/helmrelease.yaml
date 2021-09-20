@@ -30,9 +30,6 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  dependsOn:
-    - name: sealed-secrets
-      namespace: kube-system
   values:
     image:
       registry: docker.io

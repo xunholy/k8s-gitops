@@ -36,8 +36,6 @@ spec:
       namespace: network-system
     - name: cert-manager
       namespace: network-system
-    - name: sealed-secrets
-      namespace: kube-system
   values:
     image:
       repository: quay.io/oauth2-proxy/oauth2-proxy

@@ -48,6 +48,10 @@ spec:
         volumeMounts:
           - mountPath: /target
             name: plugins
+    # Upstream bitnami/kubectl doesn't support ARM64 images
+    kubectl:
+      image:
+        repository: docker.io/rancher/kubectl
     # Info about the secret to be used by the Velero deployment, which
     # should contain credentials for the cloud provider IAM account you've
     # set up for Velero.
