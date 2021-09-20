@@ -13,7 +13,7 @@ spec:
   jobLabel: cert-manager
   namespaceSelector:
     matchNames:
-      - network
+      - network-system
   selector:
     matchLabels:
       app.kubernetes.io/component: controller

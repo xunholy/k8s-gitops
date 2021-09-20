@@ -19,4 +19,4 @@ spec:
         - destination:
             port:
               number: 80
-            host: oauth2-proxy.network.svc.cluster.local
+            host: oauth2-proxy.network-system.svc.cluster.local

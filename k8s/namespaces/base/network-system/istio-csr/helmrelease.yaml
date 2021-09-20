@@ -58,7 +58,7 @@ spec:
         # presented to istio-agents. istio-agents must route to istio-csr using one
         # of these DNS names.
         certificateDNSNames:
-          - cert-manager-istio-csr.network.svc
+          - cert-manager-istio-csr.network-system.svc
       istio:
         # -- The istio revisions that are currently installed in the cluster.
         # Changing this field will modify the DNS names that will be requested for

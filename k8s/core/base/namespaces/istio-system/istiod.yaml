@@ -65,7 +65,7 @@ spec:
     extensionProviders:
     - name: oauth2-proxy
       envoyExtAuthzHttp:
-        service: oauth2-proxy.network.svc.cluster.local
+        service: oauth2-proxy.network-system.svc.cluster.local
         port: 80
         includeHeadersInCheck: ["authorization", "cookie"]
         headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"]
@@ -74,7 +74,7 @@ spec:
   tag: 1.11.0-distroless
   values:
     global:
-      caAddress: cert-manager-istio-csr.network.svc:443
+      caAddress: cert-manager-istio-csr.network-system.svc:443
       proxy:
         clusterDomain: cluster.local
         excludeIPRanges: ""

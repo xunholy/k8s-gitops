@@ -38,7 +38,7 @@ spec:
       namespace: 'litmus'
       name: '*'
     - kind: HelmRelease
-      namespace: 'network'
+      namespace: 'network-system'
       name: '*'
     - kind: HelmRelease
       namespace: 'observability'

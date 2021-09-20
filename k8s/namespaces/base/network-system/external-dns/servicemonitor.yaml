@@ -10,7 +10,7 @@ spec:
       port: http
   namespaceSelector:
     matchNames:
-      - network
+      - network-system
   selector:
     matchLabels:
       app.kubernetes.io/instance: external-dns
