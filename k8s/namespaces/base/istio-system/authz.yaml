@@ -24,4 +24,5 @@ spec:
         - operation:
             hosts:
               - 'sealed-secrets.raspbernetes.com'
-              # - 'hass.raspbernetes.com'
+              - 'alert-manager.raspbernetes.com'
+              - 'prometheus.raspbernetes.com'
