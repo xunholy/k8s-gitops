@@ -4,6 +4,6 @@ namespace: network-system
 resources:
   - helmrelease.yaml
   - servicemonitor.yaml
-  - secret.encrypted.yaml
+  - secret.enc.yaml
   - clusterissuer-prod.yaml
   - clusterissuer-stg.yaml
