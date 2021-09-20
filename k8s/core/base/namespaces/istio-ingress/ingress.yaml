@@ -3,7 +3,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   name: ingress
-  namespace: istio-system
+  namespace: istio-ingress
 spec:
   profile: empty
   components:

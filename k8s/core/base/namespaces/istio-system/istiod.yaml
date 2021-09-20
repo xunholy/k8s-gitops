@@ -76,6 +76,7 @@ spec:
     global:
       caAddress: cert-manager-istio-csr.network-system.svc:443
       proxy:
+        autoInject: enabled
         clusterDomain: cluster.local
         excludeIPRanges: ""
         includeIPRanges: '*'
