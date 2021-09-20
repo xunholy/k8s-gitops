@@ -44,7 +44,7 @@ spec:
           name: istio-ca
           # -- Issuer kind set on created CertificateRequests for both istio-csr's
           # serving certificate and incoming gRPC CSRs.
-          kind: ClusterIssuer
+          kind: Issuer
           # -- Issuer group name set on created CertificateRequests for both
           # istio-csr's serving certificate and incoming gRPC CSRs.
           group: cert-manager.io

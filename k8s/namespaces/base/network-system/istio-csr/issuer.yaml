@@ -25,7 +25,7 @@ spec:
     group: cert-manager.io
 ---
 apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
+kind: Issuer
 metadata:
   name: istio-ca
 spec:
