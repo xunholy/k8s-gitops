@@ -52,7 +52,7 @@ spec:
     kubectl:
       image:
         repository: docker.io/rancher/kubectl
-        tag: v1.18.20
+        tag: v1.22.1
     # Info about the secret to be used by the Velero deployment, which
     # should contain credentials for the cloud provider IAM account you've
     # set up for Velero.
