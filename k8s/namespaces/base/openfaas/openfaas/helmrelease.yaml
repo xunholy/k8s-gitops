@@ -18,7 +18,7 @@ spec:
   values:
     basic_auth: false
     gateway:
-      image: openfaas/gateway:0.18.18-arm64
+      image: openfaas/gateway:0.20.2-arm64
       directFunctions: true
     oauth2Plugin:
       enabled: false
