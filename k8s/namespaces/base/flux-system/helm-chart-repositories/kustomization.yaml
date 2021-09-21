@@ -14,6 +14,7 @@ resources:
   - kubefed-charts.yaml
   - kubernetes-sigs-charts.yaml
   - kubernetes-stable-charts.yaml
+  - kyverno-charts.yaml
   - litmuschaos-charts.yaml
   - node-feature-discovery-chart.yaml
   - oauth2-proxy-chart.yaml
