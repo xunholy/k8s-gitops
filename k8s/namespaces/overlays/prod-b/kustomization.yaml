@@ -22,7 +22,7 @@ resources:
   - ../../base/kube-system/reloader
   - ../../base/kube-system/sealed-secrets
   - ../../base/kube-system/secret-store-csi-driver
-  # - ../../base/litmus
+  - ../../base/litmus
   - ../../base/network-system
   - ../../base/network-system/cert-manager
   - ../../base/network-system/cloudflare-ddns
