@@ -10,6 +10,7 @@ resources:
   - ../../base/home-system/zigbee2mqtt/poe-controller
   - ../../base/istio-ingress
   - ../../base/istio-system
+  - ../../base/istio-system/flagger
   - ../../base/kube-system
   - ../../base/kube-system/cilium
   # - ../../base/kube-system/descheduler
@@ -41,8 +42,9 @@ resources:
   - ../../base/observability/loki-stack
   # - ../../base/observability/speedtest
   - ../../base/observability/thanos
-  # - ../../base/security
-  # - ../../base/security/gatekeeper
+  - ../../base/security-system
+  # - ../../base/security-system/gatekeeper
+  - ../../base/security-system/kyverno
   - ../../base/storage/openebs
   # TODO: cspc must be created after blockdevices have been created.
   # blockdevices will persist across devices

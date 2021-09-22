@@ -1,8 +1,0 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: security
-  labels:
-    namespace: security
-    istio-injection: enabled

@@ -1,0 +1,34 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: gatekeeper
+  namespace: security-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://open-policy-agent.github.io/gatekeeper/charts
+      chart: gatekeeper
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: gatekeeper-charts
+        namespace: flux-system
+      interval: 10m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  values:
+    replicas: 1
