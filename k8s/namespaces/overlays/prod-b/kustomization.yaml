@@ -45,6 +45,7 @@ resources:
   - ../../base/security-system
   # - ../../base/security-system/gatekeeper
   - ../../base/security-system/kyverno
+  - ../../base/security-system/kyverno-crds
   - ../../base/storage/openebs
   # TODO: cspc must be created after blockdevices have been created.
   # blockdevices will persist across devices
