@@ -28,7 +28,7 @@ spec:
       image: openfaas/faas-netes:0.12.3-arm64
       create: false
     queueWorker:
-      image: openfaas/queue-worker:0.11.0-arm64
+      image: openfaas/queue-worker:0.11.2-arm64
     prometheus:
       create: false
     alertmanager:
