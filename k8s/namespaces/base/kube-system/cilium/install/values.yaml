@@ -22,7 +22,6 @@ containerRuntime:
 endpointRoutes:
   enabled: false
 
-
 # masquerade enables masquerading of traffic leaving the node for
 # destinations outside of the cluster.
 masquerade: true
