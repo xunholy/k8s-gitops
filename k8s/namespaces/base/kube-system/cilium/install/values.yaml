@@ -22,12 +22,12 @@ containerRuntime:
 endpointRoutes:
   enabled: false
 
+
 # masquerade enables masquerading of traffic leaving the node for
 # destinations outside of the cluster.
 masquerade: true
 
 hubble:
-  # -- Enable Hubble (true by default).
   enabled: true
   # Enables the provided list of Hubble metrics.
   metrics:
@@ -57,7 +57,7 @@ ipam:
   mode: "cluster-pool"
   operator:
     # -- IPv4 CIDR range to delegate to individual nodes for IPAM.
-    clusterPoolIPv4PodCIDR: '10.0.0.0/8'
+    clusterPoolIPv4PodCIDR: '10.244.0.0/16'
     # -- IPv4 CIDR mask size to delegate to individual nodes for IPAM.
     clusterPoolIPv4MaskSize: 24
     # -- IPv6 CIDR range to delegate to individual nodes for IPAM.
@@ -101,12 +101,12 @@ operator:
       enabled: false
 
 # kubeConfigPath: ~/.kube/config
-k8sServiceHost: 192.168.1.205
+k8sServiceHost: 10.0.0.110
 k8sServicePort: 8443
 
 # nativeRoutingCIDR allows to explicitly specify the CIDR for native routing. This
 # value corresponds to the configured cluster-cidr.
-nativeRoutingCIDR: 10.0.0.0/8
+nativeRoutingCIDR: 10.244.0.0/16
 
 # tunnel is the encapsulation configuration for communication between nodes
 tunnel: disabled
