@@ -1,0 +1,9 @@
+name: 'buildkit'
+description: 'A GitHub Action with Kubernetes tools'
+author: 'Michael Fornaro'
+branding:
+  icon: 'command'
+  color: 'blue'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

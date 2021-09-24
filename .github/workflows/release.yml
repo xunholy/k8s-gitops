@@ -2,7 +2,7 @@ name: release
 
 on:
   workflow_dispatch: {}
-  # Execute every Sunday at 00:00.
+  # Execute every Sunday at 00:00 UTC.
   schedule:
     - cron: '0 0 * * 0'
 

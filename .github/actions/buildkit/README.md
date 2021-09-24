@@ -21,7 +21,6 @@ docker run --rm --workdir /github/workspace \
   scripts/validate.sh
 ```
 
-
 docker run --rm --workdir /github/workspace \
   -v $(pwd):/github/workspace \
   -v $HOME/.kube/:/github/workspace/.kube/ \

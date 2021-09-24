@@ -1,25 +1,23 @@
 name: Auto Approve & Merge
+
 on: pull_request_target
 
 jobs:
-  approve:
+  automerge:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]' || github.actor == 'renovate-self-hosted[bot]'
     steps:
-    - uses: hmarr/auto-approve-action@v2
+    - name: Auto Approve
+      uses: hmarr/auto-approve-action@v2
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-  merge:
-    if: github.actor == 'dependabot[bot]' || github.actor == 'renovate-self-hosted[bot]'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Auto Merge
-        uses: 'pascalgn/automerge-action@v0.14.3'
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-          MERGE_LABELS: merge
-          MERGE_METHOD: squash
-          MERGE_COMMIT_MESSAGE: pull-request-title
-          MERGE_FORKS: false
-          MERGE_DELETE_BRANCH: false
+    - name: Auto Merge
+      uses: 'pascalgn/automerge-action@v0.14.3'
+      env:
+        GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+        MERGE_LABELS: merge
+        MERGE_METHOD: squash
+        MERGE_COMMIT_MESSAGE: pull-request-title
+        MERGE_FORKS: false
+        MERGE_DELETE_BRANCH: false

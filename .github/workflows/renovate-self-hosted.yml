@@ -1,4 +1,5 @@
 name: renovate-self-hosted
+
 on:
   workflow_dispatch:
   schedule:
@@ -9,6 +10,7 @@ on:
       - ".github/renovate.json"
     branches:
       - main
+
 jobs:
   renovate:
     runs-on: ubuntu-latest
