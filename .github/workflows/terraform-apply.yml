@@ -9,7 +9,7 @@ on:
         default: 'gcp'
 
 env:
-  tf_actions_working_dir: k8s/clusters/production/infrastructure/${{ github.event.inputs.cloud }}
+  tf_actions_working_dir: k8s/clusters/prod-a/infrastructure/${{ github.event.inputs.cloud }}
   terraform_version: 0.13.5
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
         id: checkout_code
         uses: actions/checkout@v2
 
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: google-github-actions/setup-gcloud@master
         with:
           version: '290.0.1'
           project_id: ${{ secrets.GCP_PROJECT_ID }}
