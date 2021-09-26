@@ -25,8 +25,8 @@
 
 # Prerequisites
 # - yq v4.6
-# - kustomize v4.2
-# - kubeval v0.16.x
+# - kustomize v4.1
+# - kubeval v0.15.x
 
 set -o errexit
 

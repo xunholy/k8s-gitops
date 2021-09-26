@@ -1,7 +1,7 @@
 version: "3.0"
 services:
-  builder:
-    image: xunholy/builder:latest
+  buildkit:
+    image: xunholy/buildkit:latest
     working_dir: /opt/app
     volumes:
       - .:/opt/app:rw

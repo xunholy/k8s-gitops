@@ -22,7 +22,7 @@ jobs:
         run: brew install fluxcd/tap/flux
 
       - name: Run Flux Auto-Update
-        run: ./scripts/update.sh
+        run: ./github/actions/buildkit/update.sh
         env:
           CLUSTER: ${{ matrix.cluster-id }}
 
