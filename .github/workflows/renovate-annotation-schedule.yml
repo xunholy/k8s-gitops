@@ -15,7 +15,7 @@ jobs:
 
       - name: Update Helm Releases
         run: |
-          docker-compose run -T --rm builder ./.github/actions/buildkit/renovate-helm-releases.sh
+          docker-compose run -T --rm buildkit ./.github/actions/buildkit/renovate-helm-releases.sh
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
