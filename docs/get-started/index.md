@@ -49,4 +49,4 @@ flux bootstrap github \
 
 **Note:** If you have network issues with Flux starting you may need to set `--network-policies=false` in the bootstrap command.
 
-You may also use the automated installation script - Either override the defaults in the [install script](../.././github/actions/buildkit/install.sh) or as environment variables.
+You may also use the automated installation script - Either override the defaults in the [install script](../.././.github/actions/buildkit/install.sh) or as environment variables.

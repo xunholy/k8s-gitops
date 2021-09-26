@@ -20,4 +20,4 @@ jobs:
         uses: ./.github/actions/tools
 
       - name: Validate manifests
-        run: ./github/actions/buildkit/validate-kustomize.sh
+        run: ./.github/actions/buildkit/validate-kustomize.sh

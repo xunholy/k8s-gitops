@@ -8,7 +8,7 @@ Build Image:
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
   -t docker.io/raspbernetes/builder:latest \
-  -f ./github/actions/buildkit/Dockerfile . --push
+  -f ./.github/actions/buildkit/Dockerfile . --push
 ```
 
 Usage:
@@ -18,11 +18,11 @@ docker run --rm --workdir /github/workspace \
   -v $(pwd):/github/workspace \
   -v $HOME/.kube/:/github/workspace/.kube/ \
   docker.io/xunholy/builder:latest \
-  ./github/actions/buildkit/validate.sh
+  ./.github/actions/buildkit/validate.sh
 ```
 
 docker run --rm --workdir /github/workspace \
   -v $(pwd):/github/workspace \
   -v $HOME/.kube/:/github/workspace/.kube/ \
   docker.io/xunholy/builder:latest \
-  ./github/actions/buildkit/validate-kustomize.sh
+  ./.github/actions/buildkit/validate-kustomize.sh
