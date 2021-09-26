@@ -9,6 +9,12 @@ on:
 jobs:
   kubernetes:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - cluster-id: prod-a
+          - cluster-id: prod-b
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -27,6 +33,20 @@ jobs:
       - name: Install Flux in Kubernetes Kind
         run: flux install
 
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      # TODO: encrypt cluster-secrets.enc.yaml with fluxcd sops-gpg keys rather than GCP keys
+      - name: Decrypt & Apply Cluster Configuration
+        run: |
+          sops --decrypt "k8s/clusters/${{ matrix.cluster-id }}/secrets/sops-gpg.enc.yml" | kubectl apply -f -
+          sops --decrypt "k8s/clusters/${{ matrix.cluster-id }}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
+          kubectl apply -f "k8s/clusters/${{ matrix.cluster-id }}/secrets/cluster-config.yaml"
+
       - name: Setup cluster reconciliation
         run: |
           flux create source git flux-system \
@@ -34,7 +54,7 @@ jobs:
           --branch=${GITHUB_REF#refs/heads/}
           flux create kustomization flux-system \
           --source=flux-system \
-          --path=./k8s/clusters/prod-a
+          --path=./k8s/clusters/${{ matrix.cluster-id }}
 
       - name: Verify cluster reconciliation
         run: |
