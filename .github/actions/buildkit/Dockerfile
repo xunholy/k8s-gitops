@@ -49,8 +49,9 @@ RUN curl -sL -o kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/re
   tar -C /usr/bin -xvzf kustomize.tar.gz && \
   chmod +x /usr/bin/kustomize
 
-# Install kubeval
-RUN curl -sL -o kubeval.tar.gz https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-${TARGETARCH}.tar.gz && \
+# Install kubeval - Only supports AMD64 currently
+# TODO: Consider compiling from source code for arm64
+RUN curl -sL -o kubeval.tar.gz https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && \
   tar -C /usr/bin -xvzf kubeval.tar.gz && \
   chmod +x /usr/bin/kubeval
 
