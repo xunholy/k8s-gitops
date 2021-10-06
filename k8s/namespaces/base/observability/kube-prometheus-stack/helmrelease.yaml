@@ -244,7 +244,7 @@ spec:
             memory: 2560Mi
             cpu: '2000m'
         thanos:
-          image: raspbernetes/thanos:v0.23.0
+          image: raspbernetes/thanos:v0.23.1
           version: v0.17.1
           # Thanos chart will generate the secret: thanos
           objectStorageConfig:
