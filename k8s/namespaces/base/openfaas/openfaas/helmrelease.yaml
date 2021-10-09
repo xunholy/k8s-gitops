@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://openfaas.github.io/faas-netes/
       chart: openfaas
-      version: 8.0.4
+      version: 8.0.5
       sourceRef:
         kind: HelmRepository
         name: openfaas-charts
