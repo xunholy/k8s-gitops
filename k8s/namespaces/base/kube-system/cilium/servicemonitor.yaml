@@ -22,6 +22,8 @@ kind: ServiceMonitor
 metadata:
   name: hubble
   namespace: kube-system
+  labels:
+    kustomize.toolkit.fluxcd.io/substitute: "disabled"
 spec:
   selector:
     matchLabels:
