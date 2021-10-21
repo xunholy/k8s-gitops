@@ -1,0 +1,29 @@
+
+---
+apiVersion: metal.sidero.dev/v1alpha1
+kind: Environment
+metadata:
+  name: default-arm64
+  namespace: default
+spec:
+  kernel:
+    url: "https://github.com/talos-systems/talos/releases/download/v0.13.0/vmlinuz-arm64"
+    args:
+      - console=tty0
+      - console=ttyS1,115200n8
+      - consoleblank=0
+      - earlyprintk=ttyS1,115200n8
+      - ima_appraise=fix
+      - ima_hash=sha512
+      - ima_template=ima-ng
+      - init_on_alloc=1
+      - initrd=initramfs.xz
+      - nvme_core.io_timeout=4294967295
+      - printk.devkmsg=on
+      - pti=on
+      - random.trust_cpu=on
+      - slab_nomerge=
+      - talos.config=http://sidero-01.scr1.rabbito.tech:8081/configdata?uuid=
+      - talos.platform=metal
+  initrd:
+    url: "https://github.com/talos-systems/talos/releases/download/v0.13.0/initramfs-arm64.xz"

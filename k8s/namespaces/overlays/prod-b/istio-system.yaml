@@ -1,0 +1,48 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: istio-system-namespace
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/istio-system"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: istio-system-flagger
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/istio-system/flagger"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: istio-system-core
+      namespace: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: istio-system-core
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/istio-system/core"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: istio-operator-namespace
+      namespace: flux-system
