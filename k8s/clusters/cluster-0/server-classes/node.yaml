@@ -1,0 +1,18 @@
+---
+apiVersion: metal.sidero.dev/v1alpha1
+kind: ServerClass
+metadata:
+  name: serverclass-node
+spec:
+  selector:
+    matchLabels:
+      node: "true"
+    matchExpressions:
+      - key: environment
+        operator: NotIn
+        values:
+          - prod
+  configPatches:
+    - op: replace
+      path: /machine/install/disk
+      value: /dev/sda

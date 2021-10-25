@@ -1,0 +1,17 @@
+---
+apiVersion: metal.sidero.dev/v1alpha1
+kind: Server
+metadata:
+  name: 00000000-0000-0000-0000-d05099d333e0
+  labels:
+    node: "true"
+    environment: prod
+spec:
+  accepted: false
+  configPatches:
+    - op: replace
+      path: /cluster/network/cni
+      value:
+        name: custom
+        urls:
+          - http://192.168.1.199/assets/cilium.yaml

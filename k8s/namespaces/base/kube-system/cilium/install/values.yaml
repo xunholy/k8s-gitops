@@ -101,8 +101,8 @@ operator:
       enabled: false
 
 # kubeConfigPath: ~/.kube/config
-k8sServiceHost: 192.168.1.205
-k8sServicePort: 8443
+k8sServiceHost: 192.168.1.101
+k8sServicePort: 6443
 
 # nativeRoutingCIDR allows to explicitly specify the CIDR for native routing. This
 # value corresponds to the configured cluster-cidr.
