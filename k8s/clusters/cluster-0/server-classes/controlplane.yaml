@@ -18,4 +18,4 @@ spec:
       value: /dev/sda
     - op: replace
       path: /cluster/proxy/disabled
-      value: true       
+      value: true

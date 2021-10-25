@@ -1,4 +1,3 @@
-
 ---
 apiVersion: metal.sidero.dev/v1alpha1
 kind: Environment
