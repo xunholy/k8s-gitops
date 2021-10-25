@@ -144,7 +144,7 @@ clustermesh:
       # -- Clustermesh API server etcd image.
       image:
         repository: quay.io/coreos/etcd
-        tag: v3.5.0
+        tag: v3.5.1
         pullPolicy: IfNotPresent
 
 # -- Roll out cilium agent pods automatically when configmap is updated.
