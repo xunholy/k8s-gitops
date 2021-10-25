@@ -6,8 +6,6 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  dependsOn:
-    - name: core
   path: ./k8s/namespaces/overlays/prod-b
   prune: true
   sourceRef:
@@ -24,28 +22,28 @@ spec:
         name: cluster-config
       - kind: Secret
         name: cluster-secrets
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: core
-  namespace: flux-system
-spec:
-  wait: true
-  interval: 10m0s
-  path: ./k8s/core/overlays/prod-b
-  prune: false
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+# kind: Kustomization
+# metadata:
+#   name: core
+#   namespace: flux-system
+# spec:
+#   wait: true
+#   interval: 10m0s
+#   path: ./k8s/core/overlays/prod-b
+#   prune: false
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   decryption:
+#     provider: sops
+#     secretRef:
+#       name: sops-gpg
+#   postBuild:
+#     substitute: {}
+#     substituteFrom:
+#       - kind: ConfigMap
+#         name: cluster-config
+#       - kind: Secret
+#         name: cluster-secrets
