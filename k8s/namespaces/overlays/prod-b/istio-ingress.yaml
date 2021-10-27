@@ -15,7 +15,6 @@ spec:
   dependsOn:
     - name: istio-ingress-core
       namespace: flux-system
-
 ---
 # TODO: move base to istio-system
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
