@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - secret.encrypted.yaml
-  - servicemonitor.yaml
+  # TODO
+  # - servicemonitor.yaml
   - virtualservice.yaml

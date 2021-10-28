@@ -41,6 +41,23 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
+  name: network-system-cert-manager-clusterissuers
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/network-system/cert-manager/clusterissuers"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: network-system-cert-manager
+      namespace: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
   name: network-system-cloudflare-ddns
   namespace: flux-system
 spec:
@@ -140,6 +157,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: network-system-cert-manager
+      namespace: flux-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
