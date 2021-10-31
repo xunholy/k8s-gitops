@@ -22,7 +22,7 @@ spec:
   interval: 5m
   path: "./k8s/namespaces/base/security-system/kyverno"
   prune: true
-  wait: true
+  wait: false
   sourceRef:
     kind: GitRepository
     name: flux-system

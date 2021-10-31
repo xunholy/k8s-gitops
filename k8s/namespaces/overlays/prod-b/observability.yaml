@@ -36,7 +36,7 @@ spec:
   interval: 5m
   path: "./k8s/namespaces/base/observability/loki-stack"
   prune: true
-  wait: true
+  wait: false
   sourceRef:
     kind: GitRepository
     name: flux-system

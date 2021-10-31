@@ -111,3 +111,10 @@ spec:
         apiVersion: metal.sidero.dev/v1alpha1
         kind: ServerClass
         name: any
+
+# export CONTROL_PLANE_ENDPOINT=192.168.86.156
+# export CONTROL_PLANE_PORT=8443
+# export CONTROL_PLANE_SERVERCLASS=any
+# export KUBERNETES_VERSION=v1.22.2
+# export TALOS_VERSION=v0.13.0
+# export WORKER_SERVERCLASS=any
