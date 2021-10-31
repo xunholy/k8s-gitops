@@ -30,7 +30,7 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  # Beginning with Kyverno 1.4.2, Kyverno Helm chart v2.0.2, the Kyverno CRDs must be added seperately and before Kyverno is installed.
-  dependsOn:
-    - name: kyverno-crds
-      namespace: security-system
+  # # Beginning with Kyverno 1.4.2, Kyverno Helm chart v2.0.2, the Kyverno CRDs must be added seperately and before Kyverno is installed.
+  # dependsOn:
+  #   - name: kyverno-crds
+  #     namespace: security-system
