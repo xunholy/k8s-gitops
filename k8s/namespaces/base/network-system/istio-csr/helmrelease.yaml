@@ -37,7 +37,7 @@ spec:
     app:
       certmanager:
         # -- Don't delete created CertificateRequests once they have been signed.
-        preserveCertificateRequests: true
+        preserveCertificateRequests: false
         issuer:
           # -- Issuer name set on created CertificateRequests for both istio-csr's
           # serving certificate and incoming gRPC CSRs.
@@ -72,10 +72,10 @@ spec:
         revisions:
           - default
           - canary
-    volumes:
-      - name: root-ca
-        configMap:
-          name: istio-ca-root-cert
-    volumeMounts:
-      - name: root-ca
-        mountPath: /etc/tls
+    # volumes:
+    #   - name: root-ca
+    #     configMap:
+    #       name: istio-ca-root-cert
+    # volumeMounts:
+    #   - name: root-ca
+    #     mountPath: /etc/tls
