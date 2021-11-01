@@ -46,3 +46,6 @@ spec:
   dependsOn:
     - name: istio-operator-namespace
       namespace: flux-system
+    - name: network-system-istio-csr
+      namespace: flux-system
+
