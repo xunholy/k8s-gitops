@@ -2,29 +2,42 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: default-allow-all
+  name: internal-traffic
   namespace: home-system
 spec:
   podSelector: {}
-  policyTypes:
-    - Ingress
-    - Egress
   ingress:
-    # Ingress traffic from any pod in current namespace will be allowed
     - from:
         - podSelector: {}
-    # Ingress traffic from any pod in the cluster will be allowed
-    - {}
-    # Allow ingress from any endpoint only to any pods but only specific port(s)
     - from:
-        - ipBlock:
-            cidr: 0.0.0.0/0
+        - podSelector:
+            matchLabels:
+              name: zigbee2mqtt
       ports:
-        - port: 443
+        - port: 1883
+    - from:
+        - podSelector:
+            matchLabels:
+              name: home-assistant
+      ports:
+        - port: 1883
   egress:
-    # Egress flows to Kubernetes DNS will be allowed but only specific port(s).
     - to:
-        - namespaceSelector: {}
+        - podSelector: {}
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: home-system
+          podSelector:
+            matchLabels:
+              name: mosquitto
+      ports:
+        - port: 1883
+          protocol: TCP
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
           podSelector:
             matchLabels:
               k8s-app: kube-dns
@@ -33,12 +46,46 @@ spec:
           protocol: UDP
         - port: 53
           protocol: TCP
-    # Egress traffic to any pod in current namespace will be allowed
-    - {}
-    # Egress traffic to any endpoint outside of the cluster will be allowed.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: external-traffic
+  namespace: home-system
+spec:
+  podSelector: {}
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: istio-ingress
+          podSelector:
+            matchLabels:
+              app: istio-ingressgateway
+      ports:
+        - port: 8080
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: istio-ingress
+          podSelector:
+            matchLabels:
+              app: istio-ingressgateway
+      ports:
+        - port: 8123
+  egress:
+    # Zigbee2mqtt runs on its own dedicated loadbalancer IP
+    - to:
+        - ipBlock:
+            cidr: 192.168.1.165/32
+      ports:
+        - port: 6638
+    # Home-Assistant tries to reach out to multicast and other services
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
-    # Egress traffic to any pod in current namespace will be allowed
-    - to:
-        - podSelector: {}
+      ports:
+        - port: 1900
+          protocol: UDP
+        - port: 5353
+          protocol: UDP
