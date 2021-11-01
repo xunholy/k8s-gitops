@@ -12,11 +12,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  dependsOn:
-    - name: istio-ingress-core
-      namespace: flux-system
-    - name: network-system-cert-manager
-      namespace: flux-system
   decryption:
     provider: sops
     secretRef:
@@ -28,6 +23,13 @@ spec:
         name: cluster-config
       - kind: Secret
         name: cluster-secrets
+  dependsOn:
+    - name: istio-ingress-core
+      namespace: flux-system
+    - name: network-system-cert-manager
+      namespace: flux-system
+    - name: kube-system-sealed-secrets
+      namespace: flux-system
 ---
 # TODO: move base to istio-system
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2

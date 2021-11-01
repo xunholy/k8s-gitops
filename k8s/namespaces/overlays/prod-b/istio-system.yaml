@@ -48,4 +48,3 @@ spec:
       namespace: flux-system
     - name: network-system-istio-csr
       namespace: flux-system
-
