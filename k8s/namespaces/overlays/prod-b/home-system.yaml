@@ -65,3 +65,28 @@ spec:
         name: cluster-config
       - kind: Secret
         name: cluster-secrets
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: home-system-zigbee2mqtt
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/home-system/zigbee2mqtt/poe-controller"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config
+      - kind: Secret
+        name: cluster-secrets
