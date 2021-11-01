@@ -235,3 +235,6 @@ spec:
         name: cluster-config
       - kind: Secret
         name: cluster-secrets
+  dependsOn:
+    - name: istio-ingress-namespace
+      namespace: flux-system
