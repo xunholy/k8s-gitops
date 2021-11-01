@@ -17,6 +17,17 @@ spec:
       namespace: flux-system
     - name: network-system-cert-manager
       namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config
+      - kind: Secret
+        name: cluster-secrets
 ---
 # TODO: move base to istio-system
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
