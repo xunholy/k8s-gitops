@@ -35,6 +35,8 @@ spec:
   dependsOn:
     - name: istio-operator-namespace
       namespace: flux-system
+    - name: istio-system-core
+      namespace: flux-system
   patches:
     - patch: |
         apiVersion: install.istio.io/v1alpha1
