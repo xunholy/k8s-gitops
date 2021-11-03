@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - certificates.yaml
   - gateway.yaml
-  # - networkpolicy.yaml
+  - networkpolicy.yaml
   # - originissuer.yaml
   - secret.encrypted.yaml

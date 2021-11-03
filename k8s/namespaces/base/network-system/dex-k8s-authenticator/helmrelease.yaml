@@ -1,0 +1,69 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dex-k8s-authenticator
+  namespace: network-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.dexidp.io
+      chart: ./charts/dex-k8s-authenticator
+      version: 1.4.0
+      sourceRef:
+        kind: GitRepository
+        name: dex-k8s-authenticator-chart-git
+        namespace: flux-system
+      interval: 10m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 5
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    cleanupOnFail: true
+    recreate: true
+  values:
+    global:
+      deployEnv: prod
+    replicaCount: 1
+    image:
+      repository: raspbernetes/dex-k8s-authenticator
+      tag: 1.4.0
+    dexK8sAuthenticator:
+      clusters:
+      - name: kubernetes
+        short_description: "My Cluster"
+        description: "Cluster Login"
+        client_id: '${DEX_K8S_CLIENT_ID}'
+        client_secret: '${DEX_K8S_CLIENT_SECRET}'
+        issuer: 'https://raspbernetes.com'
+        k8s_master_uri: https://k8s.raspbernetes.com
+        redirect_uri: https://login.raspbernetes.com/callback/kubernetes
+        k8s_ca_pem: |
+          -----BEGIN CERTIFICATE-----
+          MIIC/jCCAeagAwIBAgIBADANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwprdWJl
+          cm5ldGVzMB4XDTIxMTAyNzA2MzUyN1oXDTMxMTAyNTA2MzUyN1owFTETMBEGA1UE
+          AxMKa3ViZXJuZXRlczCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAO+1
+          Dn/PLrdwIA+wtTFQU7dPIKCes8MQ1YwrXImk84yYMA8ZSWGfBmSAj2OmNXfHrY3N
+          6YXd2gORdWDtGwUr7lGgaqDL0H0ctkzTvK0VEeQ7Z4nC6DFT6XPo+nBtBZ5O6Vmr
+          6uluWk1ZERhPkVgrecGc5G7qMkc65xKanKCGDxfgFoccjP+gM+Iq3Ik94Uw5HeVq
+          FUwrobbIa8iaeEzOCsYPhzwSkn3Sc5x09UfJnIWDIEDLu/o23q++C1tLdx42M7XK
+          +7ApMx7G+ue3GKQi2Gg/QY28jPXQ45UwZCJSTqpfEY2F0a/PQCXQA/nzWVKnWkwe
+          RKhY4DHNnn3j3p3FPdkCAwEAAaNZMFcwDgYDVR0PAQH/BAQDAgKkMA8GA1UdEwEB
+          /wQFMAMBAf8wHQYDVR0OBBYEFKX6lDAEloB67W35gbJ32WI70dZSMBUGA1UdEQQO
+          MAyCCmt1YmVybmV0ZXMwDQYJKoZIhvcNAQELBQADggEBAHY8n5KMPr7FNQpqYjRf
+          ukxaLt36iK+HH96L71rDRg0PQdv8rC0bRIujiju8hbiSIIt9GqFWpXVutTeXHSzM
+          3dDjjaRc7MGTyue254TIoJFGhuDkqYmoq1zmzKcmVeuCgloxriL7+api4fdjKbqj
+          yGpOFOXNv0B5GXZmQ2l6uot4rSW9fmK7F9ELTzF3DpD51OiYZNyU7reJXQNIRfRv
+          f0duGgTBjykMbJTsPClvQZRsyU/YogO7rcV9KC+tFSGb1o+NCMICk0Xq8xaQAPLe
+          G3f7voc9jSQk9A+AXj/CN0B4I0KxPG5rx0GmoDPhwanIAkMVSfnam6QTPjWLX7Ou
+          Vg0=
+          -----END CERTIFICATE-----

@@ -6,6 +6,7 @@ resources:
   - coredns-charts.yaml
   - crossplane-charts.yaml
   - dex-chart.yaml
+  - dex-k8s-authenticator-chart.yaml
   - flagger-charts.yaml
   - gatekeeper-charts.yaml
   - grafana-loki.yaml
