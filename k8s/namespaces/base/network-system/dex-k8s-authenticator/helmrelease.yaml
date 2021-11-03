@@ -36,7 +36,7 @@ spec:
     replicaCount: 1
     image:
       repository: raspbernetes/dex-k8s-authenticator
-      tag: 1.4.0
+      tag: v1.4.0
     dexK8sAuthenticator:
       clusters:
       - name: kubernetes
