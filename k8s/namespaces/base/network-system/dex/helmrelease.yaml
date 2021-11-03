@@ -51,7 +51,7 @@ spec:
       frontend:
         theme: 'tectonic'
         issuer: 'Raspbernetes'
-        issuerUrl: 'https://raspbernetes.com'
+        issuerUrl: 'https://${CLUSTER_DOMAIN}'
         logoUrl: https://raw.githubusercontent.com/raspbernetes/docs/master/website/static/img/logo.png
       expiry:
         signingKeys: '6h'
