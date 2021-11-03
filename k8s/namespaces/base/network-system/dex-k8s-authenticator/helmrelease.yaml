@@ -45,8 +45,8 @@ spec:
         client_id: '${DEX_K8S_CLIENT_ID}'
         client_secret: '${DEX_K8S_CLIENT_SECRET}'
         issuer: 'https://dex.${CLUSTER_DOMAIN}'
-        k8s_master_uri: https://k8s.${CLUSTER_DOMAIN}
-        redirect_uri: https://login.${CLUSTER_DOMAIN}/callback/kubernetes
+        k8s_master_uri: https://api.${CLUSTER_DOMAIN}
+        redirect_uri: https://login.${CLUSTER_DOMAIN}/callback
         k8s_ca_pem: |
           -----BEGIN CERTIFICATE-----
           MIIC/jCCAeagAwIBAgIBADANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwprdWJl
