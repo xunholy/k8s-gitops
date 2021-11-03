@@ -38,6 +38,7 @@ spec:
       repository: raspbernetes/dex-k8s-authenticator
       tag: v1.4.0
     dexK8sAuthenticator:
+      debug: true
       clusters:
       - name: kubernetes
         short_description: "My Cluster"
@@ -45,7 +46,7 @@ spec:
         client_id: '${DEX_K8S_CLIENT_ID}'
         client_secret: '${DEX_K8S_CLIENT_SECRET}'
         issuer: 'https://dex.${CLUSTER_DOMAIN}'
-        k8s_master_uri: https://api.${CLUSTER_DOMAIN}
+        k8s_master_uri: https://api.${CLUSTER_DOMAIN}:6443
         redirect_uri: https://login.${CLUSTER_DOMAIN}/callback
         k8s_ca_pem: |
           -----BEGIN CERTIFICATE-----

@@ -26,4 +26,4 @@ spec:
             matchLabels:
               app: dex-k8s-authenticator
       ports:
-        - port: 8443 
+        - port: 8443
