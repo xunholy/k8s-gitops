@@ -85,9 +85,13 @@ spec:
           redirectURIs:
             - 'https://kiali.${CLUSTER_DOMAIN}/oauth2/callback'
             - 'https://hass.${CLUSTER_DOMAIN}/oauth2/callback'
-            - 'https://login.${CLUSTER_DOMAIN}/oauth2/callback'
         - id: grafana
           name: 'grafana'
           secret: '${DEX_GRAFANA_SECRET}'
           redirectURIs:
             - 'https://grafana.${CLUSTER_DOMAIN}/login/generic_oauth'
+        - id: dex-k8s-authenticator
+          name: dex-k8s-authenticator
+          secret: ${DEX_K8S_CLIENT_SECRET}
+          redirectURIs:
+            - https://login.${CLUSTER_DOMAIN}/callback

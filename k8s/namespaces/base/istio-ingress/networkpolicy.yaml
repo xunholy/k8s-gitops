@@ -16,3 +16,14 @@ spec:
             cidr: 0.0.0.0/0
       ports:
         - port: 8443
+    # Used for dex-k8s-authenticator which routes internally using -
+    # https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: network-system
+          podSelector:
+            matchLabels:
+              app: dex-k8s-authenticator
+      ports:
+        - port: 8443 
