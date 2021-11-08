@@ -64,5 +64,5 @@ spec:
     annotationFilter: 'external-dns.alpha.kubernetes.io/external=true'
     cloudflare:
       secretName: 'cloudflare-external-dns'
-      email: 'michaelfornaro@gmail.com'
+      email: '${PRIVATE_EMAIL}'
       proxied: true

@@ -1,9 +1,8 @@
----
 apiVersion: cluster.x-k8s.io/v1alpha3
 kind: Cluster
 metadata:
   name: cluster-0
-  namespace: default
+  namespace: network-system
 spec:
   clusterNetwork:
     pods:
@@ -25,17 +24,17 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalCluster
 metadata:
   name: cluster-0
-  namespace: default
+  namespace: network-system
 spec:
   controlPlaneEndpoint:
-    host: 192.168.1.101
-    port: 6443
+    host: 192.168.1.205
+    port: 8443
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalMachineTemplate
 metadata:
   name: cluster-0-cp
-  namespace: default
+  namespace: network-system
 spec:
   template:
     spec:
@@ -48,7 +47,7 @@ apiVersion: controlplane.cluster.x-k8s.io/v1alpha3
 kind: TalosControlPlane
 metadata:
   name: cluster-0-cp
-  namespace: default
+  namespace: network-system
 spec:
   controlPlaneConfig:
     controlplane:
@@ -61,14 +60,14 @@ spec:
     apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
     kind: MetalMachineTemplate
     name: cluster-0-cp
-  replicas: 1
-  version: v1.21.5
+  replicas: 3
+  version: v1.22.2
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1alpha3
 kind: TalosConfigTemplate
 metadata:
   name: cluster-0-workers
-  namespace: default
+  namespace: network-system
 spec:
   template:
     spec:
@@ -79,10 +78,10 @@ apiVersion: cluster.x-k8s.io/v1alpha3
 kind: MachineDeployment
 metadata:
   name: cluster-0-workers
-  namespace: default
+  namespace: network-system
 spec:
   clusterName: cluster-0
-  replicas: 0
+  replicas: 3
   selector:
     matchLabels: null
   template:
@@ -97,13 +96,13 @@ spec:
         apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
         kind: MetalMachineTemplate
         name: cluster-0-workers
-      version: v1.21.5
+      version: v1.22.2
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalMachineTemplate
 metadata:
   name: cluster-0-workers
-  namespace: default
+  namespace: network-system
 spec:
   template:
     spec:
@@ -111,10 +110,3 @@ spec:
         apiVersion: metal.sidero.dev/v1alpha1
         kind: ServerClass
         name: any
-
-# export CONTROL_PLANE_ENDPOINT=192.168.86.156
-# export CONTROL_PLANE_PORT=8443
-# export CONTROL_PLANE_SERVERCLASS=any
-# export KUBERNETES_VERSION=v1.22.2
-# export TALOS_VERSION=v0.13.0
-# export WORKER_SERVERCLASS=any
