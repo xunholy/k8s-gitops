@@ -45,7 +45,7 @@ Support this project by becoming a sponsor. [[Become a sponsor](https://github.c
 
 <a href="https://github.com/anthr76"><img src="https://github.com/anthr76.png" width="65px" alt="" /></a>
 <a href="https://github.com/RobReus"><img src="https://github.com/RobReus.png" width="65px" alt="" /></a>
-<!-- sponsors --><!-- sponsors -->
+<!-- sponsors -->* [Daniel Sand](https://github.com/danielsand) - danielsand* [Andrew Dinh](https://github.com/andrewkdinh) - andrewkdinh* [Curtis John](https://github.com/crutonjohn) - crutonjohn<!-- sponsors -->
 
 ---
 
