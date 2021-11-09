@@ -45,12 +45,11 @@ Support this project by becoming a sponsor. [[Become a sponsor](https://github.c
 
 <a href="https://github.com/anthr76"><img src="https://github.com/anthr76.png" width="65px" alt="" /></a>
 <a href="https://github.com/RobReus"><img src="https://github.com/RobReus.png" width="65px" alt="" /></a>
-
 <!-- sponsors --><a href="https://github.com/danielsand"><img src="https://github.com/danielsand.png" width="40px" alt="" /></a><a href="https://github.com/andrewkdinh"><img src="https://github.com/andrewkdinh.png" width="40px" alt="" /></a><a href="https://github.com/crutonjohn"><img src="https://github.com/crutonjohn.png" width="40px" alt="" /></a><!-- sponsors -->
 
-Premium Sponsors
+## Premium Sponsors
 
-Become a business premium sponsor by connecting with [xUnholy](https://github.com/xunholy). 
+Become a premium sponsor by connecting with [xUnholy](https://github.com/xunholy). 
 
 <a href="https://wiki.radxa.com/"><img src="https://github.com/radxa.png" width="65px" alt="" /></a>
 <a href="https://bitscope.com/"><img src="https://docs.bitscope.com/KQWEKGQE/BitScope-Mark-u6ynbyjmy9gl2q8w.png" width="225px" alt="" /></a>
