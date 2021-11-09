@@ -25,72 +25,72 @@ jobs:
         uses: ibiqlik/action-yamllint@v3
         with:
           config_file: .github/.yamllint.yml
+  # TODO: Re-enable once REGO policies have been correctly updated 
+  # compliance:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         submodules: true
 
-  compliance:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: true
+  #     - uses: izhangzhihao/delete-comment@master
+  #       with:
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+  #         delete_user_name:  github-actions[bot]
+  #         issue_number: ${{ github.event.number }}
 
-      - uses: izhangzhihao/delete-comment@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          delete_user_name:  github-actions[bot]
-          issue_number: ${{ github.event.number }}
+  #     - name: Execute Conftest Tests - Table Output
+  #       id: conftest-table
+  #       continue-on-error: true
+  #       run: |
+  #         result=$(docker run --rm --workdir /github/workspace \
+  #           -v $(pwd):/github/workspace \
+  #           instrumenta/conftest:v0.18.2 \
+  #           test -o table -p security-policies/policies/ --all-namespaces --combine namespaces/ --no-color || exit 0)
+  #         result="${result//'%'/'%25'}"
+  #         result="${result//$'\n'/'%0A'}"
+  #         result="${result//$'\r'/'%0D'}"
+  #         echo $result
+  #         echo "::set-output name=result::$result"
 
-      - name: Execute Conftest Tests - Table Output
-        id: conftest-table
-        continue-on-error: true
-        run: |
-          result=$(docker run --rm --workdir /github/workspace \
-            -v $(pwd):/github/workspace \
-            instrumenta/conftest:v0.18.2 \
-            test -o table -p security-policies/policies/ --all-namespaces --combine namespaces/ --no-color || exit 0)
-          result="${result//'%'/'%25'}"
-          result="${result//$'\n'/'%0A'}"
-          result="${result//$'\r'/'%0D'}"
-          echo $result
-          echo "::set-output name=result::$result"
+  #     - name: Execute Conftest Tests - Stdout Output
+  #       id: conftest
+  #       continue-on-error: true
+  #       run: |
+  #         result=$(docker run --rm --workdir /github/workspace \
+  #           -v $(pwd):/github/workspace \
+  #           instrumenta/conftest:v0.18.2 \
+  #           test -o stdout -p security-policies/policies/ --all-namespaces namespaces/ --no-color || exit 0)
+  #         result="${result//'%'/'%25'}"
+  #         result="${result//$'\n'/'%0A'}"
+  #         result="${result//$'\r'/'%0D'}"
+  #         echo $result
+  #         echo ::set-output name=result::$result
 
-      - name: Execute Conftest Tests - Stdout Output
-        id: conftest
-        continue-on-error: true
-        run: |
-          result=$(docker run --rm --workdir /github/workspace \
-            -v $(pwd):/github/workspace \
-            instrumenta/conftest:v0.18.2 \
-            test -o stdout -p security-policies/policies/ --all-namespaces namespaces/ --no-color || exit 0)
-          result="${result//'%'/'%25'}"
-          result="${result//$'\n'/'%0A'}"
-          result="${result//$'\r'/'%0D'}"
-          echo $result
-          echo ::set-output name=result::$result
+  #     - uses: actions/github-script@v4.1
+  #       if: github.event_name == 'pull_request'
+  #       with:
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         script: |
+  #           const output = `#### Kubernetes Conftest Validation 🖌  \`${{ steps.conftest.outcome }}\`
 
-      - uses: actions/github-script@v4.1
-        if: github.event_name == 'pull_request'
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Kubernetes Conftest Validation 🖌  \`${{ steps.conftest.outcome }}\`
+  #           <details><summary>Show Kubernetes Conftest Report</summary>
 
-            <details><summary>Show Kubernetes Conftest Report</summary>
+  #           \`\`\`
+  #           ${{ steps.conftest.outputs.result }}
+  #           \`\`\`
 
-            \`\`\`
-            ${{ steps.conftest.outputs.result }}
-            \`\`\`
+  #           </details>
 
-            </details>
+  #           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`.\`, Workflow: \`${{ github.workflow }}\`*`;
 
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`.\`, Workflow: \`${{ github.workflow }}\`*`;
-
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
+  #           github.issues.createComment({
+  #             issue_number: context.issue.number,
+  #             owner: context.repo.owner,
+  #             repo: context.repo.repo,
+  #             body: output
+  #           })
 
   trivy:
     runs-on: ubuntu-latest
