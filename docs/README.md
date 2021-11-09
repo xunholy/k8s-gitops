@@ -41,11 +41,11 @@ The goal is to demonstrates how to implement enterprise-grade security, observab
 
 ## Sponsors
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://github.com/sponsors/xUnholy)]
+Support this project by becoming a sponsor. [[Become a sponsor](https://github.com/sponsors/xUnholy)]
 
+<a href="https://github.com/anthr76"><img src="https://github.com/anthr76.png" width="65px" alt="" /></a>
+<a href="https://github.com/RobReus"><img src="https://github.com/RobReus.png" width="65px" alt="" /></a>
 <!-- sponsors -->* [Daniel Sand](https://github.com/danielsand) - danielsand* [Andrew Dinh](https://github.com/andrewkdinh) - andrewkdinh* [Curtis John](https://github.com/crutonjohn) - crutonjohn<!-- sponsors -->
-
-<a href="https://opencollective.com/raspbernetes/sponsor/0/website" target="_blank"><img src="https://opencollective.com/raspbernetes/sponsor/0/avatar.svg"></a> <a href="https://opencollective.com/raspbernetes/sponsor/1/website" target="_blank"><img src="https://opencollective.com/raspbernetes/sponsor/1/avatar.svg"></a>
 
 ---
 
