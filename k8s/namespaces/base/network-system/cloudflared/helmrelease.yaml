@@ -27,7 +27,7 @@ spec:
       # Read: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress
       ingress: 
         - hostname: api.raspbernetes.com
-          service: tcp://kubernetes.default.svc.cluster.local:s443
+          service: tcp://kubernetes.default.svc.cluster.local:443
           originRequest:
             proxyType: socks
         - service: http_status:404
