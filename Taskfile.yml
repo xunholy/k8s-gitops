@@ -1,8 +1,9 @@
 version: '3'
 
-tasks:
-  mkdocs:
-    desc: "Serve Mkdocs content on localhost"
-    dir: .github/mkdocs
-    cmds:
-      - mkdocs serve -f mkdocs.yml
+vars:
+  CLUSTER: prod-b
+
+includes:
+  core:
+    taskfile: ./.taskfiles/Taskfile_core.yml
+    optional: false

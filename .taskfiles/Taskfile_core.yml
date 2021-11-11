@@ -1,0 +1,16 @@
+version: '3'
+
+tasks:
+  gpg:
+    desc: "Import the public and private gpg keys locally"
+    cmds:
+      - gpg --import k8s/clusters/prod-b/secrets/.sops.pub.asc
+      - gpg --import <(sops --decrypt "k8s/clusters/prod-b/secrets/sops-gpg.enc.yml" | yq e '.data[]' - | base64 -d)
+    status:
+      - gpg --list-secret-keys --keyid-format=long | grep production.raspbernetes.com
+
+  mkdocs:
+    desc: "Serve Mkdocs content on localhost"
+    dir: .github/mkdocs
+    cmds:
+      - mkdocs serve -f mkdocs.yml

@@ -32,3 +32,4 @@ resources:
   - vernemq-charts.yaml
   - vmware-charts.yaml
   - weaveworks-kured-charts.yaml
+  - xunholy-charts.yaml

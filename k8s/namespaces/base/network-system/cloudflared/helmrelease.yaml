@@ -1,0 +1,33 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: cloudflared
+  namespace: network-system
+spec:
+  interval: 5m
+  releaseName: cloudflared
+  chart:
+    spec:
+      # renovate: registryUrl=https://xunholy.github.io/charts
+      chart: cloudflared
+      version: 0.1.1
+      sourceRef:
+        kind: HelmRepository
+        name: xunholy-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    cloudflared:
+      # Tunnel ID should be unique per instance of running cloudflared
+      tunnelID: 24724515-cbee-460b-a57e-20c72c840756
+      # This is a reference to an existing secret containing the credentials;
+      existingSecret: cloudflared-credential
+      # Ingress hosts are directly copied into the configmap; 
+      # Read: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress
+      ingress: 
+        - hostname: api.raspbernetes.com
+          service: tcp://kubernetes.default.svc.cluster.local:s443
+          originRequest:
+            proxyType: socks
+        - service: http_status:404

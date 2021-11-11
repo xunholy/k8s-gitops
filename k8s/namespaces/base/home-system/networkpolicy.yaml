@@ -72,6 +72,10 @@ spec:
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
+          # TODO: try to remove 0.0.0.0/0 and try using excepts block
+          # except:
+          #   - 192.168.1.160/30
+          #   - 192.168.1.170/30
       ports:
         - port: 1900
           protocol: UDP
