@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflared-config
+  namespace: cloudflared
+data:
+  config.yml: |
+    tunnel: 24724515-cbee-460b-a57e-20c72c840756
+    credentials-file: /etc/cloudflared/credential.json
+    ingress:
+      - hostname: api.raspbernetes.com
+        service: tcp://kubernetes.default.svc.cluster.local:s443
+        originRequest:
+          proxyType: socks
+      - service: http_status:404
