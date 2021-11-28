@@ -23,9 +23,9 @@ spec:
       tunnelID: 24724515-cbee-460b-a57e-20c72c840756
       # This is a reference to an existing secret containing the credentials;
       existingSecret: cloudflared-credential
-      # Ingress hosts are directly copied into the configmap; 
+      # Ingress hosts are directly copied into the configmap;
       # Read: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress
-      ingress: 
+      ingress:
         - hostname: api.raspbernetes.com
           service: tcp://kubernetes.default.svc.cluster.local:443
           originRequest:
