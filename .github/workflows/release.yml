@@ -13,15 +13,24 @@ jobs:
     steps:
       - name: Get Latest Release
         uses: InsonusK/get-latest-release@v1.0.1
-        id: release_id
+        id: last_release
         with:
           myToken: ${{ github.token }}
           exclude_types: "prerelease|release"
-          view_top: 1
+          view_top: 10
+
+      - name: "Print result"
+        run: |
+          echo "id: ${{ steps.last_release.outputs.id }}"
+          echo "name: ${{ steps.last_release.outputs.name }}"
+          echo "tag_name: ${{ steps.last_release.outputs.tag_name }}"
+          echo "created_at: ${{ steps.last_release.outputs.created_atd }}"
+          echo "draft: ${{ steps.last_release.outputs.draft }}"
+          echo "prerelease: ${{ steps.last_release.outputs.prerelease }}"
 
       - name: Publish Release
         uses: eregon/publish-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          release_id: ${{ steps.release_id.outputs.id }}
+          release_id: ${{ steps.last_release.outputs.id }}
