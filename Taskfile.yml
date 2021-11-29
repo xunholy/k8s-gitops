@@ -2,8 +2,18 @@ version: '3'
 
 vars:
   CLUSTER: prod-b
+  GITHUB_USER: xunholy
+  GITHUB_REPO: k8s-gitops
+  GITHUB_BRANCH: main
 
 includes:
   core:
     taskfile: ./.taskfiles/Taskfile_core.yml
     optional: false
+
+tasks:
+  flux:
+    desc: "Install Fluxv2 into a cluster"
+    cmds:
+      - task: core:secrets
+      - task: core:bootstrap

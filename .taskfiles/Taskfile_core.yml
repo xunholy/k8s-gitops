@@ -19,3 +19,32 @@ tasks:
     desc: "Example: task core:lint -- --no-warnings"
     cmds:
       - yamllint -c .github/.yamllint.yml . {{.CLI_ARGS}}
+
+  bootstrap:
+    desc: "Example: task core:bootstrap -- <flags>"
+    cmds:
+      - cmd: |
+          flux bootstrap github \
+            --owner="{{.GITHUB_USER}}" \
+            --repository="{{.GITHUB_REPO}}" \
+            --path=k8s/clusters/"{{.CLUSTER}}" \
+            --branch="{{.GITHUB_BRANCH}}" \
+            --network-policy=false \
+            --personal=true \
+            --private=false \
+            {{.CLI_ARGS}}
+        silent: true
+
+  secrets:
+    desc: "Install cluster secrets and configs; Only to be used when updating secrets manually"
+    cmds:
+      - cmd: |
+          echo "Applying existing sealed-secret key"
+          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/sealed-secret-private-key.enc.yaml" | kubectl apply -f -
+          kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
+          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/sops-gpg.enc.yml" | kubectl apply -f -
+          echo "Applying cluster secrets"
+          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
+          echo "Applying cluster secrets"
+          kubectl apply -f "k8s/clusters/{{.CLUSTER}}/secrets/cluster-config.yaml"
+        silent: true
