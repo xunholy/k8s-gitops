@@ -1,0 +1,75 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: tenant-jeeong
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/tenants/base/guests"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  patches:
+    - patch: |
+        apiVersion: v1
+        kind: Namespace
+        metadata:
+          labels:
+            toolkit.fluxcd.io/tenant: jeeong
+          name: tenant-jeeong
+      target:
+        kind: Namespace
+        name: tenant-default
+        namespace: tenant-default
+    - patch: |
+        apiVersion: source.toolkit.fluxcd.io/v1beta1
+        kind: GitRepository
+        metadata:
+          name: tenant-jeeong
+          namespace: flux-system
+        spec:
+          url: https://github.com/JeeOng/k8s-demo
+      target:
+        kind: GitRepository
+        name: tenant-default
+        namespace: flux-system
+    - patch: |
+        apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+        kind: Kustomization
+        metadata:
+          name: tenant-jeeong
+          namespace: flux-system
+        spec:
+          serviceAccountName: jeeong
+          sourceRef:
+            kind: GitRepository
+            name: tenant-jeeong
+      target:
+        kind: Kustomization
+        name: tenant-default
+        namespace: flux-system
+    - patch: |
+        apiVersion: v1
+        kind: ServiceAccount
+        metadata:
+          labels:
+            toolkit.fluxcd.io/tenant: jeeong
+          name: jeeong
+          namespace: tenant-jeeong
+      target:
+        kind: ServiceAccount
+        name: tenant
+        namespace: tenant-default
+    - patch: |
+        apiVersion: v1
+        kind: ResourceQuota
+        metadata:
+          name: default-resource-restrictions
+          namespace: tenant-jeeong
+      target:
+        kind: ResourceQuota
+        name:  default-resource-restrictions
+        namespace: tenant-default
