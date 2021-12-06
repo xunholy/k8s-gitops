@@ -5,7 +5,6 @@ metadata:
   labels:
     toolkit.fluxcd.io/tenant: default
   name: gotk-reconciler
-  namespace: tenant-default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

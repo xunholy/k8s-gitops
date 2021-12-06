@@ -17,8 +17,7 @@ spec:
     - patch: |
         apiVersion: v1
         kind: Namespace
-        metad
-        ata:
+        metadata:
           labels:
             toolkit.fluxcd.io/tenant: jeeong
           name: tenant-jeeong
@@ -65,10 +64,9 @@ spec:
         apiVersion: v1
         kind: ServiceAccount
         metadata:
+          name: jeeong
           labels:
             toolkit.fluxcd.io/tenant: jeeong
-          name: jeeong
-          namespace: tenant-jeeong
       target:
         kind: ServiceAccount
         name: tenant
@@ -78,7 +76,6 @@ spec:
         kind: ResourceQuota
         metadata:
           name: default-resource-restrictions
-          namespace: tenant-jeeong
       target:
         kind: ResourceQuota
         name:  default-resource-restrictions
