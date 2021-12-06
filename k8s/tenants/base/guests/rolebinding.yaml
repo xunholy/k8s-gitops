@@ -16,3 +16,6 @@ subjects:
 - kind: ServiceAccount
   name: tenant
   namespace: tenant-default
+- kind: Group
+  name: raspbernetes:k8s-guests
+  apiGroup: rbac.authorization.k8s.io

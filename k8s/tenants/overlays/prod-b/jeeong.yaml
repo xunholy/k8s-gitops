@@ -17,7 +17,8 @@ spec:
     - patch: |
         apiVersion: v1
         kind: Namespace
-        metadata:
+        metad
+        ata:
           labels:
             toolkit.fluxcd.io/tenant: jeeong
           name: tenant-jeeong
@@ -48,6 +49,14 @@ spec:
           sourceRef:
             kind: GitRepository
             name: tenant-jeeong
+      target:
+        kind: Kustomization
+        name: tenant-default
+        namespace: flux-system
+    - patch: |
+        - op: replace
+          path: /metadata/namespace
+          value: flux-system
       target:
         kind: Kustomization
         name: tenant-default
