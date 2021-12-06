@@ -24,43 +24,42 @@ spec:
       target:
         kind: Namespace
         name: tenant-default
-        namespace: tenant-default
     - patch: |
-        apiVersion: source.toolkit.fluxcd.io/v1beta1
-        kind: GitRepository
-        metadata:
-          name: tenant-jeeong
-          namespace: flux-system
-        spec:
-          url: https://github.com/JeeOng/k8s-demo
+        - op: replace
+          path: /spec/url
+          value: https://github.com/JeeOng/k8s-demo
+        - op: replace
+          path: /metadata/name
+          value: tenant-jeeong
       target:
         kind: GitRepository
-        name: tenant-default
-        namespace: flux-system
-    - patch: |
-        apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-        kind: Kustomization
-        metadata:
-          name: tenant-jeeong
-          namespace: flux-system
-        spec:
-          serviceAccountName: jeeong
-          sourceRef:
-            kind: GitRepository
-            name: tenant-jeeong
-      target:
-        kind: Kustomization
         name: tenant-default
         namespace: flux-system
     - patch: |
         - op: replace
           path: /metadata/namespace
           value: flux-system
+        - op: replace
+          path: /spec/serviceAccountName
+          value: jeeong
+        - op: replace
+          path: /spec/sourceRef/name
+          value: tenant-jeeong
+        - op: add
+          path: /spec/targetNamespace
+          value: tenant-jeeong
       target:
         kind: Kustomization
         name: tenant-default
         namespace: flux-system
     - patch: |
+        - op: add
+          path: /metadata/namespace
+          value: tenant-jeeong
+      target:
+        kind: ServiceAccount
+        name: tenant
+    - patch: |         
         apiVersion: v1
         kind: ServiceAccount
         metadata:
@@ -70,7 +69,6 @@ spec:
       target:
         kind: ServiceAccount
         name: tenant
-        namespace: tenant-default
     - patch: |
         apiVersion: v1
         kind: ResourceQuota
@@ -79,4 +77,3 @@ spec:
       target:
         kind: ResourceQuota
         name:  default-resource-restrictions
-        namespace: tenant-default
