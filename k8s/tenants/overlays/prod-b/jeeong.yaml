@@ -13,7 +13,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  targetNamespace: tenant-jeeong
   patches:
     - patch: |
         - op: replace
@@ -59,7 +58,7 @@ spec:
           value: tenant-jeeong
       target:
         kind: ServiceAccount
-        name: tenant 
+        name: tenant
     - patch: |
         - op: add
           path: /metadata/labels/toolkit.fluxcd.io~1tenant
@@ -73,11 +72,11 @@ spec:
           value: tenant-jeeong
       target:
         kind: ResourceQuota
-        name:  default-resource-restrictions
+        name: default-resource-restrictions
     - patch: |
         - op: add
           path: /metadata/namespace
           value: tenant-jeeong
       target:
         kind: NetworkPolicy
-        name:  default-deny-policy
+        name: default-deny-policy
