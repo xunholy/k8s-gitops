@@ -84,6 +84,9 @@ spec:
         - op: add
           path: /metadata/labels/toolkit.fluxcd.io~1tenant
           value: jeeong
+        - op: add
+          path: /metadata/namespace
+          value: tenant-jeeong
       target:
         kind: RoleBinding
         name: gotk-reconciler
