@@ -39,9 +39,6 @@ spec:
           path: /metadata/name
           value: tenant-jeeong-namespace
         - op: replace
-          path: /spec/serviceAccountName
-          value: jeeong
-        - op: replace
           path: /spec/sourceRef/name
           value: tenant-jeeong
         - op: add
