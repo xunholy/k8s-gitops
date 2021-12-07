@@ -80,3 +80,10 @@ spec:
       target:
         kind: NetworkPolicy
         name: default-deny-policy
+    - patch: |
+        - op: add
+          path: /metadata/labels/toolkit.fluxcd.io~1tenant
+          value: jeeong
+      target:
+        kind: RoleBinding
+        name: gotk-reconciler
