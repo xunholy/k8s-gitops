@@ -21,7 +21,7 @@ spec:
           value: tenant-jeeong
         - op: add
           path: /metadata/labels/toolkit.fluxcd.io~1tenant
-          value: jeeong"
+          value: jeeong
       target:
         kind: Namespace
         name: tenant-default
@@ -63,7 +63,7 @@ spec:
     - patch: |
         - op: add
           path: /metadata/labels/toolkit.fluxcd.io~1tenant
-          value: jeeong"
+          value: jeeong
       target:
         kind: ServiceAccount
         name: tenant
