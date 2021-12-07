@@ -31,6 +31,9 @@ spec:
         - op: replace
           path: /metadata/name
           value: tenant-jeeong
+        - op: add
+          path: /metadata/namespace
+          value: tenant-jeeong
       target:
         kind: GitRepository
         name: tenant-default
@@ -38,14 +41,11 @@ spec:
         - op: replace
           path: /metadata/name
           value: tenant-jeeong-namespace
-        - op: replace
+        - op: add
           path: /metadata/namespace
           value: tenant-jeeong
         - op: replace
           path: /spec/sourceRef/name
-          value: tenant-jeeong
-        - op: add
-          path: /spec/targetNamespace
           value: tenant-jeeong
       target:
         kind: Kustomization

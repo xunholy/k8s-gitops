@@ -3,7 +3,6 @@ apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
 metadata:
   name: tenant-default
-  namespace: flux-system
 spec:
   interval: 1m
   url: https://github.com/fluxcd/flux2-multi-tenancy
@@ -14,7 +13,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: tenant-default
-  namespace: flux-system
 spec:
   serviceAccountName: tenant
   interval: 5m
