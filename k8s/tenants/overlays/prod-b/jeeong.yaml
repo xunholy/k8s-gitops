@@ -34,11 +34,10 @@ spec:
       target:
         kind: GitRepository
         name: tenant-default
-        namespace: flux-system
     - patch: |
         - op: replace
-          path: /metadata/namespace
-          value: flux-system
+          path: /metadata/name
+          value: tenant-jeeong-namespace
         - op: replace
           path: /spec/serviceAccountName
           value: jeeong
@@ -51,7 +50,6 @@ spec:
       target:
         kind: Kustomization
         name: tenant-default
-        namespace: flux-system
     - patch: |
         - op: add
           path: /metadata/namespace
