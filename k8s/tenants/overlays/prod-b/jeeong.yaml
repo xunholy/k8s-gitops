@@ -49,7 +49,7 @@ spec:
           value: tenant-jeeong
       target:
         kind: Kustomization
-        name: tenant-default
+        name: tenant-default-namespace
     - patch: |
         - op: add
           path: /metadata/namespace
