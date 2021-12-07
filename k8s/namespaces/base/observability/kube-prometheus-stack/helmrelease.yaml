@@ -81,7 +81,7 @@ spec:
         portName: http-service
       image:
         repository: grafana/grafana
-        tag: 8.3.0
+        tag: 8.3.1
       sidecar:
         dashboards:
           enabled: true
