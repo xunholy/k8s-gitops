@@ -1,3 +1,4 @@
+# Note: When adding or replacing labels use ~1 to represent a /
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -15,12 +16,12 @@ spec:
   targetNamespace: tenant-jeeong
   patches:
     - patch: |
-        apiVersion: v1
-        kind: Namespace
-        metadata:
-          labels:
-            toolkit.fluxcd.io/tenant: jeeong
-          name: tenant-jeeong
+        - op: replace
+          path: /metadata/name
+          value: tenant-jeeong
+        - op: add
+          path: /metadata/labels/toolkit.fluxcd.io~1tenant
+          value: jeeong"
       target:
         kind: Namespace
         name: tenant-default
@@ -58,22 +59,25 @@ spec:
           value: tenant-jeeong
       target:
         kind: ServiceAccount
-        name: tenant
-    - patch: |         
-        apiVersion: v1
-        kind: ServiceAccount
-        metadata:
-          name: jeeong
-          labels:
-            toolkit.fluxcd.io/tenant: jeeong
+        name: tenant 
+    - patch: |
+        - op: add
+          path: /metadata/labels/toolkit.fluxcd.io~1tenant
+          value: jeeong"
       target:
         kind: ServiceAccount
         name: tenant
     - patch: |
-        apiVersion: v1
-        kind: ResourceQuota
-        metadata:
-          name: default-resource-restrictions
+        - op: add
+          path: /metadata/namespace
+          value: tenant-jeeong
       target:
         kind: ResourceQuota
         name:  default-resource-restrictions
+    - patch: |
+        - op: add
+          path: /metadata/namespace
+          value: tenant-jeeong
+      target:
+        kind: NetworkPolicy
+        name:  default-deny-policy
