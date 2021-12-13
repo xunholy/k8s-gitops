@@ -163,7 +163,7 @@ clustermesh:
     # -- Clustermesh API server image.
     image:
       repository: quay.io/cilium/clustermesh-apiserver
-      tag: v1.10.5
+      tag: v1.11.0
     etcd:
       # -- Clustermesh API server etcd image.
       image:
