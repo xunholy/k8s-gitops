@@ -1,3 +1,10 @@
+
+# upgradeCompatibility helps users upgrading to ensure that the configMap for
+# Cilium will not change critical values to ensure continued operation
+# This is flag is not required for new installations.
+# For example: 1.7, 1.8, 1.9
+upgradeCompatibility: '1.10'
+
 # autoDirectNodeRoutes enables installation of PodCIDR routes between worker
 # nodes if worker nodes share a common L2 network segment.
 autoDirectNodeRoutes: true
@@ -21,6 +28,12 @@ containerRuntime:
 # the cilium_host interface
 endpointRoutes:
   enabled: false
+
+# -- Enables masquerading of IPv4 traffic leaving the node from endpoints.
+enableIPv4Masquerade: true
+
+# -- Enables masquerading of IPv6 traffic leaving the node from endpoints.
+enableIPv6Masquerade: true
 
 # masquerade enables masquerading of traffic leaving the node for
 # destinations outside of the cluster.
@@ -56,12 +69,18 @@ ipam:
   # ref: https://docs.cilium.io/en/stable/concepts/networking/ipam/
   mode: "cluster-pool"
   operator:
-    # -- IPv4 CIDR range to delegate to individual nodes for IPAM.
-    clusterPoolIPv4PodCIDR: '10.0.0.0/8'
+    # -- Deprecated in favor of ipam.operator.clusterPoolIPv4PodCIDRList.
+    # IPv4 CIDR range to delegate to individual nodes for IPAM.
+    clusterPoolIPv4PodCIDR: "10.0.0.0/8"
+    # -- IPv4 CIDR list range to delegate to individual nodes for IPAM.
+    clusterPoolIPv4PodCIDRList: ["10.0.0.0/8"]
     # -- IPv4 CIDR mask size to delegate to individual nodes for IPAM.
     clusterPoolIPv4MaskSize: 24
-    # -- IPv6 CIDR range to delegate to individual nodes for IPAM.
+    # -- Deprecated in favor of ipam.operator.clusterPoolIPv6PodCIDRList.
+    # IPv6 CIDR range to delegate to individual nodes for IPAM.
     clusterPoolIPv6PodCIDR: "fd00::/104"
+     # -- IPv6 CIDR list range to delegate to individual nodes for IPAM.
+    clusterPoolIPv6PodCIDRList: ["fd00::/104"]
     # -- IPv6 CIDR mask size to delegate to individual nodes for IPAM.
     clusterPoolIPv6MaskSize: 120
 
@@ -104,9 +123,14 @@ operator:
 k8sServiceHost: 192.168.1.205
 k8sServicePort: 6443
 
-# nativeRoutingCIDR allows to explicitly specify the CIDR for native routing. This
-# value corresponds to the configured cluster-cidr.
+# -- Specify the IPv4 CIDR for native routing (ie to avoid IP masquerade for).
+# This value corresponds to the configured cluster-cidr.
+# Deprecated in favor of ipv4NativeRoutingCIDR, will be removed in 1.12.
 nativeRoutingCIDR: 10.0.0.0/8
+
+# -- Specify the IPv4 CIDR for native routing (ie to avoid IP masquerade for).
+# This value corresponds to the configured cluster-cidr.
+ipv4NativeRoutingCIDR: 10.0.0.0/8
 
 # tunnel is the encapsulation configuration for communication between nodes
 tunnel: disabled
