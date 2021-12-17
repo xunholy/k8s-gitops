@@ -1,4 +1,3 @@
-
 # upgradeCompatibility helps users upgrading to ensure that the configMap for
 # Cilium will not change critical values to ensure continued operation
 # This is flag is not required for new installations.

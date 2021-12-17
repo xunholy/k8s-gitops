@@ -29,8 +29,8 @@ spec:
                 schedule: '0 6 * * *'
                 template:
                   ttl: '120h'
-              zigbee2mqtt-hourly:
-                schedule: '0 0/1 * * *'
+              zigbee2mqtt-daily:
+                schedule: '0 6 * * *'
                 template:
                   labelSelector:
                     matchLabels:
@@ -42,8 +42,8 @@ spec:
                     - default
                   includedNamespaces:
                     - home-system
-              home-assistant-hourly:
-                schedule: '0 0/1 * * *'
+              home-assistant-daily:
+                schedule: '0 6 * * *'
                 template:
                   labelSelector:
                     matchLabels:
