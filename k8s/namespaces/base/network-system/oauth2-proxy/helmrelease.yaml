@@ -53,7 +53,7 @@ spec:
         provider = "oidc"
         oidc_issuer_url = "https://dex.${CLUSTER_DOMAIN}"
         auth_logging = true
-        cookie_domains = ".raspbernetes.com"
+        cookie_domains = ".${CLUSTER_DOMAIN}"
         cookie_httponly = true
         cookie_name = "_raspbernetes_oauth"
         cookie_refresh = "1h"
@@ -73,4 +73,4 @@ spec:
         ssl_insecure_skip_verify = true
         standard_logging = true
         upstreams = [ "static://200" ]
-        whitelist_domains = ".raspbernetes.com"
+        whitelist_domains = ".${CLUSTER_DOMAIN}"
