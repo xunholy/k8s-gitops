@@ -24,7 +24,9 @@ spec:
   egress:
     # Egress flows to Kubernetes DNS will be allowed but only specific port(s).
     - to:
-        - namespaceSelector: {}
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
           podSelector:
             matchLabels:
               k8s-app: kube-dns
