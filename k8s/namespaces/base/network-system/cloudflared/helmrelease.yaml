@@ -18,6 +18,9 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: raspbernetes/cloudflared
+      tag: "2021.12.1"
     cloudflared:
       # Tunnel ID should be unique per instance of running cloudflared
       tunnelID: 24724515-cbee-460b-a57e-20c72c840756
