@@ -1,0 +1,26 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: enemy-territory
+  namespace: game-servers
+spec:
+  interval: 5m
+  releaseName: enemy-territory
+  chart:
+    spec:
+      # renovate: registryUrl=https://xunholy.github.io/charts
+      chart: enemy-territory
+      version: 0.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: xunholy-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: raspbernetes/enemy-territory
+      tag: latest
+    serverConfig:
+      # This is a reference to an existing secret containing the server.cfg;
+      existingSecret: enemy-territory-server-config
