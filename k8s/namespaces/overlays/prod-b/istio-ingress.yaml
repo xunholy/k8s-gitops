@@ -95,9 +95,9 @@ spec:
                 service:
                   loadBalancerIP: 192.168.1.180
                   ports:
-                  - name: udp-enemy-territory
+                  - name: enemy-territory
                     port: 27960
-                    protocol: UDP
+                    protocol: TCP
                     # targetPort: 27961
                   - name: status-port
                     port: 15021

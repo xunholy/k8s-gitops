@@ -33,9 +33,7 @@ spec:
         maxProtocolVersion: TLSV1_3
     - port:
         number: 27960
-        name: UDP
+        name: tcp
         protocol: TCP
       hosts:
-        - '${CLUSTER_DOMAIN}'
-        - '*.${CLUSTER_DOMAIN}'
-        - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
+        - 'et.${CLUSTER_DOMAIN}'
