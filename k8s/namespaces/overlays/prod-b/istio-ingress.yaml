@@ -98,7 +98,7 @@ spec:
                   - name: enemy-territory
                     port: 27960
                     protocol: TCP
-                    # targetPort: 27961
+                    targetPort: 27960
                   - name: status-port
                     port: 15021
                     protocol: TCP
