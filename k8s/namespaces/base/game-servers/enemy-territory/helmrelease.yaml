@@ -21,6 +21,9 @@ spec:
     image:
       repository: raspbernetes/enemy-territory
       tag: latest
+    service:
+      type: LoadBalancer
+      loadBalancerIP: ${CLUSTER_LB_ENEMY_TERRITORY}
     serverConfig:
       # This is a reference to an existing secret containing the server.cfg;
       existingSecret: enemy-territory-server-config
