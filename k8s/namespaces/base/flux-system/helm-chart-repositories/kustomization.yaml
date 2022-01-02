@@ -17,6 +17,7 @@ resources:
   - kubernetes-stable-charts.yaml
   - kyverno-charts.yaml
   - litmuschaos-charts.yaml
+  - minecraft-server-charts.yaml
   - node-feature-discovery-chart.yaml
   - oauth2-proxy-chart.yaml
   - openebs-charts.yaml
