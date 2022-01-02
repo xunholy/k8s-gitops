@@ -96,8 +96,21 @@ spec:
                   loadBalancerIP: 192.168.1.180
                   ports:
                   - name: udp-enemy-territory
-                    protocol: UDP
                     port: 27960
+                    protocol: UDP
+                    # targetPort: 27961
+                  - name: status-port
+                    port: 15021
+                    protocol: TCP
+                    targetPort: 15021
+                  - name: http2
+                    port: 80
+                    protocol: TCP
+                    targetPort: 8080
+                  - name: https
+                    port: 443
+                    protocol: TCP
+                    targetPort: 8443
       target:
         kind: IstioOperator
         name: ingress
