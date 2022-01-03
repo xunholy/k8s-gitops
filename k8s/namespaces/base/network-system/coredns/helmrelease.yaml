@@ -104,4 +104,4 @@ spec:
           raspbernetes.com.     IN NS     ns.dns.raspbernetes.com.
           raspbernetes.com.     IN A      ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
           *.${CLUSTER_DOMAIN}.  IN CNAME  raspbernetes.com.
-          et.${CLUSTER_DOMAIN   IN A      ${CLUSTER_LB_ENEMY_TERRITORY}
+          et.${CLUSTER_DOMAIN}.   IN A      ${CLUSTER_LB_ENEMY_TERRITORY}
