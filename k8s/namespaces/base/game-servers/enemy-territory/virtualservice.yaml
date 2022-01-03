@@ -12,7 +12,7 @@ spec:
     - 'et.${CLUSTER_DOMAIN}'
   gateways:
     - istio-ingress/istio-ingressgateway
-  tcp:
+  http:
     - match:
         - port: 27960
       route:
