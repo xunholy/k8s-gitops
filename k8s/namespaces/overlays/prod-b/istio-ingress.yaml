@@ -97,7 +97,7 @@ spec:
                   ports:
                   - name: enemy-territory
                     port: 27960
-                    protocol: TCP
+                    protocol: UDP
                     targetPort: 27960
                   - name: status-port
                     port: 15021
