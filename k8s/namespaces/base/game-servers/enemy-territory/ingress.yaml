@@ -1,5 +1,5 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: enemy-territory
@@ -8,15 +8,18 @@ metadata:
     kubernetes.io/ingress.class: 'nginx'
     cert-manager.io/cluster-issuer: 'letsencrypt-prod'
 spec:
-  rules:
-    - host: et.raspbernetes.com
-      http:
-        paths:
-          - backend:
-              serviceName: enemy-territory
-              servicePort: 27960
-            path: /
   tls:
     - hosts:
         - et.raspbernetes.com
       secretName: et.raspbernetes.com-ingress-cert
+  ingressClassName: nginx
+  rules:
+    - host: et.raspbernetes.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: enemy-territory
+                port: 27960
