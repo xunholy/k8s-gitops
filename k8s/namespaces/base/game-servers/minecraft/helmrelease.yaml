@@ -13,6 +13,6 @@ spec:
       version: 1.2.0
       sourceRef:
         kind: HelmRepository
-        name: xunholy-charts
+        name: minecraft-server-charts
         namespace: flux-system
       interval: 5m
