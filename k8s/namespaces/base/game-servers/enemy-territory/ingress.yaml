@@ -12,7 +12,6 @@ spec:
     - hosts:
         - et.raspbernetes.com
       secretName: et.raspbernetes.com-ingress-cert
-  ingressClassName: nginx
   rules:
     - host: et.raspbernetes.com
       http:
