@@ -8,7 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://itzg.github.io/minecraft-server-charts
+      # renovate: registryUrl=https://xunholy.github.io/charts
       chart: minecraft-bedrock
       version: 1.2.0
       sourceRef:
