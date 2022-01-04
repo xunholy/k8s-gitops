@@ -67,6 +67,7 @@ spec:
         loadBalancerIP: 192.168.1.185
     udp:
       '27960': "game-servers/enemy-territory:27960"
+      '19132': "game-servers/minecraft-bedrock:19132"
     podSecurityPolicy:
       enabled: true
     defaultBackend:
