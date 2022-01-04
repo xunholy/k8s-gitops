@@ -36,14 +36,14 @@ spec:
       metrics:
         enabled: true
         serviceMonitor:
-          enabled: true
-          namespace: network
+          enabled: false
+          namespace: game-servers
           namespaceSelector:
             any: true
         prometheusRule:
           enabled: false
       extraArgs:
-        default-ssl-certificate: 'network/acme-crt-secret'
+        default-ssl-certificate: 'istio-ingress/ingress-cert'
       config:
         custom-http-errors: '404,403,500,503'
         forwarded-for-header: CF-Connecting-IP
