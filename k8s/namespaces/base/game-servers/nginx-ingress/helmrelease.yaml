@@ -66,7 +66,7 @@ spec:
         externalTrafficPolicy: Local
         loadBalancerIP: 192.168.1.185
     udp:
-      27960: "game-servers/enemy-territory:27960"
+      - 27960: "game-servers/enemy-territory:27960"
     podSecurityPolicy:
       enabled: true
     defaultBackend:
