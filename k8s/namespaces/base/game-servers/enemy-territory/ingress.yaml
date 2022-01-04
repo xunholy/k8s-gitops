@@ -22,4 +22,5 @@ spec:
             backend:
               service:
                 name: enemy-territory
-                port: 27960
+                port:
+                  number: 27960
