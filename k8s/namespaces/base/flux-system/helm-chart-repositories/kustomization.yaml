@@ -10,6 +10,7 @@ resources:
   - flagger-charts.yaml
   - gatekeeper-charts.yaml
   - grafana-loki.yaml
+  - ingress-nginx-chart.yaml
   - jetstack-charts.yaml
   - k8s-at-home-charts.yaml
   - kubefed-charts.yaml
