@@ -63,7 +63,6 @@ spec:
           cpu: 25m
           memory: 500Mi
       service:
-        externalTrafficPolicy: Local
         loadBalancerIP: 192.168.1.185
     udp:
       '27960': "game-servers/enemy-territory:27960"
