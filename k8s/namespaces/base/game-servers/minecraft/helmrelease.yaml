@@ -16,3 +16,7 @@ spec:
         name: minecraft-server-charts
         namespace: flux-system
       interval: 5m
+  values:
+    minecraftServer:
+      # This must be overridden, since we can't accept this for the user.
+      eula: "TRUE"
