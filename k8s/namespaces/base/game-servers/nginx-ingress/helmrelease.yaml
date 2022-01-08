@@ -33,6 +33,11 @@ spec:
     cleanupOnFail: true
   values:
     controller:
+      ingressClassByName: true
+      ingressClassResource:
+        enabled: true
+        name: nginx-udp
+        controllerValue: "k8s.io/ingress-nginx-udp"
       metrics:
         enabled: true
         serviceMonitor:
@@ -66,6 +71,8 @@ spec:
           cpu: 25m
           memory: 500Mi
       service:
+        enableHttp: false
+        enableHttps: false
         loadBalancerIP: 192.168.1.185
     udp:
       '27960': "game-servers/enemy-territory:27960"

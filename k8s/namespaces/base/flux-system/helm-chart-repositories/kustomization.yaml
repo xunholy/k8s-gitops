@@ -31,6 +31,7 @@ resources:
   - sealed-secrets-charts.yaml
   - secrets-store-csi-driver-chart.yaml
   - stakater-charts.yaml
+  - traefik-charts.yaml
   - vernemq-charts.yaml
   - vmware-charts.yaml
   - weaveworks-kured-charts.yaml
