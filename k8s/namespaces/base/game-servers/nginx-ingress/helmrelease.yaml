@@ -51,8 +51,6 @@ spec:
         default-ssl-certificate: 'istio-ingress/ingress-cert'
       config:
         proxy-stream-timeout: 10m
-
-
         custom-http-errors: '404,403,500,503'
         # forwarded-for-header: CF-Connecting-IP
         # proxy-body-size: 50m
@@ -74,9 +72,10 @@ spec:
         enableHttp: false
         enableHttps: false
         loadBalancerIP: 192.168.1.185
+        externalTrafficPolicy: Local
     udp:
       '27960': "game-servers/enemy-territory:27960"
-      '19132': "game-servers/minecraft-bedrock-minecraft-bedrock:19132"
+      # '19132': "game-servers/minecraft-bedrock-minecraft-bedrock:19132"
     defaultBackend:
       enabled: true
       image:
