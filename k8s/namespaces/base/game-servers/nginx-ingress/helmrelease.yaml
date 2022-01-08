@@ -51,6 +51,7 @@ spec:
         default-ssl-certificate: 'istio-ingress/ingress-cert'
       config:
         proxy-stream-timeout: 10m
+        proxy-stream-responses: ""
         custom-http-errors: '404,403,500,503'
         # forwarded-for-header: CF-Connecting-IP
         # proxy-body-size: 50m
