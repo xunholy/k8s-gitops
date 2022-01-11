@@ -24,9 +24,10 @@ spec:
     service:
       type: LoadBalancer
       loadBalancerIP: ${CLUSTER_LB_ENEMY_TERRITORY}
-    serverConfig:
-      # This is a reference to an existing secret containing the server.cfg;
-      existingSecret: enemy-territory-server-config
+    # TODO: Remove to avoid creating the volume in the deployment
+    # serverConfig:
+    #   # This is a reference to an existing secret containing the server.cfg;
+    #   existingSecret: enemy-territory-server-config
     additionalContainers:
       git-sync:
         name: git-sync
