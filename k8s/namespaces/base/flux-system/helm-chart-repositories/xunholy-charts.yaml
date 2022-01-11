@@ -5,6 +5,6 @@ metadata:
   name: xunholy-charts
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 3m
   url: https://xunholy.github.io/charts
   timeout: 3m
