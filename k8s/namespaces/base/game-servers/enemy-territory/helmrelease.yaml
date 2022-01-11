@@ -37,5 +37,5 @@ spec:
           - "--branch=main"
           - "--username=xunholy"
           - "--password=${GITHUB_TOKEN}"
-          - "--dest=/etlegacy/legacy/"
+          - "--root=/etlegacy/legacy/"
           - "--wait=30"
