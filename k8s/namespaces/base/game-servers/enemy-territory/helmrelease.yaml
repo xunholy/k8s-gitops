@@ -11,7 +11,7 @@ spec:
     spec:
       # renovate: registryUrl=https://xunholy.github.io/charts
       chart: enemy-territory
-      version: 0.1.7
+      version: 0.1.8
       sourceRef:
         kind: HelmRepository
         name: xunholy-charts
@@ -19,7 +19,7 @@ spec:
       interval: 5m
   values:
     image:
-      repository: raspbernetes/enemy-territory
+      repository: xunholy/enemy-territory
       tag: latest
     service:
       type: LoadBalancer
@@ -27,3 +27,15 @@ spec:
     serverConfig:
       # This is a reference to an existing secret containing the server.cfg;
       existingSecret: enemy-territory-server-config
+    additionalContainers:
+      git-sync:
+        name: git-sync
+        image: registry/git-sync:latest
+        imagePullPolicy: IfNotPresent
+        args:
+          - "--repo=https://github.com/xUnholy/etlegacy-server.git"
+          - "--branch=main"
+          - "--username=xunholy"
+          - "--password=${GITHUB_TOKEN}"
+          - "--dest=/etlegacy/legacy/"
+          - "--wait=30"
