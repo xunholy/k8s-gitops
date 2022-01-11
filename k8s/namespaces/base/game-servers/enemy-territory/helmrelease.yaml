@@ -30,7 +30,7 @@ spec:
     additionalContainers:
       git-sync:
         name: git-sync
-        image: git-sync:latest
+        image: openweb/git-sync:latest
         imagePullPolicy: IfNotPresent
         args:
           - "--repo=https://github.com/xUnholy/etlegacy-server.git"
