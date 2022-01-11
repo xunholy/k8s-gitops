@@ -38,7 +38,8 @@ spec:
           - "--branch=main"
           - "--username=xunholy"
           - "--password=${GITHUB_TOKEN}"
-          - "--root=/etlegacy/legacy/"
+          - "--root=/etlegacy/legacy"
+          - "--dest=/etlegacy/legacy"
           - "--wait=30"
         volumeMounts:
           - name: server-config
