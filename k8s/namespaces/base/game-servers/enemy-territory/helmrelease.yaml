@@ -11,7 +11,7 @@ spec:
     spec:
       # renovate: registryUrl=https://xunholy.github.io/charts
       chart: enemy-territory
-      version: 0.1.8
+      version: 0.1.9
       sourceRef:
         kind: HelmRepository
         name: xunholy-charts
@@ -40,3 +40,6 @@ spec:
           - "--password=${GITHUB_TOKEN}"
           - "--root=/etlegacy/legacy/"
           - "--wait=30"
+        volumeMounts:
+          - name: server-config
+            mountPath: /etlegacy/legacy
