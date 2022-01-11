@@ -20,7 +20,7 @@ spec:
   values:
     image:
       repository: xunholy/enemy-territory
-      tag: sha-8c2aa90
+      tag: sha-18784a1
     service:
       type: LoadBalancer
       loadBalancerIP: ${CLUSTER_LB_ENEMY_TERRITORY}
