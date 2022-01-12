@@ -50,7 +50,6 @@ spec:
       extraArgs:
         default-ssl-certificate: 'istio-ingress/ingress-cert'
       config:
-        proxy-stream-timeout: 10m
         proxy-stream-responses: '999999'
         custom-http-errors: '404,403,500,503'
         enable-real-ip: true
@@ -74,6 +73,7 @@ spec:
         enableHttp: false
         enableHttps: false
         loadBalancerIP: 192.168.1.185
+        externalTrafficPolicy: Local
     udp:
       '27960': "game-servers/enemy-territory:27960"
       # '19132': "game-servers/minecraft-bedrock-minecraft-bedrock:19132"
