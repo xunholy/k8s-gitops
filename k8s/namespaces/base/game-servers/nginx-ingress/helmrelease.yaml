@@ -53,6 +53,7 @@ spec:
         proxy-stream-timeout: 10m
         proxy-stream-responses: '999999'
         custom-http-errors: '404,403,500,503'
+        enable-real-ip: true
         # forwarded-for-header: CF-Connecting-IP
         # proxy-body-size: 50m
         # Cloudflare IP Addresses - Used to forward the real client IP address to the backend service
@@ -61,7 +62,7 @@ spec:
         # ssl-protocols: TLSv1.2 TLSv1.3
         # use-forwarded-headers: 'true'
         # use-proxy-protocol: 'true'
-        # enable-modsecurity: 'true'
+        enable-modsecurity: 'true'
       replicaCount: 1
       resources:
         limits:

@@ -11,7 +11,7 @@ spec:
     spec:
       # renovate: registryUrl=https://xunholy.github.io/charts
       chart: enemy-territory
-      version: 0.1.9
+      version: 0.1.10
       sourceRef:
         kind: HelmRepository
         name: xunholy-charts
@@ -24,23 +24,8 @@ spec:
     service:
       type: LoadBalancer
       loadBalancerIP: ${CLUSTER_LB_ENEMY_TERRITORY}
-    # TODO: Remove to avoid creating the volume in the deployment
-    # serverConfig:
-    #   # This is a reference to an existing secret containing the server.cfg;
-    #   existingSecret: enemy-territory-server-config
-    additionalContainers:
-      git-sync:
-        name: git-sync
-        image: willdockerhub/git-sync:v3.3.4
-        imagePullPolicy: IfNotPresent
-        args:
-          - "--repo=https://github.com/xUnholy/etlegacy-server.git"
-          - "--branch=main"
-          - "--username=xunholy"
-          - "--password=${GITHUB_TOKEN}"
-          - "--root=/etlegacy/legacy"
-          - "--dest=/etlegacy/legacy"
-          - "--wait=30"
-        volumeMounts:
-          - name: server-config
-            mountPath: /etlegacy/legacy
+    repoConfig:
+      owner: xunholy
+      repository: etlegacy-server.git
+      branch: main
+      token: ${GITHUB_TOKEN}
