@@ -18,9 +18,10 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: xunholy/enemy-territory
-      tag: sha-18784a1
+    container:
+      image:
+        repository: xunholy/enemy-territory
+        tag: sha-18784a1
     service:
       type: LoadBalancer
       loadBalancerIP: ${CLUSTER_LB_ENEMY_TERRITORY}
