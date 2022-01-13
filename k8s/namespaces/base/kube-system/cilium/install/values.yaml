@@ -141,7 +141,9 @@ loadBalancer:
   algorithm: maglev
   # mode is the operation mode of load balancing for remote backends
   # e.g. snat, dsr, hybrid
-  mode: dsr
+  # https://docs.cilium.io/en/v1.9/gettingstarted/kubeproxy-free/#hybrid-dsr-and-snat-mode
+  # Fixes UDP Client Source IP Preservation for Local traffic
+  mode: hybrid
 
 # disableEnvoyVersionCheck removes the check for Envoy, which can be useful on
 # AArch64 as the images do not currently ship a version of Envoy.

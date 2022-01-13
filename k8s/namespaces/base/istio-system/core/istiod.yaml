@@ -59,6 +59,10 @@ spec:
                 defaultMode: 420
                 name: istio-ca-root-cert
   meshConfig:
+    defaultConfig:
+      gatewayTopology:
+        # Always forward the XFCC header in the request, regardless of whether the client connection is mTLS.
+        forwardClientCertDetails: ALWAYS_FORWARD_ONLY
     accessLogFile: /dev/stdout
     trustDomain: cluster.local
     extensionProviders:
