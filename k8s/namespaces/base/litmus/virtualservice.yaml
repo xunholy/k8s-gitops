@@ -13,6 +13,6 @@ spec:
     - route:
         - destination:
             port:
-              number: 8123
+              number: 9091
             host: litmusportal-frontend-service.litmus.svc.cluster.local
           weight: 100
