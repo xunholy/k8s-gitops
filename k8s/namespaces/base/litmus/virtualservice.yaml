@@ -14,5 +14,5 @@ spec:
         - destination:
             port:
               number: 9091
-            host: litmusportal-frontend-service.litmus.svc.cluster.local
+            host: litmus-frontend-service.litmus.svc.cluster.local
           weight: 100

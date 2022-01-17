@@ -10,6 +10,9 @@ includes:
   core:
     taskfile: ./.taskfiles/Taskfile_core.yml
     optional: false
+  sidero:
+    taskfile: ./.taskfiles/Taskfile_sidero.yml
+    optional: true
 
 tasks:
   flux:
