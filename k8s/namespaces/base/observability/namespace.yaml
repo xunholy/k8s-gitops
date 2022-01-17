@@ -4,5 +4,4 @@ kind: Namespace
 metadata:
   name: observability
   labels:
-    namespace: observability
     istio-injection: disabled

@@ -4,5 +4,4 @@ kind: Namespace
 metadata:
   name: crossplane-system
   labels:
-    namespace: crossplane-system
     istio-injection: disabled

@@ -4,5 +4,4 @@ kind: Namespace
 metadata:
   name: velero
   labels:
-    namespace: velero
     istio-injection: disabled

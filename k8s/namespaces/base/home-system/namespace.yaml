@@ -4,5 +4,4 @@ kind: Namespace
 metadata:
   name: home-system
   labels:
-    namespace: home-system
     istio-injection: disabled
