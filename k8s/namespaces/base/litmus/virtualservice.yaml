@@ -1,0 +1,18 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: chaos-center
+  namespace: litmus
+spec:
+  hosts:
+    - 'chaos-center.${CLUSTER_DOMAIN}'
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 8123
+            host: litmusportal-frontend-service.litmus.svc.cluster.local
+          weight: 100
