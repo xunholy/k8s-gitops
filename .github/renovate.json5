@@ -29,6 +29,9 @@
     ]
   },
   "helm-values": {"fileMatch": ["k8s/.+helmrelease\\.yaml$"]},
+  "docker-compose": {
+    "fileMatch": ["(^|\/)docker-compose.*\\.ya?ml$"]
+  },
   "flux": {
     "fileMatch": [
       "k8s/.+\\.yaml$"
