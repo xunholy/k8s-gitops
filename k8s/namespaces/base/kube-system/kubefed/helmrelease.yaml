@@ -8,7 +8,6 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://raw.githubusercontent.com/kubernetes-sigs/kubefed/master/charts
       chart: kubefed
       version: 0.9.0
       sourceRef:

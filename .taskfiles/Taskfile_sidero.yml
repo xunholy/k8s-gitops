@@ -1,0 +1,27 @@
+version: '3'
+
+env:
+  SIDERO_CONTROLLER_MANAGER_HOST_NETWORK: true
+  SIDERO_CONTROLLER_MANAGER_API_ENDPOINT: 192.168.1.121
+
+tasks:
+  bootstrap:
+    desc: "Install Sidero"
+    cmds:
+      - clusterctl init --bootstrap talos --control-plane talos --infrastructure sidero -v=5
+
+  test:
+    desc: "Test Sidero Installation"
+    cmds:
+      - curl -I http://{{.SIDERO_CONTROLLER_MANAGER_API_ENDPOINT}}:8081/tftp/ipxe.efi
+
+  # TODO:
+  generate:
+    env:
+      CONTROL_PLANE_ENDPOINT: 192.168.1.210
+      CONTROL_PLANE_PORT: 8443
+      CONTROL_PLANE_SERVERCLASS: any
+      TALOS_VERSION: v0.14.0
+      WORKER_SERVERCLASS: any
+    cmds:
+      - clusterctl generate cluster cluster-0 --kubernetes-version v1.22.2

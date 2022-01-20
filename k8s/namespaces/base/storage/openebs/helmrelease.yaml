@@ -8,7 +8,6 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://openebs.github.io/cstor-operators
       chart: cstor
       version: 3.1.0
       sourceRef:

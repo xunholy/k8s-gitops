@@ -9,7 +9,6 @@ spec:
   releaseName: cloudflared
   chart:
     spec:
-      # renovate: registryUrl=https://xunholy.github.io/charts
       chart: cloudflared
       version: 0.1.2
       sourceRef:
