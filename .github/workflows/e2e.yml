@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # TODO: Re-enable prod-a once it's rebuilt 
+          # TODO: Re-enable prod-a once it's rebuilt
           # - cluster-id: prod-a
           - cluster-id: prod-b
     steps:

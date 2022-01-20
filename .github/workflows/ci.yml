@@ -25,7 +25,7 @@ jobs:
         uses: ibiqlik/action-yamllint@v3
         with:
           config_file: .github/.yamllint.yml
-  # TODO: Re-enable once REGO policies have been correctly updated 
+  # TODO: Re-enable once REGO policies have been correctly updated
   # compliance:
   #   runs-on: ubuntu-latest
   #   steps:
