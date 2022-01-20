@@ -8,7 +8,6 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://weaveworks.github.io/kured
       chart: kured
       version: 2.11.2
       sourceRef:

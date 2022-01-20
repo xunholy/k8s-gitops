@@ -29,15 +29,11 @@
     ]
   },
   "helm-values": {"fileMatch": ["k8s/.+helmrelease\\.yaml$"]},
-  "regexManagers": [
-    {
-      "fileMatch": ["k8s/.+helmrelease\\.yaml$"],
-      "matchStrings": [
-        "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"
-      ],
-      "datasourceTemplate": "helm"
-    }
-  ],
+  "flux": {
+    "fileMatch": [
+      "k8s/.+\\.yaml$"
+    ]
+  },
   "packageRules": [
     {
       "labels": ["renovate/image-release", "dependency/major"],

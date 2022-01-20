@@ -8,7 +8,6 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://charts.dexidp.io
       chart: ./charts/dex-k8s-authenticator
       version: 1.4.0
       sourceRef:

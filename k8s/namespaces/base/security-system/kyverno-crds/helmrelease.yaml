@@ -8,7 +8,6 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://kyverno.github.io/kyverno/
       chart: kyverno-crds
       version: v2.0.3
       sourceRef:

@@ -1,13 +1,8 @@
 ignore: |
-  .yamllint.yml
-  .github/
-  .pre-commit-config.yaml
   *.encrypted.yaml
   *.enc.yaml
-  *.enc.yml
-  docker-compose.yml
-  k8s/namespaces/base/home-system/zigbee2mqtt/helmrelease.yaml
   **/cloud-init/**/*
+  **/clusters/**/*
 
 extends: default
 rules:

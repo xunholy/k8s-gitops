@@ -3,9 +3,10 @@ apiVersion: metal.sidero.dev/v1alpha1
 kind: Environment
 metadata:
   name: default
+  namespace: sidero-system
 spec:
   kernel:
-    url: "https://github.com/talos-systems/talos/releases/download/v0.10.3/vmlinuz-amd64"
+    url: "https://github.com/talos-systems/talos/releases/download/v0.14.0/vmlinuz-amd64"
     sha512: ""
     args:
       - console=tty0
@@ -22,8 +23,7 @@ spec:
       - pti=on
       - random.trust_cpu=on
       - slab_nomerge=
-      - talos.config=http://$PUBLIC_IP:8081/configdata?uuid=
       - talos.platform=metal
   initrd:
-    url: "https://github.com/talos-systems/talos/releases/download/v0.10.3/initramfs-amd64.xz"
+    url: "https://github.com/talos-systems/talos/releases/download/v0.14.0/initramfs-amd64.xz"
     sha512: ""

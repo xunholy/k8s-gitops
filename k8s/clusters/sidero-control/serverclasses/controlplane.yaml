@@ -2,17 +2,15 @@
 apiVersion: metal.sidero.dev/v1alpha1
 kind: ServerClass
 metadata:
-  name: serverclass-node
+  name: control-plane
 spec:
   selector:
     matchLabels:
-      node: "true"
-    matchExpressions:
-      - key: environment
-        operator: NotIn
-        values:
-          - prod
+      controlplane: "true"
   configPatches:
     - op: replace
       path: /machine/install/disk
       value: /dev/sda
+    - op: replace
+      path: /cluster/proxy/disabled
+      value: true

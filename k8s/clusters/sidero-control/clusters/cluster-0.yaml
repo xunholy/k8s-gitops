@@ -1,8 +1,8 @@
-apiVersion: cluster.x-k8s.io/v1alpha3
+apiVersion: cluster.x-k8s.io/v1alpha4
 kind: Cluster
 metadata:
   name: cluster-0
-  namespace: network-system
+  namespace: sidero-system
 spec:
   clusterNetwork:
     pods:
@@ -24,17 +24,17 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalCluster
 metadata:
   name: cluster-0
-  namespace: network-system
+  namespace: sidero-system
 spec:
   controlPlaneEndpoint:
-    host: 192.168.1.205
+    host: 192.168.1.210
     port: 8443
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalMachineTemplate
 metadata:
   name: cluster-0-cp
-  namespace: network-system
+  namespace: sidero-system
 spec:
   template:
     spec:
@@ -47,41 +47,48 @@ apiVersion: controlplane.cluster.x-k8s.io/v1alpha3
 kind: TalosControlPlane
 metadata:
   name: cluster-0-cp
-  namespace: network-system
+  namespace: sidero-system
 spec:
   controlPlaneConfig:
     controlplane:
       generateType: controlplane
-      talosVersion: v0.13.0
+      talosVersion: v0.14.0
     init:
       generateType: init
-      talosVersion: v0.13.0
+      talosVersion: v0.14.0
+      configPatches:
+        - op: add
+          path: /cluster/network/cni
+          value:
+            name: custom
+            urls:
+              - https://raw.githubusercontent.com/xunholy/k8s-gitops/main/k8s/clusters/sidero-control/integrations/cilium/cluster-0.yaml
   infrastructureTemplate:
     apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
     kind: MetalMachineTemplate
     name: cluster-0-cp
-  replicas: 3
+  replicas: 1
   version: v1.22.2
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1alpha3
 kind: TalosConfigTemplate
 metadata:
   name: cluster-0-workers
-  namespace: network-system
+  namespace: sidero-system
 spec:
   template:
     spec:
       generateType: join
-      talosVersion: v0.13.0
+      talosVersion: v0.14.0
 ---
-apiVersion: cluster.x-k8s.io/v1alpha3
+apiVersion: cluster.x-k8s.io/v1alpha4
 kind: MachineDeployment
 metadata:
   name: cluster-0-workers
-  namespace: network-system
+  namespace: sidero-system
 spec:
   clusterName: cluster-0
-  replicas: 3
+  replicas: 0
   selector:
     matchLabels: null
   template:
@@ -102,7 +109,7 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalMachineTemplate
 metadata:
   name: cluster-0-workers
-  namespace: network-system
+  namespace: sidero-system
 spec:
   template:
     spec:

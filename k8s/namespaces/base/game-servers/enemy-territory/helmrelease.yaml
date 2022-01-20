@@ -9,7 +9,6 @@ spec:
   releaseName: enemy-territory
   chart:
     spec:
-      # renovate: registryUrl=https://xunholy.github.io/charts
       chart: enemy-territory
       version: 0.1.11
       sourceRef:

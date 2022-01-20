@@ -8,10 +8,6 @@ metadata:
     environment: prod
 spec:
   accepted: false
-  configPatches:
-    - op: replace
-      path: /cluster/network/cni
-      value:
-        name: custom
-        urls:
-          - http://192.168.1.199/assets/cilium.yaml
+  environmentRef:
+    namespace: sidero-system
+    name: default-arm64
