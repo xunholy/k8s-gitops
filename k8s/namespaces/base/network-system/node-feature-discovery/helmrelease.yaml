@@ -19,7 +19,7 @@ spec:
     master:
       replicaCount: 2
     image:
-      repository: docker.io/raspbernetes/node-feature-discovery
+      # repository: docker.io/raspbernetes/node-feature-discovery
       tag: v0.10.1
     worker:
       config:

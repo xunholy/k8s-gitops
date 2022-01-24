@@ -1,4 +1,8 @@
 {
+  "extends": [
+    ":semanticCommits",
+    "docker:enableMajor",
+  ],
   "username": "xUnholy",
   "branchPrefix": "self-hosted/",
   "dependencyDashboard": true,
@@ -45,7 +49,7 @@
       "matchUpdateTypes": ["major"]
     },
     {
-      "labels": ["renovate/image-release", "dependency/minor"],
+      "labels": ["renovate/image-release", "dependency/minor", "merge"],
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["minor"]
     },
