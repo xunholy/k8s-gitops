@@ -18,8 +18,19 @@ spec:
   values:
     master:
       replicaCount: 2
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - node-feature-discovery
+              topologyKey: "kubernetes.io/hostname"
     image:
-      # repository: docker.io/raspbernetes/node-feature-discovery
       tag: v0.10.1
     worker:
       config:
