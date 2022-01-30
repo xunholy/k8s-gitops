@@ -39,19 +39,19 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: false
-      persistentVolume:
-        data:
-          enabled: true
-          accessModes:
-            - ReadWriteOnce
-          storageClassName: "cstor-replica-pool"
-          size: 1Gi
-        config:
-          enabled: true
-          accessModes:
-            - ReadWriteOnce
-          storageClassName: "cstor-replica-pool"
-          size: 100Mi
+      # persistentVolume:
+      #   data:
+      #     enabled: true
+      #     accessModes:
+      #       - ReadWriteOnce
+      #     storageClassName: "cstor-replica-pool"
+      #     size: 1Gi
+      #   config:
+      #     enabled: true
+      #     accessModes:
+      #       - ReadWriteOnce
+      #     storageClassName: "cstor-replica-pool"
+      #     size: 100Mi
     agent:
       acquisition:
         - namespace: nginx-ingress
