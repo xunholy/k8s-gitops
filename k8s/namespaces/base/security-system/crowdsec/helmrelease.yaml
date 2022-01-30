@@ -35,8 +35,10 @@ spec:
       dashboard:
         enabled: true
       metrics:
-      # TODO: ingest these metrics without using serviceMonitor
-      enabled: true
+        # TODO: ingest these metrics without using serviceMonitor
+        enabled: true
+        serviceMonitor:
+          enabled: false
       persistentVolume:
         data:
           enabled: true
@@ -58,3 +60,5 @@ spec:
       metrics:
         # TODO: ingest these metrics without using serviceMonitor
         enabled: true
+        serviceMonitor:
+          enabled: false
