@@ -5,6 +5,7 @@ resources:
   - bitnami-charts.yaml
   - coredns-charts.yaml
   - crossplane-charts.yaml
+  - crowdsec-charts.yaml
   - dex-chart.yaml
   - dex-k8s-authenticator-chart.yaml
   - falco-security-charts.yaml
