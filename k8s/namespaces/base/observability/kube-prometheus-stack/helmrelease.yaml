@@ -45,6 +45,7 @@ spec:
   values:
     fullnameOverride: prometheus
     prometheusOperator:
+      configReloaderCpu: 0
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false

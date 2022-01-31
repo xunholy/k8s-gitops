@@ -1,0 +1,22 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: grafana
+  namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLUSTER_DOMAIN}'
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  hosts:
+    - 'grafana.${CLUSTER_DOMAIN}'
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            port:
+              number: 80
+            host: grafana.observability.svc.cluster.local
