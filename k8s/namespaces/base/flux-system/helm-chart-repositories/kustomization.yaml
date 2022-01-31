@@ -11,6 +11,7 @@ resources:
   - falco-security-charts.yaml
   - flagger-charts.yaml
   - gatekeeper-charts.yaml
+  - grafana-charts.yaml
   - grafana-loki.yaml
   - ingress-nginx-chart.yaml
   - jetstack-charts.yaml
