@@ -84,6 +84,7 @@ spec:
           redirectURIs:
             - 'https://kiali.${CLUSTER_DOMAIN}/oauth2/callback'
             - 'https://hass.${CLUSTER_DOMAIN}/oauth2/callback'
+            - 'https://prometheus.${CLUSTER_DOMAIN}/oauth2/callback'
         - id: grafana
           name: 'grafana'
           secret: '${DEX_GRAFANA_SECRET}'

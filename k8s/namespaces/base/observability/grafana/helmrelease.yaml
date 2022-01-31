@@ -88,6 +88,10 @@ spec:
     datasources:
       datasources.yaml:
         apiVersion: 1
+        # Delete the default Loki that comes OOTB to avoid datasource contention
+        deleteDatasources:
+          - name: Loki
+            orgId: 1
         datasources:
           - name: Prometheus
             type: prometheus
