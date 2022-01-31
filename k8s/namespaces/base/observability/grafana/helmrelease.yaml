@@ -22,7 +22,7 @@ spec:
     env:
       # TODO: Check to see what this does?
       GF_EXPLORE_ENABLED: true
-      grafana.ini:
+    grafana.ini:
       server:
         root_url: 'https://grafana.${CLUSTER_DOMAIN}'
       auth.basic:

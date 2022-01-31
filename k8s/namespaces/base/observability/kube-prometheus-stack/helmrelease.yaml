@@ -45,7 +45,14 @@ spec:
   values:
     fullnameOverride: prometheus
     prometheusOperator:
-      configReloaderCpu: 0
+      prometheusConfigReloader:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 50Mi
+          limits:
+            cpu: 200m
+            memory: 100Mi
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
