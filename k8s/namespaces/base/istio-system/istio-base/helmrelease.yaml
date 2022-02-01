@@ -15,4 +15,6 @@ spec:
         name: istio-charts
         namespace: flux-system
       interval: 10m
+  install:
+    CreateNamespace: true
   values:
