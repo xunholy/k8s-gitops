@@ -30,88 +30,88 @@ spec:
       namespace: flux-system
     - name: kube-system-sealed-secrets
       namespace: flux-system
----
-# TODO: move base to istio-system
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: istio-ingress-core
-  namespace: flux-system
-spec:
-  interval: 5m
-  path: "./k8s/namespaces/base/istio-ingress/core"
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  dependsOn:
-    - name: istio-operator-namespace
-      namespace: flux-system
-    - name: istio-system-core
-      namespace: flux-system
-  patches:
-    - patch: |
-        apiVersion: install.istio.io/v1alpha1
-        kind: IstioOperator
-        metadata:
-          name: ingress
-          namespace: istio-system
-        spec:
-          components:
-            ingressGateways:
-            - enabled: true
-              name: istio-ingressgateway
-              namespace: istio-ingress
-              label:
-                # Set a unique label for the gateway. This is required to ensure Gateways
-                # can select this workload
-                istio: ingressgateway
-              k8s:
-                affinity:
-                  # These nodeAffinity's are required to schedule on arm64
-                  nodeAffinity:
-                    requiredDuringSchedulingIgnoredDuringExecution:
-                      nodeSelectorTerms:
-                      - matchExpressions:
-                        - key: beta.kubernetes.io/arch
-                          operator: In
-                          values:
-                          - arm64
-                  # This podAntiAffinity ensures ingress controllers are not scheduled on the same node
-                  podAntiAffinity:
-                    requiredDuringSchedulingIgnoredDuringExecution:
-                    - labelSelector:
-                        matchExpressions:
-                        - key: istio
-                          operator: In
-                          values:
-                          - ingressgateway
-                      topologyKey: kubernetes.io/hostname
-                resources:
-                  requests:
-                    cpu: 500m
-                    memory: 128Mi
-                service:
-                  loadBalancerIP: 192.168.1.180
-                  ports:
-                  - name: enemy-territory
-                    port: 27960
-                    protocol: UDP
-                    targetPort: 27960
-                  - name: status-port
-                    port: 15021
-                    protocol: TCP
-                    targetPort: 15021
-                  - name: http2
-                    port: 80
-                    protocol: TCP
-                    targetPort: 8080
-                  - name: https
-                    port: 443
-                    protocol: TCP
-                    targetPort: 8443
-      target:
-        kind: IstioOperator
-        name: ingress
-        namespace: istio-system
+# ---
+# # TODO: move base to istio-system
+# apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+# kind: Kustomization
+# metadata:
+#   name: istio-ingress-core
+#   namespace: flux-system
+# spec:
+#   interval: 5m
+#   path: "./k8s/namespaces/base/istio-ingress/core"
+#   prune: true
+#   wait: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   dependsOn:
+#     - name: istio-operator-namespace
+#       namespace: flux-system
+#     - name: istio-system-core
+#       namespace: flux-system
+#   patches:
+#     - patch: |
+#         apiVersion: install.istio.io/v1alpha1
+#         kind: IstioOperator
+#         metadata:
+#           name: ingress
+#           namespace: istio-system
+#         spec:
+#           components:
+#             ingressGateways:
+#             - enabled: true
+#               name: istio-ingressgateway
+#               namespace: istio-ingress
+#               label:
+#                 # Set a unique label for the gateway. This is required to ensure Gateways
+#                 # can select this workload
+#                 istio: ingressgateway
+#               k8s:
+#                 affinity:
+#                   # These nodeAffinity's are required to schedule on arm64
+#                   nodeAffinity:
+#                     requiredDuringSchedulingIgnoredDuringExecution:
+#                       nodeSelectorTerms:
+#                       - matchExpressions:
+#                         - key: beta.kubernetes.io/arch
+#                           operator: In
+#                           values:
+#                           - arm64
+#                   # This podAntiAffinity ensures ingress controllers are not scheduled on the same node
+#                   podAntiAffinity:
+#                     requiredDuringSchedulingIgnoredDuringExecution:
+#                     - labelSelector:
+#                         matchExpressions:
+#                         - key: istio
+#                           operator: In
+#                           values:
+#                           - ingressgateway
+#                       topologyKey: kubernetes.io/hostname
+#                 resources:
+#                   requests:
+#                     cpu: 500m
+#                     memory: 128Mi
+#                 service:
+#                   loadBalancerIP: 192.168.1.180
+#                   ports:
+#                   - name: enemy-territory
+#                     port: 27960
+#                     protocol: UDP
+#                     targetPort: 27960
+#                   - name: status-port
+#                     port: 15021
+#                     protocol: TCP
+#                     targetPort: 15021
+#                   - name: http2
+#                     port: 80
+#                     protocol: TCP
+#                     targetPort: 8080
+#                   - name: https
+#                     port: 443
+#                     protocol: TCP
+#                     targetPort: 8443
+#       target:
+#         kind: IstioOperator
+#         name: ingress
+#         namespace: istio-system
