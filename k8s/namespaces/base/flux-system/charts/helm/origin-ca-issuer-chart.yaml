@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: origin-ca-issuer-chart
+  namespace: flux-system
+spec:
+  interval: 30m
+  url: https://raw.githubusercontent.com/cloudflare/origin-ca-issuer/trunk/charts
+  timeout: 3m

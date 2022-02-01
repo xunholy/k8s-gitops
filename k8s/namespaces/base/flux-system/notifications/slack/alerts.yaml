@@ -1,0 +1,52 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Alert
+metadata:
+  name: slack-kustomization-alerts
+  namespace: flux-system
+spec:
+  providerRef:
+    name: kustomization-alerts
+  eventSeverity: info
+  eventSources:
+    - kind: GitRepository
+      name: '*'
+    - kind: Kustomization
+      name: '*'
+  suspend: false
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Alert
+metadata:
+  name: slack-helmrelease-alerts
+  namespace: flux-system
+spec:
+  providerRef:
+    name: helmrelease-alerts
+  eventSeverity: error
+  eventSources:
+    - kind: HelmRelease
+      namespace: 'velero'
+      name: '*'
+    - kind: HelmRelease
+      namespace: 'home-system'
+      name: '*'
+    - kind: HelmRelease
+      namespace: 'kube-system'
+      name: '*'
+    - kind: HelmRelease
+      namespace: 'litmus'
+      name: '*'
+    - kind: HelmRelease
+      namespace: 'network-system'
+      name: '*'
+    - kind: HelmRelease
+      namespace: 'observability'
+      name: '*'
+    - kind: HelmRelease
+      namespace: 'openebs'
+      name: '*'
+    - kind: HelmRelease
+      namespace: 'security'
+      name: '*'
+  suspend: false
