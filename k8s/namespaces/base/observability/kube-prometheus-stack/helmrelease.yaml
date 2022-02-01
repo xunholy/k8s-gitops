@@ -43,7 +43,7 @@ spec:
       namespace: observability
   timeout: 20m
   values:
-    fullnameOverride: prometheus
+    fullnameOverride: x
     prometheusOperator:
       prometheusConfigReloader:
         resources:
