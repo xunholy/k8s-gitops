@@ -1,9 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - authz.yaml
+  - namespace.yaml
+  # - authz.yaml
   # - networkpolicy.yaml
-  - peerauthentication.yaml
+  # - peerauthentication.yaml
   # TODO: Not required when istiod isn't set to REGISTRY_ONLY
   # - serviceentry.yaml
   # TODO: Disabled while prometheus is disabled
