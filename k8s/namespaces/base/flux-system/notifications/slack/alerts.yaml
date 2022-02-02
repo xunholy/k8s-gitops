@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   providerRef:
-    name: kustomization-alerts
+    name: slack-kustomization-alerts
   eventSeverity: info
   eventSources:
     - kind: GitRepository
@@ -22,7 +22,7 @@ metadata:
   namespace: flux-system
 spec:
   providerRef:
-    name: helmrelease-alerts
+    name: slack-helmrelease-alerts
   eventSeverity: error
   eventSources:
     - kind: HelmRelease
