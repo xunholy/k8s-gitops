@@ -5,10 +5,10 @@ metadata:
   name: ext-authz
   namespace: istio-system
 spec:
-  # The selector applies to the ingress gateway in the istio-system namespace.
+  # The selector applies to the ingress gateway in the istio-ingress namespace.
   selector:
     matchLabels:
-      app: istio-ingressgateway
+      app: istio-gateway
   # The action "CUSTOM" delegates the access control to an external authorizer, this is different from
   # the ALLOW/DENY action that enforces the access control right inside the proxy.
   action: CUSTOM

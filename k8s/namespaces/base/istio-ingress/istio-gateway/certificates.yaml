@@ -6,7 +6,7 @@ metadata:
   namespace: istio-ingress
 spec:
   # The secret name where cert-manager should store the signed certificate
-  secretName: ingress-cert
+  secretName: raspbernetes-com-le
   duration: 2160h0m0s # 90d
   renewBefore: 360h0m0s # 15d
   # cert-manager regenerates a new private key on each issuance
@@ -26,7 +26,6 @@ spec:
   dnsNames:
     - ${CLUSTER_DOMAIN}
     - '*.${CLUSTER_DOMAIN}'
-    - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
 ---
 # apiVersion: cert-manager.io/v1
 # kind: Certificate
@@ -35,7 +34,7 @@ spec:
 #   namespace: istio-ingress
 # spec:
 #   # The secret name where cert-manager should store the signed certificate
-#   secretName: raspbernetes-com-tls
+#   secretName: raspbernetes-com-cf
 #   dnsNames:
 #     - ${CLUSTER_DOMAIN}
 #     - '*.${CLUSTER_SUB_DOMAIN}.${CLUSTER_DOMAIN}'
