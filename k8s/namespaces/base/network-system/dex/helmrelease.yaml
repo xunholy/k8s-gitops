@@ -82,9 +82,11 @@ spec:
           name: 'oauth2-proxy'
           secret: '${DEX_OAUTH2_PROXY_SECRET}'
           redirectURIs:
-            - 'https://kiali.${CLUSTER_DOMAIN}/oauth2/callback'
+            - 'https://alert-manager.${CLUSTER_DOMAIN}/oauth2/callback'
             - 'https://hass.${CLUSTER_DOMAIN}/oauth2/callback'
+            - 'https://kiali.${CLUSTER_DOMAIN}/oauth2/callback'
             - 'https://prometheus.${CLUSTER_DOMAIN}/oauth2/callback'
+            - 'https://sealed-secrets.${CLUSTER_DOMAIN}/oauth2/callback'
         - id: grafana
           name: 'grafana'
           secret: '${DEX_GRAFANA_SECRET}'
