@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: istiod
-      # version: 1.17.0
+      version: 1.12.2
       sourceRef:
         kind: HelmRepository
         name: istio-charts
@@ -54,5 +54,5 @@ spec:
           headersToDownstreamOnDeny: ["content-type", "set-cookie"]
     # pilot:
     #   env:
-    #     - name: ENABLE_CA_SERVER
-    #         value: "false"
+    #   - name: ENABLE_CA_SERVER
+    #       value: "false"

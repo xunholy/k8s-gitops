@@ -3,5 +3,3 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: observability
-  labels:
-    istio-injection: disabled
