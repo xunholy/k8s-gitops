@@ -58,10 +58,11 @@ spec:
       enabled: false
     # https://github.com/prometheus-community/helm-charts/issues/204
     kubeControllerManager:
-      enabled: true
+      enabled: false
       serviceMonitor:
         insecureSkipVerify: true
     kubeScheduler:
+      enabled: false
       serviceMonitor:
         insecureSkipVerify: true
     alertmanager:
