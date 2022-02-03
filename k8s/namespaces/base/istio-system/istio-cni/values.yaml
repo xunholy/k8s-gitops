@@ -92,6 +92,6 @@ global:
 
   # Default resources allocated
   defaultResources:
-     requests:
+    requests:
        cpu: 100m
        memory: 100Mi
