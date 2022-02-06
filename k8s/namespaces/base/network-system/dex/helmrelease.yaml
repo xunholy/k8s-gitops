@@ -97,3 +97,9 @@ spec:
           secret: ${DEX_K8S_CLIENT_SECRET}
           redirectURIs:
             - https://login.${CLUSTER_DOMAIN}/callback
+        - id: LitmusPortalAuthBackend
+          name: 'LitmusPortalAuthBackend'
+          secret: '${DEX_LITMUS_SECRET}'
+          redirectURIs:
+            - '/auth/dex/callback'
+            - 'http://localhost:8080/auth/dex/callback' # Included for local testing purposes

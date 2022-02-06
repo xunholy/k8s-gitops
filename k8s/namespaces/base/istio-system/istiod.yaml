@@ -76,27 +76,3 @@ spec:
   profile: minimal
   hub: docker.io/querycapistio
   tag: 1.11.0-distroless
-  values:
-    global:
-      caAddress: cert-manager-istio-csr.network-system.svc:443
-      proxy:
-        autoInject: enabled
-        clusterDomain: cluster.local
-        excludeIPRanges: ""
-        includeIPRanges: '*'
-        resources:
-          limits:
-            cpu: 200m
-            memory: 256Mi
-          requests:
-            cpu: 100m
-            memory: 128Mi
-      proxy_init:
-        image: proxyv2
-        resources:
-          limits:
-            cpu: 200m
-            memory: 128Mi
-          requests:
-            cpu: 10m
-            memory: 10Mi
