@@ -36,10 +36,10 @@ spec:
   #   JWTSecret: "litmus-portal@123"
   #   ADMIN_USERNAME: "admin"
   #   ADMIN_PASSWORD: "litmus"
-  portal:
-    server:
-      authServer:
-        env:
-          DEX_SERVER: "true"
-          OIDC_ISSUER: "dex.network-system.svc.cluster.local"
-          CALLBACK_URL: "litmus-frontend-service.litmus.svc.cluster.local"
+    portal:
+      server:
+        authServer:
+          env:
+            DEX_SERVER: "true"
+            OIDC_ISSUER: "dex.network-system.svc.cluster.local"
+            CALLBACK_URL: "litmus-frontend-service.litmus.svc.cluster.local"
