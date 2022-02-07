@@ -2,14 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: litmus
+  name: litmus-core
   namespace: litmus
 spec:
   interval: 5m
   chart:
     spec:
-      chart: litmus
-      version: 2.5.2
+      chart: litmus-core
+      version: 2.5.0
       sourceRef:
         kind: HelmRepository
         name: litmuschaos-charts
@@ -30,16 +30,7 @@ spec:
     recreate: true
     cleanupOnFail: true
   values:
-  # adminConfig:
-  #   DBUSER: "admin"
-  #   DBPASSWORD: "1234"
-  #   JWTSecret: "litmus-portal@123"
-  #   ADMIN_USERNAME: "admin"
-  #   ADMIN_PASSWORD: "litmus"
-    portal:
-      server:
-        authServer:
-          env:
-            DEX_SERVER: "true"
-            OIDC_ISSUER: "dex.network-system.svc.cluster.local"
-            CALLBACK_URL: "litmus-frontend-service.litmus.svc.cluster.local"
+    nameOverride: "litmus-core"
+    fullnameOverride: "litmus-core"
+    exporter:
+      enabled: true

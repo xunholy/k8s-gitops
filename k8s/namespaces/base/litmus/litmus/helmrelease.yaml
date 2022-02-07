@@ -1,0 +1,39 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: litmus
+  namespace: litmus
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: litmus
+      version: 2.5.2
+      sourceRef:
+        kind: HelmRepository
+        name: litmuschaos-charts
+        namespace: flux-system
+      interval: 10m
+  test:
+    enable: false
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  values:
+    portal:
+      server:
+        authServer:
+          env:
+            DEX_SERVER: "true"
+            OIDC_ISSUER: "dex.network-system.svc.cluster.local"
+            CALLBACK_URL: "litmus-frontend-service.litmus.svc.cluster.local"
