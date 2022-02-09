@@ -32,7 +32,7 @@ spec:
   values:
     image:
       repository: dexidp/dex
-      tag: v2.30.3
+      tag: v2.31.0
     env:
       KUBERNETES_POD_namespace: network-system
     config:
