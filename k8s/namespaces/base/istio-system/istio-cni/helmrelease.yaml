@@ -20,3 +20,4 @@ spec:
   values:
     global:
       hub: docker.io/querycapistio
+      tag: 1.12.2
