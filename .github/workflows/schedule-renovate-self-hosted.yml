@@ -6,7 +6,7 @@ on:
     - cron: "0 * * * *"
   push:
     paths:
-      - ".github/workflows/renovate-self-hosted.yml"
+      - ".github/workflows/schedule-renovate-self-hosted.yml"
       - ".github/renovate.json"
     branches:
       - main

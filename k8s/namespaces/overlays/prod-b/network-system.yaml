@@ -204,23 +204,24 @@ spec:
         name: cluster-config
       - kind: Secret
         name: cluster-secrets
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: network-system-istio-csr
-  namespace: flux-system
-spec:
-  interval: 5m
-  path: "./k8s/namespaces/base/network-system/istio-csr"
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  dependsOn:
-    - name: network-system-cert-manager
-      namespace: flux-system
+# TODO: Investigate the best way to enable this through using the helm charts. Disable for now.
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+# kind: Kustomization
+# metadata:
+#   name: network-system-istio-csr
+#   namespace: flux-system
+# spec:
+#   interval: 5m
+#   path: "./k8s/namespaces/base/network-system/istio-csr"
+#   prune: true
+#   wait: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   dependsOn:
+#     - name: network-system-cert-manager
+#       namespace: flux-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization

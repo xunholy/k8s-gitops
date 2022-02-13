@@ -1,11 +1,10 @@
-name: e2e
+name: Execute E2E Cluster Validation
 
 on:
   workflow_dispatch:
-  # TODO: Re-enable once fixed workflow
-  # push:
-  #   branches: [ '*' ]
-  #   tags-ignore: [ '*' ]
+  push:
+    branches: [ '*' ]
+    tags-ignore: [ '*' ]
 
 jobs:
   kubernetes:
@@ -35,12 +34,13 @@ jobs:
       - name: Install Flux in Kubernetes Kind
         run: flux install
 
-      - uses: google-github-actions/setup-gcloud@master
+      - uses: 'google-github-actions/auth@v0'
         with:
-          version: '290.0.1'
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - uses: google-github-actions/setup-gcloud@v0.5.0
+        with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
 
       # TODO: encrypt cluster-secrets.enc.yaml with fluxcd sops-gpg keys rather than GCP keys
       - name: Decrypt & Apply Cluster Configuration
