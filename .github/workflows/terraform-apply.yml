@@ -1,15 +1,10 @@
 name: terraform-deploy
 
 on:
-  workflow_dispatch:
-    inputs:
-      cloud:
-        description: 'Which cloud terraform apply will be executed against'
-        required: true
-        default: 'gcp'
+  workflow_dispatch: {}
 
 env:
-  tf_actions_working_dir: k8s/clusters/prod-a/infrastructure/${{ github.event.inputs.cloud }}
+  tf_actions_working_dir: k8s/clusters/prod-a/infrastructure/gcp
   terraform_version: 0.13.5
 
 jobs:
