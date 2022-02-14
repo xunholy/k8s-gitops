@@ -60,7 +60,7 @@ jobs:
 
       - name: Verify cluster reconciliation
         run: |
-          kubectl -n flux-system wait kustomization/namespaces --for=condition=ready --timeout=5m
+          kubectl -n flux-system wait kustomization/namespaces --for=condition=ready --timeout=30m
 
       - name: Debug failure
         if: failure()

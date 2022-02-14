@@ -31,3 +31,12 @@ helm upgrade cilium cilium/cilium \
   --namespace=kube-system \
   --values=k8s/namespaces/base/kube-system/cilium/install/values.yaml
 ```
+
+## Service Mesh
+
+```bash
+git clone https://github.com/cilium/cilium.git
+cd cilium
+git checkout origin/beta/service-mesh
+helm upgrade -n kube-system cilium ./install/kubernetes/cilium --values=../k8s-gitops/k8s/namespaces/base/kube-system/cilium/install/values.yaml
+```

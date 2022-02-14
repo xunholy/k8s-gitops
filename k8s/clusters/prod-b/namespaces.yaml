@@ -8,7 +8,7 @@ spec:
   interval: 10m0s
   path: ./k8s/namespaces/overlays/prod-b
   prune: true
-  wait: false
+  wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system

@@ -1,3 +1,11 @@
+image:
+  repository: quay.io/cilium/cilium-service-mesh
+  tag: v1.11.0-beta.1
+  useDigest: false
+
+extraConfig:
+  enable-envoy-config: "true"
+
 # upgradeCompatibility helps users upgrading to ensure that the configMap for
 # Cilium will not change critical values to ensure continued operation
 # This is flag is not required for new installations.
@@ -55,6 +63,10 @@ hubble:
   relay:
     # -- Enable Hubble Relay (requires hubble.enabled=true)
     enabled: true
+    image:
+      repository: quay.io/cilium/hubble-relay-service-mesh
+      tag: v1.11.0-beta.1
+      useDigest: false
     # -- Roll out Hubble Relay pods automatically when configmap is updated.
     rollOutPods: true
   ui:
@@ -110,6 +122,11 @@ prometheus:
     enabled: false
 
 operator:
+  image:
+    repository: quay.io/cilium/operator
+    tag: v1.11.0-beta.1
+    useDigest: false
+    suffix: "-service-mesh"
   # -- Roll out cilium-operator pods automatically when configmap is updated.
   rollOutPods: true
   # Enables metrics for cilium-operator.
