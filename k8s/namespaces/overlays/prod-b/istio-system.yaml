@@ -30,20 +30,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: istio-system-istio-cni
-  namespace: flux-system
-spec:
-  interval: 5m
-  path: "./k8s/namespaces/base/istio-system/istio-cni"
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
   name: istio-system-istio-base
   namespace: flux-system
 spec:
@@ -58,6 +44,23 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
+  name: istio-system-istio-cni
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/istio-system/istio-cni"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: istio-system-istio-base
+      namespace: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
   name: istio-system-istiod
   namespace: flux-system
 spec:
@@ -68,3 +71,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: istio-system-istio-cni
+      namespace: flux-system

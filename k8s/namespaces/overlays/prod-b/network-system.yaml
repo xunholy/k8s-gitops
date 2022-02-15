@@ -143,6 +143,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: istio-system-istiod
+      namespace: flux-system
   decryption:
     provider: sops
     secretRef:
@@ -168,6 +171,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: istio-system-istiod
+      namespace: flux-system
   decryption:
     provider: sops
     secretRef:
@@ -275,6 +281,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: istio-system-istiod
+      namespace: flux-system
   decryption:
     provider: sops
     secretRef:
@@ -286,9 +295,6 @@ spec:
         name: cluster-config
       - kind: Secret
         name: cluster-secrets
-  dependsOn:
-    - name: istio-ingress-namespace
-      namespace: flux-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -303,6 +309,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: istio-system-istiod
+      namespace: flux-system
   decryption:
     provider: sops
     secretRef:

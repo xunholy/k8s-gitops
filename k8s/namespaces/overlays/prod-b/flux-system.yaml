@@ -8,7 +8,7 @@ spec:
   interval: 5m
   path: "./k8s/namespaces/base/flux-system"
   prune: true
-  wait: true
+  wait: false
   sourceRef:
     kind: GitRepository
     name: flux-system

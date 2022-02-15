@@ -12,6 +12,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: kube-system-sealed-secrets
+      namespace: flux-system
   patches:
     - patch: |-
         apiVersion: helm.toolkit.fluxcd.io/v2beta1
