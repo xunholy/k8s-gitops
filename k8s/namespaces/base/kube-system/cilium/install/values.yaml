@@ -6,13 +6,7 @@ image:
 extraConfig:
   enable-envoy-config: "true"
 
-# upgradeCompatibility helps users upgrading to ensure that the configMap for
-# Cilium will not change critical values to ensure continued operation
-# This is flag is not required for new installations.
-# For example: 1.7, 1.8, 1.9
-upgradeCompatibility: '1.10'
-
-# autoDirectNodeRoutes enables installation of PodCIDR routes between worker
+# -- Enable installation of PodCIDR routes between worker
 # nodes if worker nodes share a common L2 network segment.
 autoDirectNodeRoutes: true
 
@@ -24,16 +18,16 @@ bgp:
 
 nodePort:
   # -- Enable the Cilium NodePort service implementation.
-  enabled: false
+  enabled: true
   # -- Port range to use for NodePort services.
   range: "30000,32767"
 
 containerRuntime:
   integration: containerd
 
-# endpointRoutes enables use of per endpoint routes instead of routing vis
-# the cilium_host interface
 endpointRoutes:
+  # -- Enable use of per endpoint routes instead of routing via
+  # the cilium_host interface.
   enabled: false
 
 # -- Enables masquerading of IPv4 traffic leaving the node from endpoints.
@@ -78,7 +72,7 @@ hubble:
 ipam:
   # -- Configure IP Address Management mode.
   # ref: https://docs.cilium.io/en/stable/concepts/networking/ipam/
-  mode: "cluster-pool"
+  mode: "kubernetes"
   operator:
     # -- Deprecated in favor of ipam.operator.clusterPoolIPv4PodCIDRList.
     # IPv4 CIDR range to delegate to individual nodes for IPAM.
@@ -174,9 +168,8 @@ cluster:
   id:
 
 clustermesh:
-  # TODO: Investigate image that is ARM64 supported
   # -- Deploy clustermesh-apiserver for clustermesh
-  useAPIServer: false
+  useAPIServer: true
   apiserver:
     # -- Clustermesh API server image.
     image:

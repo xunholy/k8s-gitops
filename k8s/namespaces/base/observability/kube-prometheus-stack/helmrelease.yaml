@@ -35,8 +35,6 @@ spec:
     cleanupOnFail: true
   # Depends on having the sealed secret to un-encrypted required secrets, and thanos
   dependsOn:
-    - name: sealed-secrets
-      namespace: kube-system
     - name: thanos
       namespace: observability
     - name: grafana
