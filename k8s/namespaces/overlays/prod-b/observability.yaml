@@ -66,9 +66,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  dependsOn:
-    - name: kube-system-sealed-secrets
-      namespace: flux-system
   decryption:
     provider: sops
     secretRef:
