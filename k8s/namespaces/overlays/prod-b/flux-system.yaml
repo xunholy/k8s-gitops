@@ -2,16 +2,59 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: flux-system-namespace
+  name: flux-system-charts
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/flux-system"
+  path: "./k8s/namespaces/base/flux-system/charts"
   prune: true
   wait: false
   sourceRef:
     kind: GitRepository
     name: flux-system
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: flux-system-notifications
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/flux-system/notifications"
+  prune: true
+  wait: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config
+      - kind: Secret
+        name: cluster-secrets
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: flux-system-webhook-receiver
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/flux-system/webhook-receiver"
+  prune: true
+  wait: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: istio-system-istiod
+      namespace: flux-system
   decryption:
     provider: sops
     secretRef:
