@@ -5,7 +5,8 @@ metadata:
   name: namespaces
   namespace: flux-system
 spec:
-  interval: 10m0s
+  interval: 10m
+  timeout: 30m
   path: ./k8s/namespaces/overlays/prod-b
   prune: true
   wait: true

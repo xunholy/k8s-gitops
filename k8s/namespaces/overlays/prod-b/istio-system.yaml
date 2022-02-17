@@ -68,6 +68,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
+  timeout: 10m
   path: "./k8s/namespaces/base/istio-system/istiod"
   prune: true
   wait: true
