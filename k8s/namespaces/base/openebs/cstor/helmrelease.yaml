@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: cstor-tmp
+  name: cstor
   namespace: openebs
 spec:
   interval: 5m
