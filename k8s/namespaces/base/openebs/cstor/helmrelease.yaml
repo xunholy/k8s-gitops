@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: cstor
+  name: cstor-tmp
   namespace: openebs
 spec:
   interval: 5m
@@ -24,5 +24,5 @@ spec:
     # Default uses bitnami which doesn't have multiarch image support
     cleanup:
       image:
-        repository: rancher/kubectl
-        tag: v1.23.3
+        repository: raspbernetes/kubectl
+        tag: latest
