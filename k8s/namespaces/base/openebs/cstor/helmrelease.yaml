@@ -21,3 +21,8 @@ spec:
       ndm:
         sparse:
           count: '1'
+    # Default uses bitnami which doesn't have multiarch image support
+    cleanup:
+      image:
+        repository: rancher/kubectl
+        tag: v1.23.3
