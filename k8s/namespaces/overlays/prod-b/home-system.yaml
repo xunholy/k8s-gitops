@@ -27,7 +27,7 @@ spec:
     kind: GitRepository
     name: flux-system
   dependsOn:
-    - name: storage-namespace
+    - name: openebs-cstor
       namespace: flux-system
     - name: istio-system-istiod
       namespace: flux-system
