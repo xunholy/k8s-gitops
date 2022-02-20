@@ -67,6 +67,7 @@ jobs:
         run: |
           kubectl get kustomization -A
           kubectl get helmreleases -A
+          kubectl describe helmrelease istiod
           kubectl get helmrepositories -A
           kubectl get helmcharts -A
           kubectl get pods -A
