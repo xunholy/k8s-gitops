@@ -8,11 +8,8 @@
 **/hack
 output
 
-# Ignore decrypted secrets if they're not removed locally
-k8s/clusters/**/secrets/sealed-secret-private-key.yaml
-
 # Ignore Litmus Chaos generated GitOps manifests
 /litmus
 
 # Ignore VSCODE SOPS decrypted files
-**/.decrypted~secret*
+**/.decrypted~*
