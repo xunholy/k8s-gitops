@@ -43,10 +43,9 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      # TODO: encrypt cluster-secrets.enc.yaml with fluxcd sops-gpg keys rather than GCP keys
       - name: Decrypt & Apply Cluster Configuration
         run: |
-          sops --decrypt "k8s/clusters/${{ matrix.cluster-id }}/secrets/sops-gpg.enc.yml" | kubectl apply -f -
+          sops --decrypt "k8s/clusters/${{ matrix.cluster-id }}/secrets/sops-gpg.encrypted.yml" | kubectl apply -f -
 
       - name: Setup cluster reconciliation
         run: |
