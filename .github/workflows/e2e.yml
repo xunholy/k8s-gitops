@@ -67,7 +67,7 @@ jobs:
         run: |
           kubectl get kustomization -A
           kubectl get helmreleases -A
-          kubectl describe kustomization istiod -n flux-system
+          kubectl describe kustomization istio-system-istiod -n flux-system
           kubectl describe helmrelease istiod -n istio-system
           kubectl get helmrepositories -A
           kubectl get helmcharts -A
