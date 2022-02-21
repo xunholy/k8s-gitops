@@ -75,7 +75,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/home-system/zigbee2mqtt/poe-controller"
+  path: "./k8s/namespaces/base/home-system/zigbee2mqtt"
   prune: true
   wait: false
   sourceRef:

@@ -47,8 +47,6 @@ jobs:
       - name: Decrypt & Apply Cluster Configuration
         run: |
           sops --decrypt "k8s/clusters/${{ matrix.cluster-id }}/secrets/sops-gpg.enc.yml" | kubectl apply -f -
-          sops --decrypt "k8s/clusters/${{ matrix.cluster-id }}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
-          kubectl apply -f "k8s/clusters/${{ matrix.cluster-id }}/secrets/cluster-config.yaml"
 
       - name: Setup cluster reconciliation
         run: |
@@ -68,8 +66,8 @@ jobs:
         run: |
           kubectl get kustomization -A
           kubectl get helmreleases -A
-          kubectl describe kustomization istio-system-istiod -n flux-system
-          kubectl describe helmrelease istiod -n istio-system
+          kubectl describe po -n istio-system --selector app=istiod
+          kubectl logs -n istio-system --selector app=istiod
           kubectl get helmrepositories -A
           kubectl get helmcharts -A
           kubectl get pods -A

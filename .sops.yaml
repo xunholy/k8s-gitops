@@ -2,6 +2,9 @@
 # creation rules are evaluated sequentially, the first match wins
 creation_rules:
   # secret files using GCP KMS
+  - path_regex: k8s/clusters/*/secrets/cluster-secret.yaml
+    encrypted_regex: ^(data|stringData)$
+    pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
   - path_regex: k8s/clusters/.*
     encrypted_regex: ^(data|stringData)$
     gcp_kms: projects/raspbernetes/locations/global/keyRings/sops/cryptoKeys/sops-key
