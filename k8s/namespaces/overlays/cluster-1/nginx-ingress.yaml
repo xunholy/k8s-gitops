@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: nginx-ingress-namespace
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/nginx-ingress"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

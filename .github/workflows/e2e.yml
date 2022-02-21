@@ -13,9 +13,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # TODO: Re-enable prod-a once it's rebuilt
-          # - cluster-id: prod-a
-          - cluster-id: prod-b
+          # TODO: Re-enable OTHER clusters
+          # - cluster-id: cluster-0
+          - cluster-id: cluster-1
+          # - cluster-id: cluster-2
     steps:
       - name: Checkout
         uses: actions/checkout@v2

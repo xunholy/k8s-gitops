@@ -6,7 +6,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./k8s/namespaces/overlays/prod-a
+  timeout: 30m
+  path: ./k8s/namespaces/overlays/cluster-2
   prune: true
   wait: false
   sourceRef:
