@@ -13,6 +13,7 @@ resources:
   - grafana-charts.yaml
   - ingress-nginx-chart.yaml
   - istio-charts.yaml
+  - jaegertracing-charts.yaml
   - jetstack-charts.yaml
   - k8s-at-home-charts.yaml
   - kubefed-charts.yaml

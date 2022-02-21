@@ -94,7 +94,7 @@ ipv6:
   enabled: false
 
 # kubeProxyReplacement enables kube-proxy replacement in Cilium BPF datapath
-# TODO: Disabled due to RockPi kernel <= 4.4
+# Disabled due to RockPi kernel <= 4.4
 # Valid options are "disabled", "probe", "partial", "strict".
 # ref: https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/
 kubeProxyReplacement: strict
@@ -103,7 +103,7 @@ kubeProxyReplacement: strict
 # To enable set the value to '0.0.0.0:10256' for all ipv4
 # addresses and this '[::]:10256' for all ipv6 addresses.
 # By default it is disabled.
-# TODO: Can't be used as RockPi Kernel is <=4.4
+# Can't be used as RockPi Kernel is <=4.4
 kubeProxyReplacementHealthzBindAddr: '0.0.0.0:10256'
 
 # prometheus enables serving metrics on the configured port at /metrics

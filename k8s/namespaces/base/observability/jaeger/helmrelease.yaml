@@ -1,0 +1,32 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: jaeger
+  namespace: observability
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: jaeger
+      version: 6.21.8
+      sourceRef:
+        kind: HelmRepository
+        name: jaegertracing-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+  values:
+    provisionDataStore:
+      cassandra: false
+    allInOne:
+      enabled: true
+    storage:
+      type: none
+    agent:
+      enabled: false
+    collector:
+      enabled: false
+    query:
+      enabled: false
