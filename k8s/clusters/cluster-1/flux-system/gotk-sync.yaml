@@ -12,14 +12,14 @@ spec:
   secretRef:
     name: flux-system
   url: ssh://git@github.com/xunholy/k8s-gitops
-  ignore: |
-    # Exclude all by default
-    /*
-    # Include the following explicit folder(s)
-    !/k8s
-    # Exclude sub-foler(s) and file(s)
-    /k8s/clusters/**/infrastructure/
-    /k8s/clusters/**/secrets/
+  # ignore: |
+  #   # Exclude all by default
+  #   /*
+  #   # Include the following explicit folder(s)
+  #   !/k8s
+  #   # Exclude sub-foler(s) and file(s)
+  #   /k8s/clusters/**/infrastructure/
+  #   /k8s/clusters/**/secrets/
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -33,3 +33,16 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config
+        optional: true
+      - kind: Secret
+        name: cluster-secrets
+        optional: true

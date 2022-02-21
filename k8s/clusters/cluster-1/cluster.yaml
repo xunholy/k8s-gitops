@@ -1,39 +1,39 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: GitRepository
-metadata:
-  name: flux-system-cluster
-  namespace: flux-system
-spec:
-  interval: 1m0s
-  ref:
-    branch: main
-  secretRef:
-    name: flux-system
-  url: ssh://git@github.com/xunholy/k8s-gitops
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: cluster
-  namespace: flux-system
-spec:
-  interval: 10m
-  timeout: 30m
-  path: ./k8s/clusters/cluster-1/secrets
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system-cluster
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1beta1
+# kind: GitRepository
+# metadata:
+#   name: flux-system-cluster
+#   namespace: flux-system
+# spec:
+#   interval: 1m0s
+#   ref:
+#     branch: main
+#   secretRef:
+#     name: flux-system
+#   url: ssh://git@github.com/xunholy/k8s-gitops
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+# kind: Kustomization
+# metadata:
+#   name: cluster
+#   namespace: flux-system
+# spec:
+#   interval: 10m
+#   timeout: 30m
+#   path: ./k8s/clusters/cluster-1/secrets
+#   prune: true
+#   wait: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system-cluster
+#   decryption:
+#     provider: sops
+#     secretRef:
+#       name: sops-gpg
+#   postBuild:
+#     substitute: {}
+#     substituteFrom:
+#       - kind: ConfigMap
+#         name: cluster-config
+#       - kind: Secret
+#         name: cluster-secrets
