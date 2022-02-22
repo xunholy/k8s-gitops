@@ -55,9 +55,6 @@ spec:
         insecureSkipVerify: true
     alertmanager:
       fullnameOverride: alertmanager
-      alertmanagerSpec:
-        # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
-        portName: http-web
     grafana:
       enabled: false
       forceDeployDashboards: true
@@ -74,8 +71,6 @@ spec:
       prometheusSpec:
         retention: 4h
         externalUrl: https://prometheus.${CLUSTER_DOMAIN}
-        # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
-        portName: http-web
         resources:
           requests:
             memory: 512Mi
