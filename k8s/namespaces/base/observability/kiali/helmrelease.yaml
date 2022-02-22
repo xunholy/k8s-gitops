@@ -17,6 +17,9 @@ spec:
       interval: 5m
   install:
     createNamespace: true
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: observability
   values:
     istio_namespace: istio-system
     # Required as discussed here https://kiali.io/docs/configuration/p8s-jaeger-grafana/
