@@ -18,5 +18,5 @@ spec:
       route:
         - destination:
             port:
-              number: 16686
+              number: 20001
             host: kiali.observability.svc.cluster.local

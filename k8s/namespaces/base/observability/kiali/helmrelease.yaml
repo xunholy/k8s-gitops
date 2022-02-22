@@ -18,3 +18,4 @@ spec:
   install:
     createNamespace: true
   values:
+    istio_namespace: istio-system
