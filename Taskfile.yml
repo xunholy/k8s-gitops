@@ -1,7 +1,7 @@
 version: '3'
 
 vars:
-  CLUSTER: prod-b
+  CLUSTER: cluster-1
   GITHUB_USER: xunholy
   GITHUB_REPO: k8s-gitops
   GITHUB_BRANCH: main

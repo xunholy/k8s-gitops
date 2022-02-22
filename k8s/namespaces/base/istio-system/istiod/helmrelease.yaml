@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: istiod
-      version: 1.12.3
+      version: 1.13.0
       sourceRef:
         kind: HelmRepository
         name: istio-charts
@@ -20,6 +20,7 @@ spec:
   values:
     global:
       hub: docker.io/querycapistio
+      tag: 1.12.2
       # caAddress: cert-manager-istio-csr.network-system.svc:443
       proxy:
         resources:

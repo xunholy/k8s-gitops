@@ -1,11 +1,11 @@
-name: e2e
+name: Execute E2E Cluster Validation
 
 on:
-  workflow_dispatch:
-  # TODO: Re-enable once fixed workflow
+  workflow_dispatch: {}
+  # TODO: Need to create a mirror or mock cluster configuration without networking components
   # push:
-  #   branches: [ '*' ]
-  #   tags-ignore: [ '*' ]
+  #   branches: ['*']
+  #   tags-ignore: ['*']
 
 jobs:
   kubernetes:
@@ -14,9 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # TODO: Re-enable prod-a once it's rebuilt
-          # - cluster-id: prod-a
-          - cluster-id: prod-b
+          - cluster-id: cluster-1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -35,37 +33,40 @@ jobs:
       - name: Install Flux in Kubernetes Kind
         run: flux install
 
-      - uses: google-github-actions/setup-gcloud@master
+      - uses: 'google-github-actions/auth@v0'
         with:
-          version: '290.0.1'
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # TODO: encrypt cluster-secrets.enc.yaml with fluxcd sops-gpg keys rather than GCP keys
+      - uses: google-github-actions/setup-gcloud@v0.5.1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
       - name: Decrypt & Apply Cluster Configuration
         run: |
-          sops --decrypt "k8s/clusters/${{ matrix.cluster-id }}/secrets/sops-gpg.enc.yml" | kubectl apply -f -
-          sops --decrypt "k8s/clusters/${{ matrix.cluster-id }}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
-          kubectl apply -f "k8s/clusters/${{ matrix.cluster-id }}/secrets/cluster-config.yaml"
+          sops --decrypt "k8s/clusters/${{ matrix.cluster-id }}/secrets/sops-gpg.encrypted.yml" | kubectl apply -f -
 
       - name: Setup cluster reconciliation
         run: |
-          flux create source git flux-system \
-          --url=${{ github.event.repository.html_url }} \
-          --branch=${GITHUB_REF#refs/heads/}
-          flux create kustomization flux-system \
-          --source=flux-system \
-          --path=./k8s/clusters/${{ matrix.cluster-id }}
+          # Hack gotk-sync.yaml to update BRANCH and URL
+          BRANCH=${GITHUB_REF#refs/heads/} yq '(.spec.ref.branch | select(. == "main")) = env(BRANCH)' -i k8s/clusters/${{ matrix.cluster-id }}/flux-system/gotk-sync.yaml
+          yq 'del(.spec.ref | select (.branch == null))' -i k8s/clusters/${{ matrix.cluster-id }}/flux-system/gotk-sync.yaml
+          URL=${{ github.event.repository.html_url }} yq '(.spec.url | select(. != null)) = env(URL)' -i k8s/clusters/${{ matrix.cluster-id }}/flux-system/gotk-sync.yaml
+          yq 'del(.spec.url | select (. == null))' -i k8s/clusters/${{ matrix.cluster-id }}/flux-system/gotk-sync.yaml
+          kubectl apply -f k8s/clusters/${{ matrix.cluster-id }}/flux-system/gotk-sync.yaml
 
       - name: Verify cluster reconciliation
         run: |
-          kubectl -n flux-system wait kustomization/namespaces --for=condition=ready --timeout=5m
+          kubectl -n flux-system wait kustomization/flux-system --for=condition=ready --timeout=10m
 
       - name: Debug failure
         if: failure()
         run: |
           kubectl get kustomization -A
+          kubectl get helmreleases -A
+          kubectl describe po -n istio-system --selector app=istiod
+          kubectl logs -n istio-system --selector app=istiod
+          kubectl get helmrepositories -A
+          kubectl get helmcharts -A
           kubectl get pods -A
           kubectl get deployments -A
           kubectl -n flux-system get all

@@ -1,0 +1,22 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: jaeger
+  namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLUSTER_DOMAIN}'
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  hosts:
+    - 'jaeger.${CLUSTER_DOMAIN}'
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            port:
+              number: 16686
+            host: jaeger-query.observability.svc.cluster.local

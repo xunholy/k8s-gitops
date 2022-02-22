@@ -1,5 +1,8 @@
 {
   "extends": [
+    "config:base",
+    ":enablePreCommit",
+    ":disableRateLimiting",
     ":semanticCommits",
     "docker:enableMajor",
   ],
@@ -24,21 +27,37 @@
   "configWarningReuseIssue": true,
   "suppressNotifications": ["prIgnoreNotification"],
   "timezone": "Australia/Melbourne",
+  "pre-commit": {
+    "enabled": true
+  },
   "kubernetes": {
-    "fileMatch": ["k8s/.+\\.yaml$"],
+    "fileMatch": [
+      "k8s/.+\\.ya?ml$"
+    ],
     "ignorePaths": [
       "k8s/clusters/",
       "k8s/namespaces/base/flux-system/",
       "k8s/namespaces/base/actions-runner-system/"
     ]
   },
-  "helm-values": {"fileMatch": ["k8s/.+helmrelease\\.yaml$"]},
+  "helm-values": {
+    "fileMatch": [
+      "k8s/.+\\.ya?ml$"
+    ]
+  },
+  "helmv3": {
+    "fileMatch": [
+      "k8s/.+\\.ya?ml$"
+    ]
+  },
   "docker-compose": {
-    "fileMatch": ["(^|\/)docker-compose.*\\.ya?ml$"]
+    "fileMatch": [
+      "(^|\/)docker-compose.*\\.ya?ml$"
+    ]
   },
   "flux": {
     "fileMatch": [
-      "k8s/.+\\.yaml$"
+      "k8s/.+\\.ya?ml$"
     ]
   },
   "packageRules": [
