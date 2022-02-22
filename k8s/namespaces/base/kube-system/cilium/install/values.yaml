@@ -1,10 +1,12 @@
-# upgradeCompatibility helps users upgrading to ensure that the configMap for
-# Cilium will not change critical values to ensure continued operation
-# This is flag is not required for new installations.
-# For example: 1.7, 1.8, 1.9
-upgradeCompatibility: '1.10'
+image:
+  repository: quay.io/cilium/cilium-service-mesh
+  tag: v1.11.0-beta.1
+  useDigest: false
 
-# autoDirectNodeRoutes enables installation of PodCIDR routes between worker
+extraConfig:
+  enable-envoy-config: "true"
+
+# -- Enable installation of PodCIDR routes between worker
 # nodes if worker nodes share a common L2 network segment.
 autoDirectNodeRoutes: true
 
@@ -16,16 +18,16 @@ bgp:
 
 nodePort:
   # -- Enable the Cilium NodePort service implementation.
-  enabled: false
+  enabled: true
   # -- Port range to use for NodePort services.
   range: "30000,32767"
 
 containerRuntime:
   integration: containerd
 
-# endpointRoutes enables use of per endpoint routes instead of routing vis
-# the cilium_host interface
 endpointRoutes:
+  # -- Enable use of per endpoint routes instead of routing via
+  # the cilium_host interface.
   enabled: false
 
 # -- Enables masquerading of IPv4 traffic leaving the node from endpoints.
@@ -55,6 +57,10 @@ hubble:
   relay:
     # -- Enable Hubble Relay (requires hubble.enabled=true)
     enabled: true
+    image:
+      repository: quay.io/cilium/hubble-relay-service-mesh
+      tag: v1.11.0-beta.1
+      useDigest: false
     # -- Roll out Hubble Relay pods automatically when configmap is updated.
     rollOutPods: true
   ui:
@@ -66,7 +72,7 @@ hubble:
 ipam:
   # -- Configure IP Address Management mode.
   # ref: https://docs.cilium.io/en/stable/concepts/networking/ipam/
-  mode: "cluster-pool"
+  mode: "kubernetes"
   operator:
     # -- Deprecated in favor of ipam.operator.clusterPoolIPv4PodCIDRList.
     # IPv4 CIDR range to delegate to individual nodes for IPAM.
@@ -88,7 +94,7 @@ ipv6:
   enabled: false
 
 # kubeProxyReplacement enables kube-proxy replacement in Cilium BPF datapath
-# TODO: Disabled due to RockPi kernel <= 4.4
+# Disabled due to RockPi kernel <= 4.4
 # Valid options are "disabled", "probe", "partial", "strict".
 # ref: https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/
 kubeProxyReplacement: strict
@@ -97,7 +103,7 @@ kubeProxyReplacement: strict
 # To enable set the value to '0.0.0.0:10256' for all ipv4
 # addresses and this '[::]:10256' for all ipv6 addresses.
 # By default it is disabled.
-# TODO: Can't be used as RockPi Kernel is <=4.4
+# Can't be used as RockPi Kernel is <=4.4
 kubeProxyReplacementHealthzBindAddr: '0.0.0.0:10256'
 
 # prometheus enables serving metrics on the configured port at /metrics
@@ -110,6 +116,11 @@ prometheus:
     enabled: false
 
 operator:
+  image:
+    repository: quay.io/cilium/operator
+    tag: v1.11.0-beta.1
+    useDigest: false
+    suffix: "-service-mesh"
   # -- Roll out cilium-operator pods automatically when configmap is updated.
   rollOutPods: true
   # Enables metrics for cilium-operator.
@@ -157,9 +168,8 @@ cluster:
   id:
 
 clustermesh:
-  # TODO: Investigate image that is ARM64 supported
   # -- Deploy clustermesh-apiserver for clustermesh
-  useAPIServer: false
+  useAPIServer: true
   apiserver:
     # -- Clustermesh API server image.
     image:

@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 32.2.0
+      version: 32.2.1
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
@@ -33,10 +33,7 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
-  # Depends on having the sealed secret to un-encrypted required secrets, and thanos
   dependsOn:
-    - name: sealed-secrets
-      namespace: kube-system
     - name: thanos
       namespace: observability
     - name: grafana
@@ -44,15 +41,12 @@ spec:
   timeout: 20m
   values:
     fullnameOverride: x
-    prometheusOperator:
-      prometheusConfigReloader:
-        resources:
-          requests:
-            cpu: 100m
-            memory: 50Mi
-          limits:
-            cpu: 200m
-            memory: 100Mi
+    kubelet:
+      serviceMonitor:
+        ## Enable scraping the kubelet over https. For requirements to enable this see
+        ## https://github.com/prometheus-operator/prometheus-operator/issues/926
+        ##
+        https: false
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
@@ -67,9 +61,6 @@ spec:
         insecureSkipVerify: true
     alertmanager:
       fullnameOverride: alertmanager
-      alertmanagerSpec:
-        # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
-        portName: http-web
     grafana:
       enabled: false
       forceDeployDashboards: true
@@ -84,16 +75,14 @@ spec:
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
       ##
       prometheusSpec:
-        retention: 4h
-        # Required for istio - https://istio.io/latest/docs/reference/config/analysis/ist0118/
-        portName: http-web
+        retention: 2h
+        externalUrl: https://prometheus.${CLUSTER_DOMAIN}
         resources:
           requests:
-            memory: '1536Mi'
-            cpu: '1000m'
+            memory: 512Mi
+            cpu: 250m
           limits:
-            memory: 2560Mi
-            cpu: '2000m'
+            memory: 3096Mi
         thanos:
           image: raspbernetes/thanos:v0.23.1
           version: v0.17.1
@@ -107,15 +96,10 @@ spec:
               cpu: 100m
             limits:
               memory: 256Mi
-        ruleSelector: {}
-        ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
-        serviceMonitorSelector: {}
-        serviceMonitorNamespaceSelector: {}
         serviceMonitorSelectorNilUsesHelmValues: false
-        podMonitorSelector: {}
-        podMonitorNamespaceSelector: {}
         podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
     prometheus-node-exporter:

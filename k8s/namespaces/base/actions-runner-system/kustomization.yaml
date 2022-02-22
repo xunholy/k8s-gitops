@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - actions-runner-controller.yaml
   - runner.yaml
-  - secret.encrypted.yaml
+  - secret.enc.yaml

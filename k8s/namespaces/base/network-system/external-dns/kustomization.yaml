@@ -3,5 +3,3 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - secret.enc.yaml
-  # TODO
-  # - servicemonitor.yaml

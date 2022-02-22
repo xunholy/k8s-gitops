@@ -4,8 +4,8 @@ tasks:
   gpg:
     desc: "Import the public and private gpg keys locally"
     cmds:
-      - gpg --import k8s/clusters/prod-b/secrets/.sops.pub.asc
-      - gpg --import <(sops --decrypt "k8s/clusters/prod-b/secrets/sops-gpg.enc.yml" | yq e '.data[]' - | base64 -d)
+      - gpg --import k8s/clusters/cluster-1/secrets/.sops.pub.asc
+      - gpg --import <(sops --decrypt "k8s/clusters/cluster-1/secrets/sops-gpg.encrypted.yml" | yq e '.data[]' - | base64 -d)
     status:
       - gpg --list-secret-keys --keyid-format=long | grep production.raspbernetes.com
 
@@ -39,12 +39,6 @@ tasks:
     desc: "Install cluster secrets and configs; Only to be used when updating secrets manually"
     cmds:
       - cmd: |
-          echo "Applying existing sealed-secret key"
-          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/sealed-secret-private-key.enc.yaml" | kubectl apply -f -
           kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
-          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/sops-gpg.enc.yml" | kubectl apply -f -
-          echo "Applying cluster secrets"
-          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
-          echo "Applying cluster secrets"
-          kubectl apply -f "k8s/clusters/{{.CLUSTER}}/secrets/cluster-config.yaml"
+          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/sops-gpg.encrypted.yml" | kubectl apply -f -
         silent: true

@@ -30,14 +30,12 @@ spec:
     recreate: true
     cleanupOnFail: true
   dependsOn:
-    - name: sealed-secrets
-      namespace: kube-system
     - name: cstor
       namespace: openebs
   values:
     image:
       repository: homeassistant/home-assistant
-      tag: 2022.2.5
+      tag: 2022.2.9
     env:
       TZ: 'Australia/Melbourne'
     probes:

@@ -33,11 +33,11 @@ spec:
     controller:
       image:
         repository: metallb/controller
-        tag: v0.11.0
+        tag: v0.12.1
     speaker:
       image:
         repository: metallb/speaker
-        tag: v0.11.0
+        tag: v0.12.1
     prometheus:
       serviceMonitor:
         enabled: false

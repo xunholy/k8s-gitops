@@ -1,1 +1,1 @@
-# Cluster 0 - RockPi Cluster
+# Cluster 0 - Bitscope Cluster

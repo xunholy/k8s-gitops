@@ -1,14 +1,14 @@
-name: terraform
+name: terraform-plan
 
 on:
+  workflow_dispatch: {}
   pull_request:
     paths:
       - '.github/workflows/terraform-plan.yml'
-      - 'k8s/clusters/prod-a/infrastructure/**'
-      - 'k8s/clusters/prod-b/infrastructure/**'
+      - 'k8s/clusters/**/infrastructure/**'
 
 env:
-  tf_actions_working_dir: k8s/clusters/production/infrastructure/gcp
+  tf_actions_working_dir: k8s/clusters/prod-a/infrastructure/gcp
   terraform_version: 0.13.5
 
 jobs:
@@ -22,11 +22,13 @@ jobs:
         id: checkout_code
         uses: actions/checkout@v2
 
-      - uses: google-github-actions/setup-gcloud@master
+      - uses: 'google-github-actions/auth@v0'
         with:
-          version: '290.0.1'
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - uses: google-github-actions/setup-gcloud@v0.5.1
+        with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
 
       - uses: hashicorp/setup-terraform@v1
