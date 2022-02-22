@@ -46,13 +46,16 @@ jobs:
 
       - name: Setup cluster reconciliation
         run: |
-          BRANCH=${GITHUB_REF#refs/heads/}
-          sed -ri "s/^(\s*)(branch:\s*main\s*$)/\    branch: ${BRANCH}/" k8s/clusters/cluster-1/flux-system/gotk-sync.yaml
+          # Hack gotk-sync.yaml to update BRANCH and URL
+          BRANCH=${GITHUB_REF#refs/heads/} yq '(.spec.ref.branch | select(. == "main")) = env(BRANCH)' -i k8s/clusters/cluster-1/flux-system/gotk-sync.yaml
+          yq 'del(.spec.ref | select (.branch == null))' -i k8s/clusters/cluster-1/flux-system/gotk-sync.yaml
+          URL=${{ github.event.repository.html_url }} yq '(.spec.url | select(. != null)) = env(URL)' -i k8s/clusters/cluster-1/flux-system/gotk-sync.yaml
+          yq 'del(.spec.url | select (. == null))' -i k8s/clusters/cluster-1/flux-system/gotk-sync.yaml
           kubectl apply -k k8s/clusters/cluster-1/flux-system/
 
       - name: Verify cluster reconciliation
         run: |
-          kubectl -n flux-system wait kustomization/flux-system --for=condition=ready --timeout=30m
+          kubectl -n flux-system wait kustomization/flux-system --for=condition=ready --timeout=10m
 
       - name: Debug failure
         if: failure()
