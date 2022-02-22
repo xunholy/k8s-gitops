@@ -10,7 +10,6 @@ roleRef:
   kind: ClusterRole
   name: cluster-admin
 subjects:
-# TODO: Is this required?
 - kind: User
   name: gotk:tenant-default:reconciler
 - kind: ServiceAccount

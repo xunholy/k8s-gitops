@@ -1,19 +1,41 @@
-# # Source: https://github.com/kiali/helm-charts
-# ---
-# apiVersion: helm.toolkit.fluxcd.io/v2beta1
-# kind: HelmRelease
-# metadata:
-#   name: kiali-server
-#   namespace: observability
-#   annotations:
-#     fluxcd.io/ignore: 'false'
-#     fluxcd.io/automated: 'false'
-# spec:
-#   releaseName: kiali-server
-#   helmVersion: v3
-#   rollback:
-#     enable: false
-#   chart:
-#     repository: https://kiali.org/helm-charts
-#     name: kiali-server
-#     version: 1.23.0
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kiali-server
+  namespace: observability
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kiali-server
+      version: 1.46.0
+      sourceRef:
+        kind: HelmRepository
+        name: kiali-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: observability
+  values:
+    istio_namespace: istio-system
+    # Required as discussed here https://kiali.io/docs/configuration/p8s-jaeger-grafana/
+    external_services:
+      prometheus:
+        url: "http://x-prometheus.observability.svc.cluster.local:9090/"
+      tracing:
+        # Enabled by default. Kiali will anyway fallback to disabled if
+        # Jaeger is unreachable.
+        enabled: true
+        in_cluster_url: 'http://jaeger-query.observability.svc.cluster.local:16685/jaeger'
+        use_grpc: true
+        # Public facing URL of Jaeger
+        url: 'https://jaeger.${CLUSTER_DOMAIN}/jaeger'
+      grafana:
+        enabled: true
+        in_cluster_url: 'http://grafana.observability.svc.cluster.local:3000/'
+        # Public facing URL of Grafana
+        url: 'https://grafana.${CLUSTER_DOMAIN}/grafana'

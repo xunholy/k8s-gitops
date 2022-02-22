@@ -4,5 +4,4 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - networkpolicy.yaml
-  - secret.encrypted.yaml
-  - servicemonitor.yaml
+  - secret.enc.yaml
