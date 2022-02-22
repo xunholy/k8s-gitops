@@ -19,3 +19,29 @@ spec:
     createNamespace: true
   values:
     istio_namespace: istio-system
+  postRenderers:
+    - kustomize:
+        patchesStrategicMerge:
+          - kind: ConfigMap
+            apiVersion: v1
+            metadata:
+              name: kiali
+            spec:
+              # Required as discussed here https://kiali.io/docs/configuration/p8s-jaeger-grafana/
+              external_services:
+                prometheus:
+                  url: "http://x-prometheus.observability.svc.cluster.local:9090/"
+                tracing:
+                  # Enabled by default. Kiali will anyway fallback to disabled if
+                  # Jaeger is unreachable.
+                  enabled: true
+                  in_cluster_url: 'http://jaeger-query.observability.svc.cluster.local:16685/jaeger'
+                  use_grpc: true
+                  # Public facing URL of Jaeger
+                  url: 'https://jaeger.${CLUSTER_DOMAIN}/jaeger'
+                grafana:
+                  enabled: true
+                  # Grafana service name is "grafana" and is in the "telemetry" namespace.
+                  in_cluster_url: 'http://grafana.observability.svc.cluster.local:3000/'
+                  # Public facing URL of Grafana
+                  url: 'https://grafana.${CLUSTER_DOMAIN}/grafana'
