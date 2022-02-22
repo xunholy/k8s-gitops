@@ -47,11 +47,11 @@ jobs:
       - name: Setup cluster reconciliation
         run: |
           # Hack gotk-sync.yaml to update BRANCH and URL
-          BRANCH=${GITHUB_REF#refs/heads/} yq '(.spec.ref.branch | select(. == "main")) = env(BRANCH)' -i k8s/clusters/cluster-1/flux-system/gotk-sync.yaml
-          yq 'del(.spec.ref | select (.branch == null))' -i k8s/clusters/cluster-1/flux-system/gotk-sync.yaml
-          URL=${{ github.event.repository.html_url }} yq '(.spec.url | select(. != null)) = env(URL)' -i k8s/clusters/cluster-1/flux-system/gotk-sync.yaml
-          yq 'del(.spec.url | select (. == null))' -i k8s/clusters/cluster-1/flux-system/gotk-sync.yaml
-          kubectl apply -k k8s/clusters/cluster-1/flux-system/
+          BRANCH=${GITHUB_REF#refs/heads/} yq '(.spec.ref.branch | select(. == "main")) = env(BRANCH)' -i k8s/clusters/${{ matrix.cluster-id }}/flux-system/gotk-sync.yaml
+          yq 'del(.spec.ref | select (.branch == null))' -i k8s/clusters/${{ matrix.cluster-id }}/flux-system/gotk-sync.yaml
+          URL=${{ github.event.repository.html_url }} yq '(.spec.url | select(. != null)) = env(URL)' -i k8s/clusters/${{ matrix.cluster-id }}/flux-system/gotk-sync.yaml
+          yq 'del(.spec.url | select (. == null))' -i k8s/clusters/${{ matrix.cluster-id }}/flux-system/gotk-sync.yaml
+          kubectl apply -k k8s/clusters/${{ matrix.cluster-id }}/flux-system/
 
       - name: Verify cluster reconciliation
         run: |
