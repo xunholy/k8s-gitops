@@ -2,9 +2,10 @@ name: Execute E2E Cluster Validation
 
 on:
   workflow_dispatch: {}
-  push:
-    branches: ['*']
-    tags-ignore: ['*']
+  # TODO: Need to create a mirror or mock cluster configuration without networking components
+  # push:
+  #   branches: ['*']
+  #   tags-ignore: ['*']
 
 jobs:
   kubernetes:
