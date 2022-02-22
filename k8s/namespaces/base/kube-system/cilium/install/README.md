@@ -14,7 +14,7 @@ helm repo add cilium https://helm.cilium.io/
 
 ```bash
 helm install cilium cilium/cilium \
-  --version=1.11.0 \
+  --version=1.11.1 \
   --namespace=kube-system \
   --values=k8s/namespaces/base/kube-system/cilium/install/values.yaml
 ```
@@ -27,7 +27,16 @@ Upgrade path
 
 ```bash
 helm upgrade cilium cilium/cilium \
-  --version 1.11.0 \
+  --version 1.11.1 \
   --namespace=kube-system \
   --values=k8s/namespaces/base/kube-system/cilium/install/values.yaml
+```
+
+## Service Mesh
+
+```bash
+git clone https://github.com/cilium/cilium.git
+cd cilium
+git checkout origin/beta/service-mesh
+helm upgrade -n kube-system cilium ./install/kubernetes/cilium --values=../k8s-gitops/k8s/namespaces/base/kube-system/cilium/install/values.yaml
 ```

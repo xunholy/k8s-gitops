@@ -4,15 +4,19 @@ kind: VirtualService
 metadata:
   name: kiali
   namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLUSTER_DOMAIN}'
+    external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
     - 'kiali.${CLUSTER_DOMAIN}'
   gateways:
     - istio-ingress/istio-ingressgateway
   http:
-    - route:
+    - match:
+        - port: 443
+      route:
         - destination:
             port:
               number: 20001
             host: kiali.observability.svc.cluster.local
-          weight: 100

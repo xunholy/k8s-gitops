@@ -3,6 +3,4 @@ kind: Kustomization
 namespace: network-system
 resources:
   - helmrelease.yaml
-  # TODO
-  # - servicemonitor.yaml
   - secret.enc.yaml
