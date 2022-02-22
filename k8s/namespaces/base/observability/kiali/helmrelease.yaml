@@ -26,6 +26,7 @@ spec:
             apiVersion: v1
             metadata:
               name: kiali
+              namespace: observability
             spec:
               # Required as discussed here https://kiali.io/docs/configuration/p8s-jaeger-grafana/
               external_services:
