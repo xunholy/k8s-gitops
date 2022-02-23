@@ -47,6 +47,7 @@ spec:
     kubeScheduler:
       service:
         port: 10259
+        targetPort: 10259
       serviceMonitor:
         insecureSkipVerify: true
     kubeEtcd:
@@ -107,3 +108,42 @@ spec:
       fullnameOverride: kube-state-metrics
     prometheus-node-exporter:
       fullnameOverride: node-exporter
+
+
+
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: x-kubelet.rules
+  namespace: observability
+spec:
+  groups:
+  - name: kubelet.rules
+    rules:
+    - expr: histogram_quantile(0.99, sum(rate(kubelet_pleg_relist_duration_seconds_bucket[5m]))
+        by (instance, le) * on(instance) group_left(node) kubelet_node_name{job="kubelet",
+        metrics_path="/metrics"})
+      labels:
+        quantile: "0.99"
+      record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
+    - expr: histogram_quantile(0.9, sum(rate(kubelet_pleg_relist_duration_seconds_bucket[5m]))
+        by (instance, le) * on(instance) group_left(node) kubelet_node_name{job="kubelet",
+        metrics_path="/metrics"})
+      labels:
+        quantile: "0.9"
+      record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
+    - expr: histogram_quantile(0.5, sum(rate(kubelet_pleg_relist_duration_seconds_bucket[5m]))
+        by (instance, le) * on(instance) group_left(node) kubelet_node_name{job="kubelet",
+        metrics_path="/metrics"})
+      labels:
+        quantile: "0.5"
+      record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
+
+
+ts=2022-02-22T06:01:44.453Z caller=manager.go:609 level=warn component="rule manager"
+group=kubelet.rules msg="Evaluating rule failed"
+rule="record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile\nexpr: histogram_quantile(0.5, sum by(instance, le) (rate(kubelet_pleg_relist_duration_seconds_bucket[5m]))\n  * on(instance) group_left(node) kubelet_node_name{job=\"kubelet\",metrics_path=\"/metrics\"})\nlabels:\n  quantile: \"0.5\"\n"
+
+
+err="found duplicate series for the match group {instance=\"192.168.1.161:10250\"} on the right hand-side of the operation: [{__name__=\"kubelet_node_name\", endpoint=\"https-metrics\", instance=\"192.168.1.161:10250\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"kube-system\", node=\"k8s-controlplane-01\", service=\"x-kubelet\"}, {__name__=\"kubelet_node_name\", endpoint=\"https-metrics\", instance=\"192.168.1.161:10250\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"kube-system\", node=\"k8s-controlplane-01\", service=\"prometheus-kubelet\"}];
+many-to-many matching not allowed: matching labels must be unique on one side"
