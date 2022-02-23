@@ -3,7 +3,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - helmrelease.yaml
-  # TODO: Testing UDP as it may not be supported in native ingress routes
-  # - ingress.yaml
   - secret.enc.yaml
-  - virtualservice.yaml

@@ -41,24 +41,28 @@ spec:
   timeout: 20m
   values:
     fullnameOverride: x
-    kubelet:
-      serviceMonitor:
-        ## Enable scraping the kubelet over https. For requirements to enable this see
-        ## https://github.com/prometheus-operator/prometheus-operator/issues/926
-        ##
-        https: false
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
     # https://github.com/prometheus-community/helm-charts/issues/204
+    # https://stackoverflow.com/questions/65901186/kube-prometheus-stack-issue-scraping-metrics/66276144#66276144
     kubeControllerManager:
-      enabled: false
+      enabled: true
       serviceMonitor:
         insecureSkipVerify: true
     kubeScheduler:
-      enabled: false
+      enabled: true
       serviceMonitor:
         insecureSkipVerify: true
+    kubeEtcd:
+      enabled: true
+      serviceMonitor:
+        scheme: https
+        serverName: localhost
+        insecureSkipVerify: false
+        caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
+        certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
+        keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
     alertmanager:
       fullnameOverride: alertmanager
     grafana:
@@ -76,6 +80,8 @@ spec:
       ##
       prometheusSpec:
         retention: 2h
+        secrets:
+          - etcd-client-cert
         externalUrl: https://prometheus.${CLUSTER_DOMAIN}
         resources:
           requests:
