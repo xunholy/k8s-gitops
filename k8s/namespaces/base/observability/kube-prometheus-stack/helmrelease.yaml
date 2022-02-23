@@ -70,6 +70,14 @@ spec:
             etcd:
               enabled: true
     prometheusOperator:
+      prometheusConfigReloader:
+        resources:
+          requests:
+            cpu: 200m
+            memory: 50Mi
+          limits:
+            cpu: 400m
+            memory: 100Mi
       thanosImage:
         repository: quay.io/thanos/thanos
         tag: main-2021-12-22-53ec210d
@@ -92,10 +100,10 @@ spec:
         externalUrl: https://prometheus.${CLUSTER_DOMAIN}
         resources:
           requests:
-            memory: 1024Mi
-            cpu: 500m
+            memory: 1Gi
+            cpu: 1
           limits:
-            memory: 3096Mi
+            memory: 2Gi
             cpu: 2
           # Thanos chart will generate the secret: thanos
         thanos:
@@ -108,6 +116,7 @@ spec:
               cpu: 100m
             limits:
               memory: 256Mi
+              cpu: 200m
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false

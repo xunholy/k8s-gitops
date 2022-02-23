@@ -36,6 +36,7 @@ spec:
     query:
       stores:
         - "x-thanos-discovery.observability.svc.cluster.local:10901"
+      logFormat: json
       replicaCount: 1
       replicaLabels:
         - replica
