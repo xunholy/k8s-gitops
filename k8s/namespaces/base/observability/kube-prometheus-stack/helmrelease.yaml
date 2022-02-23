@@ -83,10 +83,11 @@ spec:
         externalUrl: https://prometheus.${CLUSTER_DOMAIN}
         resources:
           requests:
-            memory: 512Mi
-            cpu: 250m
+            memory: 1024Mi
+            cpu: 500m
           limits:
             memory: 3096Mi
+            cpu: 2
         thanos:
           image: raspbernetes/thanos:v0.23.1
           version: v0.17.1
