@@ -33,6 +33,11 @@ spec:
     image:
       repository: raspbernetes/thanos
       tag: v0.23.1
+    sidecar:
+      # Must match the service created via kube-promethus-stack
+      selector:
+        app.kubernetes.io/name: prometheus
+        prometheus: x-prometheus
     query:
       stores:
         - "x-thanos-discovery.observability.svc.cluster.local:10901"
