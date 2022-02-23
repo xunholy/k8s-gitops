@@ -98,10 +98,10 @@ spec:
             memory: 3096Mi
             cpu: 2
           # Thanos chart will generate the secret: thanos
-          thanos:
-            objectStorageConfig:
-              name: thanos
-              key: object-store.yaml
+        thanos:
+          objectStorageConfig:
+            name: thanos
+            key: object-store.yaml
           resources:
             requests:
               memory: 128Mi
