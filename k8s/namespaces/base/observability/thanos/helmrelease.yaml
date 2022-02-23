@@ -34,6 +34,8 @@ spec:
       repository: raspbernetes/thanos
       tag: v0.23.1
     query:
+      stores:
+        - "x-thanos-discovery.observability.svc.cluster.local:10901"
       replicaCount: 1
       replicaLabels:
         - replica
