@@ -71,6 +71,10 @@ spec:
               enabled: true
     prometheus:
       fullnameOverride: prometheus
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
       ## Settings affecting prometheusSpec
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
       prometheusSpec:
