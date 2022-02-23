@@ -44,8 +44,12 @@ spec:
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
+    kubeScheduler:
+      service:
+        port: 10259
+      serviceMonitor:
+        insecureSkipVerify: true
     kubeEtcd:
-      enabled: true
       serviceMonitor:
         scheme: https
         serverName: localhost
@@ -67,9 +71,12 @@ spec:
       fullnameOverride: prometheus
       ## Settings affecting prometheusSpec
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
-      ##
       prometheusSpec:
         retention: 2h
+        ## Interval between consecutive scrapes.
+        ## Defaults to 30s.
+        ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/release-0.44/pkg/prometheus/promcfg.go#L180-L183
+        scrapeInterval: "60s"
         secrets:
           - etcd-client-cert
         externalUrl: https://prometheus.${CLUSTER_DOMAIN}
