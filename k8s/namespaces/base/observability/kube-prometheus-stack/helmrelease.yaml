@@ -69,6 +69,10 @@ spec:
           multicluster:
             etcd:
               enabled: true
+    prometheusOperator:
+      thanosImage:
+        repository: quay.io/thanos/thanos
+        tag: main-2021-12-22-53ec210d
     prometheus:
       fullnameOverride: prometheus
       thanosService:
@@ -93,9 +97,6 @@ spec:
           limits:
             memory: 3096Mi
             cpu: 2
-        thanos:
-          image: raspbernetes/thanos:v0.23.1
-          version: v0.17.1
           # Thanos chart will generate the secret: thanos
           objectStorageConfig:
             name: thanos
