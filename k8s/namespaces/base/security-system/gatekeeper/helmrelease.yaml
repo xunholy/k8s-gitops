@@ -30,4 +30,5 @@ spec:
     recreate: true
     cleanupOnFail: true
   values:
-    replicas: 1
+    psp:
+      enabled: false
