@@ -20,7 +20,7 @@ spec:
   values:
     global:
       hub: docker.io/querycapistio
-      tag: 1.12.2
+      tag: 1.13.1-distroless
       # caAddress: cert-manager-istio-csr.network-system.svc:443
       proxy:
         resources:
