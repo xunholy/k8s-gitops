@@ -24,20 +24,20 @@ spec:
       # caAddress: cert-manager-istio-csr.network-system.svc:443
       proxy:
         resources:
-          limits:
-            cpu: 200m
-            memory: 256Mi
           requests:
             cpu: 100m
             memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
       proxy_init:
         resources:
-          limits:
-            cpu: 200m
-            memory: 256Mi
           requests:
             cpu: 100m
             memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
     meshConfig:
       defaultConfig:
         gatewayTopology:
