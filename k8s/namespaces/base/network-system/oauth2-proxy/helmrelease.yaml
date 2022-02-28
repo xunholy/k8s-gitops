@@ -50,7 +50,7 @@ spec:
       existingSecret: oauth2-proxy-dex
       configFile: |-
         provider = "oidc"
-        oidc_issuer_url = "http://dex.network-system.svc.cluster.local"
+        oidc_issuer_url = "https://dex.${CLUSTER_DOMAIN}"
         auth_logging = true
         cookie_domains = ".${CLUSTER_DOMAIN}"
         cookie_httponly = true
