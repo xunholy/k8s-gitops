@@ -65,4 +65,4 @@ Applications should consume native Kubernetes secrets resources and be decoupled
 
 - [ ] Protection against committing unencrypted secrets to Git
 
-Currently a missing fundamental component is missing in both these tools which prohibits committing unencrypted values to source control. This is a function that will need to be addressed via additional tooling and/or automation.
+Currently a missing fundamental component is missing in both these tools which prohibits committing unencrypted values to source control. This is a function that will need to be addressed via additional tooling and/or automation, such as [pre-commit](https://pre-commit.com/) with the [sops-pre-commit](https://github.com/k8s-at-home/sops-pre-commit) hook.
