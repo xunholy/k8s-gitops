@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: raspbernetes/cloudflared
-      tag: "2022.3.2"
+      tag: "2022.3.3"
     cloudflared:
       # Tunnel ID should be unique per instance of running cloudflared
       tunnelID: 24724515-cbee-460b-a57e-20c72c840756
