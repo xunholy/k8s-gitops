@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: dex
-      version: 0.6.5
+      version: 0.6.6
       sourceRef:
         kind: HelmRepository
         name: dex-chart
@@ -32,7 +32,7 @@ spec:
   values:
     image:
       repository: dexidp/dex
-      tag: v2.31.0
+      tag: v2.31.1
     env:
       KUBERNETES_POD_namespace: network-system
     config:
