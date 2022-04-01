@@ -6,7 +6,7 @@ metadata:
   namespace: sidero-system
 spec:
   kernel:
-    url: "https://github.com/talos-systems/talos/releases/download/v0.14.0/vmlinuz-arm64"
+    url: "https://github.com/siderolabs/talos/releases/download/v1.0.0/vmlinuz-arm64"
     args:
       - console=tty0
       - console=ttyS1,115200n8
@@ -24,4 +24,4 @@ spec:
       - slab_nomerge=
       - talos.platform=metal
   initrd:
-    url: "https://github.com/talos-systems/talos/releases/download/v0.14.0/initramfs-arm64.xz"
+    url: "https://github.com/siderolabs/talos/releases/download/v1.0.0/initramfs-arm64.xz"

@@ -9,7 +9,7 @@ docker buildx build -f Dockerfile --platform linux/arm64 . -t xunholy/raspberryp
 Scale Down Sidero Metal
 
 ```bash
-k scale deploy sidero-controller-manager --replicas=0
+k scale deploy sidero-controller-manager -n sidero-system --replicas=0
 ```
 
 Patch Sidero Metal Deployment
@@ -21,5 +21,5 @@ kubectl patch --patch-file patch.yaml deploy sidero-controller-manager  -n sider
 Scale Up Sidero Metal
 
 ```bash
-k scale deploy sidero-controller-manager --replicas=1
+k scale deploy sidero-controller-manager -n sidero-system --replicas=1
 ```

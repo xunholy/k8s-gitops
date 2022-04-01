@@ -1,4 +1,4 @@
-apiVersion: cluster.x-k8s.io/v1alpha4
+apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
 metadata:
   name: cluster-0
@@ -68,7 +68,7 @@ spec:
     kind: MetalMachineTemplate
     name: cluster-0-cp
   replicas: 1
-  version: v1.22.2
+  version: v1.23.1
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1alpha3
 kind: TalosConfigTemplate
@@ -81,7 +81,7 @@ spec:
       generateType: join
       talosVersion: v0.14.0
 ---
-apiVersion: cluster.x-k8s.io/v1alpha4
+apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
 metadata:
   name: cluster-0-workers
@@ -103,7 +103,7 @@ spec:
         apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
         kind: MetalMachineTemplate
         name: cluster-0-workers
-      version: v1.22.2
+      version: v1.23.1
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalMachineTemplate

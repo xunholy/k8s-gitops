@@ -2,12 +2,22 @@
 apiVersion: metal.sidero.dev/v1alpha1
 kind: Server
 metadata:
-  name: 00000000-0000-0000-0000-d05099d333e0
+  name: 30303031-3030-3030-3837-653334613861
   labels:
     controlplane: "true"
-    environment: prod
 spec:
-  accepted: false
+  accepted: true
+  cpu:
+    manufacturer: Broadcom
+    version: BCM2711 (ARM Cortex-A72)
   environmentRef:
     namespace: sidero-system
     name: default-arm64
+  hostname: 192.168.1.212
+  system:
+    family: Raspberry Pi
+    manufacturer: Raspberry Pi Foundation
+    productName: Raspberry Pi 4 Model B
+    serialNumber: Unknown
+    skuNumber: Unknown
+    version: 1000000087e34a8a

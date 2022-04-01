@@ -17,3 +17,5 @@ arm_boost=1
 enable_uart=1
 # Disable Bluetooth.
 dtoverlay=disable-bt
+disable_commandline_tags=1
+disable_overscan=1

@@ -2,7 +2,7 @@ FROM docker.io/library/alpine:3.15.0
 
 COPY ./serials /serials
 
-ADD https://github.com/pftf/RPi4/releases/download/v1.31/RPi4_UEFI_Firmware_v1.31.zip RPi4_UEFI_Firmware.zip
+ADD https://github.com/pftf/RPi4/releases/download/v1.33/RPi4_UEFI_Firmware_v1.33.zip RPi4_UEFI_Firmware.zip
 
 RUN apk add --update --no-cache \
     unzip \
