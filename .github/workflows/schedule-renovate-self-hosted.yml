@@ -17,7 +17,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2.4.2
 
       - name: Verify Renovate Configuration
         uses: suzuki-shunsuke/github-action-renovate-config-validator@v0.1.2
