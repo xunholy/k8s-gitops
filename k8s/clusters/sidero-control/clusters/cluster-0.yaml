@@ -28,7 +28,7 @@ metadata:
 spec:
   controlPlaneEndpoint:
     host: 192.168.1.210
-    port: 8443
+    port: 6443
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalMachineTemplate
@@ -41,7 +41,7 @@ spec:
       serverClassRef:
         apiVersion: metal.sidero.dev/v1alpha1
         kind: ServerClass
-        name: any
+        name: control-plane
 ---
 apiVersion: controlplane.cluster.x-k8s.io/v1alpha3
 kind: TalosControlPlane
@@ -52,23 +52,41 @@ spec:
   controlPlaneConfig:
     controlplane:
       generateType: controlplane
-      talosVersion: v0.14.0
-    init:
-      generateType: init
-      talosVersion: v0.14.0
+      talosVersion: v1.0.3
       configPatches:
         - op: add
-          path: /cluster/network/cni
+          path: /machine/network
           value:
-            name: custom
-            urls:
-              - https://raw.githubusercontent.com/xunholy/k8s-gitops/main/k8s/clusters/sidero-control/integrations/cilium/cluster-0.yaml
+            interfaces:
+            - interface: eth0
+              dhcp: true
+              vip:
+                ip: 192.168.1.235
+    init:
+      generateType: init
+      talosVersion: v1.0.3
+      configPatches:
+        - op: add
+          path: /machine/network
+          value:
+            interfaces:
+            - interface: eth0
+              dhcp: true
+              vip:
+                ip: 192.168.1.235
+      # configPatches:
+      #   - op: replace
+      #     path: /cluster/network/cni
+      #     value:
+      #       name: custom
+      #       urls:
+      #         - https://raw.githubusercontent.com/xunholy/k8s-gitops/main/k8s/clusters/sidero-control/integrations/cilium/cluster-0.yaml
   infrastructureTemplate:
     apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
     kind: MetalMachineTemplate
     name: cluster-0-cp
-  replicas: 1
-  version: v1.23.1
+  replicas: 3
+  version: v1.23.5
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1alpha3
 kind: TalosConfigTemplate
@@ -79,7 +97,7 @@ spec:
   template:
     spec:
       generateType: join
-      talosVersion: v0.14.0
+      talosVersion: v1.0.3
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
@@ -88,7 +106,7 @@ metadata:
   namespace: sidero-system
 spec:
   clusterName: cluster-0
-  replicas: 0
+  replicas: 3
   selector:
     matchLabels: null
   template:
@@ -103,7 +121,7 @@ spec:
         apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
         kind: MetalMachineTemplate
         name: cluster-0-workers
-      version: v1.23.1
+      version: v1.23.5
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalMachineTemplate
@@ -116,4 +134,4 @@ spec:
       serverClassRef:
         apiVersion: metal.sidero.dev/v1alpha1
         kind: ServerClass
-        name: any
+        name: nodes

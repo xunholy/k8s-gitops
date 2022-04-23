@@ -28,7 +28,7 @@ metadata:
 spec:
   controlPlaneEndpoint:
     host: 192.168.1.235
-    port: 8443
+    port: 6443
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalMachineTemplate
@@ -51,18 +51,36 @@ metadata:
 spec:
   controlPlaneConfig:
     controlplane:
-      generateType: controlplane
-      talosVersion: v1.0.0
-    init:
-      generateType: init
-      talosVersion: v1.0.0
       configPatches:
         - op: add
-          path: /cluster/network/cni
+          path: /machine/network
           value:
-            name: custom
-            urls:
-              - https://raw.githubusercontent.com/xunholy/k8s-gitops/main/k8s/clusters/sidero-control/integrations/cilium/cluster-1.yaml
+            interfaces:
+            - interface: eth0
+              dhcp: true
+              vip:
+                ip: 192.168.1.235
+      generateType: controlplane
+      talosVersion: v1.0.3
+    init:
+      generateType: init
+      talosVersion: v1.0.3
+      configPatches:
+        - op: add
+          path: /machine/network
+          value:
+            interfaces:
+            - interface: eth0
+              dhcp: true
+              vip:
+                ip: 192.168.1.235
+        # - op: replace
+        #   path: /cluster/network/cni
+        #   value:
+        #     name: custom
+        #     urls:
+        #       - https://raw.githubusercontent.com/xunholy/k8s-gitops/main/k8s/clusters/sidero-control/integrations/cilium/cluster-1.yaml
+  infrastructureTemplate:
     apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
     kind: MetalMachineTemplate
     name: cluster-1-cp
@@ -78,7 +96,7 @@ spec:
   template:
     spec:
       generateType: join
-      talosVersion: v1.0.0
+      talosVersion: v1.0.3
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment

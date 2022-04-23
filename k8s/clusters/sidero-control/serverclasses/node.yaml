@@ -5,6 +5,8 @@ metadata:
   name: nodes
 spec:
   selector:
+    matchLabels:
+      ssd: "true"
     matchExpressions:
       - key: controlplane
         operator: NotIn

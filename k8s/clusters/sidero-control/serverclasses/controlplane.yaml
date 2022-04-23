@@ -11,6 +11,19 @@ spec:
     - op: replace
       path: /machine/install/disk
       value: /dev/sda
-    - op: replace
-      path: /cluster/proxy/disabled
-      value: true
+    # - op: replace
+    #   path: /cluster/proxy/disabled
+    #   value: true
+    # - op: add
+    #   path: /cluster/apiServer/extraArgs
+    #   value:
+    #     feature-gates: MixedProtocolLBService=true,ReadWriteOncePod=true,StatefulSetAutoDeletePVC=true
+    # - op: add
+    #   path: /cluster/scheduler/extraArgs
+    #   value:
+    #     feature-gates: MixedProtocolLBService=true,ReadWriteOncePod=true,StatefulSetAutoDeletePVC=true
+    # - op: add
+    #   path: /machine/kubelet/extraArgs
+    #   value:
+    #     rotate-server-certificates: true
+    #     feature-gates: MixedProtocolLBService=true,ReadWriteOncePod=true,StatefulSetAutoDeletePVC=true

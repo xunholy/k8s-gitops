@@ -2,9 +2,10 @@
 apiVersion: metal.sidero.dev/v1alpha1
 kind: Server
 metadata:
-  name: 30303031-3030-3030-3362-633437373630
+  name: 00d03114-0000-0000-0000-dca632ea828c
   labels:
     controlplane: "true"
+    ssd: "true"
 spec:
   accepted: true
   cpu:
@@ -13,7 +14,8 @@ spec:
   environmentRef:
     namespace: sidero-system
     name: default-arm64
-  hostname: 192.168.1.211
+  hostname: k8s-controlplane-01
+  pxeBootAlways: true
   system:
     family: Raspberry Pi
     manufacturer: Raspberry Pi Foundation

@@ -10,7 +10,6 @@ spec:
       app: dhcp-server
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: dhcp-server
     spec:
@@ -35,17 +34,3 @@ spec:
       volumes:
       - emptyDir: {}
         name: server-config
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: dhcpd
-  namespace: kube-system
-spec:
-  selector:
-    app: dhcp-server
-  ports:
-  - name: dhcp
-    protocol: UDP
-    port: 67
-    targetPort: 67
