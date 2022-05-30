@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: cert-manager-csi-driver
-      version: v0.2.1
+      version: v0.3.0
       sourceRef:
         kind: HelmRepository
         name: jetstack-charts
