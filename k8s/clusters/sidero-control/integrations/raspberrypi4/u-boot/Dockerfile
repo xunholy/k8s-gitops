@@ -1,7 +1,7 @@
 FROM --platform=linux/arm64 ghcr.io/talos-systems/u-boot:v0.10.0-alpha.0-35-g325439e as u-boot
 FROM --platform=linux/arm64 ghcr.io/talos-systems/raspberrypi-firmware:v0.10.0-alpha.0-35-g325439e as boot
 
-FROM ghcr.io/frezbo/sidero-controller-manager:v0.5.0-dirty
+FROM ghcr.io/frezbo/sidero-controller-manager:v0.5.1-dirty
 
 COPY --from=u-boot /rpi_4/u-boot.bin /var/lib/sidero/tftp/
 COPY --from=u-boot /rpi_4/bl31.bin /var/lib/sidero/tftp/
