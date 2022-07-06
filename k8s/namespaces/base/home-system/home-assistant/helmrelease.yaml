@@ -35,7 +35,7 @@ spec:
   values:
     image:
       repository: homeassistant/home-assistant
-      tag: 2022.6.7
+      tag: 2022.7.0
     env:
       TZ: 'Australia/Melbourne'
     probes:
