@@ -13,7 +13,7 @@ spec:
   environmentRef:
     namespace: sidero-system
     name: default-arm64
-  hostname: k8s-node-03
+  hostname: 192.168.50.126
   pxeBootAlways: true
   system:
     family: Raspberry Pi

@@ -5,7 +5,6 @@ metadata:
   name: 00d03114-0000-0000-0000-dca632d613ae
   labels:
     controlplane: "true"
-    ssd: "true"
 spec:
   accepted: true
   cpu:
@@ -14,7 +13,7 @@ spec:
   environmentRef:
     namespace: sidero-system
     name: default-arm64
-  hostname: k8s-controlplane-03
+  hostname: 192.168.50.123
   pxeBootAlways: true
   system:
     family: Raspberry Pi

@@ -1,0 +1,12 @@
+---
+apiVersion: metal.sidero.dev/v1alpha1
+kind: ServerClass
+metadata:
+  name: protectli-fw2b
+spec:
+  qualifiers:
+    cpu:
+      - manufacturer: "Intel"
+        version: "Intel(R) Celeron(R) J4125 CPU @ 2.00GHz"
+    systemInformation:
+      - manufacturer: Protectli

@@ -130,7 +130,7 @@ operator:
       enabled: false
 
 # kubeConfigPath: ~/.kube/config
-k8sServiceHost: 192.168.1.205
+k8sServiceHost: 192.168.50.100
 k8sServicePort: 6443
 
 # -- Specify the IPv4 CIDR for native routing (ie to avoid IP masquerade for).
@@ -169,7 +169,7 @@ cluster:
 
 clustermesh:
   # -- Deploy clustermesh-apiserver for clustermesh
-  useAPIServer: true
+  useAPIServer: false
   apiserver:
     # -- Clustermesh API server image.
     image:

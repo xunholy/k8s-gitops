@@ -5,14 +5,8 @@ metadata:
   name: nodes
 spec:
   selector:
-    matchLabels:
-      ssd: "true"
     matchExpressions:
       - key: controlplane
         operator: NotIn
         values:
           - "true"
-  configPatches:
-    - op: replace
-      path: /machine/install/disk
-      value: /dev/sda
