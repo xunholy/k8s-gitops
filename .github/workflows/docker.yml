@@ -36,7 +36,7 @@ jobs:
 
       - name: "Add Image Metadata"
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: xunholy/buildkit
           flavor: |
