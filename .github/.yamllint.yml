@@ -3,6 +3,7 @@ ignore: |
   *.enc.yaml
   **/cloud-init/**/*
   **/clusters/**/*
+  talos/
 
 extends: default
 rules:

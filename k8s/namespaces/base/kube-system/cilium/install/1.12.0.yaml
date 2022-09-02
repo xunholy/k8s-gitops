@@ -102,10 +102,10 @@ image:
 affinity:
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
-    - topologyKey: kubernetes.io/hostname
-      labelSelector:
-        matchLabels:
-          k8s-app: cilium
+      - topologyKey: kubernetes.io/hostname
+        labelSelector:
+          matchLabels:
+            k8s-app: cilium
 
 # -- Node selector for cilium-agent.
 nodeSelector:
@@ -114,7 +114,7 @@ nodeSelector:
 # -- Node tolerations for agent scheduling to nodes with taints
 # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
 tolerations:
-- operator: Exists
+  - operator: Exists
   # - key: "key"
   #   operator: "Equal|Exists"
   #   value: "value"
@@ -670,13 +670,6 @@ hubble:
     # are disabled.
     # Example:
     #
-    enabled:
-      - dns:query;ignoreAAAA
-      - drop
-      - tcp
-      - flow
-      - icmp
-      - http
     #
     # You can specify the list of metrics from the helm CLI:
     #
@@ -804,10 +797,10 @@ hubble:
     affinity:
       podAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-        - topologyKey: kubernetes.io/hostname
-          labelSelector:
-            matchLabels:
-              k8s-app: cilium
+          - topologyKey: kubernetes.io/hostname
+            labelSelector:
+              matchLabels:
+                k8s-app: cilium
 
     # -- Node labels for pod assignment
     # ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -1458,7 +1451,7 @@ etcd:
   # -- Node tolerations for cilium-etcd-operator scheduling to nodes with taints
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   tolerations:
-  - operator: Exists
+    - operator: Exists
     # - key: "key"
     #   operator: "Equal|Exists"
     #   value: "value"
@@ -1568,10 +1561,10 @@ operator:
   affinity:
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
-      - topologyKey: kubernetes.io/hostname
-        labelSelector:
-          matchLabels:
-            io.cilium/app: operator
+        - topologyKey: kubernetes.io/hostname
+          labelSelector:
+            matchLabels:
+              io.cilium/app: operator
 
   # -- Node labels for cilium-operator pod assignment
   # ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -1582,7 +1575,7 @@ operator:
   # -- Node tolerations for cilium-operator scheduling to nodes with taints
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   tolerations:
-  - operator: Exists
+    - operator: Exists
     # - key: "key"
     #   operator: "Equal|Exists"
     #   value: "value"
@@ -1717,7 +1710,7 @@ nodeinit:
   # -- Node tolerations for nodeinit scheduling to nodes with taints
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   tolerations:
-  - operator: Exists
+    - operator: Exists
     # - key: "key"
     #   operator: "Equal|Exists"
     #   value: "value"
@@ -1787,10 +1780,10 @@ preflight:
   affinity:
     podAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
-      - topologyKey: kubernetes.io/hostname
-        labelSelector:
-          matchLabels:
-            k8s-app: cilium
+        - topologyKey: kubernetes.io/hostname
+          labelSelector:
+            matchLabels:
+              k8s-app: cilium
 
   # -- Node labels for preflight pod assignment
   # ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -1801,15 +1794,15 @@ preflight:
   # -- Node tolerations for preflight scheduling to nodes with taints
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   tolerations:
-  - key: node.kubernetes.io/not-ready
-    effect: NoSchedule
-  - key: node-role.kubernetes.io/master
-    effect: NoSchedule
-  - key: node.cloudprovider.kubernetes.io/uninitialized
-    effect: NoSchedule
-    value: "true"
-  - key: CriticalAddonsOnly
-    operator: "Exists"
+    - key: node.kubernetes.io/not-ready
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
+    - key: node.cloudprovider.kubernetes.io/uninitialized
+      effect: NoSchedule
+      value: "true"
+    - key: CriticalAddonsOnly
+      operator: "Exists"
     # - key: "key"
     #   operator: "Equal|Exists"
     #   value: "value"
@@ -1975,10 +1968,10 @@ clustermesh:
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-        - topologyKey: kubernetes.io/hostname
-          labelSelector:
-            matchLabels:
-              k8s-app: clustermesh-apiserver
+          - topologyKey: kubernetes.io/hostname
+            labelSelector:
+              matchLabels:
+                k8s-app: clustermesh-apiserver
 
     # -- Node labels for pod assignment
     # ref: https://kubernetes.io/docs/user-guide/node-selection/
