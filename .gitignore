@@ -7,6 +7,7 @@
 **/.secrets/sops/unencrypted
 **/hack
 output
+talos
 
 # Ignore Litmus Chaos generated GitOps manifests
 /litmus
