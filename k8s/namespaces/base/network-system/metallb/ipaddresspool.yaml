@@ -17,3 +17,43 @@ metadata:
 spec:
   ipAddressPools:
   - metallb-l2-pool
+# ---
+# apiVersion: metallb.io/v1beta1
+# kind: IPAddressPool
+# metadata:
+#   name: metallb-bgp-pool
+#   namespace: network-system
+# spec:
+#   addresses:
+#   - 192.168.50.190/32
+#   avoidBuggyIPs: true
+# ---
+# apiVersion: metallb.io/v1beta1
+# kind: BGPAdvertisement
+# metadata:
+#   name: example
+#   namespace: network-system
+# spec:
+#   ipAddressPools:
+#   - metallb-bgp-pool
+# ---
+# apiVersion: metallb.io/v1beta2
+# kind: BGPPeer
+# metadata:
+#   name: metallb-bgp
+#   namespace: network-system
+# spec:
+#   myASN: 64512
+#   peerASN: 64512
+#   peerAddress: 192.168.50.1
+#   bfdProfile: bfdprofile
+# ---
+# # https://metallb.universe.tf/configuration/#enabling-bfd-support-for-bgp-sessions
+# apiVersion: metallb.io/v1beta1
+# kind: BFDProfile
+# metadata:
+#   name: bfdprofile
+#   namespace: network-system
+# spec:
+#   receiveInterval: 380
+#   transmitInterval: 270

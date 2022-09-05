@@ -36,3 +36,5 @@ spec:
     speaker:
       tolerateMaster: true
       logLevel: debug
+      frr:
+        enabled: true
