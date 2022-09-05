@@ -20,7 +20,7 @@ jobs:
           template: '<a href="https://github.com/{{{ login }}}"><img src="https://github.com/{{{ login }}}.png" width="65px" alt="" /></a>'
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
           branch: main
           folder: '.'
