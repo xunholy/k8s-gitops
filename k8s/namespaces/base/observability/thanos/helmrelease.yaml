@@ -45,6 +45,14 @@ spec:
       replicaCount: 1
       replicaLabels:
         - replica
+    store:
+      resources:
+        limits:
+          cpu: 2000m
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
     objstore:
       type: GCS
       config:
