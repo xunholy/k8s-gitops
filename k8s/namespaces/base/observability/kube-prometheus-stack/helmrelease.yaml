@@ -44,31 +44,10 @@ spec:
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
-    kubeScheduler:
-      service:
-        port: 10259
-        targetPort: 10259
-      serviceMonitor:
-        insecureSkipVerify: true
-        https: true
-    kubeEtcd:
-      serviceMonitor:
-        scheme: https
-        serverName: localhost
-        insecureSkipVerify: false
-        caFile: /etc/prometheus/secrets/etcd-client-cert/ca.crt
-        certFile: /etc/prometheus/secrets/etcd-client-cert/healthcheck-client.crt
-        keyFile: /etc/prometheus/secrets/etcd-client-cert/healthcheck-client.key
     alertmanager:
       fullnameOverride: alertmanager
     grafana:
       enabled: false
-      forceDeployDashboards: true
-      sidecar:
-        dashboards:
-          multicluster:
-            etcd:
-              enabled: true
     prometheusOperator:
       prometheusConfigReloader:
         resources:
@@ -78,9 +57,6 @@ spec:
           limits:
             cpu: 400m
             memory: 100Mi
-      thanosImage:
-        repository: quay.io/thanos/thanos
-        tag: main-2021-12-22-53ec210d
     prometheus:
       fullnameOverride: prometheus
       thanosService:
