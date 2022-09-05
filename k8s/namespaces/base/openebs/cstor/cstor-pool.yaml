@@ -8,22 +8,29 @@ spec:
   pools:
   - dataRaidGroups:
     - blockDevices:
-      - blockDeviceName: sparse-53fc52698fb4419820ad1bc449696594
+      - blockDeviceName: sparse-7abbab1569fdfdc72aaa2cf1b3f82da3
     nodeSelector:
-      kubernetes.io/hostname: k8s-node-01
+      kubernetes.io/hostname: talos-192-168-50-121
     poolConfig:
       dataRaidGroupType: stripe
   - dataRaidGroups:
     - blockDevices:
-      - blockDeviceName: sparse-b24dccda18506c6d7cfd9fd568c9508c
+      - blockDeviceName: sparse-c1dbe397a902f6ea949d9e6f95b177c9
     nodeSelector:
-      kubernetes.io/hostname: k8s-node-02
+      kubernetes.io/hostname: talos-192-168-50-122
     poolConfig:
       dataRaidGroupType: stripe
   - dataRaidGroups:
     - blockDevices:
-      - blockDeviceName: sparse-80b8e58ec0893234bd5037b265da19c5
+      - blockDeviceName: sparse-8c032ba10ec905f64984e1d88d5e5fda
     nodeSelector:
-      kubernetes.io/hostname: k8s-node-03
+      kubernetes.io/hostname: talos-192-168-50-123
+    poolConfig:
+      dataRaidGroupType: stripe
+  - dataRaidGroups:
+    - blockDevices:
+      - blockDeviceName: sparse-fc4506887d65afcc0d8ca4d51a1cf7ab
+    nodeSelector:
+      kubernetes.io/hostname: talos-192-168-50-124
     poolConfig:
       dataRaidGroupType: stripe
