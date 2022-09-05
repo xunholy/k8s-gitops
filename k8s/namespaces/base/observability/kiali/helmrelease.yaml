@@ -38,6 +38,6 @@ spec:
         url: 'https://jaeger.${CLUSTER_DOMAIN}/jaeger'
       grafana:
         enabled: true
-        in_cluster_url: 'http://grafana.observability.svc.cluster.local:3000/'
+        in_cluster_url: 'http://grafana.observability.svc.cluster.local/'
         # Public facing URL of Grafana
         url: 'https://grafana.${CLUSTER_DOMAIN}/grafana'
