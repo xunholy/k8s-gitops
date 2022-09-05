@@ -29,7 +29,6 @@ tasks:
             --repository="{{.GITHUB_REPO}}" \
             --path=k8s/clusters/"{{.CLUSTER}}" \
             --branch="{{.GITHUB_BRANCH}}" \
-            --network-policy=false \
             --personal=true \
             --private=false \
             {{.CLI_ARGS}}

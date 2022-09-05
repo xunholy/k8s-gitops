@@ -19,6 +19,10 @@ spec:
   dependsOn:
     - name: metallb
       namespace: network-system
+  test:
+    enable: false # Enable helm test
+  install:
+    createNamespace: true
   values:
     # Custom image bundled with external plugins; currently not in use.
     # This image is reusable and can be viewed with the available plugins here https://github.com/xUnholy/coredns
