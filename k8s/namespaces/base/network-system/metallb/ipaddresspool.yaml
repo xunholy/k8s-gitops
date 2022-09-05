@@ -2,7 +2,6 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  creationTimestamp: null
   name: metallb-l2-pool
   namespace: network-system
 spec:
