@@ -12,5 +12,6 @@
 
 # Include cluster secrets and configs
 !/k8s/clusters/**/secrets/cluster-config.yaml
-!/k8s/clusters/**/secrets/cluster-secrets.enc.yaml
+# TODO: Decide if this should be re-enabled at some future point
+# !/k8s/clusters/**/secrets/cluster-secrets.enc.yaml
 !/k8s/clusters/**/secrets/sealed-secret-private-key.enc.yaml

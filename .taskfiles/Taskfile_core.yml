@@ -5,7 +5,7 @@ tasks:
     desc: "Import the public and private gpg keys locally"
     cmds:
       - gpg --import k8s/clusters/cluster-1/secrets/.sops.pub.asc
-      - gpg --import <(sops --decrypt "k8s/clusters/cluster-1/secrets/sops-gpg.encrypted.yml" | yq e '.data[]' - | base64 -d)
+      - gpg --import <(sops --decrypt "k8s/clusters/cluster-1/secrets/sops-gpg.encrypted.yaml" | yq e '.data[]' - | base64 -d)
     status:
       - gpg --list-secret-keys --keyid-format=long | grep production.raspbernetes.com
 
@@ -39,5 +39,5 @@ tasks:
     cmds:
       - cmd: |
           kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
-          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/sops-gpg.encrypted.yml" | kubectl apply -f -
+          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/sops-gpg.encrypted.yaml" | kubectl apply -f -
         silent: true

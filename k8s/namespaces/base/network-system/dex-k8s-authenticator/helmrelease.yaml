@@ -44,26 +44,18 @@ spec:
         description: "Cluster Login"
         client_secret: '${DEX_K8S_CLIENT_SECRET}'
         issuer: 'https://dex.${CLUSTER_DOMAIN}'
-        k8s_master_uri: https://192.168.1.205:8443
+        k8s_master_uri: https://${CLUSTER_CONTROLPLANE_VIP}:6443
         client_id: '${DEX_K8S_CLIENT_ID}'
         redirect_uri: https://login.${CLUSTER_DOMAIN}/callback
         k8s_ca_pem: |
           -----BEGIN CERTIFICATE-----
-          MIIC/jCCAeagAwIBAgIBADANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwprdWJl
-          cm5ldGVzMB4XDTIxMTAyNzA2MzUyN1oXDTMxMTAyNTA2MzUyN1owFTETMBEGA1UE
-          AxMKa3ViZXJuZXRlczCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAO+1
-          Dn/PLrdwIA+wtTFQU7dPIKCes8MQ1YwrXImk84yYMA8ZSWGfBmSAj2OmNXfHrY3N
-          6YXd2gORdWDtGwUr7lGgaqDL0H0ctkzTvK0VEeQ7Z4nC6DFT6XPo+nBtBZ5O6Vmr
-          6uluWk1ZERhPkVgrecGc5G7qMkc65xKanKCGDxfgFoccjP+gM+Iq3Ik94Uw5HeVq
-          FUwrobbIa8iaeEzOCsYPhzwSkn3Sc5x09UfJnIWDIEDLu/o23q++C1tLdx42M7XK
-          +7ApMx7G+ue3GKQi2Gg/QY28jPXQ45UwZCJSTqpfEY2F0a/PQCXQA/nzWVKnWkwe
-          RKhY4DHNnn3j3p3FPdkCAwEAAaNZMFcwDgYDVR0PAQH/BAQDAgKkMA8GA1UdEwEB
-          /wQFMAMBAf8wHQYDVR0OBBYEFKX6lDAEloB67W35gbJ32WI70dZSMBUGA1UdEQQO
-          MAyCCmt1YmVybmV0ZXMwDQYJKoZIhvcNAQELBQADggEBAHY8n5KMPr7FNQpqYjRf
-          ukxaLt36iK+HH96L71rDRg0PQdv8rC0bRIujiju8hbiSIIt9GqFWpXVutTeXHSzM
-          3dDjjaRc7MGTyue254TIoJFGhuDkqYmoq1zmzKcmVeuCgloxriL7+api4fdjKbqj
-          yGpOFOXNv0B5GXZmQ2l6uot4rSW9fmK7F9ELTzF3DpD51OiYZNyU7reJXQNIRfRv
-          f0duGgTBjykMbJTsPClvQZRsyU/YogO7rcV9KC+tFSGb1o+NCMICk0Xq8xaQAPLe
-          G3f7voc9jSQk9A+AXj/CN0B4I0KxPG5rx0GmoDPhwanIAkMVSfnam6QTPjWLX7Ou
-          Vg0=
+          MIIBiTCCAS+gAwIBAgIQYae45Cm9YUJElW8CmXpNezAKBggqhkjOPQQDAjAVMRMw
+          EQYDVQQKEwprdWJlcm5ldGVzMB4XDTIyMDgwODA4NDg1M1oXDTMyMDgwNTA4NDg1
+          M1owFTETMBEGA1UEChMKa3ViZXJuZXRlczBZMBMGByqGSM49AgEGCCqGSM49AwEH
+          A0IABNhjaeTjzXhtnnwdTap/z9fJ4gW+UoHmAbj5ZWONEUsb93JEk7G0ovHumxSd
+          NxNhtsaAc63+3dvhw44FhHH2q/ujYTBfMA4GA1UdDwEB/wQEAwIChDAdBgNVHSUE
+          FjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4E
+          FgQUw0I8xYpubZXZtvV5aJFdmGulbUowCgYIKoZIzj0EAwIDSAAwRQIgEMBcY4pj
+          R3RL/mrl/WZjRLdt1ALTDO3bkblYHRUazOcCIQDx6ndprF46LGl4siY+CY6WTCGD
+          vHSPiV5gss7KJPYk8w==
           -----END CERTIFICATE-----
