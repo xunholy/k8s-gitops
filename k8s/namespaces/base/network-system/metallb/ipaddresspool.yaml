@@ -1,0 +1,20 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  creationTimestamp: null
+  name: metallb-l2-pool
+  namespace: network-system
+spec:
+  addresses:
+  - '${CLUSTER_METALLB_LB_ADDRESSES}'
+  avoidBuggyIPs: true
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: metallb-l2
+  namespace: network-system
+spec:
+  ipAddressPools:
+  - metallb-l2-pool

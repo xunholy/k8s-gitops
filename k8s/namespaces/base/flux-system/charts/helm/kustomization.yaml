@@ -22,6 +22,7 @@ resources:
   - kubernetes-stable-charts.yaml
   - kyverno-charts.yaml
   - litmuschaos-charts.yaml
+  - metallb-charts.yaml
   - metrics-server-charts.yaml
   - minecraft-server-charts.yaml
   - node-feature-discovery-chart.yaml

@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: metallb
-      version: 4.1.2
+      version: 0.13.5
       sourceRef:
         kind: HelmRepository
-        name: bitnami-charts
+        name: metallb-charts
         namespace: flux-system
       interval: 10m
   test:
@@ -32,21 +32,7 @@ spec:
     cleanupOnFail: true
   values:
     controller:
-      image:
-        repository: metallb/controller
-        tag: v0.12.1
+      logLevel: debug
     speaker:
-      image:
-        repository: metallb/speaker
-        tag: v0.12.1
-    prometheus:
-      serviceMonitor:
-        enabled: false
-      prometheusRule:
-        enabled: false
-    configInline:
-      address-pools:
-        - name: default
-          protocol: layer2
-          addresses:
-            - '${CLUSTER_METALLB_LB_ADDRESSES}'
+      tolerateMaster: true
+      logLevel: debug
