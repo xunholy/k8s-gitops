@@ -26,9 +26,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  # TODO: This should be a nginx dependency
   dependsOn:
-    - name: istio-system-istiod
+    - name: nginx-ingress-namespace
       namespace: flux-system
   decryption:
     provider: sops

@@ -33,9 +33,7 @@ spec:
     recreate: true
     cleanupOnFail: true
   values:
-    # TODO: re-enable JSON logging which has been fixed in the next release https://github.com/kubernetes-sigs/secrets-store-csi-driver/issues/887
-    # logging format JSON
-    # logFormatJSON: true
+    logFormatJSON: true
     ## Install RBAC roles and bindings required for K8S Secrets syncing if true
     syncSecret:
       enabled: true
