@@ -21,9 +21,11 @@ spec:
     - name: kube-prometheus-stack
       namespace: observability
   values:
-    istio_namespace: istio-system
+    istio_namespace: istio-ingress
     # Required as discussed here https://kiali.io/docs/configuration/p8s-jaeger-grafana/
     external_services:
+      istio:
+        root_namespace: istio-system
       prometheus:
         url: "http://x-prometheus.observability.svc.cluster.local:9090/"
       tracing:
