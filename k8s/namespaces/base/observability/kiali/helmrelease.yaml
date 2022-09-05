@@ -21,7 +21,7 @@ spec:
     - name: kube-prometheus-stack
       namespace: observability
   values:
-    istio_namespace: istio-ingress
+    istio_namespace: istio-system
     # Required as discussed here https://kiali.io/docs/configuration/p8s-jaeger-grafana/
     external_services:
       istio:
