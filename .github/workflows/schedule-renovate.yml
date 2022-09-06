@@ -28,13 +28,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3.0.2
 
+      - name: Validate Renovate Configuration
+        uses: suzuki-shunsuke/github-action-renovate-config-validator@v0.1.2
+
       - name: Override default config from dispatch variables
         run: |
           echo "RENOVATE_DRY_RUN=${{ github.event.inputs.dryRun || env.RENOVATE_DRY_RUN }}" >> "${GITHUB_ENV}"
           echo "LOG_LEVEL=${{ github.event.inputs.logLevel || env.LOG_LEVEL }}" >> "${GITHUB_ENV}"
-
-      - name: Validate Renovate Configuration
-        uses: suzuki-shunsuke/github-action-renovate-config-validator@v0.1.2
 
       - name: Get token
         id: get_token
