@@ -58,6 +58,7 @@ jobs:
                 ','
               )
             }}
+          DOCKERFILE_HADOLINT_DISABLE_ERRORS: true
           KUBERNETES_DIRECTORY: k8s/namespaces
           KUBERNETES_KUBECONFORM_ARGUMENTS: -ignore-missing-schemas
           KUBERNETES_KUBEVAL_ARGUMENTS: --ignore-missing-schemas
@@ -65,6 +66,7 @@ jobs:
           MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .github/linters/.markdownlint.yaml
           MARKDOWN_MARKDOWNLINT_RULES_PATH: .github/
           REPOSITORY_TRIVY_ARGUMENTS: --skip-dirs k8s/clusters
+          REPOSITORY_TRIVY_DISABLE_ERRORS: true
           SPELL_MISSPELL_DISABLE_ERRORS: true
           TERRAFORM_CHECKOV_DISABLE_ERRORS: true
           YAML_YAMLLINT_CONFIG_FILE: .github/linters/.yamllint.yaml
