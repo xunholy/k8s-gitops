@@ -64,7 +64,9 @@ jobs:
           KUBERNETES_KUBEVAL_FILTER_REGEX_INCLUDE: "(kubernetes)"
           MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .github/linters/.markdownlint.yaml
           MARKDOWN_MARKDOWNLINT_RULES_PATH: .github/
+          REPOSITORY_TRIVY_ARGUMENTS: --skip-dirs k8s/clusters
           SPELL_MISSPELL_DISABLE_ERRORS: true
+          TERRAFORM_CHECKOV_DISABLE_ERRORS: true
           YAML_YAMLLINT_CONFIG_FILE: .github/linters/.yamllint.yaml
           YAML_PRETTIER_CONFIG_FILE: .github/linters/.prettierrc.yaml
           YAML_PRETTIER_FILTER_REGEX_EXCLUDE: "(.*\\.sops\\.ya?ml)"
