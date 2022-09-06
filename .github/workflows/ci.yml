@@ -38,10 +38,18 @@ jobs:
                 fromJSON('
                   [
                     "ACTION_ACTIONLINT",
+                    "BASH_SHELLCHECK",
+                    "DOCKERFILE_HADOLINT",
                     "KUBERNETES_KUBEVAL",
+                    "KUBERNETES_KUBECONFORM",
                     "MARKDOWN_MARKDOWNLINT",
+                    "REPOSITORY_CHECKOV",
+                    "REPOSITORY_DUSTILOCK",
                     "REPOSITORY_GIT_DIFF",
                     "REPOSITORY_SECRETLINT",
+                    "REPOSITORY_TRIVY",
+                    "SPELL_MISSPELL",
+                    "TERRAFORM_TFLINT",
                     "TERRAFORM_TERRAFORM_FMT",
                     "YAML_PRETTIER",
                     "YAML_YAMLLINT"
