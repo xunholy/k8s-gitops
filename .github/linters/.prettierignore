@@ -1,0 +1,5 @@
+*.encrypted.yaml
+*.enc.yaml
+cloud-init/
+k8s/clusters/
+talos/

@@ -19,17 +19,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get token
-        id: get_token
-        uses: machine-learning-apps/actions-app-token@master
+      - name: Generate Token
+        uses: tibdex/github-app-token@v1
+        id: generate-token
         with:
-          APP_PEM: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-          APP_ID: ${{ secrets.BOT_APP_ID }}
+          app_id: "${{ secrets.BOT_APP_ID }}"
+          private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
 
       - name: MegaLinter
         uses: oxsecurity/megalinter@v6.8.0
         env:
-          GITHUB_TOKEN: "${{ steps.get_token.outputs.app_token }}"
+          GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
           PRINT_ALPACA: false
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
           ENABLE_LINTERS: |-

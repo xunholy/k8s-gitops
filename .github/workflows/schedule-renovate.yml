@@ -39,8 +39,6 @@ jobs:
       - name: Validate Renovate Configuration
         uses: suzuki-shunsuke/github-action-renovate-config-validator@v0.1.2
 
-
-
       - name: Get token
         id: get_token
         uses: machine-learning-apps/actions-app-token@master
