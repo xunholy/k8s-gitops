@@ -1,9 +1,9 @@
-FROM alpine:latest
+FROM alpine:3.16.2
 
 WORKDIR /etc/dhcp
 
 RUN set -xe \
-	&& apk add --update --no-progress dhcp vim \
+	&& apk add --no-cache --no-progress dhcp vim \
 	&& rm -rf /var/cache/apk/*
 
 RUN ["touch", "/var/lib/dhcp/dhcpd.leases"]
