@@ -28,6 +28,9 @@
   "configWarningReuseIssue": true,
   "suppressNotifications": ["prIgnoreNotification"],
   "timezone": "Australia/Melbourne",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "commitMessageSuffix": "",
   "pre-commit": {
     "enabled": true
   },
@@ -61,11 +64,6 @@
       "k8s/.+\\.ya?ml$"
     ]
   },
-  {
-  "commitMessageTopic": "{{depName}}",
-  "commitMessageExtra": "to {{newVersion}}",
-  "commitMessageSuffix": "",
-}
   "packageRules": [
     {
       "labels": ["renovate/image-release", "dependency/major"],
