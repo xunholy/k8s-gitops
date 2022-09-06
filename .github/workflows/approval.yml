@@ -2,10 +2,11 @@ name: Auto Approve & Merge
 
 on: pull_request_target
 
+# TODO: Allow renovate configuration to auto approve and merge
 jobs:
   automerge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]' || github.actor == 'renovate-self-hosted[bot]'
+    if: github.actor == 'jarvis-plus-bot[bot]'
     steps:
     - name: Auto Approve
       uses: hmarr/auto-approve-action@v2
