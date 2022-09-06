@@ -76,10 +76,6 @@ spec:
 #         name: cluster-config
 #       - kind: Secret
 #         name: cluster-secrets
-
-
+# TODO: Fix errors
 # flux-system     openfaas-namespace                           93m   False     Namespace/openfaas dry-run failed, reason: InternalError, error: Internal error occurred: failed calling webhook "check-ignore-label.gatekeeper.sh": failed to call webhook: Post "https://gatekeeper-webhook-service.security-system.svc:443/v1/admitlabel?timeout=3s": context deadline exceeded
-
-
-
 #  Internal error occurred: failed calling webhook "check-ignore-label.gatekeeper.sh": failed to call webhook: Post "https://gatekeeper-webhook-service.security-system.svc:443/v1/admitlabel?timeout=3s": context deadline exceeded

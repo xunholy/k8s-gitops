@@ -1,8 +1,8 @@
 ignore: |
   *.encrypted.yaml
   *.enc.yaml
-  **/cloud-init/**/*
-  **/clusters/**/*
+  cloud-init/
+  k8s/clusters/
   talos/
 
 extends: default

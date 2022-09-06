@@ -6,11 +6,8 @@
 **/.terraform
 **/.secrets/sops/unencrypted
 **/hack
-output
-talos
-
-# Ignore Litmus Chaos generated GitOps manifests
-/litmus
+output/
+talos/
 
 # Ignore VSCODE SOPS decrypted files
 **/.decrypted~*

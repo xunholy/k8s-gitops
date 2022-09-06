@@ -1,5 +1,15 @@
-name-template: 'v$RESOLVED_VERSION'
+name-template: 'Release v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
+template: |
+  # What's Changed
+
+  $CHANGES
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+
 categories:
   - title: 'Community Contributions'
     label:
@@ -7,37 +17,45 @@ categories:
   - title: 'Flux Component(s)'
     labels:
       - 'flux'
+    collapse-after: 5
   - title: 'Helm Chart(s)'
     labels:
       - 'renovate/helm-release'
+    collapse-after: 5
   - title: 'Image(s)'
     labels:
       - 'renovate/image-release'
+    collapse-after: 5
   - title: 'Features'
     labels:
       - 'feature_request'
       - 'enhancement'
+    collapse-after: 5
   - title: 'Bug Fixes'
     labels:
       - 'bug'
+    collapse-after: 1
   - title: 'Maintenance'
     label:
       - 'chore'
       - 'documentation'
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+    collapse-after: 5
+
 version-resolver:
   major:
     labels:
-      - 'major'
+      - 'type: breaking'
   minor:
     labels:
-      - 'minor'
+      - 'type: feature'
   patch:
     labels:
-      - 'patch'
-  default: patch
-template: |
-  ## Changes
+      - 'type: bug'
+      - 'type: maintenance'
+      - 'type: docs'
+      - 'type: dependencies'
+      - 'type: security'
+  default: 'minor'
 
-  $CHANGES
+exclude-labels:
+  - 'skip-changelog'
