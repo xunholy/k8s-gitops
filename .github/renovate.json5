@@ -13,7 +13,7 @@
   "dependencyDashboardAutoclose": true,
   "enabled": true,
   "extends": ["config:base", ":gitSignOff"],
-  "gitAuthor": "Jarvis Plus Bot <235116+jarvis-plus-bot[bot]@users.noreply.github.com>",
+  "gitAuthor": "Jarvis Plus Bot <112913195+jarvis-plus-bot[bot]@users.noreply.github.com>",
   "commitBody": "Signed-off-by: {{{gitAuthor}}}",
   "platform": "github",
   "prConcurrentLimit": 0,
