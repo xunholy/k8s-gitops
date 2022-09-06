@@ -20,6 +20,6 @@ ALL_PODS=$(kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(
 echo "Skipping pods with host networking enabled..."
 for pod in $ALL_PODS; do
 	if ! echo "$ALL_CEPS" | grep -q "$pod"; then
-		echo $pod
+		echo "$pod"
 	fi
 done

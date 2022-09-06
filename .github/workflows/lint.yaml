@@ -1,0 +1,70 @@
+name: "Lint"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Generate Token
+        uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: "${{ secrets.BOT_APP_ID }}"
+          private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
+
+      - name: MegaLinter
+        uses: oxsecurity/megalinter@v6.8.0
+        env:
+          GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
+          PRINT_ALPACA: false
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
+          ENABLE_LINTERS: |-
+            ${{
+              join(
+                fromJSON('
+                  [
+                    "ACTION_ACTIONLINT",
+                    "BASH_SHELLCHECK",
+                    "DOCKERFILE_HADOLINT",
+                    "KUBERNETES_KUBEVAL",
+                    "KUBERNETES_KUBECONFORM",
+                    "MARKDOWN_MARKDOWNLINT",
+                    "REPOSITORY_CHECKOV",
+                    "REPOSITORY_DUSTILOCK",
+                    "REPOSITORY_GIT_DIFF",
+                    "REPOSITORY_SECRETLINT",
+                    "REPOSITORY_TRIVY",
+                    "SPELL_MISSPELL",
+                    "TERRAFORM_TFLINT",
+                    "TERRAFORM_TERRAFORM_FMT",
+                    "YAML_PRETTIER",
+                    "YAML_YAMLLINT"
+                  ]
+                '),
+                ','
+              )
+            }}
+          KUBERNETES_DIRECTORY: k8s/namespaces
+          KUBERNETES_KUBECONFORM_ARGUMENTS: -ignore-missing-schemas
+          KUBERNETES_KUBEVAL_ARGUMENTS: --ignore-missing-schemas
+          KUBERNETES_KUBEVAL_FILTER_REGEX_INCLUDE: "(kubernetes)"
+          MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .github/linters/.markdownlint.yaml
+          MARKDOWN_MARKDOWNLINT_RULES_PATH: .github/
+          SPELL_MISSPELL_DISABLE_ERRORS: true
+          YAML_YAMLLINT_CONFIG_FILE: .github/linters/.yamllint.yaml
+          YAML_PRETTIER_CONFIG_FILE: .github/linters/.prettierrc.yaml
+          YAML_PRETTIER_FILTER_REGEX_EXCLUDE: "(.*\\.sops\\.ya?ml)"
