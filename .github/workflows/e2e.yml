@@ -1,4 +1,4 @@
-name: Execute E2E Cluster Validation
+name: "Execute E2E Cluster Validation"
 
 on:
   workflow_dispatch: {}

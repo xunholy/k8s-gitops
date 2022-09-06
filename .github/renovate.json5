@@ -6,19 +6,20 @@
     ":semanticCommits",
     "docker:enableMajor",
   ],
-  "username": "xUnholy",
-  "branchPrefix": "self-hosted/",
+  "username": "jarvis-plus-bot[bot]",
+  "branchPrefix": "renovate/",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
   "dependencyDashboardAutoclose": true,
   "enabled": true,
   "extends": ["config:base", ":gitSignOff"],
-  "gitAuthor": "Renovate Bot <renovate@whitesourcesoftware.com>",
+  "gitAuthor": "Jarvis Plus Bot <235116+jarvis-plus-bot[bot]@users.noreply.github.com>",
   "commitBody": "Signed-off-by: {{{gitAuthor}}}",
   "platform": "github",
   "prConcurrentLimit": 0,
   "prHourlyLimit": 0,
   "rebaseWhen": "conflicted",
+  "commitBodyTable": true,
   "repositories": ["xUnholy/k8s-gitops"],
   "onboarding": false,
   "requireConfig": false,
@@ -60,26 +61,33 @@
       "k8s/.+\\.ya?ml$"
     ]
   },
+  {
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "commitMessageSuffix": "",
+}
   "packageRules": [
     {
       "labels": ["renovate/image-release", "dependency/major"],
       "enabled": true,
       "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"]
+      "matchUpdateTypes": ["major"],
+      "commitMessageTopic": "image {{depName}}"
     },
     {
       "labels": ["renovate/image-release", "dependency/minor", "merge"],
       "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["minor"]
+      "matchUpdateTypes": ["minor"],
+      "commitMessageTopic": "image {{depName}}"
     },
     {
       "labels": ["renovate/image-release", "dependency/patch", "merge"],
       "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["patch"]
+      "matchUpdateTypes": ["patch"],
+      "commitMessageTopic": "image {{depName}}"
     },
     {
       "commitMessageTopic": "Helm chart {{depName}}",
-      "separateMinorPatch": true,
       "matchDatasources": ["helm"]
     },
     {
