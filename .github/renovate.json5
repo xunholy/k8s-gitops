@@ -5,6 +5,12 @@
     ":disableRateLimiting",
     ":semanticCommits",
     "docker:enableMajor",
+    ":automergeDigest",
+    ":automergeBranchPush",
+    "github>xUnholy/k8s-gitops//.github/renovate/autoMerge.json5",
+    "github>xUnholy/k8s-gitops//.github/renovate/commitMessage.json5",
+    "github>xUnholy/k8s-gitops//.github/renovate/labels.json5",
+    "github>xUnholy/k8s-gitops//.github/renovate/semanticCommits.json5"
   ],
   "username": "jarvis-plus-bot[bot]",
   "branchPrefix": "renovate/",
@@ -63,45 +69,5 @@
     "fileMatch": [
       "k8s/.+\\.ya?ml$"
     ]
-  },
-  "packageRules": [
-    {
-      "labels": ["renovate/image-release", "dependency/major"],
-      "enabled": true,
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"],
-      "commitMessageTopic": "image {{depName}}"
-    },
-    {
-      "labels": ["renovate/image-release", "dependency/minor", "merge"],
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["minor"],
-      "commitMessageTopic": "image {{depName}}"
-    },
-    {
-      "labels": ["renovate/image-release", "dependency/patch", "merge"],
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["patch"],
-      "commitMessageTopic": "image {{depName}}"
-    },
-    {
-      "commitMessageTopic": "Helm chart {{depName}}",
-      "matchDatasources": ["helm"]
-    },
-    {
-      "labels": ["renovate/helm-release", "dependency/major"],
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["major"]
-    },
-    {
-      "labels": ["renovate/helm-release", "dependency/minor"],
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["minor"]
-    },
-    {
-      "labels": ["renovate/helm-release", "dependency/patch", "merge"],
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["patch"]
-    }
-  ]
+  }
 }
