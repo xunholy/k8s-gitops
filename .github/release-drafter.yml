@@ -12,7 +12,7 @@ change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add
 
 categories:
   - title: 'Community Contributions'
-    label:
+    labels:
       - 'community'
   - title: 'Flux Component(s)'
     labels:
@@ -36,7 +36,7 @@ categories:
       - 'bug'
     collapse-after: 1
   - title: 'Maintenance'
-    label:
+    labels:
       - 'chore'
       - 'documentation'
     collapse-after: 5
