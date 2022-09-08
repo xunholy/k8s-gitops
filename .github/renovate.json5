@@ -46,8 +46,7 @@
     ],
     "ignorePaths": [
       "k8s/clusters/",
-      "k8s/namespaces/base/flux-system/",
-      "k8s/namespaces/base/actions-runner-system/"
+      "k8s/namespaces/base/flux-system/"
     ]
   },
   "helm-values": {
