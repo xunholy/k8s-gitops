@@ -18,7 +18,7 @@ chart_registry_url() {
     helm_release="${1}"
     chart_id=$(yq eval .spec.chart.spec.sourceRef.name "${helm_release}" 2>/dev/null)
     # Discover all HelmRepository
-    find . -iname '*-charts.yaml' -type f -print0 | while IFS= read -r -d '' file; do
+    find . -iname '*-charts.yaml'  -o -iname '*-chart.yaml' -type f -print0 | while IFS= read -r -d '' file; do
         # Skip non HelmRepository
         [[ $(yq eval .kind "${file}" 2>/dev/null) != "HelmRepository" ]] && continue
         # Skip unrelated HelmRepository
