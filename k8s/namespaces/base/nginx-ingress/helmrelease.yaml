@@ -47,7 +47,7 @@ spec:
         prometheusRule:
           enabled: false
       extraArgs:
-        default-ssl-certificate: 'istio-ingress/ingress-cert'
+        default-ssl-certificate: 'istio-ingress/raspbernetes-com-le'
       config:
         proxy-stream-responses: '999999'
         custom-http-errors: '404,403,500,503'

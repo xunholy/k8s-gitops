@@ -12,6 +12,7 @@ spec:
   tls:
     - hosts:
         - et.raspbernetes.com
+      # TODO: discover why this wasn't created
       secretName: et.raspbernetes.com-ingress-cert
   rules:
     - host: et.raspbernetes.com
