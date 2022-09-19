@@ -49,16 +49,6 @@
       "k8s/namespaces/base/flux-system/"
     ]
   },
-  "helm-values": {
-    "fileMatch": [
-      "k8s/.+\\.ya?ml$"
-    ]
-  },
-  "helmv3": {
-    "fileMatch": [
-      "k8s/.+\\.ya?ml$"
-    ]
-  },
   "docker-compose": {
     "fileMatch": [
       "(^|\/)docker-compose.*\\.ya?ml$"
