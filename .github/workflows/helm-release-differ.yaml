@@ -86,6 +86,6 @@ jobs:
           issue-number: "${{ github.event.pull_request.number }}"
           edit-mode: replace
           body: |
-            Helm Diff Report :wrench:
+            Helm Release Diff Report :wrench:
             <details><summary>Show Report</summary>
             "${{ steps.diff.outputs.diff }}"
