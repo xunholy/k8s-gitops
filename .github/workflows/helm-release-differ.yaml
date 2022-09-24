@@ -81,11 +81,11 @@ jobs:
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v2
         with:
-          token: "${{ steps.get_token.outputs.app_token }}"
+          token: "${{ steps.generate-token.outputs.token }}"
           comment-id: "${{ steps.find-comment.outputs.comment-id }}"
           issue-number: "${{ github.event.pull_request.number }}"
           edit-mode: replace
           body: |
-            Helm Release Diff Report :wrench:
+            Helm Diff Report :wrench:
             <details><summary>Show Report</summary>
             "${{ steps.diff.outputs.diff }}"
