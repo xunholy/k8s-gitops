@@ -32,7 +32,7 @@ spec:
   values:
     image:
       repository: thanosio/thanos
-      tag: v0.24.0
+      tag: v0.28.0
     sidecar:
       # Must match the service created via kube-promethus-stack
       selector:
