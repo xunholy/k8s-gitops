@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck disable=all
 
-# shellcheck source=/dev/null
 source "$(dirname "${0}")/lib/functions.sh"
 
 set -o errexit
@@ -126,10 +126,10 @@ entry() {
     source_chart_name=$(chart_name "${source_file}")
     source_chart_version=$(chart_version "${source_file}")
     source_chart_registry_url=$(chart_registry_url "${source_file}")
+    # source_chart_registry_url is empty
     source_chart_values=$(chart_values "${source_file}")
     source_resources=$(_resources "${source_chart_name}" "${source_chart_version}" "${source_chart_registry_url}" "${source_chart_values}")
     echo "${source_resources}" > /tmp/source_resources
-
     target_chart_version=$(chart_version "${target_file}")
     target_chart_name=$(chart_name "${target_file}")
     target_chart_registry_url=$(chart_registry_url "${target_file}")
