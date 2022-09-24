@@ -19,6 +19,7 @@ on:
     paths:
       - ".github/workflows/schedule-renovate.yml"
       - ".github/renovate.json5"
+      - ".github/renovate/*"
 
 env:
   LOG_LEVEL: debug
@@ -47,7 +48,7 @@ jobs:
           private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
 
       - name: Renovate
-        uses: renovatebot/github-action@v32.202.2
+        uses: renovatebot/github-action@v32.202.3
         env:
           RENOVATE_GIT_PRIVATE_KEY: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
         with:
