@@ -6,5 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  url: https://raw.githubusercontent.com/cloudflare/origin-ca-issuer/trunk/charts
+  url: https://raw.githubusercontent.com/cloudflare/origin-ca-issuer/trunk/deploy/charts
   timeout: 3m
