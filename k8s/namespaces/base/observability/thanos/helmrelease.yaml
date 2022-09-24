@@ -30,9 +30,6 @@ spec:
     recreate: true
     cleanupOnFail: true
   values:
-    image:
-      repository: raspbernetes/thanos
-      tag: v0.23.1
     sidecar:
       # Must match the service created via kube-promethus-stack
       selector:
