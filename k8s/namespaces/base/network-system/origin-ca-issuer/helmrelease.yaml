@@ -8,11 +8,11 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: origin-ca-issuer
+      chart: ./deploy/charts/origin-ca-issuer
       version: 0.6.0
       sourceRef:
-        kind: HelmRepository
-        name: origin-ca-issuer-chart
+        kind: GitRepository
+        name: origin-ca-issuer-chart-git
         namespace: flux-system
       interval: 10m
   test:
@@ -29,6 +29,7 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
+  # TODO: Depends on cert-manager
   values:
     controller:
       image:
