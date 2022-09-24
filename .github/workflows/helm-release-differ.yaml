@@ -84,5 +84,8 @@ jobs:
           token: "${{ steps.generate-token.outputs.token }}"
           comment-id: "${{ steps.find-comment.outputs.comment-id }}"
           issue-number: "${{ github.event.pull_request.number }}"
-          body: "${{ steps.diff.outputs.diff }}"
           edit-mode: replace
+          body: |
+            Helm Release Diff Report :wrench:
+            <details><summary>Show Report</summary>
+            "${{ steps.diff.outputs.diff }}"
