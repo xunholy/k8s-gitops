@@ -1,9 +1,8 @@
 # Sponsor
 
-!!! note "Work in progress"
-    This document is a work in progress.
+If you've found value from any of my open source project(s), you can become a sponsor and also don't forget to star the *repo* the repository.
 
-If you find value to my open source project(s), you can become a sponsor and also don't forget to star the *repo*.
+If you do wish to become a sponsor please visit my official GitHub sponsor page [HERE](https://github.com/sponsors/xUnholy).
 
 ## Backers
 

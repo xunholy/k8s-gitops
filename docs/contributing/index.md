@@ -1,7 +1,6 @@
 # Contributing
 
-!!! note "Work in progress"
-    This document is a work in progress.
+All contributions are absolutely welcome! An official contribution guide is in the works. *Watch this space*
 
 ## Contributors
 

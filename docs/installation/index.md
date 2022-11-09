@@ -1,7 +1,6 @@
 # Getting Started
 
-!!! note "Work in progress"
-    This document is a work in progress.
+These instructions will assume you have an Kubernetes cluster and want to bootstrap this GitOps repository to it.
 
 ## Install the CLI tool
 
