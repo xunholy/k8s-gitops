@@ -1,3 +1,4 @@
+---
 version: '3'
 
 vars:
@@ -8,10 +9,13 @@ vars:
 
 includes:
   core:
-    taskfile: ./.taskfiles/Taskfile_core.yml
+    taskfile: ./.taskfiles/core.yml
     optional: false
   sidero:
-    taskfile: ./.taskfiles/Taskfile_sidero.yml
+    taskfile: ./.taskfiles/sidero.yml
+    optional: true
+  mkdocs:
+    taskfile: ./.taskfiles/mkdocs.yml
     optional: true
 
 tasks:

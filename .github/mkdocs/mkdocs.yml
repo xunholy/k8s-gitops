@@ -59,7 +59,7 @@ extra:
   generator: false
 
 # https://squidfunk.github.io/mkdocs-material/setup/setting-up-the-footer/#copyright-notice
-copyright: Copyright &copy; 2020 - 2021 Michael Fornaro
+copyright: Copyright &copy; 2020 - 2022 Michael Fornaro
 
 extra_css:
   - _static/custom.css
@@ -90,23 +90,18 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.snippets
   - pymdownx.emoji:
-    emoji_index: !!python/name:materialx.emoji.twemoji
-    emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
 
 nav:
   - Introduction: index.md
-  - Get Started: get-started/index.md
   - Installation: installation/index.md
   - Configuration:
-    - IP Allocation: network/ip-allocation.md
-    - Certificates: network/certificates.md
-    - RockPis: hardware/pre-rockpi4c.md
-    - Sealed Secrets: guides/sealed-secrets.md
-    - Mozilla SOPS: guides/mozilla-sops.md
-    - Repository Structure: guides/repo-structure.m
-    - Secret Management: designs/secret-management.md
-  # - Troubleshooting:
-  # - Designs:
+    - IP Allocation: configuration/ip-allocation.md
+    - RockPis: configuration/pre-rockpi4c.md
+    - Sealed Secrets: configuration/sealed-secrets.md
+    - Repository Structure: configuration/repo-structure.m
+    - Secret Management: configuration/secret-management.md
   - Contributing: contributing/index.md
   - Sponsor: sponsor/index.md
   - FAQ: faq/index.md

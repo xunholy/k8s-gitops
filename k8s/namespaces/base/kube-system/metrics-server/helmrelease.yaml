@@ -30,9 +30,6 @@ spec:
     recreate: true
     cleanupOnFail: true
   values:
-    # image:
-    #   repository: gcr.io/google_containers/metrics-server-arm64
-    #   tag: v0.3.6
     args:
       - --kubelet-insecure-tls
       - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
