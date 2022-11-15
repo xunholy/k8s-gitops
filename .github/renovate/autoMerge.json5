@@ -7,7 +7,7 @@
       "automergeType": "branch",
       "requiredStatusChecks": null,
       "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": ["renovatebot/github-action"]
+      // "matchPackageNames": ["renovatebot/github-action"]
     },
     {
       "description": "Auto Merge Docker Image Patch Version",
@@ -16,7 +16,7 @@
       "automergeType": "branch",
       "requiredStatusChecks": null,
       "matchUpdateTypes": ["patch"],
-      "matchPackageNames": ["renovatebot/docker"]
+      // "matchPackageNames": ["renovatebot/docker"]
     },
     {
       "description": "Auto Merge Helm Patch Version",
@@ -24,8 +24,8 @@
       "automerge": true,
       "automergeType": "branch",
       "requiredStatusChecks": null,
-      "matchUpdateTypes": ["patch"],
-      "matchPackageNames": ["renovatebot/helm"]
+      "matchUpdateTypes": ["minor", "patch"],
+      // "matchPackageNames": ["renovatebot/helm"]
     }
   ]
 }
