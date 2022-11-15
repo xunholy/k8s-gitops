@@ -3,10 +3,12 @@ name: "Schedule: Renovate"
 on:
   workflow_dispatch:
     inputs:
+      # https://docs.renovatebot.com/self-hosted-configuration/#dryrun
       dryRun:
         description: "Dry-Run"
         default: "false"
         required: false
+      # https://docs.renovatebot.com/examples/self-hosting/#about-the-log-level-numbers
       logLevel:
         description: "Log-Level"
         default: "debug"
@@ -24,6 +26,7 @@ on:
 env:
   LOG_LEVEL: debug
   RENOVATE_DRY_RUN: false
+  RENOVATE_CONFIG_FILE: .github/renovate.json5
 
 jobs:
   renovate:
@@ -50,5 +53,5 @@ jobs:
       - name: Renovate
         uses: renovatebot/github-action@v34.21.2
         with:
-          configurationFile: .github/renovate.json5
+          configurationFile: "${{ env.RENOVATE_CONFIG_FILE }}"
           token: "x-access-token:${{ steps.generate-token.outputs.token }}"
