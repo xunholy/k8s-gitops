@@ -1,0 +1,8 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  name: example-project
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: raspbernetes-test-project

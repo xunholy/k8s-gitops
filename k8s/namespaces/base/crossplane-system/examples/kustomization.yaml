@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - autopilot.yaml
+  - provider.yaml
+  - providerconfig.yaml   # providerConfig has a dependency on the GCP keys stored in crossplane-system
