@@ -47,7 +47,6 @@
     ],
     "ignorePaths": [
       "k8s/clusters/",
-      "k8s/namespaces/base/flux-system/"
     ]
   },
   "docker-compose": {
