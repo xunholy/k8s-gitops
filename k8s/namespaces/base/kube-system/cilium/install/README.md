@@ -14,9 +14,9 @@ helm repo add cilium https://helm.cilium.io/
 
 ```bash
 helm install cilium cilium/cilium \
-  --version=1.11.4 \
+  --version=1.12.1 \
   --namespace=kube-system \
-  --values=k8s/namespaces/base/kube-system/cilium/install/values.yaml
+  --values=k8s/namespaces/base/kube-system/cilium/install/1.12.1.yaml
 ```
 
 Post successful installation of Cilium it's option to run the Cilium network connectivity tests
@@ -27,9 +27,9 @@ Upgrade path
 
 ```bash
 helm upgrade cilium cilium/cilium \
-  --version 1.11.4 \
+  --version 1.21.1 \
   --namespace=kube-system \
-  --values=k8s/namespaces/base/kube-system/cilium/install/values.yaml
+  --values=k8s/namespaces/base/kube-system/cilium/install/1.12.1.yaml
 ```
 
 ## Service Mesh
