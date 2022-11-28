@@ -20,12 +20,14 @@ tasks:
     cmds:
       - cmd: |
           flux bootstrap github \
+            --components-extra=image-reflector-controller,image-automation-controller \
             --owner="{{.GITHUB_USER}}" \
             --repository="{{.GITHUB_REPO}}" \
             --path=k8s/clusters/"{{.CLUSTER}}" \
             --branch="{{.GITHUB_BRANCH}}" \
             --personal=true \
             --private=false \
+            --read-write-key \
             {{.CLI_ARGS}}
         silent: true
 

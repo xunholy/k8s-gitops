@@ -12,7 +12,6 @@ env:
   CONTROL_PLANE_ENDPOINT: "192.168.50.100"
   SIDERO_CONTROLLER_MANAGER_HOST_NETWORK: true
 
-
 tasks:
   bootstrap:
     desc: "Install Sidero"

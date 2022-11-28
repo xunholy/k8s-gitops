@@ -10,8 +10,7 @@
 /k8s/clusters/**/infrastructure/
 /k8s/clusters/**/secrets/
 
-# Include cluster secrets and configs
+# Include sub-foler(s) and file(s)
 !/k8s/clusters/**/secrets/cluster-config.yaml
-# TODO: Decide if this should be re-enabled at some future point
-# !/k8s/clusters/**/secrets/cluster-secrets.enc.yaml
+!/k8s/clusters/**/secrets/cluster-secrets.enc.yaml
 !/k8s/clusters/**/secrets/sealed-secret-private-key.enc.yaml
