@@ -2,7 +2,7 @@
   "packageRules": [
     {
       "description": "Auto Merge GitHub Actions",
-      "matchDatasources": ["github-actions"],
+      "matchManagers": ["github-actions"],
       "automerge": true,
       "automergeType": "branch",
       "requiredStatusChecks": null,
