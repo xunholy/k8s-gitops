@@ -37,6 +37,7 @@
   "commitMessageTopic": "{{depName}}",
   "commitMessageExtra": "to {{newVersion}}",
   "commitMessageSuffix": "",
+  // https://docs.renovatebot.com/modules/manager/pre-commit/
   "pre-commit": {
     "enabled": true
   },
