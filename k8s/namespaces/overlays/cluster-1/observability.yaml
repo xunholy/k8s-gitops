@@ -16,7 +16,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: observability-kube-prometheus-stack-monitors
+  name: observability-kube-prometheus-stack
   namespace: flux-system
 spec:
   interval: 5m
@@ -41,7 +41,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: observability-kube-prometheus-stack
+  name: observability-kube-prometheus-stack-monitors
   namespace: flux-system
 spec:
   interval: 5m
