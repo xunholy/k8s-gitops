@@ -16,7 +16,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: observability-kube-prometheus-stack
+  name: observability-kube-prometheus-stack-monitors
   namespace: flux-system
 spec:
   interval: 5m
@@ -30,6 +30,34 @@ spec:
     provider: sops
     secretRef:
       name: sops-gpg
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config
+      - kind: Secret
+        name: cluster-secrets
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: observability-kube-prometheus-stack
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/observability/kube-prometheus-stack/monitors"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  dependsOn:
+    - name: observability-kube-prometheus-stack
+      namespace: flux-system
   postBuild:
     substitute: {}
     substituteFrom:
