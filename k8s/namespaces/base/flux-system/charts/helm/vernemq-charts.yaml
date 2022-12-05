@@ -5,6 +5,5 @@ metadata:
   name: vernemq-charts
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 120m0s
   url: https://vernemq.github.io/docker-vernemq
-  timeout: 3m

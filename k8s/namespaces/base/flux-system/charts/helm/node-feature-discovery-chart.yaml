@@ -5,6 +5,5 @@ metadata:
   name: node-feature-discovery-chart
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 120m0s
   url: https://kubernetes-sigs.github.io/node-feature-discovery/charts
-  timeout: 3m

@@ -86,7 +86,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/default
+              path: /var/lib/grafana/dashboards/
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -99,7 +99,7 @@ spec:
             type: prometheus
             access: proxy
             url: http://thanos-query-http.observability.svc.cluster.local:10902/
-            isDefault: true
+            isDefault: false
           - name: Loki
             type: loki
             access: proxy

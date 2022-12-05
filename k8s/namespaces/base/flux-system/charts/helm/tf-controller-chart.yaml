@@ -5,6 +5,5 @@ metadata:
   name: tf-controller-chart
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 120m0s
   url: https://weaveworks.github.io/tf-controller/
-  timeout: 3m

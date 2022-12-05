@@ -5,6 +5,5 @@ metadata:
   name: openfaas-charts
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 120m0s
   url: https://openfaas.github.io/faas-netes/
-  timeout: 3m

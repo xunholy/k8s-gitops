@@ -5,6 +5,5 @@ metadata:
   name: vmware-charts
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 120m0s
   url: https://vmware-tanzu.github.io/helm-charts
-  timeout: 3m
