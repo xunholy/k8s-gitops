@@ -35,6 +35,13 @@ spec:
       tag: v0.29.0
     queryFrontend:
       enabled: false
+    query:
+      replicaCount: 1
+      replicaLabel:
+        - __replica__
+      dnsDiscovery:
+        sidecarsService: x-thanos-discovery
+        sidecarsNamespace: observability
     # TODO: Re-enable once OpenEBS is configured on Talos
     compactor:
       enabled: false

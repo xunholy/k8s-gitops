@@ -40,3 +40,22 @@ cd cilium
 git checkout origin/beta/service-mesh
 helm upgrade -n kube-system cilium ./install/kubernetes/cilium --values=../k8s-gitops/k8s/namespaces/base/kube-system/cilium/install/values.yaml
 ```
+
+## Manual Local Templating
+
+```bash
+helm template cilium/cilium \
+  --version=1.12.1 \
+  --namespace=kube-system \
+  --values=k8s/namespaces/base/kube-system/cilium/install/1.12.1.yaml > k8s/namespaces/base/kube-system/cilium/install/cilium-1-12-1.yaml
+```
+
+```bash
+flux create helmrelease cilium \
+  --source=HelmRepository/cilium-chart \
+  --namespace=kube-system \
+  --chart=cilium \
+  --chart-version=1.12.1 \
+  --values=k8s/namespaces/base/kube-system/cilium/install/1.12.1.yaml \
+  --export > k8s/namespaces/base/kube-system/cilium/install/helmrelease.yaml
+```
