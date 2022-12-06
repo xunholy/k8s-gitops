@@ -13,8 +13,9 @@ spec:
         kind: HelmRepository
         name: prometheus-community-charts
         namespace: flux-system
-      verify:
-        provider: cosign
+      # TODO: Currently not implemented
+      # verify:
+      #   provider: cosign
       interval: 60m
   test:
     enable: false # Enable helm test

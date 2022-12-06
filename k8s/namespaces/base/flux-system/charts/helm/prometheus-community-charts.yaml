@@ -5,6 +5,6 @@ metadata:
   name: prometheus-community-charts
   namespace: flux-system
 spec:
-  interval: 120m0s
+  interval: 120m
   type: oci
   url: oci://ghcr.io/prometheus-community/charts
