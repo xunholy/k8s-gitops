@@ -35,6 +35,8 @@ spec:
       tag: v0.29.0
     queryFrontend:
       enabled: false
+    compactor:
+      enabled: true
     metrics:
       enabled: true
     objstoreConfig:
