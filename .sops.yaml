@@ -15,3 +15,7 @@ creation_rules:
     encrypted_regex: ^(data|stringData)$
     unencrypted-regex: ^(description|metadata)$
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
+  - path_regex: talos/.*
+    encrypted_regex: ^(data|stringData)$
+    unencrypted-regex: ^(description|metadata)$
+    pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
