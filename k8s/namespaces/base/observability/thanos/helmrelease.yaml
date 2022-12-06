@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: thanos
-      version: 0.4.6
+      version: 11.6.4
       sourceRef:
         kind: HelmRepository
-        name: banzaicloud-charts
+        name: bitnami-charts
         namespace: flux-system
       interval: 10m
   test:
@@ -31,29 +31,14 @@ spec:
     cleanupOnFail: true
   values:
     image:
+      # TODO: Bitnami uses v0.29.0
       repository: thanosio/thanos
-      tag: v0.29.0
-    sidecar:
-      # Must match the service created via kube-promethus-stack
-      selector:
-        app.kubernetes.io/name: prometheus
-        prometheus: x-prometheus
-    query:
-      stores:
-        - "x-thanos-discovery.observability.svc.cluster.local:10901"
-      logFormat: json
-      replicaCount: 1
-      replicaLabels:
-        - replica
-    store:
-      resources:
-        limits:
-          cpu: 2000m
-          memory: 2Gi
-        requests:
-          cpu: 500m
-          memory: 1Gi
-    objstore:
+      tag: v0.28.0
+    queryFrontend:
+      enabled: false
+    metrics:
+      enabled: true
+    objstoreConfig:
       type: GCS
       config:
         bucket: 'thanos-raspbernetes-storage'
