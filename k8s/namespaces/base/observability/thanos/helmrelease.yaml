@@ -35,8 +35,9 @@ spec:
       tag: v0.29.0
     queryFrontend:
       enabled: false
+    # TODO: Re-enable once OpenEBS is configured on Talos
     compactor:
-      enabled: true
+      enabled: false
     metrics:
       enabled: true
     objstoreConfig:
