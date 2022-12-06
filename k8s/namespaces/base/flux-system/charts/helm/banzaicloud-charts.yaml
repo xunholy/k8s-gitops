@@ -3,8 +3,6 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: banzaicloud-charts
-  namespace: flux-system
 spec:
   interval: 120m0s
   url: https://kubernetes-charts.banzaicloud.com
-  timeout: 3m
