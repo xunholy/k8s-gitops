@@ -1237,7 +1237,7 @@ spec:
         spec:
             containers:
                 - name: cilium-agent
-                  image: quay.io/cilium/cilium:v1.12.1
+                  image: quay.io/cilium/cilium:v1.12.4
                   imagePullPolicy: IfNotPresent
                   command:
                     - cilium-agent
@@ -1366,7 +1366,7 @@ spec:
                 # Required to mount cgroup2 filesystem on the underlying Kubernetes node.
                 # We use nsenter command with host's cgroup and mount namespaces enabled.
                 - name: mount-cgroup
-                  image: quay.io/cilium/cilium:v1.12.1
+                  image: quay.io/cilium/cilium:v1.12.4
                   imagePullPolicy: IfNotPresent
                   env:
                     - name: CGROUP_ROOT
@@ -1393,7 +1393,7 @@ spec:
                   securityContext:
                     privileged: true
                 - name: apply-sysctl-overwrites
-                  image: quay.io/cilium/cilium:v1.12.1
+                  image: quay.io/cilium/cilium:v1.12.4
                   imagePullPolicy: IfNotPresent
                   env:
                     - name: BIN_PATH
@@ -1418,7 +1418,7 @@ spec:
                   securityContext:
                     privileged: true
                 - name: clean-cilium-state
-                  image: quay.io/cilium/cilium:v1.12.1
+                  image: quay.io/cilium/cilium:v1.12.4
                   imagePullPolicy: IfNotPresent
                   command:
                     - /init-container.sh
