@@ -15,5 +15,5 @@ spec:
       route:
         - destination:
             port:
-              number: 10902
-            host: thanos-query-http.observability.svc.cluster.local
+              number: 9090
+            host: thanos-query.observability.svc.cluster.local

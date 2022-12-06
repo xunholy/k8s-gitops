@@ -16,7 +16,7 @@ spec:
         namespace: flux-system
       interval: 10m
   test:
-    enable: false # Enable helm test
+    enable: true # Enable helm test
   install:
     remediation: # perform remediation when helm install fails
       retries: 3
@@ -31,9 +31,8 @@ spec:
     cleanupOnFail: true
   values:
     image:
-      # TODO: Bitnami uses v0.29.0
       repository: thanosio/thanos
-      tag: v0.28.0
+      tag: v0.29.0
     queryFrontend:
       enabled: false
     metrics:
