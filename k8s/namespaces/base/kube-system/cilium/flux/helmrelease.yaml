@@ -13,6 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cilium-chart
+        namespace: flux-system
       # The HelmRelease version of Cilium MUST match the version installed via Talos to avoid collisions on cluster rebuilds
       version: 1.12.1
   test:
