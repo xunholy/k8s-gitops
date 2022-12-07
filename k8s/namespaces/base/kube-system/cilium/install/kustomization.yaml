@@ -7,7 +7,7 @@ helmCharts:
   includeCRDs: true
   releaseName: cilium
   valuesFile: 1.12.1.yaml
-  version: 1.12.1
+  version: 1.12.4
   repo: https://helm.cilium.io/
 
 transformers:
