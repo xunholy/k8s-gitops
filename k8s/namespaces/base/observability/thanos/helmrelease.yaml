@@ -36,7 +36,8 @@ spec:
     queryFrontend:
       enabled: false
     query:
-      replicaCount: 1
+      replicaCount: 3
+      podAntiAffinityPreset: hard
       replicaLabel:
         - __replica__
       dnsDiscovery:
