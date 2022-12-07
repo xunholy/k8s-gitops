@@ -1608,7 +1608,7 @@ spec:
         spec:
             containers:
                 - name: cilium-operator
-                  image: quay.io/cilium/operator-generic:v1.12.1
+                  image: quay.io/cilium/operator-generic:v1.12.4
                   imagePullPolicy: IfNotPresent
                   command:
                     - cilium-operator-generic
