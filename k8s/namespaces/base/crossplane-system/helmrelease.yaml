@@ -16,7 +16,7 @@ spec:
         namespace: flux-system
       interval: 10m
   test:
-    enable: false # Enable helm test
+    enable: true # Enable helm test
   install:
     remediation: # perform remediation when helm install fails
       retries: 5
