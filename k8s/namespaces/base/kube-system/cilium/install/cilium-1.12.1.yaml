@@ -863,7 +863,7 @@ spec:
         - serve
         command:
         - hubble-relay
-        image: quay.io/cilium/hubble-relay:v1.12.1
+        image: quay.io/cilium/hubble-relay:v1.12.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           tcpSocket:
