@@ -98,7 +98,7 @@ spec:
           - name: Prometheus
             type: prometheus
             access: proxy
-            url: http://thanos-query-http.observability.svc.cluster.local:10902/
+            url: http://thanos-query.observability.svc.cluster.local:10902/
             isDefault: false
           - name: Loki
             type: loki
