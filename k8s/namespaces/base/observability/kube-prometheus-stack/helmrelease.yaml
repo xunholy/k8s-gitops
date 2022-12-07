@@ -13,12 +13,11 @@ spec:
         kind: HelmRepository
         name: prometheus-community-charts
         namespace: flux-system
-      # TODO: Currently not implemented
-      # verify:
-      #   provider: cosign
+      verify:
+        provider: cosign
       interval: 60m
   test:
-    enable: false # Enable helm test
+    enable: true # Enable helm test
   install:
     # Create new CRDs, update (replace) existing ones, but do not delete CRDs which no longer exist in the current helm release.
     crds: CreateReplace
