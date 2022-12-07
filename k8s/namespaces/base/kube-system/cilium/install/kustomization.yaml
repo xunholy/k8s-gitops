@@ -3,7 +3,15 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
-  - cilium-1-12-1.enc.yaml
+  - virtualservice.yaml
+
+helmCharts:
+- name: cilium
+  includeCRDs: true
+  releaseName: cilium
+  valuesFile: 1.12.1.yaml
+  version: 1.12.1
+  repo: https://helm.cilium.io/
 
 transformers:
   - transformers.yaml

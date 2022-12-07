@@ -1,0 +1,39 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: cilium
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: cilium-chart
+      # The HelmRelease version of Cilium MUST match the version installed via Talos to avoid collisions on cluster rebuilds
+      version: 1.12.1
+  test:
+    enable: true # Enable helm test
+  install:
+    # Create new CRDs, update (replace) existing ones, but do not delete CRDs which no longer exist in the current helm release.
+    crds: CreateReplace
+    remediation: # perform remediation when helm install fails
+      retries: 3
+    skipCRDs: true
+  upgrade:
+    # Create new CRDs, update (replace) existing ones, but do not delete CRDs which no longer exist in the current helm release.
+    crds: CreateReplace
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: cilium-values

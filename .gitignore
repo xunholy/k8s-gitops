@@ -8,7 +8,7 @@
 **/hack
 output/
 
-# Ignore Talos configuration that is locally unencrpted
+# Ignore Talos configuration that is locally decrypted
 talos/
 !talos/**/*.enc.yaml
 !talos/integrations/*
