@@ -9,9 +9,8 @@
 output/
 
 # Ignore Talos configuration that is locally decrypted
-talos/
-!talos/**/*.enc.yaml
-!talos/integrations/*
+# /talos/*
+!/talos/generated/**.enc.yaml
 
 # Ignore VSCODE SOPS decrypted files
 **/.decrypted~*
