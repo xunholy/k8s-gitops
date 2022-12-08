@@ -33,6 +33,7 @@ resources:
   - openebs-charts.yaml
   - openebs-cstor-charts.yaml
   - openfaas-charts.yaml
+  - otel-charts.yaml
   - prometheus-community-charts.yaml
   - sealed-secrets-charts.yaml
   - secrets-store-csi-driver-chart.yaml
