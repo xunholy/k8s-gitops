@@ -17,6 +17,10 @@ spec:
   install:
     createNamespace: true
   values:
+    rbac:
+      # PSPs have been deprecated
+      pspEnabled: false
+      pspUseAppArmor: false
     replicas: 1
     env:
       GF_EXPLORE_ENABLED: true
@@ -56,10 +60,10 @@ spec:
         token_url: 'https://dex.${CLUSTER_DOMAIN}/token'
         api_url: 'https://dex.${CLUSTER_DOMAIN}/userinfo'
       auth.generic_oauth.group_mapping:
-        role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || 'Viewer'"
+        role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || contains(groups[*], 'people') && 'Viewer'"
         org_id: 1
       auth.github.group_mapping:
-        role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || 'Viewer'"
+        role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || contains(groups[*], 'people') && 'Viewer'"
         org_id: 1
     sidecar:
       dashboards:

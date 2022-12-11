@@ -49,6 +49,12 @@ spec:
       fullnameOverride: alertmanager
     grafana:
       enabled: false
+      forceDeployDashboards: true
+      sidecar:
+        dashboards:
+          multicluster:
+            etcd:
+              enabled: true
     prometheusOperator:
       prometheusConfigReloader:
         resources:
