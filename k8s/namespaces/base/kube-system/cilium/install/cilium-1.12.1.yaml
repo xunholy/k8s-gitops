@@ -934,7 +934,7 @@ spec:
         k8s-app: hubble-ui
     spec:
       containers:
-      - image: quay.io/cilium/hubble-ui:v0.9.2@sha256:d3596efc94a41c6b772b9afe6fe47c17417658956e04c3e2a28d293f2670663e
+      - image: quay.io/cilium/hubble-ui:v0.10.0@sha256:118ad2fcfd07fabcae4dde35ec88d33564c9ca7abe520aa45b1eb13ba36c6e0a
         imagePullPolicy: IfNotPresent
         name: frontend
         ports:
