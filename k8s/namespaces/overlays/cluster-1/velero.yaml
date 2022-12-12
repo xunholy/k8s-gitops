@@ -4,6 +4,8 @@ kind: Kustomization
 metadata:
   name: velero-namespace
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/velero"
@@ -12,17 +14,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
   # patches:
   #   - patch: |-
   #       apiVersion: helm.toolkit.fluxcd.io/v2beta1

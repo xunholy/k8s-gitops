@@ -18,6 +18,8 @@ kind: Kustomization
 metadata:
   name: kube-system-cilium-ingress
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/kube-system/cilium"
@@ -29,23 +31,14 @@ spec:
   dependsOn:
     - name: istio-system-istiod
       namespace: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: kube-system-cilium-flux
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/kube-system/cilium/flux"
@@ -54,17 +47,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -85,6 +67,8 @@ kind: Kustomization
 metadata:
   name: kube-system-sealed-secrets
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/kube-system/sealed-secrets"
@@ -96,17 +80,6 @@ spec:
   dependsOn:
     - name: istio-system-istiod
       namespace: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization

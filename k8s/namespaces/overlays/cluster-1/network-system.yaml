@@ -18,6 +18,8 @@ kind: Kustomization
 metadata:
   name: network-system-cert-manager
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/cert-manager"
@@ -26,17 +28,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -60,6 +51,8 @@ kind: Kustomization
 metadata:
   name: network-system-cloudflared
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/cloudflared"
@@ -68,23 +61,14 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: network-system-cloudflare-ddns
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/cloudflare-ddns"
@@ -93,23 +77,14 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: network-system-coredns
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/coredns"
@@ -118,23 +93,14 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: network-system-dex
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/dex"
@@ -146,23 +112,14 @@ spec:
   dependsOn:
     - name: istio-system-istiod
       namespace: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: network-system-dex-k8s-authenticator
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/dex-k8s-authenticator"
@@ -174,23 +131,14 @@ spec:
   dependsOn:
     - name: istio-system-istiod
       namespace: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: network-system-external-dns
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/external-dns"
@@ -199,17 +147,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 # TODO: Investigate the best way to enable this through using the helm charts. Disable for now.
 # ---
 # apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
@@ -234,6 +171,8 @@ kind: Kustomization
 metadata:
   name: network-system-metallb
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/metallb"
@@ -242,23 +181,14 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: network-system-metallb-config
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/metallb/config"
@@ -270,17 +200,6 @@ spec:
   dependsOn:
     - name: network-system-metallb
       namespace: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -301,6 +220,8 @@ kind: Kustomization
 metadata:
   name: network-system-oauth2-proxy
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/oauth2-proxy"
@@ -312,23 +233,14 @@ spec:
   dependsOn:
     - name: istio-system-istiod
       namespace: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: network-system-origin-ca-issuer
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/origin-ca-issuer"
@@ -337,23 +249,14 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: network-system-echo-server
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./k8s/namespaces/base/network-system/echo-server"
@@ -365,14 +268,3 @@ spec:
   dependsOn:
     - name: istio-system-istiod
       namespace: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secrets

@@ -19,6 +19,8 @@ spec:
 # metadata:
 #   name: game-servers-enemy-territory
 #   namespace: flux-system
+#   labels:
+#     substitution.flux/enabled: true
 # spec:
 #   interval: 5m
 #   path: "./k8s/namespaces/base/game-servers/enemy-territory"
@@ -30,14 +32,3 @@ spec:
 #   dependsOn:
 #     - name: nginx-ingress-namespace
 #       namespace: flux-system
-#   decryption:
-#     provider: sops
-#     secretRef:
-#       name: sops-gpg
-#   postBuild:
-#     substitute: {}
-#     substituteFrom:
-#       - kind: ConfigMap
-#         name: cluster-config
-#       - kind: Secret
-#         name: cluster-secrets
