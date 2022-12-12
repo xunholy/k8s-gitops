@@ -50,21 +50,24 @@ spec:
     kind: GitRepository
     name: flux-system
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: home-system-zigbee2mqtt
-  namespace: flux-system
-  labels:
-    substitution.flux/enabled: true
-spec:
-  interval: 5m
-  path: "./k8s/namespaces/base/home-system/zigbee2mqtt"
-  prune: true
-  wait: false
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  dependsOn:
-    - name: istio-system-istiod
-      namespace: flux-system
+# TODO: Disable as OpenEBS is currently not installed
+# apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+# kind: Kustomization
+# metadata:
+#   name: home-system-zigbee2mqtt
+#   namespace: flux-system
+#   labels:
+#     substitution.flux/enabled: true
+# spec:
+#   interval: 5m
+#   path: "./k8s/namespaces/base/home-system/zigbee2mqtt"
+#   prune: true
+#   wait: false
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   dependsOn:
+#     - name: openebs-cstor
+#       namespace: flux-system
+#     - name: istio-system-istiod
+#       namespace: flux-system
