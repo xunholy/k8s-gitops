@@ -53,7 +53,7 @@ tetragon:
   image:
     override: ~
     repository: quay.io/cilium/tetragon
-    tag: v0.8.0
+    tag: v0.8.3
   resources: {}
   extraArgs: {}
   extraEnv: []
@@ -142,7 +142,7 @@ tetragonOperator:
   image:
     override: ~
     repository: quay.io/cilium/tetragon-operator
-    tag: v0.8.0
+    tag: v0.8.3
     # tetragon-operator image-digest
     suffix: ""
 
