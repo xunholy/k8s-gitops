@@ -3,7 +3,7 @@
 apiVersion: container.gcp.upbound.io/v1beta1
 kind: Cluster
 metadata:
-  name: auto-pilot-cluster
+  name: auto-pilot-gke-cluster
   namespace: crossplane-system
 spec:
   forProvider:

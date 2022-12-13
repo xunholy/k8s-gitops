@@ -5,4 +5,6 @@ namespace: crossplane-system
 resources:
   - helmrelease.yaml
   - namespace.yaml
+  # TODO: Currently disabled due to it breaking the controlplane installing 200+ CRDs
+  # - provider.yaml
   - secret.enc.yaml
