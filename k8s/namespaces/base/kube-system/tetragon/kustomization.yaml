@@ -6,7 +6,7 @@ resources:
   - helmrelease.yaml
 
 configMapGenerator:
-  - name: cilium-values
+  - name: tetragon-values
     files:
       - values.yaml=values.yaml
 
