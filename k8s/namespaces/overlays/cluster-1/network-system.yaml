@@ -29,7 +29,7 @@ spec:
     kind: GitRepository
     name: flux-system
   dependsOn:
-    - name: network-system-cert-manager
+    - name: network-system-namespace
       namespace: flux-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
