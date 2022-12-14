@@ -7,15 +7,15 @@ creation_rules:
     unencrypted-regex: ^(description|metadata)$
     gcp_kms: projects/raspbernetes/locations/global/keyRings/sops/cryptoKeys/sops-key
   # secret files using SOPS
-  - path_regex: k8s/clusters/.*/secrets/*.enc.ya?ml
+  - path_regex: k8s/clusters/.*/*.enc.ya?ml
     encrypted_regex: ^(data|stringData)$
     unencrypted-regex: ^(description|metadata)$
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
-  - path_regex: k8s/namespaces/.*
+  - path_regex: k8s/namespaces/.*/*.enc.ya?ml
     encrypted_regex: ^(data|stringData)$
     unencrypted-regex: ^(description|metadata)$
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
-  - path_regex: talos/.*
+  - path_regex: talos/.*/*.enc.ya?ml
     encrypted_regex: ^(data|stringData)$
     unencrypted-regex: ^(description|metadata)$
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014

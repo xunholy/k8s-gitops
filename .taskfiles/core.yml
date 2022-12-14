@@ -37,4 +37,6 @@ tasks:
       - cmd: |
           kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
           sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/sops-gpg.encrypted.yaml" | kubectl apply -f -
+          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
+          kubectl apply -f k8s/clusters/{{.CLUSTER}}/secrets/cluster-config.yaml
         silent: true
