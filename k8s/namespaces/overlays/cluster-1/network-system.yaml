@@ -28,6 +28,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: network-system-cert-manager
+      namespace: flux-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -77,6 +80,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: network-system-cert-manager
+      namespace: flux-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -147,6 +153,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: network-system-cert-manager
+      namespace: flux-system
 # TODO: Investigate the best way to enable this through using the helm charts. Disable for now.
 # ---
 # apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
@@ -181,6 +190,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: network-system-cert-manager
+      namespace: flux-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
