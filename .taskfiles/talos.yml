@@ -1,0 +1,11 @@
+---
+version: '3'
+
+env:
+  TALOS_DIR: "talos/generated"
+
+tasks:
+  config:
+    desc: "Decrypt and Loads TALOSCONFIG into $HOME directory"
+    cmds:
+      - sops -d {{.TALOS_DIR}}/talosconfig.enc.yaml > "$HOME/.talos/config"

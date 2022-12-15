@@ -17,6 +17,9 @@ includes:
   mkdocs:
     taskfile: ./.taskfiles/mkdocs.yml
     optional: true
+  talos:
+    taskfile: ./.taskfiles/talos.yml
+    optional: true
 
 tasks:
   flux:

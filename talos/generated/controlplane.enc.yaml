@@ -314,6 +314,8 @@ cluster:
             urls:
                 # Install the cilium CNI manifests
                 - https://raw.githubusercontent.com/xUnholy/k8s-gitops/main/k8s/namespaces/base/kube-system/cilium/install/cilium-1.12.1.yaml
+                # Install the kubelet cert-approver manifests
+                - https://raw.githubusercontent.com/xUnholy/k8s-gitops/main/talos/integrations/kubelet-cert-approver.yaml
                 # Install kube prometheus stack CRDs prior to cluster bootstrap
                 # Ref: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
                 - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
@@ -447,8 +449,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2022-12-08T04:50:59Z"
-    mac: ENC[AES256_GCM,data:xp4o14Hsh0hjoymlcL7ST0fqBNcFYqYW30w1FHX2Azc3VbWlCY+q+bOvaVd8MD+c8/pa6kCs+thR/m/aGKRskOHpHz/MshND3v5/qR9QCM4cesIPpfoFfw427VfkQZepaE6AmLayIrjeIew7qHc84mZYaj81GqDw10zWoRwn7M8=,iv:w0aZJtdm2n6Mr/Lp6USxjxGSJPeMd2Ny2pCs8+tfs0Y=,tag:ulhvU5/jBdNDs/kjEZU0ww==,type:str]
+    lastmodified: "2022-12-15T00:15:12Z"
+    mac: ENC[AES256_GCM,data:9nSJTL49aNNvFyvdpV861qAKVU+1q50dAVNi93I0I2ZD1e3PoRkJzDjK1AEhEyaGeFHDoeZyx+RQOvpxcxEr4k4njPi9OOPgJ2fR2ZuVGfWUss6g0323YANhUsEzVcvXDvlk/jX25hsBxnz8pzgOIAbyYYJrj8b5uZtl9+SskIQ=,iv:3yNiHs6Han+CXLS+59F6BMITkn9u0OPIhr+zQYiD2mY=,tag:sZqn2Iw65T7WM3gymPW8OQ==,type:str]
     pgp:
         - created_at: "2022-12-06T22:26:46Z"
           enc: |

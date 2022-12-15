@@ -2,11 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  labels:
-    app.kubernetes.io/instance: kubelet-serving-cert-approver
-    app.kubernetes.io/name: kubelet-serving-cert-approver
   name: leader-election:kubelet-serving-cert-approver
-  namespace: kubelet-serving-cert-approver
 rules:
 - apiGroups:
   - ""
