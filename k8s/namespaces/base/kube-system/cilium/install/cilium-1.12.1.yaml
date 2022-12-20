@@ -1039,7 +1039,7 @@ spec:
           value: 192.168.50.200
         - name: KUBERNETES_SERVICE_PORT
           value: "6443"
-        image: quay.io/cilium/cilium:v1.12.4
+        image: quay.io/cilium/cilium:v1.12.5
         imagePullPolicy: IfNotPresent
         lifecycle:
           postStart:
@@ -1145,7 +1145,7 @@ spec:
           value: /run/cilium/cgroupv2
         - name: BIN_PATH
           value: /opt/cni/bin
-        image: quay.io/cilium/cilium:v1.12.4
+        image: quay.io/cilium/cilium:v1.12.5
         imagePullPolicy: IfNotPresent
         name: mount-cgroup
         securityContext:
@@ -1165,7 +1165,7 @@ spec:
         env:
         - name: BIN_PATH
           value: /opt/cni/bin
-        image: quay.io/cilium/cilium:v1.12.4
+        image: quay.io/cilium/cilium:v1.12.5
         imagePullPolicy: IfNotPresent
         name: apply-sysctl-overwrites
         securityContext:
@@ -1194,7 +1194,7 @@ spec:
           value: 192.168.50.200
         - name: KUBERNETES_SERVICE_PORT
           value: "6443"
-        image: quay.io/cilium/cilium:v1.12.4
+        image: quay.io/cilium/cilium:v1.12.5
         imagePullPolicy: IfNotPresent
         name: clean-cilium-state
         resources:
