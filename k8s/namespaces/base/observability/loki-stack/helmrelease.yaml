@@ -33,11 +33,11 @@ spec:
     loki:
       enabled: true
       serviceMonitor:
-        enabled: false
+        enabled: true
     promtail:
       enabled: true
       serviceMonitor:
-        enabled: false
+        enabled: true
     fluent-bit:
       enabled: false
     grafana:

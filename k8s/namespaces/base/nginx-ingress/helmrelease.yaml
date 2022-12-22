@@ -40,7 +40,7 @@ spec:
       metrics:
         enabled: true
         serviceMonitor:
-          enabled: false
+          enabled: true
           namespace: nginx-ingress
           namespaceSelector:
             any: true

@@ -14,3 +14,13 @@ spec:
         kind: HelmRepository
         name: tf-controller-chart
         namespace: flux-system
+  values:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: beta.kubernetes.io/arch
+              operator: In
+              values:
+              - amd64

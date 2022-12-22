@@ -29,3 +29,20 @@ spec:
     timeout: 10m
     recreate: true
     cleanupOnFail: true
+  values:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: beta.kubernetes.io/arch
+              operator: In
+              values:
+              - amd64
+    serviceMonitor:
+      enabled: true
+    grafanaDashboard:
+      enabled: true
+      namespace: default
+    prometheusRules:
+      enabled: true

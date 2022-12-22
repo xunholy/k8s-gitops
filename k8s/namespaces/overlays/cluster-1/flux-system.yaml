@@ -49,18 +49,18 @@ spec:
       namespace: flux-system
 ---
 # TODO: Arm64 support is currently not supported https://github.com/weaveworks/tf-controller/issues/453
-# apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-# kind: Kustomization
-# metadata:
-#   name: flux-system-tf-controller
-#   namespace: flux-system
-#   labels:
-#       substitution.flux/enabled: true
-# spec:
-#   interval: 5m
-#   path: "./k8s/namespaces/base/flux-system/tf-controller"
-#   prune: true
-#   wait: false
-#   sourceRef:
-#     kind: GitRepository
-#     name: flux-system
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: flux-system-tf-controller
+  namespace: flux-system
+  labels:
+      substitution.flux/enabled: true
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/flux-system/tf-controller"
+  prune: true
+  wait: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

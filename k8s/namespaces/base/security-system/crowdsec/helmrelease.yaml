@@ -36,10 +36,9 @@ spec:
         # TODO: No arm64 images, raise a GH issue
         enabled: false
       metrics:
-        # TODO: ingest these metrics without using serviceMonitor
         enabled: true
         serviceMonitor:
-          enabled: false
+          enabled: true
       persistentVolume:
         data:
           enabled: false
@@ -59,7 +58,6 @@ spec:
           podName: ingress-nginx-controller-*
           program: nginx
       metrics:
-        # TODO: ingest these metrics without using serviceMonitor
         enabled: true
         serviceMonitor:
-          enabled: false
+          enabled: true

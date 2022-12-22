@@ -31,4 +31,4 @@ spec:
     cleanupOnFail: true
   values:
     serviceMonitor:
-      enabled: false
+      enabled: true

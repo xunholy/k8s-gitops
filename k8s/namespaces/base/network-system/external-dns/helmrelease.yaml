@@ -48,7 +48,7 @@ spec:
     metrics:
       enabled: true
       serviceMonitor:
-        enabled: false
+        enabled: true
     crd:
       create: true
     sources:
