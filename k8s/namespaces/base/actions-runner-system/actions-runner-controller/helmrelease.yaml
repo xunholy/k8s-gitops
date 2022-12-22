@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: actions-runner-controller
+  namespace: actions-runner-system
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: actions-runner-controller
+      version: 0.21.1
+      sourceRef:
+        kind: HelmRepository
+        name: actions-runner-controller
+        namespace: flux-system
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    image:
+      repository: ghcr.io/actions-runner-controller/actions-runner-controller
+    authSecret:
+      create: true
+      github_token: ${GITHUB_TOKEN}
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: beta.kubernetes.io/arch
+              operator: In
+              values:
+              - amd64
+    securityContext:
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 1000
+    metrics:
+      serviceMonitor: true
+    replicaCount: 2
+    podDisruptionBudget:
+      enabled: true
+      minAvailable: 1
+      maxUnavailable: 3
+    logFormat: json
+    githubWebhookServer:
+      enabled: true
+      logFormat: json
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+    actionsMetrics:
+      # Do note that you also need actionsMetricsServer.enabled=true
+      # to deploy the actions-metrics-server whose k8s service is referenced by the service monitor.
+      serviceMonitor: true
+    actionsMetricsServer:
+      enabled: true
+      logFormat: json
