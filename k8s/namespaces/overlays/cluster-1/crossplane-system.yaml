@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: crossplane-system-namespace
+  name: crossplane-system
   namespace: flux-system
   labels:
     substitution.flux/enabled: true
@@ -14,3 +14,38 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: crossplane-system-crossplane
+  namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/crossplane-system/crossplane"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: crossplane-system-providers
+  namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
+spec:
+  interval: 5m
+  path: "./k8s/namespaces/base/crossplane-system/crossplane/providers"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: crossplane-system-crossplane
+      namespace: flux-system

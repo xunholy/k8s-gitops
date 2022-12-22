@@ -24,6 +24,10 @@ machine:
     kubelet:
         # The `image` field is an optional reference to an alternative kubelet image.
         image: ghcr.io/siderolabs/kubelet:v1.24.2
+        # Enable container runtime default Seccomp profile.
+        defaultRuntimeSeccompProfileEnabled: true
+        # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
+        disableManifestsDirectory: true
         # # The `ClusterDNS` field is an optional reference to an alternative kubelet clusterDNS ip list.
         # clusterDNS:
         #     - 10.96.0.10
@@ -41,16 +45,16 @@ machine:
             #         - bind
             #         - rshared
             #         - rw
-            # # The `extraConfig` field is used to provide kubelet configuration overrides.
-            # extraConfig:
-            #     serverTLSBootstrap: true
-            # # The `nodeIP` field is used to configure `--node-ip` flag for the kubelet.
-            # nodeIP:
-            #     # The `validSubnets` field configures the networks to pick kubelet node IP from.
-            #     validSubnets:
-            #         - 10.0.0.0/8
-            #         - '!10.0.0.3/32'
-            #         - fdc7::/16
+    # # The `extraConfig` field is used to provide kubelet configuration overrides.
+    # extraConfig:
+    #     serverTLSBootstrap: true
+    # # The `nodeIP` field is used to configure `--node-ip` flag for the kubelet.
+    # nodeIP:
+    #     # The `validSubnets` field configures the networks to pick kubelet node IP from.
+    #     validSubnets:
+    #         - 10.0.0.0/8
+    #         - '!10.0.0.3/32'
+    #         - fdc7::/16
     # Provides machine specific network configuration options.
     network: {}
     # # `interfaces` is used to define the network interface configuration.
@@ -82,6 +86,15 @@ machine:
     #       #         - eth1
     #       #     mode: 802.3ad # A bond option.
     #       #     lacpRate: fast # A bond option.
+    #       # # Bridge specific options.
+    #       # bridge:
+    #       #     # The interfaces that make up the bridge.
+    #       #     interfaces:
+    #       #         - eth0
+    #       #         - eth1
+    #       #     # A bridge option.
+    #       #     stp:
+    #       #         enabled: true # Whether Spanning Tree Protocol (STP) is enabled.
     #       # # Indicates if DHCP should be used to configure the interface.
     #       # dhcp: true
     #       # # DHCP specific options.
@@ -133,7 +146,7 @@ machine:
         # The disk used for installations.
         disk: /dev/sda
         # Allows for supplying the image used to perform the installation.
-        image: ghcr.io/siderolabs/installer:v1.1.0
+        image: ghcr.io/siderolabs/installer:v1.3.0
         # Indicates if a bootloader should be installed.
         bootloader: true
         # Indicates if the installation disk should be wiped at installation time.
@@ -148,11 +161,50 @@ machine:
         #     - talos.platform=metal
         #     - reboot=k
         # # Allows for supplying additional system extension images to install on top of base Talos image.
-        # extensions: ghcr.io/siderolabs/gvisor:20220117.0-v1.0.0
+        # extensions:
+        #     - image: ghcr.io/siderolabs/gvisor:20220117.0-v1.0.0 # System extension image.
+    # Used to configure the machine's container image registry mirrors.
+    registries: {}
+    # # Specifies mirror configuration for each registry.
+    # mirrors:
+    #     ghcr.io:
+    #         # List of endpoints (URLs) for registry mirrors to use.
+    #         endpoints:
+    #             - https://registry.insecure
+    #             - https://ghcr.io/v2/
+    # # Specifies TLS & auth configuration for HTTPS image registries.
+    # config:
+    #     registry.insecure:
+    #         # The TLS configuration for the registry.
+    #         tls:
+    #             insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
+    #
+    #             # # Enable mutual TLS authentication with the registry.
+    #             # clientIdentity:
+    #             #     crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
+    #             #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
+    #
+    #         # # The auth configuration for this registry.
+    #         # auth:
+    #         #     username: username # Optional registry authentication.
+    #         #     password: password # Optional registry authentication.
     # Features describe individual Talos features that can be switched on or off.
     features:
         # Enable role-based access control (RBAC).
         rbac: true
+        # Enable stable default hostname.
+        stableHostname: true
+        # Enable checks for extended key usage of client certificates in apid.
+        apidCheckExtKeyUsage: true
+        # # Configure Talos API access from Kubernetes pods.
+        # kubernetesTalosAPIAccess:
+        #     enabled: true # Enable Talos API access from Kubernetes pods.
+        #     # The list of Talos API roles which can be granted for access from Kubernetes pods.
+        #     allowedRoles:
+        #         - os:reader
+        #     # The list of Kubernetes namespaces Talos API access is available from.
+        #     allowedKubernetesNamespaces:
+        #         - kube-system
         # # Provides machine specific control plane configuration options.
         # # ControlPlane definition example.
         # controlPlane:
@@ -221,31 +273,6 @@ machine:
         # # MachineSysfs usage example.
         # sysfs:
         #     devices.system.cpu.cpu0.cpufreq.scaling_governor: performance
-        # # Used to configure the machine's container image registry mirrors.
-        # registries:
-        #     # Specifies mirror configuration for each registry.
-        #     mirrors:
-        #         ghcr.io:
-        #             # List of endpoints (URLs) for registry mirrors to use.
-        #             endpoints:
-        #                 - https://registry.insecure
-        #                 - https://ghcr.io/v2/
-        #     # Specifies TLS & auth configuration for HTTPS image registries.
-        #     config:
-        #         registry.insecure:
-        #             # The TLS configuration for the registry.
-        #             tls:
-        #                 insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
-        #
-        #                 # # Enable mutual TLS authentication with the registry.
-        #                 # clientIdentity:
-        #                 #     crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
-        #                 #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
-        #
-        #             # # The auth configuration for this registry.
-        #             # auth:
-        #             #     username: username # Optional registry authentication.
-        #             #     password: password # Optional registry authentication.
         # # Machine system disk encryption configuration.
         # systemDiskEncryption:
         #     # Ephemeral partition encryption.
@@ -283,6 +310,16 @@ machine:
         #         - name: brtfs # Module name.
 # Provides cluster specific configuration options.
 cluster:
+# # Configures the seccomp profiles for the machine.
+# seccompProfiles:
+#     - name: audit.json # The `name` field is used to provide the file name of the seccomp profile.
+#       # The `value` field is used to provide the seccomp profile.
+#       value:
+#         defaultAction: SCMP_ACT_LOG
+# # Configures the node labels for the machine.
+# # node labels example.
+# nodeLabels:
+#     exampleLabel: exampleLabelValue
     # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
     id: WxikpJfAwC5iuEmkmu3nEEukj9qfutUGlmSSL2sgQEg=
     # Shared secret of cluster (base64 encoded random 32 bytes).
@@ -309,10 +346,6 @@ cluster:
             #         - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
     # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
     token: ki885q.d8u0mvnm96yudkcj
-    # The key used for the [encryption of secret data at rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/).
-    aescbcEncryptionSecret: ""
-    #   # Decryption secret example (do not use in production!).
-    #   z01mye6j16bspJYtTB/5SFX8j7Ph4JXxM2Xuu4vsBPM=
     # The base64 encoded root certificate authority used by Kubernetes.
     ca:
         crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpVENDQVMrZ0F3SUJBZ0lRWWFlNDVDbTlZVUpFbFc4Q21YcE5lekFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSXlNRGd3T0RBNE5EZzFNMW9YRFRNeU1EZ3dOVEE0TkRnMQpNMW93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCTmhqYWVUanpYaHRubndkVGFwL3o5Zko0Z1crVW9IbUFiajVaV09ORVVzYjkzSkVrN0cwb3ZIdW14U2QKTnhOaHRzYUFjNjMrM2R2aHc0NEZoSEgycS91allUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVV3MEk4eFlwdWJaWFp0dlY1YUpGZG1HdWxiVW93Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnRU1CY1k0cGoKUjNSTC9tcmwvV1pqUkxkdDFBTFRETzNia2JsWUhSVWF6T2NDSVFEeDZuZHByRjQ2TEdsNHNpWStDWTZXVENHRAp2SFNQaVY1Z3NzN0tKUFlrOHc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
@@ -324,7 +357,9 @@ cluster:
         # Configure registries used for cluster member discovery.
         registries:
             # Kubernetes registry uses Kubernetes API server to discover cluster members and stores additional information
-            kubernetes: {}
+            kubernetes:
+                # Disable Kubernetes discovery registry.
+                disabled: true
             # Service registry is using an external service to push and pull information about cluster members.
             service: {}
             # # External service endpoint.
@@ -340,7 +375,7 @@ cluster:
 #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
 # # API server specific configuration options.
 # apiServer:
-#     image: k8s.gcr.io/kube-apiserver:v1.24.2 # The container image used in the API server manifest.
+#     image: registry.k8s.io/kube-apiserver:v1.26.0 # The container image used in the API server manifest.
 #     # Extra arguments to supply to the API server.
 #     extraArgs:
 #         feature-gates: ServerSideApply=true
@@ -368,28 +403,35 @@ cluster:
 #                 runtimeClasses: []
 #                 usernames: []
 #             kind: PodSecurityConfiguration
+#     # Configure the API server audit policy.
+#     auditPolicy:
+#         apiVersion: audit.k8s.io/v1
+#         kind: Policy
+#         rules:
+#             - level: Metadata
 # # Controller manager server specific configuration options.
 # controllerManager:
-#     image: k8s.gcr.io/kube-controller-manager:v1.24.2 # The container image used in the controller manager manifest.
+#     image: registry.k8s.io/kube-controller-manager:v1.26.0 # The container image used in the controller manager manifest.
 #     # Extra arguments to supply to the controller manager.
 #     extraArgs:
 #         feature-gates: ServerSideApply=true
 # # Kube-proxy server-specific configuration options
 # proxy:
-#     image: k8s.gcr.io/kube-proxy:v1.24.2 # The container image used in the kube-proxy manifest.
+#     disabled: false # Disable kube-proxy deployment on cluster bootstrap.
+#     image: registry.k8s.io/kube-proxy:v1.26.0 # The container image used in the kube-proxy manifest.
 #     mode: ipvs # proxy mode of kube-proxy.
 #     # Extra arguments to supply to kube-proxy.
 #     extraArgs:
 #         proxy-mode: iptables
 # # Scheduler server specific configuration options.
 # scheduler:
-#     image: k8s.gcr.io/kube-scheduler:v1.24.2 # The container image used in the scheduler manifest.
+#     image: registry.k8s.io/kube-scheduler:v1.26.0 # The container image used in the scheduler manifest.
 #     # Extra arguments to supply to the scheduler.
 #     extraArgs:
 #         feature-gates: AllBeta=true
 # # Etcd specific configuration options.
 # etcd:
-#     image: gcr.io/etcd-development/etcd:v3.5.4 # The container image used to create the etcd service.
+#     image: gcr.io/etcd-development/etcd:v3.5.6 # The container image used to create the etcd service.
 #     # The `ca` is the root certificate authority of the PKI.
 #     ca:
 #         crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
@@ -397,10 +439,12 @@ cluster:
 #     # Extra arguments to supply to etcd.
 #     extraArgs:
 #         election-timeout: "5000"
-#     subnet: 10.0.0.0/8 # The subnet from which the advertise URL should be.
+#     # The `advertisedSubnets` field configures the networks to pick etcd advertised IP from.
+#     advertisedSubnets:
+#         - 10.0.0.0/8
 # # Core DNS specific configuration options.
 # coreDNS:
-#     image: docker.io/coredns/coredns:1.9.3 # The `image` field is an override to the default coredns image.
+#     image: docker.io/coredns/coredns:1.10.0 # The `image` field is an override to the default coredns image.
 # # External cloud provider configuration.
 # externalCloudProvider:
 #     enabled: true # Enable external cloud provider.
@@ -428,13 +472,16 @@ cluster:
 # adminKubeconfig:
 #     certLifetime: 1h0m0s # Admin kubeconfig certificate lifetime (default is 1 year).
 sops:
+# # A key used for the [encryption of secret data at rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/).
+# # Decryption secret example (do not use in production!).
+# secretboxEncryptionSecret: z01mye6j16bspJYtTB/5SFX8j7Ph4JXxM2Xuu4vsBPM=
     kms: []
     gcp_kms: []
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2022-12-06T22:27:36Z"
-    mac: ENC[AES256_GCM,data:0jX3C+g+lg5gSsIcZHDXhmiOamFaKe+ZNX00xX/nzXTzmWj0Cb/7uDVBL4eV5JAybxat9glFkGvvYIzaLvCpNvpfybWCnYZPY4Sdd/c03B80ueyBRfkwoeM6hZwmKMhnUuY85Ue/gasjP2RqrHZ3TBIaDNedJ0tUBGpgaMsH1Vk=,iv:fivJTkWUYJnNKr6Co/tVdx9F8lcVr6hANa6kXFXCae8=,tag:e1UinkEqs63WPFfUYrNnRA==,type:str]
+    lastmodified: "2022-12-20T21:56:01Z"
+    mac: ENC[AES256_GCM,data:214hXsMmG+UAxifgVApMTSjIk7AD7sFfc50V18S+455wB2Ncm+XaA12V271Y7X0FpBZP07yqM1qnCcL2pzKpkYPXaJzAhIynWtb1jkLDukQVm7aJOgh3pj3UxxBGh1ZJ9dHbMvITd5DhG0AkNDdD2xaPX5qOpoc7ZHK2OLqAKqc=,iv:Z9G3MxsehlwN5dFaYKHdIaZizcDtZlCr5MUObLsuCCA=,tag:N2WK/toV9/9Vj6CvkXk7Bg==,type:str]
     pgp:
         - created_at: "2022-12-06T22:27:35Z"
           enc: |

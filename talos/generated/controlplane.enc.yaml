@@ -22,6 +22,8 @@ machine:
     kubelet:
         # The `image` field is an optional reference to an alternative kubelet image.
         image: ghcr.io/siderolabs/kubelet:v1.24.2
+        # defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
+        # disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
         # # The `ClusterDNS` field is an optional reference to an alternative kubelet clusterDNS ip list.
         # clusterDNS:
         #     - 10.96.0.10
@@ -40,16 +42,16 @@ machine:
             #         - bind
             #         - rshared
             #         - rw
-            # # The `extraConfig` field is used to provide kubelet configuration overrides.
-            # extraConfig:
-            #     serverTLSBootstrap: true
-            # # The `nodeIP` field is used to configure `--node-ip` flag for the kubelet.
-            # nodeIP:
-            #     # The `validSubnets` field configures the networks to pick kubelet node IP from.
-            #     validSubnets:
-            #         - 10.0.0.0/8
-            #         - '!10.0.0.3/32'
-            #         - fdc7::/16
+    # # The `extraConfig` field is used to provide kubelet configuration overrides.
+    # extraConfig:
+    #     serverTLSBootstrap: true
+    # # The `nodeIP` field is used to configure `--node-ip` flag for the kubelet.
+    # nodeIP:
+    #     # The `validSubnets` field configures the networks to pick kubelet node IP from.
+    #     validSubnets:
+    #         - 10.0.0.0/8
+    #         - '!10.0.0.3/32'
+    #         - fdc7::/16
     # Provides machine specific network configuration options.
     network:
         # # `interfaces` is used to define the network interface configuration.
@@ -82,6 +84,15 @@ machine:
               #       #         - eth1
               #       #     mode: 802.3ad # A bond option.
               #       #     lacpRate: fast # A bond option.
+              #       # # Bridge specific options.
+              #       # bridge:
+              #       #     # The interfaces that make up the bridge.
+              #       #     interfaces:
+              #       #         - eth0
+              #       #         - eth1
+              #       #     # A bridge option.
+              #       #     stp:
+              #       #         enabled: true # Whether Spanning Tree Protocol (STP) is enabled.
               #       # # Indicates if DHCP should be used to configure the interface.
               dhcp: true
               #       # # DHCP specific options.
@@ -131,15 +142,15 @@ machine:
     #     enabled: true # Enable the KubeSpan feature.
     # Used to provide instructions for installations.
     install:
-        # TODO: mmcblk0 for eMMC or sda for SSD
+        # Note: mmcblk0 for eMMC or sda for NVMe SSD
         # The disk used for installations.
         disk: /dev/sda
         # Allows for supplying the image used to perform the installation.
-        image: ghcr.io/siderolabs/installer:v1.1.0
+        image: ghcr.io/siderolabs/installer:v1.3.0
         # Indicates if a bootloader should be installed.
         bootloader: true
         # Indicates if the installation disk should be wiped at installation time.
-        wipe: true
+        wipe: false
         # # Look up disk using disk attributes like model, size, serial and others.
         # diskSelector:
         #     size: 4GB # Disk size.
@@ -150,139 +161,161 @@ machine:
         #     - talos.platform=metal
         #     - reboot=k
         # # Allows for supplying additional system extension images to install on top of base Talos image.
-        # extensions: ghcr.io/siderolabs/gvisor:20220117.0-v1.0.0
+        # extensions:
+        #     - image: ghcr.io/siderolabs/gvisor:20220117.0-v1.0.0 # System extension image.
+    # Used to configure the machine's container image registry mirrors.
+    registries: {}
+    # # Specifies mirror configuration for each registry.
+    # mirrors:
+    #     ghcr.io:
+    #         # List of endpoints (URLs) for registry mirrors to use.
+    #         endpoints:
+    #             - https://registry.insecure
+    #             - https://ghcr.io/v2/
+    # # Specifies TLS & auth configuration for HTTPS image registries.
+    # config:
+    #     registry.insecure:
+    #         # The TLS configuration for the registry.
+    #         tls:
+    #             insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
+    #
+    #             # # Enable mutual TLS authentication with the registry.
+    #             # clientIdentity:
+    #             #     crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
+    #             #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
+    #
+    #         # # The auth configuration for this registry.
+    #         # auth:
+    #         #     username: username # Optional registry authentication.
+    #         #     password: password # Optional registry authentication.
     # Features describe individual Talos features that can be switched on or off.
     features:
         # Enable role-based access control (RBAC).
         rbac: true
-        # # Provides machine specific control plane configuration options.
-        # # ControlPlane definition example.
-        # controlPlane:
-        #     # Controller manager machine specific configuration options.
-        #     controllerManager:
-        #         disabled: false # Disable kube-controller-manager on the node.
-        #     # Scheduler machine specific configuration options.
-        #     scheduler:
-        #         disabled: true # Disable kube-scheduler on the node.
-        # # Used to provide static pod definitions to be run by the kubelet directly bypassing the kube-apiserver.
-        # # nginx static pod.
-        # pods:
-        #     - apiVersion: v1
-        #       kind: pod
-        #       metadata:
-        #         name: nginx
-        #       spec:
-        #         containers:
-        #             - image: nginx
-        #               name: nginx
-        # # Used to partition, format and mount additional disks.
-        # # MachineDisks list example.
-        # disks:
-        #     - device: /dev/sdb # The name of the disk to use.
-        #       # A list of partitions to create on the disk.
-        #       partitions:
-        #         - mountpoint: /var/mnt/extra # Where to mount the partition.
-        #
-        #           # # The size of partition: either bytes or human readable representation. If `size:` is omitted, the partition is sized to occupy the full disk.
-        #           # # Human readable representation.
-        #           # size: 100 MB
-        #           # # Precise value in bytes.
-        #           # size: 1073741824
-        # # Allows the addition of user specified files.
-        # # MachineFiles usage example.
-        # files:
-        #     - content: '...' # The contents of the file.
-        #       permissions: 0o666 # The file's permissions in octal.
-        #       path: /tmp/file.txt # The path of the file.
-        #       op: append # The operation to use
-        # # The `env` field allows for the addition of environment variables.
-        # # Environment variables definition examples.
-        # env:
-        #     GRPC_GO_LOG_SEVERITY_LEVEL: info
-        #     GRPC_GO_LOG_VERBOSITY_LEVEL: "99"
-        #     https_proxy: http://SERVER:PORT/
-        # env:
-        #     GRPC_GO_LOG_SEVERITY_LEVEL: error
-        #     https_proxy: https://USERNAME:PASSWORD@SERVER:PORT/
-        # env:
-        #     https_proxy: http://DOMAIN\USERNAME:PASSWORD@SERVER:PORT/
-        # # Used to configure the machine's time settings.
-        # # Example configuration for cloudflare ntp server.
-        # time:
-        #     disabled: false # Indicates if the time service is disabled for the machine.
-        #     # Specifies time (NTP) servers to use for setting the system time.
-        #     servers:
-        #         - time.cloudflare.com
-        #     bootTimeout: 2m0s # Specifies the timeout when the node time is considered to be in sync unlocking the boot sequence.
-        # # Used to configure the machine's sysctls.
-        # # MachineSysctls usage example.
-        # sysctls:
-        #     kernel.domainname: talos.dev
-        #     net.ipv4.ip_forward: "0"
-        # # Used to configure the machine's sysfs.
-        # # MachineSysfs usage example.
-        # sysfs:
-        #     devices.system.cpu.cpu0.cpufreq.scaling_governor: performance
-        # # Used to configure the machine's container image registry mirrors.
-        # registries:
-        #     # Specifies mirror configuration for each registry.
-        #     mirrors:
-        #         ghcr.io:
-        #             # List of endpoints (URLs) for registry mirrors to use.
-        #             endpoints:
-        #                 - https://registry.insecure
-        #                 - https://ghcr.io/v2/
-        #     # Specifies TLS & auth configuration for HTTPS image registries.
-        #     config:
-        #         registry.insecure:
-        #             # The TLS configuration for the registry.
-        #             tls:
-        #                 insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
-        #
-        #                 # # Enable mutual TLS authentication with the registry.
-        #                 # clientIdentity:
-        #                 #     crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
-        #                 #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
-        #
-        #             # # The auth configuration for this registry.
-        #             # auth:
-        #             #     username: username # Optional registry authentication.
-        #             #     password: password # Optional registry authentication.
-        # # Machine system disk encryption configuration.
-        # systemDiskEncryption:
-        #     # Ephemeral partition encryption.
-        #     ephemeral:
-        #         provider: luks2 # Encryption provider to use for the encryption.
-        #         # Defines the encryption keys generation and storage method.
-        #         keys:
-        #             - # Deterministically generated key from the node UUID and PartitionLabel.
-        #               nodeID: {}
-        #               slot: 0 # Key slot number for LUKS2 encryption.
-        #
-        #         # # Cipher kind to use for the encryption. Depends on the encryption provider.
-        #         # cipher: aes-xts-plain64
-        #         # # Defines the encryption sector size.
-        #         # blockSize: 4096
-        #         # # Additional --perf parameters for the LUKS2 encryption.
-        #         # options:
-        #         #     - no_read_workqueue
-        #         #     - no_write_workqueue
-        # # Configures the udev system.
-        # udev:
-        #     # List of udev rules to apply to the udev system
-        #     rules:
-        #         - SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="44", MODE="0660"
-        # # Configures the logging system.
-        # logging:
-        #     # Logging destination.
-        #     destinations:
-        #         - endpoint: tcp://1.2.3.4:12345 # Where to send logs. Supported protocols are "tcp" and "udp".
-        #           format: json_lines # Logs format.
-        # # Configures the kernel.
-        # kernel:
-        #     # Kernel modules to load.
-        #     modules:
-        #         - name: brtfs # Module name.
+        # stableHostname: true # Enable stable default hostname.
+        # apidCheckExtKeyUsage: true # Enable checks for extended key usage of client certificates in apid.
+# # Configure Talos API access from Kubernetes pods.
+# kubernetesTalosAPIAccess:
+#     enabled: true # Enable Talos API access from Kubernetes pods.
+#     # The list of Talos API roles which can be granted for access from Kubernetes pods.
+#     allowedRoles:
+#         - os:reader
+#     # The list of Kubernetes namespaces Talos API access is available from.
+#     allowedKubernetesNamespaces:
+#         - kube-system
+# # Provides machine specific control plane configuration options.
+# # ControlPlane definition example.
+# controlPlane:
+#     # Controller manager machine specific configuration options.
+#     controllerManager:
+#         disabled: false # Disable kube-controller-manager on the node.
+#     # Scheduler machine specific configuration options.
+#     scheduler:
+#         disabled: true # Disable kube-scheduler on the node.
+# # Used to provide static pod definitions to be run by the kubelet directly bypassing the kube-apiserver.
+# # nginx static pod.
+# pods:
+#     - apiVersion: v1
+#       kind: pod
+#       metadata:
+#         name: nginx
+#       spec:
+#         containers:
+#             - image: nginx
+#               name: nginx
+# # Used to partition, format and mount additional disks.
+# # MachineDisks list example.
+# disks:
+#     - device: /dev/sdb # The name of the disk to use.
+#       # A list of partitions to create on the disk.
+#       partitions:
+#         - mountpoint: /var/mnt/extra # Where to mount the partition.
+#
+#           # # The size of partition: either bytes or human readable representation. If `size:` is omitted, the partition is sized to occupy the full disk.
+#           # # Human readable representation.
+#           # size: 100 MB
+#           # # Precise value in bytes.
+#           # size: 1073741824
+# # Allows the addition of user specified files.
+# # MachineFiles usage example.
+# files:
+#     - content: '...' # The contents of the file.
+#       permissions: 0o666 # The file's permissions in octal.
+#       path: /tmp/file.txt # The path of the file.
+#       op: append # The operation to use
+# # The `env` field allows for the addition of environment variables.
+# # Environment variables definition examples.
+# env:
+#     GRPC_GO_LOG_SEVERITY_LEVEL: info
+#     GRPC_GO_LOG_VERBOSITY_LEVEL: "99"
+#     https_proxy: http://SERVER:PORT/
+# env:
+#     GRPC_GO_LOG_SEVERITY_LEVEL: error
+#     https_proxy: https://USERNAME:PASSWORD@SERVER:PORT/
+# env:
+#     https_proxy: http://DOMAIN\USERNAME:PASSWORD@SERVER:PORT/
+# # Used to configure the machine's time settings.
+# # Example configuration for cloudflare ntp server.
+# time:
+#     disabled: false # Indicates if the time service is disabled for the machine.
+#     # Specifies time (NTP) servers to use for setting the system time.
+#     servers:
+#         - time.cloudflare.com
+#     bootTimeout: 2m0s # Specifies the timeout when the node time is considered to be in sync unlocking the boot sequence.
+# # Used to configure the machine's sysctls.
+# # MachineSysctls usage example.
+# sysctls:
+#     kernel.domainname: talos.dev
+#     net.ipv4.ip_forward: "0"
+# # Used to configure the machine's sysfs.
+# # MachineSysfs usage example.
+# sysfs:
+#     devices.system.cpu.cpu0.cpufreq.scaling_governor: performance
+# # Machine system disk encryption configuration.
+# systemDiskEncryption:
+#     # Ephemeral partition encryption.
+#     ephemeral:
+#         provider: luks2 # Encryption provider to use for the encryption.
+#         # Defines the encryption keys generation and storage method.
+#         keys:
+#             - # Deterministically generated key from the node UUID and PartitionLabel.
+#               nodeID: {}
+#               slot: 0 # Key slot number for LUKS2 encryption.
+#
+#         # # Cipher kind to use for the encryption. Depends on the encryption provider.
+#         # cipher: aes-xts-plain64
+#         # # Defines the encryption sector size.
+#         # blockSize: 4096
+#         # # Additional --perf parameters for the LUKS2 encryption.
+#         # options:
+#         #     - no_read_workqueue
+#         #     - no_write_workqueue
+# # Configures the udev system.
+# udev:
+#     # List of udev rules to apply to the udev system
+#     rules:
+#         - SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="44", MODE="0660"
+# # Configures the logging system.
+# logging:
+#     # Logging destination.
+#     destinations:
+#         - endpoint: tcp://1.2.3.4:12345 # Where to send logs. Supported protocols are "tcp" and "udp".
+#           format: json_lines # Logs format.
+# # Configures the kernel.
+# kernel:
+#     # Kernel modules to load.
+#     modules:
+#         - name: brtfs # Module name.
+# # Configures the seccomp profiles for the machine.
+# seccompProfiles:
+#     - name: audit.json # The `name` field is used to provide the file name of the seccomp profile.
+#       # The `value` field is used to provide the seccomp profile.
+#       value:
+#         defaultAction: SCMP_ACT_LOG
+# # Configures the node labels for the machine.
+# # node labels example.
+# nodeLabels:
+#     exampleLabel: exampleLabelValue
 # Provides cluster specific configuration options.
 cluster:
     # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
@@ -314,18 +347,6 @@ cluster:
             urls:
                 # Install the cilium CNI manifests
                 - https://raw.githubusercontent.com/xUnholy/k8s-gitops/main/k8s/namespaces/base/kube-system/cilium/install/cilium-1.12.1.yaml
-                # Install the kubelet cert-approver manifests
-                - https://raw.githubusercontent.com/xUnholy/k8s-gitops/main/talos/integrations/kubelet-cert-approver.yaml
-                # Install kube prometheus stack CRDs prior to cluster bootstrap
-                # Ref: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
-                - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
-                - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
-                - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
-                - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
-                - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
-                - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
-                - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
-                - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
     # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
     token: ki885q.d8u0mvnm96yudkcj
     # The key used for the [encryption of secret data at rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/).
@@ -376,6 +397,12 @@ cluster:
                     runtimeClasses: []
                     usernames: []
                 kind: PodSecurityConfiguration
+        # Configure the API server audit policy.
+        auditPolicy:
+            apiVersion: audit.k8s.io/v1
+            kind: Policy
+            rules:
+                - level: Metadata
     # Controller manager server specific configuration options.
     controllerManager:
         # The container image used in the controller manager manifest.
@@ -396,7 +423,9 @@ cluster:
         # Configure registries used for cluster member discovery.
         registries:
             # Kubernetes registry uses Kubernetes API server to discover cluster members and stores additional information
-            kubernetes: {}
+            kubernetes:
+                # Disable Kubernetes discovery registry.
+                disabled: true
             # Service registry is using an external service to push and pull information about cluster members.
             service: {}
             # # External service endpoint.
@@ -408,14 +437,24 @@ cluster:
             crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJmVENDQVNPZ0F3SUJBZ0lRRVdZVnRyYjJTb01aNDdjdGNqUS9NVEFLQmdncWhrak9QUVFEQWpBUE1RMHcKQ3dZRFZRUUtFd1JsZEdOa01CNFhEVEl5TURnd09EQTRORGcxTTFvWERUTXlNRGd3TlRBNE5EZzFNMW93RHpFTgpNQXNHQTFVRUNoTUVaWFJqWkRCWk1CTUdCeXFHU000OUFnRUdDQ3FHU000OUF3RUhBMElBQkFsZlNKNHM0ZXRkClZmSzVtWjRXMFRNLzdYSGZoT2g2a0c2c1NxUjhVUjJZNFpkcU5tU3lHUmZ4VzYvcmRMb1lrakNlbnV0VW4vcjcKazdEdU91WlM5MW1qWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjRApBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVRlFyWGtFZE9HOGU2CklZUnM2UExOMXpQaWx2UXdDZ1lJS29aSXpqMEVBd0lEU0FBd1JRSWdPQk0rQS81Z1lSZGhGZHNBZS9paGo1QWEKL2FQQURNUHR6Vy9lRnhDbERiQUNJUUR5S0Y2Ymdxcjc4cDI2QUs2Zm41Kzh5QXNPdFVoYnFBTmtRTVF4V2Z2QgpQZz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
             key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU1qSEpHbXN0TEJEMm45NmRRdXR0dTdROVRVVmwyMGpTcGozQnR1RmQ1NFhvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFQ1Y5SW5pemg2MTFWOHJtWm5oYlJNei90Y2QrRTZIcVFicXhLcEh4UkhaamhsMm8yWkxJWgpGL0Zicit0MHVoaVNNSjZlNjFTZit2dVRzTzQ2NWxMM1dRPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
             # # The container image used to create the etcd service.
-            # image: gcr.io/etcd-development/etcd:v3.5.4
-            # # The subnet from which the advertise URL should be.
-            # subnet: 10.0.0.0/8
-    # TODO: These files should be forked and updated; Include a network policy to avoid priv escalation
+            # image: gcr.io/etcd-development/etcd:v3.5.6
+            # # The `advertisedSubnets` field configures the networks to pick etcd advertised IP from.
+            # advertisedSubnets:
+            #     - 10.0.0.0/8
     # A list of urls that point to additional manifests.
-    # Also doesn't work on intial install with CNI none set.
-    extraManifests: []
-    # - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/v0.5.1/deploy/ha-install.yaml
+    extraManifests:
+        # Install the kubelet cert-approver manifests
+        - https://raw.githubusercontent.com/xUnholy/k8s-gitops/main/talos/integrations/kubelet-cert-approver.yaml
+        # Install kube prometheus stack CRDs prior to cluster bootstrap
+        # Ref: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
     #   - https://www.example.com/manifest1.yaml
     #   - https://www.example.com/manifest2.yaml
     # A list of inline Kubernetes manifests.
@@ -428,7 +467,7 @@ cluster:
     #       	name: ci
 # # Core DNS specific configuration options.
 # coreDNS:
-#     image: docker.io/coredns/coredns:1.9.3 # The `image` field is an override to the default coredns image.
+#     image: docker.io/coredns/coredns:1.10.0 # The `image` field is an override to the default coredns image.
 # # External cloud provider configuration.
 # externalCloudProvider:
 #     enabled: true # Enable external cloud provider.
@@ -449,8 +488,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2022-12-15T00:15:12Z"
-    mac: ENC[AES256_GCM,data:9nSJTL49aNNvFyvdpV861qAKVU+1q50dAVNi93I0I2ZD1e3PoRkJzDjK1AEhEyaGeFHDoeZyx+RQOvpxcxEr4k4njPi9OOPgJ2fR2ZuVGfWUss6g0323YANhUsEzVcvXDvlk/jX25hsBxnz8pzgOIAbyYYJrj8b5uZtl9+SskIQ=,iv:3yNiHs6Han+CXLS+59F6BMITkn9u0OPIhr+zQYiD2mY=,tag:sZqn2Iw65T7WM3gymPW8OQ==,type:str]
+    lastmodified: "2022-12-21T01:54:26Z"
+    mac: ENC[AES256_GCM,data:WZe0skPp3c658gNLcCb8tRmQrO1qRV/Tru56JDLXxVPuVAgWQ3oSALKtH1AWuzpVviLEIT+5EasOZ164oIiAWrSQrld0+S8xr+NukgpZfQpG1Q+3s/P1MZXg7N9bap61G0fqt5NAiCi05JRFR0Cte2to6T+hi1JsIlxqxYkcWT8=,iv:46jbfNsdYu03g8OIoe38AgtN7jQWRFTvJI6JhhYE+vs=,tag:lw5EDPmDymxeLQSRtS3ntw==,type:str]
     pgp:
         - created_at: "2022-12-06T22:26:46Z"
           enc: |

@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: crossplane-system
 
 resources:
-  - namespace.yaml
+  - provider.yaml

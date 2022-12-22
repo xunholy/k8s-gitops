@@ -71,3 +71,20 @@ Client:
 ```
 
 Follow the guide here to upgrade nodes to the appropriate Talos version https://www.talos.dev/v1.2/talos-guides/upgrading-talos/
+
+# Adding Protectli AMD64 Devices
+
+The following steps are required to boot Talos onto a Protectli device.
+
+- Flash Ubuntu onto flash drive
+- Install Ubuntu onto device; Continue once completed setup
+- Run the following commands:
+
+```bash
+wget https://github.com/siderolabs/talos/releases/download/v1.3.0/talos-amd64.iso
+dd if=talos-amd64.iso of=/dev/sda && sync
+```
+
+Note: May require running sudo - Also validate the block device is correct. EG. `lsblk` and `df -a` to make sure you're writing to the appropriate drive.
+
+- Restart device `sudo restart`; Enjoy running Talos!
