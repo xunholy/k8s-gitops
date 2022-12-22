@@ -37,3 +37,6 @@ spec:
   values:
     networkPolicy:
       enabled: true
+    metrics:
+      serviceMonitor:
+        enabled: true

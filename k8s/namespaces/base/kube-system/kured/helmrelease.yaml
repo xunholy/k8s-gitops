@@ -12,7 +12,7 @@ spec:
       version: 4.1.0
       sourceRef:
         kind: HelmRepository
-        name: weaveworks-kured-charts
+        name: kubereboot-charts
         namespace: flux-system
       interval: 10m
   test:
@@ -36,4 +36,4 @@ spec:
     service:
       create: true
     metrics:
-      create: false
+      create: true

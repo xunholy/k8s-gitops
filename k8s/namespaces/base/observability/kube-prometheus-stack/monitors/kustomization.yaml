@@ -1,13 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - cert-manager.yaml
-  - external-dns.yaml
   - flux.yaml
   - istio.yaml
-  - kured.yaml
-  - loki-stack.yaml
-  - sealed-secrets.yaml
-  - speedtest.yaml
-  - thanos.yaml
-  - velero.yaml

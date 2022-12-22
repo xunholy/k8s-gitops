@@ -42,5 +42,5 @@ resources:
   - traefik-charts.yaml
   - vernemq-charts.yaml
   - vmware-charts.yaml
-  - weaveworks-kured-charts.yaml
+  - kubereboot-charts.yaml
   - xunholy-charts.yaml
