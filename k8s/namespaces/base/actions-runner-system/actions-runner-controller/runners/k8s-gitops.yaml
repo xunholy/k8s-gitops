@@ -1,0 +1,24 @@
+# Runners associated with github.com/xUnholy/k8s-gitops
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: k8s-gitops
+spec:
+  template:
+    spec:
+      image: ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner-dind:ubuntu-22.04@sha256:0c662c9ffc6770cb021e5dff91789fa481966a6d42eefb6756ff48978a9109cb
+      imagePullPolicy: Always
+      dockerdWithinRunnerContainer: true
+      ephemeral: true
+      repository: xUnholy/k8s-gitops
+      labels: ["self-hosted"]
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
