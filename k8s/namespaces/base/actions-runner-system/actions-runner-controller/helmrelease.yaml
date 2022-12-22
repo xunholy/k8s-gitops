@@ -47,11 +47,6 @@ spec:
       runAsUser: 1000
     metrics:
       serviceMonitor: true
-    replicaCount: 2
-    podDisruptionBudget:
-      enabled: true
-      minAvailable: 1
-      maxUnavailable: 3
     logFormat: json
     githubWebhookServer:
       enabled: true
@@ -72,3 +67,12 @@ spec:
     actionsMetricsServer:
       enabled: true
       logFormat: json
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
