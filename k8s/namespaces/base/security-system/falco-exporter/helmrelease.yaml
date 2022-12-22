@@ -42,7 +42,7 @@ spec:
     serviceMonitor:
       enabled: true
     grafanaDashboard:
-      enabled: true
+      enabled: false
       namespace: default
     prometheusRules:
-      enabled: true
+      enabled: false
