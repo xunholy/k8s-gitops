@@ -21,6 +21,7 @@ resources:
   - k8s-at-home-charts.yaml
   - kiali-charts.yaml
   - kubefed-charts.yaml
+  - kubereboot-charts.yaml
   - kubernetes-sigs-charts.yaml
   - kubernetes-stable-charts.yaml
   - kyverno-charts.yaml
@@ -42,5 +43,5 @@ resources:
   - traefik-charts.yaml
   - vernemq-charts.yaml
   - vmware-charts.yaml
-  - kubereboot-charts.yaml
+  - weave-charts.yaml
   - xunholy-charts.yaml
