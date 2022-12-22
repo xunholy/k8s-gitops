@@ -7,3 +7,4 @@ metadata:
     role: openfaas-system
     access: openfaas-system
     namespace: openfaas
+    kustomize.toolkit.fluxcd.io/prune: disabled

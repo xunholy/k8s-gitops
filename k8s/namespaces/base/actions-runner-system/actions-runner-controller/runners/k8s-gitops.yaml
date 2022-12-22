@@ -22,3 +22,24 @@ spec:
                 operator: In
                 values:
                 - amd64
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: k8s-gitops
+spec:
+  scaleTargetRef:
+    name: k8s-gitops
+  scaleUpTriggers:
+    - githubEvent:
+        checkRun:
+          types: ["created"]
+          status: "queued"
+      amount: 1
+      duration: "1m"
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
+      repositoryNames:
+        - xUnholy/k8s-gitops

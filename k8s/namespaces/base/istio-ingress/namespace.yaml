@@ -5,3 +5,4 @@ metadata:
   name: istio-ingress
   labels:
     istio-injection: enabled
+    kustomize.toolkit.fluxcd.io/prune: disabled

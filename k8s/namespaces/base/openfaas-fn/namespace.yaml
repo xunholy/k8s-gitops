@@ -6,3 +6,4 @@ metadata:
   labels:
     role: openfaas-fn
     namespace: openfaas-fn
+    kustomize.toolkit.fluxcd.io/prune: disabled
