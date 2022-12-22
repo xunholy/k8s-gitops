@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: game-servers-namespace
+  name: game-servers
   namespace: flux-system
 spec:
   interval: 5m
@@ -30,5 +30,5 @@ spec:
 #     kind: GitRepository
 #     name: flux-system
 #   dependsOn:
-#     - name: nginx-ingress-namespace
+#     - name: nginx-ingress
 #       namespace: flux-system

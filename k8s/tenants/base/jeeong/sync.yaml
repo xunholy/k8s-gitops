@@ -2,19 +2,19 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
-  name: tenant-default
+  name: tenant-jeeong
 spec:
   interval: 1m
-  url: https://github.com/fluxcd/flux2-multi-tenancy
+  url: https://github.com/JeeOng/k8s-demo
   ref:
     branch: main
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: tenant-default-namespace
+  name: tenant-jeeong
 spec:
-  serviceAccountName: tenant
+  serviceAccountName: jeeong
   interval: 5m
   sourceRef:
     kind: GitRepository
