@@ -21,28 +21,10 @@ spec:
       ndm:
         sparse:
           count: '1'
+        nodeSelector:
+          openebs.io/engine: cstor
     # Default uses bitnami which doesn't have multiarch image support
     cleanup:
       image:
         repository: raspbernetes/kubectl
         tag: latest
-    apiserver:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: beta.kubernetes.io/arch
-                operator: In
-                values:
-                - amd64
-    provisioner:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: beta.kubernetes.io/arch
-                operator: In
-                values:
-                - amd64
