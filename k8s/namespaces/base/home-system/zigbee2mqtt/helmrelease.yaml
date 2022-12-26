@@ -35,6 +35,9 @@ spec:
         enabled: true
         existingClaim: zigbee2mqtt-data
         mountPath: "/data"
+    # Ensure it runs on nodes with cStor
+    nodeSelector:
+      openebs.io/engine: cstor
     config:
       # These will be applied ONLY on first run
       # Required: Home Assistant integration (MQTT discovery) (default: false)

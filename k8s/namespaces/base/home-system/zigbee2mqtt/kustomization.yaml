@@ -4,5 +4,7 @@ namespace: home-system
 
 resources:
   - helmrelease.yaml
+  # TODO: Re-enable once confirmed working
+  # - networkpolicy.yaml
   - pvc.yaml
   - virtualservice.yaml
