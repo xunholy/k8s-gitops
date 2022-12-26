@@ -14,18 +14,18 @@ spec:
     # Egress traffic to kube-apiserver svc
     - to:
         - ipBlock:
-            cidr: 10.144.0.1/32
+            cidr: 10.96.0.1/32
       ports:
         - protocol: TCP
           port: 443
     # Egress traffic to kube-apiserver endpoints
     - to:
         - ipBlock:
-            cidr: 192.168.1.111/32
+            cidr: 192.168.50.114/32
         - ipBlock:
-            cidr: 192.168.1.112/32
+            cidr: 192.168.50.115/32
         - ipBlock:
-            cidr: 192.168.1.113/32
+            cidr: 192.168.50.116/32
       ports:
         - protocol: TCP
           port: 6443
