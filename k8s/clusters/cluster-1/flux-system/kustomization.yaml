@@ -29,3 +29,62 @@ patches:
       kind: Kustomization
       name: flux-system
       namespace: flux-system
+  # REQUIRED: Increase the number of reconciliations that can be performed in parallel and bump the resources limits
+  # https://fluxcd.io/flux/cheatsheets/bootstrap/#increase-the-number-of-workers
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --concurrent=20
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --kube-api-qps=500
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --kube-api-burst=1000
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --requeue-dependency=5s
+    target:
+      kind: Deployment
+      name: "(kustomize-controller|helm-controller|source-controller)"
+  # REQUIRED: Allow the cluster autoscaler to evict the Flux controller pods
+  # https://fluxcd.io/flux/cheatsheets/bootstrap/#safe-to-evict
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: all
+      spec:
+        template:
+          metadata:
+            annotations:
+              cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/part-of=flux
+  # REQUIRED: Enable notifications for 3rd party Flux controllers such as tf-controller
+  # https://fluxcd.io/flux/cheatsheets/bootstrap/#enable-notifications-for-third-party-controllers
+  - patch: |
+      - op: add
+        path: /spec/versions/0/schema/openAPIV3Schema/properties/spec/properties/eventSources/items/properties/kind/enum/-
+        value: Terraform
+    target:
+      kind: CustomResourceDefinition
+      name:  alerts.notification.toolkit.fluxcd.io
+  - patch: |
+      - op: add
+        path: /spec/versions/0/schema/openAPIV3Schema/properties/spec/properties/resources/items/properties/kind/enum/-
+        value: Terraform
+    target:
+      kind: CustomResourceDefinition
+      name:  receivers.notification.toolkit.fluxcd.io
+  - patch: |
+      - op: add
+        path: /rules/-
+        value:
+          apiGroups: [ 'infra.contrib.fluxcd.io' ]
+          resources: [ '*' ]
+          verbs: [ '*' ]
+    target:
+      kind: ClusterRole
+      name:  crd-controller-flux-system
