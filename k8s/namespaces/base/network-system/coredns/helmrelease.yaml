@@ -19,10 +19,29 @@ spec:
   dependsOn:
     - name: metallb
       namespace: network-system
-  test:
-    enable: false # Enable helm test
   install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
     createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: "true"
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
   values:
     # Custom image bundled with external plugins; currently not in use.
     # This image is reusable and can be viewed with the available plugins here https://github.com/xUnholy/coredns

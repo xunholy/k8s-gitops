@@ -15,20 +15,29 @@ spec:
         name: litmuschaos-charts
         namespace: flux-system
       interval: 10m
-  test:
-    enable: false
   install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
     remediation:
-      retries: 5
+      retries: 3
   upgrade:
     remediation:
-      retries: 5
       remediateLastFailure: true
+      retries: 3
+      strategy: rollback
     cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
   rollback:
-    timeout: 10m
-    recreate: true
+    recreate: "true"
+    force: true
     cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
   values:
     nameOverride: "litmus-core"
     fullnameOverride: "litmus-core"

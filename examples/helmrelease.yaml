@@ -1,0 +1,66 @@
+# An example HelmRelease which I consider to follow somewhat best practices
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: example
+  namespace: example
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: example
+      version: ">=4.0.0 <5.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: example
+        namespace: default
+      interval: 1m
+  dependsOn:
+    - name: example
+      namespace: example
+  install:
+    # Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) during the performance of a Helm install action.
+    timeout: 10m
+    # Replace tells the Helm install action to re-use the 'ReleaseName', but only if that name is a deleted release which remains in the history.
+    replace: true
+    # Install CRDs or replace if existing CRDs have not been completely deleted and/or removed.
+    crds: CreateReplace
+    # CreateNamespace tells the Helm install action to create the HelmReleaseSpec.TargetNamespace if it does not exist yet.
+    # CAUTION: Can be a limitation if you require specific namespace labels or annotations to exist; EG. PodSecurity
+    createNamespace: true
+    # Remediation holds the remediation configuration for when the Helm install action for the HelmRelease fails.
+    remediation:
+      # Retries is the number of retries that should be attempted on failures before bailing.
+      retries: 3
+  upgrade:
+    # Remediation holds the remediation configuration for when the Helm upgrade action for the HelmRelease fails.
+    remediation:
+      # Tells the controller to remediate the last failure, when no retries remain.
+      remediateLastFailure: true
+      # Retries is the number of retries that should be attempted on failures before bailing.
+      retries: 3
+      # Strategy to use for failure remediation. Defaults to 'rollback'.
+      strategy: rollback
+    # Allows deletion of new resources created during the Helm upgrade action when it fails.
+    cleanupOnFail: true
+    # CRDs upgrade CRDs from the Helm Chart's crds directory according to the CRD upgrade policy provided.
+    # Default is `Skip` and if omitted CRDs are neither installed nor upgraded.
+    crds: CreateReplace
+  test:
+    # Enables Helm test actions for this HelmRelease after an Helm install or upgrade action has been performed.
+    enable: true
+  rollback:
+    # Recreate performs pod restarts for the resource if applicable.
+    recreate: true
+    # Forces resource updates through a replacement strategy.
+    force: true
+    # Allows deletion of new resources created during the Helm rollback action when it fails.
+    cleanupOnFail: true
+  uninstall:
+    # Post Helm performing a remove all associated resources, do not retain release history.
+    keepHistory: false
+  # Use '0' for an unlimited number of revisions; defaults to '10' if unset.
+  maxHistory: 3
+  values:
+    <..>

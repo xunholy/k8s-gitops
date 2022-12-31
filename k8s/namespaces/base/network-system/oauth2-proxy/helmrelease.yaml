@@ -15,21 +15,29 @@ spec:
         name: oauth2-proxy-chart
         namespace: flux-system
       interval: 10m
-  test:
-    enable: false # Enable helm test
   install:
-    remediation: # perform remediation when helm install fails
-      retries: 5
-  upgrade:
-    remediation: # perform remediation when helm upgrade fails
-      retries: 3
-      remediateLastFailure: true # remediate the last failure, when no retries remain
-    cleanupOnFail: true
-  rollback:
     timeout: 10m
-    recreate: true
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
     cleanupOnFail: true
-  # Depends on having the sealed secret oauth2-proxy-dex un-encrypted. Also requires dex + cert-manager to be running.
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: "true"
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
   dependsOn:
     - name: dex
       namespace: network-system

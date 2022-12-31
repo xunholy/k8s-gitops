@@ -15,14 +15,28 @@ spec:
         name: actions-runner-controller
         namespace: flux-system
   install:
-    createNamespace: true
+    timeout: 10m
+    replace: true
     crds: CreateReplace
+    createNamespace: true
     remediation:
       retries: 3
   upgrade:
-    crds: CreateReplace
     remediation:
+      remediateLastFailure: true
       retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: "true"
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
   values:
     image:
       repository: ghcr.io/actions-runner-controller/actions-runner-controller

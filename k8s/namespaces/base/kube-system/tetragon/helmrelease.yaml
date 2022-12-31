@@ -16,25 +16,29 @@ spec:
         namespace: flux-system
       # The HelmRelease version of Cilium MUST match the version installed via Talos to avoid collisions on cluster rebuilds
       version: 0.8.0
-  test:
-    enable: true # Enable helm test
   install:
-    # Create new CRDs, update (replace) existing ones, but do not delete CRDs which no longer exist in the current helm release.
-    crds: CreateReplace
-    remediation: # perform remediation when helm install fails
-      retries: 3
-    skipCRDs: true
-  upgrade:
-    # Create new CRDs, update (replace) existing ones, but do not delete CRDs which no longer exist in the current helm release.
-    crds: CreateReplace
-    remediation: # perform remediation when helm upgrade fails
-      retries: 3
-      remediateLastFailure: true # remediate the last failure, when no retries remain
-    cleanupOnFail: true
-  rollback:
     timeout: 10m
-    recreate: true
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
     cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: "true"
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
   valuesFrom:
     - kind: ConfigMap
       name: tetragon-values
