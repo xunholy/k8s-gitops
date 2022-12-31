@@ -15,20 +15,29 @@ spec:
         name: k8s-at-home-charts
         namespace: flux-system
       interval: 1m
-  test:
-    enable: false # Enable helm test
   install:
-    remediation: # perform remediation when helm install fails
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
       retries: 3
   upgrade:
-    remediation: # perform remediation when helm upgrade fails
+    remediation:
+      remediateLastFailure: true
       retries: 3
-      remediateLastFailure: true # remediate the last failure, when no retries remain
+      strategy: rollback
     cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
   rollback:
-    timeout: 10m
     recreate: true
+    force: true
     cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
   values:
     serviceMonitor:
       enabled: true

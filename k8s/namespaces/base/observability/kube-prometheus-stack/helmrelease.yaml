@@ -16,24 +16,29 @@ spec:
       verify:
         provider: cosign
       interval: 60m
-  test:
-    enable: true # Enable helm test
   install:
-    # Create new CRDs, update (replace) existing ones, but do not delete CRDs which no longer exist in the current helm release.
+    timeout: 10m
+    replace: true
     crds: CreateReplace
-    remediation: # perform remediation when helm install fails
+    createNamespace: true
+    remediation:
       retries: 3
   upgrade:
-    # Create new CRDs, update (replace) existing ones, but do not delete CRDs which no longer exist in the current helm release.
-    crds: CreateReplace
-    remediation: # perform remediation when helm upgrade fails
+    remediation:
+      remediateLastFailure: true
       retries: 3
-      remediateLastFailure: true # remediate the last failure, when no retries remain
+      strategy: rollback
     cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
   rollback:
-    timeout: 10m
     recreate: true
+    force: true
     cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
   dependsOn:
     - name: thanos
       namespace: observability

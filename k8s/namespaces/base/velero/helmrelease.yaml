@@ -15,19 +15,29 @@ spec:
         name: vmware-charts
         namespace: flux-system
       interval: 10m
-  test:
-    enable: true
   install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
     remediation:
       retries: 3
   upgrade:
     remediation:
       remediateLastFailure: true
+      retries: 3
+      strategy: rollback
     cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
   rollback:
-    timeout: 10m
     recreate: true
+    force: true
     cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
   values:
     # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
     initContainers:
