@@ -31,7 +31,7 @@ spec:
   test:
     enable: true
   rollback:
-    recreate: "true"
+    recreate: true
     force: true
     cleanupOnFail: true
   uninstall:
