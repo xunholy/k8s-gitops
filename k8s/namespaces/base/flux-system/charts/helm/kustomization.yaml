@@ -28,6 +28,7 @@ resources:
   - kubernetes-stable-charts.yaml
   - kyverno-charts.yaml
   - litmuschaos-charts.yaml
+  - loft-charts.yaml
   - metallb-charts.yaml
   - metrics-server-charts.yaml
   - minecraft-server-charts.yaml
