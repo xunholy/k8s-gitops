@@ -12,8 +12,8 @@ spec:
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: OCIRepository
+    name: cluster
   # patches:
   #   - patch: |-
   #       apiVersion: helm.toolkit.fluxcd.io/v2beta1

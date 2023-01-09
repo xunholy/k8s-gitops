@@ -10,8 +10,8 @@ spec:
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: OCIRepository
+    name: cluster
 # TODO: Enemy Territory runs as a 32bit binary which doesn't work on Talos currently. Must either use x86 or wait for if Talos support is added in the future.
 # ---
 # apiVersion: kustomize.toolkit.fluxcd.io/v1beta2

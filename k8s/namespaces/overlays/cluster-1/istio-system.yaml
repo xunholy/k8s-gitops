@@ -10,8 +10,8 @@ spec:
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: OCIRepository
+    name: cluster
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -25,8 +25,8 @@ spec:
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: OCIRepository
+    name: cluster
   dependsOn:
     - name: istio-system-istiod
       namespace: flux-system
@@ -43,8 +43,8 @@ spec:
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: OCIRepository
+    name: cluster
   dependsOn:
     - name: istio-system
       namespace: flux-system
@@ -61,8 +61,8 @@ spec:
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: OCIRepository
+    name: cluster
   dependsOn:
     - name: istio-system-istio-base
       namespace: flux-system
@@ -79,8 +79,8 @@ spec:
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: OCIRepository
+    name: cluster
   dependsOn:
     - name: istio-system-istio-cni
       namespace: flux-system
