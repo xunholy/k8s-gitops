@@ -50,3 +50,18 @@ jobs:
       - name: Create OCI artifact tag
         run: |
           flux tag artifact $OCI_REPO:$(git rev-parse --short HEAD) --tag main
+
+      # Install Cosign
+      - uses: sigstore/cosign-installer@main
+
+      # Cosign the OCI artifact
+      - name: Sign the OCI artifact
+        run: cosign sign $OCI_REPO:$(git rev-parse --short HEAD)
+        env:
+          COSIGN_EXPERIMENTAL: 1
+
+      # Verify the Cosign of the OCI artifact
+      - name: Verify the pushed tags
+        run: cosign verify $OCI_REPO:$(git rev-parse --short HEAD)
+        env:
+          COSIGN_EXPERIMENTAL: 1
