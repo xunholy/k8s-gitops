@@ -21,7 +21,7 @@ env:
 
 jobs:
   publish:
-    runs-on: [self-hosted, platform-cloud-infra]
+    runs-on: ubuntu-latest
     steps:
       # Required to be able to create an OCI artifact
       - name: Checkout
