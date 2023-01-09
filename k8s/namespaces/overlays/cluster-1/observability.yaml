@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/observability"
+  path: "./namespaces/base/observability"
   prune: true
   wait: true
   sourceRef:
@@ -22,7 +22,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/observability/kube-prometheus-stack"
+  path: "./namespaces/base/observability/kube-prometheus-stack"
   prune: true
   wait: true
   sourceRef:
@@ -41,7 +41,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/observability/kube-prometheus-stack/monitors"
+  path: "./namespaces/base/observability/kube-prometheus-stack/monitors"
   prune: true
   wait: true
   sourceRef:
@@ -64,7 +64,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/observability/jaeger"
+  path: "./namespaces/base/observability/jaeger"
   prune: true
   wait: false
   sourceRef:
@@ -78,7 +78,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/observability/loki-stack"
+  path: "./namespaces/base/observability/loki-stack"
   prune: true
   wait: false
   sourceRef:
@@ -97,7 +97,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/observability/thanos"
+  path: "./namespaces/base/observability/thanos"
   prune: true
   wait: true
   sourceRef:
@@ -116,7 +116,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/observability/grafana"
+  path: "./namespaces/base/observability/grafana"
   prune: true
   wait: true
   sourceRef:
@@ -135,7 +135,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/observability/kiali"
+  path: "./namespaces/base/observability/kiali"
   prune: true
   wait: true
   sourceRef:

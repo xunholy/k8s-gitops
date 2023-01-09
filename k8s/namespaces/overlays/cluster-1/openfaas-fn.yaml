@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/openfaas-fn"
+  path: "./namespaces/base/openfaas-fn"
   prune: true
   wait: true
   sourceRef:

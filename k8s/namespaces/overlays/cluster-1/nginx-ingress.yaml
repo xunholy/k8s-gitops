@@ -8,7 +8,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/nginx-ingress"
+  path: "./namespaces/base/nginx-ingress"
   prune: true
   wait: true
   sourceRef:

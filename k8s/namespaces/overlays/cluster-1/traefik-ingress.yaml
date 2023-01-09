@@ -6,7 +6,7 @@
 #   namespace: flux-system
 # spec:
 #   interval: 5m
-#   path: "./k8s/namespaces/base/traefik-ingress"
+#   path: "./namespaces/base/traefik-ingress"
 #   prune: true
 #   wait: true
 #   sourceRef:

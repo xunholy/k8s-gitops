@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/openebs"
+  path: "./namespaces/base/openebs"
   prune: true
   wait: true
   sourceRef:
@@ -20,7 +20,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/openebs/cstor"
+  path: "./namespaces/base/openebs/cstor"
   prune: false
   wait: true
   sourceRef:

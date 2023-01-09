@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/security-system"
+  path: "./namespaces/base/security-system"
   prune: true
   wait: true
   sourceRef:
@@ -20,7 +20,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/security-system/kyverno"
+  path: "./namespaces/base/security-system/kyverno"
   prune: true
   wait: false
   sourceRef:
@@ -35,7 +35,7 @@ spec:
 #   namespace: flux-system
 # spec:
 #   interval: 5m
-#   path: "./k8s/namespaces/base/security-system/falco"
+#   path: "./namespaces/base/security-system/falco"
 #   prune: true
 #   wait: false
 #   sourceRef:
@@ -49,7 +49,7 @@ spec:
 #   namespace: flux-system
 # spec:
 #   interval: 5m
-#   path: "./k8s/namespaces/base/security-system/falco-exporter"
+#   path: "./namespaces/base/security-system/falco-exporter"
 #   prune: true
 #   wait: false
 #   sourceRef:
@@ -63,7 +63,7 @@ spec:
 #   namespace: flux-system
 # spec:
 #   interval: 5m
-#   path: "./k8s/namespaces/base/security-system/crowdsec"
+#   path: "./namespaces/base/security-system/crowdsec"
 #   prune: true
 #   wait: false
 #   sourceRef:
@@ -88,7 +88,7 @@ spec:
 #   namespace: flux-system
 # spec:
 #   interval: 5m
-#   path: "./k8s/namespaces/base/security-system/gatekeeper"
+#   path: "./namespaces/base/security-system/gatekeeper"
 #   prune: true
 #   wait: false
 #   sourceRef:

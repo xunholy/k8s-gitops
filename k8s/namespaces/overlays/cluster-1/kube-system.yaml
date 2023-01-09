@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/kube-system"
+  path: "./namespaces/base/kube-system"
   prune: true
   wait: true
   sourceRef:
@@ -22,7 +22,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/kube-system/cilium"
+  path: "./namespaces/base/kube-system/cilium"
   prune: true
   wait: true
   sourceRef:
@@ -41,7 +41,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/kube-system/cilium/flux"
+  path: "./namespaces/base/kube-system/cilium/flux"
   prune: true
   wait: true
   sourceRef:
@@ -55,7 +55,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/kube-system/reloader"
+  path: "./namespaces/base/kube-system/reloader"
   prune: true
   wait: true
   sourceRef:
@@ -71,7 +71,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/kube-system/sealed-secrets"
+  path: "./namespaces/base/kube-system/sealed-secrets"
   prune: true
   wait: true
   sourceRef:
@@ -88,7 +88,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/kube-system/secret-store-csi-driver"
+  path: "./namespaces/base/kube-system/secret-store-csi-driver"
   prune: true
   wait: true
   sourceRef:
@@ -102,7 +102,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/kube-system/metrics-server"
+  path: "./namespaces/base/kube-system/metrics-server"
   prune: true
   wait: true
   sourceRef:
@@ -116,7 +116,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/kube-system/descheduler"
+  path: "./namespaces/base/kube-system/descheduler"
   prune: true
   wait: true
   sourceRef:
@@ -130,7 +130,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/kube-system/tetragon"
+  path: "./namespaces/base/kube-system/tetragon"
   prune: true
   wait: true
   sourceRef:

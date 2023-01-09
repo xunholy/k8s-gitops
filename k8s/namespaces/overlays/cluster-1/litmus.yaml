@@ -6,7 +6,7 @@
 #   namespace: flux-system
 # spec:
 #   interval: 5m
-#   path: "./k8s/namespaces/base/litmus"
+#   path: "./namespaces/base/litmus"
 #   prune: true
 #   wait: true
 #   sourceRef:
@@ -31,7 +31,7 @@
 #   namespace: flux-system
 # spec:
 #   interval: 5m
-#   path: "./k8s/namespaces/base/litmus/litmus"
+#   path: "./namespaces/base/litmus/litmus"
 #   prune: true
 #   wait: true
 #   sourceRef:
@@ -59,7 +59,7 @@
 #   namespace: flux-system
 # spec:
 #   interval: 5m
-#   path: "./k8s/namespaces/base/litmus/litmus-core"
+#   path: "./namespaces/base/litmus/litmus-core"
 #   prune: true
 #   wait: true
 #   sourceRef:

@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/flux-system/charts"
+  path: "./namespaces/base/flux-system/charts"
   prune: true
   wait: false
   sourceRef:
@@ -22,7 +22,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/flux-system/notifications"
+  path: "./namespaces/base/flux-system/notifications"
   prune: true
   wait: false
   sourceRef:
@@ -38,7 +38,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/flux-system/webhook-receiver"
+  path: "./namespaces/base/flux-system/webhook-receiver"
   prune: true
   wait: false
   sourceRef:
@@ -58,7 +58,7 @@ metadata:
       substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/flux-system/tf-controller"
+  path: "./namespaces/base/flux-system/tf-controller"
   prune: true
   wait: false
   sourceRef:
@@ -74,7 +74,7 @@ metadata:
       substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/flux-system/weave-gitops"
+  path: "./namespaces/base/flux-system/weave-gitops"
   prune: true
   wait: false
   sourceRef:

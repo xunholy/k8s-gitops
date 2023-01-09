@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system"
+  path: "./namespaces/base/network-system"
   prune: true
   wait: true
   sourceRef:
@@ -22,7 +22,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/cert-manager"
+  path: "./namespaces/base/network-system/cert-manager"
   prune: true
   wait: true
   sourceRef:
@@ -39,7 +39,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/cert-manager/clusterissuers"
+  path: "./namespaces/base/network-system/cert-manager/clusterissuers"
   prune: true
   wait: true
   sourceRef:
@@ -58,7 +58,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/cloudflared"
+  path: "./namespaces/base/network-system/cloudflared"
   prune: true
   wait: true
   sourceRef:
@@ -74,7 +74,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/cloudflare-ddns"
+  path: "./namespaces/base/network-system/cloudflare-ddns"
   prune: true
   wait: true
   sourceRef:
@@ -93,7 +93,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/coredns"
+  path: "./namespaces/base/network-system/coredns"
   prune: true
   wait: true
   sourceRef:
@@ -109,7 +109,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/dex"
+  path: "./namespaces/base/network-system/dex"
   prune: true
   wait: true
   sourceRef:
@@ -128,7 +128,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/dex-k8s-authenticator"
+  path: "./namespaces/base/network-system/dex-k8s-authenticator"
   prune: true
   wait: true
   sourceRef:
@@ -147,7 +147,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/external-dns"
+  path: "./namespaces/base/network-system/external-dns"
   prune: true
   wait: true
   sourceRef:
@@ -165,7 +165,7 @@ spec:
 #   namespace: flux-system
 # spec:
 #   interval: 5m
-#   path: "./k8s/namespaces/base/network-system/istio-csr"
+#   path: "./namespaces/base/network-system/istio-csr"
 #   prune: true
 #   wait: true
 #   sourceRef:
@@ -184,7 +184,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/metallb"
+  path: "./namespaces/base/network-system/metallb"
   prune: true
   wait: true
   sourceRef:
@@ -203,7 +203,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/metallb/config"
+  path: "./namespaces/base/network-system/metallb/config"
   prune: true
   wait: true
   sourceRef:
@@ -220,7 +220,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/node-feature-discovery"
+  path: "./namespaces/base/network-system/node-feature-discovery"
   prune: true
   wait: true
   sourceRef:
@@ -236,7 +236,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/oauth2-proxy"
+  path: "./namespaces/base/network-system/oauth2-proxy"
   prune: true
   wait: true
   sourceRef:
@@ -255,7 +255,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/origin-ca-issuer"
+  path: "./namespaces/base/network-system/origin-ca-issuer"
   prune: true
   wait: true
   sourceRef:
@@ -271,7 +271,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/network-system/echo-server"
+  path: "./namespaces/base/network-system/echo-server"
   prune: true
   wait: true
   sourceRef:

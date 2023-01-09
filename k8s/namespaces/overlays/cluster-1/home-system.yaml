@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/home-system"
+  path: "./namespaces/base/home-system"
   prune: true
   wait: true
   sourceRef:
@@ -22,7 +22,7 @@ spec:
 #     substitution.flux/enabled: true
 # spec:
 #   interval: 5m
-#   path: "./k8s/namespaces/base/home-system/home-assistant"
+#   path: "./namespaces/base/home-system/home-assistant"
 #   prune: true
 #   wait: false
 #   sourceRef:
@@ -43,7 +43,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/home-system/mosquitto"
+  path: "./namespaces/base/home-system/mosquitto"
   prune: true
   wait: false
   sourceRef:
@@ -59,7 +59,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/home-system/zigbee2mqtt"
+  path: "./namespaces/base/home-system/zigbee2mqtt"
   prune: true
   wait: false
   sourceRef:

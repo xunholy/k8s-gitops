@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/istio-system"
+  path: "./namespaces/base/istio-system"
   prune: true
   wait: true
   sourceRef:
@@ -21,7 +21,7 @@ metadata:
 spec:
   interval: 5m
   timeout: 10m
-  path: "./k8s/namespaces/base/istio-system/flagger"
+  path: "./namespaces/base/istio-system/flagger"
   prune: true
   wait: true
   sourceRef:
@@ -39,7 +39,7 @@ metadata:
 spec:
   interval: 5m
   timeout: 10m
-  path: "./k8s/namespaces/base/istio-system/istio-base"
+  path: "./namespaces/base/istio-system/istio-base"
   prune: true
   wait: true
   sourceRef:
@@ -57,7 +57,7 @@ metadata:
 spec:
   interval: 5m
   timeout: 10m
-  path: "./k8s/namespaces/base/istio-system/istio-cni"
+  path: "./namespaces/base/istio-system/istio-cni"
   prune: true
   wait: true
   sourceRef:
@@ -75,7 +75,7 @@ metadata:
 spec:
   interval: 5m
   timeout: 10m
-  path: "./k8s/namespaces/base/istio-system/istiod"
+  path: "./namespaces/base/istio-system/istiod"
   prune: true
   wait: true
   sourceRef:

@@ -8,7 +8,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/crossplane-system"
+  path: "./namespaces/base/crossplane-system"
   prune: true
   wait: true
   sourceRef:
@@ -24,7 +24,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/crossplane-system/crossplane"
+  path: "./namespaces/base/crossplane-system/crossplane"
   prune: true
   wait: true
   sourceRef:
@@ -40,7 +40,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./k8s/namespaces/base/crossplane-system/crossplane/providers"
+  path: "./namespaces/base/crossplane-system/crossplane/providers"
   prune: true
   wait: true
   sourceRef:
