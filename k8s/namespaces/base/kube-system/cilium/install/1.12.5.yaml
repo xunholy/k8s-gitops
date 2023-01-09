@@ -90,7 +90,7 @@ rollOutCiliumPods: false
 image:
   override: ~
   repository: "quay.io/cilium/cilium"
-  tag: "v1.12.1"
+  tag: "v1.12.5"
   pullPolicy: "IfNotPresent"
   # cilium-digest
   digest: ""
@@ -100,10 +100,10 @@ image:
 affinity:
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
-      - topologyKey: kubernetes.io/hostname
-        labelSelector:
-          matchLabels:
-            k8s-app: cilium
+    - topologyKey: kubernetes.io/hostname
+      labelSelector:
+        matchLabels:
+          k8s-app: cilium
 
 # -- Node selector for cilium-agent.
 nodeSelector:
@@ -112,7 +112,7 @@ nodeSelector:
 # -- Node tolerations for agent scheduling to nodes with taints
 # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
 tolerations:
-  - operator: Exists
+- operator: Exists
   # - key: "key"
   #   operator: "Equal|Exists"
   #   value: "value"
@@ -481,6 +481,10 @@ ingressController:
   # Incoming traffic to http listener will return 308 http error code with respective location in header.
   enforceHttps: true
 
+  # -- IngressLBAnnotations are the annotation prefixes, which are used to filter annotations to propagate
+  # from Ingress to the Load Balancer service
+  ingressLBAnnotationPrefixes: ['service.beta.kubernetes.io', 'service.kubernetes.io', 'cloud.google.com']
+
   # -- SecretsNamespace is the namespace in which envoy SDS will retrieve TLS secrets from.
   secretsNamespace:
     # -- Create secrets namespace for Ingress.
@@ -552,7 +556,7 @@ endpointHealthChecking:
   enabled: true
 
 # -- Enable endpoint status.
-# Status can be: policy, health, controllers, logs and / or state. For 2 or more options use a comma.
+# Status can be: policy, health, controllers, log and / or state. For 2 or more options use a space.
 endpointStatus:
   enabled: false
   status: ""
@@ -668,6 +672,13 @@ hubble:
     # are disabled.
     # Example:
     #
+    #   enabled:
+    #   - dns:query;ignoreAAAA
+    #   - drop
+    #   - tcp
+    #   - flow
+    #   - icmp
+    #   - http
     #
     # You can specify the list of metrics from the helm CLI:
     #
@@ -693,6 +704,10 @@ hubble:
       labels: {}
       # -- Annotations to add to ServiceMonitor hubble
       annotations: {}
+      # -- Relabeling configs for the ServiceMonitor hubble
+      relabelings: ~
+      # -- Metrics relabeling configs for the ServiceMonitor hubble
+      metricRelabelings: ~
 
   # -- Unix domain socket path to listen to when Hubble is enabled.
   socketPath: /var/run/cilium/hubble.sock
@@ -785,7 +800,7 @@ hubble:
     image:
       override: ~
       repository: "quay.io/cilium/hubble-relay"
-      tag: "v1.12.1"
+      tag: "v1.12.5"
        # hubble-relay-digest
       digest: ""
       useDigest: false
@@ -801,10 +816,10 @@ hubble:
     affinity:
       podAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-          - topologyKey: kubernetes.io/hostname
-            labelSelector:
-              matchLabels:
-                k8s-app: cilium
+        - topologyKey: kubernetes.io/hostname
+          labelSelector:
+            matchLabels:
+              k8s-app: cilium
 
     # -- Node labels for pod assignment
     # ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -923,6 +938,10 @@ hubble:
         # -- Specify the Kubernetes namespace where Prometheus expects to find
         # service monitors configured.
         # namespace: ""
+        # -- Relabeling configs for the ServiceMonitor hubble-relay
+        relabelings: ~
+        # -- Metrics relabeling configs for the ServiceMonitor hubble-relay
+        metricRelabelings: ~
 
   ui:
     # -- Whether to enable the Hubble UI.
@@ -1003,6 +1022,10 @@ hubble:
       #   requests:
       #     cpu: 100m
       #     memory: 64Mi
+      server:
+        # -- Controls server listener for ipv6
+        ipv6:
+          enabled: true
 
     # -- The number of replicas of Hubble UI to deploy.
     replicas: 1
@@ -1135,14 +1158,6 @@ ipv4:
 ipv6:
   # -- Enable IPv6 support.
   enabled: false
-
-ipvlan:
-  # -- Enable the IPVLAN datapath (deprecated)
-  enabled: false
-
-  # -- masterDevice is the name of the device to use to attach secondary IPVLAN
-  # devices
-  # masterDevice: eth0
 
 # -- Configure Kubernetes specific configuration
 k8s: {}
@@ -1347,6 +1362,10 @@ prometheus:
     # -- Specify the Kubernetes namespace where Prometheus expects to find
     # service monitors configured.
     # namespace: ""
+    # -- Relabeling configs for the ServiceMonitor cilium-agent
+    relabelings: ~
+    # -- Metrics relabeling configs for the ServiceMonitor cilium-agent
+    metricRelabelings: ~
   # -- Metrics that should be enabled or disabled from the default metric
   # list. (+metric_foo to enable metric_foo , -metric_bar to disable
   # metric_bar).
@@ -1455,7 +1474,7 @@ etcd:
   # -- Node tolerations for cilium-etcd-operator scheduling to nodes with taints
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   tolerations:
-    - operator: Exists
+  - operator: Exists
     # - key: "key"
     #   operator: "Equal|Exists"
     #   value: "value"
@@ -1531,7 +1550,7 @@ operator:
   image:
     override: ~
     repository: "quay.io/cilium/operator"
-    tag: "v1.12.1"
+    tag: "v1.12.5"
     # operator-generic-digest
     genericDigest: ""
     # operator-azure-digest
@@ -1545,7 +1564,7 @@ operator:
     suffix: ""
 
   # -- Number of replicas to run for the cilium-operator deployment
-  replicas: 1
+  replicas: 2
 
   # -- The priority class to use for cilium-operator
   priorityClassName: ""
@@ -1565,10 +1584,10 @@ operator:
   affinity:
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
-        - topologyKey: kubernetes.io/hostname
-          labelSelector:
-            matchLabels:
-              io.cilium/app: operator
+      - topologyKey: kubernetes.io/hostname
+        labelSelector:
+          matchLabels:
+            io.cilium/app: operator
 
   # -- Node labels for cilium-operator pod assignment
   # ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -1579,7 +1598,7 @@ operator:
   # -- Node tolerations for cilium-operator scheduling to nodes with taints
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   tolerations:
-    - operator: Exists
+  - operator: Exists
     # - key: "key"
     #   operator: "Equal|Exists"
     #   value: "value"
@@ -1643,6 +1662,9 @@ operator:
   # -- Interval for cilium node garbage collection.
   nodeGCInterval: "5m0s"
 
+  # -- Skip CNP node status clean up at operator startup.
+  skipCNPStatusStartupClean: false
+
   # -- Interval for identity garbage collection.
   identityGCInterval: "15m0s"
 
@@ -1652,7 +1674,7 @@ operator:
   # -- Enable prometheus metrics for cilium-operator on the configured port at
   # /metrics
   prometheus:
-    enabled: true
+    enabled: false
     port: 9963
     serviceMonitor:
       # -- Enable service monitors.
@@ -1662,6 +1684,10 @@ operator:
       labels: {}
       # -- Annotations to add to ServiceMonitor cilium-operator
       annotations: {}
+      # -- Relabeling configs for the ServiceMonitor cilium-operator
+      relabelings: ~
+      # -- Metrics relabeling configs for the ServiceMonitor cilium-operator
+      metricRelabelings: ~
 
   # -- Skip CRDs creation for cilium-operator
   skipCRDCreation: false
@@ -1714,7 +1740,7 @@ nodeinit:
   # -- Node tolerations for nodeinit scheduling to nodes with taints
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   tolerations:
-    - operator: Exists
+  - operator: Exists
     # - key: "key"
     #   operator: "Equal|Exists"
     #   value: "value"
@@ -1764,7 +1790,7 @@ preflight:
   image:
     override: ~
     repository: "quay.io/cilium/cilium"
-    tag: "v1.12.1"
+    tag: "v1.12.5"
     # cilium-digest
     digest: ""
     useDigest: false
@@ -1784,10 +1810,10 @@ preflight:
   affinity:
     podAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
-        - topologyKey: kubernetes.io/hostname
-          labelSelector:
-            matchLabels:
-              k8s-app: cilium
+      - topologyKey: kubernetes.io/hostname
+        labelSelector:
+          matchLabels:
+            k8s-app: cilium
 
   # -- Node labels for preflight pod assignment
   # ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -1798,15 +1824,15 @@ preflight:
   # -- Node tolerations for preflight scheduling to nodes with taints
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   tolerations:
-    - key: node.kubernetes.io/not-ready
-      effect: NoSchedule
-    - key: node-role.kubernetes.io/master
-      effect: NoSchedule
-    - key: node.cloudprovider.kubernetes.io/uninitialized
-      effect: NoSchedule
-      value: "true"
-    - key: CriticalAddonsOnly
-      operator: "Exists"
+  - key: node.kubernetes.io/not-ready
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/master
+    effect: NoSchedule
+  - key: node.cloudprovider.kubernetes.io/uninitialized
+    effect: NoSchedule
+    value: "true"
+  - key: CriticalAddonsOnly
+    operator: "Exists"
     # - key: "key"
     #   operator: "Equal|Exists"
     #   value: "value"
@@ -1901,7 +1927,7 @@ clustermesh:
     image:
       override: ~
       repository: "quay.io/cilium/clustermesh-apiserver"
-      tag: "v1.12.1"
+      tag: "v1.12.5"
       # clustermesh-apiserver-digest
       digest: ""
       useDigest: false
@@ -1972,10 +1998,10 @@ clustermesh:
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-          - topologyKey: kubernetes.io/hostname
-            labelSelector:
-              matchLabels:
-                k8s-app: clustermesh-apiserver
+        - topologyKey: kubernetes.io/hostname
+          labelSelector:
+            matchLabels:
+              k8s-app: clustermesh-apiserver
 
     # -- Node labels for pod assignment
     # ref: https://kubernetes.io/docs/user-guide/node-selection/
