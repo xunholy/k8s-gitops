@@ -1,0 +1,30 @@
+---
+apiVersion: infra.contrib.fluxcd.io/v1alpha1
+kind: Terraform
+metadata:
+  name: storage
+  namespace: flux-system
+spec:
+  interval: 12h
+  path: ./terraform
+  sourceRef:
+    kind: OCIRepository
+    name: cluster
+    namespace: flux-system
+  runnerPodTemplate:
+    spec:
+      env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          valueFrom:
+            secretKeyRef:
+              name: gcp-creds
+              key: key
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
