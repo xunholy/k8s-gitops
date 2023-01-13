@@ -67,3 +67,14 @@ spec:
               - op: add
                 path: /spec/template/spec/hostPID
                 value: true
+          - target:
+              kind: ConfigMap
+              name: openebs-cstor-csi-iscsiadm
+            patch:
+              - op: replace
+                path: /data/iscsiadm
+                value: |
+                  #!/bin/sh
+                  iscsid_pid=$(pgrep iscsid)
+
+                  nsenter --mount="/proc/${iscsid_pid}/ns/mnt" --net="/proc/${iscsid_pid}/ns/net" -- /usr/local/sbin/iscsiadm "$@"
