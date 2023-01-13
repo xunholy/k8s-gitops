@@ -1,0 +1,70 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: rook-ceph-cluster
+  namespace: rook-ceph
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: rook-ceph-cluster
+      version: v1.10.8
+      sourceRef:
+        kind: HelmRepository
+        name: rook-ceph
+        namespace: flux-system
+      interval: 10m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
+  values:
+    toolbox:
+      enabled: false
+    monitoring:
+      enabled: true
+      createPrometheusRules: true
+    configOverride: |
+      [global]
+      bdev_enable_discard = true
+      bdev_async_discard = true
+    cephClusterSpec:
+      dataDirHostPath: /var/lib/rook
+      network:
+        provider: host
+      storage:
+        useAllNodes: false
+        useAllDevices: false
+        config:
+          osdsPerDevice: "1"
+        # Use the following command to get the device name by-id "talosctl ls /dev/disk/by-id -n <node-ip>"
+        nodes:
+          - name: "talos-192-168-50-111"
+            devices:
+              - name: "/dev/disk/by-id/ata-Protectli_120GB_M.2_A4720716090C00479312"
+          - name: "talos-192-168-50-112"
+            devices:
+              - name: "/dev/disk/by-id/ata-Protectli_120GB_M.2_A45A0716098600462218"
+          - name: "talos-192-168-50-113"
+            devices:
+              - name: "/dev/disk/by-id/ata-Protectli_120GB_M.2_A4720716090C00479311"

@@ -2,17 +2,17 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: cstor
+  name: jiva
   namespace: openebs
 spec:
   interval: 5m
   chart:
     spec:
-      chart: cstor
+      chart: jiva
       version: 3.3.0
       sourceRef:
         kind: HelmRepository
-        name: cstor-chart
+        name: openebs-jiva-chart
         namespace: flux-system
       interval: 10m
   install:
@@ -39,30 +39,26 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
-    # Required when using the same device that hosts the OS FS partition
-    openebs-ndm:
-      ndm:
-        sparse:
-          count: '1'
-        nodeSelector:
-          openebs.io/engine: cstor
-      featureGates:
-        APIService:
-          # Required to allow HostPID
-          # Ref: https://github.com/openebs/node-disk-manager/blob/da2a5b9eb773047a20c131a8802499299ea3135f/deploy/helm/charts/templates/daemonset.yaml#L31
-          enabled: true
-    # Default uses bitnami which doesn't have multiarch image support
-    cleanup:
-      image:
-        repository: raspbernetes/kubectl
-        tag: latest
+    localpv-provisioner:
+      # Note: Nodes have been manually set with this custom label, EG. "kubectl label nodes <node-name> openebs.io/storage=true"
+      deviceClass:
+        nodeAffinityLabels:
+          - "openebs.io/storage"
+      hostpathClass:
+        nodeAffinityLabels:
+          - "openebs.io/storage"
+    # TODO: This is only temporarily set to 1
+    defaultPolicy:
+      replicas: 1
+  # Required: Must enable hostPID for JIVA to work on Talos
+  # https://www.talos.dev/v1.2/kubernetes-guides/configuration/replicated-local-storage-with-openebs-jiva/
   postRenderers:
     - kustomize:
         patchesJson6902:
           - target:
               version: v1
               kind: DaemonSet
-              name: cstor-csi-node
+              name: jiva-csi-node
             patch:
               - op: add
                 path: /spec/template/spec/hostPID

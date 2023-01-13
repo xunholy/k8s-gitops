@@ -6,7 +6,7 @@ helmCharts:
 - name: cilium
   includeCRDs: true
   releaseName: cilium
-  valuesFile: 1.12.1.yaml
+  valuesFile: 1.12.5.yaml
   version: 1.12.5
   repo: https://helm.cilium.io/
 
