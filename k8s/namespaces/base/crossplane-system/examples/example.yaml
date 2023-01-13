@@ -1,0 +1,8 @@
+apiVersion: clusters.gcp.xunholy.io/v1alpha1
+kind: GKECluster
+metadata:
+  name: example
+spec:
+  parameters:
+    location: "australia-southeast1"
+    enableAutopilot: true

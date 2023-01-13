@@ -46,3 +46,5 @@ spec:
       packages: []
     metrics:
       enabled: true
+    args:
+      - --debug
