@@ -1,8 +1,0 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: metallb-charts
-spec:
-  interval: 120m0s
-  url: https://metallb.github.io/metallb

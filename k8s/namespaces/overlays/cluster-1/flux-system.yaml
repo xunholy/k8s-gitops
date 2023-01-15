@@ -2,11 +2,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: flux-system-charts
+  name: flux-system-repositories
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./namespaces/base/flux-system/charts"
+  path: "./namespaces/base/flux-system/repositories"
   prune: true
   wait: false
   sourceRef:
@@ -22,7 +22,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./namespaces/base/flux-system/notifications"
+  path: "./namespaces/base/flux-system/addons/notifications"
   prune: true
   wait: false
   sourceRef:
@@ -32,13 +32,13 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: flux-system-webhook-receiver
+  name: flux-system-webhooks
   namespace: flux-system
   labels:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./namespaces/base/flux-system/webhook-receiver"
+  path: "./namespaces/base/flux-system/addons/webhooks"
   prune: true
   wait: false
   sourceRef:
@@ -47,6 +47,22 @@ spec:
   dependsOn:
     - name: istio-system-istiod
       namespace: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: flux-system-monitoring
+  namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
+spec:
+  interval: 5m
+  path: "./namespaces/base/flux-system/addons/monitoring"
+  prune: true
+  wait: false
+  sourceRef:
+    kind: OCIRepository
+    name: cluster
 ---
 # TODO: Arm64 support is currently not supported https://github.com/weaveworks/tf-controller/issues/453
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2

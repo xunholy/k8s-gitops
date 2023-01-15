@@ -1,8 +1,0 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: crossplane-charts
-spec:
-  interval: 120m0s
-  url: https://charts.crossplane.io/stable

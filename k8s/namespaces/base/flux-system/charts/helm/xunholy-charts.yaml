@@ -1,9 +1,0 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: xunholy-charts
-spec:
-  interval: 3m
-  url: https://xunholy.github.io/charts
-  timeout: 3m

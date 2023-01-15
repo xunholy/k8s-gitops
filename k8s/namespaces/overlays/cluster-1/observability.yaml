@@ -35,29 +35,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: observability-kube-prometheus-stack-monitors
-  namespace: flux-system
-  labels:
-    substitution.flux/enabled: true
-spec:
-  interval: 5m
-  path: "./namespaces/base/observability/kube-prometheus-stack/monitors"
-  prune: true
-  wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: cluster
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
-  dependsOn:
-    - name: observability-kube-prometheus-stack
-      namespace: flux-system
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
   name: observability-jaeger
   namespace: flux-system
   labels:

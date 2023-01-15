@@ -1,8 +1,0 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: vernemq-charts
-spec:
-  interval: 120m0s
-  url: https://vernemq.github.io/docker-vernemq
