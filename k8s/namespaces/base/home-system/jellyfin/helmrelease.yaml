@@ -1,0 +1,57 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mosquitto
+  namespace: home-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      version: 1.2.1
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
+  values:
+    controller:
+      type: statefulset
+    image:
+      repository: ghcr.io/onedr0p/jellyfin
+      tag: 10.8.8@sha256:788708d85a097a30807a091d0ff6cd0df5b2202c358be661b10449806cc910c0
+    env:
+      TZ: Australia/Melbourne
+      DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: "${CLUSTER_LB_JELLYFIN}"
+        ports:
+          http:
+            port: 8096

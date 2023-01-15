@@ -1,0 +1,103 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app k8s-gateway
+  namespace: network-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      version: 1.2.1
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
+  values:
+    image:
+      repository: quay.io/oriedge/k8s_gateway
+      tag: v0.3.2
+      pullPolicy: IfNotPresent
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: "k8s-gateway-config"
+    args: ["-conf", "/etc/coredns/Corefile"]
+    serviceAccount:
+      create: true
+      name: *app
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: "${CLUSTER_LB_K8S_GATEWAY}"
+        ports:
+          http:
+            enabled: false
+          dns:
+            enabled: true
+            port: 53
+            targetPort: 1053
+            protocol: UDP
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: k8s-gateway-configmap
+        subPath: Corefile
+        mountPath: /etc/coredns/Corefile
+        readOnly: true
+    probes:
+      readiness:
+        custom: true
+        spec:
+          httpGet:
+            path: /ready
+            port: 8181
+            scheme: HTTP
+      liveness:
+        custom: true
+        spec:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+      startup:
+        custom: true
+        spec:
+          httpGet:
+            path: /ready
+            port: 8181
+            scheme: HTTP
