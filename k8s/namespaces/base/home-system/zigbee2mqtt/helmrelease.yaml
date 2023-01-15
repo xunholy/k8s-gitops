@@ -6,18 +6,38 @@ metadata:
   namespace: home-system
 spec:
   interval: 5m
-  releaseName: zigbee2mqtt
   chart:
     spec:
-      chart: zigbee2mqtt
-      version: 9.4.2
+      version: 1.2.1
+      chart: app-template
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-charts
         namespace: flux-system
       interval: 5m
   install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
     createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
   dependsOn:
     - name: mosquitto
       namespace: home-system
