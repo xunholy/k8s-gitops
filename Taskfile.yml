@@ -11,11 +11,14 @@ includes:
   core:
     taskfile: ./.taskfiles/core.yml
     optional: false
-  sidero:
-    taskfile: ./.taskfiles/sidero.yml
+  flux:
+    taskfile: ./.taskfiles/flux.yml
     optional: true
   mkdocs:
     taskfile: ./.taskfiles/mkdocs.yml
+    optional: true
+  sidero:
+    taskfile: ./.taskfiles/sidero.yml
     optional: true
   talos:
     taskfile: ./.taskfiles/talos.yml
@@ -25,5 +28,5 @@ tasks:
   flux:
     desc: "Install Fluxv2 into a cluster"
     cmds:
-      - task: core:secrets
-      - task: core:bootstrap
+      - task: flux:secrets
+      - task: flux:bootstrap

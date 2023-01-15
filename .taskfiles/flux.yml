@@ -1,0 +1,30 @@
+---
+version: '3'
+
+tasks:
+  bootstrap:
+    desc: "Example: task core:bootstrap -- <flags>"
+    cmds:
+      # TODO: Once Flux supports OCI via "flux bootstrap" update repository to use oci://
+      - cmd: |
+          flux bootstrap github \
+            --components-extra=image-reflector-controller,image-automation-controller \
+            --owner="{{.GITHUB_USER}}" \
+            --repository="{{.GITHUB_REPO}}" \
+            --path=k8s/clusters/"{{.CLUSTER}}" \
+            --branch="{{.GITHUB_BRANCH}}" \
+            --personal=true \
+            --private=false \
+            --read-write-key \
+            {{.CLI_ARGS}}
+        silent: true
+
+  secrets:
+    desc: "Install cluster secrets and configs; Only to be used when updating secrets manually"
+    cmds:
+      - cmd: |
+          kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
+          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/sops-gpg.encrypted.yaml" | kubectl apply -f -
+          sops --decrypt "k8s/clusters/{{.CLUSTER}}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
+          kubectl apply -f k8s/clusters/{{.CLUSTER}}/secrets/cluster-config.yaml
+        silent: true
