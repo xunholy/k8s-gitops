@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: crossplane-system-crossplane
+  name: crossplane
   namespace: flux-system
   labels:
     substitution.flux/enabled: true
@@ -20,7 +20,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: crossplane-system-providers
+  name: crossplane-providers
   namespace: flux-system
   labels:
     substitution.flux/enabled: true
@@ -35,5 +35,5 @@ spec:
     kind: OCIRepository
     name: cluster
   dependsOn:
-    - name: crossplane-system-crossplane
+    - name: crossplane
       namespace: flux-system
