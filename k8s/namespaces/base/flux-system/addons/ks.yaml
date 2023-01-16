@@ -51,7 +51,7 @@ spec:
     kind: OCIRepository
     name: cluster
   dependsOn:
-    - name: istio-system-istiod
+    - name: istiod
       namespace: flux-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2

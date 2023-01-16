@@ -10,12 +10,12 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/observability/thanos"
+  path: "./namespaces/base/observability/thanos/app"
   prune: true
   wait: true
   sourceRef:
     kind: OCIRepository
     name: cluster
   dependsOn:
-    - name: istio-system-istiod
+    - name: istiod
       namespace: flux-system
