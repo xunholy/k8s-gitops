@@ -17,6 +17,24 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: cluster
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: cilium-config
+  namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
+spec:
+  interval: 30m
+  retryInterval: 1m
+  timeout: 3m
+  path: "./namespaces/base/kube-system/cilium/config"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: OCIRepository
+    name: cluster
   dependsOn:
     - name: istiod
       namespace: flux-system
