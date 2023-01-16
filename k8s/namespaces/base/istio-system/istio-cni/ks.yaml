@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: istio-system-istio-cni
+  name: istio-cni
   namespace: flux-system
 spec:
   interval: 30m
@@ -15,5 +15,5 @@ spec:
     kind: OCIRepository
     name: cluster
   dependsOn:
-    - name: istio-system-istio-base
+    - name: istio-base
       namespace: flux-system

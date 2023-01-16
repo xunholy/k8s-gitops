@@ -43,8 +43,6 @@ spec:
       repository: quay.io/oriedge/k8s_gateway
       tag: v0.3.2
       pullPolicy: IfNotPresent
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: "k8s-gateway-config"
     args: ["-conf", "/etc/coredns/Corefile"]
     serviceAccount:
       create: true

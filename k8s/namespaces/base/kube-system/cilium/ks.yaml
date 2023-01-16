@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: kube-system-cilium
+  name: cilium
   namespace: flux-system
   labels:
     substitution.flux/enabled: true
@@ -18,5 +18,5 @@ spec:
     kind: OCIRepository
     name: cluster
   dependsOn:
-    - name: istio-system-istiod
+    - name: istiod
       namespace: flux-system

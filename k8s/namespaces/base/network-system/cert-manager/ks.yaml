@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: network-system-cert-manager
+  name: cert-manager
   namespace: flux-system
   labels:
     substitution.flux/enabled: true
@@ -16,14 +16,11 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: cluster
-  dependsOn:
-    - name: network-system
-      namespace: flux-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: network-system-cert-manager-clusterissuers
+  name: cert-manager-clusterissuers
   namespace: flux-system
 spec:
   interval: 30m
@@ -36,5 +33,5 @@ spec:
     kind: OCIRepository
     name: cluster
   dependsOn:
-    - name: network-system-cert-manager
+    - name: cert-manager
       namespace: flux-system
