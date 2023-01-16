@@ -46,3 +46,9 @@ spec:
       main:
         type: LoadBalancer
         loadBalancerIP: '${CLUSTER_LB_MOSQUITTO}'
+        ports:
+          http:
+            enabled: false
+          mqtt:
+            enabled: true
+            port: 1883
