@@ -2,21 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - actions-runner-system.yaml
-  - game-servers.yaml
-  - istio-system.yaml
-  - litmus.yaml
-  - observability.yaml
-  - openfaas.yaml
-  - velero.yaml
-  - crossplane-system.yaml
-  - home-system.yaml
-  - kube-system.yaml
-  - network-system.yaml
-  - openebs.yaml
-  - security-system.yaml
-  - flux-system.yaml
-  - istio-ingress.yaml
-  - nginx-ingress.yaml
-  - openfaas-fn.yaml
-  - traefik-ingress.yaml
+  - namespaces.yaml
+  - apps.yaml

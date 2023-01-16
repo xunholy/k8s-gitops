@@ -1,0 +1,17 @@
+# TODO: Enemy Territory runs as a 32bit binary which doesn't work on Talos currently. Must either use x86 or wait for if Talos support is added in the future.
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: game-servers-enemy-territory
+  namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
+spec:
+  interval: 5m
+  path: "./namespaces/base/game-servers/enemy-territory/app"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: OCIRepository
+    name: cluster

@@ -1,0 +1,42 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: network-system-metallb
+  namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
+spec:
+  interval: 30m
+  retryInterval: 1m
+  timeout: 3m
+  path: "./namespaces/base/network-system/metallb/app"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: OCIRepository
+    name: cluster
+  dependsOn:
+    - name: network-system-cert-manager
+      namespace: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: network-system-metallb-config
+  namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
+spec:
+  interval: 30m
+  retryInterval: 1m
+  timeout: 3m
+  path: "./namespaces/base/network-system/metallb/config"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: OCIRepository
+    name: cluster
+  dependsOn:
+    - name: network-system-metallb
+      namespace: flux-system
