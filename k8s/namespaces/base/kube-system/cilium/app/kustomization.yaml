@@ -4,7 +4,6 @@ namespace: kube-system
 
 resources:
   - helmrelease.yaml
-  - virtualservice.yaml
 
 configMapGenerator:
   - name: cilium-values
