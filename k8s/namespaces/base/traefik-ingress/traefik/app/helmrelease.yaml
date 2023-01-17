@@ -42,12 +42,19 @@ spec:
     - name: cert-manager
       namespace: network-system
   values:
+    deployment:
+      enabled: true
+      replicas: 1
+    service:
+      enabled: true
+      type: LoadBalancer
+      spec:
+        loadBalancerIP: "${CLUSTER_LB_TRAEFIK_GATEWAY}"
+        externalTrafficPolicy: Local
     autoscaling:
       enabled: true
       minReplicas: 2
       maxReplicas: 5
-    deployment:
-      kind: Deployment
     logs:
       general:
         format: json
@@ -59,25 +66,24 @@ spec:
       enabled: true
       isDefaultClass: false
       fallbackApiVersion: v1
-    experimental:
-      plugins:
-        enabled: true
-      kubernetesGateway:
-        enabled: false
     tlsOptions:
       default:
         minVersion: VersionTLS12
         maxVersion: VersionTLS13
         sniStrict: true
-    affinity:
-      podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                  - key: app.kubernetes.io/name
-                    operator: In
-                    values:
-                      - traefik
-              topologyKey: "kubernetes.io/hostname"
+    pilot:
+      enabled: false
+    experimental:
+      plugins:
+        enabled: true
+    providers:
+      kubernetesCRD:
+        enabled: true
+        allowCrossNamespace: true
+        allowExternalNameServices: true
+    resources:
+      requests:
+        memory: 100Mi
+        cpu: 500m
+      limits:
+        memory: 500Mi

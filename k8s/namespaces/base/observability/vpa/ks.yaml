@@ -2,15 +2,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: traefik
+  name: vpa
   namespace: flux-system
-  labels:
-    substitution.flux/enabled: true
 spec:
-  interval: 5m
-  path: "./namespaces/base/traefik-ingress/traefik/app"
+  interval: 30m
+  retryInterval: 1m
+  timeout: 3m
+  path: "./namespaces/base/observability/vpa/app"
   prune: true
-  wait: true
+  wait: false
   sourceRef:
     kind: OCIRepository
     name: cluster

@@ -9,7 +9,7 @@ spec:
   timeout: 30m
   path: ./namespaces/overlays/cluster-1
   prune: true
-  wait: true
+  wait: false
   sourceRef:
     kind: OCIRepository
     name: cluster

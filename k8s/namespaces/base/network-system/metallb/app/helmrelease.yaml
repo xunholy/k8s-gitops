@@ -39,10 +39,10 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
-    controller:
-      logLevel: debug
-    speaker:
-      tolerateMaster: true
-      logLevel: debug
-      frr:
+    prometheus:
+      serviceAccount: "x-prometheus"
+      namespace: "observability"
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
         enabled: true

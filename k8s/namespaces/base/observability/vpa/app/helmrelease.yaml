@@ -2,17 +2,17 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: speedtest
+  name: vpa
   namespace: observability
 spec:
   interval: 5m
   chart:
     spec:
-      version: 1.2.1
-      chart: app-template
+      chart: vpa
+      version: 1.6.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-charts
+        name: fairwinds-charts
         namespace: flux-system
       interval: 5m
   install:
@@ -39,21 +39,25 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
-    image:
-      repository: ghcr.io/miguelndecarvalho/speedtest-exporter
-      tag: v3.5.3
-    resources:
-      requests:
-        cpu: 15m
-        memory: 64M
-      limits:
-        memory: 64M
-    service:
-      main:
-        ports:
-          http:
-            enabled: false
-          metrics:
-            enabled: true
-            protocol: TCP
-            port: 9798
+    recommender:
+      enabled: true
+      image:
+        repository: k8s.gcr.io/autoscaling/vpa-recommender
+        tag: 0.12.0
+      resources:
+        requests:
+          cpu: 15m
+          memory: 145M
+        limits:
+          memory: 174M
+      extraArgs:
+        pod-recommendation-min-cpu-millicores: 15
+        pod-recommendation-min-memory-mb: 61
+        storage: prometheus
+        prometheus-address: |-
+          http://thanos-query.observability.svc.cluster.local:9090
+    updater:
+      enabled: false
+
+    admissionController:
+      enabled: false

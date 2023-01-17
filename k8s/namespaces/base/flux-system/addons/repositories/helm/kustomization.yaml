@@ -12,6 +12,7 @@ resources:
   - crossplane-charts.yaml
   - crowdsec-charts.yaml
   - dex-chart.yaml
+  - fairwinds-charts.yaml
   - falco-security-charts.yaml
   - flagger-charts.yaml
   - gatekeeper-charts.yaml
