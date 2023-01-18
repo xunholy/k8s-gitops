@@ -60,15 +60,6 @@ spec:
           multicluster:
             etcd:
               enabled: true
-    prometheusOperator:
-      prometheusConfigReloader:
-        resources:
-          requests:
-            cpu: 200m
-            memory: 50Mi
-          limits:
-            cpu: 400m
-            memory: 100Mi
     prometheus:
       fullnameOverride: prometheus
       thanosService:
@@ -86,13 +77,13 @@ spec:
         secrets:
           - etcd-client-cert
         externalUrl: https://prometheus.${CLUSTER_DOMAIN}
+        podAntiAffinity: hard
         resources:
           requests:
-            memory: 1Gi
+            memory: 2Gi
             cpu: 1
           limits:
-            memory: 2Gi
-            cpu: 2
+            memory: 4Gi
         # Thanos chart will generate the secret: thanos
         thanos:
           objectStorageConfig:
@@ -104,7 +95,6 @@ spec:
               cpu: 100m
             limits:
               memory: 256Mi
-              cpu: 200m
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
@@ -113,3 +103,4 @@ spec:
       fullnameOverride: kube-state-metrics
     prometheus-node-exporter:
       fullnameOverride: node-exporter
+    cleanPrometheusOperatorObjectNames: true
