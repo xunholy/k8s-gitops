@@ -53,9 +53,12 @@ spec:
       enabled: false
     readinessProbe:
       enabled: false
+    metrics:
+      servicemonitor:
+        enabled: true
     config:
       existingSecret: oauth2-proxy-dex
-      configFile: |-
+      configFile: |
         provider = "oidc"
         oidc_issuer_url = "https://dex.${CLUSTER_DOMAIN}"
         auth_logging = true
@@ -65,7 +68,7 @@ spec:
         cookie_refresh = "1h"
         cookie_samesite = "lax"
         cookie_secure = true
-        email_domains = [ '*' ]
+        email_domains = [ "*"" ]
         pass_access_token = true
         pass_authorization_header = true
         pass_basic_auth = false
@@ -76,7 +79,7 @@ spec:
         set_xauthrequest = true
         skip_jwt_bearer_tokens = true
         skip_provider_button = true
-        ssl_insecure_skip_verify = true
+        ssl_insecure_skip_verify = false
         standard_logging = true
         upstreams = [ "static://200" ]
         whitelist_domains = ".${CLUSTER_DOMAIN}"
