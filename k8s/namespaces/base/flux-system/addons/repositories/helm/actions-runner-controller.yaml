@@ -3,6 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: actions-runner-controller
+  namespace: flux-system
 spec:
   interval: 120m0s
   url: https://actions-runner-controller.github.io/actions-runner-controller

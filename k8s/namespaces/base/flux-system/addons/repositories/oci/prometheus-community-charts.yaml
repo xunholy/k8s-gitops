@@ -3,6 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: prometheus-community-charts
+  namespace: flux-system
 spec:
   interval: 120m
   type: oci
