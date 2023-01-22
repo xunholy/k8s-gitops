@@ -18,5 +18,5 @@ spec:
       route:
         - destination:
             port:
-              number: 8080
-            host: sealed-secrets.flux-system.svc.cluster.local
+              number: 9001
+            host: weave-gitops.flux-system.svc.cluster.local
