@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/kube-system/cilium/app"
+  path: "./k8s/namespaces/base/kube-system/cilium/app"
   prune: true
   wait: true
   sourceRef:
@@ -29,7 +29,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/kube-system/cilium/config"
+  path: "./k8s/namespaces/base/kube-system/cilium/config"
   prune: true
   wait: true
   sourceRef:
