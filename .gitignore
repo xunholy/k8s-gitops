@@ -5,13 +5,6 @@
 **/.kube
 **/.terraform
 **/.secrets/sops/unencrypted
-**/hack
-output/
-
-# Ignore Talos configuration that is locally decrypted
-talos/
-!talos/integrations/
-!talos/**/*.enc.yaml
 
 # Ignore VSCODE SOPS decrypted files
 **/.decrypted~*
