@@ -5,10 +5,11 @@ namespace: kube-system
 resources:
   - helmrelease.yaml
 
+# Recurse to root of repository and re-use existing values.yaml for cilium install
 configMapGenerator:
   - name: cilium-values
     files:
-      - values.yaml=../install/1.12.5.yaml
+      - values.yaml=../../../../../../talos/integrations/cilium/1.12.5.yaml
 
 configurations:
   - kustomizeconfig.yaml
