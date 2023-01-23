@@ -46,8 +46,6 @@ spec:
       enabled: true
       replicas: 1
     service:
-      enabled: true
-      type: LoadBalancer
       spec:
         loadBalancerIP: "${CLUSTER_LB_TRAEFIK_GATEWAY}"
         externalTrafficPolicy: Local
