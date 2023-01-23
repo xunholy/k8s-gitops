@@ -42,3 +42,21 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: cilium-values
+  # Required: Using Kustomize helmChart can't pass the Helm chart validation because of the serviceMonitor CRDs, therefore these are disabled in the values.yaml however, re-enabled via the HelmRelease
+  # The values are merged in the order given, with the later values overwriting earlier, and then spec.values overwriting those
+  values:
+    hubble:
+      metrics:
+        serviceMonitor:
+          enabled: true
+      relay:
+        prometheus:
+          serviceMonitor:
+            enabled: true
+    prometheus:
+      serviceMonitor:
+        enabled: true
+    operator:
+      prometheus:
+        serviceMonitor:
+          enabled: true
