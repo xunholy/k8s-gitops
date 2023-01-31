@@ -68,7 +68,7 @@ spec:
         cookie_refresh = "1h"
         cookie_samesite = "lax"
         cookie_secure = true
-        email_domains = [ "*"" ]
+        email_domains = [ "*" ]
         pass_access_token = true
         pass_authorization_header = true
         pass_basic_auth = false
