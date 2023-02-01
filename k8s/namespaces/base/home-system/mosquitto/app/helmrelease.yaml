@@ -66,3 +66,10 @@ spec:
             allow_anonymous true
             persistence false
             connection_messages false
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: mosquitto-config
+        mountPath: /mosquitto/config/mosquitto.conf
+        subPath: mosquitto.conf
