@@ -52,3 +52,12 @@ spec:
           mqtt:
             enabled: true
             port: 1883
+    configMaps:
+      config:
+        enabled: true
+        data:
+          mosquitto.conf: |
+            listener 1883
+            allow_anonymous true
+            persistence false
+            connection_messages false
