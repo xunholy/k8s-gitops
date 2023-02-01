@@ -45,13 +45,18 @@ spec:
     service:
       main:
         type: LoadBalancer
+        externalTrafficPolicy: Local
         loadBalancerIP: '${CLUSTER_LB_MOSQUITTO}'
         ports:
           http:
             enabled: false
           mqtt:
             enabled: true
+            primary: true
             port: 1883
+    securityContext:
+      runAsUser: 1883
+      runAsGroup: 1883
     configMaps:
       config:
         enabled: true
