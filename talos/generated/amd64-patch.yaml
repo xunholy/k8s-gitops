@@ -1,0 +1,14 @@
+- op: add
+  path: /machine/install/extensions
+  value:
+    - image: ghcr.io/siderolabs/iscsi-tools:v0.1.1
+- op: add
+  path: /machine/kubelet/extraMounts
+  value:
+    - destination: /var/openebs/local
+      type: bind
+      source: /var/openebs/local
+      options:
+        - bind
+        - rshared
+        - rw
