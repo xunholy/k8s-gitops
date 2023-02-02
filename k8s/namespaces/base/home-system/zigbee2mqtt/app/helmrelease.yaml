@@ -112,3 +112,20 @@ spec:
       # Optional: see 'Device specific configuration' https://www.zigbee2mqtt.io/information/configuration.html#specifying-devices-and-groups-in-a-separate-file
       device_options:
         retain: true
+    service:
+      main:
+        ports:
+          http:
+            port: 8080
+          metrics:
+            enabled: true
+            port: 9000
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
