@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: falco
-      version: 2.5.4
+      version: 2.5.5
       sourceRef:
         kind: HelmRepository
         name: falco-security-charts
