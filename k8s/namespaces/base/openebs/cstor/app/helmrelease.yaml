@@ -45,7 +45,7 @@ spec:
         sparse:
           count: '1'
         nodeSelector:
-          openebs.io/engine: cstor
+          openebs.io/storage: "true"
       featureGates:
         APIService:
           # Required to allow HostPID
