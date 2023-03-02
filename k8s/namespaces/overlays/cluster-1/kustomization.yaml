@@ -64,6 +64,5 @@ resources:
   - ../../base/openfaas/openfaas/ks.yaml
   - ../../base/rook-ceph/rook-ceph-operator/ks.yaml
   - ../../base/security-system/kyverno/ks.yaml
-  # - ../../base/security-system/kyverno-crds/ks.yaml
   - ../../base/traefik-ingress/traefik/ks.yaml
   - ../../base/velero/velero/ks.yaml
