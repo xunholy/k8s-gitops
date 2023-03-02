@@ -52,19 +52,26 @@ jobs:
         run: |
           flux tag artifact $OCI_REPO:$(git rev-parse --short HEAD) --tag main
 
-      # Get Digest
+      # Install Crane
+      - uses: imjasonh/setup-crane@v0.1
 
       # Install Cosign
       - uses: sigstore/cosign-installer@main
 
+      - name: Get the digest of the OCI artifact
+        id: crane
+        run: |
+          DIGEST=$(crane digest $GHCR_REPO:$(git rev-parse --short HEAD))
+          echo "$DIGEST" >> $GITHUB_OUTPUT
+
       # Cosign the OCI artifact
       - name: Sign the OCI artifact
-        run: cosign sign $GHCR_REPO:$(git rev-parse --short HEAD) -y
+        run: cosign sign $GHCR_REPO@${{ steps.crane.outputs.DIGEST }}" -y
         env:
           COSIGN_EXPERIMENTAL: 1
 
       # Verify the Cosign of the OCI artifact
       - name: Verify the pushed tags
-        run: cosign verify $GHCR_REPO:$(git rev-parse --short HEAD)
+        run: cosign verify $GHCR_REPO@${{ steps.crane.outputs.DIGEST }}"
         env:
           COSIGN_EXPERIMENTAL: 1
