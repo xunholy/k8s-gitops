@@ -59,7 +59,7 @@ jobs:
 
       # Cosign the OCI artifact
       - name: Sign the OCI artifact
-        run: cosign sign $GHCR_REPO:$(git rev-parse --short HEAD) --upload --recursive
+        run: cosign sign $GHCR_REPO:$(git rev-parse --short HEAD) --upload
         env:
           COSIGN_EXPERIMENTAL: 1
 
