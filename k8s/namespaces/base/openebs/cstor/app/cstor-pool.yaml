@@ -8,22 +8,55 @@ spec:
   pools:
   - dataRaidGroups:
     - blockDevices:
-      - blockDeviceName: sparse-32c84d8d049f9e1cb0efeda2246d07e9
+      - blockDeviceName: sparse-3ca714cbe9fb31a4fb95c7839b949f02
     nodeSelector:
-      kubernetes.io/hostname: talos-192-168-50-111
+      kubernetes.io/hostname: talos-l8f-coe
+    poolConfig:
+      dataRaidGroupType: stripe
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
+  - dataRaidGroups:
+    - blockDevices:
+      - blockDeviceName: sparse-2f6d4da6960a137e091ee47d6cbb1b68
+    nodeSelector:
+      kubernetes.io/hostname: talos-glk-v19
+    poolConfig:
+      dataRaidGroupType: stripe
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
+  - dataRaidGroups:
+    - blockDevices:
+      - blockDeviceName: sparse-46edad1fa40ff6b5e88981afede8a270
+    nodeSelector:
+      kubernetes.io/hostname: talos-00j-q6t
+    poolConfig:
+      dataRaidGroupType: stripe
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
+  - dataRaidGroups:
+    - blockDevices:
+      - blockDeviceName: sparse-d927170f4a23e068303412511ac35261
+    nodeSelector:
+      kubernetes.io/hostname: talos-5s9-qvx
     poolConfig:
       dataRaidGroupType: stripe
   - dataRaidGroups:
     - blockDevices:
-      - blockDeviceName: sparse-10e06fcb4f79d017a24d9b89c0b6f90c
+      - blockDeviceName: sparse-aaa22940b01ac7dc7d13188123c9f10e
     nodeSelector:
-      kubernetes.io/hostname: talos-192-168-50-112
+      kubernetes.io/hostname: talos-84m-ipl
     poolConfig:
       dataRaidGroupType: stripe
   - dataRaidGroups:
     - blockDevices:
-      - blockDeviceName: sparse-c11e52162acb006d44883701d6afef91
+      - blockDeviceName: sparse-cfe8df7ce0f9e8ebfff1f11604951bd4
     nodeSelector:
-      kubernetes.io/hostname: talos-192-168-50-113
+      kubernetes.io/hostname: talos-t0i-0gi
     poolConfig:
       dataRaidGroupType: stripe

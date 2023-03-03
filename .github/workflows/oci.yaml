@@ -61,8 +61,8 @@ jobs:
       - name: Get the digest of the OCI artifact
         id: crane
         run: |
-          DIGEST="$(crane digest $GHCR_REPO:$(git rev-parse --short HEAD))"
-          echo "$DIGEST" >> $GITHUB_OUTPUT
+          DIGEST=$(crane digest $GHCR_REPO:$(git rev-parse --short HEAD))
+          echo "DIGEST=$DIGEST" >> $GITHUB_OUTPUT
 
       # Cosign the OCI artifact
       - name: Sign the OCI artifact
