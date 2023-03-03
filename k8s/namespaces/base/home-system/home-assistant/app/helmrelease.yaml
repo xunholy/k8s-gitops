@@ -43,8 +43,8 @@ spec:
       namespace: openebs
   values:
     image:
-      repository: homeassistant/home-assistant
-      tag: 2022.8.7
+      repository: ghcr.io/home-assistant/home-assistant
+      tag: 2023.3.0
     env:
       TZ: 'Australia/Melbourne'
     probes:
@@ -58,9 +58,19 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant-config
+    service:
+      main:
+        ports:
+          http:
+            port: 8123
     addons:
       codeserver:
         enabled: true
+        image:
+          repository: ghcr.io/coder/code-server
+          tag: 4.10.0
+        env:
+          TZ: 'Australia/Melbourne'
         workingDir: '/config'
         args:
           - --user-data-dir
@@ -69,8 +79,6 @@ spec:
           - 'none'
           - --extensions-dir
           - '/config/.vscode'
-        ingress:
-          enabled: false
         volumeMounts:
           - name: config
             mountPath: /config
