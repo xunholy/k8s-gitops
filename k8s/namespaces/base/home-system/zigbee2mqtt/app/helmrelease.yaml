@@ -44,12 +44,30 @@ spec:
   values:
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
-      tag: 1.30.0
+      tag: 1.30.2
     env:
       TZ: Australia/Melbourne
       ZIGBEE2MQTT_DATA: /data
-      # Enables extremely verbos logging
-      # DEBUG: zigbee-herdsman*
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "true"
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: "true"
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
+      ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: "true"
+      ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
+      ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: "true"
+      ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
+      ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
+      ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "false"
+      ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://mosquitto:1883
+      ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
+      ZIGBEE2MQTT_CONFIG_FRONTEND_URL: z2m.${CLUSTER_DOMAIN}
+      ZIGBEE2MQTT_CONFIG_SERIAL_PORT: "tcp://${EXT_ZIGBEE_CONTROLLER}:6638"
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: debug
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
+      ZIGBEE2MQTT_CONFIG_DEVICES: devices.yaml
+      ZIGBEE2MQTT_CONFIG_GROUPS: groups.yaml
     persistence:
       config:
         enabled: true
@@ -62,60 +80,6 @@ spec:
     # Ensure it runs on nodes with cStor
     nodeSelector:
       openebs.io/storage: "true"
-    config:
-      # These will be applied ONLY on first run
-      # Required: Home Assistant integration (MQTT discovery) (default: false)
-      homeassistant: true
-      # Required: allow new devices to join.
-      # WARNING: Disable this after all devices have been paired! (default: false)
-      permit_join: true
-      # Required: MQTT settings
-      mqtt:
-        # Required: MQTT base topic for Zigbee2MQTT MQTT messages
-        base_topic: zigbee2mqtt
-        # Required: MQTT server URL (use mqtts:// for SSL/TLS connection)
-        server: 'mqtt://mosquitto:1883'
-      # Required: USB / Serial settings
-      serial:
-        # Required: Location of your zigbee device
-        # To autodetect the port, set 'port: null'
-        port: "tcp://${EXT_ZIGBEE_CONTROLLER}:6638"
-      # Optional: advanced settings
-      advanced:
-        # # Optional: ZigBee pan ID
-        pan_id: 35351
-        # Optional: Logging level, options: debug, info, warn, error (default: info)
-        log_level: debug
-        # Optional: Output location of the log (default: shown below), leave empty to supress logging (log_output: [])
-        # possible options: 'console', 'file', 'syslog'
-        log_output:
-          - console
-        # Auto-generated network keys
-        network_key:
-          - 161
-          - 2
-          - 125
-          - 128
-          - 68
-          - 169
-          - 230
-          - 205
-          - 6
-          - 205
-          - 143
-          - 22
-          - 61
-          - 132
-          - 62
-          - 89
-      frontend:
-        port: 8080
-      # Optional: experimental options
-      experimental:
-        new_api: true
-      # Optional: see 'Device specific configuration' https://www.zigbee2mqtt.io/information/configuration.html#specifying-devices-and-groups-in-a-separate-file
-      device_options:
-        retain: true
     service:
       main:
         ports:
