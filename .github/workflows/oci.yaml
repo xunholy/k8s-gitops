@@ -72,6 +72,6 @@ jobs:
 
       # Verify the Cosign of the OCI artifact
       - name: Verify the pushed tags
-        run: cosign verify $GHCR_REPO@${{ steps.crane.outputs.DIGEST }}"
+        run: cosign verify $GHCR_REPO@${{ steps.crane.outputs.DIGEST }}
         env:
           COSIGN_EXPERIMENTAL: 1
