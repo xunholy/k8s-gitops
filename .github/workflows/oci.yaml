@@ -53,7 +53,7 @@ jobs:
           flux tag artifact $OCI_REPO:$(git rev-parse --short HEAD) --tag main
 
       # Install Crane
-      - uses: imjasonh/setup-crane@v0.1
+      - uses: imjasonh/setup-crane@v0.3
 
       # Install Cosign
       - uses: sigstore/cosign-installer@main
