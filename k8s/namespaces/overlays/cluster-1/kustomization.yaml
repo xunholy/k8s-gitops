@@ -20,10 +20,10 @@ resources:
   - ../../base/security-system
   - ../../base/traefik-ingress
   - ../../base/velero
-  - ../../base/actions-runner-system/actions-runner-controller/ks.yaml
+  # - ../../base/actions-runner-system/actions-runner-controller/ks.yaml
   - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
-  - ../../base/flux-system/tf-controller/ks.yaml
+  # - ../../base/flux-system/tf-controller/ks.yaml
   - ../../base/flux-system/weave-gitops/ks.yaml
   - ../../base/home-system/home-assistant/ks.yaml
   - ../../base/home-system/mosquitto/ks.yaml
@@ -61,7 +61,7 @@ resources:
   - ../../base/observability/otel/ks.yaml
   - ../../base/observability/thanos/ks.yaml
   - ../../base/openebs/cstor/ks.yaml
-  - ../../base/openebs/jiva/ks.yaml
+  # - ../../base/openebs/jiva/ks.yaml
   - ../../base/openfaas/openfaas/ks.yaml
   - ../../base/rook-ceph/rook-ceph-operator/ks.yaml
   - ../../base/security-system/kyverno/ks.yaml

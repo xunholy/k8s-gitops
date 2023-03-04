@@ -42,18 +42,39 @@ spec:
     deschedulerPolicy:
       strategies:
         RemoveDuplicates:
-          enabled: false
+          enabled: true
+        RemovePodsHavingTooManyRestarts:
+          enabled: true
+          params:
+            podsHavingTooManyRestarts:
+              podRestartThreshold: 100
+              includingInitContainers: true
+        RemovePodsViolatingNodeTaints:
+          enabled: true
+        RemovePodsViolatingNodeAffinity:
+          enabled: true
+          params:
+            nodeAffinityType:
+            - requiredDuringSchedulingIgnoredDuringExecution
         RemovePodsViolatingInterPodAntiAffinity:
-          enabled: false
+          enabled: true
+        RemovePodsViolatingTopologySpreadConstraint:
+          enabled: true
+          params:
+            includeSoftConstraints: false
         LowNodeUtilization:
           enabled: true
           params:
             nodeResourceUtilizationThresholds:
               thresholds:
-                cpu: 40
-                memory: 40
-                pods: 15
+                cpu: 20
+                memory: 20
+                pods: 20
               targetThresholds:
-                cpu: 60
-                memory: 60
-                pods: 35
+                cpu: 50
+                memory: 50
+                pods: 50
+    service:
+      enabled: true
+    serviceMonitor:
+      enabled: true
