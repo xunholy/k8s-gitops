@@ -7,7 +7,7 @@ metadata:
 spec:
   template:
     spec:
-      image: ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner-dind:ubuntu-22.04@sha256:67f3448177d9362fcc07f49c452be7e30d5454b42c860459ef09be8c6d1a8ad2
+      image: ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner-dind:ubuntu-22.04@sha256:f09a6ee5de052d4a0c93a559d3945321c707d7b8ba2baa411ac2d9d8d2f4bbb7
       imagePullPolicy: Always
       dockerdWithinRunnerContainer: true
       ephemeral: true
