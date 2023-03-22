@@ -8,7 +8,7 @@ resources:
   # - ../../base/home-system
   # - ../../base/istio-ingress
   # - ../../base/istio-system
-  # - ../../base/kube-system
+  - ../../base/kube-system
   # - ../../base/litmus
   # - ../../base/network-system
   # - ../../base/nginx-ingress
@@ -33,7 +33,7 @@ resources:
   # - ../../base/istio-system/istio-base/ks.yaml
   # - ../../base/istio-system/istio-cni/ks.yaml
   # - ../../base/istio-system/istiod/ks.yaml
-  # - ../../base/kube-system/cilium/ks.yaml
+  - ../../base/kube-system/cilium/ks.yaml
   # - ../../base/kube-system/descheduler/ks.yaml
   # - ../../base/kube-system/metrics-server/ks.yaml
   # - ../../base/kube-system/reloader/ks.yaml
