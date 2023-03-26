@@ -48,7 +48,7 @@ jobs:
           flux push artifact $OCI_REPO:$(git rev-parse --short HEAD) \
             --path="./k8s" \
             --source="$(git config --get remote.origin.url)" \
-            --revision="$(git branch --show-current)/$(git rev-parse HEAD)"
+            --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)"
 
       # Tag OCI artifact
       - name: Create OCI artifact tag
