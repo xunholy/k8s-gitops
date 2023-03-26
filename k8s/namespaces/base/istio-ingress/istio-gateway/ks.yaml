@@ -19,3 +19,5 @@ spec:
   dependsOn:
     - name: istiod
       namespace: flux-system
+    - name: cert-manager
+      namespace: flux-system

@@ -16,6 +16,3 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: cluster
-  dependsOn:
-    - name: cert-manager
-      namespace: flux-system
