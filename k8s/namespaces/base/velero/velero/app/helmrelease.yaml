@@ -83,15 +83,6 @@ spec:
           prefix: cstor
           namespace: openebs
           provider: gcp
-    # Settings for Velero's prometheus metrics. Enabled by default.
-    metrics:
-      enabled: true
-    # Whether to create backupstoragelocation crd, if false => do not create a default backup location
-    backupsEnabled: true
-    # Whether to create volumesnapshotlocation crd, if false => disable snapshot feature
-    snapshotsEnabled: true
-    # Whether to deploy the restic daemonset.
-    deployRestic: false
     # Backup schedules to create.
     schedules:
       daily-backup:
