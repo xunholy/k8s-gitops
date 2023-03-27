@@ -53,13 +53,13 @@ resources:
   - ../../base/network-system/node-feature-discovery/ks.yaml
   - ../../base/network-system/oauth2-proxy/ks.yaml
   - ../../base/nginx-ingress/nginx-ingress/ks.yaml
-  # - ../../base/observability/grafana/ks.yaml
+  - ../../base/observability/grafana/ks.yaml
   # - ../../base/observability/jaeger/ks.yaml
   # - ../../base/observability/kiali/ks.yaml
-  # - ../../base/observability/kube-prometheus-stack/ks.yaml
-  # - ../../base/observability/loki-stack/ks.yaml
+  - ../../base/observability/kube-prometheus-stack/ks.yaml
+  - ../../base/observability/loki-stack/ks.yaml
   # - ../../base/observability/otel/ks.yaml
-  # - ../../base/observability/thanos/ks.yaml
+  - ../../base/observability/thanos/ks.yaml
   # - ../../base/openebs/cstor/ks.yaml
   # - ../../base/openebs/jiva/ks.yaml
   # - ../../base/openfaas/openfaas/ks.yaml
