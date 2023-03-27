@@ -8,3 +8,5 @@
 
 # Ignore VSCODE SOPS decrypted files
 **/.decrypted~*
+
+hacks/**
