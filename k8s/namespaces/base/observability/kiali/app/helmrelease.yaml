@@ -48,7 +48,7 @@ spec:
       istio:
         root_namespace: istio-system
       prometheus:
-        url: "http://x-prometheus.observability.svc.cluster.local:9090/"
+        url: "http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090/"
       tracing:
         # Enabled by default. Kiali will anyway fallback to disabled if
         # Jaeger is unreachable.

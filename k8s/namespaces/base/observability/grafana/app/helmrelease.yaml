@@ -135,30 +135,30 @@ spec:
           url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
           datasource: Prometheus
         cilium-dashboard:
-          url: https://raw.githubusercontent.com/cilium/cilium/v1.12.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
           datasource: Prometheus
         cilium-operator-dashboard:
-          url: https://raw.githubusercontent.com/cilium/cilium/v1.12.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
           datasource: Prometheus
         hubble-dashboard:
-          url: https://raw.githubusercontent.com/cilium/cilium/v1.12.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
           datasource: Prometheus
         # Istio dashboards must be kept in parity with the version deployed
         # https://grafana.com/grafana/dashboards/7639/revisions
         istio-mesh:
-          url: https://grafana.com/api/dashboards/7639/revisions/145/download
+          url: https://grafana.com/api/dashboards/7639/revisions/158/download
           datasource: Prometheus
         istio-service:
-          url: https://grafana.com/api/dashboards/7636/revisions/145/download
+          url: https://grafana.com/api/dashboards/7636/revisions/158/download
           datasource: Prometheus
         istio-workload:
-          url: https://grafana.com/api/dashboards/7630/revisions/145/download
+          url: https://grafana.com/api/dashboards/7630/revisions/158/download
           datasource: Prometheus
         istio-performence:
-          url: https://grafana.com/api/dashboards/11829/revisions/145/download
+          url: https://grafana.com/api/dashboards/11829/revisions/158/download
           datasource: Prometheus
         istio-control-plane:
-          url: https://grafana.com/api/dashboards/7645/revisions/145/download
+          url: https://grafana.com/api/dashboards/7645/revisions/158/download
           datasource: Prometheus
         # openebs:
         #   url: https://grafana.com/api/dashboards/12171/revisions/2/download
@@ -173,28 +173,28 @@ spec:
         #   url: https://raw.githubusercontent.com/billimek/prometheus-speedtest-exporter/master/speedtest-exporter.json
         #   datasource: Prometheus
         thanos-overview:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/overview.json
+          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/overview.json
           datasource: Prometheus
         thanos-compact:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/compact.json
+          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/compact.json
           datasource: Prometheus
         thanos-querier:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/query.json
+          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/query.json
           datasource: Prometheus
         thanos-store:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/store.json
+          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/store.json
           datasource: Prometheus
         thanos-receiver:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/receive.json
+          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/receive.json
           datasource: Prometheus
         thanos-sidecar:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/sidecar.json
+          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/sidecar.json
           datasource: Prometheus
         thanos-ruler:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/rule.json
+          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/rule.json
           datasource: Prometheus
         thanos-replicate:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/bucket-replicate.json
+          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/bucket-replicate.json
           datasource: Prometheus
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/cluster.json
@@ -205,8 +205,8 @@ spec:
         flux-logs:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/logs.json
           datasource: Prometheus
-        # velero:
-        #   url: https://grafana.com/api/dashboards/11055/revisions/2/download
-        #   datasource: Prometheus
+        velero:
+          url: https://grafana.com/api/dashboards/11055/revisions/2/download
+          datasource: Prometheus
     persistence:
       enabled: false

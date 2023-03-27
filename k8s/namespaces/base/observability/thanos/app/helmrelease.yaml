@@ -50,7 +50,7 @@ spec:
       replicaLabel:
         - __replica__
       dnsDiscovery:
-        sidecarsService: x-thanos-discovery
+        sidecarsService: kube-prometheus-stack-thanos-discovery
         sidecarsNamespace: observability
     # TODO: Re-enable once OpenEBS is configured on Talos
     compactor:
