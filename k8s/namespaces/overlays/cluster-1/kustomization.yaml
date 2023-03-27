@@ -20,7 +20,7 @@ resources:
   - ../../base/security-system
   - ../../base/traefik-ingress
   - ../../base/velero
-  # - ../../base/actions-runner-system/actions-runner-controller/ks.yaml
+  - ../../base/actions-runner-system/actions-runner-controller/ks.yaml
   - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
   # - ../../base/flux-system/tf-controller/ks.yaml
