@@ -33,11 +33,11 @@ imagePullSecrets:
 
 # -- (string) Kubernetes config path
 # @default -- `"~/.kube/config"`
-kubeConfigPath: ""
+# kubeConfigPath: ""
 # -- (string) Kubernetes service host
-k8sServiceHost: "192.168.50.200"
+k8sServiceHost: 192.168.50.200
 # -- (string) Kubernetes service port
-k8sServicePort: "6443"
+k8sServicePort: 6443
 
 cluster:
   # -- Name of the cluster. Only required for Cluster Mesh.
@@ -633,7 +633,7 @@ ingressController:
 gatewayAPI:
   # -- Enable support for Gateway API in cilium
   # This will automatically set enable-envoy-config as well.
-  enabled: false
+  enabled: true
 
   # -- SecretsNamespace is the namespace in which envoy SDS will retrieve TLS secrets from.
   secretsNamespace:
@@ -1406,7 +1406,7 @@ kubeProxyReplacement: strict
 # To enable set the value to '0.0.0.0:10256' for all ipv4
 # addresses and this '[::]:10256' for all ipv6 addresses.
 # By default it is disabled.
-kubeProxyReplacementHealthzBindAddr: ""
+kubeProxyReplacementHealthzBindAddr: "0.0.0.0:10256"
 
 l2NeighDiscovery:
   # -- Enable L2 neighbor discovery in the agent
@@ -1508,11 +1508,11 @@ loadBalancer:
 
   # -- algorithm is the name of the load balancing algorithm for backend
   # selection e.g. random or maglev
-  # algorithm: random
+  algorithm: maglev
 
   # -- mode is the operation mode of load balancing for remote backends
   # e.g. snat, dsr, hybrid
-  # mode: snat
+  mode: hybrid
 
   # -- acceleration is the option to accelerate service handling via XDP
   # e.g. native, disabled
@@ -1582,7 +1582,7 @@ pprof:
 
 # -- Configure prometheus metrics on the configured port at /metrics
 prometheus:
-  enabled: false
+  enabled: true
   port: 9962
   serviceMonitor:
     # -- Enable service monitors.
@@ -1802,7 +1802,6 @@ operator:
   image:
     override: ~
     repository: "quay.io/cilium/operator"
-    tag: "v1.13.0"
     # operator-generic-digest
     genericDigest: ""
     # operator-azure-digest
@@ -1940,7 +1939,7 @@ operator:
   # -- Enable prometheus metrics for cilium-operator on the configured port at
   # /metrics
   prometheus:
-    enabled: false
+    enabled: true
     port: 9963
     serviceMonitor:
       # -- Enable service monitors.
