@@ -55,3 +55,5 @@ spec:
       enabled: false
     prometheus:
       enabled: false
+    test_pod:
+      enabled: false
