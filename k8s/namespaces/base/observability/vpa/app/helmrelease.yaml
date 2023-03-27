@@ -40,23 +40,38 @@ spec:
   maxHistory: 3
   values:
     recommender:
-      enabled: true
-      image:
-        repository: k8s.gcr.io/autoscaling/vpa-recommender
-        tag: 0.12.0
-      resources:
-        requests:
-          cpu: 15m
-          memory: 145M
-        limits:
-          memory: 174M
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
       extraArgs:
-        pod-recommendation-min-cpu-millicores: 15
-        pod-recommendation-min-memory-mb: 61
         storage: prometheus
         prometheus-address: |-
           http://thanos-query.observability.svc.cluster.local:9090
     updater:
       enabled: false
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
     admissionController:
       enabled: false
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
