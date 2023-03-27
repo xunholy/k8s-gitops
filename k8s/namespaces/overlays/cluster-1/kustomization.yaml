@@ -41,7 +41,7 @@ resources:
   - ../../base/kube-system/secret-store-csi-driver/ks.yaml
   - ../../base/kube-system/tetragon/ks.yaml
   - ../../base/network-system/cert-manager/ks.yaml
-  # - ../../base/network-system/cert-manager-csi-driver/ks.yaml
+  - ../../base/network-system/cert-manager-csi-driver/ks.yaml
   - ../../base/network-system/cloudflare-ddns/ks.yaml
   - ../../base/network-system/cloudflared/ks.yaml
   - ../../base/network-system/coredns/ks.yaml
@@ -50,9 +50,9 @@ resources:
   - ../../base/network-system/echo-server/ks.yaml
   - ../../base/network-system/external-dns/ks.yaml
   - ../../base/network-system/metallb/ks.yaml
-  # - ../../base/network-system/node-feature-discovery/ks.yaml
+  - ../../base/network-system/node-feature-discovery/ks.yaml
   - ../../base/network-system/oauth2-proxy/ks.yaml
-  # - ../../base/nginx-ingress/nginx-ingress/ks.yaml
+  - ../../base/nginx-ingress/nginx-ingress/ks.yaml
   # - ../../base/observability/grafana/ks.yaml
   # - ../../base/observability/jaeger/ks.yaml
   # - ../../base/observability/kiali/ks.yaml
