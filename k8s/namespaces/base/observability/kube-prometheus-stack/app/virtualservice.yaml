@@ -16,7 +16,7 @@ spec:
         - destination:
             port:
               number: 9093
-            host: x-alertmanager.observability.svc.cluster.local
+            host: alertmanager-operated.observability.svc.cluster.local
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -57,4 +57,4 @@ spec:
         - destination:
             port:
               number: 9090
-            host: x-prometheus.observability.svc.cluster.local
+            host: kube-prometheus-stack-prometheus.observability.svc.cluster.local

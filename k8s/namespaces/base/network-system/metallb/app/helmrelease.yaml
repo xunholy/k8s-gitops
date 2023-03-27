@@ -40,7 +40,7 @@ spec:
   maxHistory: 3
   values:
     prometheus:
-      serviceAccount: "x-prometheus"
+      serviceAccount: "kube-prometheus-stack-prometheus"
       namespace: "observability"
       serviceMonitor:
         enabled: true

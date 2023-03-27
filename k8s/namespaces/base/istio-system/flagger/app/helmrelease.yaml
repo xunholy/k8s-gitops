@@ -40,4 +40,4 @@ spec:
   maxHistory: 3
   values:
     meshProvider: istio
-    metricsServer: http://x-prometheus.observability.svc.cluster.local:9090
+    metricsServer: http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090
