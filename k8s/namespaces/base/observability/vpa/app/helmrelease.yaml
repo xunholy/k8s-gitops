@@ -58,6 +58,5 @@ spec:
           http://thanos-query.observability.svc.cluster.local:9090
     updater:
       enabled: false
-
     admissionController:
       enabled: false

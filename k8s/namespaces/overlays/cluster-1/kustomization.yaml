@@ -60,10 +60,12 @@ resources:
   - ../../base/observability/loki-stack/ks.yaml
   # - ../../base/observability/otel/ks.yaml
   - ../../base/observability/thanos/ks.yaml
+  - ../../base/observability/vpa/ks.yaml
   # - ../../base/openebs/cstor/ks.yaml
   # - ../../base/openebs/jiva/ks.yaml
   # - ../../base/openfaas/openfaas/ks.yaml
   # - ../../base/rook-ceph/rook-ceph-operator/ks.yaml
-  # - ../../base/security-system/kyverno/ks.yaml
+  - ../../base/security-system/kyverno/ks.yaml
+  - ../../base/security-system/gatekeeper/ks.yaml
   # - ../../base/traefik-ingress/traefik/ks.yaml
   - ../../base/velero/velero/ks.yaml
