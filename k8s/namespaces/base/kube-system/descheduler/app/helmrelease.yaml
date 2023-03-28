@@ -39,42 +39,26 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
-    deschedulerPolicy:
-      strategies:
-        RemoveDuplicates:
-          enabled: true
-        RemovePodsHavingTooManyRestarts:
-          enabled: true
-          params:
-            podsHavingTooManyRestarts:
-              podRestartThreshold: 100
-              includingInitContainers: true
-        RemovePodsViolatingNodeTaints:
-          enabled: true
-        RemovePodsViolatingNodeAffinity:
-          enabled: true
-          params:
-            nodeAffinityType:
-            - requiredDuringSchedulingIgnoredDuringExecution
-        RemovePodsViolatingInterPodAntiAffinity:
-          enabled: true
-        RemovePodsViolatingTopologySpreadConstraint:
-          enabled: true
-          params:
-            includeSoftConstraints: false
-        LowNodeUtilization:
-          enabled: true
-          params:
-            nodeResourceUtilizationThresholds:
-              thresholds:
-                cpu: 20
-                memory: 20
-                pods: 20
-              targetThresholds:
-                cpu: 50
-                memory: 50
-                pods: 50
     service:
       enabled: true
     serviceMonitor:
       enabled: true
+    kind: Deployment
+    leaderElection:
+      enabled: true
+      leaseDuration: 30s
+      renewDeadline: 15s
+      retryPeriod: 5s
+      resourceLock: "leases"
+      resourceName: "descheduler"
+      resourceNamescape: "kube-system"
+    deschedulerPolicy:
+      strategies:
+        RemovePodsHavingTooManyRestarts:
+          params:
+            podsHavingTooManyRestarts:
+              podRestartThreshold: 10
+        RemovePodsViolatingTopologySpreadConstraint:
+          enabled: true
+          params:
+            includeSoftConstraints: false
