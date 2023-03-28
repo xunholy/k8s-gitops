@@ -40,58 +40,21 @@ spec:
   maxHistory: 3
   values:
     recommender:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: beta.kubernetes.io/arch
-                operator: In
-                values:
-                - amd64
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64
       extraArgs:
         storage: prometheus
         prometheus-address: |-
           http://thanos-query.observability.svc.cluster.local:9090
     updater:
-      enabled: false
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: beta.kubernetes.io/arch
-                operator: In
-                values:
-                - amd64
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64
     admissionController:
-      enabled: false
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: beta.kubernetes.io/arch
-                operator: In
-                values:
-                - amd64
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64
       certGen:
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-              - matchExpressions:
-                - key: beta.kubernetes.io/arch
-                  operator: In
-                  values:
-                  - amd64
+        nodeSelector:
+          beta.kubernetes.io/arch: amd64
       cleanupOnDelete:
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-              - matchExpressions:
-                - key: beta.kubernetes.io/arch
-                  operator: In
-                  values:
-                  - amd64
+        nodeSelector:
+          beta.kubernetes.io/arch: amd64
