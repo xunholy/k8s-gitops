@@ -30,7 +30,9 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   test:
-    enable: true
+    # Disable tests as they don't support multi-arch images and are not configurable
+    # https://github.com/FairwindsOps/charts/blob/master/stable/vpa/templates/tests/crd-available.yaml
+    enable: false
   rollback:
     recreate: true
     force: true
