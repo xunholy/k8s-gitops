@@ -62,13 +62,13 @@ spec:
           enabled: false
           accessModes:
             - ReadWriteOnce
-          storageClassName: "cstor-replica-pool"
+          storageClassName: "cstor-replica-raspberry-pi-pool"
           size: 1Gi
         config:
           enabled: true
           accessModes:
             - ReadWriteOnce
-          storageClassName: "cstor-replica-pool"
+          storageClassName: "cstor-replica-raspberry-pi-pool"
           size: 100Mi
     agent:
       acquisition:
