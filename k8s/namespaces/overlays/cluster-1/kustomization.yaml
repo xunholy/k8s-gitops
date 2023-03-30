@@ -23,11 +23,11 @@ resources:
   - ../../base/actions-runner-system/actions-runner-controller/ks.yaml
   - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
-  # - ../../base/flux-system/tf-controller/ks.yaml
+  - ../../base/flux-system/tf-controller/ks.yaml
   - ../../base/flux-system/weave-gitops/ks.yaml
-  # - ../../base/home-system/home-assistant/ks.yaml
-  # - ../../base/home-system/mosquitto/ks.yaml
-  # - ../../base/home-system/zigbee2mqtt/ks.yaml
+  - ../../base/home-system/home-assistant/ks.yaml
+  - ../../base/home-system/mosquitto/ks.yaml
+  - ../../base/home-system/zigbee2mqtt/ks.yaml
   - ../../base/istio-ingress/istio-gateway/ks.yaml
   - ../../base/istio-system/flagger/ks.yaml
   - ../../base/istio-system/istio-base/ks.yaml
