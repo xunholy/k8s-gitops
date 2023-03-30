@@ -18,3 +18,5 @@ creation_rules:
   - path_regex: talos/.*/.*.enc.ya?ml
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
     encrypted_regex: '((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))'
+  - path_regex: terraform/.*/*.enc.ya?ml
+    pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
