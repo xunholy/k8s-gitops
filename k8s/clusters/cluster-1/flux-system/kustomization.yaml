@@ -105,3 +105,15 @@ patches:
     target:
       kind: ClusterRole
       name:  crd-controller-flux-system
+  # REQUIRED: Enable drift detection for HelmReleases and set the log level to debug
+  # https://fluxcd.io/flux/components/helm/helmreleases/#drift-detection
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --feature-gates=DetectDrift=true,CorrectDrift=false
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --log-level=debug
+    target:
+      kind: Deployment
+      name: helm-controller

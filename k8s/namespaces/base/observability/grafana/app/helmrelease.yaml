@@ -89,7 +89,13 @@ spec:
     sidecar:
       dashboards:
         enabled: true
+        labelValue: ""
+        label: grafana_dashboard
+        folderAnnotation: grafana_folder
         searchNamespace: ALL
+        provider:
+          disableDelete: true
+          foldersFromFilesStructure: true
       datasources:
         enabled: true
         searchNamespace: ALL
@@ -195,15 +201,6 @@ spec:
           datasource: Prometheus
         thanos-replicate:
           url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/bucket-replicate.json
-          datasource: Prometheus
-        flux-cluster:
-          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/cluster.json
-          datasource: Prometheus
-        flux-control-plane:
-          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/control-plane.json
-          datasource: Prometheus
-        flux-logs:
-          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/logs.json
           datasource: Prometheus
         velero:
           url: https://grafana.com/api/dashboards/11055/revisions/2/download
