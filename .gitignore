@@ -30,6 +30,9 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+# Ignore tf lock files
+**/.terraform.lock.hcl
+
 # Ignore VSCODE SOPS decrypted files
 **/.decrypted~*
 
