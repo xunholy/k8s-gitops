@@ -1,11 +1,11 @@
 resource "cloudflare_access_application" "kubernetes_cluster_access" {
   app_launcher_visible       = true
   auto_redirect_to_identity  = false
-  domain                     = "api.${var.domain}"
+  domain                     = var.kubernetes_cluster_api
   enable_binding_cookie      = false
   http_only_cookie_attribute = false
   name                       = "Kubernetes Cluster Access"
-  session_duration           = "24h"
+  session_duration           = var.session_duration
   skip_interstitial          = true
   type                       = "self_hosted"
   zone_id                    = data.cloudflare_zone.domain.id
@@ -103,7 +103,6 @@ resource "cloudflare_filter" "waf_high_threat_score_filter" {
   zone_id    = data.cloudflare_zone.domain.id
 }
 
-
 resource "cloudflare_ruleset" "zone_waf_ruleset" {
   kind    = "zone"
   name    = "default"
@@ -152,8 +151,6 @@ resource "cloudflare_firewall_rule" "terraform_managed_resource_67142a92e1ff4293
   paused      = false
   zone_id     = data.cloudflare_zone.domain.id
 }
-
-
 
 resource "cloudflare_rate_limit" "zone_rate_limit" {
   description = "Rate Limit Protection"
