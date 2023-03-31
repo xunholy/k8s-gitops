@@ -31,6 +31,9 @@ spec:
       strategy: rollback
     cleanupOnFail: true
     crds: CreateReplace
+    # Force recreation due to Helm not properly patching Deployment with e.g. added port,
+    # causing spurious drift detection
+    force: true
   test:
     enable: true
   rollback:
@@ -148,3 +151,22 @@ spec:
           - sourceLabels: ["__name__"]
             regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|authenticated_user|authentication|disabled_metric|go|hidden_metric|kubernetes_build|kubernetes_feature|leader_election|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scheduler|scrape_duration|scrape_samples|scrape_series|workqueue)_(.+)"
             action: keep
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              # Ignore these objects from Flux diff as they are mutated from chart hooks
+              kind: (ValidatingWebhookConfiguration|MutatingWebhookConfiguration)
+              name: kube-prometheus-stack-admission
+            patch: |
+              - op: add
+                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
+                value: disabled
+          - target:
+              # Ignore these objects from Flux diff as they are mutated at apply time but not
+              # at dry-run time
+              kind: PrometheusRule
+            patch: |
+              - op: add
+                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
+                value: disabled
