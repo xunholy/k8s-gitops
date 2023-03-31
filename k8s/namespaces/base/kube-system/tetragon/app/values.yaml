@@ -61,7 +61,6 @@ tetragon:
   image:
     override: ~
     repository: quay.io/cilium/tetragon
-    tag: v0.8.4
   resources: {}
   extraArgs: {}
   extraEnv: []
@@ -178,7 +177,6 @@ tetragonOperator:
   image:
     override: ~
     repository: quay.io/cilium/tetragon-operator
-    tag: v0.8.4
     # tetragon-operator image-digest
     suffix: ""
 
@@ -230,4 +228,3 @@ export:
     image:
       override: ~
       repository: quay.io/cilium/hubble-export-stdout
-      tag: v1.0.3

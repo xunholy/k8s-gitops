@@ -815,7 +815,6 @@ certgen:
   image:
     override: ~
     repository: "quay.io/cilium/certgen"
-    tag: "v0.1.8@sha256:4a456552a5f192992a6edcec2febb1c54870d665173a33dc7d876129b199ddbd"
     pullPolicy: "IfNotPresent"
   # -- Seconds after which the completed job pod will be deleted
   ttlSecondsAfterFinished: 1800
@@ -1203,7 +1202,6 @@ hubble:
       image:
         override: ~
         repository: "quay.io/cilium/hubble-ui-backend"
-        tag: "v0.10.0@sha256:cc5e2730b3be6f117b22176e25875f2308834ced7c3aa34fb598aa87a2c0a6a4"
         pullPolicy: "IfNotPresent"
 
       # -- Hubble-ui backend security context.
@@ -1232,7 +1230,6 @@ hubble:
       image:
         override: ~
         repository: "quay.io/cilium/hubble-ui"
-        tag: "v0.10.0@sha256:118ad2fcfd07fabcae4dde35ec88d33564c9ca7abe520aa45b1eb13ba36c6e0a"
         pullPolicy: "IfNotPresent"
 
       # -- Hubble-ui frontend security context.
@@ -1748,7 +1745,6 @@ etcd:
   image:
     override: ~
     repository: "quay.io/cilium/cilium-etcd-operator"
-    tag: "v2.0.7@sha256:04b8327f7f992693c2cb483b999041ed8f92efc8e14f2a5f3ab95574a65ea2dc"
     pullPolicy: "IfNotPresent"
 
   # -- The priority class to use for cilium-etcd-operator
@@ -2033,7 +2029,6 @@ nodeinit:
   image:
     override: ~
     repository: "quay.io/cilium/startup-script"
-    tag: "d69851597ea019af980891a4628fb36b7880ec26"
     pullPolicy: "IfNotPresent"
 
   # -- The priority class to use for the nodeinit pod.
@@ -2263,7 +2258,6 @@ clustermesh:
       image:
         override: ~
         repository: "quay.io/coreos/etcd"
-        tag: "v3.5.4@sha256:795d8660c48c439a7c3764c2330ed9222ab5db5bb524d8d0607cac76f7ba82a3"
         pullPolicy: "IfNotPresent"
 
       # -- Specifies the resources for etcd container in the apiserver
