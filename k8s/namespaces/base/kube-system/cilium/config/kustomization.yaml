@@ -4,3 +4,20 @@ namespace: kube-system
 
 resources:
   - virtualservice.yaml
+
+configMapGenerator:
+  - name: cilium-dashboard
+    files:
+      - cilium-dashboard.json=https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
+  - name: cilium-operator-dashboard
+    files:
+      - cilium-operator-dashboard.json=https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
+  - name: hubble-dashboard
+    files:
+      - hubble-dashboard.json=https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
+
+generatorOptions:
+  annotations:
+    grafana_folder: General
+  labels:
+    grafana_dashboard: "true"
