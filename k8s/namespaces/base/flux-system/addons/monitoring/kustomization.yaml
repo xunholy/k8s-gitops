@@ -18,6 +18,7 @@ configMapGenerator:
 
 generatorOptions:
   annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
     grafana_folder: Flux
   labels:
     grafana_dashboard: "true"
