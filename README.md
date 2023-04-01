@@ -18,9 +18,9 @@
 
 # 🍼 Overview
 
-This repository provides a declarative implementation of a Kubernetes cluster following GitOps principles, utilizing [FluxCD](https://toolkit.fluxcd.io/get-started/) as the primary tool.
+This educational project is designed to provide a hands-on learning experience for mastering Kubernetes cluster configurations and best practices. The repository showcases a declarative implementation of a Kubernetes cluster, following GitOps principles that can be utilized with a variety of tools and workflows.
 
-The primary objective of this project is to showcase best practices for implementing enterprise-grade security, observability, and overall cluster configuration management using GitOps within a Kubernetes cluster.
+The main goal of this project is to demonstrate best practices for implementing enterprise-grade security, observability, and comprehensive cluster configuration management using GitOps in a Kubernetes environment, while fostering learning and growth in the Kubernetes community.
 
 This repository leverages a range of cutting-edge open-source tools and platforms, forming a comprehensive technology stack that demonstrates the power of the [CNCF ecosystem](https://landscape.cncf.io/).
 
