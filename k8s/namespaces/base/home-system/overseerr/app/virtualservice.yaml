@@ -16,6 +16,6 @@ spec:
     - route:
         - destination:
             port:
-              number: 32400
+              number: 80
             host: overseerr.home-system.svc.cluster.local
           weight: 100
