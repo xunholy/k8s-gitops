@@ -19,6 +19,6 @@ configMapGenerator:
 generatorOptions:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
-    grafana_folder: General
+    grafana_folder: Cilium
   labels:
     grafana_dashboard: "true"
