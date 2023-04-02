@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: overseerr
+  namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
+spec:
+  interval: 30m
+  retryInterval: 1m
+  timeout: 3m
+  path: "./namespaces/base/home-system/overseerr/app"
+  prune: true
+  wait: false
+  sourceRef:
+    kind: OCIRepository
+    name: cluster

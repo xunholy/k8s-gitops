@@ -1,0 +1,21 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: jellyfin
+  namespace: home-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLUSTER_DOMAIN}'
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  hosts:
+    - 'jellyfin.${CLUSTER_DOMAIN}'
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 8096
+            host: jellyfin.home-system.svc.cluster.local
+          weight: 100
