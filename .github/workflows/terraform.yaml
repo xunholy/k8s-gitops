@@ -1,4 +1,4 @@
-name: "Terraform Plan"
+name: "Terraform"
 
 on:
   workflow_dispatch: {}
@@ -6,15 +6,15 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/terraform-plan.yml'
-      - 'k8s/clusters/**/infrastructure/**'
+      - '.github/workflows/terraform.yml'
+      - 'terraform/**'
 
 env:
-  tf_actions_working_dir: k8s/clusters/cluster-1/infrastructure/terraform
-  terraform_version: 0.13.5
+  tf_actions_working_dir: terraform/gcp
+  terraform_version: 1.4.2
 
 jobs:
-  plan:
+  apply:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -90,4 +90,10 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
-            })
+            }
+
+      - name: Terraform Apply
+        if: github.event_name != 'pull_request'
+        id: apply
+        run: terraform apply -no-color -auto-approve -input=false
+        continue-on-error: false
