@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - ../../base/actions-runner-system
+  - ../../base/backup-system
   - ../../base/crossplane-system
   - ../../base/game-servers
   - ../../base/home-system
@@ -21,6 +22,7 @@ resources:
   - ../../base/traefik-ingress
   - ../../base/velero
   - ../../base/actions-runner-system/actions-runner-controller/ks.yaml
+  - ../../base/backup-system/volsync/ks.yaml
   - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
   - ../../base/flux-system/tf-controller/ks.yaml
