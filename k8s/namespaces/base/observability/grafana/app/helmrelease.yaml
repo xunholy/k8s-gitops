@@ -135,7 +135,7 @@ spec:
           - name: Loki
             type: loki
             access: proxy
-            url: http://loki.observability.svc.cluster.local:3100
+            url: http://loki-gateway.observability.svc.cluster.local:80
             jsonData:
               maxLines: 250
           - name: Alertmanager
