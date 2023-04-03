@@ -121,7 +121,6 @@ spec:
     datasources:
       datasources.yaml:
         apiVersion: 1
-        # Delete the default Loki that comes OOTB to avoid datasource contention
         deleteDatasources:
           - name: Loki
             orgId: 1
@@ -147,18 +146,18 @@ spec:
               implementation: prometheus
     dashboards:
       default:
-        # cert-manager:
-        #   url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
-        #   datasource: Prometheus
-        # cilium-dashboard:
-        #   url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
-        #   datasource: Prometheus
-        # cilium-operator-dashboard:
-        #   url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
-        #   datasource: Prometheus
-        # hubble-dashboard:
-        #   url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
-        #   datasource: Prometheus
+        cert-manager:
+          url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
+          datasource: Prometheus
+        cilium-dashboard:
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
+          datasource: Prometheus
+        cilium-operator-dashboard:
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
+          datasource: Prometheus
+        hubble-dashboard:
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
+          datasource: Prometheus
         # Istio dashboards must be kept in parity with the version deployed
         # https://grafana.com/grafana/dashboards/7639/revisions
         istio-mesh:
@@ -212,15 +211,6 @@ spec:
         thanos-replicate:
           url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/bucket-replicate.json
           datasource: Prometheus
-        # flux-cluster:
-        #   url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/cluster.json
-        #   datasource: Prometheus
-        # flux-control-plane:
-        #   url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/control-plane.json
-        #   datasource: Prometheus
-        # flux-logs:
-        #   url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/logs.json
-        #   datasource: Prometheus
         velero:
           url: https://grafana.com/api/dashboards/11055/revisions/2/download
           datasource: Prometheus

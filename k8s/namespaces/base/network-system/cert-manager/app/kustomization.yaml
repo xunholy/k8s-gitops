@@ -5,15 +5,3 @@ namespace: network-system
 resources:
   - helmrelease.yaml
   - secret.enc.yaml
-
-configMapGenerator:
-  - name: cert-manager-dashboard
-    files:
-      - cert-manager-dashboard.json=https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
-
-generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
-    grafana_folder: Cert-Manager
-  labels:
-    grafana_dashboard: "true"

@@ -5,20 +5,22 @@ namespace: kube-system
 resources:
   - virtualservice.yaml
 
-configMapGenerator:
-  - name: cilium-dashboard
-    files:
-      - cilium-dashboard.json=https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
-  - name: cilium-operator-dashboard
-    files:
-      - cilium-operator-dashboard.json=https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
-  - name: hubble-dashboard
-    files:
-      - hubble-dashboard.json=https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
+# TODO: Disabled as the dashboards don't load successfully due to the datasource being "prometheus" and not "Prometheus".
+# https://github.com/cilium/cilium/blob/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json#L30
+# configMapGenerator:
+#   - name: cilium-dashboard
+#     files:
+#       - cilium-dashboard.json=https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
+#   - name: cilium-operator-dashboard
+#     files:
+#       - cilium-operator-dashboard.json=https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
+#   - name: hubble-dashboard
+#     files:
+#       - hubble-dashboard.json=https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
 
-generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
-    grafana_folder: Cilium
-  labels:
-    grafana_dashboard: "true"
+# generatorOptions:
+#   annotations:
+#     kustomize.toolkit.fluxcd.io/substitute: disabled
+#     grafana_folder: Cilium
+#   labels:
+#     grafana_dashboard: "true"
