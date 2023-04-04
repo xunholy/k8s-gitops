@@ -50,3 +50,20 @@ spec:
       crd:
         # Install jaeger CRDs
         install: true
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              labelSelector: openebs.io/release=mayastor
+            patch: |
+              - op: add
+                path: /spec/template/spec/priorityClassName
+                value: system-node-critical
+          - target:
+              kind: Daemonset
+              labelSelector: openebs.io/release=mayastor
+            patch: |
+              - op: add
+                path: /spec/template/spec/priorityClassName
+                value: system-node-critical
