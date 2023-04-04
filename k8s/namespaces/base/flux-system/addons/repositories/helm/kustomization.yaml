@@ -30,6 +30,7 @@ resources:
   - kyverno-charts.yaml
   - litmuschaos-charts.yaml
   - loft-charts.yaml
+  - mayastor-chart.yaml
   - metallb-charts.yaml
   - metrics-server-charts.yaml
   - minecraft-server-charts.yaml

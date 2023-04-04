@@ -1,3 +1,4 @@
+# https://www.talos.dev/v1.3/kubernetes-guides/configuration/replicated-local-storage-with-openebs-jiva/#preparing-the-nodes
 - op: add
   path: /machine/install/extensions
   value:

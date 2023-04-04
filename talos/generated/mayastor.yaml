@@ -1,0 +1,9 @@
+# https://www.talos.dev/v1.3/kubernetes-guides/configuration/storage/#prep-nodes
+- op: add
+  path: /machine/sysctls
+  value:
+    vm.nr_hugepages: "1024"
+- op: add
+  path: /machine/kubelet/extraArgs
+  value:
+    node-labels: openebs.io/engine=mayastor

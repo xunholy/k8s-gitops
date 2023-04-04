@@ -68,6 +68,7 @@ resources:
   - ../../base/observability/thanos/ks.yaml
   - ../../base/observability/vpa/ks.yaml
   - ../../base/openebs/cstor/ks.yaml
+  - ../../base/openebs/mayastor/ks.yaml
   # - ../../base/openebs/jiva/ks.yaml
   # - ../../base/openfaas/openfaas/ks.yaml
   # - ../../base/rook-ceph/rook-ceph-operator/ks.yaml

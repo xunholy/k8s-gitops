@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: mayastor
+  namespace: flux-system
+spec:
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  path: "./namespaces/base/openebs/mayastor/app"
+  prune: false
+  wait: true
+  sourceRef:
+    kind: OCIRepository
+    name: cluster
