@@ -46,3 +46,7 @@ spec:
       callhome:
         # -- Enable callhome
         enabled: false
+    jaeger-operator:
+      crd:
+        # Install jaeger CRDs
+        install: true
