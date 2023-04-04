@@ -67,3 +67,10 @@ spec:
               - op: add
                 path: /spec/template/spec/priorityClassName
                 value: system-node-critical
+          - target:
+              kind: StatefulSet
+              labelSelector: app.kubernetes.io/instance=mayastor
+            patch: |
+              - op: add
+                path: /spec/template/spec/priorityClassName
+                value: system-node-critical
