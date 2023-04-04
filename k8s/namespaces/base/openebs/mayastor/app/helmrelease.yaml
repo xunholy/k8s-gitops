@@ -67,4 +67,3 @@ spec:
               - op: add
                 path: /spec/template/spec/priorityClassName
                 value: system-node-critical
-openebs.io/release: mayastor
