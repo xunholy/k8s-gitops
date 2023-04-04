@@ -39,6 +39,8 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
+    singleBinary:
+      replicas: 1
     loki:
       storage:
         type: filesystem
