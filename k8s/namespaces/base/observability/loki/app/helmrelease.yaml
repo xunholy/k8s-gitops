@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: loki
-      version: 4.10.0
+      version: 5.0.0
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
@@ -40,6 +40,8 @@ spec:
   maxHistory: 3
   values:
     loki:
+      storage:
+        type: filesystem
       structuredConfig:
         auth_enabled: false
         server:
@@ -63,14 +65,18 @@ spec:
           configs:
             - from: "2021-08-01"
               store: boltdb-shipper
-              object_store: s3
+              object_store: filesystem
               schema: v11
               index:
                 prefix: loki_index_
                 period: 24h
         common:
           path_prefix: /var/loki
-          replication_factor: 3
+          replication_factor: 1
+          storage:
+            filesystem:
+              chunks_directory: /var/loki/chunks
+              rules_directory: /var/loki/rules
           ring:
             kvstore:
               store: memberlist
@@ -92,7 +98,7 @@ spec:
               store: memberlist
         compactor:
           working_directory: /var/loki/boltdb-shipper-compactor
-          shared_store: s3
+          shared_store: filesystem
           compaction_interval: 10m
           retention_enabled: true
           retention_delete_delay: 2h
