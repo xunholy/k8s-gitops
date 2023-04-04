@@ -399,7 +399,7 @@ loki-stack:
     # initContainers to chown the static hostpath PV by 1001 user
     initContainers:
       - command: ["/bin/bash", "-ec", "chown -R 1001:1001 /data"]
-        image: docker.io/bitnami/bitnami-shell:10
+        image: docker.io/bitnami/bitnami-shell:11
         imagePullPolicy: IfNotPresent
         name: volume-permissions
         securityContext:
