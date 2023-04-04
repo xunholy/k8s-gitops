@@ -61,9 +61,10 @@ spec:
                 path: /spec/template/spec/priorityClassName
                 value: system-node-critical
           - target:
-              kind: Daemonset
+              kind: DaemonSet
               labelSelector: openebs.io/release=mayastor
             patch: |
               - op: add
                 path: /spec/template/spec/priorityClassName
                 value: system-node-critical
+openebs.io/release: mayastor
