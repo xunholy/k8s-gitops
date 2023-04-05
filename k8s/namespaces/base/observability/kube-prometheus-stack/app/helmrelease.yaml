@@ -119,7 +119,7 @@ spec:
       # REQUIRED kube-state-metrics must be configured to enable Vertical Pod Autoscalar metrics.
       # https://github.com/prometheus-community/helm-charts/blob/cbbc1d6965d5f90c31bb7dd08ecab09e59544a65/charts/kube-state-metrics/values.yaml#L311
       collectors:
-        verticalpodautoscalers: true
+        - verticalpodautoscalers
       metricLabelsAllowlist: ["persistentvolumeclaims=[*]"]
       prometheus:
         monitor:
