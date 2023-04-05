@@ -30,6 +30,7 @@ apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
   name: dns
+  namespace: kube-system
 spec:
   endpointSelector: {}
   egress:
