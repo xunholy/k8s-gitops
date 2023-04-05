@@ -68,6 +68,11 @@ spec:
       prometheusSpec:
         retention: 2h
         replicaExternalLabelName: __replica__
+        # REQUIRED: Cilium Hubble metrics are exposed via OpenMetrics. Prometheus Operator requires the `exemplar-storage` feature to be enabled to scrape OpenMetrics.
+        # https://docs.cilium.io/en/stable/observability/metrics/#openmetrics
+        # https://prometheus.io/docs/prometheus/latest/feature_flags/#exemplars-storage
+        enableFeatures:
+          - exemplar-storage
         ## Interval between consecutive scrapes.
         ## Defaults to 30s.
         ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/release-0.44/pkg/prometheus/promcfg.go#L180-L183

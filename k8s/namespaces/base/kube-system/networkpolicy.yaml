@@ -45,3 +45,25 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-all
+  namespace: kube-system
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEndpoints:
+        - {}
+    - fromEntities:
+        - world
+    - fromEntities:
+        - cluster
+  egress:
+    - toEndpoints:
+        - {}
+    - toEntities:
+        - cluster
+    - toEntities:
+        - world
