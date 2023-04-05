@@ -1,0 +1,5 @@
+# https://www.talos.dev/v1.3/kubernetes-guides/configuration/deploy-metrics-server/
+- op: add
+  path: /machine/kubelet/extraArgs
+  value:
+    rotate-server-certificates: true
