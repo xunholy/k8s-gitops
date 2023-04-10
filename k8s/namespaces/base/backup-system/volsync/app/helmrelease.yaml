@@ -42,3 +42,5 @@ spec:
     manageCRDs: true
     metrics:
       disableAuth: true
+    nodeSelector:
+      beta.kubernetes.io/arch: amd64
