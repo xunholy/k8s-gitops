@@ -132,7 +132,7 @@ spec:
             access: proxy
             url: http://thanos-query.observability.svc.cluster.local:9090/
             isDefault: true
-            uid: Prometheus
+            uid: "-- Prometheus --"
           - name: Loki
             type: loki
             access: proxy
