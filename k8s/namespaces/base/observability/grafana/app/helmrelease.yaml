@@ -157,8 +157,11 @@ spec:
           datasource: Prometheus
         # Source: https://grafana.com/grafana/dashboards/18015-cilium-policy-verdicts/
         cilium-policy-verdict-dashboard:
-          url: https://grafana.com/api/dashboards/18015/revisions/3/download
-          datasource: Prometheus
+          gnetId: 18015
+          revision: 3
+          datasource:
+            - name: "DS_PROMETHEUS"
+              value: Prometheus
         gatekeeper-dashboard:
           url: https://grafana.com/api/dashboards/15763/revisions/1/download
           datasource: Prometheus
