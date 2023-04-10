@@ -155,6 +155,10 @@ spec:
         cilium-operator-dashboard:
           url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
           datasource: Prometheus
+        # Source: https://grafana.com/grafana/dashboards/18015-cilium-policy-verdicts/
+        cilium-policy-verdict-dashboard:
+          url: https://grafana.com/api/dashboards/18015/revisions/3/download
+          datasource: Prometheus
         gatekeeper-dashboard:
           url: https://grafana.com/api/dashboards/15763/revisions/1/download
           datasource: Prometheus

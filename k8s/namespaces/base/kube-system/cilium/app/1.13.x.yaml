@@ -864,7 +864,16 @@ hubble:
     #
     #   --set metrics.enabled="{dns:query;ignoreAAAA,drop,tcp,flow,icmp,http}"
     #
-    enabled: {dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}
+    enabled:
+      - dns,
+      - drop
+      - tcp
+      - flow
+      - port-distribution
+      - icmp
+      - httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction
+      - policy:sourceContext=app|workload-name|pod|reserved-identity;destinationContext=app|workload-name|pod|dns|reserved-identity;labelsContext=source_namespace,destination_namespace
+
 
     # -- Enables exporting hubble metrics in OpenMetrics format.
     enableOpenMetrics: true
@@ -2483,7 +2492,7 @@ enableK8sTerminatingEndpoint: true
 # -- Configure whether to unload DNS policy rules on graceful shutdown
 # dnsPolicyUnloadOnShutdown: false
 
-# -- Configure the key of the taint indicating that Cilium is not ready on the node.
+# -- Configure the key of the taint indicating that Cilium is not ready on the node.https://github.com/xUnholy/k8s-gitops/blob/main/k8s/namespaces/base/kube-system/cilium/app/1.13.x.yaml
 # When set to a value starting with `ignore-taint.cluster-autoscaler.kubernetes.io/`, the Cluster Autoscaler will ignore the taint on its decisions, allowing the cluster to scale up.
 agentNotReadyTaintKey: "node.cilium.io/agent-not-ready"
 
