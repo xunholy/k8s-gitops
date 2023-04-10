@@ -157,12 +157,13 @@ spec:
           url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
           datasource: Prometheus
         # Source: https://grafana.com/grafana/dashboards/18015-cilium-policy-verdicts/
+        # TODO: Currently doesn't work and requires the following fix https://github.com/isovalent/grafana-dashboards/pull/6
         cilium-policy-verdict-dashboard:
           gnetId: 18015
           revision: 3
           datasource:
             - name: "DS_PROMETHEUS"
-              value: Prometheus
+              value: "-- Prometheus --"
         gatekeeper-dashboard:
           url: https://grafana.com/api/dashboards/15763/revisions/1/download
           datasource: Prometheus
