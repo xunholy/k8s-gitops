@@ -132,7 +132,8 @@ spec:
             access: proxy
             url: http://thanos-query.observability.svc.cluster.local:9090/
             isDefault: true
-            uid: "-- Prometheus --"
+            # (OPTIONAL) Only required when some dashboards don't correctly set the datasource and you want to override it using the dashboard's uid
+            # uid: "-- Prometheus --"
           - name: Loki
             type: loki
             access: proxy
@@ -157,13 +158,9 @@ spec:
           url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
           datasource: Prometheus
         # Source: https://grafana.com/grafana/dashboards/18015-cilium-policy-verdicts/
-        # TODO: Currently doesn't work and requires the following fix https://github.com/isovalent/grafana-dashboards/pull/6
         cilium-policy-verdict-dashboard:
-          gnetId: 18015
-          revision: 3
-          datasource:
-            - name: "DS_PROMETHEUS"
-              value: "-- Prometheus --"
+          url: https://raw.githubusercontent.com/isovalent/grafana-dashboards/main/dashboards/cilium-policy-verdicts/cilium-policy-verdicts-dashboard.json
+          datasource: Prometheus
         gatekeeper-dashboard:
           url: https://grafana.com/api/dashboards/15763/revisions/1/download
           datasource: Prometheus
