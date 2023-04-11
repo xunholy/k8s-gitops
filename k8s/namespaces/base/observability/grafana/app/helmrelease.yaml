@@ -160,7 +160,9 @@ spec:
         # Source: https://grafana.com/grafana/dashboards/18015-cilium-policy-verdicts/
         cilium-policy-verdict-dashboard:
           url: https://raw.githubusercontent.com/isovalent/grafana-dashboards/main/dashboards/cilium-policy-verdicts/cilium-policy-verdicts-dashboard.json
-          datasource: Prometheus
+          datasource:
+            - name: "DS_PROMETHEUS"
+              value: "Prometheus"
         gatekeeper-dashboard:
           url: https://grafana.com/api/dashboards/15763/revisions/1/download
           datasource: Prometheus
