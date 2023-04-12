@@ -374,6 +374,7 @@ cluster:
         image: registry.k8s.io/kube-apiserver:v1.26.1
         # Extra certificate subject alternative names for the API server's certificate.
         certSANs:
+            - api.raspbernetes.com
             - talos.api.raspbernetes.com
             - 192.168.50.200
         extraArgs:
@@ -495,8 +496,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2023-03-27T02:20:41Z"
-    mac: ENC[AES256_GCM,data:85fUoyJQrej0IdKfiEFHkBbQaJVyNHrM87FBwZ9M3PjE1kvh2hoENvGizz/wfTas/VbF/p2/jZ9vIAte8910AwWsdSp69k5eLx5BP+Ciqw6NBbPk2KlfPeEAQo4VpBcmkFpMMoorY0h17Pawnuv93q7wR1NwRfN2jo6Js927TUc=,iv:k3pQBJhquDL0h15NmD6y/gDRdOV+V3hxTWSz8ubrEII=,tag:2S4RCtC/cN/R7k1Ppkfcfg==,type:str]
+    lastmodified: "2023-04-12T04:21:24Z"
+    mac: ENC[AES256_GCM,data:SaWnLbvqilig7WWEALXUJaMSsbvUkEC0/PbgPBudg5jg125vEJVIHuGLJviZstQd9PnKD5pUVrgJEmurvm8QdHsr7oSGZDgSJwAAA/KYEa59iPEAeFPUJ3FkP8QMxQTocsdUfacVoNB3hrTECwKNGrccPgOcPxVlVWzTfw/yK4o=,iv:5LLAJR1V+mlKfoflb3/F4Q+7uiPLg2sUOMLa/XGSjt0=,tag:es7T+VkCTB6881eAtOXvkQ==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |
