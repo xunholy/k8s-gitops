@@ -16,10 +16,14 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v3
+
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
+
       - name: Install Task
         uses: arduino/setup-task@v1
+
       - run: task mkdocs:setup
+
       - run: task mkdocs:publish

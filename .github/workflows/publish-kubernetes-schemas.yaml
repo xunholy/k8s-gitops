@@ -1,0 +1,58 @@
+name: "Publish Kubernetes Schemas"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0"
+  push:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/publish-kubernetes-schemas.yaml"
+
+env:
+  OCI_REPO: "oci://ghcr.io/xunholy/kubernetes-schemas/${{ github.event.repository.name }}"
+
+jobs:
+  publish-kubernetes-schemas:
+    name: Publish Kubernetes Schemas
+    runs-on: ["self-hosted"]
+    steps:
+      # Install FluxCD
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@main
+
+      - name: Setup crd-extractor
+        uses: robinraju/release-downloader@v1.7
+        with:
+          repository: datreeio/CRDs-catalog
+          latest: true
+          fileName: crd-extractor.zip
+
+      - name: Write kubeconfig
+        id: kubeconfig
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          encodedString: ${{ secrets.KUBECONFIG }}
+          fileName: kubeconfig
+
+      - name: Run crd-extractor
+        env:
+          KUBECONFIG: ${{ steps.kubeconfig.outputs.filePath }}
+        run: |
+          unzip -j $GITHUB_WORKSPACE/crd-extractor.zip -d $GITHUB_WORKSPACE
+          bash $GITHUB_WORKSPACE/crd-extractor.sh
+
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish schemas as OCI
+        run: |
+          flux push artifact $OCI_REPO:$(git rev-parse --short HEAD) \
+              --path="/home/runner/.datree/crdSchemas" \
+              --source="${{ github.repositoryUrl }}" \
+              --revision="main"
