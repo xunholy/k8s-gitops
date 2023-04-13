@@ -8,7 +8,7 @@ on:
     branches:
       - "main"
     paths:
-      - ".github/workflows/publish-kubernetes-schemas.yaml"
+      - ".github/workflows/kubernetes-schemas.yaml"
 
 env:
   OCI_REPO: "oci://ghcr.io/xunholy/kubernetes-schemas/${{ github.event.repository.name }}"
@@ -25,6 +25,11 @@ jobs:
       - uses: azure/setup-kubectl@v3
         with:
           version: 'v1.26.3'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.5.0
+        with:
+          python-version: "3.11"
 
       - name: Setup crd-extractor
         uses: robinraju/release-downloader@v1.7
