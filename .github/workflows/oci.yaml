@@ -45,7 +45,7 @@ jobs:
       # Create OCI artifact with kubernetes manifests
       - name: Create OCI artifact
         run: |
-          flux push artifact $OCI_REPO:$(git rev-parse --short HEAD) \
+          flux push artifact "$OCI_REPO:$(git rev-parse --short HEAD)" \
             --path="./k8s" \
             --source="$(git config --get remote.origin.url)" \
             --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)"
@@ -53,7 +53,7 @@ jobs:
       # Tag OCI artifact
       - name: Create OCI artifact tag
         run: |
-          flux tag artifact $OCI_REPO:$(git rev-parse --short HEAD) --tag main
+          flux tag artifact "$OCI_REPO:$(git rev-parse --short HEAD)" --tag main
 
       # Install Crane
       - uses: imjasonh/setup-crane@v0.3
@@ -64,12 +64,12 @@ jobs:
       - name: Get the digest of the OCI artifact
         id: crane
         run: |
-          DIGEST=$(crane digest $GHCR_REPO:$(git rev-parse --short HEAD))
+          DIGEST=$(crane digest "$GHCR_REPO:$(git rev-parse --short HEAD)")
           echo "DIGEST=$DIGEST" >> $GITHUB_OUTPUT
 
       # Cosign the OCI artifact
       - name: Sign the OCI artifact
-        run: cosign sign $GHCR_REPO@${{ steps.crane.outputs.DIGEST }} -y
+        run: cosign sign "$GHCR_REPO@${{ steps.crane.outputs.DIGEST }}" -y
 
       # TODO: Investigate why this is failing
       # # Verify the Cosign of the OCI artifact

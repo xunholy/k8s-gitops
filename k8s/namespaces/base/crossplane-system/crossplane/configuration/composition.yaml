@@ -70,9 +70,9 @@ spec:
       patches:
         # FromCompositeFieldPath is the default when 'type' is omitted, but it's
         # good practice to always include the type for readability.
-      - type: FromCompositeFieldPath
-        fromFieldPath: "spec.parameters.location"
-        toFieldPath: "spec.forProvider.location"
-      - type: FromCompositeFieldPath
-        fromFieldPath: "metadata.name"
-        toFieldPath: "spec.writeConnectionSecretToRef.name"
+        - type: FromCompositeFieldPath
+          fromFieldPath: "spec.parameters.location"
+          toFieldPath: "spec.forProvider.location"
+        - type: FromCompositeFieldPath
+          fromFieldPath: "metadata.name"
+          toFieldPath: "spec.writeConnectionSecretToRef.name"

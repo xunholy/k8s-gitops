@@ -97,11 +97,11 @@ nav:
   - Introduction: index.md
   - Installation: installation/index.md
   - Configuration:
-    - IP Allocation: configuration/ip-allocation.md
-    - RockPis: configuration/pre-rockpi4c.md
-    - Sealed Secrets: configuration/sealed-secrets.md
-    - Repository Structure: configuration/repo-structure.m
-    - Secret Management: configuration/secret-management.md
+      - IP Allocation: configuration/ip-allocation.md
+      - RockPis: configuration/pre-rockpi4c.md
+      - Sealed Secrets: configuration/sealed-secrets.md
+      - Repository Structure: configuration/repo-structure.m
+      - Secret Management: configuration/secret-management.md
   - Contributing: contributing/index.md
   - Sponsor: sponsor/index.md
   - FAQ: faq/index.md
