@@ -24,7 +24,7 @@ jobs:
 
       - uses: azure/setup-kubectl@v3
         with:
-          version: '1.26.3'
+          version: 'v1.26.3'
 
       - name: Setup crd-extractor
         uses: robinraju/release-downloader@v1.7
