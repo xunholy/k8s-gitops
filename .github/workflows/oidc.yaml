@@ -19,6 +19,7 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         # token_format: 'access_token'
+        create_credentials_file: 'true'
         workload_identity_provider: 'projects/970557914270/locations/global/workloadIdentityPools/raspbernetes-oidc-pool/providers/github-provider'
         service_account: 'raspbernetes-oidc-sa@raspbernetes.iam.gserviceaccount.com'
 
@@ -37,4 +38,5 @@ jobs:
     - id: 'gcloud'
       name: 'gcloud'
       run: |-
-        gcloud projects list
+        gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+        gcloud services list
