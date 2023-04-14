@@ -1,7 +1,11 @@
+# This Github Action is responsible for publishing Kubernetes schemas to an OCI registry.
+# It is triggered by a push to the main branch, a weekly schedule, or a manual dispatch.
 name: "Publish Kubernetes Schemas"
 
 on:
-  workflow_dispatch:
+  # Allows manually triggering the workflow from the Github Actions UI
+  workflow_dispatch: {}
+  # Runs the workflow weekly at midnight (UTC)
   schedule:
     - cron: "0 0 * * 0"
   push:
@@ -18,19 +22,22 @@ jobs:
     name: Publish Kubernetes Schemas
     runs-on: ["self-hosted"]
     steps:
-      # Install FluxCD
+      # Step 1: Set up the Flux CLI
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@main
 
+      # Step 2: Set up kubectl
       - uses: azure/setup-kubectl@v3
         with:
           version: 'v1.26.3'
 
+      # Step 3: Set up Python 3.11 environment for the workflow
       - name: Setup Python
         uses: actions/setup-python@v4.5.0
         with:
           python-version: "3.11"
 
+      # Step 4: Set up the CRD extractor
       - name: Setup crd-extractor
         uses: robinraju/release-downloader@v1.7
         with:
@@ -38,6 +45,7 @@ jobs:
           latest: true
           fileName: crd-extractor.zip
 
+      # Step 5: Write the kubeconfig to a file
       - name: Write kubeconfig
         id: kubeconfig
         uses: timheuer/base64-to-file@v1.2
@@ -45,6 +53,7 @@ jobs:
           encodedString: ${{ secrets.KUBECONFIG }}
           fileName: kubeconfig
 
+      # Step 6: Run the CRD extractor
       - name: Run crd-extractor
         env:
           KUBECONFIG: "${{ steps.kubeconfig.outputs.filePath }}"
@@ -52,6 +61,7 @@ jobs:
           unzip -j $GITHUB_WORKSPACE/crd-extractor.zip -d $GITHUB_WORKSPACE
           bash "$GITHUB_WORKSPACE"/crd-extractor.sh
 
+      # Step 7: Log in to the Github Container Registry (GHCR)
       - name: Login to GHCR
         uses: docker/login-action@v2
         with:
@@ -59,6 +69,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Step 8: Publish the Kubernetes schemas as OCI artifacts
       - name: Publish schemas as OCI
         run: |
           flux push artifact $OCI_REPO:$(git rev-parse --short HEAD) \

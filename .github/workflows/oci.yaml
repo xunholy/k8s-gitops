@@ -1,7 +1,7 @@
 name: Publish OCI artifact
 
 on:
-  workflow_dispatch: null
+  workflow_dispatch: {}
   push:
     branches:
       - main

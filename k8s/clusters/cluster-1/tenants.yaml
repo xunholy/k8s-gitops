@@ -1,15 +1,14 @@
 ---
-# TODO: Re-enable once tenant has created repository successfully.
-# apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-# kind: Kustomization
-# metadata:
-#   name: tenants
-#   namespace: flux-system
-# spec:
-#   interval: 10m0s
-#   path: ./k8s/tenants/overlays/cluster-1
-#   prune: true
-#   wait: false
-#   sourceRef:
-#     kind: GitRepository
-#     name: flux-system
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: tenants
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  path: ./k8s/tenants/overlays/cluster-1
+  prune: true
+  wait: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
