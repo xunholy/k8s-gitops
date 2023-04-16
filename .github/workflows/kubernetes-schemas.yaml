@@ -25,6 +25,8 @@ jobs:
       # Step 1: Set up the Flux CLI
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Step 2: Set up kubectl
       - uses: azure/setup-kubectl@v3

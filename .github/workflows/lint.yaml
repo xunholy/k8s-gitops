@@ -31,6 +31,8 @@ jobs:
       # Step 2: Set up the Flux CLI
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Step 3: Download the CRDs from the OCI registry
       - name: Download CRDs

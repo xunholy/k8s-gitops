@@ -10,7 +10,7 @@ patches:
   # It's expected that the `$ task flux` command is used to bootstrap the secret initially into the cluster to ensure it already exists
   # The auto-generated kustomization cannot be changed as it may be reverted in subsequent bootstraps.
   - patch: |
-      apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
       metadata:
         name: flux-system

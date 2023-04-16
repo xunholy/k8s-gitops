@@ -1,5 +1,5 @@
 ---
-# apiVersion: source.toolkit.fluxcd.io/v1beta2
+# apiVersion: source.toolkit.fluxcd.io/v1
 # kind: HelmRepository
 # metadata:
 #   name: dex-k8s-authenticator-chart
@@ -10,7 +10,7 @@
 #   timeout: 3m
 ---
 # TODO: Once the chart is published use HelmRepository
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: dex-k8s-authenticator-chart-git
