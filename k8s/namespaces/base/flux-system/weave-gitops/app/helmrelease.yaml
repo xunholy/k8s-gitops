@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: weave-gitops
-      version: "*"
+      version: "4.0.19"
       sourceRef:
         kind: HelmRepository
         name: weave-charts
@@ -65,11 +65,13 @@ spec:
           value: "true"
         - name: WEAVE_GITOPS_FEATURE_CLUSTER
           value: "true"
+        - name: WEAVE_GITOPS_FEATURE_OIDC_BUTTON_LABEL
+          value: "Login with GitHub"
       metrics:
         enabled: true
       oidcSecret:
         create: true
-        clientID: oauth2-proxy
-        clientSecret: '${DEX_OAUTH2_PROXY_SECRET}'
+        clientID: weave-gitops
+        clientSecret: '${DEX_WEAVE_GITOPS_SECRET}'
         issuerURL: "https://dex.${CLUSTER_DOMAIN}"
         redirectURL: 'https://gitops.${CLUSTER_DOMAIN}/oauth2/callback'
