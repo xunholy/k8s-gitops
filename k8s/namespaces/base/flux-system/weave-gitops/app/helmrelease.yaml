@@ -65,6 +65,8 @@ spec:
         value: "true"
       - name: WEAVE_GITOPS_FEATURE_CLUSTER
         value: "true"
+      - name: WEAVE_GITOPS_FEATURE_TELEMETRY
+        value: "true"
       - name: WEAVE_GITOPS_FEATURE_OIDC_BUTTON_LABEL
         value: "Login with GitHub"
     metrics:
