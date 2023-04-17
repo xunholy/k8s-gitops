@@ -10,6 +10,7 @@ jobs:
     permissions:
       id-token: 'write' # Required for requesting the JWT
       contents: 'read'  # Required for actions/checkout
+
     steps:
       # Checkout the repository
       - name: Checkout
