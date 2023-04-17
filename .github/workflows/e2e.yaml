@@ -4,6 +4,9 @@ on:
   # Allows manually triggering the workflow from the Github Actions UI
   workflow_dispatch: {}
 
+env:
+  DEFAULT_BRANCH: main
+
 jobs:
   kubernetes:
     runs-on: ubuntu-latest
@@ -48,7 +51,7 @@ jobs:
         env:
           GITHUB_USER: ${{ github.repository_owner }}
           GITHUB_REPO: ${{ github.event.repository.name }}
-          GITHUB_BRANCH: ${{ github.head_ref }}
+          GITHUB_BRANCH: ${{ github.head_ref || env.DEFAULT_BRANCH }}
           CLUSTER: e2e
         run: |
           gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
