@@ -1,0 +1,13 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: cluster
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: oci://ghcr.io/xunholy/manifests/k8s-gitops
+  ref:
+    tag: main
+  verify:
+    provider: cosign
