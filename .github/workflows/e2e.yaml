@@ -3,13 +3,13 @@ name: e2e
 on:
   # Allows manually triggering the workflow from the Github Actions UI
   workflow_dispatch: {}
-  push:
-    branches:
-      - '*'
 
 jobs:
   kubernetes:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: 'write' # Required for requesting the JWT
+      contents: 'read'  # Required for actions/checkout
     steps:
       # Checkout the repository
       - name: Checkout
