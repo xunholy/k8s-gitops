@@ -1,34 +1,30 @@
+# This GitHub Actions workflow demonstrates how to authenticate to Google Cloud using workload identity federation.
+# The workflow is triggered manually using the workflow_dispatch event.
 name: Workload identity Federation
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch: {} # Trigger the workflow manually
 
 jobs:
   connect:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Run the job on the latest version of Ubuntu
     permissions:
-      id-token: 'write' # This is required for requesting the JWT
-      contents: 'read'  # This is required for actions/checkout
+      id-token: 'write' # Required for requesting the JWT
+      contents: 'read'  # Required for actions/checkout
 
     steps:
     # actions/checkout MUST come before auth
-    - uses: 'actions/checkout@v3'
+    - uses: 'actions/checkout@v3' # Checkout your repository
 
+    # Authenticate to Google Cloud using the workload identity federation
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
       with:
-        # token_format: 'access_token'
-        create_credentials_file: 'true'
+        create_credentials_file: 'true' # Create a credentials file
+        # Set the workload identity provider and service account
         workload_identity_provider: 'projects/970557914270/locations/global/workloadIdentityPools/raspbernetes-oidc-pool/providers/github-provider'
         service_account: 'raspbernetes-oidc-sa@raspbernetes.iam.gserviceaccount.com'
-
-    # This example uses the docker login action
-    # - uses: 'docker/login-action@v1'
-    #   with:
-    #     registry: 'gcr.io' # or REGION-docker.pkg.dev
-    #     username: 'oauth2accesstoken'
-    #     password: '${{ steps.auth.outputs.access_token }}'
 
     # Install gcloud, `setup-gcloud` automatically picks up authentication from `auth`.
     - name: 'Set up Cloud SDK'

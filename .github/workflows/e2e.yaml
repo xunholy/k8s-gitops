@@ -1,0 +1,50 @@
+name: e2e
+
+on:
+  # Allows manually triggering the workflow from the Github Actions UI
+  workflow_dispatch: {}
+  push:
+    branches:
+      - '*'
+
+jobs:
+  kubernetes:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Setup Tools
+        run: |
+          brew install fluxcd/tap/flux go-task/tap/go-task sops kubernetes-cli
+
+      # Setup Kubernetes Kind (Kubernetes in Docker) for local testing
+      - name: Setup Kubernetes Kind
+        uses: engineerd/setup-kind@v0.5.0
+
+      # Install gcloud, `setup-gcloud` automatically picks up authentication from `auth`.
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+
+      # Authenticate to Google Cloud using the workload identity federation
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          create_credentials_file: 'true' # Create a credentials file
+          # Set the workload identity provider and service account
+          workload_identity_provider: 'projects/970557914270/locations/global/workloadIdentityPools/raspbernetes-oidc-pool/providers/github-provider'
+          service_account: 'raspbernetes-oidc-sa@raspbernetes.iam.gserviceaccount.com'
+
+      # Run task flux to bootstrap Flux in the repository
+      - name: Run task flux
+        env:
+          GITHUB_USER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+          GITHUB_BRANCH: ${{ github.head_ref }}
+          CLUSTER: e2e
+        run: task flux

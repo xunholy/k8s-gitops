@@ -12,7 +12,7 @@ on:
     branches:
       - "main"
     paths:
-      - ".github/workflows/kubernetes-schemas.yaml"
+      - ".github/workflows/schemas.yaml"
 
 env:
   OCI_REPO: "oci://ghcr.io/xunholy/kubernetes-schemas/${{ github.event.repository.name }}"
