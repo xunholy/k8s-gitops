@@ -124,9 +124,9 @@ jobs:
           file: /home/runner/crdSchemas/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/kubernetes-schemas-web:latest
+            ghcr.io/xunholy/kubernetes-schemas-web:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           labels: |
-            org.opencontainers.image.source="https://github.com/xUnholy/k8s-gitops"
+            org.opencontainers.image.source="https://github.com/${{ github.repository	}}"
             org.opencontainers.image.authors="Michael Fornaro <20387402+xUnholy@users.noreply.github.com>"
