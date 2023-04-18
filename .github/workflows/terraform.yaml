@@ -22,18 +22,18 @@ jobs:
     steps:
       - name: checkout
         id: checkout_code
-        uses: actions/checkout@v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
 
-      - uses: 'google-github-actions/auth@v1'
+      - uses: 'google-github-actions/auth@e8df18b60c5dd38ba618c121b779307266153fbf' # v1
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - uses: google-github-actions/setup-gcloud@v1.1.0
+      - uses: google-github-actions/setup-gcloud@62d4898025f6041e16b1068643bfc5a696863587 # v1.1.0
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           export_default_credentials: true
 
-      - uses: hashicorp/setup-terraform@v2
+      - uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 # v2
         with:
           terraform_version: ${{ env.terraform_version }}
 
@@ -65,7 +65,7 @@ jobs:
         run: terraform plan -no-color
         continue-on-error: false
 
-      - uses: actions/github-script@v4.1
+      - uses: actions/github-script@deb7ae927cc19ae3a8b57293dd5cd2f16171e1e2 # v4.1
         if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"

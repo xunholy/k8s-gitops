@@ -27,17 +27,17 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: azure/setup-kubectl@v3
+      - uses: azure/setup-kubectl@901a10e89ea615cf61f57ac05cecdf23e7de06d8 # v3
         with:
           version: 'v1.26.3'
 
       - name: Setup Python
-        uses: actions/setup-python@v4.5.0
+        uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435 # v4.5.0
         with:
           python-version: "3.11"
 
       - name: Setup crd-extractor
-        uses: robinraju/release-downloader@v1.7
+        uses: robinraju/release-downloader@768b85c8d69164800db5fc00337ab917daf3ce68 # v1.7
         with:
           repository: datreeio/CRDs-catalog
           latest: true
@@ -45,7 +45,7 @@ jobs:
 
       - name: Write kubeconfig
         id: kubeconfig
-        uses: timheuer/base64-to-file@v1.2
+        uses: timheuer/base64-to-file@48657ba25c726c2e3dcf02efa3639fff9b3d587e # v1.2
         with:
           encodedString: ${{ secrets.KUBECONFIG }}
           fileName: kubeconfig
@@ -58,7 +58,7 @@ jobs:
           bash "$GITHUB_WORKSPACE"/crd-extractor.sh
 
       - name: Login to GHCR
-        uses: docker/login-action@v2
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -81,14 +81,14 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup QEMU
-        uses: docker/setup-qemu-action@v2.1.0
+        uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # v2.1.0
 
       - name: Setup Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2.5.0
+        uses: docker/setup-buildx-action@4b4e9c3e2d4531116a6f8ba8e71fc6e2cb6e6c8c # v2.5.0
 
       - name: Login to GHCR
-        uses: docker/login-action@v2
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -108,7 +108,7 @@ jobs:
           EOF
 
       - name: Publish schemas as web container
-        uses: docker/build-push-action@v4.0.0
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671 # v4.0.0
         with:
           context: /home/runner/crdSchemas
           platforms: linux/amd64,linux/arm64
