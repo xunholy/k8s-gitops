@@ -7,15 +7,14 @@ on:
 env:
   DEFAULT_BRANCH: main
 
-permissions: write-all
+permissions:
+  contents: write      # (REQUIRED): [read] Used for actions/checkout - [write] Used for FluxCD bootstrap
+  pull-requests: write # (REQUIRED): [write] Used for FluxCD bootstrap
+  id-token: 'write'    # (REQUIRED): Used for requesting the JWT
 
 jobs:
   kubernetes:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: 'write' # Required for requesting the JWT
-      contents: 'read'  # Required for actions/checkout
-
     steps:
       # Checkout the repository
       - name: Checkout
