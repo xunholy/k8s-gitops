@@ -103,13 +103,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish schemas as OCI
+      - name: Pull schemas as OCI
         run: |
-          flux pull artifact $OCI_REPO:$(git rev-parse --short HEAD) --output /home/runner/.datree/crdSchemas
+          mkdir -p /home/runner/crdSchemas
+          flux pull artifact $OCI_REPO:$(git rev-parse --short HEAD) --output /home/runner/crdSchemas
 
       - name: Write nginx-unprivileged Dockerfile
         run: |
-          cat <<EOF > /home/runner/.datree/crdSchemas/Dockerfile
+          cat <<EOF > /home/runner/crdSchemas/Dockerfile
           FROM docker.io/nginxinc/nginx-unprivileged:latest
           COPY --chown=nginx:nginx --chmod=755 . /usr/share/nginx/html
           USER nginx
@@ -118,9 +119,9 @@ jobs:
       - name: Publish schemas as web container
         uses: docker/build-push-action@v4.0.0
         with:
-          context: /home/runner/.datree/crdSchemas
+          context: /home/runner/crdSchemas
           platforms: linux/amd64,linux/arm64
-          file: /home/runner/.datree/crdSchemas/Dockerfile
+          file: /home/runner/crdSchemas/Dockerfile
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/kubernetes-schemas-web:latest
