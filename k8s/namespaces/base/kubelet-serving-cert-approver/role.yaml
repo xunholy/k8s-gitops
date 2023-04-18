@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/role_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:

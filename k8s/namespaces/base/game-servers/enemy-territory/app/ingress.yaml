@@ -1,5 +1,6 @@
 # UDP traffic through nginx-ingress is configured in the nginx-ingress helmrelease.yaml
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.k8s.io/ingress_v1.json
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

@@ -20,6 +20,7 @@ spec:
     kind: MetalCluster
     name: cluster-1
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/infrastructure.cluster.x-k8s.io/metalcluster_v1alpha3.json
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalCluster
 metadata:
@@ -30,6 +31,7 @@ spec:
     host: 192.168.50.121
     port: 6443
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/infrastructure.cluster.x-k8s.io/metalmachinetemplate_v1alpha3.json
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalMachineTemplate
 metadata:
@@ -43,6 +45,7 @@ spec:
         kind: ServerClass
         name: control-plane
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/controlplane.cluster.x-k8s.io/taloscontrolplane_v1alpha3.json
 apiVersion: controlplane.cluster.x-k8s.io/v1alpha3
 kind: TalosControlPlane
 metadata:
@@ -60,6 +63,7 @@ spec:
   replicas: 1
   version: v1.23.5
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/bootstrap.cluster.x-k8s.io/talosconfigtemplate_v1alpha3.json
 apiVersion: bootstrap.cluster.x-k8s.io/v1alpha3
 kind: TalosConfigTemplate
 metadata:
@@ -71,6 +75,7 @@ spec:
       generateType: join
       talosVersion: v1.0.5
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/cluster.x-k8s.io/machinedeployment_v1beta1.json
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
 metadata:
@@ -95,6 +100,7 @@ spec:
         name: cluster-1-workers
       version: v1.23.5
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/infrastructure.cluster.x-k8s.io/metalmachinetemplate_v1alpha3.json
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha3
 kind: MetalMachineTemplate
 metadata:

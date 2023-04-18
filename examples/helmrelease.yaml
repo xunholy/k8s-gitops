@@ -1,5 +1,6 @@
 # An example HelmRelease which I consider to follow somewhat best practices
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:

@@ -1,5 +1,6 @@
 # Runners associated with github.com/xUnholy/k8s-gitops
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/actions.summerwind.dev/runnerdeployment_v1alpha1.json
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
@@ -23,6 +24,7 @@ spec:
                     values:
                       - amd64
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/actions.summerwind.dev/horizontalrunnerautoscaler_v1alpha1.json
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: HorizontalRunnerAutoscaler
 metadata:

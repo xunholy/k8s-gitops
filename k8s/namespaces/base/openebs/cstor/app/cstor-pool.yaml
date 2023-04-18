@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/cstor.openebs.io/cstorpoolcluster_v1.json
 apiVersion: cstor.openebs.io/v1
 kind: CStorPoolCluster
 metadata:
@@ -39,6 +40,7 @@ spec:
     poolConfig:
       dataRaidGroupType: stripe
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/cstor.openebs.io/cstorpoolcluster_v1.json
 apiVersion: cstor.openebs.io/v1
 kind: CStorPoolCluster
 metadata:

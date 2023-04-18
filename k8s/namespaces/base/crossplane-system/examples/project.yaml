@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/cloudplatform.gcp.upbound.io/project_v1beta1.json
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: Project
 metadata:

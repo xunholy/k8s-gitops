@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -15,6 +16,7 @@ spec:
     kind: OCIRepository
     name: cluster
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -33,6 +35,7 @@ spec:
     kind: OCIRepository
     name: cluster
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -54,6 +57,7 @@ spec:
     - name: istiod
       namespace: flux-system
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:

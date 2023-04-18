@@ -43,6 +43,7 @@ metadata:
   name: hubble-ui
   namespace: kube-system
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/clusterrole_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -147,6 +148,7 @@ rules:
   verbs:
   - patch
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/clusterrole_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -315,6 +317,7 @@ rules:
   - get
   - update
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/clusterrole_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -363,6 +366,7 @@ rules:
   - list
   - watch
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/clusterrolebinding_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -381,6 +385,7 @@ subjects:
   name: cilium
   namespace: kube-system
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/clusterrolebinding_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -399,6 +404,7 @@ subjects:
   name: cilium-operator
   namespace: kube-system
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/clusterrolebinding_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -783,6 +789,7 @@ spec:
     k8s-app: hubble-ui
   type: ClusterIP
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/apps/deployment_v1.json
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -886,6 +893,7 @@ spec:
           name: cilium-config
         name: cilium-config-path
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/apps/deployment_v1.json
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -977,6 +985,7 @@ spec:
                 path: client.key
               name: hubble-relay-client-certs
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/apps/deployment_v1.json
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -1044,6 +1053,7 @@ spec:
       - emptyDir: {}
         name: tmp-dir
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/apps/daemonset_v1.json
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:

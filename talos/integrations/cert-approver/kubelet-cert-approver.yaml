@@ -10,6 +10,7 @@ metadata:
   name: kubelet-serving-cert-approver
   namespace: kubelet-serving-cert-approver
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/role_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -32,6 +33,7 @@ rules:
   - get
   - update
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/clusterrole_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -66,6 +68,7 @@ rules:
   verbs:
   - approve
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/clusterrole_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -79,6 +82,7 @@ rules:
   - create
   - patch
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/rolebinding_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -93,6 +97,7 @@ subjects:
   name: kubelet-serving-cert-approver
   namespace: kubelet-serving-cert-approver
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/rolebinding_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -107,6 +112,7 @@ subjects:
   name: kubelet-serving-cert-approver
   namespace: kubelet-serving-cert-approver
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/clusterrolebinding_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -135,6 +141,7 @@ spec:
     app.kubernetes.io/instance: kubelet-serving-cert-approver
     app.kubernetes.io/name: kubelet-serving-cert-approver
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/apps/deployment_v1.json
 apiVersion: apps/v1
 kind: Deployment
 metadata:
