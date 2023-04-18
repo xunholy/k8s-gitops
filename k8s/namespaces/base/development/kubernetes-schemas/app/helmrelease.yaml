@@ -28,10 +28,10 @@ spec:
     keepHistory: false
   values:
     controller:
-      replicas: 2
+      replicas: 1
       strategy: RollingUpdate
     image:
-      repository: ghcr.io/xUnholy/kubernetes-schemas-web
+      repository: ghcr.io/xunholy/kubernetes-schemas-web
       tag: latest
     service:
       main:
