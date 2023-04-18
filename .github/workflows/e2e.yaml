@@ -7,10 +7,13 @@ on:
 env:
   DEFAULT_BRANCH: main
 
-permissions:
-  contents: write      # (REQUIRED): [read] Used for actions/checkout - [write] Used for FluxCD bootstrap
-  pull-requests: write # (REQUIRED): [write] Used for FluxCD bootstrap
-  id-token: 'write'    # (REQUIRED): Used for requesting the JWT
+# TODO: Fine-grained scope
+# permissions:
+#   contents: write      # (REQUIRED): [read] Used for actions/checkout - [write] Used for FluxCD bootstrap
+#   pull-requests: write # (REQUIRED): [write] Used for FluxCD bootstrap
+#   id-token: 'write'    # (REQUIRED): Used for requesting the JWT
+
+permissions: write-all
 
 jobs:
   kubernetes:
@@ -50,10 +53,10 @@ jobs:
       # Run task flux to bootstrap Flux in the repository
       - name: Run task flux
         env:
+          CLUSTER: e2e
           GITHUB_USER: ${{ github.repository_owner }}
           GITHUB_REPO: ${{ github.event.repository.name }}
           GITHUB_BRANCH: ${{ github.head_ref || env.DEFAULT_BRANCH }}
-          CLUSTER: e2e
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
