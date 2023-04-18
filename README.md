@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raspbernetes.github.io/img/logo.svg" alt="Raspbernetes">
+  <img src="./docs/assets/raspbernetes.png" alt="Raspbernetes">
 
   ## Raspbernetes
 
