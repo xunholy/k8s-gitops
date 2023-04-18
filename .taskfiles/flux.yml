@@ -16,7 +16,7 @@ tasks:
             --personal=true \
             --private=false \
             {{.CLI_ARGS}}
-        silent: true
+        silent: false
 
   secrets:
     desc: "Install cluster secrets and configs; Only to be used when updating secrets manually"
