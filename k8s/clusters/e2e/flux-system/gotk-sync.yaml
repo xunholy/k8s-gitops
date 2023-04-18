@@ -11,7 +11,7 @@ spec:
     branch: main
   secretRef:
     name: flux-system
-  url: ssh://git@github.com/xunholy/k8s-gitops
+  url: ssh://git@github.com/xUnholy/k8s-gitops
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
