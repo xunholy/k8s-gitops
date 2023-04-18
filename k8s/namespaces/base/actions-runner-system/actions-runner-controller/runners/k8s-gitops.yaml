@@ -1,6 +1,6 @@
 # Runners associated with github.com/xUnholy/k8s-gitops
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/actions.summerwind.dev/runnerdeployment_v1alpha1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/actions.summerwind.dev/runnerdeployment_v1alpha1.json
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
@@ -8,12 +8,15 @@ metadata:
 spec:
   template:
     spec:
-      image: ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner-dind:ubuntu-22.04@sha256:18aaf9e1d28991160c44c5237a138eb741170a7111a8323e628bba557ab4881a
+      image: ghcr.io/actions/actions-runner-controller/actions-runner-dind:v2.299.1-ubuntu-22.04
       imagePullPolicy: Always
-      dockerdWithinRunnerContainer: true
+      dockerdWithinRunnerContainer: false
       ephemeral: true
       repository: xUnholy/k8s-gitops
       labels: ["self-hosted"]
+      containers:
+        - name: docker
+          image: docker:24.0.0-beta.1-dind@sha256:d3de87b2cbfa51888f9cd083da8ac522fa0ff32d7667dfd6533e949e65b660e0
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
