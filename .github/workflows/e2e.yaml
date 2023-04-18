@@ -53,6 +53,7 @@ jobs:
           GITHUB_REPO: ${{ github.event.repository.name }}
           GITHUB_BRANCH: ${{ github.head_ref || env.DEFAULT_BRANCH }}
           CLUSTER: e2e
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
           task core:gpg
