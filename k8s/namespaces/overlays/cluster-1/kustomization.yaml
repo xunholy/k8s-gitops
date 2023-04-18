@@ -5,6 +5,7 @@ resources:
   - ../../base/actions-runner-system
   - ../../base/backup-system
   - ../../base/crossplane-system
+  - ../../base/development
   - ../../base/game-servers
   - ../../base/home-system
   - ../../base/istio-ingress
@@ -24,6 +25,7 @@ resources:
   - ../../base/actions-runner-system/actions-runner-controller/ks.yaml
   - ../../base/backup-system/volsync/ks.yaml
   - ../../base/crossplane-system/crossplane/ks.yaml
+  - ../../base/development/kubernetes-schemas/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
   - ../../base/flux-system/tf-controller/ks.yaml
   - ../../base/flux-system/weave-gitops/ks.yaml

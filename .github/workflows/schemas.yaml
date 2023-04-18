@@ -78,3 +78,26 @@ jobs:
               --path="/home/runner/.datree/crdSchemas" \
               --source="${{ github.repositoryUrl }}" \
               --revision="main"
+
+      - name: Write nginx-unprivileged Dockerfile
+        run: |
+          cat <<EOF > /home/runner/.datree/crdSchemas/Dockerfile
+          FROM docker.io/nginxinc/nginx-unprivileged:latest
+          COPY --chown=nginx:nginx --chmod=755 . /usr/share/nginx/html
+          USER nginx
+          EOF
+
+      - name: Publish schemas as web container
+        uses: docker/build-push-action@v4.0.0
+        with:
+          context: /home/runner/.datree/crdSchemas
+          platforms: linux/amd64,linux/arm64
+          file: /home/runner/.datree/crdSchemas/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/kubernetes-schemas-web:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          labels: |
+            org.opencontainers.image.source="https://github.com/xUnholy/k8s-gitops"
+            org.opencontainers.image.authors="Michael Fornaro <20387402+xUnholy@users.noreply.github.com>"
