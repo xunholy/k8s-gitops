@@ -24,7 +24,7 @@ jobs:
     steps:
       # Step 1: Checkout the repository
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
         with:
           fetch-depth: 0
 
@@ -43,7 +43,7 @@ jobs:
 
       # Step 4: Run Kustomize build for cluster configuration
       - name: 'Kustomize Build - Cluster'
-        uses: karancode/kustomize-github-action@v1.3.2
+        uses: karancode/kustomize-github-action@883a86ec3535e4e7d0fe6450a85f8325c97d2a7b # v1.3.2
         with:
           kustomize_version: '5.0.1'
           kustomize_install: true
@@ -56,7 +56,7 @@ jobs:
 
       # Step 5: Run Kustomize build for namespace configuration
       - name: 'Kustomize Build - Namespaces'
-        uses: karancode/kustomize-github-action@v1.3.2
+        uses: karancode/kustomize-github-action@883a86ec3535e4e7d0fe6450a85f8325c97d2a7b # v1.3.2
         with:
           kustomize_version: '5.0.1'
           kustomize_install: true
@@ -69,7 +69,7 @@ jobs:
 
       # Step 6: Run Kustomize build for tenant configuration
       - name: 'Kustomize Build - Tenants'
-        uses: karancode/kustomize-github-action@v1.3.2
+        uses: karancode/kustomize-github-action@883a86ec3535e4e7d0fe6450a85f8325c97d2a7b # v1.3.2
         with:
           kustomize_version: '5.0.1'
           kustomize_install: true
@@ -82,7 +82,7 @@ jobs:
 
       # Step 7: Generate a token for the Github App
       - name: Generate Token
-        uses: tibdex/github-app-token@v1
+        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1
         id: generate-token
         with:
           app_id: "${{ secrets.BOT_APP_ID }}"
@@ -90,7 +90,7 @@ jobs:
 
       # Step 8: Run MegaLinter to lint code and configuration files
       - name: MegaLinter
-        uses: oxsecurity/megalinter@v6.22.2
+        uses: oxsecurity/megalinter@93700f8c21c59ea784a32abe23896e49e54463b8 # v6.22.2
         env:
           GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
           PRINT_ALPACA: false

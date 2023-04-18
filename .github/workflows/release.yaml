@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get Latest Release
-        uses: InsonusK/get-latest-release@v1.0.1
+        uses: InsonusK/get-latest-release@f8686e4d0b2be19a66677ad5fa2f22c38ef43b62 # v1.0.1
         id: last_release
         with:
           myToken: ${{ github.token }}

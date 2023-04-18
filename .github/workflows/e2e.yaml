@@ -21,7 +21,7 @@ jobs:
     steps:
       # Checkout the repository
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
 
       - name: Setup Homebrew
         uses: Homebrew/actions/setup-homebrew@master
@@ -32,18 +32,18 @@ jobs:
 
       # Setup Kubernetes Kind (Kubernetes in Docker) for local testing
       - name: Setup Kubernetes Kind
-        uses: helm/kind-action@v1.5.0
+        uses: helm/kind-action@d8ccf8fb623ce1bb360ae2f45f323d9d5c5e9f00 # v1.5.0
         with:
           version: "v0.18.0"
 
       # Install gcloud, `setup-gcloud` automatically picks up authentication from `auth`.
       - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v1'
+        uses: 'google-github-actions/setup-gcloud@62d4898025f6041e16b1068643bfc5a696863587' # v1
 
       # Authenticate to Google Cloud using the workload identity federation
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
+        uses: 'google-github-actions/auth@e8df18b60c5dd38ba618c121b779307266153fbf' # v1
         with:
           create_credentials_file: 'true' # Create a credentials file
           # Set the workload identity provider and service account
