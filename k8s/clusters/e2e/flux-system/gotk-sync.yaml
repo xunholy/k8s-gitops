@@ -20,7 +20,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./k8s/clusters/cluster-1
+  path: ./k8s/clusters/e2e
   prune: true
   sourceRef:
     kind: GitRepository
