@@ -15,7 +15,6 @@ tasks:
             --branch="{{.GITHUB_BRANCH}}" \
             --personal=true \
             --private=false \
-            --read-write-key \
             {{.CLI_ARGS}}
         silent: true
 

@@ -59,6 +59,5 @@ jobs:
           GITHUB_BRANCH: ${{ github.head_ref || env.DEFAULT_BRANCH }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
           task core:gpg
           task flux
