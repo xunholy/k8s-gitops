@@ -88,6 +88,10 @@ spec:
       dashboards:
         annotations:
           grafana_folder: Loki
+      selfMonitoring:
+        enabled: false
+        grafanaAgent:
+          installOperator: false
       lokiCanary:
         enabled: false
       # structuredConfig:

@@ -29,12 +29,12 @@ resources:
   - ../../base/flux-system/addons/ks.yaml
   - ../../base/flux-system/tf-controller/ks.yaml
   - ../../base/flux-system/weave-gitops/ks.yaml
-  - ../../base/home-system/home-assistant/ks.yaml
-  - ../../base/home-system/jellyfin/ks.yaml
-  - ../../base/home-system/mosquitto/ks.yaml
-  - ../../base/home-system/overseerr/ks.yaml
-  - ../../base/home-system/plex/ks.yaml
-  - ../../base/home-system/zigbee2mqtt/ks.yaml
+  # - ../../base/home-system/home-assistant/ks.yaml
+  # - ../../base/home-system/jellyfin/ks.yaml
+  # - ../../base/home-system/mosquitto/ks.yaml
+  # - ../../base/home-system/overseerr/ks.yaml
+  # - ../../base/home-system/plex/ks.yaml
+  # - ../../base/home-system/zigbee2mqtt/ks.yaml
   - ../../base/istio-ingress/istio-gateway/ks.yaml
   - ../../base/istio-system/flagger/ks.yaml
   - ../../base/istio-system/istio-base/ks.yaml
@@ -69,8 +69,8 @@ resources:
   - ../../base/observability/otel/ks.yaml
   - ../../base/observability/thanos/ks.yaml
   - ../../base/observability/vpa/ks.yaml
-  - ../../base/openebs/cstor/ks.yaml
-  - ../../base/openebs/mayastor/ks.yaml
+  # - ../../base/openebs/cstor/ks.yaml
+  # - ../../base/openebs/mayastor/ks.yaml
   # - ../../base/openebs/jiva/ks.yaml
   # - ../../base/openfaas/openfaas/ks.yaml
   # - ../../base/rook-ceph/rook-ceph-operator/ks.yaml
