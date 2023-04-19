@@ -101,12 +101,13 @@ spec:
         enabled: true
         searchNamespace: ALL
     plugins:
-      - natel-discrete-panel
-      - pr0ps-trackmap-panel
       - grafana-piechart-panel
-      - vonage-status-panel
       - grafana-worldmap-panel
       - grafana-clock-panel
+      - isovalent-hubble-datasource
+      - natel-discrete-panel
+      - pr0ps-trackmap-panel
+      - vonage-status-panel
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
