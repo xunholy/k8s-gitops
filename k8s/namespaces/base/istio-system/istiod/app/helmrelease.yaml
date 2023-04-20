@@ -41,25 +41,7 @@ spec:
   maxHistory: 3
   values:
     global:
-      hub: docker.io/querycapistio
-      tag: 1.13.1-distroless
       # caAddress: cert-manager-istio-csr.network-system.svc:443
-      proxy:
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
-            cpu: 200m
-            memory: 256Mi
-      proxy_init:
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
-            cpu: 200m
-            memory: 256Mi
     meshConfig:
       defaultConfig:
         gatewayTopology:

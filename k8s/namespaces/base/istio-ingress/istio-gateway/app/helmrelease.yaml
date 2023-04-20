@@ -43,13 +43,6 @@ spec:
     replicaCount: 3
     service:
       loadBalancerIP: ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
-    resources:
-      requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 200m
-        memory: 256Mi
     affinity:
       # These nodeAffinity's are required to schedule on arm64
       nodeAffinity:
