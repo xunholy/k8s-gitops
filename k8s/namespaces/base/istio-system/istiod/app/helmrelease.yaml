@@ -40,8 +40,6 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
-    global:
-      # caAddress: cert-manager-istio-csr.network-system.svc:443
     meshConfig:
       defaultConfig:
         gatewayTopology:
