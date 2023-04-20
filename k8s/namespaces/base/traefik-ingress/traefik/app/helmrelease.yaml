@@ -82,7 +82,7 @@ spec:
         allowExternalNameServices: true
     resources:
       requests:
-        memory: 100Mi
-        cpu: 500m
+        memory: 128Mi
+        cpu: 100m
       limits:
-        memory: 500Mi
+        memory: 512Mi

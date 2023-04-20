@@ -74,10 +74,10 @@ spec:
       replicaCount: 1
       resources:
         limits:
-          memory: 600Mi
+          memory: 512Mi
         requests:
           cpu: 25m
-          memory: 500Mi
+          memory: 256Mi
       service:
         enableHttp: false
         enableHttps: false
