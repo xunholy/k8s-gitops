@@ -116,8 +116,7 @@ image:
   repository: "quay.io/cilium/cilium"
   pullPolicy: "IfNotPresent"
   # cilium-digest
-  digest: ""
-  useDigest: false
+  useDigest: true
 
 # -- Affinity for cilium-agent.
 affinity:
@@ -298,7 +297,7 @@ aksbyocni:
 
 # -- Enable installation of PodCIDR routes between worker
 # nodes if worker nodes share a common L2 network segment.
-autoDirectNodeRoutes: true
+autoDirectNodeRoutes: false
 
 # -- Annotate k8s node upon initialization with Cilium's metadata.
 annotateK8sNode: false
@@ -879,7 +878,7 @@ hubble:
 
 
     # -- Enables exporting hubble metrics in OpenMetrics format.
-    enableOpenMetrics: true
+    enableOpenMetrics: false
     # -- Configure the port the hubble metric server listens on.
     port: 9965
     # -- Annotations to be added to hubble-metrics service.
@@ -904,7 +903,7 @@ hubble:
       # -- Metrics relabeling configs for the ServiceMonitor hubble
       metricRelabelings: ~
     dashboards:
-      enabled: true
+      enabled: false
       label: grafana_dashboard
       namespace: ~
       labelValue: "1"
@@ -977,7 +976,6 @@ hubble:
       #   kind: ClusterIssuer
       #   name: ca-issuer
       # -- certmanager issuer used when hubble.tls.auto.method=certmanager.
-      # If not specified, a CA issuer will be created.
       certManagerIssuerRef: {}
 
     # -- Deprecated in favor of tls.ca. To be removed in 1.13.
@@ -1011,8 +1009,7 @@ hubble:
       override: ~
       repository: "quay.io/cilium/hubble-relay"
        # hubble-relay-digest
-      digest: ""
-      useDigest: false
+      useDigest: true
       pullPolicy: "IfNotPresent"
 
     # -- Specifies the resources for the hubble-relay pods
@@ -1323,10 +1320,17 @@ hubble:
 
     # -- hubble-ui service configuration.
     service:
+      # -- Annotations to be added for the Hubble UI service
+      annotations: {}
       # --- The type of service used for Hubble UI access, either ClusterIP or NodePort.
       type: ClusterIP
       # --- The port to use when the service type is set to NodePort.
       nodePort: 31235
+
+    # -- Defines base url prefix for all hubble-ui http requests.
+    # It needs to be changed in case if ingress for hubble-ui is configured under some sub-path.
+    # Trailing `/` is required for custom path, ex. `/service-map/`
+    baseUrl: "/"
 
     # -- hubble-ui ingress configuration.
     ingress:
@@ -1349,11 +1353,6 @@ identityAllocationMode: "crd"
 # -- (string) Time to wait before using new identity on endpoint identity change.
 # @default -- `"5s"`
 identityChangeGracePeriod: ""
-
-# -- Configure whether to install iptables rules to allow for TPROXY
-# (L7 proxy injection), iptables-based masquerading and compatibility
-# with kube-proxy.
-installIptablesRules: true
 
 # -- Install Iptables rules to skip netfilter connection tracking on all pod
 # traffic. This option is only effective when Cilium is running in direct
@@ -1862,8 +1861,7 @@ operator:
     # operator-aws-digest
     awsDigest: ""
     # operator-alibabacloud-digest
-    alibabacloudDigest: ""
-    useDigest: false
+    useDigest: true
     pullPolicy: "IfNotPresent"
     suffix: ""
 
@@ -2111,8 +2109,7 @@ preflight:
     override: ~
     repository: "quay.io/cilium/cilium"
     # cilium-digest
-    digest: ""
-    useDigest: false
+    useDigest: true
     pullPolicy: "IfNotPresent"
 
   # -- The priority class to use for the preflight pod.
@@ -2257,8 +2254,7 @@ clustermesh:
       override: ~
       repository: "quay.io/cilium/clustermesh-apiserver"
       # clustermesh-apiserver-digest
-      digest: ""
-      useDigest: false
+      useDigest: true
       pullPolicy: "IfNotPresent"
 
     etcd:
@@ -2427,7 +2423,6 @@ clustermesh:
         #   kind: ClusterIssuer
         #   name: ca-issuer
         # -- certmanager issuer used when clustermesh.apiserver.tls.auto.method=certmanager.
-        # If not specified, a CA issuer will be created.
         certManagerIssuerRef: {}
       # -- base64 encoded PEM values for the ExternalWorkload CA certificate and private key.
       ca:
@@ -2495,7 +2490,7 @@ enableK8sTerminatingEndpoint: true
 # -- Configure whether to unload DNS policy rules on graceful shutdown
 # dnsPolicyUnloadOnShutdown: false
 
-# -- Configure the key of the taint indicating that Cilium is not ready on the node.https://github.com/xUnholy/k8s-gitops/blob/main/k8s/namespaces/base/kube-system/cilium/app/1.13.x.yaml
+# -- Configure the key of the taint indicating that Cilium is not ready on the node.
 # When set to a value starting with `ignore-taint.cluster-autoscaler.kubernetes.io/`, the Cluster Autoscaler will ignore the taint on its decisions, allowing the cluster to scale up.
 agentNotReadyTaintKey: "node.cilium.io/agent-not-ready"
 

@@ -34,7 +34,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@57ded4d7d5e986d7296eab16560982c6dd7c923b # v4.6.0
         with:
-          python-version: "3.11"
+          python-version: 3.x
 
       - name: Setup crd-extractor
         uses: robinraju/release-downloader@768b85c8d69164800db5fc00337ab917daf3ce68 # v1.7
