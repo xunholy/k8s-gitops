@@ -52,8 +52,8 @@ spec:
         externalTrafficPolicy: Local
     autoscaling:
       enabled: true
-      minReplicas: 2
-      maxReplicas: 5
+      minReplicas: 1
+      maxReplicas: 3
     logs:
       general:
         format: json

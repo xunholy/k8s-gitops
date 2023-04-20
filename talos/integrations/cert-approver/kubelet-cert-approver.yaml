@@ -148,7 +148,7 @@ metadata:
   name: kubelet-serving-cert-approver
   namespace: kubelet-serving-cert-approver
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/instance: kubelet-serving-cert-approver

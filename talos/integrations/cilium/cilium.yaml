@@ -803,7 +803,7 @@ metadata:
   name: cilium-operator
   namespace: kube-system
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       io.cilium/app: operator
