@@ -604,7 +604,7 @@ enableCiliumEndpointSlice: false
 ingressController:
   # -- Enable cilium ingress controller
   # This will automatically set enable-envoy-config as well.
-  enabled: true
+  enabled: false
 
   # -- Default ingress load balancer mode
   # Supported values: shared, dedicated
@@ -651,7 +651,7 @@ ingressController:
 gatewayAPI:
   # -- Enable support for Gateway API in cilium
   # This will automatically set enable-envoy-config as well.
-  enabled: true
+  enabled: false
 
   # -- SecretsNamespace is the namespace in which envoy SDS will retrieve TLS secrets from.
   secretsNamespace:
