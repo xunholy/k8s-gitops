@@ -604,7 +604,7 @@ enableCiliumEndpointSlice: false
 ingressController:
   # -- Enable cilium ingress controller
   # This will automatically set enable-envoy-config as well.
-  enabled: false
+  enabled: true
 
   # -- Default ingress load balancer mode
   # Supported values: shared, dedicated
