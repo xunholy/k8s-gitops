@@ -142,7 +142,7 @@ tolerations:
   #   effect: "NoSchedule|PreferNoSchedule|NoExecute(1.6 only)"
 
 # -- The priority class to use for cilium-agent.
-priorityClassName: ""
+priorityClassName: "system-node-critical"
 
 # -- DNS policy for Cilium agent pods.
 # Ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
@@ -604,7 +604,7 @@ enableCiliumEndpointSlice: false
 ingressController:
   # -- Enable cilium ingress controller
   # This will automatically set enable-envoy-config as well.
-  enabled: false
+  enabled: true
 
   # -- Default ingress load balancer mode
   # Supported values: shared, dedicated
@@ -651,7 +651,7 @@ ingressController:
 gatewayAPI:
   # -- Enable support for Gateway API in cilium
   # This will automatically set enable-envoy-config as well.
-  enabled: false
+  enabled: true
 
   # -- SecretsNamespace is the namespace in which envoy SDS will retrieve TLS secrets from.
   secretsNamespace:
@@ -865,13 +865,14 @@ hubble:
     #   --set metrics.enabled="{dns:query;ignoreAAAA,drop,tcp,flow,icmp,http}"
     #
     enabled:
-      - dns,
+      - dns:query;ignoreAAAA,
       - drop
       - tcp
       - flow
       - port-distribution
+      - http
       - icmp
-      # - httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction
+      - httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction
       - policy:sourceContext=app|workload-name|pod|reserved-identity;destinationContext=app|workload-name|pod|dns|reserved-identity;labelsContext=source_namespace,destination_namespace
       - httpV2:sourceContext=workload-name|pod-name|reserved-identity;destinationContext=workload-name|pod-name|reserved-identity;labelsContext=source_namespace,destination_namespace,traffic_direction
       - kafka:sourceContext=workload-name|pod-name|reserved-identity;destinationContext=workload-name|pod-name|reserved-identity;labelsContext=source_namespace,destination_namespace,traffic_direction
@@ -1065,7 +1066,7 @@ hubble:
       maxUnavailable: 1
 
     # -- The priority class to use for hubble-relay
-    priorityClassName: ""
+    priorityClassName: "system-node-critical"
 
     # -- Configure termination grace period for hubble relay Deployment.
     terminationGracePeriodSeconds: 1
@@ -1303,7 +1304,7 @@ hubble:
     tolerations: []
 
     # -- The priority class to use for hubble-ui
-    priorityClassName: ""
+    priorityClassName: "system-node-critical"
 
     # -- hubble-ui update strategy.
     updateStrategy:
@@ -1755,7 +1756,7 @@ etcd:
     pullPolicy: "IfNotPresent"
 
   # -- The priority class to use for cilium-etcd-operator
-  priorityClassName: ""
+  priorityClassName: "system-node-critical"
 
   # -- Additional cilium-etcd-operator container arguments.
   extraArgs: []
@@ -1870,7 +1871,7 @@ operator:
   replicas: 2
 
   # -- The priority class to use for cilium-operator
-  priorityClassName: ""
+  priorityClassName: "system-node-critical"
 
   # -- DNS policy for Cilium operator pods.
   # Ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
@@ -2039,7 +2040,7 @@ nodeinit:
     pullPolicy: "IfNotPresent"
 
   # -- The priority class to use for the nodeinit pod.
-  priorityClassName: ""
+  priorityClassName: "system-node-critical"
 
   # -- node-init update strategy
   updateStrategy:
@@ -2115,7 +2116,7 @@ preflight:
     pullPolicy: "IfNotPresent"
 
   # -- The priority class to use for the preflight pod.
-  priorityClassName: ""
+  priorityClassName: "system-node-critical"
 
   # -- preflight update strategy
   updateStrategy:
@@ -2385,7 +2386,7 @@ clustermesh:
         maxUnavailable: 1
 
     # -- The priority class to use for clustermesh-apiserver
-    priorityClassName: ""
+    priorityClassName: "system-node-critical"
 
     tls:
       # -- Configure automatic TLS certificates generation.

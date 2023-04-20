@@ -186,7 +186,7 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         image: ghcr.io/alex1989hu/kubelet-serving-cert-approver:0.6.4
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
             path: /healthz
