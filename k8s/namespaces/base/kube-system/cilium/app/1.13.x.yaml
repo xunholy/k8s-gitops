@@ -301,7 +301,7 @@ aksbyocni:
 autoDirectNodeRoutes: true
 
 # -- Annotate k8s node upon initialization with Cilium's metadata.
-annotateK8sNode: true
+annotateK8sNode: false
 
 azure:
   # -- Enable Azure integration.
@@ -414,7 +414,7 @@ bpf:
 
   # -- (bool) Enable native IP masquerade support in eBPF
   # @default -- `false`
-  masquerade: true
+  masquerade: ~
 
   # -- (bool) Configure whether direct routing mode should route traffic via
   # host stack (true) or directly and more efficiently out of BPF (false) if
@@ -426,7 +426,7 @@ bpf:
   # -- (bool) Configure the eBPF-based TPROXY to reduce reliance on iptables rules
   # for implementing Layer 7 policy.
   # @default -- `false`
-  tproxy: true
+  tproxy: ~
 
   # -- (list) Configure explicitly allowed VLAN id's for bpf logic bypass.
   # [0] will allow all VLAN id's without any filtering.
@@ -1462,7 +1462,7 @@ l2NeighDiscovery:
 l7Proxy: true
 
 # -- Enable Local Redirect Policy.
-localRedirectPolicy: true
+localRedirectPolicy: false
 
 # To include or exclude matched resources from cilium identity evaluation
 # labels: ""
