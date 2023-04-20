@@ -154,10 +154,10 @@ spec:
           url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
           datasource: Prometheus
         cilium-dashboard:
-          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.2/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
           datasource: Prometheus
         cilium-operator-dashboard:
-          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.2/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
           datasource: Prometheus
         # Source: https://grafana.com/grafana/dashboards/18015-cilium-policy-verdicts/
         cilium-policy-verdict-dashboard:
@@ -169,25 +169,25 @@ spec:
           url: https://grafana.com/api/dashboards/15763/revisions/1/download
           datasource: Prometheus
         hubble-dashboard:
-          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.1/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.2/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
           datasource: Prometheus
         # Istio dashboards must be kept in parity with the version deployed
         # https://grafana.com/grafana/dashboards/7639/revisions
         # https://grafana.com/grafana/dashboards/?search=istio
         istio-mesh:
-          url: https://grafana.com/api/dashboards/7639/revisions/158/download
+          url: https://grafana.com/api/dashboards/7639/revisions/162/download
           datasource: Prometheus
         istio-service:
-          url: https://grafana.com/api/dashboards/7636/revisions/158/download
+          url: https://grafana.com/api/dashboards/7636/revisions/162/download
           datasource: Prometheus
         istio-workload:
-          url: https://grafana.com/api/dashboards/7630/revisions/158/download
+          url: https://grafana.com/api/dashboards/7630/revisions/162/download
           datasource: Prometheus
         istio-performence:
           url: https://grafana.com/api/dashboards/11829/revisions/162/download
           datasource: Prometheus
         istio-control-plane:
-          url: https://grafana.com/api/dashboards/7645/revisions/158/download
+          url: https://grafana.com/api/dashboards/7645/revisions/162/download
           datasource: Prometheus
         istio-wasm:
           url: https://grafana.com/api/dashboards/13277/revisions/119/download
