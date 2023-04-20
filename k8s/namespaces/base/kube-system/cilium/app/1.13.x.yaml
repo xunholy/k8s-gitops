@@ -1855,7 +1855,7 @@ operator:
     override: ~
     repository: "quay.io/cilium/operator"
     # operator-alibabacloud-digest
-    useDigest: true
+    useDigest: false
     pullPolicy: "IfNotPresent"
     suffix: ""
 
