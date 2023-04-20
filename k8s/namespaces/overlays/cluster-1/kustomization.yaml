@@ -27,7 +27,7 @@ resources:
   - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/development/kubernetes-schemas/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
-  - ../../base/flux-system/tf-controller/ks.yaml
+  # - ../../base/flux-system/tf-controller/ks.yaml
   - ../../base/flux-system/weave-gitops/ks.yaml
   # - ../../base/home-system/home-assistant/ks.yaml
   # - ../../base/home-system/jellyfin/ks.yaml
@@ -43,10 +43,10 @@ resources:
   - ../../base/kube-system/cilium/ks.yaml
   - ../../base/kube-system/descheduler/ks.yaml
   - ../../base/kube-system/metrics-server/ks.yaml
-  - ../../base/kube-system/reloader/ks.yaml
-  - ../../base/kube-system/sealed-secrets/ks.yaml
+  # - ../../base/kube-system/reloader/ks.yaml
+  # - ../../base/kube-system/sealed-secrets/ks.yaml
   - ../../base/kube-system/secret-store-csi-driver/ks.yaml
-  - ../../base/kube-system/tetragon/ks.yaml
+  # - ../../base/kube-system/tetragon/ks.yaml
   - ../../base/network-system/cert-manager/ks.yaml
   - ../../base/network-system/cert-manager-csi-driver/ks.yaml
   - ../../base/network-system/cloudflare-ddns/ks.yaml
@@ -66,15 +66,15 @@ resources:
   - ../../base/observability/kube-prometheus-stack/ks.yaml
   # - ../../base/observability/loki-stack/ks.yaml
   - ../../base/observability/loki/ks.yaml
-  - ../../base/observability/otel/ks.yaml
+  # - ../../base/observability/otel/ks.yaml
   - ../../base/observability/thanos/ks.yaml
-  - ../../base/observability/vpa/ks.yaml
+  # - ../../base/observability/vpa/ks.yaml
   # - ../../base/openebs/cstor/ks.yaml
   # - ../../base/openebs/mayastor/ks.yaml
   # - ../../base/openebs/jiva/ks.yaml
   # - ../../base/openfaas/openfaas/ks.yaml
   # - ../../base/rook-ceph/rook-ceph-operator/ks.yaml
-  - ../../base/security-system/kyverno/ks.yaml
-  - ../../base/security-system/gatekeeper/ks.yaml
+  # - ../../base/security-system/kyverno/ks.yaml
+  # - ../../base/security-system/gatekeeper/ks.yaml
   # - ../../base/traefik-ingress/traefik/ks.yaml
   - ../../base/velero/velero/ks.yaml

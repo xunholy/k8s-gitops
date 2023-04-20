@@ -17,7 +17,7 @@ spec:
         namespace: flux-system
       interval: 10m
   install:
-    timeout: 10m
+    timeout: 30m
     replace: true
     crds: CreateReplace
     createNamespace: true
@@ -60,12 +60,15 @@ spec:
           osdsPerDevice: "1"
         # Use the following command to get the device name by-id "talosctl ls /dev/disk/by-id -n <node-ip>"
         nodes:
-          - name: "talos-192-168-50-111"
+          # 192.168.50.131
+          - name: "talos-zik-440"
             devices:
-              - name: "/dev/disk/by-id/ata-Protectli_120GB_M.2_A4720716090C00479312"
-          - name: "talos-192-168-50-112"
+              - name: "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_250GB_S4EUNZFN405187B"
+          # 192.168.50.132
+          - name: "talos-hg2-v33"
             devices:
-              - name: "/dev/disk/by-id/ata-Protectli_120GB_M.2_A45A0716098600462218"
-          - name: "talos-192-168-50-113"
+              - name: "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_250GB_S4EUNZFN402970B"
+          # 192.168.50.133
+          - name: "talos-dec-iyx"
             devices:
-              - name: "/dev/disk/by-id/ata-Protectli_120GB_M.2_A4720716090C00479311"
+              - name: "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_250GB_S4EUNZFN407036T"

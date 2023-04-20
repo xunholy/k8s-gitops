@@ -41,16 +41,14 @@ spec:
   maxHistory: 3
   values:
     loki-stack:
-      # -- Enable loki log collection for our components
       enabled: false
     obs:
       callhome:
-        # -- Enable callhome
         enabled: false
-    jaeger-operator:
-      crd:
-        # Install jaeger CRDs
-        install: true
+    etcd:
+      persistence:
+        enabled: false
+        storageClassName: manual
   postRenderers:
     - kustomize:
         patches:

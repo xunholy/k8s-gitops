@@ -1,55 +1,64 @@
+# Getting Started with Talos
 
+## Step 1: Decide the Kubernetes API Endpoint
 
-
-https://www.talos.dev/v1.1/introduction/getting-started/#decide-the-kubernetes-endpoint
-
-Kubernetes API Endpoint
+Set the Kubernetes API endpoint, for example:
 
 ```bash
 https://192.168.50.200:6443
 ```
 
-Generate Cluster Config
+## Step 2: Generate Cluster Configuration
+Generate the cluster configuration using talosctl:
 
 ```bash
 talosctl gen config "talos-default" "https://192.168.50.200:6443"
 ```
 
-```bash
-talosctl --talosconfig=./talosconfig \
-  config endpoint 192.168.50.131 192.168.50.132 192.168.50.133
-```
+Configure the endpoints and node:
 
 ```bash
 talosctl --talosconfig=./talosconfig \
+  config endpoint 192.168.50.131 192.168.50.132 192.168.50.133
+
+talosctl --talosconfig=./talosconfig \
   config node 192.168.50.131
 ```
+
+Merge the configuration:
 
 ```bash
 talosctl config merge ./talosconfig
 ```
 
-Do the following for each controlplane node
+## Step 3: Configure Control Plane Nodes
+Apply the configuration to each control plane node:
 
 ```bash
 talosctl apply-config --insecure --nodes 192.168.50.121 --file controlplane.yaml
 ```
 
-Do the following after you've applied the first controlplane nodes configuration
+After applying the configuration to the first control plane node, bootstrap the cluster:
 
 ```bash
 talosctl bootstrap --nodes 192.168.50.121
 ```
 
-Do the following for each node in the cluster that is not a controlplane node.
+## Step 4: Configure Other Nodes
+Apply the configuration to each node in the cluster that is not a control plane node:
 
 ```bash
 talosctl apply-config --insecure --nodes 192.168.50.121 --file node.yaml
 ```
 
-# Updating Local Binary & Talos Nodes
+If the `node.yaml` is encrypted first run the following command:
 
-Substitute the version in the download URL with the version that is latest
+```bash
+sops -d talos/generated/node.enc.yaml > talos/generated/node.yaml
+```
+
+## Step 5: Update Talos Client and Nodes
+Download the latest Talos binary by substituting the version in the download URL:
 
 ```bash
 curl -L https://github.com/siderolabs/talos/releases/download/v1.2.7/talosctl-linux-amd64 -o talosctl
@@ -57,34 +66,27 @@ sudo mv talosctl /usr/local/bin/talosctl
 sudo chmod +x /usr/local/bin/talosctl
 ```
 
-After this you should be able to validate the client is updated locally
+Verify the local client is updated:
 
 ```bash
 talosctl version
-...
-Client:
-        Tag:         v1.2.7
-        SHA:         facc3d12
-        Built:
-        Go version:  go1.19.2
-        OS/Arch:     linux/amd64
 ```
 
-Follow the guide here to upgrade nodes to the appropriate Talos version https://www.talos.dev/v1.2/talos-guides/upgrading-talos/
+To upgrade nodes to the appropriate Talos version, follow the upgrade guide.
 
-# Adding Protectli AMD64 Devices
+## Step 6: Adding Protectli AMD64 Devices
+To boot Talos onto a Protectli device, follow these steps:
 
-The following steps are required to boot Talos onto a Protectli device.
-
-- Flash Ubuntu onto flash drive
-- Install Ubuntu onto device; Continue once completed setup
-- Run the following commands:
+Flash Ubuntu onto a flash drive.
+Install Ubuntu onto the device and complete the setup.
+Run the following commands:
 
 ```bash
 wget https://github.com/siderolabs/talos/releases/download/v1.3.0/talos-amd64.iso
 dd if=talos-amd64.iso of=/dev/sda && sync
 ```
 
-Note: May require running sudo - Also validate the block device is correct. EG. `lsblk` and `df -a` to make sure you're writing to the appropriate drive.
+**Note:** *You might need to run the commands with sudo. Also, validate the block device using `lsblk` and `df -a` to ensure you're writing to the appropriate drive.*
 
-- Restart device `sudo restart`; Enjoy running Talos!
+Restart the device with sudo restart.
+Enjoy running Talos!
