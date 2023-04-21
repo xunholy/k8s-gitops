@@ -51,6 +51,7 @@ spec:
       namespace: observability
   timeout: 30m
   values:
+    cleanPrometheusOperatorObjectNames: true
     grafana:
       enabled: false
       forceDeployDashboards: true
@@ -67,7 +68,7 @@ spec:
       ## Settings affecting prometheusSpec
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
       prometheusSpec:
-        retention: 2h
+        replicas: 1
         replicaExternalLabelName: __replica__
         # REQUIRED: Cilium Hubble metrics are exposed via OpenMetrics. Prometheus Operator requires the `exemplar-storage` feature to be enabled to scrape OpenMetrics.
         # https://docs.cilium.io/en/stable/observability/metrics/#openmetrics
@@ -105,32 +106,19 @@ spec:
         probeSelectorNilUsesHelmValues: false
         enableAdminAPI: true
         walCompression: true
-    cleanPrometheusOperatorObjectNames: true
     kube-state-metrics:
       # REQUIRED kube-state-metrics must be configured to enable Vertical Pod Autoscalar metrics.
       # https://github.com/prometheus-community/helm-charts/blob/cbbc1d6965d5f90c31bb7dd08ecab09e59544a65/charts/kube-state-metrics/values.yaml#L311
       collectors:
         - verticalpodautoscalers
-    # TODO: Disabled whilst testing resource consumption
-    #   metricLabelsAllowlist: ["persistentvolumeclaims=[*]"]
-    #   prometheus:
-    #     monitor:
-    #       relabelings:
-    #         - action: replace
-    #           regex: (.*)
-    #           replacement: $1
-    #           sourceLabels: ["__meta_kubernetes_pod_node_name"]
-    #           targetLabel: kubernetes_node
-    # kubeApiServer:
-    #   serviceMonitor:
-    #     metricRelabelings:
-    #       # Remove high cardinality metrics
-    #       - sourceLabels: ["__name__"]
-    #         regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
-    #         action: drop
-    #       - sourceLabels: ["__name__"]
-    #         regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
-    #         action: drop
+      prometheus:
+        monitor:
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels: ["__meta_kubernetes_pod_node_name"]
+              targetLabel: kubernetes_node
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
