@@ -51,6 +51,7 @@ jobs:
       - name: Setup Crossplane CLI
         run: |
           curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh
+          sudo mv kubectl-crossplane /home/linuxbrew/.linuxbrew/bin
 
       - name: Login to GHCR
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2
