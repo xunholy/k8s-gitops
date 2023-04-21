@@ -3,13 +3,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 helmCharts:
-  - name: cilium
+  - name: kubelet-csr-approver
     includeCRDs: true
-    releaseName: cilium
+    releaseName: kubelet-csr-approver
     namespace: kube-system
-    valuesFile: ../../../k8s/namespaces/base/kube-system/cilium/app/1.13.x.yaml
-    version: 1.13.2
-    repo: https://helm.cilium.io/
+    version: 1.0.0
+    repo: https://postfinance.github.io/kubelet-csr-approver
 
 # REQUIRED: Use transformers to avoid creating the labels & annotations on all references rather than only metadata/annotations or metadata/labels respectively
 transformers:

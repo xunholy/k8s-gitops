@@ -453,17 +453,18 @@ cluster:
     # A list of urls that point to additional manifests.
     extraManifests:
         # Install the kubelet cert-approver manifests
-        - https://raw.githubusercontent.com/xUnholy/k8s-gitops/main/talos/integrations/cert-approver/kubelet-cert-approver.yaml
+        - https://raw.githubusercontent.com/xUnholy/k8s-gitops/main/talos/integrations/cert-approver/cert-approver.yaml
         # Install kube prometheus stack CRDs prior to cluster bootstrap
         # Ref: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
-        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
-        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
-        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
-        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
-        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
-        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
-        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
-        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_prometheusagents.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
         # Install the Gateway API CRDs
         # https://gateway-api.sigs.k8s.io/guides/?h=crds#install-standard-channel
         - https://github.com/kubernetes-sigs/gateway-api/releases/download/v0.6.2/standard-install.yaml
@@ -500,8 +501,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2023-04-21T00:13:34Z"
-    mac: ENC[AES256_GCM,data:Wqe5wdWLc8HeMuOPna6wxH14VCdO6zsAizKollOk7IeYBEPGtdet5worgIbYZKSJe5MU3I67ID+BGJI+Zdl1oxvgQQ43D4LAGqXQud57+MS91StGq/xcdI7i+y+MHdnO15egHsSEWMULzWl5ptrYru96zT1a7H+TIv+njQxf/AQ=,iv:9g4YDh2VMfAPSuuFmGQfFo2PAxHHe0k5werGXf507Ok=,tag:1PrOR0B4ijHdk7Lf7+ex6Q==,type:str]
+    lastmodified: "2023-04-21T23:48:53Z"
+    mac: ENC[AES256_GCM,data:QNwD9qk4HwqzeXCJeJqmJaJ5U6wP1B7CuMtF8NEF+zfTSTPy3AHsSNStNgu/WvtR1iAuPLkWAeq+tKsUVNQ7CDGo+KIyr5oANx2B4juKfDq3uM2S+QCGu7kYbC3yfCvnB4qwFDROrOzGdU0BlVH7WfmUnP0brCG20ziVyj/mHms=,iv:gbXalwQj5bGQEZUF+7vQewcZBqHfRXWNIWpFZdEaswI=,tag:K4fxlYD0EIKek61n27ZQGQ==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |

@@ -41,6 +41,7 @@ resources:
   - openebs-jiva-chart.yaml
   - openfaas-charts.yaml
   - otel-charts.yaml
+  - postfinance-charts.yaml
   - rook-ceph.yaml
   - sealed-secrets-charts.yaml
   - secrets-store-csi-driver-chart.yaml
