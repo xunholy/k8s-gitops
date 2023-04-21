@@ -1,6 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - autopilot.yaml
   # - project.yaml Creates an example GCP project
   - providerconfig.yaml   # providerConfig has a dependency on the GCP keys stored in crossplane-system; And the provider CRDs being installed.

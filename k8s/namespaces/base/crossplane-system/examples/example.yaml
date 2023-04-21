@@ -1,8 +1,14 @@
-apiVersion: clusters.gcp.xunholy.io/v1alpha1
-kind: GKECluster
+---
+apiVersion: xunholy.io/v1alpha1
+kind: Cluster
 metadata:
   name: example
+  namespace: crossplane-system
 spec:
   parameters:
-    location: "australia-southeast1"
-    enableAutopilot: true
+    releaseChannel: "REGULAR"
+  compositionSelector:
+    matchLabels:
+      provider: gcp
+  writeConnectionSecretToRef:
+    name: cluster-conn

@@ -1,0 +1,33 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xclusters.gcp.xunholy.io
+  labels:
+    provider: gcp
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: xunholy.io/v1alpha1
+    kind: XCluster
+  resources:
+    - name: autopilot
+      base:
+        apiVersion: container.gcp.upbound.io/v1beta1
+        kind: Cluster
+        spec:
+          forProvider:
+            location: us-central1
+            ipAllocationPolicy:
+                - {}
+            enableAutopilot: true
+          writeConnectionSecretToRef:
+            namespace: crossplane-system
+      patches:
+        - fromFieldPath: "metadata.uid"
+          toFieldPath: "spec.writeConnectionSecretToRef.name"
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-cluster"
+      connectionDetails: []

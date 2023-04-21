@@ -60,3 +60,6 @@ go.work
 
 # Ignore the hacks directory containing the scripts to run locally
 hacks/**
+
+# Ignore crossplane packages that have been built locally
+*.xpkg

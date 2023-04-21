@@ -1,0 +1,40 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xgitops.xunholy.io
+spec:
+  group: xunholy.io
+  names:
+    kind: XGitops
+    plural: xgitops
+  claimNames:
+    kind: Cluster
+    plural: clusters
+  connectionSecretKeys: []
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  repository:
+                    description: The repository that will be synced via GitOps
+                    type: string
+                    default: "https://github.com/xunholy/k8s-gitops"
+                  environment:
+                    description: The environment (e.g., production)
+                    type: string
+                    default: production
+                required:
+                  - repository
+            required:
+              - parameters
