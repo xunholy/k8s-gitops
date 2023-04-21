@@ -300,7 +300,7 @@ aksbyocni:
 autoDirectNodeRoutes: true
 
 # -- Annotate k8s node upon initialization with Cilium's metadata.
-annotateK8sNode: false
+annotateK8sNode: true
 
 azure:
   # -- Enable Azure integration.
@@ -413,7 +413,7 @@ bpf:
 
   # -- (bool) Enable native IP masquerade support in eBPF
   # @default -- `false`
-  masquerade: ~
+  masquerade: true
 
   # -- (bool) Configure whether direct routing mode should route traffic via
   # host stack (true) or directly and more efficiently out of BPF (false) if
@@ -598,7 +598,7 @@ enableK8sEventHandover: false
 # enableK8sEndpointSlice: true
 
 # -- Enable CiliumEndpointSlice feature.
-enableCiliumEndpointSlice: false
+enableCiliumEndpointSlice: true
 
 ingressController:
   # -- Enable cilium ingress controller
@@ -792,7 +792,7 @@ healthPort: 9879
 # -- Configure the host firewall.
 hostFirewall:
   # -- Enables the enforcement of host policies in the eBPF datapath.
-  enabled: false
+  enabled: true
 
 hostPort:
   # -- Enable hostPort service support.
@@ -868,17 +868,13 @@ hubble:
       - drop
       - tcp
       - flow
-      - port-distribution
       - http
       - icmp
+      - port-distribution
       - httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction
-      - policy:sourceContext=app|workload-name|pod|reserved-identity;destinationContext=app|workload-name|pod|dns|reserved-identity;labelsContext=source_namespace,destination_namespace
-      - httpV2:sourceContext=workload-name|pod-name|reserved-identity;destinationContext=workload-name|pod-name|reserved-identity;labelsContext=source_namespace,destination_namespace,traffic_direction
-      - kafka:sourceContext=workload-name|pod-name|reserved-identity;destinationContext=workload-name|pod-name|reserved-identity;labelsContext=source_namespace,destination_namespace,traffic_direction
-
 
     # -- Enables exporting hubble metrics in OpenMetrics format.
-    enableOpenMetrics: false
+    enableOpenMetrics: true
     # -- Configure the port the hubble metric server listens on.
     port: 9965
     # -- Annotations to be added to hubble-metrics service.
@@ -1008,7 +1004,6 @@ hubble:
     image:
       override: ~
       repository: "quay.io/cilium/hubble-relay"
-       # hubble-relay-digest
       useDigest: true
       pullPolicy: "IfNotPresent"
 
@@ -1391,7 +1386,7 @@ ipam:
 
 # -- Configure the eBPF-based ip-masq-agent
 ipMasqAgent:
-  enabled: false
+  enabled: true
 # the config of nonMasqueradeCIDRs
 # config:
   # nonMasqueradeCIDRs: []
@@ -1855,7 +1850,7 @@ operator:
     override: ~
     repository: "quay.io/cilium/operator"
     # operator-alibabacloud-digest
-    useDigest: false
+    useDigest: true
     pullPolicy: "IfNotPresent"
     suffix: ""
 

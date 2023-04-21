@@ -10,5 +10,9 @@ helmCharts:
   version: 1.13.2
   repo: https://helm.cilium.io/
 
-transformers:
-  - transformers.yaml
+commonAnnotations:
+  meta.helm.sh/release-name: cilium
+  meta.helm.sh/release-namespace: kube-system
+
+commonLabels:
+  app.kubernetes.io/managed-by: Helm

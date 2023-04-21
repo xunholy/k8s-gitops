@@ -401,6 +401,7 @@ cluster:
                 exemptions:
                     namespaces:
                         - kube-system
+                        - gateway-system
                     runtimeClasses: []
                     usernames: []
                 kind: PodSecurityConfiguration
@@ -463,6 +464,9 @@ cluster:
         - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
         - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
         - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.60.1/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+        # Install the Gateway API CRDs
+        # https://gateway-api.sigs.k8s.io/guides/?h=crds#install-standard-channel
+        - https://github.com/kubernetes-sigs/gateway-api/releases/download/v0.6.2/standard-install.yaml
     #   - https://www.example.com/manifest1.yaml
     #   - https://www.example.com/manifest2.yaml
     # A list of inline Kubernetes manifests.
@@ -496,8 +500,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2023-04-12T04:21:24Z"
-    mac: ENC[AES256_GCM,data:SaWnLbvqilig7WWEALXUJaMSsbvUkEC0/PbgPBudg5jg125vEJVIHuGLJviZstQd9PnKD5pUVrgJEmurvm8QdHsr7oSGZDgSJwAAA/KYEa59iPEAeFPUJ3FkP8QMxQTocsdUfacVoNB3hrTECwKNGrccPgOcPxVlVWzTfw/yK4o=,iv:5LLAJR1V+mlKfoflb3/F4Q+7uiPLg2sUOMLa/XGSjt0=,tag:es7T+VkCTB6881eAtOXvkQ==,type:str]
+    lastmodified: "2023-04-21T00:13:34Z"
+    mac: ENC[AES256_GCM,data:Wqe5wdWLc8HeMuOPna6wxH14VCdO6zsAizKollOk7IeYBEPGtdet5worgIbYZKSJe5MU3I67ID+BGJI+Zdl1oxvgQQ43D4LAGqXQud57+MS91StGq/xcdI7i+y+MHdnO15egHsSEWMULzWl5ptrYru96zT1a7H+TIv+njQxf/AQ=,iv:9g4YDh2VMfAPSuuFmGQfFo2PAxHHe0k5werGXf507Ok=,tag:1PrOR0B4ijHdk7Lf7+ex6Q==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |
