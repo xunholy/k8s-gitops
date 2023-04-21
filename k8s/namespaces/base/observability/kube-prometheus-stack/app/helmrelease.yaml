@@ -107,18 +107,40 @@ spec:
         enableAdminAPI: true
         walCompression: true
     kube-state-metrics:
+      verticalPodAutoscaler:
+        enabled: false
       # REQUIRED kube-state-metrics must be configured to enable Vertical Pod Autoscalar metrics.
       # https://github.com/prometheus-community/helm-charts/blob/cbbc1d6965d5f90c31bb7dd08ecab09e59544a65/charts/kube-state-metrics/values.yaml#L311
       collectors:
+        - certificatesigningrequests
+        - configmaps
+        - cronjobs
+        - daemonsets
+        - deployments
+        - endpoints
+        - horizontalpodautoscalers
+        - ingresses
+        - jobs
+        - leases
+        - limitranges
+        - mutatingwebhookconfigurations
+        - namespaces
+        - networkpolicies
+        - nodes
+        - persistentvolumeclaims
+        - persistentvolumes
+        - poddisruptionbudgets
+        - pods
+        - replicasets
+        - replicationcontrollers
+        - resourcequotas
+        - secrets
+        - services
+        - statefulsets
+        - storageclasses
+        - validatingwebhookconfigurations
+        - volumeattachments
         - verticalpodautoscalers
-      prometheus:
-        monitor:
-          relabelings:
-            - action: replace
-              regex: (.*)
-              replacement: $1
-              sourceLabels: ["__meta_kubernetes_pod_node_name"]
-              targetLabel: kubernetes_node
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
