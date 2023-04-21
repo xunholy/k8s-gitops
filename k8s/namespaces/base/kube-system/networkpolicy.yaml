@@ -1,31 +1,4 @@
 ---
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: hubble-ui
-  namespace: kube-system
-spec:
-  podSelector:
-    matchLabels:
-      k8s-app: hubble-ui
-  ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: istio-ingress
-          podSelector:
-            matchLabels:
-              app: istio-ingressgateway
-      ports:
-        - port: 8081
-  egress:
-    - to:
-        - podSelector:
-            matchLabels:
-              k8s-app: hubble-relay
-      ports:
-        - port: 4245
----
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
