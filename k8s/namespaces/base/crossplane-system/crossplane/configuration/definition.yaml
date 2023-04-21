@@ -1,64 +1,39 @@
+---
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  # XRDs must be named '<plural>.<group>', per the plural and group names below.
-  name: gkeclusters.clusters.gcp.xunholy.io
+  name: xclusters.xunholy.io
 spec:
-  group: clusters.gcp.xunholy.io
+  group: xunholy.io
   names:
-    kind: XGKECluster
-    plural: xgkeclusters
-  # This type of XR offers a claim. Omit claimNames if you don't want to do so.
-  # The claimNames must be different from the names above - a common convention
-  # is that names are prefixed with 'X' while claim names are not.
+    kind: XCluster
+    plural: xclusters
   claimNames:
-    kind: GKECluster
-    plural: gkeclusters
-  # Each type of XR can declare any keys they write to their connection secret
-  # which will act as a filter during aggregation of the connection secret from
-  # composed resources. It's recommended to provide the set of keys here so that
-  # consumers of claims and XRs can see what to expect in the connection secret.
-  # If no key is given, then all keys in the aggregated connection secret will
-  # be written to the connection secret of the XR
+    kind: Cluster
+    plural: clusters
   connectionSecretKeys: []
   versions:
   - name: v1alpha1
-    # Served specifies that XRs should be served at this version. It can be set
-    # to false to temporarily disable a version, for example to test whether
-    # doing so breaks anything before a version is removed wholesale.
     served: true
-    # Referenceable denotes the version of a type of XR that Compositions may
-    # use. Only one version may be referenceable.
     referenceable: true
-    # Schema is an OpenAPI schema just like the one used by Kubernetes CRDs. It
-    # determines what fields your XR and claim will have. Note that Crossplane
-    # will automatically extend with some additional Crossplane machinery.
     schema:
       openAPIV3Schema:
+        type: object
         properties:
           spec:
+            type: object
             properties:
               parameters:
+                type: object
                 properties:
-                  enableAutopilot:
-                    type: boolean
-                  location:
-                    description: GCP compute region https://cloud.google.com/compute/docs/regions-zones
-                    enum:
-                    - australia-southeast1
-                    - australia-southeast2
-                    type: string
                   version:
-                    description: GKE version
+                    description: "Kubernetes version"
+                    type: string
                     enum:
                     - "1.24"
                     - "1.25"
                     - "1.26"
-                    type: string
                 required:
-                - enableAutopilot
-                type: object
+                  - version
             required:
-            - parameters
-            type: object
-        type: object
+              - parameters

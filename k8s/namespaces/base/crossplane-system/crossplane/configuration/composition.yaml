@@ -22,7 +22,7 @@ spec:
     kind: XGKECluster
   # Each Composition must specify at least one composed resource template.
   resources:
-    - name: gke-cluster
+    - name: cluster
       # The 'base' template for the Cluster Crossplane will create.
       # You can use the base template to specify fields that never change, or
       # default values for fields that may optionally be patched over. Bases must
@@ -33,11 +33,9 @@ spec:
         kind: Cluster
         spec:
           forProvider:
-            description: "GKE Cluster"
             # TODO: Set an initial GKE Auto Pilot version explicitly
             # initialClusterVersion:
             releaseChannel:
-              # Possible Values: "UNSPECIFIED", "RAPID", "REGULAR", "STABLE"
               channel: RAPID
             maintenancePolicy:
               window:
@@ -63,16 +61,57 @@ spec:
               # TODO: Does this only enable Calico network policies? If so that is useless.
               enabled: true
           writeConnectionSecretToRef:
-            name: auto-kube
             namespace: crossplane-system
-      # Each resource can optionally specify a set of 'patches' that copy fields
-      # from (or to) the XR.
+
+
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xclusters.gcp.xunholy.io
+  labels:
+    provider: gcp
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: cluster.xunholy.io/v1alpha1
+    kind: XCluster
+  resources:
+    - name: autopilot
+      base:
+        apiVersion: container.gcp.upbound.io/v1beta1
+        kind: Cluster
+        spec:
+          forProvider:
+
+            releaseChannel:
+              channel: RAPID
+            location: us-central1
+            enableAutopilot: true
+
+            region: us-east-1
+            dbInstanceClass: db.t2.small
+            masterUsername: masteruser
+            engine: postgres
+            engineVersion: "12"
+            skipFinalSnapshotBeforeDeletion: true
+            publiclyAccessible: true
+          writeConnectionSecretToRef:
+            namespace: crossplane-system
+
+
+
+
       patches:
-        # FromCompositeFieldPath is the default when 'type' is omitted, but it's
-        # good practice to always include the type for readability.
-        - type: FromCompositeFieldPath
-          fromFieldPath: "spec.parameters.location"
-          toFieldPath: "spec.forProvider.location"
-        - type: FromCompositeFieldPath
-          fromFieldPath: "metadata.name"
+        - fromFieldPath: "metadata.uid"
           toFieldPath: "spec.writeConnectionSecretToRef.name"
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-postgresql"
+        - fromFieldPath: "spec.parameters.storageGB"
+          toFieldPath: "spec.forProvider.allocatedStorage"
+      connectionDetails:
+        - fromConnectionSecretKey: username
+        - fromConnectionSecretKey: password
+        - fromConnectionSecretKey: endpoint
+        - fromConnectionSecretKey: port
