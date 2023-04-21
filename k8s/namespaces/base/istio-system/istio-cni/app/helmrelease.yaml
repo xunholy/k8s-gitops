@@ -39,3 +39,10 @@ spec:
   uninstall:
     keepHistory: false
   maxHistory: 3
+  values:
+    cni:
+      # Resources allocated based on Robusta KRR output
+      resources:
+        requests:
+          cpu: 50m
+          memory: 512Mi

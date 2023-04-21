@@ -60,6 +60,15 @@ spec:
           multicluster:
             etcd:
               enabled: true
+    prometheusOperator:
+      prometheusConfigReloader:
+        # Resources allocated based on Robusta KRR output
+        resources:
+          requests:
+            cpu: 5m
+            memory: 24Mi
+          limits:
+            memory: 50Mi
     prometheus:
       thanosService:
         enabled: true
@@ -83,23 +92,25 @@ spec:
           - etcd-client-cert
         externalUrl: https://prometheus.${CLUSTER_DOMAIN}
         podAntiAffinity: hard
+        # Resources allocated based on Robusta KRR output
         resources:
           requests:
-            memory: 2Gi
-            cpu: 1
-          limits:
             memory: 4Gi
+            cpu: 1000m
+          limits:
+            memory: 6294M
         # Thanos chart will generate the secret: thanos
         thanos:
           objectStorageConfig:
             name: thanos-objstore-secret
             key: objstore.yml
+          # Resources allocated based on Robusta KRR output
           resources:
             requests:
               memory: 128Mi
-              cpu: 100m
+              cpu: 10m
             limits:
-              memory: 256Mi
+              memory: 160Mi
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false

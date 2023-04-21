@@ -50,3 +50,10 @@ spec:
       enabled: true
     args:
       - --debug
+    # Resources allocated based on Robusta KRR output
+    resourcesCrossplane:
+      limits:
+        memory: 954Mi
+      requests:
+        cpu: 25m
+        memory: 954Mi

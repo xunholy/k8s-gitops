@@ -40,7 +40,14 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
-    replicaCount: 3
+    replicaCount: 1
+    # Resources allocated based on Robusta KRR output
+    resources:
+      requests:
+        cpu: 64m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
     service:
       loadBalancerIP: ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
     affinity:

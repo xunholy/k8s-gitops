@@ -47,9 +47,10 @@ spec:
               value: '3'
             - name: INTERVAL
               value: '300'
+          # Resources allocated based on Robusta KRR output
           resources:
             requests:
-              cpu: 100m
-              memory: 64Mi
+              cpu: 20m
+              memory: 10Mi
             limits:
-              memory: 128Mi
+              memory: 64Mi

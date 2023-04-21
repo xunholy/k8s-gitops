@@ -44,6 +44,13 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
+    # Resources allocated based on Robusta KRR output
+    resources:
+      limits:
+        cpu: 24m
+        memory: 128Mi
+      requests:
+        memory: 128Mi
     # Custom image bundled with external plugins; currently not in use.
     # This image is reusable and can be viewed with the available plugins here https://github.com/xUnholy/coredns
     # image:

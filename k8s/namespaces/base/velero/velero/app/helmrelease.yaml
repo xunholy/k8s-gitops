@@ -40,6 +40,13 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
+    # Resources allocated based on Robusta KRR output
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
     # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
     initContainers:
       - name: velero-plugin-for-gcp
