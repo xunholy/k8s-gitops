@@ -40,18 +40,18 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
-  pilot:
-    autoscaleEnabled: true
-      autoscaleMin: 1
-      autoscaleMax: 3
-      replicaCount: 1
-      rollingMaxSurge: 100%
-      rollingMaxUnavailable: 25%
-    # Resources allocated based on Robusta KRR output
-    resources:
-      requests:
-        cpu: 100m
-        memory: 500Mi
+    pilot:
+      autoscaleEnabled: true
+        autoscaleMin: 1
+        autoscaleMax: 3
+        replicaCount: 1
+        rollingMaxSurge: 100%
+        rollingMaxUnavailable: 25%
+      # Resources allocated based on Robusta KRR output
+      resources:
+        requests:
+          cpu: 100m
+          memory: 500Mi
     meshConfig:
       defaultConfig:
         gatewayTopology:
