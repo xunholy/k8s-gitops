@@ -5,7 +5,7 @@ metadata:
   name: clusters
   annotations:
     meta.crossplane.io/maintainer: Michael Fornaro (@xUnholy)
-    meta.crossplane.io/source: github.com/xunholy/k8s-gitops/tree/main/packages/gitops
+    meta.crossplane.io/source: github.com/xunholy/k8s-gitops/tree/main/packages/clusters
     meta.crossplane.io/license: MIT
     meta.crossplane.io/description: My example of using crossplane
 spec:

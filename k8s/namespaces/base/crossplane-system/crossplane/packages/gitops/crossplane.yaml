@@ -2,7 +2,7 @@
 apiVersion: meta.pkg.crossplane.io/v1
 kind: Configuration
 metadata:
-  name: clusters
+  name: gitops
   annotations:
     meta.crossplane.io/maintainer: Michael Fornaro (@xUnholy)
     meta.crossplane.io/source: github.com/xunholy/k8s-gitops/tree/main/packages/gitops

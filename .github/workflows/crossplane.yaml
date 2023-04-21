@@ -64,4 +64,4 @@ jobs:
         run: |
           cd $PACKAGE_DIR/${{ matrix.folder }}
           kubectl crossplane build configuration
-          kubectl crossplane push configuration ghcr.io/xunholy/crossplane/packages/${{ matrix.folder }}:v0.0.1
+          kubectl crossplane push configuration ghcr.io/xunholy/crossplane/packages/${{ matrix.folder }}:v0.0.2
