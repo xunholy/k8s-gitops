@@ -2,16 +2,17 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: xgitops.xunholy.io
+  name: xgitopsclusters.xunholy.io
 spec:
   group: xunholy.io
   names:
-    kind: XGitops
-    plural: xgitops
+    kind: XGitOpsCluster
+    plural: xgitopsclusters
   claimNames:
-    kind: Cluster
-    plural: clusters
-  connectionSecretKeys: []
+    kind: GitOpsCluster
+    plural: gitopsclusters
+  connectionSecretKeys:
+  - kubeconfig
   versions:
   - name: v1alpha1
     served: true
@@ -23,6 +24,9 @@ spec:
           spec:
             type: object
             properties:
+              id:
+                type: string
+                description: ID of this Cluster that other objects will use to refer to it.
               parameters:
                 type: object
                 properties:
@@ -30,11 +34,15 @@ spec:
                     description: The repository that will be synced via GitOps
                     type: string
                     default: "https://github.com/xunholy/k8s-gitops"
-                  environment:
-                    description: The environment (e.g., production)
+                  branch:
                     type: string
-                    default: production
+                    description: The Git reference to checkout and monitor for changes
+                    default: "main"
+                  path:
+                    type: string
+                    description: Path to the directory containing the kustomization.yaml
                 required:
                   - repository
+                  - path
             required:
               - parameters

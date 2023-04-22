@@ -2,14 +2,14 @@ name: Publish Crossplane Packages
 
 on:
   workflow_dispatch: {}
-  push:
-    branches:
-      - main
-    paths:
-      # Trigger workflow if workflow file is updated to validate it works appropriately
-      - .github/workflows/crossplane.yaml
-      # Trigger workflow if commit contains changes to configuration stored in the OCI artifact
-      - k8s/namespaces/base/crossplane-system/crossplane/packages/**
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     # Trigger workflow if workflow file is updated to validate it works appropriately
+  #     - .github/workflows/crossplane.yaml
+  #     # Trigger workflow if commit contains changes to configuration stored in the OCI artifact
+  #     - k8s/namespaces/base/crossplane-system/crossplane/packages/**
 
 env:
   GHCR_REPO: "ghcr.io/xunholy/crossplane/packages/"

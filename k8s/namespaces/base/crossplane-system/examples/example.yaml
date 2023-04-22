@@ -1,14 +1,18 @@
 ---
 apiVersion: xunholy.io/v1alpha1
-kind: Cluster
+kind: GitOpsCluster
 metadata:
-  name: example
+  name: gitops-cluster
   namespace: crossplane-system
 spec:
+  id: raspbernetes
   parameters:
-    releaseChannel: "REGULAR"
+    repository: https://github.com/xunholy/k8s-gitops
+    branch: main
+    path: "k8s/clusters/cluster-0"
   compositionSelector:
     matchLabels:
       provider: gcp
+      gitops: flux
   writeConnectionSecretToRef:
-    name: cluster-conn
+    name: gitops-cluster-connection

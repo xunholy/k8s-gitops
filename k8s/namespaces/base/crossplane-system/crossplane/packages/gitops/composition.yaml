@@ -2,17 +2,22 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: xclusters.gcp.xunholy.io
+  name: xgitopsclusters.gcp.xunholy.io
   labels:
     provider: gcp
+    gitops: flux
 spec:
   writeConnectionSecretsToNamespace: crossplane-system
   compositeTypeRef:
     apiVersion: xunholy.io/v1alpha1
-    kind: XCluster
+    kind: XGitOpsCluster
+  patchSets:
+    - name: metadata
+      patches:
+        - fromFieldPath: metadata.labels
+        - fromFieldPath: metadata.annotations
   resources:
-    - name: autopilot
-      base:
+    - base:
         apiVersion: container.gcp.upbound.io/v1beta1
         kind: Cluster
         spec:
@@ -30,4 +35,91 @@ spec:
             - type: string
               string:
                 fmt: "%s-cluster"
-      connectionDetails: []
+        - fromFieldPath: spec.writeConnectionSecretToRef.namespace
+          toFieldPath: spec.writeConnectionSecretToRef.namespace
+      # The control plane supplies the 'kubeconfig' connection secret key, which
+      # is required by the XR.
+      connectionDetails:
+        - fromConnectionSecretKey: kubeconfig
+    - base:
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: ProviderConfig
+        spec:
+          credentials:
+            source: Secret
+            secretRef:
+              key: kubeconfig
+          identity:
+            type: GoogleApplicationCredentials
+            source: Secret
+            secretRef:
+              name: gcp-credentials
+              key: credentials.json
+      patches:
+        - fromFieldPath: spec.id
+          toFieldPath: metadata.name
+        - fromFieldPath: spec.writeConnectionSecretToRef.namespace
+          toFieldPath: spec.credentials.secretRef.namespace
+        # This ProviderConfig uses the above GKE cluster's connection secret as
+        # its credentials secret.
+        - fromFieldPath: metadata.uid
+          toFieldPath: spec.credentials.secretRef.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-cluster"
+        - fromFieldPath: spec.writeConnectionSecretToRef.namespace
+          toFieldPath: spec.identity.secretRef.namespace
+      readinessChecks:
+        - type: None
+    - base:
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: Release
+        spec:
+          rollbackLimit: 3
+          forProvider:
+            namespace: flux-system
+            chart:
+              name: flux2
+              repository: https://fluxcd-community.github.io/helm-charts
+              version: "2.7.0"
+            values:
+              imageautomationcontroller:
+                create: false
+              imagereflectorcontroller:
+                create: false
+      patches:
+        - fromFieldPath: metadata.uid
+          toFieldPath: metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-flux2"
+        - fromFieldPath: spec.id
+          toFieldPath: spec.providerConfigRef.name
+    - base:
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: Release
+        spec:
+          rollbackLimit: 3
+          forProvider:
+            namespace: flux-system
+            chart:
+              name: flux2-sync
+              repository: https://fluxcd-community.github.io/helm-charts
+              version: "1.4.0"
+      patches:
+        - fromFieldPath: metadata.uid
+          toFieldPath: metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-flux2-sync"
+        - fromFieldPath: spec.id
+          toFieldPath: spec.providerConfigRef.name
+        - fromFieldPath: spec.parameters.repository
+          toFieldPath: spec.forProvider.values.gitRepository.spec.url
+        - fromFieldPath: spec.parameters.branch
+          toFieldPath: spec.forProvider.values.gitRepository.spec.ref.branch
+        - fromFieldPath: spec.parameters.path
+          toFieldPath: spec.forProvider.values.kustomization.spec.path
