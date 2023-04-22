@@ -17,7 +17,7 @@ spec:
         namespace: flux-system
       interval: 10m
   install:
-    timeout: 10m
+    timeout: 30m
     replace: true
     crds: CreateReplace
     createNamespace: true
@@ -46,30 +46,39 @@ spec:
       callhome:
         enabled: false
     etcd:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      replicaCount: 1
       persistence:
         enabled: false
-        storageClassName: manual
   postRenderers:
     - kustomize:
         patches:
-          - target:
+          - patch: |
+              - op: add
+                path: /spec/template/spec/priorityClassName
+                value: platform-cluster-critical
+            target:
               kind: Deployment
               labelSelector: openebs.io/release=mayastor
-            patch: |
+          - patch: |
               - op: add
                 path: /spec/template/spec/priorityClassName
-                value: system-node-critical
-          - target:
+                value: platform-node-critical
+            target:
               kind: DaemonSet
               labelSelector: openebs.io/release=mayastor
-            patch: |
+          - patch: |
               - op: add
                 path: /spec/template/spec/priorityClassName
-                value: system-node-critical
-          - target:
+                value: platform-node-critical
+            target:
               kind: StatefulSet
               labelSelector: app.kubernetes.io/instance=mayastor
-            patch: |
+          - patch: |
               - op: add
                 path: /spec/template/spec/priorityClassName
-                value: system-node-critical
+                value: platform-node-critical
+            target:
+              kind: StatefulSet
+              labelSelector: app=io-engine

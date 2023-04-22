@@ -17,7 +17,7 @@ spec:
         namespace: flux-system
       interval: 10m
   install:
-    timeout: 10m
+    timeout: 30m
     replace: true
     crds: CreateReplace
     createNamespace: true
@@ -45,7 +45,6 @@ spec:
       ndm:
         sparse:
           count: '1'
-        # TODO: add tolerations for control plane node
         nodeSelector:
           openebs.io/storage: "true"
       featureGates:
