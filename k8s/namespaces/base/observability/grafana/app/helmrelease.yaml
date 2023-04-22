@@ -207,21 +207,6 @@ spec:
         node-exporter-full:
           url: https://grafana.com/api/dashboards/1860/revisions/31/download
           datasource: Prometheus
-        openebs:
-          url: https://grafana.com/api/dashboards/12171/revisions/2/download
-          datasource: Prometheus
-        cstor-overview:
-          url: https://raw.githubusercontent.com/openebs/monitoring/develop/deploy/charts/dashboards/cStor/cstor-overview.json
-          datasource: Prometheus
-        cstor-pool:
-          url: https://raw.githubusercontent.com/openebs/monitoring/develop/deploy/charts/dashboards/cStor/cstor-pool.json
-          datasource: Prometheus
-        cstor-volume-replica:
-          url: https://raw.githubusercontent.com/openebs/monitoring/develop/deploy/charts/dashboards/cStor/cstor-volume-replica.json
-          datasource: Prometheus
-        cstor-volume:
-          url: https://raw.githubusercontent.com/openebs/monitoring/develop/deploy/charts/dashboards/cStor/cstor-volume.json
-          datasource: Prometheus
         sealed-secrets:
           url: https://raw.githubusercontent.com/bitnami-labs/sealed-secrets/master/contrib/prometheus-mixin/dashboards/sealed-secrets-controller.json
           datasource: Prometheus
