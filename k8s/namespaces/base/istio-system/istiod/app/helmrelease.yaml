@@ -42,11 +42,11 @@ spec:
   values:
     pilot:
       autoscaleEnabled: true
-        autoscaleMin: 1
-        autoscaleMax: 3
-        replicaCount: 1
-        rollingMaxSurge: 100%
-        rollingMaxUnavailable: 25%
+      autoscaleMin: 1
+      autoscaleMax: 3
+      replicaCount: 1
+      rollingMaxSurge: 100%
+      rollingMaxUnavailable: 25%
       # Resources allocated based on Robusta KRR output
       resources:
         requests:
@@ -67,7 +67,3 @@ spec:
           includeHeadersInCheck: ["authorization", "cookie"]
           headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"]
           headersToDownstreamOnDeny: ["content-type", "set-cookie"]
-    # pilot:
-    #   env:
-    #   - name: ENABLE_CA_SERVER
-    #       value: "false"
