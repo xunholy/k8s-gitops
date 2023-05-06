@@ -12,7 +12,7 @@ warp-routing:
 originRequest:
   http2Origin: true
 
-tunnel: 2ddd72d8-49d0-483a-ba31-426e4da9bf2f
+tunnel: 4e92e278-cc6a-4e03-b344-7f6f6c602fcf
 
 credentials-file: /etc/cloudflared/credential.json
 
