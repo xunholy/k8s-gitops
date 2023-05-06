@@ -8,6 +8,7 @@ metadata:
   namespace: networking
   annotations:
     external-dns.alpha.kubernetes.io/target: "ingress.${CLUSTER_DOMAIN}"
+    external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   endpoints:
     - dnsName: "ingress.${CLUSTER_DOMAIN}"
@@ -24,6 +25,7 @@ metadata:
   namespace: networking
   annotations:
     external-dns.alpha.kubernetes.io/target: "api.${CLUSTER_DOMAIN}"
+    external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   endpoints:
     - dnsName: "api.${CLUSTER_DOMAIN}"
