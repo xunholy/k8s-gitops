@@ -1,5 +1,10 @@
-# Ingress hosts are directly copied into the configmap;
-# Read: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress
+# The `ingress` block tells cloudflared which local service to route incoming
+# requests to. For more about ingress rules, see
+# https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/ingress
+#
+# Remember, these rules route traffic from cloudflared to a local service. To route traffic
+# from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
+# E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
 ---
 warp-routing:
   enabled: true
@@ -7,7 +12,7 @@ warp-routing:
 originRequest:
   http2Origin: true
 
-tunnel: 24724515-cbee-460b-a57e-20c72c840756
+tunnel: 2ddd72d8-49d0-483a-ba31-426e4da9bf2f
 
 credentials-file: /etc/cloudflared/credential.json
 
@@ -17,9 +22,14 @@ ingress:
     originRequest:
       proxyType: socks
 
-  - hostname: "ingress.${CLUSTER_DOMAIN}"
+  - hostname: ingress.${CLUSTER_DOMAIN}
     service: &ingress https://istio-gateway.istio-ingress.svc.cluster.local
     originRequest:
-      originServerName: "ingress.${CLUSTER_DOMAIN}"
+      originServerName: ingress.${CLUSTER_DOMAIN}
+
+  - hostname: "*.${CLUSTER_DOMAIN}"
+    service: *ingress
+    originRequest:
+      originServerName: ingress.${CLUSTER_DOMAIN}
 
   - service: http_status:404
