@@ -47,13 +47,12 @@ spec:
       - run
     env:
       NO_AUTOUPDATE: "true"
-      TUNNEL_METRICS: 0.0.0.0:2000
       TUNNEL_TRANSPORT_PROTOCOL: auto
     service:
       main:
         ports:
           http:
-            port: 2000
+            port: 9090
     serviceMonitor:
       main:
         enabled: true
