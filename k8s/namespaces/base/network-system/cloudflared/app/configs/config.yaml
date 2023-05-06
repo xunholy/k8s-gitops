@@ -1,0 +1,20 @@
+# Ingress hosts are directly copied into the configmap;
+# Read: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress
+---
+warp-routing:
+  enabled: true
+
+originRequest:
+  http2Origin: true
+
+tunnel: 24724515-cbee-460b-a57e-20c72c840756
+
+credentials-file: /etc/cloudflared/credential.json
+
+ingress:
+  - hostname: api.raspbernetes.com
+    service: tcp://kubernetes.default.svc.cluster.local:443
+    originRequest:
+      proxyType: socks
+
+  - service: http_status:404

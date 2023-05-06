@@ -1,20 +1,18 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: cloudflared
+  name: &app cloudflared
   namespace: network-system
 spec:
   interval: 5m
-  releaseName: cloudflared
   chart:
     spec:
-      chart: cloudflared
-      version: 0.1.2
+      version: 1.4.0
+      chart: app-template
       sourceRef:
         kind: HelmRepository
-        name: xunholy-charts
+        name: bjw-charts
         namespace: flux-system
       interval: 5m
   install:
@@ -42,18 +40,62 @@ spec:
   maxHistory: 3
   values:
     image:
-      repository: raspbernetes/cloudflared
-      tag: "2022.8.2"
-    cloudflared:
-      # Tunnel ID should be unique per instance of running cloudflared
-      tunnelID: 24724515-cbee-460b-a57e-20c72c840756
-      # This is a reference to an existing secret containing the credentials;
-      existingSecret: cloudflared-credential
-      # Ingress hosts are directly copied into the configmap;
-      # Read: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress
-      ingress:
-        - hostname: api.raspbernetes.com
-          service: tcp://kubernetes.default.svc.cluster.local:443
-          originRequest:
-            proxyType: socks
-        - service: http_status:404
+      repository: cloudflare/cloudflared
+      tag: 2023.5.0
+    args:
+      - tunnel
+      - run
+    env:
+      NO_AUTOUPDATE: "true"
+      TUNNEL_METRICS: 0.0.0.0:2000
+      TUNNEL_TRANSPORT_PROTOCOL: auto
+    service:
+      main:
+        ports:
+          http:
+            port: 2000
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 30s
+    probes:
+      liveness: &probes
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness: *probes
+      startup:
+        enabled: false
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: cloudflared
+        subPath: config.yaml
+        mountPath: /etc/cloudflared/config.yaml
+        readOnly: true
+      creds:
+        enabled: true
+        type: secret
+        name: cloudflared-credential
+        subPath: credentials.json
+        mountPath: /etc/cloudflared/credential.json
+        readOnly: true
+    resources:
+      requests:
+        cpu: 5m
+        memory: 10Mi
+      limits:
+        memory: 256Mi

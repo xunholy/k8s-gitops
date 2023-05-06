@@ -4,3 +4,11 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - secret.enc.yaml
+
+configMapGenerator:
+  - name: cloudflared
+    files:
+      - ./configs/config.yaml
+
+configurations:
+  - kustomizeconfig.yaml
