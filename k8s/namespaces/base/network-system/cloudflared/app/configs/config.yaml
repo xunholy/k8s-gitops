@@ -17,4 +17,9 @@ ingress:
     originRequest:
       proxyType: socks
 
+  - hostname: "ingress.${CLUSTER_DOMAIN}"
+    service: &ingress https://istio-gateway.istio-ingress.svc.cluster.local
+    originRequest:
+      originServerName: "ingress.${CLUSTER_DOMAIN}"
+
   - service: http_status:404
