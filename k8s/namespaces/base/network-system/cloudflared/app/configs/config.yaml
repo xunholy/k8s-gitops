@@ -12,7 +12,7 @@ warp-routing:
 originRequest:
   http2Origin: true
 
-tunnel: 4e92e278-cc6a-4e03-b344-7f6f6c602fcf
+tunnel: ${CLOUDFLARED_TUNNEL_ID}
 
 credentials-file: /etc/cloudflared/credential.json
 
@@ -32,4 +32,6 @@ ingress:
     originRequest:
       originServerName: ingress.${CLUSTER_DOMAIN}
 
+  # Catch-all rule, which responds with 404 if traffic doesn't match any of
+  # the earlier rules
   - service: http_status:404

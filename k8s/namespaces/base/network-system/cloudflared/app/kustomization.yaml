@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: network-system
 
 resources:
+  - dnsendpoint.yaml
   - helmrelease.yaml
   - secret.enc.yaml
 
