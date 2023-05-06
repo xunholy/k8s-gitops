@@ -1,7 +1,7 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/apiextensions.crossplane.io/composition_v1.json
 apiVersion: apiextensions.crossplane.io/v1
-kind: Composition
-metadata:
+kind: Compositionmetadata:
   name: xgitopsclusters.gcp.xunholy.io
   labels:
     provider: gcp

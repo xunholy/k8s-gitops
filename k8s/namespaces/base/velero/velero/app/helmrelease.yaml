@@ -46,7 +46,7 @@ spec:
         cpu: 100m
         memory: 128Mi
       limits:
-        memory: 256Mi
+        memory: 150Mi
     # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
     initContainers:
       - name: velero-plugin-for-gcp
