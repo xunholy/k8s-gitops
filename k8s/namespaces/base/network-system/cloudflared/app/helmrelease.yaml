@@ -86,11 +86,11 @@ spec:
         subPath: config.yaml
         mountPath: /etc/cloudflared/config.yaml
         readOnly: true
-      creds:
+      credential:
         enabled: true
         type: secret
         name: cloudflared-credential
-        subPath: credentials.json
+        subPath: credential.json
         mountPath: /etc/cloudflared/credential.json
         readOnly: true
     resources:
