@@ -40,9 +40,6 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
-    image:
-      repository: raspbernetes/kured
-      tag: 1.10.2
     service:
       create: true
     metrics:

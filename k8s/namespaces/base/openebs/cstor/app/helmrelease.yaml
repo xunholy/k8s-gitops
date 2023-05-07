@@ -52,11 +52,6 @@ spec:
           # Required to allow HostPID
           # Ref: https://github.com/openebs/node-disk-manager/blob/da2a5b9eb773047a20c131a8802499299ea3135f/deploy/helm/charts/templates/daemonset.yaml#L31
           enabled: true
-    # Default uses bitnami which doesn't have multiarch image support
-    cleanup:
-      image:
-        repository: raspbernetes/kubectl
-        tag: latest
   postRenderers:
     - kustomize:
         patchesJson6902:
