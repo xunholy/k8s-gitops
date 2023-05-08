@@ -1,7 +1,8 @@
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/meta.pkg.crossplane.io/configuration_v1.json
 apiVersion: meta.pkg.crossplane.io/v1
-kind: Configurationmetadata:
+kind: Configuration
+metadata:
   name: gitops
   annotations:
     meta.crossplane.io/maintainer: Michael Fornaro (@xUnholy)

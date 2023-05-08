@@ -9,6 +9,7 @@
 warp-routing:
   enabled: true
 
+# Top-level configuration
 originRequest:
   http2Origin: true
 

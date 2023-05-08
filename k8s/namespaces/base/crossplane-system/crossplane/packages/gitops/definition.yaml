@@ -1,7 +1,8 @@
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/apiextensions.crossplane.io/compositeresourcedefinition_v1.json
 apiVersion: apiextensions.crossplane.io/v1
-kind: CompositeResourceDefinitionmetadata:
+kind: CompositeResourceDefinition
+metadata:
   name: xgitopsclusters.xunholy.io
 spec:
   group: xunholy.io

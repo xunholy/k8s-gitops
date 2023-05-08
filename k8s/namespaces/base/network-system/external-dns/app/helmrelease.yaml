@@ -40,16 +40,12 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
-    image:
-      tag: 0.13.4
-      pullPolicy: IfNotPresent
     provider: cloudflare
     policy: upsert-only
     # Cannot perform sync due to it removing other cluster originated records
     # policy: sync
     registry: 'txt'
     replicas: 1
-    logLevel: debug
     rbac:
       create: true
     metrics:

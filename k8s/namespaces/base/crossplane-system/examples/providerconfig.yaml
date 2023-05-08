@@ -1,7 +1,8 @@
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/gcp.upbound.io/providerconfig_v1beta1.json
 apiVersion: gcp.upbound.io/v1beta1
-kind: ProviderConfigmetadata:
+kind: ProviderConfig
+metadata:
   name: default
 spec:
   projectID: raspbernetes
