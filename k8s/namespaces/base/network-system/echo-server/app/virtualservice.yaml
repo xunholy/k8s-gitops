@@ -5,7 +5,7 @@ kind: VirtualService
 metadata:
   name: echo-server
   annotations:
-    external-dns.alpha.kubernetes.io/target: '${CLUSTER_DOMAIN}'
+    external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
