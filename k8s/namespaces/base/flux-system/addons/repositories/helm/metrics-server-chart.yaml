@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: metrics-server-charts
+  name: metrics-server-chart
   namespace: flux-system
 spec:
   interval: 120m0s

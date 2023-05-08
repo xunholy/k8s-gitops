@@ -12,7 +12,9 @@ resources:
   - coredns-charts.yaml
   - crossplane-charts.yaml
   - crowdsec-charts.yaml
+  - descheduler-chart.yaml
   - dex-chart.yaml
+  - external-dns-chart.yaml
   - fairwinds-charts.yaml
   - falco-security-charts.yaml
   - flagger-charts.yaml
@@ -25,14 +27,13 @@ resources:
   - kiali-charts.yaml
   - kubefed-charts.yaml
   - kubereboot-charts.yaml
-  - kubernetes-sigs-charts.yaml
   - kubernetes-stable-charts.yaml
   - kyverno-charts.yaml
   - litmuschaos-charts.yaml
   - loft-charts.yaml
   - mayastor-chart.yaml
   - metallb-charts.yaml
-  - metrics-server-charts.yaml
+  - metrics-server-chart.yaml
   - minecraft-server-charts.yaml
   - node-feature-discovery-chart.yaml
   - oauth2-proxy-chart.yaml

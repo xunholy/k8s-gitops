@@ -10,10 +10,10 @@ spec:
   chart:
     spec:
       chart: external-dns
-      version: 6.19.1
+      version: 1.12.2
       sourceRef:
         kind: HelmRepository
-        name: bitnami-charts
+        name: external-dns-chart
         namespace: flux-system
       interval: 10m
   install:
@@ -41,19 +41,22 @@ spec:
   maxHistory: 3
   values:
     provider: cloudflare
-    policy: upsert-only
-    # Cannot perform sync due to it removing other cluster originated records
-    # policy: sync
+    domainFilters:
+      - raspbernetes.com
+    env:
+      - name: CF_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            key: cloudflare_api_token
+            name: cloudflare-external-dns
+    extraArgs:
+      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+      - --crd-source-kind=DNSEndpoint
+      - --annotation-filter=external-dns.alpha.kubernetes.io/external=true
+      - --cloudflare-proxied
+    policy: sync
     registry: 'txt'
-    replicas: 1
-    rbac:
-      create: true
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-    crd:
-      create: true
+    txtPrefix: k8s.
     sources:
       # Disable service and ingress to avoid exposing services externally that are not routed through istio
       # - service
@@ -62,10 +65,5 @@ spec:
       - istio-virtualservice
       # Disable istio gateway as it adds a wildcard CNAME which is not able to be proxied in cloudflare
       # - istio-gateway
-    domainFilters:
-      - raspbernetes.com
-    annotationFilter: 'external-dns.alpha.kubernetes.io/external=true'
-    cloudflare:
-      secretName: 'cloudflare-external-dns'
-      email: '${PRIVATE_EMAIL}'
-      proxied: true
+    serviceMonitor:
+      enabled: true
