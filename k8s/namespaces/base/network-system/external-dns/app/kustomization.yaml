@@ -5,3 +5,5 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - secret.enc.yaml
+  # REQUIRED: This installed the DNSEndpoint CRD which is not installed automatically via the Helm chart currently.
+  - https://raw.githubusercontent.com/kubernetes-sigs/external-dns/master/docs/contributing/crd-source/crd-manifest.yaml
