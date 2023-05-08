@@ -28,6 +28,13 @@ ingress:
     originRequest:
       originServerName: ingress.${CLUSTER_DOMAIN}
 
+  # TODO: Add UDP ingress here to route directly to the service and bypass Istio.
+  # This will also require a dnsendpoint to be added to create the CNAME in cloudflare.
+  # - hostname: et.${CLUSTER_DOMAIN}
+  #   service: https://enemy-territory.game-servers.svc.cluster.local:27960
+  #   originRequest:
+  #     originServerName: et.${CLUSTER_DOMAIN}
+
   - hostname: "*.${CLUSTER_DOMAIN}"
     service: *ingress
     originRequest:

@@ -17,3 +17,24 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: cluster
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: kube-prometheus-stack-addons
+  namespace: flux-system
+  labels:
+    substitution.flux/enabled: true
+spec:
+  interval: 30m
+  retryInterval: 1m
+  timeout: 3m
+  path: "./namespaces/base/observability/kube-prometheus-stack/addons"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: OCIRepository
+    name: cluster
+  dependsOn:
+    - name: kube-prometheus-stack
