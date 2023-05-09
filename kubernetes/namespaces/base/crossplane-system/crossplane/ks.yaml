@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cilium
+  name: crossplane
   namespace: flux-system
   labels:
     substitution.flux/enabled: true
@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/kube-system/cilium/app"
+  path: "./namespaces/base/crossplane-system/crossplane/app"
   prune: true
   wait: true
   sourceRef:
@@ -22,7 +22,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cilium-config
+  name: crossplane-providers
   namespace: flux-system
   labels:
     substitution.flux/enabled: true
@@ -30,12 +30,12 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/kube-system/cilium/config"
+  path: "./namespaces/base/crossplane-system/crossplane/providers"
   prune: true
   wait: true
   sourceRef:
     kind: OCIRepository
     name: cluster
   dependsOn:
-    - name: istiod
+    - name: crossplane
       namespace: flux-system
