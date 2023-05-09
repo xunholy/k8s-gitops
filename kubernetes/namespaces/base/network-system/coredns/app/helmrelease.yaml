@@ -95,12 +95,6 @@ spec:
           # Serves a /metrics endpoint on :9153, required for serviceMonitor
           - name: prometheus
             parameters: 0.0.0.0:9153
-          # - name: etcd
-          #   parameters: raspbernetes.com
-          #   configBlock: |-
-          #     stubzones
-          #     path /skydns
-          #     endpoint http://etcd:2379
           # Forward everything else to Cloudflare DNS
           # Note: plugin/forward: this plugin can only be used once per Server Block
           - name: forward

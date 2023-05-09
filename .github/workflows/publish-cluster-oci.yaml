@@ -43,7 +43,7 @@ jobs:
       - name: Create OCI artifact
         run: |
           flux push artifact "$OCI_REPO:$(git rev-parse --short HEAD)" \
-            --path="./k8s" \
+            --path="./kubernetes" \
             --source="$(git config --get remote.origin.url)" \
             --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)"
 
