@@ -5,8 +5,8 @@ tasks:
   gpg:
     desc: "Import the public and private gpg keys locally"
     cmds:
-      - gpg --import k8s/clusters/cluster-1/secrets/.sops.pub.asc
-      - gpg --import <(sops --decrypt "k8s/clusters/cluster-1/secrets/sops-gpg.encrypted.yaml" | yq e '.data[]' - | base64 -d)
+      - gpg --import kubernetes/clusters/cluster-1/secrets/.sops.pub.asc
+      - gpg --import <(sops --decrypt "kubernetes/clusters/cluster-1/secrets/sops-gpg.encrypted.yaml" | yq e '.data[]' - | base64 -d)
     status:
       - gpg --list-secret-keys --keyid-format=long | grep production.raspbernetes.com
 

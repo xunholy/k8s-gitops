@@ -1,13 +1,11 @@
-# This GitHub Actions workflow demonstrates how to authenticate to Google Cloud using workload identity federation.
-# The workflow is triggered manually using the workflow_dispatch event.
-name: Workload identity Federation
+name: "Example: GCP Workload identity Federation"
 
 on:
-  workflow_dispatch: {} # Trigger the workflow manually
+  workflow_dispatch: {}
 
 jobs:
   connect:
-    runs-on: ubuntu-latest # Run the job on the latest version of Ubuntu
+    runs-on: ubuntu-latest
     permissions:
       id-token: 'write' # Required for requesting the JWT
       contents: 'read'  # Required for actions/checkout
@@ -26,11 +24,9 @@ jobs:
         workload_identity_provider: 'projects/970557914270/locations/global/workloadIdentityPools/raspbernetes-oidc-pool/providers/github-provider'
         service_account: 'raspbernetes-oidc-sa@raspbernetes.iam.gserviceaccount.com'
 
-    # Install gcloud, `setup-gcloud` automatically picks up authentication from `auth`.
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@62d4898025f6041e16b1068643bfc5a696863587' # v1
 
-    # Now you can run gcloud commands authenticated as the impersonated service account.
     - id: 'gcloud'
       name: 'gcloud'
       run: |-

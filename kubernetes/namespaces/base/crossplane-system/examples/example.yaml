@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/xunholy.io/gitopscluster_v1alpha1.json
+apiVersion: xunholy.io/v1alpha1
+kind: GitOpsCluster
+metadata:
+  name: gitops-cluster
+  namespace: crossplane-system
+spec:
+  id: raspbernetes
+  parameters:
+    repository: https://github.com/xunholy/k8s-gitops
+    branch: main
+    path: "kubernetes/clusters/cluster-0"
+  compositionSelector:
+    matchLabels:
+      provider: gcp
+      gitops: flux
+  writeConnectionSecretToRef:
+    name: gitops-cluster-connection

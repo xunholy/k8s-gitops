@@ -7,7 +7,7 @@ helmCharts:
     includeCRDs: true
     releaseName: cilium
     namespace: kube-system
-    valuesFile: ../../../k8s/namespaces/base/kube-system/cilium/app/1.13.x.yaml
+    valuesFile: ../../../kubernetes/namespaces/base/kube-system/cilium/app/1.13.x.yaml
     version: 1.13.2
     repo: https://helm.cilium.io/
 

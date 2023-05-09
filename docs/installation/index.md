@@ -41,7 +41,7 @@ Run the bootstrap command to install Flux
 flux bootstrap github \
   --owner="${GITHUB_USER}" \
   --repository="${GITHUB_REPO}" \
-  --path=k8s/clusters/"${CLUSTER}" \
+  --path=kubernetes/clusters/"${CLUSTER}" \
   --branch=main \
   --personal
 ```

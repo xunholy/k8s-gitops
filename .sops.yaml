@@ -2,21 +2,19 @@
 # creation rules are evaluated sequentially, the first match wins
 creation_rules:
   # secret files using GCP KMS to encrypt the stored PGP keys
-  - path_regex: k8s/clusters/.*/secrets/sops-gpg.encrypted.ya?ml
+  - path_regex: kubernetes/clusters/.*/secrets/sops-gpg.encrypted.ya?ml
     encrypted_regex: ^(data|stringData)$
     unencrypted-regex: ^(description|metadata)$
     gcp_kms: projects/raspbernetes/locations/global/keyRings/sops/cryptoKeys/sops-key
-  # secret files using SOPS
-  - path_regex: k8s/clusters/.*/*.enc.ya?ml
+  # Kubernetes secret files using SOPS
+  - path_regex: kubernetes/.*/*.enc.ya?ml
     encrypted_regex: ^(data|stringData)$
     unencrypted-regex: ^(description|metadata)$
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
-  - path_regex: k8s/namespaces/.*/*.enc.ya?ml
-    encrypted_regex: ^(data|stringData)$
-    unencrypted-regex: ^(description|metadata)$
-    pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
+  # Talos secret files using SOPS
   - path_regex: talos/.*/.*.enc.ya?ml
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
     encrypted_regex: '((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))'
+  # Terraform secret files using SOPS
   - path_regex: terraform/.*/*.enc.ya?ml
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014

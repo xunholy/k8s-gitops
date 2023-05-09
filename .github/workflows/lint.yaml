@@ -1,15 +1,11 @@
-# This Github Action is responsible for linting code and configuration files
-# It is triggered by a pull request to the main branch or a manual dispatch.
 name: "Lint"
 
 on:
-  # Allows manually triggering the workflow from the Github Actions UI
   workflow_dispatch:
   pull_request:
     branches:
       - main
 
-# Cancel any previous run of this workflow on the same branch
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
@@ -22,65 +18,58 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
         with:
           fetch-depth: 0
 
-      # Step 2: Set up the Flux CLI
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 3: Download the CRDs from the OCI registry
       - name: Download CRDs
         run: |
           mkdir -p ${{ env.SCHEMA_DIR }}
           flux pull artifact ${{ env.OCI_REPO }}:latest \
               --output=${{ env.SCHEMA_DIR }}
 
-      # Step 4: Run Kustomize build for cluster configuration
       - name: 'Kustomize Build - Cluster'
         uses: karancode/kustomize-github-action@883a86ec3535e4e7d0fe6450a85f8325c97d2a7b # v1.3.2
         with:
           kustomize_version: '5.0.1'
           kustomize_install: true
-          kustomize_build_dir: 'k8s/clusters/cluster-1/flux-system/'
+          kustomize_build_dir: 'kubernetes/clusters/cluster-1/flux-system/'
           kustomize_comment: true
           kustomize_output_file: "output/cluster.yaml"
           kustomize_build_options: "--load-restrictor LoadRestrictionsNone"
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 5: Run Kustomize build for namespace configuration
       - name: 'Kustomize Build - Namespaces'
         uses: karancode/kustomize-github-action@883a86ec3535e4e7d0fe6450a85f8325c97d2a7b # v1.3.2
         with:
           kustomize_version: '5.0.1'
           kustomize_install: true
-          kustomize_build_dir: 'k8s/namespaces/overlays/cluster-1/'
+          kustomize_build_dir: 'kubernetes/namespaces/overlays/cluster-1/'
           kustomize_comment: true
           kustomize_output_file: "output/namespaces.yaml"
           kustomize_build_options: "--load-restrictor LoadRestrictionsNone"
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 6: Run Kustomize build for tenant configuration
       - name: 'Kustomize Build - Tenants'
         uses: karancode/kustomize-github-action@883a86ec3535e4e7d0fe6450a85f8325c97d2a7b # v1.3.2
         with:
           kustomize_version: '5.0.1'
           kustomize_install: true
-          kustomize_build_dir: 'k8s/tenants/overlays/cluster-1/'
+          kustomize_build_dir: 'kubernetes/tenants/overlays/cluster-1/'
           kustomize_comment: true
           kustomize_output_file: "output/tenants.yaml"
           kustomize_build_options: "--load-restrictor LoadRestrictionsNone"
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 7: Generate a token for the Github App
       - name: Generate Token
         uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1
         id: generate-token
@@ -88,7 +77,6 @@ jobs:
           app_id: "${{ secrets.BOT_APP_ID }}"
           private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
 
-      # Step 8: Run MegaLinter to lint code and configuration files
       - name: MegaLinter
         uses: oxsecurity/megalinter@93700f8c21c59ea784a32abe23896e49e54463b8 # v6.22.2
         env:
@@ -123,13 +111,13 @@ jobs:
             }}
           DOCKERFILE_HADOLINT_DISABLE_ERRORS: true
           KUBERNETES_DIRECTORY: output/*
-          KUBERNETES_KUBECONFORM_ARGUMENTS: -strict -summary -ignore-missing-schemas -kubernetes-version 1.26.3 -output json -schema-location default -schema-location ${{ env.SCHEMA_DIR }}/{{ .ResourceKind }}_{{ .ResourceAPIVersion }}.json
+          KUBERNETES_KUBECONFORM_ARGUMENTS: -strict -summary -ignore-missing-schemas -kubernetes-version 1.26.3 -output json -schema-location default -schema-location ${{ env.SCHEMA_DIR }}/{{.Group}}/{{ .ResourceKind }}_{{ .ResourceAPIVersion }}.json
           KUBERNETES_KUBEVAL_ARGUMENTS: --ignore-missing-schemas
           KUBERNETES_KUBEVAL_FILTER_REGEX_INCLUDE: "(kubernetes)"
           MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .github/linters/.markdownlint.yaml
           MARKDOWN_MARKDOWNLINT_RULES_PATH: .github/
           REPOSITORY_CHECKOV_DISABLE_ERRORS: true
-          REPOSITORY_TRIVY_ARGUMENTS: --skip-dirs k8s/clusters
+          REPOSITORY_TRIVY_ARGUMENTS: --skip-dirs kubernetes/clusters
           REPOSITORY_TRIVY_DISABLE_ERRORS: true
           SPELL_MISSPELL_DISABLE_ERRORS: true
           YAML_YAMLLINT_CONFIG_FILE: .github/linters/.yamllint.yaml

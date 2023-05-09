@@ -6,7 +6,7 @@ If you're familiar with Kustomize and how it operates within the Flux ecosystem 
 
 ```bash
 .
-└── k8s/
+└── kubernetes/
     ├── clusters/
     │   ├── production/                         # One folder per cluster.
     │   │   ├── flux-system/                    # Folder containing flux-system manifests.

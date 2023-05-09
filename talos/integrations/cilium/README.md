@@ -16,7 +16,7 @@ helm repo add cilium https://helm.cilium.io/
 helm install cilium cilium/cilium \
   --version=1.12.1 \
   --namespace=kube-system \
-  --values=k8s/namespaces/base/kube-system/cilium/install/1.12.1.yaml
+  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.12.1.yaml
 ```
 
 Post successful installation of Cilium it's option to run the Cilium network connectivity tests
@@ -29,7 +29,7 @@ Upgrade path
 helm upgrade cilium cilium/cilium \
   --version 1.21.1 \
   --namespace=kube-system \
-  --values=k8s/namespaces/base/kube-system/cilium/install/1.12.1.yaml
+  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.12.1.yaml
 ```
 
 ## Service Mesh
@@ -38,7 +38,7 @@ helm upgrade cilium cilium/cilium \
 git clone https://github.com/cilium/cilium.git
 cd cilium
 git checkout origin/beta/service-mesh
-helm upgrade -n kube-system cilium ./install/kubernetes/cilium --values=../k8s-gitops/k8s/namespaces/base/kube-system/cilium/install/values.yaml
+helm upgrade -n kube-system cilium ./install/kubernetes/cilium --values=../k8s-gitops/kubernetes/namespaces/base/kube-system/cilium/install/values.yaml
 ```
 
 ## Manual Local Templating
@@ -47,7 +47,7 @@ helm upgrade -n kube-system cilium ./install/kubernetes/cilium --values=../k8s-g
 helm template cilium/cilium \
   --version=1.12.1 \
   --namespace=kube-system \
-  --values=k8s/namespaces/base/kube-system/cilium/install/1.12.1.yaml > k8s/namespaces/base/kube-system/cilium/install/cilium-1-12-1.yaml
+  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.12.1.yaml > kubernetes/namespaces/base/kube-system/cilium/install/cilium-1-12-1.yaml
 ```
 
 ```bash
@@ -56,8 +56,8 @@ flux create helmrelease cilium \
   --namespace=kube-system \
   --chart=cilium \
   --chart-version=1.12.1 \
-  --values=k8s/namespaces/base/kube-system/cilium/install/1.12.1.yaml \
-  --export > k8s/namespaces/base/kube-system/cilium/install/helmrelease.yaml
+  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.12.1.yaml \
+  --export > kubernetes/namespaces/base/kube-system/cilium/install/helmrelease.yaml
 ```
 
 ## Create Static Cilium Locally For Talos

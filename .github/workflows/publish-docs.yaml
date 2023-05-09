@@ -1,0 +1,28 @@
+name: "Docs: Release to GitHub pages"
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/docs-publish.yaml"
+      - '.github/mkdocs/**'
+      - 'docs/**'
+
+jobs:
+  release-docs:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+
+      - name: Deploy docs
+        uses: mhausenblas/mkdocs-deploy-gh-pages@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG_FILE: .github/mkdocs/mkdocs.yml
+          EXTRA_PACKAGES: build-base
+          REQUIREMENTS: .github/mkdocs/requirements.txt

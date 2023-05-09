@@ -42,10 +42,10 @@
   },
   "kubernetes": {
     "fileMatch": [
-      "k8s/.+\\.ya?ml$"
+      "kubernetes/.+\\.ya?ml$"
     ],
     "ignorePaths": [
-      "k8s/clusters/",
+      "kubernetes/clusters/",
     ]
   },
   "docker-compose": {
@@ -55,7 +55,7 @@
   },
   "flux": {
     "fileMatch": [
-      "k8s/.+\\.ya?ml$"
+      "kubernetes/.+\\.ya?ml$"
     ]
   }
 }
