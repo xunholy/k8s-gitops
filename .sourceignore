@@ -4,7 +4,7 @@
 /*
 
 # Include the following explicit folder(s)
-!/k8s
+!/kubernetes
 
 # Exclude sub-foler(s) and file(s)
 /kubernetes/clusters/**/infrastructure/
