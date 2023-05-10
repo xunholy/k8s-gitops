@@ -74,23 +74,23 @@ spec:
     # Parameters for the `default` BackupStorageLocation and VolumeSnapshotLocation,
     # and additional server settings.
     configuration:
-      # Cloud provider being used (e.g. aws, azure, gcp).
-      provider: gcp
       # Parameters for the `default` BackupStorageLocation. See
       # https://velero.io/docs/v1.5/api-types/backupstoragelocation/
       backupStorageLocation:
-        name: default
-        bucket: raspbernetes-velero-backups
+        - name: default
+          provider: gcp
+          bucket: raspbernetes-velero-backups
       # Parameters for the `default` VolumeSnapshotLocation. See
       # https://velero.io/docs/v1.5/api-types/volumesnapshotlocation/
       volumeSnapshotLocation:
-        provider: openebs.io/cstor-blockstore
-        name: default
-        config:
-          bucket: raspbernetes-openebs-backups
-          prefix: cstor
-          namespace: openebs
+        - provider: openebs.io/cstor-blockstore
+          name: default
           provider: gcp
+          config:
+            bucket: raspbernetes-openebs-backups
+            prefix: cstor
+            namespace: openebs
+            provider: gcp
     # Backup schedules to create.
     schedules:
       daily-backup:
