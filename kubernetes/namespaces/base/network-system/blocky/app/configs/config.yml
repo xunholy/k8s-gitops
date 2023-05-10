@@ -1,4 +1,5 @@
 ---
+# https://developers.cloudflare.com/1.1.1.1/encryption/dns-over-tls/#how-it-works
 upstream:
   default:
     - tcp-tls:one.one.one.one:853
