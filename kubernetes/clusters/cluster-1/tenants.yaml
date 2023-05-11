@@ -7,9 +7,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./kubernetes/tenants/overlays/cluster-1
+  path: ../tenants/overlays/cluster-1
   prune: true
   wait: false
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: OCIRepository
+    name: cluster

@@ -41,25 +41,9 @@ spec:
   maxHistory: 3
   values:
     replicaCount: 1
-    # Resources allocated based on Robusta KRR output
-    resources:
-      requests:
-        cpu: 64m
-        memory: 128Mi
-      limits:
-        memory: 256Mi
     service:
       loadBalancerIP: ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
     affinity:
-      # These nodeAffinity's are required to schedule on arm64
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: kubernetes.io/arch
-              operator: In
-              values:
-              - arm64
       # This podAntiAffinity ensures ingress controllers are not scheduled on the same node
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
