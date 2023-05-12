@@ -32,6 +32,7 @@ This repository leverages a range of cutting-edge open-source tools and platform
   - [📋 Requirements](#-requirements)
   - [🚀 Quick Start](#-quick-start)
   - [🔧 Hardware](#-hardware)
+  - [☁️ Cloud Services](#️-cloud-services)
   - [🖥️ Technology Stack](#️-technology-stack)
   - [🤖 Automation](#-automation)
   - [🤝 Acknowledgments](#-acknowledgments)
@@ -89,6 +90,20 @@ task cluster CLUSTER_NAME=cluster-1
 | [Protectli FW2B](https://protectli.com/product/fw2b/)                                  | Kubernetes Node(s)       | 3        | 2 Cores | 8GB RAM  | AMD64        | [Talos Linux](https://www.talos.dev/) |       |
 | [Raspberry Pi 4 Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) | Kubernetes Node(s)       | 4        | 4 Cores | 8GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) |       |
 | [Rock Pi 4 Model C](https://rockpi.org/rockpi4#)                                       | Kubernetes Node(s)       | 6        | 4 Cores | 4GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) |       |
+
+## ☁️ Cloud Services
+
+Although I manage most of my infrastructure and workloads on my own, there are specific components of my setup that rely on cloud services.
+
+| Service                                   | Description                                                                                                                     | Cost (AUD)     |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| [Cloudflare](https://www.cloudflare.com/) | I use Cloudflare in my home network for DNS management and to secure my domain with Cloudflare's services.                      | ~$69/yr        |
+| [GCP](https://cloud.google.com/)          | I use Google Cloud Platform (GCP) to manage backups using Google Cloud Storage (GCS) and employ GCP's OAuth for authentication. | ~20/mo         |
+| [GitHub](https://github.com/)             | I use GitHub for code management and version control, enabling seamless collaboration in addition to OAuth for authentication   | Free           |
+| [NextDNS](https://nextdns.io/)            | I use NextDNS for malware protection and ad-blocking for a safer browsing experience.                                           | ~$30/yr        |
+| [UptimeRobot](https://uptimerobot.com/)   | I use UptimeRobot to monitor my home services for uninterrupted performance.                                                    | ~$84/yr        |
+| [Lets Encrypt](https://letsencrypt.org/)  | I use Let's Encrypt to generate certificates for secure communication within my network.                                        | Free           |
+|                                           |                                                                                                                                 | Total: ~$35/mo |
 
 ## 🖥️ Technology Stack
 
