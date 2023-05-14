@@ -54,5 +54,5 @@ jobs:
           GITHUB_BRANCH: ${{ github.head_ref || env.DEFAULT_BRANCH }}
           GITHUB_TOKEN: ${{ secrets.FLUX_FINE_GRAINED_E2E_PAT }}
         run: |
-          task core:gpg CLUSTER=$CLUSTER
-          task flux CLUSTER=$CLUSTER GITHUB_USER=$GITHUB_USER GITHUB_REPO=$GITHUB_REPO GITHUB_BRANCH=$GITHUB_BRANCH
+          task core:gpg CLUSTER="$CLUSTER"
+          task flux CLUSTER="$CLUSTER" GITHUB_USER="$GITHUB_USER" GITHUB_REPO="$GITHUB_REPO" GITHUB_BRANCH="$GITHUB_BRANCH"
