@@ -4,5 +4,6 @@ kind: Namespace
 metadata:
   name: istio-ingress
   labels:
+    goldilocks.fairwinds.com/enabled: "true"
     istio-injection: enabled
     kustomize.toolkit.fluxcd.io/prune: disabled
