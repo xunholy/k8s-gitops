@@ -52,7 +52,8 @@ spec:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Local
-        loadBalancerIP: "${CLUSTER_LB_JELLYFIN}"
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: '${CLUSTER_LB_JELLYFIN}'
         ports:
           http:
             port: 8096

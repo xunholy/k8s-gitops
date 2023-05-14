@@ -52,7 +52,8 @@ spec:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Local
-        loadBalancerIP: "${CLUSTER_LB_K8S_GATEWAY}"
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_K8S_GATEWAY}
         ports:
           http:
             enabled: false

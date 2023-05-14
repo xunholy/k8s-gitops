@@ -47,8 +47,9 @@ spec:
       enabled: true
       replicas: 1
     service:
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_TRAEFIK_GATEWAY}
       spec:
-        loadBalancerIP: "${CLUSTER_LB_TRAEFIK_GATEWAY}"
         externalTrafficPolicy: Local
     autoscaling:
       enabled: true

@@ -49,7 +49,8 @@ spec:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Local
-        loadBalancerIP: "${CLUSTER_LB_PLEX}"
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_PLEX}
         ports:
           http:
             port: 32400

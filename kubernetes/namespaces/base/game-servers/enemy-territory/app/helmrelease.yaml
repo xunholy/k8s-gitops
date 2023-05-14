@@ -47,7 +47,8 @@ spec:
         tag: sha-c099cba
     service:
       type: LoadBalancer
-      loadBalancerIP: ${CLUSTER_LB_ENEMY_TERRITORY}
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_ENEMY_TERRITORY}
     repoConfig:
       owner: xunholy
       repository: etlegacy-server.git

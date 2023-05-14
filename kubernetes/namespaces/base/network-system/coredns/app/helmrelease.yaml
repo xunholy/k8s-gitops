@@ -66,7 +66,8 @@ spec:
     isClusterService: false
     serviceType: LoadBalancer
     service:
-      loadBalancerIP: '${CLUSTER_LB_COREDNS}'
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_COREDNS}
       externalTrafficPolicy: Cluster
     # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
     servers:

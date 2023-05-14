@@ -51,7 +51,8 @@ spec:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Local
-        loadBalancerIP: "${CLUSTER_LB_OVERSEERR}"
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_OVERSEERR}
         ports:
           http:
             port: *port
