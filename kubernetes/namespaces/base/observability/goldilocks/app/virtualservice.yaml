@@ -20,4 +20,4 @@ spec:
         - destination:
             port:
               number: 80
-            host: goldilocks.observability.svc.cluster.local
+            host: goldilocks-dashboard.observability.svc.cluster.local
