@@ -2,12 +2,13 @@
 
 [Instructions](https://contribute.cncf.io/maintainers/github/templates/required/contributing/#introduction)
 
-* [New Contributor Guide](#contributing-guide)
-  * [Ways to Contribute](#ways-to-contribute)
-  * [Find an Issue](#find-an-issue)
-  * [Ask for Help](#ask-for-help)
-  * [Sign Your Commits](#sign-your-commits)
-  * [Pull Request Checklist](#pull-request-checklist)
+- [Contributing Guide](#contributing-guide)
+  - [Ways to Contribute](#ways-to-contribute)
+  - [Find an Issue](#find-an-issue)
+  - [Ask for Help](#ask-for-help)
+  - [Sign Your Commits](#sign-your-commits)
+    - [DCO](#dco)
+  - [Pull Request Checklist](#pull-request-checklist)
 
 Welcome! We are glad that you want to contribute to our project! 💖
 
@@ -34,13 +35,13 @@ We welcome many different types of contributions including:
 * Communications / Social Media / Blog Posts
 * Release management
 
-Not everything happens through a GitHub pull request. Please [contact us](info@raspbernetes.com) and let's discuss how we can work together.
+Not everything happens through a GitHub pull request. Please contact us and let's discuss how we can work together - Email: info@raspbernetes.com
 
 ## Find an Issue
 
 We have good first issues for new contributors and help wanted issues suitable
-for any contributor. [good first issue](TODO) has extra information to
-help you make your first contribution. [help wanted](TODO) are issues
+for any contributor. [good first issue]([TODO](https://github.com/xUnholy/k8s-gitops/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)) has extra information to
+help you make your first contribution. [help wanted]([TODO](https://github.com/xUnholy/k8s-gitops/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22)) are issues
 suitable for someone who isn't a core maintainer and is good to move onto after
 your first pull request.
 
