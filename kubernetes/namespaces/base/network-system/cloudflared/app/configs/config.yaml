@@ -35,6 +35,13 @@ ingress:
   #   originRequest:
   #     originServerName: et.${CLUSTER_DOMAIN}
 
+  # Required: dex-k8s-authenticator required http2Origin=false otherwise it will produce 400 error code.
+  - hostname: "login.${CLUSTER_DOMAIN}"
+    service: *ingress
+    originRequest:
+      originServerName: ingress.${CLUSTER_DOMAIN}
+      http2Origin: false
+
   - hostname: "*.${CLUSTER_DOMAIN}"
     service: *ingress
     originRequest:
