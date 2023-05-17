@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - ".github/workflows/docs-publish.yaml"
+      - ".github/workflows/publish-docs.yaml"
       - '.github/mkdocs/**'
       - 'docs/**'
 

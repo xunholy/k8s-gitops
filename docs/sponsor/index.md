@@ -1,17 +1,26 @@
-# Sponsor
+# Sponsors
 
-If you've found value from any of my open source project(s), you can become a sponsor and also don't forget to star the *repo* the repository.
+If you have found value in any of my open-source projects, I would greatly appreciate your support as a sponsor. Don't forget to star the repository as well!
 
-If you do wish to become a sponsor please visit my official GitHub sponsor page [HERE](https://github.com/sponsors/xUnholy).
+To become a sponsor, please visit my official GitHub sponsor page [HERE](https://github.com/sponsors/xUnholy).
 
-## Backers
+## Supporters
 
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/raspbernetes#backer)]
+Thank you to all our backers and sponsors! Your contributions are immensely valuable and greatly appreciated.
 
 <a href="https://opencollective.com/raspbernetes#backers" target="_blank"><img src="https://opencollective.com/raspbernetes/backers.svg"></a>
 
-## Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/raspbernetes#sponsor)]
-
 <a href="https://opencollective.com/raspbernetes/sponsor/0/website" target="_blank"><img src="https://opencollective.com/raspbernetes/sponsor/0/avatar.svg"></a> <a href="https://opencollective.com/raspbernetes/sponsor/1/website" target="_blank"><img src="https://opencollective.com/raspbernetes/sponsor/1/avatar.svg"></a>
+
+## Premium Sponsors
+
+I would like to extend a special thank you to our premium sponsors, whose generous support makes a significant impact on the continued development and success of this project.
+
+* [Bitscope](https://bitscope.com/)
+* [Rock Pi](https://rockpi.org/)
+* [Protectli](https://protectli.com/)
+* [Noctua](https://noctua.at/)
+
+Your sponsorship plays a crucial role in supporting ongoing enhancements and the sustainability of this project. We are incredibly grateful for your generous contributions!
+
+To all our backers and sponsors, your support enables us to maintain and improve this project, benefiting the entire community. Thank you for being a part of our journey!

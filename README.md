@@ -1,11 +1,13 @@
 <div align="center">
-  <img src="./docs/assets/raspbernetes.png" alt="Raspbernetes">
 
-  ## Raspbernetes
+<img src="./docs/assets/raspbernetes.png" alt="Raspbernetes">
 
-  My _Personal_ Kubernetes GitOps Repository
+## Raspbernetes
 
-  _... managed with Flux, Renovate and GitHub Actions_
+My _Personal_ Kubernetes GitOps Repository
+
+_... managed with Flux, Renovate and GitHub Actions_
+
 </div>
 
 <div align="center">

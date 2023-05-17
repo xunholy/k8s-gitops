@@ -1,46 +1,49 @@
 # IP Allocation
 
-!!! note "Work in progress"
-    This document is a work in progress.
+The IP Allocation section provides an overview of the allocated IP addresses for different applications, nodes, and external devices within my environment.
 
-## Production - Zone A
+## Kubernetes Node(s)
 
-| Application/Node          | Type               |             IP/CIDR             |
-| ------------------------- | ------------------ | :-----------------------------: |
-| keepalived                | VIP                |        192.168.1.200/32         |
-| k8s-controlplane-01       | Control-Plane Node |        192.168.1.121/32         |
-| k8s-controlplane-02       | Control-Plane Node |        192.168.1.122/32         |
-| k8s-controlplane-03       | Control-Plane Node |        192.168.1.123/32         |
-| k8s-node-01               | Node               |        192.168.1.131/32         |
-| k8s-node-01               | Node               |        192.168.1.132/32         |
-| k8s-node-01               | Node               |        192.168.1.133/32         |
-| metallb                   | Daemonset          | 192.168.1.150 <-> 192.168.1.155 |
-| istio                     | LoadBalancer       |        192.168.1.150/32         |
-| coredns                   | LoadBalancer       |        192.168.1.151/32         |
-| mosquitto                 | LoadBalancer       |        192.168.1.152/32         |
-| zigbee2mqtt               | LoadBalancer       |        192.168.1.153/32         |
-| zigbee2mqtt (code-server) | LoadBalancer       |        192.168.1.154/32         |
+The Kubernetes Node(s) table displays the IP addresses assigned to each node in the cluster:
 
-## Production - Zone B
+| Node/Instance       | Type          |      IP/CIDR      |
+| ------------------- | ------------- | :---------------: |
+| Control Plane       | VIP           | 192.168.50.200/32 |
+| Protectli FW2B 01   | Control Plane | 192.168.50.111/32 |
+| Protectli FW2B 02   | Control Plane | 192.168.50.112/32 |
+| Protectli FW2B 03   | Control Plane | 192.168.50.113/32 |
+| Protectli VP2410 01 | Node          | 192.168.50.114/32 |
+| Protectli VP2410 02 | Node          | 192.168.50.115/32 |
+| Protectli VP2410 03 | Node          | 192.168.50.116/32 |
+| Raspberry Pi 01     | Node          | 192.168.50.121/32 |
+| Raspberry Pi 02     | Node          | 192.168.50.122/32 |
+| Raspberry Pi 03     | Node          | 192.168.50.123/32 |
+| Raspberry Pi 04     | Node          | 192.168.50.124/32 |
+| Rock Pi 01          | Node          | 192.168.50.131/32 |
+| Rock Pi 02          | Node          | 192.168.50.132/32 |
+| Rock Pi 03          | Node          | 192.168.50.133/32 |
 
-| Application               | Type               |             IP/CIDR             |
-| ------------------------- | ------------------ | :-----------------------------: |
-| keepalived                | VIP                |        192.168.1.201/32         |
-| k8s-controlplane-01       | Control-Plane Node |        192.168.1.161/32         |
-| k8s-controlplane-02       | Control-Plane Node |        192.168.1.162/32         |
-| k8s-controlplane-03       | Control-Plane Node |        192.168.1.163/32         |
-| k8s-node-01               | Node               |        192.168.1.171/32         |
-| k8s-node-01               | Node               |        192.168.1.172/32         |
-| k8s-node-01               | Node               |        192.168.1.173/32         |
-| metallb                   | Daemonset          | 192.168.1.180 <-> 192.168.1.185 |
-| istio                     | LoadBalancer       |        192.168.1.180/32         |
-| coredns                   | LoadBalancer       |        192.168.1.181/32         |
-| mosquitto                 | LoadBalancer       |        192.168.1.182/32         |
-| zigbee2mqtt               | LoadBalancer       |        192.168.1.183/32         |
 
-## External Services
+## Kubernetes Application(s)
 
-| Application               | Type               |             IP/CIDR             |
-| ------------------------- | ------------------ | :-----------------------------: |
-| Zigbee Controller         | N/A                |        192.168.1.165/32         |
-| Ender 5 Pro 3D Printer    | N/A                |        x.x.x.x/32               |
+The Kubernetes Application(s) table presents the IP addresses allocated to different applications in the Kubernetes cluster:
+
+| Application/Node | Type         |              IP/CIDR              |
+| ---------------- | ------------ | :-------------------------------: |
+| Metallb          | Daemonset    | 192.168.50.150 <-> 192.168.50.155 |
+| Istio Ingress    | LoadBalancer |         192.168.50.180/32         |
+| Coredns          | LoadBalancer |         192.168.50.181/32         |
+| Mosquitto        | LoadBalancer |         192.168.50.182/32         |
+| Zigbee2mqtt      | LoadBalancer |         192.168.50.183/32         |
+| Nginx Ingress    | LoadBalancer |         192.168.50.180/32         |
+| K8s Gateway      | LoadBalancer |         192.168.50.188/32         |
+| Blocky           | LoadBalancer |         192.168.50.191/32         |
+
+## External Device(s)
+
+The External Device(s) table lists IP addresses assigned to devices outside the Kubernetes cluster:
+
+| Application            | Type |      IP/CIDR      |
+| ---------------------- | ---- | :---------------: |
+| Zigbee Controller      | N/A  | 192.168.50.165/32 |
+| Ender 5 Pro 3D Printer | N/A  |    x.x.x.x/32     |

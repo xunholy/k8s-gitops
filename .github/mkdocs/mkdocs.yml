@@ -39,7 +39,7 @@ theme:
     # https://squidfunk.github.io/mkdocs-material/setup/setting-up-site-search/#search-suggestions
     - search.suggest
 
-docs_dir: ../../docs/
+docs_dir: ../../
 
 extra:
   # https://squidfunk.github.io/mkdocs-material/setup/setting-up-versioning/#versioning
@@ -94,14 +94,13 @@ markdown_extensions:
       emoji_generator: !!python/name:materialx.emoji.to_svg
 
 nav:
-  - Introduction: index.md
-  - Installation: installation/index.md
+  - Introduction: README.md
+  - Installation: docs/installation/index.md
   - Configuration:
-      - IP Allocation: configuration/ip-allocation.md
-      - RockPis: configuration/pre-rockpi4c.md
-      - Sealed Secrets: configuration/sealed-secrets.md
-      - Repository Structure: configuration/repo-structure.m
-      - Secret Management: configuration/secret-management.md
-  - Contributing: contributing/index.md
-  - Sponsor: sponsor/index.md
-  - FAQ: faq/index.md
+      - API Access: docs/configuration/api-access.md
+      - IP Allocation: docs/configuration/ip-allocation.md
+      - Sealed Secrets: docs/configuration/sealed-secrets.md
+      - Repository Structure: docs/configuration/repo-structure.md
+  - Contributing: docs/contributing/index.md
+  - Sponsor: docs/sponsor/index.md
+  # - FAQ: docs/faq/index.md
