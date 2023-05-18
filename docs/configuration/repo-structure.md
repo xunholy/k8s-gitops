@@ -1,5 +1,8 @@
 # Flux Repository Structure
 
+!!! note "Work in progress"
+    This document is a work in progress.
+
 ## TL;DR Quick Start
 
 If you're familiar with Kustomize and how it operates within the Flux ecosystem this will provide a quick overview:
