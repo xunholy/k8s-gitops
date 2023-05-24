@@ -1,0 +1,38 @@
+name: "Flux: Diff"
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "kubernetes/**/*.yaml"
+
+env:
+  conf_live_branch: main
+
+jobs:
+  diffs:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        resource:
+          - helmrelease
+          - kustomization
+    steps:
+      - uses: allenporter/flux-local-action/diff@v2
+        id: diff
+        with:
+          path: "kubernetes/clusters/cluster-1"
+          resource: ${{ matrix.resource }}
+
+      - name: PR Comments
+        uses: mshick/add-pr-comment@v2
+        if: ${{ steps.diff.outputs.diff != '' }}
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          message-id: ${{ matrix.resource }}
+          message-failure: Unable to post diff
+          message: |
+            ```diff
+            ${{ steps.diff.outputs.diff }}
+            ```
