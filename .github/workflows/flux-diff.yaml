@@ -22,7 +22,7 @@ jobs:
       - uses: allenporter/flux-local-action/diff@v2
         id: diff
         with:
-          path: "kubernetes/clusters/cluster-1"
+          path: "kubernetes/"
           resource: ${{ matrix.resource }}
 
       - name: PR Comments
