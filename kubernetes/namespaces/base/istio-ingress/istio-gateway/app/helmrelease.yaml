@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: gateway
-      version: 1.18.0
+      version: 1.18.1
       sourceRef:
         kind: HelmRepository
         name: istio-charts
