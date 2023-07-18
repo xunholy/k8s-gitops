@@ -19,14 +19,14 @@ jobs:
           - helmrelease
           - kustomization
     steps:
-      - uses: allenporter/flux-local-action/diff@v2
+      - uses: allenporter/flux-local-action/diff@645babaa82554b39b6be837d487c8f1e80f63679 # v2
         id: diff
         with:
           path: "kubernetes/clusters/cluster-1"
           resource: ${{ matrix.resource }}
 
       - name: PR Comments
-        uses: mshick/add-pr-comment@v2
+        uses: mshick/add-pr-comment@7c0890544fb33b0bdd2e59467fbacb62e028a096 # v2
         if: ${{ steps.diff.outputs.diff != '' }}
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
