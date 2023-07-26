@@ -78,7 +78,7 @@ jobs:
           private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
 
       - name: MegaLinter
-        uses: oxsecurity/megalinter@c72cdea919d17076dbc54f4864b1c82db0f181f2 # v7.2.0
+        uses: oxsecurity/megalinter@63776c4389c474e1a6b9faa27bc8b9500fdff95a # v7.2.1
         env:
           GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
           PRINT_ALPACA: false
