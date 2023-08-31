@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: litmus
-      version: 2.15.10
+      version: 2.15.11
       sourceRef:
         kind: HelmRepository
         name: litmuschaos-charts
