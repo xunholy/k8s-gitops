@@ -8,7 +8,7 @@ resources:
 configMapGenerator:
   - name: cilium-values
     files:
-      - values.yaml=./1.13.x.yaml
+      - values.yaml=./1.14.x.yaml
 
 configurations:
   - kustomizeconfig.yaml
