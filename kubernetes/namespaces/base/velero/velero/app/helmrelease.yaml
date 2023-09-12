@@ -96,3 +96,16 @@ spec:
         schedule: "0 6 * * *"
         template:
           ttl: "120h"
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: BackupStorageLocation
+              name: default
+            patch: |
+              - op: add
+                path: /metadata/annotations/meta.helm.sh~1release-name
+                value: velero
+              - op: add
+                path: /metadata/annotations/meta.helm.sh~1release-namespace
+                value: velero

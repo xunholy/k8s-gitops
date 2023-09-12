@@ -34,42 +34,6 @@ jobs:
           flux pull artifact ${{ env.OCI_REPO }}:latest \
               --output=${{ env.SCHEMA_DIR }}
 
-      - name: 'Kustomize Build - Cluster'
-        uses: karancode/kustomize-github-action@883a86ec3535e4e7d0fe6450a85f8325c97d2a7b # v1.3.2
-        with:
-          kustomize_version: '5.0.1'
-          kustomize_install: true
-          kustomize_build_dir: 'kubernetes/clusters/cluster-1/flux-system/'
-          kustomize_comment: true
-          kustomize_output_file: "output/cluster.yaml"
-          kustomize_build_options: "--load-restrictor LoadRestrictionsNone"
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 'Kustomize Build - Namespaces'
-        uses: karancode/kustomize-github-action@883a86ec3535e4e7d0fe6450a85f8325c97d2a7b # v1.3.2
-        with:
-          kustomize_version: '5.0.1'
-          kustomize_install: true
-          kustomize_build_dir: 'kubernetes/namespaces/overlays/cluster-1/'
-          kustomize_comment: true
-          kustomize_output_file: "output/namespaces.yaml"
-          kustomize_build_options: "--load-restrictor LoadRestrictionsNone"
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 'Kustomize Build - Tenants'
-        uses: karancode/kustomize-github-action@883a86ec3535e4e7d0fe6450a85f8325c97d2a7b # v1.3.2
-        with:
-          kustomize_version: '5.0.1'
-          kustomize_install: true
-          kustomize_build_dir: 'kubernetes/tenants/overlays/cluster-1/'
-          kustomize_comment: true
-          kustomize_output_file: "output/tenants.yaml"
-          kustomize_build_options: "--load-restrictor LoadRestrictionsNone"
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Generate Token
         uses: tibdex/github-app-token@0914d50df753bbc42180d982a6550f195390069f # v2
         id: generate-token

@@ -11,8 +11,10 @@ env:
   conf_live_branch: main
 
 jobs:
-  diffs:
+  flux-diff:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     strategy:
       matrix:
         resource:
@@ -31,7 +33,7 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           message-id: ${{ matrix.resource }}
-          message-failure: Unable to post diff
+          message-failure: Diff was not successful
           message: |
             ```diff
             ${{ steps.diff.outputs.diff }}
