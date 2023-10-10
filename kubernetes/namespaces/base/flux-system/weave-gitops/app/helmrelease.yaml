@@ -38,23 +38,10 @@ spec:
   uninstall:
     keepHistory: false
   maxHistory: 3
-  # https://github.com/weaveworks/weave-gitops/blob/main/charts/gitops-server/values.yaml
   values:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 64Mi
-      limits:
-        memory: 256Mi
-    securityContext:
-      capabilities:
-        drop:
-          - ALL
-      readOnlyRootFilesystem: true
-      runAsNonRoot: true
-      runAsUser: 1000
     adminUser:
       create: false
+      createClusterRole: false
     envVars:
       - name: WEAVE_GITOPS_FEATURE_TENANCY
         value: "true"
