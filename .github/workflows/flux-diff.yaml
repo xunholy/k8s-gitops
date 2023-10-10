@@ -7,14 +7,9 @@ on:
     paths:
       - "kubernetes/**/*.yaml"
 
-env:
-  conf_live_branch: main
-
 jobs:
   flux-diff:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     strategy:
       matrix:
         resource:
@@ -24,6 +19,7 @@ jobs:
       - uses: allenporter/flux-local-action/diff@645babaa82554b39b6be837d487c8f1e80f63679 # v2
         id: diff
         with:
+          live-branch: main
           path: "kubernetes/clusters/cluster-1"
           resource: ${{ matrix.resource }}
 
@@ -32,7 +28,7 @@ jobs:
         if: ${{ steps.diff.outputs.diff != '' }}
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          message-id: ${{ matrix.resource }}
+          message-id: ${{ github.event.pull_request.number }}/${{ matrix.resource }}
           message-failure: Diff was not successful
           message: |
             ```diff
