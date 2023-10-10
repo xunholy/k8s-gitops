@@ -4,3 +4,4 @@ namespace: flux-system
 
 resources:
   - prometheus-community-charts.yaml
+  - xentra-charts.yaml
