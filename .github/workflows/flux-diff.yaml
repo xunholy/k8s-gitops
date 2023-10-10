@@ -7,11 +7,8 @@ on:
     paths:
       - "kubernetes/**/*.yaml"
 
-env:
-  conf_live_branch: main
-
 jobs:
-  diffs:
+  flux-diff:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -19,19 +16,20 @@ jobs:
           - helmrelease
           - kustomization
     steps:
-      - uses: allenporter/flux-local-action/diff@v2
+      - uses: allenporter/flux-local-action/diff@645babaa82554b39b6be837d487c8f1e80f63679 # v2
         id: diff
         with:
-          path: "kubernetes/namespaces/overlays/cluster-1"
+          live-branch: main
+          path: "kubernetes/clusters/cluster-1"
           resource: ${{ matrix.resource }}
 
       - name: PR Comments
-        uses: mshick/add-pr-comment@v2
+        uses: mshick/add-pr-comment@7c0890544fb33b0bdd2e59467fbacb62e028a096 # v2
         if: ${{ steps.diff.outputs.diff != '' }}
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          message-id: ${{ matrix.resource }}
-          message-failure: Unable to post diff
+          message-id: ${{ github.event.pull_request.number }}/${{ matrix.resource }}
+          message-failure: Diff was not successful
           message: |
             ```diff
             ${{ steps.diff.outputs.diff }}

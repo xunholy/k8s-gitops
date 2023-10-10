@@ -23,7 +23,7 @@ machine:
     # Used to provide additional options to the kubelet.
     kubelet:
         # The `image` field is an optional reference to an alternative kubelet image.
-        image: ghcr.io/siderolabs/kubelet:v1.26.0
+        image: ghcr.io/siderolabs/kubelet:v1.27.5
         # Enable container runtime default Seccomp profile.
         defaultRuntimeSeccompProfileEnabled: true
         # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
@@ -143,9 +143,10 @@ machine:
     # Used to provide instructions for installations.
     install:
         # The disk used for installations.
-        disk: /dev/mmcblk0
+        # RockPi eMMC /dev/mmcblk0
+        disk: /dev/sda
         # Allows for supplying the image used to perform the installation.
-        image: ghcr.io/siderolabs/installer:v1.3.5
+        image: ghcr.io/siderolabs/installer:v1.5.3
         # Indicates if a bootloader should be installed.
         bootloader: true
         # Indicates if the installation disk should be wiped at installation time.
@@ -470,8 +471,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2023-03-02T22:39:35Z"
-    mac: ENC[AES256_GCM,data:ERSN4s4TBrgcbp0teoegW5Y4oVtnR9sCUfGtZryhjd4VJH2A7tYq8V/9l62QxyDiGOdM5lVLaww5z8xAwYIHpjICYFNTpshfaxZ50b2gr+fJQCyJKEIgj95wFryAAcNx7Vv6tFQ4yISD7s6Ht+HWcZSi48Oh/qOzylMd3abboLg=,iv:OCRPWdo/gGH7CnVMNAvTxTjQAF/k7TdHRrWq5gXY0mk=,tag:BJ71kpqc5BWgwwcOBzqKLg==,type:str]
+    lastmodified: "2023-10-09T10:56:01Z"
+    mac: ENC[AES256_GCM,data:NI3J3TYVpxpH0lkAj1v573KIEILPzq/F6SaQTYQkESSnKBa1ueLsFD7V5YlR5klYjsKCjb69MsSzXpa+GkA6g35pL0TDmviZrksqZNWLWutvb5I6GdJ17EOfuSlb6Yu3/xHX3AmC865Ez3MSC0qCzbPxj0JcaUuxwgein8BOjb4=,iv:Nt/OGeJzVMil2SCSVCH/G8jXg4PPTj+oJeBjTj1J09g=,tag:Rkk4jRRZ7s22kcsypkTLkg==,type:str]
     pgp:
         - created_at: "2023-03-02T05:48:23Z"
           enc: |

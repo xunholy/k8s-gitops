@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: jiva
-      version: 3.4.0
+      version: 3.5.1
       sourceRef:
         kind: HelmRepository
         name: openebs-jiva-chart

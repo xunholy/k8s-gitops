@@ -7,8 +7,8 @@ helmCharts:
     includeCRDs: true
     releaseName: cilium
     namespace: kube-system
-    valuesFile: ../../../kubernetes/namespaces/base/kube-system/cilium/app/1.13.x.yaml
-    version: 1.13.2
+    valuesFile: ../../../kubernetes/namespaces/base/kube-system/cilium/app/1.14.x.yaml
+    version: 1.14.2
     repo: https://helm.cilium.io/
 
 # REQUIRED: Use transformers to avoid creating the labels & annotations on all references rather than only metadata/annotations or metadata/labels respectively

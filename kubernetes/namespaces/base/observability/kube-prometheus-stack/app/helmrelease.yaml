@@ -10,13 +10,14 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 41.7.4
+      version: 51.5.1
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
         namespace: flux-system
-      verify:
-        provider: cosign
+      # TODO: Flux issue with verifying release 51.0.2
+      # verify:
+      #   provider: cosign
       interval: 60m
   install:
     timeout: 30m

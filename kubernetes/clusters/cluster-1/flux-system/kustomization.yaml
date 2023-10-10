@@ -110,7 +110,7 @@ patches:
   - patch: |
       - op: add
         path: /spec/template/spec/containers/0/args/-
-        value: --feature-gates=DetectDrift=true,CorrectDrift=false
+        value: --feature-gates=DetectDrift=true
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --log-level=debug

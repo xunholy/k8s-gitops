@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: weave-gitops
-      version: "4.0.19"
+      version: "4.0.31"
       sourceRef:
         kind: HelmRepository
         name: weave-charts
@@ -38,28 +38,10 @@ spec:
   uninstall:
     keepHistory: false
   maxHistory: 3
-  # https://github.com/weaveworks/weave-gitops/blob/main/charts/gitops-server/values.yaml
   values:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 64Mi
-      limits:
-        memory: 256Mi
-    securityContext:
-      capabilities:
-        drop:
-          - ALL
-      readOnlyRootFilesystem: true
-      runAsNonRoot: true
-      runAsUser: 1000
     adminUser:
-      create: true
-      username: admin
-      # Change password by generating a new hash with:
-      # https://docs.gitops.weave.works/docs/configuration/securing-access-to-the-dashboard/#login-via-a-cluster-user-account
-      # bcrypt hash for password "flux"
-      passwordHash: "$2a$10$P/tHQ1DNFXdvX0zRGA8LPeSOyb0JXq9rP3fZ4W8HGTpLV7qHDlWhe"
+      create: false
+      createClusterRole: false
     envVars:
       - name: WEAVE_GITOPS_FEATURE_TENANCY
         value: "true"

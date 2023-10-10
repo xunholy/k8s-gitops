@@ -9,6 +9,7 @@ https://192.168.50.200:6443
 ```
 
 ## Step 2: Generate Cluster Configuration
+
 Generate the cluster configuration using talosctl:
 
 ```bash
@@ -32,6 +33,7 @@ talosctl config merge ./talosconfig
 ```
 
 ## Step 3: Configure Control Plane Nodes
+
 Apply the configuration to each control plane node:
 
 ```bash
@@ -45,6 +47,7 @@ talosctl bootstrap --nodes 192.168.50.121
 ```
 
 ## Step 4: Configure Other Nodes
+
 Apply the configuration to each node in the cluster that is not a control plane node:
 
 ```bash
@@ -58,6 +61,7 @@ sops -d talos/generated/node.enc.yaml > talos/generated/node.yaml
 ```
 
 ## Step 5: Update Talos Client and Nodes
+
 Download the latest Talos binary by substituting the version in the download URL:
 
 ```bash
@@ -75,6 +79,7 @@ talosctl version
 To upgrade nodes to the appropriate Talos version, follow the upgrade guide.
 
 ## Step 6: Adding Protectli AMD64 Devices
+
 To boot Talos onto a Protectli device, follow these steps:
 
 Flash Ubuntu onto a flash drive.
@@ -82,7 +87,7 @@ Install Ubuntu onto the device and complete the setup.
 Run the following commands:
 
 ```bash
-wget https://github.com/siderolabs/talos/releases/download/v1.3.0/talos-amd64.iso
+wget https://github.com/siderolabs/talos/releases/download/v1.5.3/talos-amd64.iso
 dd if=talos-amd64.iso of=/dev/sda && sync
 ```
 

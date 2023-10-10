@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: velero
-      version: 4.0.2
+      version: 5.1.0
       sourceRef:
         kind: HelmRepository
         name: vmware-charts
@@ -50,13 +50,13 @@ spec:
     # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
     initContainers:
       - name: velero-plugin-for-gcp
-        image: velero/velero-plugin-for-gcp:v1.7.0
+        image: velero/velero-plugin-for-gcp:v1.8.0
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
             name: plugins
       - name: velero-plugin-for-openebs
-        image: openebs/velero-plugin:3.4.0
+        image: openebs/velero-plugin:3.5.0
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
@@ -96,3 +96,16 @@ spec:
         schedule: "0 6 * * *"
         template:
           ttl: "120h"
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: BackupStorageLocation
+              name: default
+            patch: |
+              - op: add
+                path: /metadata/annotations/meta.helm.sh~1release-name
+                value: velero
+              - op: add
+                path: /metadata/annotations/meta.helm.sh~1release-namespace
+                value: velero

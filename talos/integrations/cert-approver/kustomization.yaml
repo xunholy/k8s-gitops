@@ -7,7 +7,7 @@ helmCharts:
     includeCRDs: true
     releaseName: kubelet-csr-approver
     namespace: kube-system
-    version: 1.0.0
+    version: 1.0.5
     repo: https://postfinance.github.io/kubelet-csr-approver
 
 # REQUIRED: Use transformers to avoid creating the labels & annotations on all references rather than only metadata/annotations or metadata/labels respectively
