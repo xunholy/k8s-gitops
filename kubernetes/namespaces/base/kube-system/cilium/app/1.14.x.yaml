@@ -464,7 +464,7 @@ bpf:
 
   # -- (bool) Enable native IP masquerade support in eBPF
   # @default -- `false`
-  masquerade: true
+  masquerade: false
 
   # -- (bool) Configure whether direct routing mode should route traffic via
   # host stack (true) or directly and more efficiently out of BPF (false) if
