@@ -40,7 +40,11 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
+    broker:
+      # TODO: This currently does not work on ARM64
+      nodeSelector:
+        kubernetes.io/arch: amd64
     controller:
       # TODO: This currently does not work on ARM64
       nodeSelector:
-        beta.kubernetes.io/arch: amd64
+        kubernetes.io/arch: amd64
