@@ -24,7 +24,7 @@ jobs:
         id: checkout_code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-      - uses: 'google-github-actions/auth@3a3c4c57d294ef65efaaee4ff17b22fa88dd3c69' # v1
+      - uses: 'google-github-actions/auth@67e9c72af6e0492df856527b474995862b7b6591' # v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
@@ -104,7 +104,7 @@ jobs:
         id: checkout_code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-      - uses: 'google-github-actions/auth@3a3c4c57d294ef65efaaee4ff17b22fa88dd3c69' # v1
+      - uses: 'google-github-actions/auth@67e9c72af6e0492df856527b474995862b7b6591' # v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 

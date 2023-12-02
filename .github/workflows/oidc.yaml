@@ -17,7 +17,7 @@ jobs:
     # Authenticate to Google Cloud using the workload identity federation
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@3a3c4c57d294ef65efaaee4ff17b22fa88dd3c69' # v1
+      uses: 'google-github-actions/auth@67e9c72af6e0492df856527b474995862b7b6591' # v2
       with:
         create_credentials_file: 'true' # Create a credentials file
         # Set the workload identity provider and service account
