@@ -39,9 +39,6 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
-    adminUser:
-      create: false
-      createClusterRole: false
     envVars:
       - name: WEAVE_GITOPS_FEATURE_TENANCY
         value: "true"

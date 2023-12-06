@@ -61,7 +61,8 @@ spec:
       runAsNonRoot: true
       runAsUser: 1000
     metrics:
-      serviceMonitor: true
+      serviceMonitor:
+        enabled: true
     logFormat: json
     githubWebhookServer:
       enabled: true
