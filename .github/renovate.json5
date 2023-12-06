@@ -1,8 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
+    "config:recommended",
     "docker:enableMajor",
+    "replacements:k8s-registry-move",
     ":disableRateLimiting",
     ":dependencyDashboard",
     ":semanticCommits",
@@ -12,31 +13,20 @@
     "github>xUnholy/k8s-gitops//.github/renovate/commitMessage.json5",
     "github>xUnholy/k8s-gitops//.github/renovate/labels.json5",
     "github>xUnholy/k8s-gitops//.github/renovate/semanticCommits.json5",
-    "helpers:pinGitHubActionDigests"
+    "helpers:pinGitHubActionDigests",
+    "security:openssf-scorecard"
   ],
-  "username": "jarvis-plus-bot[bot]",
-  "branchPrefix": "renovate/",
-  "dependencyDashboard": true,
-  "dependencyDashboardTitle": "Renovate Dashboard",
-  "dependencyDashboardAutoclose": true,
   "enabled": true,
-  "gitAuthor": "Jarvis Plus Bot <112913195+jarvis-plus-bot[bot]@users.noreply.github.com>",
-  "commitBody": "Signed-off-by: {{{gitAuthor}}}",
   "platform": "github",
-  "prConcurrentLimit": 0,
-  "prHourlyLimit": 0,
-  "repositories": ["xUnholy/k8s-gitops"],
   "onboarding": false,
-  "requireConfig": false,
-  "reviewersFromCodeOwners": false,
-  "semanticCommits": "enabled",
+  "requireConfig": "optional",
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "dependencyDashboardAutoclose": true,
   "configWarningReuseIssue": true,
   "suppressNotifications": ["prIgnoreNotification"],
-  "timezone": "Australia/Melbourne",
-  "commitMessageTopic": "{{depName}}",
-  "commitMessageExtra": "to {{newVersion}}",
-  "commitMessageSuffix": "",
-  // https://docs.renovatebot.com/modules/manager/pre-commit/
+  "prConcurrentLimit": 0,
+  "prHourlyLimit": 0,
+  "platformAutomerge": true,  // https://docs.renovatebot.com/modules/manager/pre-commit/
   "pre-commit": {
     "enabled": true
   },
