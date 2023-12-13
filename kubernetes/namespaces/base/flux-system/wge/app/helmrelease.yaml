@@ -49,7 +49,7 @@ spec:
     listOCIRepositories: true
     enableNewPipelines: true
     policy-agent:
-      enabled: true
+      enabled: false
     tls:
       enabled: false
     envVars:
