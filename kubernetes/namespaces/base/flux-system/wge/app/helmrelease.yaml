@@ -61,7 +61,7 @@ spec:
           - target:
               version: v1
               kind: Deployment
-              name: (cluster-bootstrap-controller-manager|cluster-controller-manager)
+              name: (cluster-bootstrap-controller-manager|cluster-controller-manager|gitopssets-controller-manager|policy-agent|wge-mccp-cluster-service)
             patch:
               - op: add
                 path: /spec/template/spec/nodeSelector
