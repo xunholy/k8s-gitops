@@ -52,4 +52,6 @@ resources:
   - vernemq-charts.yaml
   - vmware-charts.yaml
   - weave-charts.yaml
+  - wge-charts.yaml
+  - wge-secret.enc.yaml
   - xunholy-charts.yaml

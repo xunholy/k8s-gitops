@@ -1,0 +1,57 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: wge
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: mccp
+      interval: 12h
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: wge-charts
+        namespace: flux-system
+      version: '>0.9.5'
+  dependsOn:
+  - name: ww-gitops
+  install:
+    crds: CreateReplace
+  interval: 50m
+  upgrade:
+    crds: CreateReplace
+  values:
+    config:
+      auth:
+        userAccount:
+          enabled: false
+      cluster:
+        name: howard-moomboo-space
+      git:
+        type: github
+      oidc:
+        enabled: true
+        claimGroups: ""
+        claimUsername: ""
+        clientCredentialsSecret: github-client
+        cookieDuration: 72h
+        customScopes: email,offline_access,groups
+        issuerURL: https://dex.${CLUSTER_DOMAIN}
+        redirectURL: https://gitops.${CLUSTER_DOMAIN}/oauth2/callback
+    enablePipelines: true
+    enableRunUI: true
+    enableTerraformUI: true
+    gitopssets-controller:
+      enabled: true
+    listOCIRepositories: true
+    enableNewPipelines: true
+    policy-agent:
+      enabled: true
+    tls:
+      enabled: false
+    envVars:
+      - name: WEAVE_GITOPS_FEATURE_OIDC_BUTTON_LABEL
+        value: "Login with GitHub"

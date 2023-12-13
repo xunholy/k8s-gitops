@@ -16,6 +16,7 @@ machine:
         key: ENC[AES256_GCM,data:5NSFGzkNBrY18KvtXPOt8R9Ia071nJDEgAwaE2av1fjl4HMHmzZgYISBTOyscF1DPiq4tMR6mpXsrzL2owUAAsmwy0fErwIGsLiYp92dqPrtRAeOO9oPpW667E9A581ZYj8AWWUTj9b8cArdDEIn5VQcHxWzmyCjzLghmo4A8Wh3+TRBQa8qrvjNGiBQAckor3dLOChAGyMYOaNPtfETfnNdbtsF2uq4KjcrfTT3VYhJTNmj,iv:ehyNWa+w/WWSfzb3APudLhaw6Inhv1JmEUIyk1PBKBo=,tag:pJqbz7mOAB7+L60hXsGHNA==,type:str]
     # Extra certificate subject alternative names for the machine's certificate.
     certSANs:
+        - api.raspbernetes.com
         - talos.api.raspbernetes.com
         - 192.168.50.200
     # Used to provide additional options to the kubelet.
@@ -145,11 +146,11 @@ machine:
         # The disk used for installations.
         disk: /dev/sda
         # Allows for supplying the image used to perform the installation.
-        image: ghcr.io/siderolabs/installer:v1.5.3
+        image: ghcr.io/siderolabs/installer:v1.5.5
         # Indicates if a bootloader should be installed.
         bootloader: true
         # Indicates if the installation disk should be wiped at installation time.
-        wipe: false
+        wipe: true
         # # Look up disk using disk attributes like model, size, serial and others.
         # diskSelector:
         #     size: 4GB # Disk size.
@@ -501,8 +502,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2023-10-23T01:14:49Z"
-    mac: ENC[AES256_GCM,data:h/dqOoQMY0lw2YEn7eCdjGuvfSWXgqYwxhVKgqCEjeJBC1KuDIVhT8ethADHakVN++PjaCDNlfdPTGHRSmfmIww7xWIgKq+ijL0G7KM7qSrFmv84ACxuaEoD2F5oH7uUpY3b9TcQ3xHkTLuPf/t6JWIG9QvWcFJ5V5jBtDrMrCc=,iv:4fw4k8edQtHXxPbXoSrBAWbGJYpApXvuwYhDBPGs15Y=,tag:tRUbD3TTy4meJ+igjfw+1g==,type:str]
+    lastmodified: "2023-12-12T20:58:01Z"
+    mac: ENC[AES256_GCM,data:Bi5JL9u2/kpER8GjFn0Wm+WtkkQIdP3E2ulLDcRom9jG8og451y+dx14APPH4V7UvmUhf++5Tygolw3LGbnxRmDGqZB2yb7Hhp41Fkk+wT1wfnD4Xia3SdcnNvevZxgU8HD/AV/3c0H2n3Eij/YFoLcHTAjyV9xVBonzkCo6MqU=,iv:aaLGYU0dBIGY1MWgHahqiaAk0DlaBhKAa6rFTPevSgI=,tag:2gndy1ytanD3QlFy9gCeuA==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |

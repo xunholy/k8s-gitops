@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/source.toolkit.fluxcd.io/helmrepository_v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: wge-charts
+  namespace: flux-system
+spec:
+  interval: 120m0s
+  url: https://charts.dev.wkp.weave.works/releases/charts-v3
+  secretRef:
+    name: wge-credentials
