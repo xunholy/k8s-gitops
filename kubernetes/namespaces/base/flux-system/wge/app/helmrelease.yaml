@@ -16,8 +16,8 @@ spec:
         name: wge-charts
         namespace: flux-system
       version: '>0.9.5'
-  dependsOn:
-  - name: ww-gitops
+  # dependsOn:
+  # - name: ww-gitops
   install:
     crds: CreateReplace
   interval: 50m
