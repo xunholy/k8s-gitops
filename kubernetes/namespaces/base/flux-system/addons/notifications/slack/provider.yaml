@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/notification.toolkit.fluxcd.io/provider_v1beta2.json
-apiVersion: notification.toolkit.fluxcd.io/v1beta2
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Provider
 metadata:
   name: slack-kustomization-alerts
@@ -12,7 +12,7 @@ spec:
     name: webhook-url
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/notification.toolkit.fluxcd.io/provider_v1beta2.json
-apiVersion: notification.toolkit.fluxcd.io/v1beta2
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Provider
 metadata:
   name: slack-helmrelease-alerts
