@@ -61,6 +61,7 @@ spec:
           - target:
               version: v1
               kind: Deployment
+              name: (cluster-bootstrap-controller-manager|cluster-controller-manager)
             patch:
               - op: add
                 path: /spec/template/spec/nodeSelector
