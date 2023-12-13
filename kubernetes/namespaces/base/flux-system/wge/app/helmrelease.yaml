@@ -55,3 +55,14 @@ spec:
     envVars:
       - name: WEAVE_GITOPS_FEATURE_OIDC_BUTTON_LABEL
         value: "Login with GitHub"
+  postRenderers:
+    - kustomize:
+        patchesJson6902:
+          - target:
+              version: v1
+              kind: Deployment
+            patch:
+              - op: add
+                path: /spec/template/spec/nodeSelector
+                value:
+                  kubernetes.io/arch: amd64
