@@ -3,4 +3,5 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
+  - secret.enc.yaml
   - virtualservice.yaml

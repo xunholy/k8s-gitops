@@ -3,7 +3,7 @@ version: v1alpha1
 # Enable verbose logging to the console.
 debug: false
 # Indicates whether to pull the machine config upon every boot.
-persist: true
+persist: false
 # Provides machine specific configuration options.
 machine:
     # Defines the role of the machine within the cluster.
@@ -23,7 +23,7 @@ machine:
     # Used to provide additional options to the kubelet.
     kubelet:
         # The `image` field is an optional reference to an alternative kubelet image.
-        image: ghcr.io/siderolabs/kubelet:v1.27.5
+        image: ghcr.io/siderolabs/kubelet:v1.28.2
         # Enable container runtime default Seccomp profile.
         defaultRuntimeSeccompProfileEnabled: true
         # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
@@ -146,7 +146,7 @@ machine:
         # RockPi eMMC /dev/mmcblk0
         disk: /dev/sda
         # Allows for supplying the image used to perform the installation.
-        image: ghcr.io/siderolabs/installer:v1.5.3
+        image: ghcr.io/siderolabs/installer:v1.5.5
         # Indicates if a bootloader should be installed.
         bootloader: true
         # Indicates if the installation disk should be wiped at installation time.
@@ -471,8 +471,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2023-10-09T10:56:01Z"
-    mac: ENC[AES256_GCM,data:NI3J3TYVpxpH0lkAj1v573KIEILPzq/F6SaQTYQkESSnKBa1ueLsFD7V5YlR5klYjsKCjb69MsSzXpa+GkA6g35pL0TDmviZrksqZNWLWutvb5I6GdJ17EOfuSlb6Yu3/xHX3AmC865Ez3MSC0qCzbPxj0JcaUuxwgein8BOjb4=,iv:Nt/OGeJzVMil2SCSVCH/G8jXg4PPTj+oJeBjTj1J09g=,tag:Rkk4jRRZ7s22kcsypkTLkg==,type:str]
+    lastmodified: "2023-12-14T23:24:06Z"
+    mac: ENC[AES256_GCM,data:Ry++F27hOi+lDHHtiPNuXLG8m6yrFPoR8425e57V3BtbYXY4VhFciScWHRGIpezgFcRf/aAZzeWxiqKhQHDaAQXVvs53XKXL3og84DzwzRv4ktD4lXwFdLKNHoFw95C5Ornic8SSuZyAMpstWsLHYf2GvGgBvPgil9GweYwVi8c=,iv:QNxcGru9b0Dz0O4acbIC3fhjrdSORtTwTgKI+YOrJ2M=,tag:FYQahanXf7t8L8AlgZkYvA==,type:str]
     pgp:
         - created_at: "2023-03-02T05:48:23Z"
           enc: |

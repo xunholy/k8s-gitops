@@ -117,6 +117,7 @@ spec:
           id: weave-gitops
           secret: '${DEX_WEAVE_GITOPS_SECRET}'
           redirectURIs:
+          - 'https://wg.${CLUSTER_DOMAIN}/oauth2/callback'
           - 'https://gitops.${CLUSTER_DOMAIN}/oauth2/callback'
           - 'https://localhost:9001/oauth2/callback'
           - 'https://0.0.0.0:9001/oauth2/callback'
