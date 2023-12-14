@@ -28,8 +28,6 @@ spec:
       auth:
         userAccount:
           enabled: false
-      cluster:
-        name: howard-moomboo-space
       git:
         type: github
       oidc:
@@ -40,7 +38,7 @@ spec:
         cookieDuration: 72h
         customScopes: email,offline_access,groups
         issuerURL: https://dex.${CLUSTER_DOMAIN}
-        redirectURL: https://gitops.${CLUSTER_DOMAIN}/oauth2/callback
+        redirectURL: https://wg.${CLUSTER_DOMAIN}/oauth2/callback
     enablePipelines: true
     enableRunUI: true
     enableTerraformUI: true
