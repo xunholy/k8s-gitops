@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: dex
@@ -117,7 +117,7 @@ spec:
           id: weave-gitops
           secret: '${DEX_WEAVE_GITOPS_SECRET}'
           redirectURIs:
-          - 'https://wg.${CLUSTER_DOMAIN}/oauth2/callback'
+          - 'https://wge.${CLUSTER_DOMAIN}/oauth2/callback'
           - 'https://gitops.${CLUSTER_DOMAIN}/oauth2/callback'
           - 'https://localhost:9001/oauth2/callback'
           - 'https://0.0.0.0:9001/oauth2/callback'

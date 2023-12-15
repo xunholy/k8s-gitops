@@ -16,8 +16,6 @@ spec:
         name: wge-charts
         namespace: flux-system
       version: '>0.9.5'
-  # dependsOn:
-  # - name: ww-gitops
   install:
     crds: CreateReplace
   interval: 50m
@@ -30,6 +28,8 @@ spec:
           enabled: false
       git:
         type: github
+      cluster:
+        name: talos-default
       oidc:
         enabled: true
         claimGroups: ""
@@ -38,7 +38,7 @@ spec:
         cookieDuration: 72h
         customScopes: email,offline_access,groups
         issuerURL: https://dex.${CLUSTER_DOMAIN}
-        redirectURL: https://wg.${CLUSTER_DOMAIN}/oauth2/callback
+        redirectURL: https://wge.${CLUSTER_DOMAIN}/oauth2/callback
     enablePipelines: true
     enableRunUI: true
     enableTerraformUI: true
@@ -53,6 +53,13 @@ spec:
     envVars:
       - name: WEAVE_GITOPS_FEATURE_OIDC_BUTTON_LABEL
         value: "Login with GitHub"
+    explorer:
+      enabledFor:
+        - applications
+        - sources
+        - gitopssets
+        - templates
+        - clusterdiscovery
   postRenderers:
     - kustomize:
         patchesJson6902:
