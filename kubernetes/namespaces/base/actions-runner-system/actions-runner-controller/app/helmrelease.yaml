@@ -79,7 +79,8 @@ spec:
     actionsMetrics:
       # Do note that you also need actionsMetricsServer.enabled=true
       # to deploy the actions-metrics-server whose k8s service is referenced by the service monitor.
-      serviceMonitor: true
+      serviceMonitor:
+        enabled: true
     actionsMetricsServer:
       enabled: true
       logFormat: json

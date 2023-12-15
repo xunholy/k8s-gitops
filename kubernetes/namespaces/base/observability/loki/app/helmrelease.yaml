@@ -43,7 +43,7 @@ spec:
     singleBinary:
       replicas: 1
       nodeSelector:
-        openebs.io/storage: true
+        openebs.io/storage: "true"
         kubernetes.io/arch: arm64
     loki:
       storage:
