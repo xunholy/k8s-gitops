@@ -4,6 +4,7 @@ namespace: flux-system
 
 resources:
   - actions-runner-controller.yaml
+  - backstage-charts.yaml
   - backube-charts.yaml
   - banzaicloud-charts.yaml
   - bitnami-charts.yaml

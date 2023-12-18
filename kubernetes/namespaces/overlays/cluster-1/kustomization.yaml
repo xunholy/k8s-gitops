@@ -25,6 +25,7 @@ resources:
   - ../../base/actions-runner-system/actions-runner-controller/ks.yaml
   - ../../base/backup-system/volsync/ks.yaml
   - ../../base/crossplane-system/crossplane/ks.yaml
+  - ../../base/development/backstage/ks.yaml
   - ../../base/development/kubernetes-schemas/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
   # - ../../base/flux-system/tf-controller/ks.yaml
