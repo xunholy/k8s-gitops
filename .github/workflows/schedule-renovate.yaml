@@ -47,7 +47,7 @@ jobs:
           echo "LOG_LEVEL=${{ github.event.inputs.logLevel || env.LOG_LEVEL }}" >> "${GITHUB_ENV}"
 
       - name: Validate Renovate Configuration
-        uses: suzuki-shunsuke/github-action-renovate-config-validator@7657f9865bd2d5fba0cc0fc12cb692e42fbde1e2 # v1.0.0
+        uses: suzuki-shunsuke/github-action-renovate-config-validator@b54483862375f51910a60c4f498e927d4f3df466 # v1.0.1
 
       - name: Generate Token
         uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2
