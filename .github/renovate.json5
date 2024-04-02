@@ -4,11 +4,12 @@
     "config:recommended",
     "docker:enableMajor",
     "replacements:k8s-registry-move",
+    ":automergeBranch",
     ":disableRateLimiting",
     ":dependencyDashboard",
     ":semanticCommits",
     ":automergeDigest",
-    ":automergeBranch",
+    ":timezone(AustraliaMelbourne)",
     "github>xUnholy/k8s-gitops//.github/renovate/autoMerge.json5",
     "github>xUnholy/k8s-gitops//.github/renovate/commitMessage.json5",
     "github>xUnholy/k8s-gitops//.github/renovate/labels.json5",
@@ -23,16 +24,14 @@
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "dependencyDashboardAutoclose": true,
   "configWarningReuseIssue": true,
-  "suppressNotifications": ["prIgnoreNotification"],
-  "prConcurrentLimit": 0,
-  "prHourlyLimit": 0,
-  "platformAutomerge": true,  // https://docs.renovatebot.com/modules/manager/pre-commit/
+   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
+  "platformAutomerge": true,
   "pre-commit": {
     "enabled": true
   },
   "kubernetes": {
     "fileMatch": [
-      "kubernetes/.+\\.ya?ml$"
+      "(^|/)kubernetes/.+\\.ya?ml$"
     ],
     "ignorePaths": [
       "kubernetes/clusters/",
@@ -40,12 +39,12 @@
   },
   "docker-compose": {
     "fileMatch": [
-      "(^|\/)docker-compose.*\\.ya?ml$"
+      "(^|/)docker-compose.*\\.ya?ml$"
     ]
   },
   "flux": {
     "fileMatch": [
-      "kubernetes/.+\\.ya?ml$"
+      "(^|/)kubernetes/.+\\.ya?ml$"
     ]
   }
 }
