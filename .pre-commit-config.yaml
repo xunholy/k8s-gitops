@@ -11,7 +11,7 @@ repos:
       - id: detect-private-key
       - id: end-of-file-fixer
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.33.0
+    rev: v1.35.1
     hooks:
       - id: yamllint
         args: [-c=.github/.yamllint.yml]
