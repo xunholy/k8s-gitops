@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: kiali-server
-      version: 1.78.0
+      version: 1.82.0
       sourceRef:
         kind: HelmRepository
         name: kiali-charts
