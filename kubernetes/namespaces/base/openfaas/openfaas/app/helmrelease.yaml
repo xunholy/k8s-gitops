@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: openfaas
-      version: 14.2.36
+      version: 14.2.37
       sourceRef:
         kind: HelmRepository
         name: openfaas-charts
