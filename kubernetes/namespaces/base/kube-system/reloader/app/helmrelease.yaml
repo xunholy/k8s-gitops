@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: reloader
-      version: 1.0.85
+      version: v1.0.86
       sourceRef:
         kind: HelmRepository
         name: stakater-charts
