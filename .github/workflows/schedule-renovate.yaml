@@ -1,3 +1,5 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: "Schedule: Renovate"
 
 on:
@@ -24,13 +26,13 @@ on:
       - ".github/renovate/*"
 
 env:
-  LOG_LEVEL: debug
-  RENOVATE_DRY_RUN: false
+  LOG_LEVEL: "${{ inputs.logLevel || 'debug' }}"
+  RENOVATE_DRY_RUN: "${{ inputs.dryRun == true }}"
   RENOVATE_PLATFORM: github
   RENOVATE_PLATFORM_COMMIT: true
-  RENOVATE_ONBOARDING_CONFIG_FILE_NAME: .github/renovate.json5
   RENOVATE_AUTODISCOVER: true
   RENOVATE_AUTODISCOVER_FILTER: "${{ github.repository }}"
+  WORKFLOW_RENOVATE_VERSION: "${{ inputs.version || 'latest' }}"
   RENOVATE_USERNAME: "${{ secrets.BOT_USERNAME }}[bot]"
   RENOVATE_GIT_AUTHOR: "${{ secrets.BOT_USERNAME }} <${{ secrets.BOT_USER_ID }}+${{ secrets.BOT_USERNAME }}[bot]@users.noreply.github.com>"
 
@@ -40,11 +42,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
-
-      - name: Override default config from dispatch variables
-        run: |
-          echo "RENOVATE_DRY_RUN=${{ github.event.inputs.dryRun || env.RENOVATE_DRY_RUN }}" >> "${GITHUB_ENV}"
-          echo "LOG_LEVEL=${{ github.event.inputs.logLevel || env.LOG_LEVEL }}" >> "${GITHUB_ENV}"
 
       - name: Validate Renovate Configuration
         uses: suzuki-shunsuke/github-action-renovate-config-validator@b54483862375f51910a60c4f498e927d4f3df466 # v1.0.1
@@ -61,3 +58,4 @@ jobs:
         with:
           configurationFile: "${{ env.RENOVATE_CONFIG_FILE }}"
           token: "x-access-token:${{ steps.generate-token.outputs.token }}"
+          renovate-version: "${{ env.WORKFLOW_RENOVATE_VERSION }}"

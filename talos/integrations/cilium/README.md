@@ -14,9 +14,9 @@ helm repo add cilium https://helm.cilium.io/
 
 ```bash
 helm install cilium cilium/cilium \
-  --version=1.12.1 \
+  --version=1.14.5 \
   --namespace=kube-system \
-  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.12.1.yaml
+  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.14.5.yaml
 ```
 
 Post successful installation of Cilium it's option to run the Cilium network connectivity tests
@@ -27,9 +27,9 @@ Upgrade path
 
 ```bash
 helm upgrade cilium cilium/cilium \
-  --version 1.21.1 \
+  --version 1.14.5 \
   --namespace=kube-system \
-  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.12.1.yaml
+  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.14.5.yaml
 ```
 
 ## Service Mesh
@@ -45,9 +45,9 @@ helm upgrade -n kube-system cilium ./install/kubernetes/cilium --values=../k8s-g
 
 ```bash
 helm template cilium/cilium \
-  --version=1.12.1 \
+  --version=1.14.5 \
   --namespace=kube-system \
-  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.12.1.yaml > kubernetes/namespaces/base/kube-system/cilium/install/cilium-1-12-1.yaml
+  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.14.5.yaml > kubernetes/namespaces/base/kube-system/cilium/install/cilium-1-12-1.yaml
 ```
 
 ```bash
@@ -55,8 +55,8 @@ flux create helmrelease cilium \
   --source=HelmRepository/cilium-chart \
   --namespace=kube-system \
   --chart=cilium \
-  --chart-version=1.12.1 \
-  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.12.1.yaml \
+  --chart-version=1.14.5 \
+  --values=kubernetes/namespaces/base/kube-system/cilium/install/1.14.5.yaml \
   --export > kubernetes/namespaces/base/kube-system/cilium/install/helmrelease.yaml
 ```
 

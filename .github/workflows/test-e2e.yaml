@@ -1,3 +1,5 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: "Flux: Run E2E Tests In KIND"
 
 on:
