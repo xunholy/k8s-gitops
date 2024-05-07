@@ -1,0 +1,18 @@
+---
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --feature-gates=OOMWatch=true
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --concurrent=5
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --kube-api-qps=50
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --kube-api-burst=100
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --requeue-dependency=30s
+- op: remove
+  path: /spec/template/spec/containers/0/resources/limits/cpu
