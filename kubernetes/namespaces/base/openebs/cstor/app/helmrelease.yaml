@@ -38,6 +38,8 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
+  driftDetection:
+    mode: enabled
   maxHistory: 3
   values:
     # Required when using the same device that hosts the OS FS partition

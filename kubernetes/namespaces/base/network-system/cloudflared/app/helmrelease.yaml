@@ -37,6 +37,8 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
+  driftDetection:
+    mode: enabled
   maxHistory: 3
   values:
     image:

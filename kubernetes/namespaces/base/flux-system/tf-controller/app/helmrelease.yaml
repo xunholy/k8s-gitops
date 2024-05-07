@@ -35,9 +35,7 @@ spec:
     recreate: true
     force: true
     cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  maxHistory: 3
+  uninstall:     keepHistory: false   driftDetection:     mode: enabled   maxHistory: 3
   values:
     affinity:
       nodeAffinity:

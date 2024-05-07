@@ -26,4 +26,5 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  values:
+  driftDetection:
+    mode: enabled

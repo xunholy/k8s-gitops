@@ -42,6 +42,8 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
+  driftDetection:
+    mode: enabled
   maxHistory: 3
   values:
     # Resources allocated based on Robusta KRR output

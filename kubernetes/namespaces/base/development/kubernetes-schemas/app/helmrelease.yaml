@@ -26,6 +26,8 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  driftDetection:
+    mode: enabled
   values:
     controller:
       replicas: 1
