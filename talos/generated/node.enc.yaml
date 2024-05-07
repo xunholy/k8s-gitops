@@ -225,139 +225,145 @@ machine:
             enabled: true
             # KubePrism port.
             port: 7445
-            # # Configure Talos API access from Kubernetes pods.
-            # kubernetesTalosAPIAccess:
-            #     enabled: true # Enable Talos API access from Kubernetes pods.
-            #     # The list of Talos API roles which can be granted for access from Kubernetes pods.
-            #     allowedRoles:
-            #         - os:reader
-            #     # The list of Kubernetes namespaces Talos API access is available from.
-            #     allowedKubernetesNamespaces:
-            #         - kube-system
+        # Configure Talos API access from Kubernetes pods.
+        kubernetesTalosAPIAccess:
+            # Enable Talos API access from Kubernetes pods.
+            enabled: true
+            # The list of Talos API roles which can be granted for access from Kubernetes pods.
+            allowedRoles:
+                - os:reader
+            # The list of Kubernetes namespaces Talos API access is available from.
+            allowedKubernetesNamespaces:
+                - kube-system
+        # https://www.talos.dev/v1.7/talos-guides/network/host-dns/#enabling-host-dns
+        hostDNS:
+            enabled: true
+            forwardKubeDNSToHost: true
+            resolveMemberNames: true
+            # # Provides machine specific control plane configuration options.
+            # # ControlPlane definition example.
+            # controlPlane:
+            #     # Controller manager machine specific configuration options.
+            #     controllerManager:
+            #         disabled: false # Disable kube-controller-manager on the node.
+            #     # Scheduler machine specific configuration options.
+            #     scheduler:
+            #         disabled: true # Disable kube-scheduler on the node.
+            # # Used to provide static pod definitions to be run by the kubelet directly bypassing the kube-apiserver.
+            # # nginx static pod.
+            # pods:
+            #     - apiVersion: v1
+            #       kind: pod
+            #       metadata:
+            #         name: nginx
+            #       spec:
+            #         containers:
+            #             - image: nginx
+            #               name: nginx
+            # # Used to partition, format and mount additional disks.
+            # # MachineDisks list example.
+            # disks:
+            #     - device: /dev/sdb # The name of the disk to use.
+            #       # A list of partitions to create on the disk.
+            #       partitions:
+            #         - mountpoint: /var/mnt/extra # Where to mount the partition.
+            #
+            #           # # The size of partition: either bytes or human readable representation. If `size:` is omitted, the partition is sized to occupy the full disk.
+            #           # # Human readable representation.
+            #           # size: 100 MB
+            #           # # Precise value in bytes.
+            #           # size: 1073741824
+            # # Allows the addition of user specified files.
+            # # MachineFiles usage example.
+            # files:
+            #     - content: '...' # The contents of the file.
+            #       permissions: 0o666 # The file's permissions in octal.
+            #       path: /tmp/file.txt # The path of the file.
+            #       op: append # The operation to use
+            # # The `env` field allows for the addition of environment variables.
+            # # Environment variables definition examples.
+            # env:
+            #     GRPC_GO_LOG_SEVERITY_LEVEL: info
+            #     GRPC_GO_LOG_VERBOSITY_LEVEL: "99"
+            #     https_proxy: http://SERVER:PORT/
+            # env:
+            #     GRPC_GO_LOG_SEVERITY_LEVEL: error
+            #     https_proxy: https://USERNAME:PASSWORD@SERVER:PORT/
+            # env:
+            #     https_proxy: http://DOMAIN\USERNAME:PASSWORD@SERVER:PORT/
+            # # Used to configure the machine's time settings.
+            # # Example configuration for cloudflare ntp server.
+            # time:
+            #     disabled: false # Indicates if the time service is disabled for the machine.
+            #     # Specifies time (NTP) servers to use for setting the system time.
+            #     servers:
+            #         - time.cloudflare.com
+            #     bootTimeout: 2m0s # Specifies the timeout when the node time is considered to be in sync unlocking the boot sequence.
+            # # Used to configure the machine's sysctls.
+            # # MachineSysctls usage example.
+            # sysctls:
+            #     kernel.domainname: talos.dev
+            #     net.ipv4.ip_forward: "0"
+            #     net/ipv6/conf/eth0.100/disable_ipv6: "1"
+            # # Used to configure the machine's sysfs.
+            # # MachineSysfs usage example.
+            # sysfs:
+            #     devices.system.cpu.cpu0.cpufreq.scaling_governor: performance
+            # # Machine system disk encryption configuration.
+            # systemDiskEncryption:
+            #     # Ephemeral partition encryption.
+            #     ephemeral:
+            #         provider: luks2 # Encryption provider to use for the encryption.
+            #         # Defines the encryption keys generation and storage method.
+            #         keys:
+            #             - # Deterministically generated key from the node UUID and PartitionLabel.
+            #               nodeID: {}
+            #               slot: 0 # Key slot number for LUKS2 encryption.
+            #
+            #               # # KMS managed encryption key.
+            #               # kms:
+            #               #     endpoint: https://192.168.88.21:4443 # KMS endpoint to Seal/Unseal the key.
+            #
+            #         # # Cipher kind to use for the encryption. Depends on the encryption provider.
+            #         # cipher: aes-xts-plain64
+            #         # # Defines the encryption sector size.
+            #         # blockSize: 4096
+            #         # # Additional --perf parameters for the LUKS2 encryption.
+            #         # options:
+            #         #     - no_read_workqueue
+            #         #     - no_write_workqueue
+            # # Configures the udev system.
+            # udev:
+            #     # List of udev rules to apply to the udev system
+            #     rules:
+            #         - SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="44", MODE="0660"
+            # # Configures the logging system.
+            # logging:
+            #     # Logging destination.
+            #     destinations:
+            #         - endpoint: tcp://1.2.3.4:12345 # Where to send logs. Supported protocols are "tcp" and "udp".
+            #           format: json_lines # Logs format.
+            # # Configures the kernel.
+            # kernel:
+            #     # Kernel modules to load.
+            #     modules:
+            #         - name: brtfs # Module name.
+            # # Configures the seccomp profiles for the machine.
+            # seccompProfiles:
+            #     - name: audit.json # The `name` field is used to provide the file name of the seccomp profile.
+            #       # The `value` field is used to provide the seccomp profile.
+            #       value:
+            #         defaultAction: SCMP_ACT_LOG
+            # # Configures the node labels for the machine.
+            # # node labels example.
+            # nodeLabels:
+            #     exampleLabel: exampleLabelValue
+            # # Configures the node taints for the machine. Effect is optional.
+            # # node taints example.
+            # nodeTaints:
+            #     exampleTaint: exampleTaintValue:NoSchedule
 # Provides cluster specific configuration options.
 cluster:
-# # Provides machine specific control plane configuration options.
-# # ControlPlane definition example.
-# controlPlane:
-#     # Controller manager machine specific configuration options.
-#     controllerManager:
-#         disabled: false # Disable kube-controller-manager on the node.
-#     # Scheduler machine specific configuration options.
-#     scheduler:
-#         disabled: true # Disable kube-scheduler on the node.
-# # Used to provide static pod definitions to be run by the kubelet directly bypassing the kube-apiserver.
-# # nginx static pod.
-# pods:
-#     - apiVersion: v1
-#       kind: pod
-#       metadata:
-#         name: nginx
-#       spec:
-#         containers:
-#             - image: nginx
-#               name: nginx
-# # Used to partition, format and mount additional disks.
-# # MachineDisks list example.
-# disks:
-#     - device: /dev/sdb # The name of the disk to use.
-#       # A list of partitions to create on the disk.
-#       partitions:
-#         - mountpoint: /var/mnt/extra # Where to mount the partition.
-#
-#           # # The size of partition: either bytes or human readable representation. If `size:` is omitted, the partition is sized to occupy the full disk.
-#           # # Human readable representation.
-#           # size: 100 MB
-#           # # Precise value in bytes.
-#           # size: 1073741824
-# # Allows the addition of user specified files.
-# # MachineFiles usage example.
-# files:
-#     - content: '...' # The contents of the file.
-#       permissions: 0o666 # The file's permissions in octal.
-#       path: /tmp/file.txt # The path of the file.
-#       op: append # The operation to use
-# # The `env` field allows for the addition of environment variables.
-# # Environment variables definition examples.
-# env:
-#     GRPC_GO_LOG_SEVERITY_LEVEL: info
-#     GRPC_GO_LOG_VERBOSITY_LEVEL: "99"
-#     https_proxy: http://SERVER:PORT/
-# env:
-#     GRPC_GO_LOG_SEVERITY_LEVEL: error
-#     https_proxy: https://USERNAME:PASSWORD@SERVER:PORT/
-# env:
-#     https_proxy: http://DOMAIN\USERNAME:PASSWORD@SERVER:PORT/
-# # Used to configure the machine's time settings.
-# # Example configuration for cloudflare ntp server.
-# time:
-#     disabled: false # Indicates if the time service is disabled for the machine.
-#     # Specifies time (NTP) servers to use for setting the system time.
-#     servers:
-#         - time.cloudflare.com
-#     bootTimeout: 2m0s # Specifies the timeout when the node time is considered to be in sync unlocking the boot sequence.
-# # Used to configure the machine's sysctls.
-# # MachineSysctls usage example.
-# sysctls:
-#     kernel.domainname: talos.dev
-#     net.ipv4.ip_forward: "0"
-#     net/ipv6/conf/eth0.100/disable_ipv6: "1"
-# # Used to configure the machine's sysfs.
-# # MachineSysfs usage example.
-# sysfs:
-#     devices.system.cpu.cpu0.cpufreq.scaling_governor: performance
-# # Machine system disk encryption configuration.
-# systemDiskEncryption:
-#     # Ephemeral partition encryption.
-#     ephemeral:
-#         provider: luks2 # Encryption provider to use for the encryption.
-#         # Defines the encryption keys generation and storage method.
-#         keys:
-#             - # Deterministically generated key from the node UUID and PartitionLabel.
-#               nodeID: {}
-#               slot: 0 # Key slot number for LUKS2 encryption.
-#
-#               # # KMS managed encryption key.
-#               # kms:
-#               #     endpoint: https://192.168.88.21:4443 # KMS endpoint to Seal/Unseal the key.
-#
-#         # # Cipher kind to use for the encryption. Depends on the encryption provider.
-#         # cipher: aes-xts-plain64
-#         # # Defines the encryption sector size.
-#         # blockSize: 4096
-#         # # Additional --perf parameters for the LUKS2 encryption.
-#         # options:
-#         #     - no_read_workqueue
-#         #     - no_write_workqueue
-# # Configures the udev system.
-# udev:
-#     # List of udev rules to apply to the udev system
-#     rules:
-#         - SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="44", MODE="0660"
-# # Configures the logging system.
-# logging:
-#     # Logging destination.
-#     destinations:
-#         - endpoint: tcp://1.2.3.4:12345 # Where to send logs. Supported protocols are "tcp" and "udp".
-#           format: json_lines # Logs format.
-# # Configures the kernel.
-# kernel:
-#     # Kernel modules to load.
-#     modules:
-#         - name: brtfs # Module name.
-# # Configures the seccomp profiles for the machine.
-# seccompProfiles:
-#     - name: audit.json # The `name` field is used to provide the file name of the seccomp profile.
-#       # The `value` field is used to provide the seccomp profile.
-#       value:
-#         defaultAction: SCMP_ACT_LOG
-# # Configures the node labels for the machine.
-# # node labels example.
-# nodeLabels:
-#     exampleLabel: exampleLabelValue
-# # Configures the node taints for the machine. Effect is optional.
-# # node taints example.
-# nodeTaints:
-#     exampleTaint: exampleTaintValue:NoSchedule
     # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
     id: v-bEFwPI9So3weaq5tJIdzKIwzL2CrvK4-Qrc4CGRIs=
     # Shared secret of cluster (base64 encoded random 32 bytes).
@@ -523,8 +529,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2024-05-04T23:34:22Z"
-    mac: ENC[AES256_GCM,data:3g2s6azz9nHwbY1L6ptlrcEplqJIJlS2b5llH9EUyjvl3CQlKUlQRmUaa/0bMV3LFesP8j+Pvg3PJc/ZTh2Oh23aeQ2gGz8d1NjG/f2Zv7Flup4TBA3KrhfB2VLvIwULPaiK345n4Udlw5MY1gEs6PO31RegyuHgkL+Aw4BCQqk=,iv:Lo+voIMN4h7/8G+F58+ZbrCLdc8E+YLmLgFTOVRe14I=,tag:IEmjx/Fo/ytXucF31vj9jA==,type:str]
+    lastmodified: "2024-05-07T03:54:47Z"
+    mac: ENC[AES256_GCM,data:zkuxOd8pjpza/OY3uFG09hk3cG+Ue8jxQs2xbRYEbdaPrHtrEdoWkVgw+rYXRkN4IF/5/BuO7TWdcT7xoDUYSMiIaxr/SZ29lc0bMVUjz1WZ4BW10Uh1JfFcOGQScpBzPG6ro9ZoofgdivtjcKSy7nvhMKGjd5SehjY61Ki2H84=,iv:Pd4E+LmiI0BsUMe4CEnJGPWwEFmWNn0oOYUZiur93ZI=,tag:6JmV1GTyVlUVUcvWWUKoKg==,type:str]
     pgp:
         - created_at: "2023-03-02T05:48:23Z"
           enc: |
