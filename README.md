@@ -13,8 +13,8 @@ _... managed with Flux, Renovate and GitHub Actions_
 <div align="center">
 
   [![Discord](https://img.shields.io/discord/673534664354430999?style=for-the-badge&label=discord&logo=discord&logoColor=white&color=blue)](https://discord.gg/k8s-at-home)
-  [![Kubernetes](https://img.shields.io/badge/Kubernetes-v1.27.1-blue?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
-  [![Linux](https://img.shields.io/badge/Talos-v1.4.5-blue?style=for-the-badge&logo=linux&logoColor=white)](https://kubernetes.io/)
+  [![Kubernetes](https://img.shields.io/badge/Kubernetes-v1.29.4-blue?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+  [![Linux](https://img.shields.io/badge/Talos-v1.7.1-blue?style=for-the-badge&logo=linux&logoColor=white)](https://kubernetes.io/)
 
 </div>
 
@@ -78,7 +78,7 @@ flux check --pre
 
 
 ```bash
-task cluster CLUSTER_NAME=cluster-1
+task cluster CLUSTER_NAME=cluster-0
 ```
 
 **Note:** *Many variables in the cluster depend on your specific configuration and should be modified accordingly. Be sure to review and adjust these variables as needed to match your environment and requirements.*
@@ -155,11 +155,11 @@ For more ideas on deploying applications or discovering new possibilities, be su
 
 ## 👥 Contributing
 
-Our project welcomes contributions from any member of our community. To get started contributing, please see our [Contributor Guide](./CONTRIBUTING.md).
+Our project welcomes contributions from any member of our community. To get started contributing, please see our [Contributor Guide](.github/CONTRIBUTING.md).
 
 ### 🚫 Code of Conduct
 
-By participating in this project, you are expected to uphold the project's [**Code of Conduct**](./CODE_OF_CONDUCT.md). Please report any unacceptable behavior to the repository maintainer.
+By participating in this project, you are expected to uphold the project's [**Code of Conduct**](.github/CODE_OF_CONDUCT.md). Please report any unacceptable behavior to the repository maintainer.
 
 ### 💡 Reporting Issues and Requesting Features
 

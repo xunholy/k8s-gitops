@@ -22,7 +22,7 @@ machine:
     # Used to provide additional options to the kubelet.
     kubelet:
         # The `image` field is an optional reference to an alternative kubelet image.
-        image: ghcr.io/siderolabs/kubelet:v1.29.3
+        image: ghcr.io/siderolabs/kubelet:v1.29.4
         # Enable container runtime default Seccomp profile.
         defaultRuntimeSeccompProfileEnabled: true
         # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
@@ -169,9 +169,9 @@ machine:
         # The disk used for installations.
         disk: /dev/sda
         # Allows for supplying the image used to perform the installation.
-        image: ghcr.io/siderolabs/installer:v1.6.7
+        image: ghcr.io/siderolabs/installer:v1.7.1
         # Indicates if the installation disk should be wiped at installation time.
-        wipe: false
+        wipe: true
         # # Look up disk using disk attributes like model, size, serial and others.
         # diskSelector:
         #     size: 4GB # Disk size.
@@ -225,16 +225,16 @@ machine:
             enabled: true
             # KubePrism port.
             port: 7445
-        # Configure Talos API access from Kubernetes pods.
-        kubernetesTalosAPIAccess:
-            # Enable Talos API access from Kubernetes pods.
-            enabled: true
-            # The list of Talos API roles which can be granted for access from Kubernetes pods.
-            allowedRoles:
-                - os:reader
-            # The list of Kubernetes namespaces Talos API access is available from.
-            allowedKubernetesNamespaces:
-                - kube-system
+        # # Configure Talos API access from Kubernetes pods.
+        # kubernetesTalosAPIAccess:
+        #     # Enable Talos API access from Kubernetes pods.
+        #     enabled: true
+        #     # The list of Talos API roles which can be granted for access from Kubernetes pods.
+        #     allowedRoles:
+        #         - os:reader
+        #     # The list of Kubernetes namespaces Talos API access is available from.
+        #     allowedKubernetesNamespaces:
+        #         - kube-system
         # https://www.talos.dev/v1.7/talos-guides/network/host-dns/#enabling-host-dns
         hostDNS:
             enabled: true
@@ -529,8 +529,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2024-05-07T03:54:47Z"
-    mac: ENC[AES256_GCM,data:zkuxOd8pjpza/OY3uFG09hk3cG+Ue8jxQs2xbRYEbdaPrHtrEdoWkVgw+rYXRkN4IF/5/BuO7TWdcT7xoDUYSMiIaxr/SZ29lc0bMVUjz1WZ4BW10Uh1JfFcOGQScpBzPG6ro9ZoofgdivtjcKSy7nvhMKGjd5SehjY61Ki2H84=,iv:Pd4E+LmiI0BsUMe4CEnJGPWwEFmWNn0oOYUZiur93ZI=,tag:6JmV1GTyVlUVUcvWWUKoKg==,type:str]
+    lastmodified: "2024-05-08T03:46:25Z"
+    mac: ENC[AES256_GCM,data:qXLFROZvtDhPNZQnT1QN2Qzv/pBNihvWzQ7UonSK9J6ql6I2kdeMCZs0UMafnePgrrrS/Cyer9ak+Q+xApBXqBRsgWnmqLpggL1rvFEmld+6Atk+Djn1uWizSZk0vHgo2s89yef3H/6f76FfAjD8qBcg24LW9LQUfopX4fIK/O8=,iv:e7PblGwLO8GoeyWBCo6Rzju7VeEE1TyrAyum6E/KjWc=,tag:g5JOzEeNtHZ7BINgWBRi0g==,type:str]
     pgp:
         - created_at: "2023-03-02T05:48:23Z"
           enc: |

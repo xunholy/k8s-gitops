@@ -1,28 +1,19 @@
 ---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
 
 vars:
-  CLUSTER: cluster-1
+  CLUSTER: cluster-0
   GITHUB_USER: xunholy
   GITHUB_REPO: k8s-gitops
   GITHUB_BRANCH: main
 
 includes:
-  core:
-    taskfile: ./.taskfiles/core.yml
-    optional: false
-  flux:
-    taskfile: ./.taskfiles/flux.yml
-    optional: true
-  mkdocs:
-    taskfile: ./.taskfiles/mkdocs.yml
-    optional: true
-  sidero:
-    taskfile: ./.taskfiles/sidero.yml
-    optional: true
-  talos:
-    taskfile: ./.taskfiles/talos.yml
-    optional: true
+  core: .taskfiles/Core
+  flux: .taskfiles/Flux
+  mkdocs: .taskfiles/Mkdocs
+  sidero: .taskfiles/Sidero
+  talos: .taskfiles/Talos
 
 tasks:
   flux:

@@ -1,0 +1,90 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # - ../../base/actions-runner-system
+  - ../../base/backup-system
+  # - ../../base/crossplane-system
+  # - ../../base/development
+  # - ../../base/game-servers
+  - ../../base/home-system
+  - ../../base/istio-ingress
+  - ../../base/istio-system
+  - ../../base/kube-system
+  # - ../../base/litmus
+  - ../../base/network-system
+  - ../../base/nginx-ingress
+  - ../../base/observability
+  # - ../../base/openebs
+  # - ../../base/openfaas
+  # - ../../base/openfaas-fn
+  # - ../../base/rook-ceph
+  - ../../base/security-system
+  # - ../../base/traefik-ingress
+  - ../../base/velero
+  # - ../../base/actions-runner-system/actions-runner-controller/ks.yaml
+  # - ../../base/backup-system/volsync/ks.yaml
+  # - ../../base/crossplane-system/crossplane/ks.yaml
+  # - ../../base/development/backstage/ks.yaml
+  - ../../base/development/kubernetes-schemas/ks.yaml
+  - ../../base/flux-system/addons/ks.yaml
+  # - ../../base/flux-system/tf-controller/ks.yaml
+  # TODO: Disabled when using WGE
+  # - ../../base/flux-system/weave-gitops/ks.yaml
+  # - ../../base/flux-system/wge/ks.yaml
+  # - ../../base/home-system/home-assistant/ks.yaml
+  # - ../../base/home-system/jellyfin/ks.yaml
+  # - ../../base/home-system/mosquitto/ks.yaml
+  # - ../../base/home-system/overseerr/ks.yaml
+  # - ../../base/home-system/plex/ks.yaml
+  # - ../../base/home-system/zigbee2mqtt/ks.yaml
+  - ../../base/istio-ingress/istio-gateway/ks.yaml
+  # - ../../base/istio-system/flagger/ks.yaml
+  - ../../base/istio-system/istio-base/ks.yaml
+  - ../../base/istio-system/istio-cni/ks.yaml
+  - ../../base/istio-system/istiod/ks.yaml
+  - ../../base/kube-system/cilium/ks.yaml
+  - ../../base/kube-system/descheduler/ks.yaml
+  # - ../../base/kube-system/kubefed/ks.yaml
+  - ../../base/kube-system/kubelet-csr-approver/ks.yaml
+  - ../../base/kube-system/metrics-server/ks.yaml
+  # - ../../base/kube-system/reloader/ks.yaml
+  # - ../../base/kube-system/sealed-secrets/ks.yaml
+  - ../../base/kube-system/secret-store-csi-driver/ks.yaml
+  # - ../../base/kube-system/tetragon/ks.yaml
+  - ../../base/network-system/cert-manager/ks.yaml
+  - ../../base/network-system/cert-manager-csi-driver/ks.yaml
+  - ../../base/network-system/cloudflare-ddns/ks.yaml
+  - ../../base/network-system/cloudflared/ks.yaml
+  - ../../base/network-system/coredns/ks.yaml
+  - ../../base/network-system/dex/ks.yaml
+  - ../../base/network-system/dex-k8s-authenticator/ks.yaml
+  - ../../base/network-system/echo-server/ks.yaml
+  - ../../base/network-system/external-dns/ks.yaml
+  - ../../base/network-system/metallb/ks.yaml
+  - ../../base/network-system/node-feature-discovery/ks.yaml
+  - ../../base/network-system/oauth2-proxy/ks.yaml
+  # - ../../base/nginx-ingress/nginx-ingress/ks.yaml
+  # - ../../base/observability/goldilocks/ks.yaml
+  # - ../../base/observability/grafana/ks.yaml
+  # - ../../base/observability/jaeger/ks.yaml
+  # - ../../base/observability/kiali/ks.yaml
+  # - ../../base/observability/kube-prometheus-stack/ks.yaml
+  # Deprecated loki-stack
+  # - ../../base/observability/loki-stack/ks.yaml
+  # - ../../base/observability/loki/ks.yaml
+  # - ../../base/observability/otel/ks.yaml
+  # - ../../base/observability/thanos/ks.yaml
+  # - ../../base/observability/vpa/ks.yaml
+  # - ../../base/openebs/cstor/ks.yaml
+  # - ../../base/openebs/mayastor/ks.yaml
+  # - ../../base/openebs/jiva/ks.yaml
+  # - ../../base/openfaas/openfaas/ks.yaml
+  # - ../../base/rook-ceph/rook-ceph-operator/ks.yaml
+  # - ../../base/security-system/kube-guardian/ks.yaml
+  # - ../../base/security-system/kyverno/ks.yaml
+  # - ../../base/security-system/gatekeeper/ks.yaml
+  # - ../../base/traefik-ingress/traefik/ks.yaml
+  # - ../../base/velero/velero/ks.yaml

@@ -22,7 +22,7 @@ jobs:
         id: diff
         with:
           live-branch: main
-          path: "kubernetes/clusters/cluster-1"
+          path: "kubernetes/clusters/cluster-0"
           resource: ${{ matrix.resource }}
 
       - name: PR Comments

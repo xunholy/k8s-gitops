@@ -63,3 +63,15 @@ hacks/**
 
 # Ignore crossplane packages that have been built locally
 *.xpkg
+
+# Ignore Kubernetes configs
+kubeconfig
+
+# Ignore Talos configs
+talosconfig
+
+# Ignore sensitive files
+*.agekey
+*.pub
+*.key
+*.pem

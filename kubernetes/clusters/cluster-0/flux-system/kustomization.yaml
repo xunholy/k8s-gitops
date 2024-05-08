@@ -1,5 +1,136 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
+
+patches:
+  # REQUIRED: Due to the Flux controllers needing the ability to decrypt substitution variables used in the cluster-inventory
+  # It's expected that the `$ task flux` command is used to bootstrap the secret initially into the cluster to ensure it already exists
+  # The auto-generated kustomization cannot be changed as it may be reverted in subsequent bootstraps.
+  - patch: |
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: flux-system
+        namespace: flux-system
+      spec:
+        decryption:
+          provider: sops
+          secretRef:
+            name: sops-gpg
+        postBuild:
+          substitute: {}
+          substituteFrom:
+            - kind: Secret
+              name: cluster-secrets
+    target:
+      kind: Kustomization
+      name: flux-system
+      namespace: flux-system
+  # REQUIRED: Increase the number of reconciliations that can be performed in parallel and bump the resources limits
+  # https://fluxcd.io/flux/cheatsheets/bootstrap/#increase-the-number-of-workers
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --concurrent=5
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --kube-api-qps=500
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --kube-api-burst=1000
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --requeue-dependency=5s
+    target:
+      kind: Deployment
+      name: "(kustomize-controller|helm-controller|source-controller)"
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            containers:
+              - name: manager
+                resources:
+                  limits:
+                    cpu: 2000m
+                    memory: 2Gi
+    target:
+      kind: Deployment
+      name: "(kustomize-controller|helm-controller|source-controller)"
+  # REQUIRED: Allow the cluster autoscaler to evict the Flux controller pods
+  # https://fluxcd.io/flux/cheatsheets/bootstrap/#safe-to-evict
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: all
+      spec:
+        template:
+          metadata:
+            annotations:
+              cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/part-of=flux
+  # REQUIRED: Enable notifications for 3rd party Flux controllers such as tf-controller
+  # https://fluxcd.io/flux/cheatsheets/bootstrap/#enable-notifications-for-third-party-controllers
+  - patch: |
+      - op: add
+        path: /spec/versions/0/schema/openAPIV3Schema/properties/spec/properties/eventSources/items/properties/kind/enum/-
+        value: Terraform
+    target:
+      kind: CustomResourceDefinition
+      name:  alerts.notification.toolkit.fluxcd.io
+  - patch: |
+      - op: add
+        path: /spec/versions/0/schema/openAPIV3Schema/properties/spec/properties/resources/items/properties/kind/enum/-
+        value: Terraform
+    target:
+      kind: CustomResourceDefinition
+      name:  receivers.notification.toolkit.fluxcd.io
+  - patch: |
+      - op: add
+        path: /rules/-
+        value:
+          apiGroups: [ 'infra.contrib.fluxcd.io' ]
+          resources: [ '*' ]
+          verbs: [ '*' ]
+    target:
+      kind: ClusterRole
+      name:  crd-controller-flux-system
+  # REQUIRED: Enable drift detection for HelmReleases and set the log level to debug
+  # https://fluxcd.io/flux/components/helm/helmreleases/#drift-detection
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --feature-gates=DetectDrift=true
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --log-level=debug
+    target:
+      kind: Deployment
+      name: helm-controller
+# REQUIRED: Enable Helm near OOM detection
+# https://fluxcd.io/flux/cheatsheets/bootstrap/#enable-helm-near-oom-detection
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --feature-gates=OOMWatch=true
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --oom-watch-memory-threshold=95
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --oom-watch-interval=500ms
+    target:
+      kind: Deployment
+      name: helm-controller
