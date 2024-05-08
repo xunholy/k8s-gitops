@@ -43,8 +43,7 @@ spec:
   maxHistory: 3
   values:
     provider: cloudflare
-    domainFilters:
-      - raspbernetes.com
+    domainFilters: ["raspbernetes.com"]
     env:
       - name: CF_API_TOKEN
         valueFrom:
@@ -52,12 +51,11 @@ spec:
             key: cloudflare_api_token
             name: cloudflare-external-dns
     extraArgs:
+      - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
       - --annotation-filter=external-dns.alpha.kubernetes.io/external=true
-      - --cloudflare-proxied
     policy: sync
-    registry: 'txt'
     txtPrefix: k8s.
     sources:
       # Disable service and ingress to avoid exposing services externally that are not routed through istio
