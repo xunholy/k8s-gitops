@@ -39,8 +39,9 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
-  driftDetection:
-    mode: enabled
+  # TODO: Disabled for now
+  # driftDetection:
+  #   mode: enabled
   maxHistory: 3
   valuesFrom:
     - kind: ConfigMap
@@ -67,24 +68,3 @@ spec:
     gatewayAPI:
       # TODO: Manually installed https://gateway-api.sigs.k8s.io/guides/#installing-gateway-api
       enabled: false
-  # TODO: Investigate why this is required
-  # ERROR: ✗ failed to diff release against cluster resources: [ServiceMonitor/kube-system/cilium-agent dry-run failed, reason: Invalid, error: ServiceMonitor.monitoring.coreos.com "cilium-agent" is invalid: spec.endpoints[0].relabelings[0].replacement: Invalid value: "null": spec.endpoints[0].relabelings[0].replacement in body must be of type string: "null", ServiceMonitor/kube-system/hubble dry-run failed, reason: Invalid, error: ServiceMonitor.monitoring.coreos.com "hubble" is invalid: spec.endpoints[0].relabelings[0].replacement: Invalid value: "null": spec.endpoints[0].relabelings[0].replacement in body must be of type string: "null"]
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              version: v1
-              kind: ServiceMonitor
-              name: cilium-agent
-            patch: |
-              - op: add
-                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
-                value: disabled
-          - target:
-              version: v1
-              kind: ServiceMonitor
-              name: cilium-operator
-            patch: |
-              - op: add
-                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
-                value: disabled
