@@ -18,8 +18,8 @@ spec:
         namespace: flux-system
       interval: 5m
   dependsOn:
-    - name: metallb
-      namespace: network-system
+    - name: cilium
+      namespace: kube-system
   install:
     timeout: 10m
     replace: true

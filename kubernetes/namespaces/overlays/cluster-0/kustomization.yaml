@@ -28,7 +28,7 @@ resources:
   # - ../../base/backup-system/volsync/ks.yaml
   # - ../../base/crossplane-system/crossplane/ks.yaml
   # - ../../base/development/backstage/ks.yaml
-  - ../../base/development/kubernetes-schemas/ks.yaml
+  # - ../../base/development/kubernetes-schemas/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
   # - ../../base/flux-system/tf-controller/ks.yaml
   # TODO: Disabled when using WGE
@@ -52,7 +52,7 @@ resources:
   - ../../base/kube-system/metrics-server/ks.yaml
   # - ../../base/kube-system/reloader/ks.yaml
   # - ../../base/kube-system/sealed-secrets/ks.yaml
-  - ../../base/kube-system/secret-store-csi-driver/ks.yaml
+  # - ../../base/kube-system/secret-store-csi-driver/ks.yaml
   # - ../../base/kube-system/tetragon/ks.yaml
   - ../../base/network-system/cert-manager/ks.yaml
   - ../../base/network-system/cert-manager-csi-driver/ks.yaml
@@ -64,7 +64,7 @@ resources:
   - ../../base/network-system/echo-server/ks.yaml
   - ../../base/network-system/external-dns/ks.yaml
   # - ../../base/network-system/metallb/ks.yaml
-  - ../../base/network-system/node-feature-discovery/ks.yaml
+  # - ../../base/network-system/node-feature-discovery/ks.yaml
   - ../../base/network-system/oauth2-proxy/ks.yaml
   # - ../../base/nginx-ingress/nginx-ingress/ks.yaml
   # - ../../base/observability/goldilocks/ks.yaml
