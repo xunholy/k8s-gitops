@@ -7,6 +7,7 @@ metadata:
   namespace: network-system
 spec:
   interval: 5m
+  timeout: 10m
   chart:
     spec:
       chart: ./charts/dex-k8s-authenticator
@@ -17,7 +18,6 @@ spec:
         namespace: flux-system
       interval: 10m
   install:
-    timeout: 10m
     replace: true
     crds: CreateReplace
     createNamespace: true
