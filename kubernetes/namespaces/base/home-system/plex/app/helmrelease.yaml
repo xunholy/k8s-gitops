@@ -52,7 +52,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
-          metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_PLEX}
+          io.cilium/lb-ipam-ips: ${CLUSTER_LB_PLEX}
         ports:
           http:
             port: 32400

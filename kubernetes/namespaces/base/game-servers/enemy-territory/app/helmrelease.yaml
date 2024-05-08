@@ -50,7 +50,7 @@ spec:
     service:
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_ENEMY_TERRITORY}
+        io.cilium/lb-ipam-ips: ${CLUSTER_LB_ENEMY_TERRITORY}
     repoConfig:
       owner: xunholy
       repository: etlegacy-server.git

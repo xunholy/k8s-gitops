@@ -721,7 +721,7 @@ ingressController:
     labels: {}
     # -- Annotations to be added for the shared LB service
     annotations:
-      metallb.universe.tf/loadBalancerIPs: 192.168.50.195
+      io.cilium/lb-ipam-ips: 192.168.50.195
     # -- Service type for the shared LB service
     type: LoadBalancer
     # -- Configure a specific nodePort for insecure HTTP traffic on the shared LB service

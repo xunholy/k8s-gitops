@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
+  - loadbalancer.yaml
   - virtualservice.yaml
 
 # TODO: Disabled as the dashboards don't load successfully due to the datasource being "prometheus" and not "Prometheus".

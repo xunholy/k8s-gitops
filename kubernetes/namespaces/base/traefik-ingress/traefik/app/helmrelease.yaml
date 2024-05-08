@@ -50,7 +50,7 @@ spec:
       replicas: 1
     service:
       annotations:
-        metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_TRAEFIK_GATEWAY}
+        io.cilium/lb-ipam-ips: ${CLUSTER_LB_TRAEFIK_GATEWAY}
       spec:
         externalTrafficPolicy: Local
     autoscaling:

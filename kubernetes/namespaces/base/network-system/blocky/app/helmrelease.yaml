@@ -55,7 +55,7 @@ spec:
         enabled: true
         type: LoadBalancer
         annotations:
-          metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_BLOCKY}
+          io.cilium/lb-ipam-ips: ${CLUSTER_LB_BLOCKY}
         ports:
           dns-tcp:
             enabled: true

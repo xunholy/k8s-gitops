@@ -45,7 +45,7 @@ spec:
     replicaCount: 1
     service:
       annotations:
-        metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
+        io.cilium/lb-ipam-ips: ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
     affinity:
       # This podAntiAffinity ensures ingress controllers are not scheduled on the same node
       podAntiAffinity:

@@ -69,7 +69,7 @@ spec:
     serviceType: LoadBalancer
     service:
       annotations:
-        metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_COREDNS}
+        io.cilium/lb-ipam-ips: ${CLUSTER_LB_COREDNS}
       externalTrafficPolicy: Cluster
     # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
     servers:
