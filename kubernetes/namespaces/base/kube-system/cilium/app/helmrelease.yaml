@@ -7,6 +7,7 @@ metadata:
   namespace: kube-system
 spec:
   interval: 5m
+  timeout: 10m
   chart:
     spec:
       chart: cilium
@@ -18,7 +19,6 @@ spec:
       # The HelmRelease version of Cilium MUST match the version installed via Talos to avoid collisions on cluster rebuilds
       version: 1.15.4
   install:
-    timeout: 10m
     replace: true
     crds: CreateReplace
     createNamespace: true
