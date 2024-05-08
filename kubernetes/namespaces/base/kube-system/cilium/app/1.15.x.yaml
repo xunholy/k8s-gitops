@@ -513,7 +513,7 @@ bpf:
   # -- (bool) Configure the eBPF-based TPROXY to reduce reliance on iptables rules
   # for implementing Layer 7 policy.
   # @default -- `false`
-  tproxy: ~
+  tproxy: true
 
   # -- (list) Configure explicitly allowed VLAN id's for bpf logic bypass.
   # [0] will allow all VLAN id's without any filtering.
@@ -684,7 +684,7 @@ daemon:
 # devices. When devices change the eBPF datapath is reloaded and services updated.
 # If "devices" is set then only those devices, or devices matching a wildcard will
 # be considered.
-enableRuntimeDeviceDetection: false
+enableRuntimeDeviceDetection: true
 
 # -- Chains to ignore when installing feeder rules.
 # disableIptablesFeederRules: ""
@@ -717,7 +717,7 @@ envoyConfig:
 ingressController:
   # -- Enable cilium ingress controller
   # This will automatically set enable-envoy-config as well.
-  enabled: true
+  enabled: false
 
   # -- Set cilium ingress controller to be the default ingress controller
   # This will let cilium ingress controller route entries without ingress class set
@@ -1798,7 +1798,7 @@ l2NeighDiscovery:
 l7Proxy: true
 
 # -- Enable Local Redirect Policy.
-localRedirectPolicy: false
+localRedirectPolicy: true
 
 # To include or exclude matched resources from cilium identity evaluation
 # labels: ""
