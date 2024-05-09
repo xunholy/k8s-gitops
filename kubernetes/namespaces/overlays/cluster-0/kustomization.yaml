@@ -41,7 +41,7 @@ resources:
   # - ../../base/home-system/plex/ks.yaml
   # - ../../base/home-system/zigbee2mqtt/ks.yaml
   - ../../base/istio-ingress/istio-gateway/ks.yaml
-  # - ../../base/istio-system/flagger/ks.yaml
+  - ../../base/istio-system/flagger/ks.yaml
   - ../../base/istio-system/istio-base/ks.yaml
   - ../../base/istio-system/istio-cni/ks.yaml
   - ../../base/istio-system/istiod/ks.yaml
@@ -83,7 +83,7 @@ resources:
   # - ../../base/openebs/jiva/ks.yaml
   # - ../../base/openfaas/openfaas/ks.yaml
   # - ../../base/rook-ceph/rook-ceph-operator/ks.yaml
-  # - ../../base/security-system/kube-guardian/ks.yaml
+  - ../../base/security-system/kube-guardian/ks.yaml
   # - ../../base/security-system/kyverno/ks.yaml
   # - ../../base/security-system/gatekeeper/ks.yaml
   # - ../../base/traefik-ingress/traefik/ks.yaml
