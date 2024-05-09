@@ -765,7 +765,8 @@ ingressController:
     # -- Labels to be added for the shared LB service
     labels: {}
     # -- Annotations to be added for the shared LB service
-    annotations: {}
+    annotations:
+      io.cilium/lb-ipam-ips: ${CLUSTER_LB_CILIUM_INGRESS}
     # -- Service type for the shared LB service
     type: LoadBalancer
     # -- Configure a specific nodePort for insecure HTTP traffic on the shared LB service
