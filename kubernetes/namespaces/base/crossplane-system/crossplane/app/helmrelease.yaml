@@ -42,20 +42,5 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-    image:
-      pullPolicy: "IfNotPresent"
-    provider:
-      packages: []
-    configuration:
-      packages: []
     metrics:
       enabled: true
-    args:
-      - --debug
-    # Resources allocated based on Robusta KRR output
-    resourcesCrossplane:
-      limits:
-        memory: 954Mi
-      requests:
-        cpu: 25m
-        memory: 954Mi

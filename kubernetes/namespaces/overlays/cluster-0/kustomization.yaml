@@ -6,7 +6,7 @@ kind: Kustomization
 resources:
   # - ../../base/actions-runner-system
   - ../../base/backup-system
-  # - ../../base/crossplane-system
+  - ../../base/crossplane-system
   # - ../../base/development
   # - ../../base/game-servers
   - ../../base/home-system
@@ -26,7 +26,7 @@ resources:
   - ../../base/velero
   # - ../../base/actions-runner-system/actions-runner-controller/ks.yaml
   # - ../../base/backup-system/volsync/ks.yaml
-  # - ../../base/crossplane-system/crossplane/ks.yaml
+  - ../../base/crossplane-system/crossplane/ks.yaml
   # - ../../base/development/backstage/ks.yaml
   # - ../../base/development/kubernetes-schemas/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
