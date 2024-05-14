@@ -41,3 +41,9 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
+  values:
+    metrics:
+      enable: true
+      serviceMonitor:
+        enabled: true
+    providerRegex: ^talos-\d$
