@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: kube-guardian
-      version: 0.0.7
+      version: 0.0.10
       sourceRef:
         kind: HelmRepository
         name: xentra-charts
@@ -41,14 +41,3 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
-  values:
-    broker:
-      # TODO: This currently does not work on ARM64
-      nodeSelector:
-        kubernetes.io/arch: amd64
-    controller:
-      # TODO: This currently does not work on ARM64
-      nodeSelector:
-        kubernetes.io/arch: amd64
-      image:
-        tag: "edge"
