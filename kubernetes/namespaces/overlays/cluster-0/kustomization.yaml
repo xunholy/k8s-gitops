@@ -12,6 +12,7 @@ resources:
   - ../../base/home-system
   - ../../base/istio-ingress
   - ../../base/istio-system
+  - ../../base/kube-guardian
   - ../../base/kube-system
   # - ../../base/litmus
   - ../../base/network-system
@@ -45,6 +46,7 @@ resources:
   - ../../base/istio-system/istio-base/ks.yaml
   - ../../base/istio-system/istio-cni/ks.yaml
   - ../../base/istio-system/istiod/ks.yaml
+  - ../../base/kube-guardian/kube-guardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml
   - ../../base/kube-system/descheduler/ks.yaml
   # - ../../base/kube-system/kubefed/ks.yaml
@@ -83,7 +85,6 @@ resources:
   # - ../../base/openebs/jiva/ks.yaml
   # - ../../base/openfaas/openfaas/ks.yaml
   # - ../../base/rook-ceph/rook-ceph-operator/ks.yaml
-  - ../../base/security-system/kube-guardian/ks.yaml
   # - ../../base/security-system/kyverno/ks.yaml
   # - ../../base/security-system/gatekeeper/ks.yaml
   # - ../../base/traefik-ingress/traefik/ks.yaml
