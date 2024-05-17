@@ -1,0 +1,5 @@
+metrics:
+  enable: true
+  serviceMonitor:
+    enabled: true
+providerRegex: ^talos-\d$

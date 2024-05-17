@@ -3,5 +3,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+configMapGenerator:
+  - name: kubelet-csr-approver-values
+    files:
+      - values.yaml=values.yaml
+
 resources:
   - helmrelease.yaml

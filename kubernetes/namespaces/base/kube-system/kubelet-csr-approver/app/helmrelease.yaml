@@ -31,7 +31,7 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   test:
-    enable: true
+    enable: false
   rollback:
     recreate: true
     force: true
@@ -41,9 +41,6 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
-  values:
-    metrics:
-      enable: true
-      serviceMonitor:
-        enabled: true
-    providerRegex: ^talos-\d$
+  valuesFrom:
+    - kind: ConfigMap
+      name: kubelet-csr-approver-values

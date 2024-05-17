@@ -6,8 +6,10 @@ kind: Kustomization
 helmCharts:
   - name: kubelet-csr-approver
     includeCRDs: true
+    skipTests: true
     releaseName: kubelet-csr-approver
     namespace: kube-system
+    valuesFile: ../../../kubernetes/namespaces/base/kube-system/kubelet-csr-approver/app/values.yaml
     version: 1.1.0
     repo: https://postfinance.github.io/kubelet-csr-approver
 
