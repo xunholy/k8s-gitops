@@ -123,6 +123,7 @@ spec:
           monitor:
             enabled: false
     # configure custom zone files as per https://coredns.io/2017/05/08/custom-dns-entries-for-kubernetes/
+    # api.raspbernetes.com - https://www.talos.dev/v1.7/introduction/prodnotes/#dns-records
     zoneFiles:
       - filename: raspbernetes.db
         domain: raspbernetes.com
@@ -131,4 +132,7 @@ spec:
           raspbernetes.com.     IN NS     ns.dns.raspbernetes.com.
           raspbernetes.com.     IN A      ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
           et.${CLUSTER_DOMAIN}. IN A      ${CLUSTER_LB_NGINX_INGRESS_GATEWAY}
+          api.raspbernetes.com  IN A      192.168.50.111
+          api.raspbernetes.com  IN A      192.168.50.112
+          api.raspbernetes.com  IN A      192.168.50.113
           *.${CLUSTER_DOMAIN}.  IN CNAME  raspbernetes.com.
