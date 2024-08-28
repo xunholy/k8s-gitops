@@ -16,7 +16,7 @@ spec:
         name: cilium-chart
         namespace: flux-system
       # The HelmRelease version of Cilium MUST match the version installed via Talos to avoid collisions on cluster rebuilds
-      version: 1.1.0
+      version: 1.1.2
   install:
     timeout: 10m
     replace: true
