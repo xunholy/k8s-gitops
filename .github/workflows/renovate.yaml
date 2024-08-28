@@ -1,19 +1,29 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: "Schedule: Renovate"
+name: "Renovate"
 
 on:
   workflow_dispatch:
     inputs:
-      # https://docs.renovatebot.com/self-hosted-configuration/#dryrun
       dryRun:
         description: "Dry Run"
-        default: "false"
+        default: false
+        type: choice
+        options:
+          - extract
+          - lookup
+          - full
         required: false
-      # https://docs.renovatebot.com/examples/self-hosting/#about-the-log-level-numbers
       logLevel:
         description: "Log Level"
-        default: "debug"
+        default: "info"
+        type: choice
+        options:
+          - debug
+          - info
+          - warn
+          - error
+          - fatal
         required: false
       version:
         description: Renovate version
@@ -29,6 +39,10 @@ on:
       - .github/renovate.json5
       - .github/renovate/**.json5
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
 env:
   LOG_LEVEL: "${{ inputs.logLevel || 'debug' }}"
   RENOVATE_DRY_RUN: "${{ inputs.dryRun == true }}"
@@ -42,6 +56,7 @@ env:
 
 jobs:
   renovate:
+    name: Renovate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
