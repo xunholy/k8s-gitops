@@ -39,7 +39,7 @@ spec:
   uninstall:
     keepHistory: false
   driftDetection:
-    mode: enabled
+    mode: warn
   maxHistory: 3
   # TODO: These resources need more data points to be considered accurate.
   # values:

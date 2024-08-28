@@ -39,7 +39,7 @@ spec:
   uninstall:
     keepHistory: false
   driftDetection:
-    mode: enabled
+    mode: warn
   maxHistory: 3
   values:
     pilot:
@@ -62,10 +62,17 @@ spec:
       accessLogFile: /dev/stdout
       trustDomain: cluster.local
       extensionProviders:
-      - name: oauth2-proxy
-        envoyExtAuthzHttp:
-          service: oauth2-proxy.network-system.svc.cluster.local
-          port: 80
-          includeHeadersInCheck: ["authorization", "cookie"]
-          headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"]
-          headersToDownstreamOnDeny: ["content-type", "set-cookie"]
+        - name: oauth2-proxy
+          envoyExtAuthzHttp:
+            service: oauth2-proxy.network-system.svc.cluster.local
+            port: 80
+            includeHeadersInCheck: ["authorization", "cookie"]
+            headersToUpstreamOnAllow:
+              [
+                "authorization",
+                "path",
+                "x-auth-request-user",
+                "x-auth-request-email",
+                "x-auth-request-access-token",
+              ]
+            headersToDownstreamOnDeny: ["content-type", "set-cookie"]
