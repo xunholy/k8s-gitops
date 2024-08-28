@@ -14,16 +14,16 @@
       "labels": ["type/patch"]
     },
     {
+      "matchUpdateTypes": ["digest"],
+      "labels": ["type/digest"]
+    },
+    {
       "matchDatasources": ["docker"],
       "addLabels": ["renovate/container"]
     },
     {
       "matchDatasources": ["helm"],
       "addLabels": ["renovate/helm"]
-    },
-    {
-      "matchDatasources": ["terraform-provider"],
-      "addLabels": ["renovate/terraform"]
     },
     {
       "matchDatasources": ["github-releases", "github-tags"],
