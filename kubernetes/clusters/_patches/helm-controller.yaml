@@ -1,0 +1,32 @@
+---
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --feature-gates=OOMWatch=true
+# REQUIRED: Increase the number of reconciliations that can be performed in parallel and bump the resources limits
+# https://fluxcd.io/flux/cheatsheets/bootstrap/#increase-the-number-of-workers
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --concurrent=5
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --kube-api-qps=50
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --kube-api-burst=100
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --requeue-dependency=30s
+# REQUIRED: CPU limits should be removed
+- op: remove
+  path: /spec/template/spec/containers/0/resources/limits/cpu
+# REQUIRED: Enable Helm near OOM detection
+# https://fluxcd.io/flux/cheatsheets/bootstrap/#enable-helm-near-oom-detection
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --feature-gates=OOMWatch=true
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --oom-watch-memory-threshold=95
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --oom-watch-interval=500ms

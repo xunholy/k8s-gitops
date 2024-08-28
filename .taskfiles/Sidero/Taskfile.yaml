@@ -1,0 +1,35 @@
+---
+version: '3'
+
+env:
+  SIDERO_CONTROLLER_MANAGER_API_ENDPOINT: "192.168.50.100"
+  SIDERO_CONTROLLER_MANAGER_SIDEROLINK_ENDPOINT: "192.168.50.100"
+  SIDERO_CONTROLLER_MANAGER_API_PORT: "80"
+  SIDERO_CONTROLLER_MANAGER_EXTRA_AGENT_KERNEL_ARGS: "console=tty0 console=ttyS1,115200n8"
+  TALOS_VERSION: "v1.0.5"
+  KUBERNETES_VERSION: "v1.23.1"
+  CONTROL_PLANE_PORT: "8443"
+  CONTROL_PLANE_ENDPOINT: "192.168.50.100"
+  SIDERO_CONTROLLER_MANAGER_HOST_NETWORK: true
+
+tasks:
+  bootstrap:
+    desc: "Install Sidero"
+    cmds:
+      - clusterctl init --bootstrap talos --control-plane talos --infrastructure sidero -v=5
+
+  test:
+    desc: "Test Sidero Installation"
+    cmds:
+      - curl -I http://{{.SIDERO_CONTROLLER_MANAGER_API_ENDPOINT}}:8081/tftp/ipxe-arm64.efi
+
+  # TODO:
+  generate:
+    env:
+      CONTROL_PLANE_ENDPOINT: 192.168.50.200
+      CONTROL_PLANE_PORT: 8443
+      CONTROL_PLANE_SERVERCLASS: any
+      TALOS_VERSION: v1.0.5
+      WORKER_SERVERCLASS: any
+    cmds:
+      - clusterctl generate cluster cluster-0 -i sidero

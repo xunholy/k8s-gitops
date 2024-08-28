@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: minecraft-bedrock
@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: minecraft-bedrock
-      version: 2.4.1
+      version: 2.7.0
       sourceRef:
         kind: HelmRepository
         name: minecraft-server-charts
@@ -38,6 +38,8 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
+  driftDetection:
+    mode: enabled
   maxHistory: 3
   values:
     minecraftServer:

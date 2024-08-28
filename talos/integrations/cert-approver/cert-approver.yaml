@@ -9,8 +9,8 @@ metadata:
     app.kubernetes.io/instance: kubelet-csr-approver
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kubelet-csr-approver
-    app.kubernetes.io/version: v1.0.0
-    helm.sh/chart: kubelet-csr-approver-1.0.0
+    app.kubernetes.io/version: v1.1.0
+    helm.sh/chart: kubelet-csr-approver-1.1.0
   name: kubelet-csr-approver
   namespace: kube-system
 ---
@@ -24,6 +24,20 @@ metadata:
     app.kubernetes.io/managed-by: Helm
   name: kubelet-csr-approver
 rules:
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - get
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
 - apiGroups:
   - certificates.k8s.io
   resources:
@@ -78,8 +92,8 @@ metadata:
     app.kubernetes.io/instance: kubelet-csr-approver
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kubelet-csr-approver
-    app.kubernetes.io/version: v1.0.0
-    helm.sh/chart: kubelet-csr-approver-1.0.0
+    app.kubernetes.io/version: v1.1.0
+    helm.sh/chart: kubelet-csr-approver-1.1.0
   name: kubelet-csr-approver
   namespace: kube-system
 spec:
@@ -103,11 +117,12 @@ metadata:
     app.kubernetes.io/instance: kubelet-csr-approver
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kubelet-csr-approver
-    app.kubernetes.io/version: v1.0.0
-    helm.sh/chart: kubelet-csr-approver-1.0.0
+    app.kubernetes.io/version: v1.1.0
+    helm.sh/chart: kubelet-csr-approver-1.1.0
   name: kubelet-csr-approver
   namespace: kube-system
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/instance: kubelet-csr-approver
@@ -124,10 +139,13 @@ spec:
         - :8080
         - -health-probe-bind-address
         - :8081
+        - -leader-election
         env:
+        - name: PROVIDER_REGEX
+          value: ^talos-\d$
         - name: ALLOWED_DNS_NAMES
           value: "1"
-        image: ghcr.io/postfinance/kubelet-csr-approver:v1.0.0
+        image: ghcr.io/postfinance/kubelet-csr-approver:v1.1.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -152,39 +170,44 @@ spec:
             - all
           privileged: false
           readOnlyRootFilesystem: true
+          runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532
+          seccompProfile:
+            type: RuntimeDefault
       securityContext: {}
       serviceAccountName: kubelet-csr-approver
       tolerations:
       - effect: NoSchedule
-        key: node-role.kubernetes.io/master
-        operator: Equal
-      - effect: NoSchedule
         key: node-role.kubernetes.io/control-plane
         operator: Equal
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
 metadata:
   annotations:
-    helm.sh/hook: test
     meta.helm.sh/release-name: kubelet-csr-approver
     meta.helm.sh/release-namespace: kube-system
   labels:
     app.kubernetes.io/instance: kubelet-csr-approver
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kubelet-csr-approver
-    app.kubernetes.io/version: v1.0.0
-    helm.sh/chart: kubelet-csr-approver-1.0.0
-  name: kubelet-csr-approver-test-connection
+    app.kubernetes.io/version: v1.1.0
+    helm.sh/chart: kubelet-csr-approver-1.1.0
+  name: kubelet-csr-approver
+  namespace: kube-system
 spec:
-  containers:
-  - command:
-    - /bin/sh
-    - -c
-    - |
-      sleep 10 ; wget -O- -S kubelet-csr-approver:8080/metrics
-    image: busybox
-    name: wget
-  restartPolicy: Never
+  endpoints:
+  - interval: 1m
+    path: /metrics
+    port: metrics
+    scheme: http
+    scrapeTimeout: 10s
+  jobLabel: kubelet-csr-approver
+  namespaceSelector:
+    matchNames:
+    - kube-system
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: kubelet-csr-approver
+      app.kubernetes.io/name: kubelet-csr-approver

@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -7,7 +8,7 @@ helmCharts:
     includeCRDs: true
     releaseName: cilium
     namespace: kube-system
-    valuesFile: ../../../kubernetes/namespaces/base/kube-system/cilium/app/1.14.x.yaml
+    valuesFile: ../../../kubernetes/namespaces/base/kube-system/cilium/app/1.15.x.yaml
     version: 1.15.4
     repo: https://helm.cilium.io/
 

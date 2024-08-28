@@ -1,3 +1,5 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 # This Github Action is responsible for publishing Kubernetes schemas to an OCI registry.
 # It is triggered by a push to the main branch, a weekly schedule, or a manual dispatch.
 name: "Publish Kubernetes Schemas"
@@ -27,7 +29,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: azure/setup-kubectl@901a10e89ea615cf61f57ac05cecdf23e7de06d8 # v3
+      - uses: azure/setup-kubectl@3e0aec4d80787158d308d7b364cb1b702e7feb7f # v4
         with:
           version: 'v1.26.3'
 

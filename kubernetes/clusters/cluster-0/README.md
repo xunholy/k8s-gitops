@@ -1,1 +1,1 @@
-# Cluster 0 - Bitscope Cluster
+# Cluster 1 - Raspberry Pi Cluster

@@ -1,7 +1,0 @@
-spec:
-  template:
-    spec:
-      hostNetwork: true
-      containers:
-      - name: manager
-        image: xunholy/sidero-controller-manager:v0.5.0-dirty

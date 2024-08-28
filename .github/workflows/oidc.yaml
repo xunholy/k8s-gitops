@@ -1,3 +1,5 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: "Example: GCP Workload identity Federation"
 
 on:
@@ -12,7 +14,7 @@ jobs:
 
     steps:
     # actions/checkout MUST come before auth
-    - uses: 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11' # v4 # Checkout your repository
+    - uses: 'actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b' # v4 # Checkout your repository
 
     # Authenticate to Google Cloud using the workload identity federation
     - id: 'auth'

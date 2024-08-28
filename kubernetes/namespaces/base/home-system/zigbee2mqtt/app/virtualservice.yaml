@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1alpha3.json
-apiVersion: networking.istio.io/v1alpha3
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1beta1.json
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: zigbee2mqtt

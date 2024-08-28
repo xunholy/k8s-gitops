@@ -1,4 +1,6 @@
-name: "Flux: Diff"
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Flux Diff"
 
 on:
   pull_request:
@@ -7,20 +9,31 @@ on:
     paths:
       - "kubernetes/**/*.yaml"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   flux-diff:
+    name: Flux Diff
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     strategy:
       matrix:
         resource:
           - helmrelease
           - kustomization
+      fail-fast: false
     steps:
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@v2.2.3
+
       - uses: allenporter/flux-local-action/diff@645babaa82554b39b6be837d487c8f1e80f63679 # v2
         id: diff
         with:
           live-branch: main
-          path: "kubernetes/clusters/cluster-1"
+          path: "kubernetes/namespaces/overlays/cluster-0"
           resource: ${{ matrix.resource }}
 
       - name: PR Comments

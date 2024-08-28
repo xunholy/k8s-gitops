@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1alpha3.json
-apiVersion: networking.istio.io/v1alpha3
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1beta1.json
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: alert-manager
@@ -19,8 +19,8 @@ spec:
               number: 9093
             host: alertmanager-operated.observability.svc.cluster.local
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1alpha3.json
-apiVersion: networking.istio.io/v1alpha3
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1beta1.json
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: grafana
@@ -42,8 +42,8 @@ spec:
               number: 80
             host: grafana.observability.svc.cluster.local
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1alpha3.json
-apiVersion: networking.istio.io/v1alpha3
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1beta1.json
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: prometheus

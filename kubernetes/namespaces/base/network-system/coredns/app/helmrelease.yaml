@@ -1,12 +1,13 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: coredns
   namespace: network-system
 spec:
   interval: 5m
+  timeout: 10m
   releaseName: coredns
   chart:
     spec:
@@ -18,10 +19,9 @@ spec:
         namespace: flux-system
       interval: 5m
   dependsOn:
-    - name: metallb
-      namespace: network-system
+    - name: cilium
+      namespace: kube-system
   install:
-    timeout: 10m
     replace: true
     crds: CreateReplace
     createNamespace: true
@@ -42,6 +42,8 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
+  driftDetection:
+    mode: enabled
   maxHistory: 3
   values:
     # Resources allocated based on Robusta KRR output
@@ -67,7 +69,7 @@ spec:
     serviceType: LoadBalancer
     service:
       annotations:
-        metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_COREDNS}
+        io.cilium/lb-ipam-ips: ${CLUSTER_LB_COREDNS}
       externalTrafficPolicy: Cluster
     # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
     servers:
@@ -121,6 +123,7 @@ spec:
           monitor:
             enabled: false
     # configure custom zone files as per https://coredns.io/2017/05/08/custom-dns-entries-for-kubernetes/
+    # api.raspbernetes.com - https://www.talos.dev/v1.7/introduction/prodnotes/#dns-records
     zoneFiles:
       - filename: raspbernetes.db
         domain: raspbernetes.com
@@ -129,4 +132,7 @@ spec:
           raspbernetes.com.     IN NS     ns.dns.raspbernetes.com.
           raspbernetes.com.     IN A      ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
           et.${CLUSTER_DOMAIN}. IN A      ${CLUSTER_LB_NGINX_INGRESS_GATEWAY}
+          api.raspbernetes.com  IN A      192.168.50.111
+          api.raspbernetes.com  IN A      192.168.50.112
+          api.raspbernetes.com  IN A      192.168.50.113
           *.${CLUSTER_DOMAIN}.  IN CNAME  raspbernetes.com.

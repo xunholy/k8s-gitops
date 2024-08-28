@@ -1,12 +1,13 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: cilium
   namespace: kube-system
 spec:
   interval: 5m
+  timeout: 10m
   chart:
     spec:
       chart: cilium
@@ -18,7 +19,6 @@ spec:
       # The HelmRelease version of Cilium MUST match the version installed via Talos to avoid collisions on cluster rebuilds
       version: 1.15.4
   install:
-    timeout: 10m
     replace: true
     crds: CreateReplace
     createNamespace: true
@@ -39,6 +39,9 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
+  # TODO: Disabled for now
+  # driftDetection:
+  #   mode: enabled
   maxHistory: 3
   valuesFrom:
     - kind: ConfigMap
@@ -65,24 +68,3 @@ spec:
     gatewayAPI:
       # TODO: Manually installed https://gateway-api.sigs.k8s.io/guides/#installing-gateway-api
       enabled: false
-  # TODO: Investigate why this is required
-  # ERROR: ✗ failed to diff release against cluster resources: [ServiceMonitor/kube-system/cilium-agent dry-run failed, reason: Invalid, error: ServiceMonitor.monitoring.coreos.com "cilium-agent" is invalid: spec.endpoints[0].relabelings[0].replacement: Invalid value: "null": spec.endpoints[0].relabelings[0].replacement in body must be of type string: "null", ServiceMonitor/kube-system/hubble dry-run failed, reason: Invalid, error: ServiceMonitor.monitoring.coreos.com "hubble" is invalid: spec.endpoints[0].relabelings[0].replacement: Invalid value: "null": spec.endpoints[0].relabelings[0].replacement in body must be of type string: "null"]
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              version: v1
-              kind: ServiceMonitor
-              name: cilium-agent
-            patch: |
-              - op: add
-                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
-                value: disabled
-          - target:
-              version: v1
-              kind: ServiceMonitor
-              name: cilium-operator
-            patch: |
-              - op: add
-                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
-                value: disabled

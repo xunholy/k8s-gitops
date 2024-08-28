@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: traefik
@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: traefik
-      version: 26.1.0
+      version: 28.0.0
       sourceRef:
         kind: HelmRepository
         name: traefik-charts
@@ -38,6 +38,8 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
+  driftDetection:
+    mode: enabled
   maxHistory: 3
   dependsOn:
     - name: cert-manager
@@ -48,7 +50,7 @@ spec:
       replicas: 1
     service:
       annotations:
-        metallb.universe.tf/loadBalancerIPs: ${CLUSTER_LB_TRAEFIK_GATEWAY}
+        io.cilium/lb-ipam-ips: ${CLUSTER_LB_TRAEFIK_GATEWAY}
       spec:
         externalTrafficPolicy: Local
     autoscaling:
