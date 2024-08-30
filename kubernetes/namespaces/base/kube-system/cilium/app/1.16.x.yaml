@@ -156,7 +156,7 @@ image:
   pullPolicy: "IfNotPresent"
   # cilium-digest
   digest: ""
-  useDigest: true
+  useDigest: false
 # -- Affinity for cilium-agent.
 affinity:
   podAntiAffinity:
@@ -1330,7 +1330,7 @@ hubble:
       tag: "v1.16.1"
       # hubble-relay-digest
       digest: ""
-      useDigest: true
+      useDigest: false
       pullPolicy: "IfNotPresent"
     # -- Specifies the resources for the hubble-relay pods
     resources: {}
