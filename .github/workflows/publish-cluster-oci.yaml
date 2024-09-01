@@ -53,7 +53,7 @@ jobs:
         run: |
           flux tag artifact "$OCI_REPO:$(git rev-parse --short HEAD)" --tag main
 
-      - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
+      - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
 
       - uses: sigstore/cosign-installer@main
 
