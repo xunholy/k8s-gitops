@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@534684601ec8888beb0cc4f51117b59e97606c4d # v2.2.3
+        uses: fluxcd/flux2/action@896e0fa46d5107a05e953dd0a5261d78a145ec8c # v2.3.0
 
       - uses: allenporter/flux-local/action/diff@1c5568b09bdd941ec029312fd44aeffb194ef766 # 5.5.1
         id: diff
