@@ -51,23 +51,23 @@ spec:
     dexK8sAuthenticator:
       debug: true
       clusters:
-      - name: kubernetes
-        short_description: "My Cluster"
-        description: "Cluster Login"
-        client_secret: '${DEX_K8S_CLIENT_SECRET}'
-        issuer: 'https://dex.${CLUSTER_DOMAIN}'
-        k8s_master_uri: https://${CLUSTER_CONTROLPLANE_VIP}:6443
-        client_id: '${DEX_K8S_CLIENT_ID}'
-        redirect_uri: https://login.${CLUSTER_DOMAIN}/callback
-        k8s_ca_pem: |
-          -----BEGIN CERTIFICATE-----
-          MIIBizCCATCgAwIBAgIRAJMkNcz32it7sBcDUuTEHMEwCgYIKoZIzj0EAwIwFTET
-          MBEGA1UEChMKa3ViZXJuZXRlczAeFw0yMzAzMDEyMjA1MTFaFw0zMzAyMjYyMjA1
-          MTFaMBUxEzARBgNVBAoTCmt1YmVybmV0ZXMwWTATBgcqhkjOPQIBBggqhkjOPQMB
-          BwNCAARoarIBCtr9o9I75RocX/Z4qqLVMr8JxNDDABU24jCyIJ/rsWgoPT5z/KBg
-          YYgvz7cc9BzPLLmhoaoxhKcr6EO5o2EwXzAOBgNVHQ8BAf8EBAMCAoQwHQYDVR0l
-          BBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0O
-          BBYEFJinkwCR2XJTqQI03NbHMnhlTjqXMAoGCCqGSM49BAMCA0kAMEYCIQDZM5Vl
-          CVHX/KVJCmDZHDF6cSHDaNSItQSWpxESq2gMrQIhAO0A1e3c4W54kXdc7mb9bXQW
-          5qfRGXRgs4IN1Cagk4AS
-          -----END CERTIFICATE-----
+        - name: kubernetes
+          short_description: "My Cluster"
+          description: "Cluster Login"
+          client_secret: "${DEX_K8S_CLIENT_SECRET}"
+          issuer: "https://dex.${CLUSTER_DOMAIN}"
+          k8s_master_uri: https://${CLUSTER_CONTROLPLANE_VIP}:6443
+          client_id: "${DEX_K8S_CLIENT_ID}"
+          redirect_uri: https://login.${CLUSTER_DOMAIN}/callback
+          k8s_ca_pem: |
+            -----BEGIN CERTIFICATE-----
+            MIIBiTCCAS+gAwIBAgIQVCS0uL/9jmXrXIcs7Z+vXzAKBggqhkjOPQQDAjAVMRMw
+            EQYDVQQKEwprdWJlcm5ldGVzMB4XDTI0MDQyODA2MTM0MloXDTM0MDQyNjA2MTM0
+            MlowFTETMBEGA1UEChMKa3ViZXJuZXRlczBZMBMGByqGSM49AgEGCCqGSM49AwEH
+            A0IABLRHSAH7ppkihKRJm9ElDUBFVO8ihgrzf22AEPwg1+CWYgXRwEXmL2Vjlf6T
+            U6+5y0H8ELU8ImiifiVfLlm6nOyjYTBfMA4GA1UdDwEB/wQEAwIChDAdBgNVHSUE
+            FjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4E
+            FgQU329Zh/0rC96U+OLp6EamVu07O2swCgYIKoZIzj0EAwIDSAAwRQIgZ1kHrTIy
+            1XmXuGLzVHWtutwKlAeyp+1FtsWt80qcZiUCIQDCSYUlTboy9FnvAmXQzh37qM6v
+            yLkViBgnXdbKNQKuwg==
+            -----END CERTIFICATE-----
