@@ -35,6 +35,7 @@ jobs:
           live-branch: main
           path: "kubernetes/namespaces/overlays/cluster-0"
           resource: ${{ matrix.resource }}
+          sources: "cluster=./kubernetes/"
 
       - name: PR Comments
         uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2
