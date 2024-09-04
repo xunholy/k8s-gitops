@@ -33,7 +33,7 @@ jobs:
         id: diff
         with:
           live-branch: main
-          path: "kubernetes/namespaces/overlays/cluster-0"
+          path: "kubernetes/clusters/cluster-0"
           resource: ${{ matrix.resource }}
           sources: "cluster=./kubernetes/"
 
