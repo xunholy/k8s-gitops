@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: cni
-      version: 1.21.2
+      version: 1.23.0
       sourceRef:
         kind: HelmRepository
         name: istio-charts
@@ -39,7 +39,7 @@ spec:
   uninstall:
     keepHistory: false
   driftDetection:
-    mode: enabled
+    mode: warn
   maxHistory: 3
   # TODO: These resources need more data points to be considered accurate.
   # values:

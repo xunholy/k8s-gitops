@@ -25,7 +25,7 @@ spec:
           forProvider:
             location: us-central1
             ipAllocationPolicy:
-                - {}
+              - {}
             enableAutopilot: true
           writeConnectionSecretToRef:
             namespace: crossplane-system

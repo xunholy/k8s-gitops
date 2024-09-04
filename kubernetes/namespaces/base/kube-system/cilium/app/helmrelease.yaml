@@ -17,7 +17,7 @@ spec:
         name: cilium-chart
         namespace: flux-system
       # The HelmRelease version of Cilium MUST match the version installed via Talos to avoid collisions on cluster rebuilds
-      version: 1.15.4
+      version: 1.16.1
   install:
     replace: true
     crds: CreateReplace
@@ -49,21 +49,6 @@ spec:
   # Required: Using Kustomize helmChart can't pass the Helm chart validation because of the serviceMonitor CRDs, therefore these are disabled in the values.yaml however, re-enabled via the HelmRelease
   # The values are merged in the order given, with the later values overwriting earlier, and then spec.values overwriting those
   values:
-    hubble:
-      metrics:
-        serviceMonitor:
-          enabled: true
-      relay:
-        prometheus:
-          serviceMonitor:
-            enabled: true
-    prometheus:
-      serviceMonitor:
-        enabled: true
-    operator:
-      prometheus:
-        serviceMonitor:
-          enabled: true
     # Enable Gateway API here as the CRDs may not be deployed at the time the CNI is installed via Talos.
     gatewayAPI:
       # TODO: Manually installed https://gateway-api.sigs.k8s.io/guides/#installing-gateway-api
