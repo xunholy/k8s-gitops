@@ -37,7 +37,7 @@ jobs:
           version: "v0.18.0"
 
       - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@f0990588f1e5b5af6827153b93673613abdc6ec7' # v2
+        uses: 'google-github-actions/setup-gcloud@6189d56e4096ee891640bb02ac264be376592d6a' # v2
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
