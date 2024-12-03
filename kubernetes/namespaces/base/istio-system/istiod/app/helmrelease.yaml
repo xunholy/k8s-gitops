@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: istiod
-      version: 1.23.2
+      version: 1.24.1
       sourceRef:
         kind: HelmRepository
         name: istio-charts
