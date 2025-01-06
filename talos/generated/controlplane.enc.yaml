@@ -508,7 +508,7 @@ cluster:
         - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
         # Install the Gateway API CRDs
         # https://gateway-api.sigs.k8s.io/guides/?h=crds#install-standard-channel
-        - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
+        - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
     #   - https://www.example.com/manifest1.yaml
     #   - https://www.example.com/manifest2.yaml
     # A list of inline Kubernetes manifests.
@@ -547,8 +547,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2024-05-08T03:35:24Z"
-    mac: ENC[AES256_GCM,data:zwTI1xBz19P8+86FTTk99WID+tAi2QhIz4gx3O/w0hUSbXcTJZ/wvQbIfAEgGBasnpybuqcxDp3eac33BfmwdXKowVqjavVtudhmGiKbAcrPUf9YA7gITJpzyeUDQTECJoeENV2gXpeczxI0YxfP8JOETrfOySB7HFz74D//TCc=,iv:/NVcvfnKhCkL0K2Lljg6sgmYoU8nN9xll+Qi7GetBDs=,tag:ik+Laeez3dSpIWbLlbhAJQ==,type:str]
+    lastmodified: "2025-01-06T04:15:43Z"
+    mac: ENC[AES256_GCM,data:yIT0ptyeCwsTOgiTmFvgtyoxZNplz+/LhAaO8dPd8fVvywrzyIqptYLMrv6qgWiR8dPnWGgls2Q/XQlAiJ1HeiRM7rUxwXT8POnDSZfhVGJu5OdL84IYC37DNvrk9Q/wFtCVADGL5+GclQ14fk/E+Db84NMH0yvPZyHdLoFhUwc=,iv:lTEY9OfzzA2wNP+CJXEwe7L1zWJXTzeMlIdRNnlHfF0=,tag:kmBtHPw0+QhQJQZWmWd0qw==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |
@@ -571,4 +571,4 @@ sops:
             -----END PGP MESSAGE-----
           fp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
     encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
-    version: 3.7.1
+    version: 3.9.1
