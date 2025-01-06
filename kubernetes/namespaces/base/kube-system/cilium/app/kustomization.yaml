@@ -11,8 +11,10 @@ configMapGenerator:
   - name: cilium-values
     files:
       - values.yaml=./1.16.x.yaml
-    annotations:
-      kustomize.toolkit.fluxcd.io/substitute: disabled
+
+generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
 
 configurations:
   - kustomizeconfig.yaml

@@ -13,8 +13,8 @@ _... managed with Flux, Renovate and GitHub Actions_
 <div align="center">
 
   [![Discord](https://img.shields.io/discord/673534664354430999?style=for-the-badge&label=discord&logo=discord&logoColor=white&color=blue)](https://discord.gg/k8s-at-home)
-  [![Kubernetes](https://img.shields.io/badge/Kubernetes-v1.29.4-blue?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
-  [![Linux](https://img.shields.io/badge/Talos-v1.7.1-blue?style=for-the-badge&logo=linux&logoColor=white)](https://kubernetes.io/)
+  [![Kubernetes](https://img.shields.io/badge/Kubernetes-v1.31.4-blue?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+  [![Linux](https://img.shields.io/badge/Talos-v1.9.1-blue?style=for-the-badge&logo=linux&logoColor=white)](https://kubernetes.io/)
 
 </div>
 
