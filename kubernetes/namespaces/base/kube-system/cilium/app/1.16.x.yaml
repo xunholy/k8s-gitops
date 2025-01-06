@@ -788,8 +788,9 @@ ingressController:
     # -- Labels to be added for the shared LB service
     labels: {}
     # -- Annotations to be added for the shared LB service
-    annotations:
-      io.cilium/lb-ipam-ips: ${CLUSTER_LB_CILIUM_INGRESS}
+    # TODO: Change this to be split so Flux doesn't substitute all the values
+    # annotations:
+    #   io.cilium/lb-ipam-ips: ${CLUSTER_LB_CILIUM_INGRESS}
     # -- Service type for the shared LB service
     type: LoadBalancer
     # @schema
