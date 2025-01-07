@@ -35,7 +35,7 @@ resources:
   # TODO: Disabled when using WGE
   # - ../../base/flux-system/weave-gitops/ks.yaml
   # - ../../base/flux-system/wge/ks.yaml
-  # - ../../base/home-system/home-assistant/ks.yaml
+  - ../../base/home-system/home-assistant/ks.yaml
   # - ../../base/home-system/jellyfin/ks.yaml
   # - ../../base/home-system/mosquitto/ks.yaml
   # - ../../base/home-system/overseerr/ks.yaml
@@ -66,7 +66,7 @@ resources:
   - ../../base/network-system/echo-server/ks.yaml
   - ../../base/network-system/external-dns/ks.yaml
   # - ../../base/network-system/metallb/ks.yaml
-  # - ../../base/network-system/node-feature-discovery/ks.yaml
+  - ../../base/network-system/node-feature-discovery/ks.yaml
   - ../../base/network-system/oauth2-proxy/ks.yaml
   # - ../../base/nginx-ingress/nginx-ingress/ks.yaml
   # - ../../base/observability/goldilocks/ks.yaml
@@ -74,7 +74,7 @@ resources:
   # - ../../base/observability/jaeger/ks.yaml
   # - ../../base/observability/kiali/ks.yaml
   # - ../../base/observability/kube-prometheus-stack/ks.yaml
-  # Deprecated loki-stack
+  # Deprecated: loki-stack
   # - ../../base/observability/loki-stack/ks.yaml
   # - ../../base/observability/loki/ks.yaml
   # - ../../base/observability/otel/ks.yaml

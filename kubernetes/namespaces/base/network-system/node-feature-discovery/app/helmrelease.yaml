@@ -43,46 +43,31 @@ spec:
   maxHistory: 3
   values:
     master:
-      replicaCount: 2
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                    - key: app.kubernetes.io/name
-                      operator: In
-                      values:
-                        - node-feature-discovery
-                topologyKey: "kubernetes.io/hostname"
-    image:
-      tag: v0.10.1
+      replicaCount: 1
     worker:
       config:
         core:
-          sleepInterval: 60s
-          sources:
-            - custom
-            - pci
-            - usb
-        sources:
-          usb:
-            deviceClassWhitelist:
-              - '02'
-              - '03'
-              - '0e'
-              - 'ef'
-              - 'fe'
-              - 'ff'
-            deviceLabelFields:
-              - 'class'
-              - 'vendor'
-              - 'device'
-          custom:
-            - name: 'zigbee'
-              matchOn:
-                - usbId:
-                    class: ['ff']
-                    vendor: ['1a86']
-                    device: ['7523']
+          labelSources: ["pci", "system", "usb"]
+        # TODO: Retest Zigbee USB device
+        # sources:
+        #   usb:
+        #     deviceClassWhitelist:
+        #       - '02'
+        #       - '03'
+        #       - '0e'
+        #       - 'ef'
+        #       - 'fe'
+        #       - 'ff'
+        #     deviceLabelFields:
+        #       - 'class'
+        #       - 'vendor'
+        #       - 'device'
+        #   custom:
+        #     - name: 'zigbee'
+        #       matchOn:
+        #         - usbId:
+        #             class: ['ff']
+        #             vendor: ['1a86']
+        #             device: ['7523']
+    prometheus:
+      enable: true

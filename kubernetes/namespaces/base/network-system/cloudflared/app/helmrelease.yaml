@@ -60,7 +60,6 @@ spec:
               - --config
               - /etc/cloudflared/config.yaml
               - run
-              - 4e92e278-cc6a-4e03-b344-7f6f6c602fcf
             probes:
               liveness: &probes
                 enabled: true

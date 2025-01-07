@@ -9,7 +9,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      version: 1.5.1
+      version: 3.6.0
       chart: app-template
       sourceRef:
         kind: HelmRepository
@@ -41,53 +41,86 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
-  dependsOn:
-    - name: cstor
-      namespace: openebs
+  # TODO: Reenable when cstor is stable
+  # dependsOn:
+  #   - name: cstor
+  #     namespace: openebs
   values:
-    image:
-      repository: ghcr.io/home-assistant/home-assistant
-      tag: 2023.3.0
-    env:
-      TZ: 'Australia/Melbourne'
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-    persistence:
-      config:
-        enabled: true
-        existingClaim: home-assistant-config
-    tolerations:
-      - effect: NoSchedule
-        key: node-role.kubernetes.io/control-plane
-        operator: Exists
-    nodeSelector:
-      openebs.io/storage: "true"
+    controllers:
+      home-assistant:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/onedr0p/home-assistant
+              tag: 2025.1.0@sha256:a3e6b1301107c5ca4dd3e1e7fa25edd0618acc9f812c75674cce7481fb05c759
+            env:
+              TZ: Australia/Melbourne
+              HASS_HTTP_TRUSTED_PROXY_1: 192.168.50.0/24
+              HASS_HTTP_TRUSTED_PROXY_2: 10.0.0.0/8
+            # TODO: Setup local secrets
+            # envFrom:
+            #   - secretRef:
+            #       name: home-assistant-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 2Gi
+          code-server:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.96.2@sha256:6b8c0e944caec80057e71d2c2f352cee38fe00ae4b7515fc4458eb300844f699
+            args: [
+              "--auth", "none",
+              "--user-data-dir", "/config/.vscode",
+              "--extensions-dir", "/config/.vscode",
+              "--port", "12321",
+              "/config"
+            ]
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
     service:
-      main:
+      app:
+        controller: home-assistant
         ports:
           http:
             port: 8123
-    addons:
-      codeserver:
-        enabled: true
-        image:
-          repository: ghcr.io/coder/code-server
-          tag: 4.10.0
-        env:
-          TZ: 'Australia/Melbourne'
-        workingDir: '/config'
-        args:
-          - --user-data-dir
-          - '/config/.vscode'
-          - --auth
-          - 'none'
-          - --extensions-dir
-          - '/config/.vscode'
-        volumeMounts:
-          - name: config
-            mountPath: /config
+          code-server:
+            port: 12321
+    persistence:
+      config:
+        # existingClaim: home-assistant
+        type: emptyDir
+        globalMounts:
+          - path: /config
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
+      tts:
+        type: emptyDir
+        globalMounts:
+          - path: /config/tts
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      venv:
+        type: emptyDir
+        globalMounts:
+          - path: /config/.venv
