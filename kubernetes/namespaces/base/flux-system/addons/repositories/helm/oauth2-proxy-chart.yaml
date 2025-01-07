@@ -6,5 +6,5 @@ metadata:
   name: oauth2-proxy-chart
   namespace: flux-system
 spec:
-  interval: 120m0s
+  interval: 2h
   url: https://oauth2-proxy.github.io/manifests

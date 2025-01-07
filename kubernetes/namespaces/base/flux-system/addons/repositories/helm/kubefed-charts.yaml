@@ -6,5 +6,5 @@ metadata:
   name: kubefed-charts
   namespace: flux-system
 spec:
-  interval: 120m0s
+  interval: 2h
   url: https://raw.githubusercontent.com/kubernetes-sigs/kubefed/master/charts

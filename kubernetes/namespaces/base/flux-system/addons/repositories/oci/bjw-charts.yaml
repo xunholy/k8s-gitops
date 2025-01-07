@@ -7,5 +7,5 @@ metadata:
   namespace: flux-system
 spec:
   type: oci
-  interval: 120m0s
+  interval: 2h
   url: oci://ghcr.io/bjw-s/helm

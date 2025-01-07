@@ -6,5 +6,5 @@ metadata:
   name: otel-charts
   namespace: flux-system
 spec:
-  interval: 120m0s
+  interval: 2h
   url: https://open-telemetry.github.io/opentelemetry-helm-charts

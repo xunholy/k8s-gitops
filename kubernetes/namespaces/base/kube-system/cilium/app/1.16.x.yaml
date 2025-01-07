@@ -361,9 +361,9 @@ alibabacloud:
 # Time) through the "kubernetes.io/egress-bandwidth" Pod annotation.
 bandwidthManager:
   # -- Enable bandwidth manager infrastructure (also prerequirement for BBR)
-  enabled: false
+  enabled: true
   # -- Activate BBR TCP congestion control for Pods
-  bbr: false
+  bbr: true
 # -- Configure standalone NAT46/NAT64 gateway
 nat46x64Gateway:
   # -- Enable RFC8215-prefixed translation
@@ -428,7 +428,7 @@ bpf:
   root: /sys/fs/bpf
   # -- Enables pre-allocation of eBPF map values. This increases
   # memory usage but can reduce latency.
-  preallocateMaps: false
+  preallocateMaps: true
   # @schema
   # type: [null, integer]
   # @schema
@@ -788,9 +788,7 @@ ingressController:
     # -- Labels to be added for the shared LB service
     labels: {}
     # -- Annotations to be added for the shared LB service
-    # TODO: Change this to be split so Flux doesn't substitute all the values
-    # annotations:
-    #   io.cilium/lb-ipam-ips: ${CLUSTER_LB_CILIUM_INGRESS}
+    annotations: {}
     # -- Service type for the shared LB service
     type: LoadBalancer
     # @schema
@@ -933,7 +931,7 @@ endpointRoutes:
   # @schema
   # -- Enable use of per endpoint routes instead of routing via
   # the cilium_host interface.
-  enabled: false
+  enabled: true
 k8sNetworkPolicy:
   # -- Enable support for K8s NetworkPolicy
   enabled: true
@@ -1927,7 +1925,7 @@ enableIPv6Masquerade: true
 # -- Enables masquerading to the source of the route for traffic leaving the node from endpoints.
 enableMasqueradeRouteSource: false
 # -- Enables IPv4 BIG TCP support which increases maximum IPv4 GSO/GRO limits for nodes and pods
-enableIPv4BIGTCP: false
+enableIPv4BIGTCP: true
 # -- Enables IPv6 BIG TCP support which increases maximum IPv6 GSO/GRO limits for nodes and pods
 enableIPv6BIGTCP: false
 nat:

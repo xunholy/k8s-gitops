@@ -17,6 +17,7 @@ resources:
   - crowdsec-charts.yaml
   - descheduler-chart.yaml
   - dex-chart.yaml
+  - emqx-charts.yaml
   - external-dns-chart.yaml
   - fairwinds-charts.yaml
   - falco-security-charts.yaml

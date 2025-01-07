@@ -6,5 +6,5 @@ metadata:
   name: postfinance-charts
   namespace: flux-system
 spec:
-  interval: 120m0s
+  interval: 2h
   url: https://postfinance.github.io/kubelet-csr-approver

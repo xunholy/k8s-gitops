@@ -35,6 +35,7 @@ resources:
   # TODO: Disabled when using WGE
   # - ../../base/flux-system/weave-gitops/ks.yaml
   # - ../../base/flux-system/wge/ks.yaml
+  - ../../base/home-system/emqx/ks.yaml
   - ../../base/home-system/home-assistant/ks.yaml
   # - ../../base/home-system/jellyfin/ks.yaml
   # - ../../base/home-system/mosquitto/ks.yaml
@@ -73,6 +74,7 @@ resources:
   # - ../../base/observability/grafana/ks.yaml
   # - ../../base/observability/jaeger/ks.yaml
   # - ../../base/observability/kiali/ks.yaml
+    - ../../base/observability/kromgo/ks.yaml
   # - ../../base/observability/kube-prometheus-stack/ks.yaml
   # Deprecated: loki-stack
   # - ../../base/observability/loki-stack/ks.yaml

@@ -5,7 +5,7 @@
 #   name: dex-k8s-authenticator-chart
 #   namespace: flux-system
 # spec:
-#   interval: 120m0s
+#   interval: 2h
 #   url: https://charts.dexidp.io
 #   timeout: 3m
 ---
