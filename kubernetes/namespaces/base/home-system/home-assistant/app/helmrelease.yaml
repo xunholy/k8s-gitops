@@ -56,7 +56,8 @@ spec:
             env:
               TZ: Australia/Melbourne
               HASS_HTTP_TRUSTED_PROXY_1: 192.168.50.0/24
-              HASS_HTTP_TRUSTED_PROXY_2: 10.0.0.0/8
+              HASS_HTTP_TRUSTED_PROXY_2: 192.168.86.0/24
+              HASS_HTTP_TRUSTED_PROXY_3: 10.0.0.0/8
             # TODO: Setup local secrets
             # envFrom:
             #   - secretRef:
