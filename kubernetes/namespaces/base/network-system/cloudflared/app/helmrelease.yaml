@@ -1,14 +1,15 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app cloudflared
   namespace: network-system
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
-      version: 1.5.1
+      version: 3.6.0
       chart: app-template
       sourceRef:
         kind: HelmRepository
@@ -41,63 +42,80 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-    image:
-      repository: cloudflare/cloudflared
-      tag: 2023.5.0
-    args:
-      - tunnel
-      - run
-    env:
-      NO_AUTOUPDATE: "true"
-      TUNNEL_METRICS: 0.0.0.0:9090
-      TUNNEL_TRANSPORT_PROTOCOL: auto
+    controllers:
+      cloudflared:
+        replicas: 1
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: docker.io/cloudflare/cloudflared
+              tag: 2024.12.2@sha256:cb38f3f30910a7d51545118a179b8516eb7066eac61855d62ce6ed733c54ce70
+            env:
+              NO_AUTOUPDATE: true
+              TUNNEL_METRICS: 0.0.0.0:8080
+              TUNNEL_TRANSPORT_PROTOCOL: auto
+            args:
+              - tunnel
+              - --config
+              - /etc/cloudflared/config.yaml
+              - run
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ready
+                    port: &port 8080
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 5m
+                memory: 10Mi
+              limits:
+                memory: 256Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile: { type: RuntimeDefault }
     service:
-      main:
+      app:
+        controller: cloudflared
         ports:
           http:
-            port: 9090
+            port: *port
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: cloudflared
         endpoints:
           - port: http
             scheme: http
             path: /metrics
             interval: 1m
-            scrapeTimeout: 30s
-    probes:
-      liveness: &probes
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /ready
-            port: http
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-      readiness: *probes
-      startup:
-        enabled: false
+            scrapeTimeout: 10s
     persistence:
       config:
-        enabled: true
         type: configMap
         name: cloudflared
-        subPath: config.yaml
-        mountPath: /etc/cloudflared/config.yaml
-        readOnly: true
-      credential:
-        enabled: true
+        globalMounts:
+          - path: /etc/cloudflared/config.yaml
+            subPath: config.yaml
+            readOnly: true
+      creds:
         type: secret
         name: cloudflared-credential
-        subPath: credential.json
-        mountPath: /etc/cloudflared/credential.json
-        readOnly: true
-    resources:
-      requests:
-        cpu: 5m
-        memory: 10Mi
-      limits:
-        memory: 256Mi
+        globalMounts:
+          - path: /etc/cloudflared/credential.json
+            subPath: credentials.json
+            readOnly: true
