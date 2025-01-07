@@ -9,6 +9,7 @@
     ":dependencyDashboard",
     ":semanticCommits",
     ":automergeDigest",
+    ":skipStatusChecks",
     ":timezone(Australia/Melbourne)",
     "github>xUnholy/k8s-gitops//.github/renovate/autoMerge.json5",
     "github>xUnholy/k8s-gitops//.github/renovate/commitMessage.json5",
