@@ -60,6 +60,7 @@ spec:
               - --config
               - /etc/cloudflared/config.yaml
               - run
+              - 4e92e278-cc6a-4e03-b344-7f6f6c602fcf
             probes:
               liveness: &probes
                 enabled: true
@@ -117,5 +118,5 @@ spec:
         name: cloudflared-credential
         globalMounts:
           - path: /etc/cloudflared/credential.json
-            subPath: credentials.json
+            subPath: credential.json
             readOnly: true
