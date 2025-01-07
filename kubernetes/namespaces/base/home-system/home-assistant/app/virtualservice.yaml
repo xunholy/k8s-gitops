@@ -37,5 +37,5 @@ spec:
         - destination:
             port:
               number: 12321
-            host: home-assistant-addon-codeserver.home-system.svc.cluster.local
+            host: home-assistant.home-system.svc.cluster.local
           weight: 100
