@@ -25,7 +25,8 @@ resources:
   - ../../base/security-system
   # - ../../base/traefik-ingress
   - ../../base/velero
-  # - ../../base/actions-runner-system/actions-runner-controller/ks.yaml
+  - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
+  - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
   # - ../../base/backup-system/volsync/ks.yaml
   - ../../base/crossplane-system/crossplane/ks.yaml
   # - ../../base/development/backstage/ks.yaml

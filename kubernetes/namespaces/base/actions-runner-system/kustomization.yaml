@@ -5,6 +5,4 @@ kind: Kustomization
 namespace: actions-runner-system
 
 resources:
-  - gha-runner-scale-set/ks.yaml
-  - gha-runner-scale-set-controller/ks.yaml
   - namespace.yaml
