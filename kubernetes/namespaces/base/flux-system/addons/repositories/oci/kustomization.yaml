@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: flux-system
 
 resources:
+  - bitnami-charts.yaml
   - bjw-charts.yaml
   - prometheus-community-charts.yaml
   - xentra-charts.yaml
