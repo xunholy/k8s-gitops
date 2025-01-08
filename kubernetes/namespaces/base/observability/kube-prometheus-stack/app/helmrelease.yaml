@@ -155,7 +155,8 @@ spec:
         - storageclasses
         - validatingwebhookconfigurations
         - volumeattachments
-        - verticalpodautoscalers
+        # TODO: Add once VPA is re-enabled
+        # - verticalpodautoscalers
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false

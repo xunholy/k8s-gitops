@@ -3,6 +3,7 @@
 name: "Renovate"
 
 on:
+  merge_group:
   workflow_dispatch:
     inputs:
       dryRun:
