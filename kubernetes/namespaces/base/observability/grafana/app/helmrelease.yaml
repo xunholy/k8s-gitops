@@ -152,17 +152,18 @@ spec:
           url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
           datasource: Prometheus
         cilium-dashboard:
-          url: https://raw.githubusercontent.com/cilium/cilium/v1.16.5/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-dashboard.json
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.16.5/install/kubernetes/cilium/files/cilium-agent/dashboards/cilium-dashboard.json
           datasource: Prometheus
         cilium-operator-dashboard:
-          url: https://raw.githubusercontent.com/cilium/cilium/v1.16.5/examples/kubernetes/addons/prometheus/files/grafana-dashboards/cilium-operator-dashboard.json
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.16.5/install/kubernetes/cilium/files/cilium-agent/dashboards/cilium-operator-dashboard.json
           datasource: Prometheus
         # Source: https://grafana.com/grafana/dashboards/18015-cilium-policy-verdicts/
         cilium-policy-verdict-dashboard:
-          url: https://raw.githubusercontent.com/isovalent/grafana-dashboards/main/dashboards/cilium-policy-verdicts/cilium-policy-verdicts-dashboard.json
-          datasource:
-            - name: "DS_PROMETHEUS"
-              value: "Prometheus"
+          url: https://grafana.com/api/dashboards/18015/revisions/4/download
+          datasource: Prometheus
+          # datasource:
+          #   - name: "DS_PROMETHEUS"
+          #     value: "Prometheus"
         gatekeeper-dashboard:
           url: https://grafana.com/api/dashboards/15763/revisions/1/download
           datasource: Prometheus
