@@ -131,7 +131,7 @@ spec:
             type: prometheus
             uid: prometheus
             access: proxy
-            url: http://thanos-query.observability.svc.cluster.local:9090/
+            url: http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090/
             isDefault: true
             # (OPTIONAL) Only required when some dashboards don't correctly set the datasource and you want to override it using the dashboard's uid
             # uid: "Prometheus"
