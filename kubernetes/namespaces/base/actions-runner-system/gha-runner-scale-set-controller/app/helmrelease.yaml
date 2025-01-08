@@ -3,18 +3,18 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: weave-gitops
-  namespace: flux-system
+  name: gha-runner-scale-set-controller
+  namespace: actions-runner-system
 spec:
-  interval: 60m
+  interval: 15m
   chart:
     spec:
-      chart: weave-gitops
-      version: "4.0.36"
+      chart: gha-runner-scale-set-controller
+      version: 0.9.3
       sourceRef:
         kind: HelmRepository
-        name: weave-charts
-      interval: 12h
+        name: gha-runner-scale-set-charts
+        namespace: flux-system
   install:
     timeout: 10m
     replace: true
@@ -41,22 +41,14 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-    adminUser:
-      create: false
-    envVars:
-      - name: WEAVE_GITOPS_FEATURE_TENANCY
-        value: "true"
-      - name: WEAVE_GITOPS_FEATURE_CLUSTER
-        value: "true"
-      - name: WEAVE_GITOPS_FEATURE_TELEMETRY
-        value: "true"
-      - name: WEAVE_GITOPS_FEATURE_OIDC_BUTTON_LABEL
-        value: "Login with GitHub"
+    fullnameOverride: gha-runner-scale-set-controller
+    replicaCount: 1
+    securityConect:
+      capabilities:
+        drop:
+        - ALL
+    priorityClassName: platform-cluster-critical
     metrics:
-      enabled: true
-    oidcSecret:
-      create: true
-      clientID: weave-gitops
-      clientSecret: '${DEX_WEAVE_GITOPS_SECRET}'
-      issuerURL: "https://dex.${CLUSTER_DOMAIN}"
-      redirectURL: 'https://gitops.${CLUSTER_DOMAIN}/oauth2/callback'
+      controllerManagerAddr: ":8080"
+      listenerAddr: ":8080"
+      listenerEndpoint: "/metrics"

@@ -5,4 +5,5 @@ kind: Kustomization
 namespace: actions-runner-system
 
 resources:
-  - k8s-gitops.yaml
+  - helmrelease.yaml
+  - secret.enc.yaml
