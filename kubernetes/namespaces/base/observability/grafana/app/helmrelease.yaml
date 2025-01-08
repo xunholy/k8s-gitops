@@ -41,6 +41,8 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
+    # RATIONALE: The secrets are never exposed in the repository and only in-cluster which requires RBAC
+    assertNoLeakedSecrets: false
     replicas: 1
     env:
       GF_EXPLORE_ENABLED: true
