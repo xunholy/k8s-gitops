@@ -117,7 +117,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/
+              path: /var/lib/grafana/dashboards/default
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -129,6 +129,7 @@ spec:
         datasources:
           - name: Prometheus
             type: prometheus
+            uid: prometheus
             access: proxy
             url: http://thanos-query.observability.svc.cluster.local:9090/
             isDefault: true
@@ -136,12 +137,14 @@ spec:
             # uid: "Prometheus"
           - name: Loki
             type: loki
+            uid: loki
             access: proxy
             url: http://loki-gateway.observability.svc.cluster.local:80
             jsonData:
               maxLines: 250
           - name: Alertmanager
             type: alertmanager
+            uid: alertmanager
             access: proxy
             url: http://kube-prometheus-stack-alertmanager.observability.svc.cluster.local:9093
             jsonData:
@@ -159,11 +162,9 @@ spec:
           datasource: Prometheus
         # Source: https://grafana.com/grafana/dashboards/18015-cilium-policy-verdicts/
         cilium-policy-verdict-dashboard:
-          url: https://grafana.com/api/dashboards/18015/revisions/4/download
+          gnetId: 18015
+          revision: 4
           datasource: Prometheus
-          # datasource:
-          #   - name: "DS_PROMETHEUS"
-          #     value: "Prometheus"
         gatekeeper-dashboard:
           url: https://grafana.com/api/dashboards/15763/revisions/1/download
           datasource: Prometheus
@@ -174,22 +175,28 @@ spec:
         # https://grafana.com/grafana/dashboards/7639/revisions
         # https://grafana.com/grafana/dashboards/?search=istio
         istio-mesh:
-          url: https://grafana.com/api/dashboards/7639/revisions/239/download
+          gnetId: 7639
+          revision: 239
           datasource: Prometheus
         istio-service:
-          url: https://grafana.com/api/dashboards/7636/revisions/239/download
+          gnetId: 7636
+          revision: 239
           datasource: Prometheus
         istio-workload:
-          url: https://grafana.com/api/dashboards/7630/revisions/239/download
+          gnetId: 7630
+          revision: 239
           datasource: Prometheus
         istio-performence:
-          url: https://grafana.com/api/dashboards/11829/revisions/239/download
+          gnetId: 11829
+          revision: 239
           datasource: Prometheus
         istio-control-plane:
-          url: https://grafana.com/api/dashboards/7645/revisions/239/download
+          gnetId: 7645
+          revision: 239
           datasource: Prometheus
         istio-wasm:
-          url: https://grafana.com/api/dashboards/13277/revisions/239/download
+          gnetId: 13277
+          revision: 239
           datasource: Prometheus
         kubernetes-api-server:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
@@ -243,10 +250,12 @@ spec:
           url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/bucket-replicate.json
           datasource: Prometheus
         velero:
-          url: https://grafana.com/api/dashboards/11055/revisions/2/download
+          gnetId: 11055
+          revision: 2
           datasource: Prometheus
         velero-stats:
-          url: https://grafana.com/api/dashboards/16829/revisions/3/download
+          gnetId: 16829
+          revision: 3
           datasource: Prometheus
     persistence:
       enabled: false
