@@ -52,6 +52,3 @@ spec:
     controllerServiceAccount:
       name: gha-runner-scale-set-controller
       namespace: actions-runner-system
-    listenerTemplate:
-      spec:
-        priorityClassName: platform-cluster-critical
