@@ -8,6 +8,20 @@
       "automerge": true,
       "automergeType": "branch",
       "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "description": ["Auto-merge FluxCD for minor and patch"],
+      "matchManagers": ["flux"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "description": ["Auto-merge Helm for patch"],
+      "matchDatasources": ["helm"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchUpdateTypes": ["patch"]
     }
   ]
 }
