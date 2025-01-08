@@ -53,7 +53,7 @@ spec:
     gatewayAPI:
       # TODO: Manually installed https://gateway-api.sigs.k8s.io/guides/#installing-gateway-api
       enabled: false
-  ingressController:
-    service:
-      annotations:
-        io.cilium/lb-ipam-ips: ${CLUSTER_LB_CILIUM_INGRESS}
+    ingressController:
+      service:
+        annotations:
+          io.cilium/lb-ipam-ips: ${CLUSTER_LB_CILIUM_INGRESS}
