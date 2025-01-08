@@ -13,7 +13,7 @@ spec:
       version: 15.9.2
       sourceRef:
         kind: HelmRepository
-        name: bitnami-charts
+        name: bitnami-oci-charts
         namespace: flux-system
       interval: 10m
   install:

@@ -4,6 +4,7 @@ apiVersion: apps.emqx.io/v2beta1
 kind: EMQX
 metadata:
   name: emqx
+  namespace: home-system
 spec:
   image: public.ecr.aws/emqx/emqx:5.8.4
   config:

@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/source.toolkit.fluxcd.io/helmrepository_v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: bitnami-oci-charts
+  namespace: flux-system
+spec:
+  type: oci
+  interval: 2h
+  url: oci://registry-1.docker.io/bitnamicharts
