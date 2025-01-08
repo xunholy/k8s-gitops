@@ -9,4 +9,5 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: cstor-replica-raspberry-pi-pool
+  # TODO: Use the new storage class
+  # storageClassName: cstor-replica-raspberry-pi-pool

@@ -18,8 +18,5 @@ spec:
     kind: OCIRepository
     name: cluster
   dependsOn:
-    # TODO: Reenable when cstor is stable
-    # - name: cstor
-    #   namespace: flux-system
     - name: istiod
       namespace: flux-system

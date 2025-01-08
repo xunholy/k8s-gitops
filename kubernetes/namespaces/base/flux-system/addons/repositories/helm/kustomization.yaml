@@ -42,8 +42,6 @@ resources:
   - node-feature-discovery-chart.yaml
   - oauth2-proxy-chart.yaml
   - openebs-charts.yaml
-  - openebs-cstor-chart.yaml
-  - openebs-jiva-chart.yaml
   - openfaas-charts.yaml
   - otel-charts.yaml
   - postfinance-charts.yaml
@@ -55,7 +53,4 @@ resources:
   - traefik-charts.yaml
   - vernemq-charts.yaml
   - vmware-charts.yaml
-  - weave-charts.yaml
-  - wge-charts.yaml
-  - wge-secret.enc.yaml
   - xunholy-charts.yaml

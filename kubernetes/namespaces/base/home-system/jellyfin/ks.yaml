@@ -18,7 +18,5 @@ spec:
     kind: OCIRepository
     name: cluster
   dependsOn:
-    - name: cstor
-      namespace: flux-system
     - name: istiod
       namespace: flux-system

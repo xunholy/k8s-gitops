@@ -10,3 +10,83 @@ spec:
   interval: 2h
   url: oci://registry-1.docker.io/bitnamicharts
   timeout: 10m
+
+
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: thanos
+  namespace: flux-system
+spec:
+  interval: 10m
+  layerSelector:
+    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+    operation: copy
+  url: oci://registry-1.docker.io/bitnamicharts/thanos
+  ref:
+    semver: ">= 15.9.2"
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: thanos-test
+  namespace: observability
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: thanos
+    namespace: flux-system
+  driftDetection:
+    mode: enabled
+  install:
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+    replace: true
+    timeout: 10m
+  interval: 5m
+  maxHistory: 3
+  rollback:
+    cleanupOnFail: true
+    force: true
+    recreate: true
+  test:
+    enable: true
+  uninstall:
+    deletionPropagation: background
+    keepHistory: false
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+  values:
+    compactor:
+      enabled: false
+    image:
+      repository: thanosio/thanos
+      tag: v0.29.0
+    metrics:
+      enabled: true
+    objstoreConfig:
+      config:
+        bucket: thanos-raspbernetes-storage
+      type: GCS
+    query:
+      dnsDiscovery:
+        sidecarsNamespace: observability
+        sidecarsService: kube-prometheus-stack-thanos-discovery
+      podAntiAffinityPreset: hard
+      replicaCount: 3
+      replicaLabel:
+      - __replica__
+    queryFrontend:
+      enabled: false
+    serviceMonitor:
+      enabled: true
+  valuesFrom:
+  - kind: Secret
+    name: thanos-objstore-config

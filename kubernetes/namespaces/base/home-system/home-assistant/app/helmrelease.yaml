@@ -41,10 +41,6 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
-  # TODO: Reenable when cstor is stable
-  # dependsOn:
-  #   - name: cstor
-  #     namespace: openebs
   values:
     controllers:
       home-assistant:

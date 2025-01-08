@@ -48,8 +48,8 @@ spec:
     mode: enabled
   maxHistory: 3
   dependsOn:
-    - name: thanos
-      namespace: observability
+    # - name: thanos
+    #   namespace: observability
     - name: grafana
       namespace: observability
   timeout: 30m
@@ -73,10 +73,10 @@ spec:
           limits:
             memory: 50Mi
     prometheus:
-      thanosService:
-        enabled: true
-      thanosServiceMonitor:
-        enabled: true
+      # thanosService:
+      #   enabled: true
+      # thanosServiceMonitor:
+      #   enabled: true
       ## Settings affecting prometheusSpec
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
       prometheusSpec:
@@ -103,18 +103,18 @@ spec:
             cpu: 1000m
           limits:
             memory: 6294M
-        # Thanos chart will generate the secret: thanos
-        thanos:
-          objectStorageConfig:
-            name: thanos-objstore-secret
-            key: objstore.yml
-          # Resources allocated based on Robusta KRR output
-          resources:
-            requests:
-              memory: 128Mi
-              cpu: 10m
-            limits:
-              memory: 160Mi
+        # # Thanos chart will generate the secret: thanos
+        # thanos:
+        #   objectStorageConfig:
+        #     name: thanos-objstore-secret
+        #     key: objstore.yml
+        #   # Resources allocated based on Robusta KRR output
+        #   resources:
+        #     requests:
+        #       memory: 128Mi
+        #       cpu: 10m
+        #     limits:
+        #       memory: 160Mi
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false

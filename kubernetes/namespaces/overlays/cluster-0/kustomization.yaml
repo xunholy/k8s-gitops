@@ -75,16 +75,14 @@ resources:
   # - ../../base/observability/jaeger/ks.yaml
   # - ../../base/observability/kiali/ks.yaml
   - ../../base/observability/kromgo/ks.yaml
-  # - ../../base/observability/kube-prometheus-stack/ks.yaml
+  - ../../base/observability/kube-prometheus-stack/ks.yaml
   # Deprecated: loki-stack
   # - ../../base/observability/loki-stack/ks.yaml
   # - ../../base/observability/loki/ks.yaml
   # - ../../base/observability/otel/ks.yaml
   - ../../base/observability/thanos/ks.yaml
   # - ../../base/observability/vpa/ks.yaml
-  # - ../../base/openebs/cstor/ks.yaml
   # - ../../base/openebs/mayastor/ks.yaml
-  # - ../../base/openebs/jiva/ks.yaml
   # - ../../base/openfaas/openfaas/ks.yaml
   # - ../../base/rook-ceph/rook-ceph-operator/ks.yaml
   # - ../../base/security-system/kyverno/ks.yaml
