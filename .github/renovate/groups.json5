@@ -20,6 +20,16 @@
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "separateMinorPatch": true
+    },
+    {
+      "description": "Istio Group",
+      "groupName": "istio",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": ["gateway", "istio-base", "istio-cni", "istiod"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": true
     }
   ]
 }

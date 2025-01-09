@@ -33,8 +33,6 @@ spec:
       strategy: rollback
     cleanupOnFail: true
     crds: CreateReplace
-    # Force recreation due to Helm not properly patching Deployment with e.g. added port,
-    # causing spurious drift detection
     force: true
   test:
     enable: true
@@ -48,8 +46,6 @@ spec:
     mode: enabled
   maxHistory: 3
   dependsOn:
-    # - name: thanos
-    #   namespace: observability
     - name: grafana
       namespace: observability
   timeout: 30m
@@ -58,11 +54,6 @@ spec:
     grafana:
       enabled: false
       forceDeployDashboards: true
-      sidecar:
-        dashboards:
-          multicluster:
-            etcd:
-              enabled: true
     prometheusOperator:
       prometheusConfigReloader:
         # Resources allocated based on Robusta KRR output
@@ -88,6 +79,7 @@ spec:
         # https://prometheus.io/docs/prometheus/latest/feature_flags/#exemplars-storage
         enableFeatures:
           - exemplar-storage
+          - memory-snapshot-on-shutdown
         ## Interval between consecutive scrapes.
         ## Defaults to 30s.
         ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/release-0.44/pkg/prometheus/promcfg.go#L180-L183
@@ -119,11 +111,33 @@ spec:
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
         enableAdminAPI: true
         walCompression: true
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels: ["__meta_kubernetes_pod_node_name"]
+              targetLabel: kubernetes_node
     kube-state-metrics:
+      fullnameOverride: kube-state-metrics
       verticalPodAutoscaler:
         enabled: false
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels: ["__meta_kubernetes_pod_node_name"]
+              targetLabel: kubernetes_node
       # REQUIRED kube-state-metrics must be configured to enable Vertical Pod Autoscalar metrics.
       # https://github.com/prometheus-community/helm-charts/blob/cbbc1d6965d5f90c31bb7dd08ecab09e59544a65/charts/kube-state-metrics/values.yaml#L311
       collectors:
@@ -160,35 +174,3 @@ spec:
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              # Ignore these objects from Flux diff as they are mutated from chart hooks
-              kind: (ValidatingWebhookConfiguration|MutatingWebhookConfiguration)
-              name: kube-prometheus-stack-admission
-            patch: |
-              - op: add
-                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
-                value: disabled
-          - target:
-              # Ignore these objects from Flux diff as they are mutated at apply time but not
-              # at dry-run time
-              kind: PrometheusRule
-            patch: |
-              - op: add
-                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
-                value: disabled
-          # TODO: Datasource patching is required
-          # - target:
-          #     version: v1
-          #     kind: ConfigMap
-          #     labelSelector: grafana_dashboard in (1)
-          #   patch: |-
-          #     apiVersion: v1
-          #     kind: ConfigMap
-          #     metadata:
-          #       name: not-used
-          #       namespace: not-used
-          #       annotations:
-          #         grafana_folder: Kubernetes

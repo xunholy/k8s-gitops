@@ -11,4 +11,4 @@ spec:
   eventSeverity: info
   eventSources:
     - kind: Kustomization
-      name: 'flux-system'
+      name: '*'

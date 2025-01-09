@@ -10,7 +10,7 @@ metadata:
     external-dns.alpha.kubernetes.io/external: 'false'
 spec:
   hosts:
-    - 'requests.${CLUSTER_DOMAIN}'
+    - 'radarr.${CLUSTER_DOMAIN}'
   gateways:
     - istio-ingress/istio-ingressgateway
   http:
@@ -18,5 +18,5 @@ spec:
         - destination:
             port:
               number: 80
-            host: overseerr.home-system.svc.cluster.local
+            host: radarr.home-system.svc.cluster.local
           weight: 100

@@ -45,6 +45,7 @@ spec:
       namespace: actions-runner-system
   values:
     nameOverride: gha-runner-scale-set
+    runnerScaleSetName: gha-runner-scale-set
     githubConfigSecret: github-app-secret
     githubConfigUrl: https://github.com/xunholy/k8s-gitops
     maxRunners: 3

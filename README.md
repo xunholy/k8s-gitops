@@ -1,10 +1,8 @@
 <div align="center">
 
-<img src="./docs/assets/raspbernetes.png" alt="Raspbernetes">
+<img src="./docs/assets/banner.png" alt="Raspbernetes">
 
-## Raspbernetes
-
-My _Personal_ Kubernetes GitOps Repository
+My _Personal_ Homelab Repository
 
 _... managed with Flux, Renovate and GitHub Actions_
 
@@ -103,7 +101,7 @@ task cluster CLUSTER_NAME=cluster-0
 | [Protectli VP2410 ](https://protectli.com/product/vp2410/)                             | Kubernetes Control Plane | 3        | 4 Cores | 8GB RAM  | AMD64        | [Talos Linux](https://www.talos.dev/) |       |
 | [Protectli FW2B](https://protectli.com/product/fw2b/)                                  | Kubernetes Node(s)       | 3        | 2 Cores | 8GB RAM  | AMD64        | [Talos Linux](https://www.talos.dev/) |       |
 | [Raspberry Pi 4 Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) | Kubernetes Node(s)       | 4        | 4 Cores | 8GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) |       |
-| [Rock Pi 4 Model C](https://rockpi.org/rockpi4#)                                       | Kubernetes Node(s)       | 6        | 4 Cores | 4GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) |       |
+| [Rock Pi 4 Model C](https://rockpi.org/rockpi4#)                                       | Kubernetes Node(s)       | 6        | 4 Cores | 4GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) |  Decommisioned   |
 
 ## ☁️ Cloud Services
 
@@ -159,11 +157,11 @@ This repository is automatically managed by [Renovate](https://renovatebot.com/)
 
 ## 🤝 Acknowledgments
 
-A special thank you to everyone in the Kubernetes @Home Discord community for their valuable contributions and time. Much of the inspiration for my cluster comes from fellow enthusiasts who have shared their own clusters under the k8s-at-home GitHub topic.
+A special thank you to everyone in the [Home Operation Discord](https://discord.com/invite/home-operations) community for their valuable contributions and time. Much of the inspiration for my cluster comes from fellow enthusiasts who have shared their own clusters under the k8s-at-home GitHub topic.
 
 Also I extend heartfelt thanks to all CNCF contributors for their dedication and expertise, as their collective efforts have been vital in driving innovation and success within the cloud-native ecosystem.
 
-For more ideas on deploying applications or discovering new possibilities, be sure to explore the [Kubernetes @Home search](https://nanne.dev/k8s-at-home-search/) search.
+For more ideas on deploying applications or discovering new possibilities, be sure to explore the [kubesearch.dev](https://kubesearch.dev/) search.
 
 ## 👥 Contributing
 
