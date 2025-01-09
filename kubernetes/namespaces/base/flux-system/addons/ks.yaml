@@ -9,12 +9,12 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/flux-system/addons/repositories"
+  path: "./kubernetes/namespaces/base/flux-system/addons/repositories"
   prune: true
   wait: false
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system
   # REQUIRED: Private charts require authentication with SOPS secrets
   decryption:
     provider: sops
@@ -33,12 +33,12 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/flux-system/addons/notifications"
+  path: "./kubernetes/namespaces/base/flux-system/addons/notifications"
   prune: true
   wait: false
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -52,12 +52,12 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/flux-system/addons/webhooks"
+  path: "./kubernetes/namespaces/base/flux-system/addons/webhooks"
   prune: true
   wait: false
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system
   dependsOn:
     - name: istiod
       namespace: flux-system
@@ -74,9 +74,9 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/flux-system/addons/monitoring"
+  path: "./kubernetes/namespaces/base/flux-system/addons/monitoring"
   prune: true
   wait: false
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system

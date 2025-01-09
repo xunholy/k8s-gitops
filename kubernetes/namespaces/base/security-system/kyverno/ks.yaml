@@ -9,9 +9,9 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/security-system/kyverno/app"
+  path: "./kubernetes/namespaces/base/security-system/kyverno/app"
   prune: true
   wait: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system

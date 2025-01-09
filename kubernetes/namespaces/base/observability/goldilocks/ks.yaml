@@ -11,12 +11,12 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/observability/goldilocks/app"
+  path: "./kubernetes/namespaces/base/observability/goldilocks/app"
   prune: true
   wait: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system
   dependsOn:
     - name: istiod
       namespace: flux-system

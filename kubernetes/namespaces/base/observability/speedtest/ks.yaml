@@ -9,9 +9,9 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/observability/speedtest/app"
+  path: "./kubernetes/namespaces/base/observability/speedtest/app"
   prune: true
   wait: false
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system

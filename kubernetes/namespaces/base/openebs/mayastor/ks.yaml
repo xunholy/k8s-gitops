@@ -9,9 +9,9 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 10m
-  path: "./namespaces/base/openebs/mayastor/app"
+  path: "./kubernetes/namespaces/base/openebs/mayastor/app"
   prune: false
   wait: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system

@@ -9,9 +9,9 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./namespaces/base/game-servers/minecraft/app"
+  path: "./kubernetes/namespaces/base/game-servers/minecraft/app"
   prune: true
   wait: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system

@@ -8,12 +8,12 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./namespaces/base/network-system/istio-csr/app"
+  path: "./kubernetes/namespaces/base/network-system/istio-csr/app"
   prune: true
   wait: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system
   dependsOn:
     - name: cert-manager
       namespace: flux-system

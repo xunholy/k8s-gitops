@@ -7,9 +7,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./namespaces/base/network-system/k8s-gateway/app"
+  path: "./kubernetes/namespaces/base/network-system/k8s-gateway/app"
   prune: true
   wait: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system

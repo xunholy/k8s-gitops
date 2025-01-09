@@ -11,9 +11,9 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/flux-system/tf-controller/app"
+  path: "./kubernetes/namespaces/base/flux-system/tf-controller/app"
   prune: true
   wait: false
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system

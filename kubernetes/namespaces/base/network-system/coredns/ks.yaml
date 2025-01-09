@@ -11,9 +11,9 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/network-system/coredns/app"
+  path: "./kubernetes/namespaces/base/network-system/coredns/app"
   prune: true
   wait: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system

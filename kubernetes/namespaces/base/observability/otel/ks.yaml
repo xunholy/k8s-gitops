@@ -9,9 +9,9 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/observability/otel/app"
+  path: "./kubernetes/namespaces/base/observability/otel/app"
   prune: true
   wait: false
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system

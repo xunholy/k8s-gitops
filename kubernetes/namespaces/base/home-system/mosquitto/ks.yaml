@@ -11,9 +11,9 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/home-system/mosquitto/app"
+  path: "./kubernetes/namespaces/base/home-system/mosquitto/app"
   prune: true
   wait: false
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system

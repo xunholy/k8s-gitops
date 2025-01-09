@@ -11,12 +11,12 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./namespaces/base/home-system/home-assistant/app"
+  path: "./kubernetes/namespaces/base/home-system/home-assistant/app"
   prune: true
   wait: false
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system
   dependsOn:
     - name: istiod
       namespace: flux-system

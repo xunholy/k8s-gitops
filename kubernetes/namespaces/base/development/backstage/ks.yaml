@@ -9,9 +9,9 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./namespaces/base/development/backstage/app"
+  path: "./kubernetes/namespaces/base/development/backstage/app"
   prune: true
   wait: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system

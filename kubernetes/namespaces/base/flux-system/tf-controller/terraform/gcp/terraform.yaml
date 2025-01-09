@@ -9,8 +9,8 @@ spec:
   interval: 12h
   path: ./terraform
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system
     namespace: flux-system
   runnerPodTemplate:
     spec:

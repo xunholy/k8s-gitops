@@ -12,8 +12,8 @@ spec:
   prune: true
   wait: false
   sourceRef:
-    kind: OCIRepository
-    name: cluster
+    kind: GitRepository
+    name: flux-system
   decryption:
     provider: sops
     secretRef:
