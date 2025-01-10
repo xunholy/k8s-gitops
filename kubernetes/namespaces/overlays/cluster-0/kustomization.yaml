@@ -81,6 +81,7 @@ resources:
   # - ../../base/observability/loki-stack/ks.yaml
   # - ../../base/observability/loki/ks.yaml
   # - ../../base/observability/otel/ks.yaml
+  # - ../../base/observability/snmp-exporter/ks.yaml
   # - ../../base/observability/thanos/ks.yaml
   # - ../../base/observability/vpa/ks.yaml
   # - ../../base/openebs/mayastor/ks.yaml

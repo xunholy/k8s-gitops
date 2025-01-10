@@ -3,12 +3,14 @@
   "extends": [
     "config:recommended",
     "docker:enableMajor",
-    "replacements:k8s-registry-move",
+    "helpers:pinGitHubActionDigests",
+    "security:openssf-scorecard"
     ":automergeBranch",
+    ":automergeDigest",
     ":disableRateLimiting",
     ":dependencyDashboard",
     ":semanticCommits",
-    ":automergeDigest",
+    ":separatePatchReleases",
     ":skipStatusChecks",
     ":timezone(Australia/Melbourne)",
     "github>xUnholy/k8s-gitops//.github/renovate/autoMerge.json5",
@@ -16,8 +18,6 @@
     "github>xUnholy/k8s-gitops//.github/renovate/groups.json5",
     "github>xUnholy/k8s-gitops//.github/renovate/labels.json5",
     "github>xUnholy/k8s-gitops//.github/renovate/semanticCommits.json5",
-    "helpers:pinGitHubActionDigests",
-    "security:openssf-scorecard"
   ],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "dependencyDashboardAutoclose": true,

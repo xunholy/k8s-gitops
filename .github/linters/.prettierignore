@@ -1,5 +1,0 @@
-*.encrypted.yaml
-*.enc.yaml
-cloud-init/
-kubernetes/clusters/
-talos/
