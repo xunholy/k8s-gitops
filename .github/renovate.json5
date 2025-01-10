@@ -4,7 +4,7 @@
     "config:recommended",
     "docker:enableMajor",
     "helpers:pinGitHubActionDigests",
-    "security:openssf-scorecard"
+    "security:openssf-scorecard",
     ":automergeBranch",
     ":automergeDigest",
     ":disableRateLimiting",
