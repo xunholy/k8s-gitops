@@ -9,7 +9,7 @@ spec:
   interval: 30m
   chart:
     spec:
-      version: 3.6.0
+      version: 3.6.1
       chart: app-template
       sourceRef:
         kind: HelmRepository
