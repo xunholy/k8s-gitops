@@ -41,3 +41,12 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
+  values:
+    controller:
+      image:
+        repository: ghcr.io/xentra-ai/images/guardian-controller
+        tag: latest
+    broker:
+      image:
+        repository: ghcr.io/xentra-ai/images/guardian-broker
+        tag: latest
