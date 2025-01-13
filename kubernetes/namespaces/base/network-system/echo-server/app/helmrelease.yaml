@@ -42,9 +42,6 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-    defaultPodOptions:
-      labels:
-        sidecar.istio.io/inject: "true"
     controllers:
       echo-server:
         replicas: 1
@@ -85,6 +82,8 @@ spec:
               limits:
                 memory: 128Mi
     defaultPodOptions:
+      labels:
+        sidecar.istio.io/inject: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
