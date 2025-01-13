@@ -30,7 +30,6 @@ resources:
   # - ../../base/backup-system/volsync/ks.yaml
   - ../../base/crossplane-system/crossplane/ks.yaml
   # - ../../base/development/backstage/ks.yaml
-  # - ../../base/development/kubernetes-schemas/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
   # - ../../base/flux-system/tf-controller/ks.yaml
   # TODO: Disabled when using WGE
@@ -38,7 +37,6 @@ resources:
   # - ../../base/flux-system/wge/ks.yaml
   - ../../base/home-system/emqx/ks.yaml
   - ../../base/home-system/home-assistant/ks.yaml
-  # - ../../base/home-system/jellyfin/ks.yaml
   # - ../../base/home-system/mosquitto/ks.yaml
   # - ../../base/home-system/overseerr/ks.yaml
   # - ../../base/home-system/plex/ks.yaml

@@ -9,7 +9,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      version: 1.5.1
+      version: 3.6.1
       chart: app-template
       sourceRef:
         kind: HelmRepository
@@ -42,19 +42,64 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-    image:
-      repository: haiut/echoserver
-      tag: latest
-    podLabels:
-      sidecar.istio.io/inject: "true"
+    controllers:
+      labels:
+        sidecar.istio.io/inject: "true"
+      echo-server:
+        replicas: 2
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/mendhak/http-https-echo
+              tag: 35
+            env:
+              HTTP_PORT: &port 80
+              LOG_WITHOUT_NEWLINE: true
+              LOG_IGNORE_PATH: /healthz
+              PROMETHEUS_ENABLED: true
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+              seccompProfile:
+                type: RuntimeDefault
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 128Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile: { type: RuntimeDefault }
     service:
-      main:
+      app:
+        controller: echo-server
         ports:
           http:
-            port: 8080
-    resources:
-      requests:
-        cpu: 50m
-        memory: 64M
-      limits:
-        memory: 128M
+            port: *port
+    serviceMonitor:
+      app:
+        serviceName: echo-server
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
