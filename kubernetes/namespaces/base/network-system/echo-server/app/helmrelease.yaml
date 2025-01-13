@@ -42,12 +42,14 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
+    defaultPodOptions:
+      labels:
+        sidecar.istio.io/inject: "true"
     controllers:
       echo-server:
-        replicas: 2
+        replicas: 1
         strategy: RollingUpdate
-        labels:
-          sidecar.istio.io/inject: "true"
+
         containers:
           app:
             image:
