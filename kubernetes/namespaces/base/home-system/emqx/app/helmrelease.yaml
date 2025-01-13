@@ -9,7 +9,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      version: 2.2.26
+      version: 2.2.27
       chart: emqx-operator
       sourceRef:
         kind: HelmRepository
