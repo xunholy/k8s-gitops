@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 3.6.1
       sourceRef:
         kind: HelmRepository
         name: bjw-charts
@@ -42,67 +42,81 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-    image:
-      repository: ghcr.io/0xerr0r/blocky
-      tag: v0.21
+    controllers:
+      blocky:
+        replicas: 1
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/0xerr0r/blocky
+              tag: v0.21
+            env:
+              TZ: Australia/Melbourne
+              HTTP_PORT: &port 4000
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { add: [NET_BIND_SERVICE], drop: ["ALL"] }
+              seccompProfile:
+                type: RuntimeDefault
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 128Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: &uid
+        runAsGroup: *uid
+        fsGroup: *uid
+        fsGroupChangePolicy: Always
+        seccompProfile: { type: RuntimeDefault }
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app
     service:
-      main:
-        enabled: true
+      app:
+        controller: *app
         ports:
           http:
-            port: 4000
+            port: *port
       dns:
-        enabled: true
+        controller: *app
         type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: ${CLUSTER_LB_BLOCKY}
         ports:
           dns-tcp:
-            enabled: true
-            port: 53
+            port: &DNSPort 53
             protocol: TCP
-            targetPort: 53
           dns-udp:
-            enabled: true
-            port: 53
+            port: *DNSPort
             protocol: UDP
-            targetPort: 53
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: *app
         endpoints:
-          - interval: 30s
+          - port: http
+            scheme: http
             path: /metrics
-            port: http
+            interval: 1m
             scrapeTimeout: 10s
-    probes:
-      liveness:
-        failureThreshold: 5
-        periodSeconds: 10
-      readiness:
-        failureThreshold: 5
-        periodSeconds: 10
-      startup:
-        initialDelaySeconds: 5
-        failureThreshold: 30
-        periodSeconds: 10
-    persistence:
-      config:
-        enabled: true
-        type: configMap
-        name: blocky
-        subPath: config.yml
-        mountPath: /app/config.yml
-        readOnly: true
-    affinity:
-      podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                  - key: app.kubernetes.io/name
-                    operator: In
-                    values:
-                      - blocky
-              topologyKey: kubernetes.io/hostname

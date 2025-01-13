@@ -7,13 +7,13 @@ metadata:
   namespace: home-system
 spec:
   hosts:
-    - 'z2m.${CLUSTER_DOMAIN}'
+    - 'zigbee2mqtt.${CLUSTER_DOMAIN}'
   gateways:
     - istio-ingress/istio-ingressgateway
   http:
     - route:
         - destination:
             port:
-              number: 8080
+              number: 80
             host: zigbee2mqtt.home-system.svc.cluster.local
           weight: 100

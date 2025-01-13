@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: cert-manager-csi-driver
+  name: &app cert-manager-csi-driver
   namespace: network-system
 spec:
   interval: 5m

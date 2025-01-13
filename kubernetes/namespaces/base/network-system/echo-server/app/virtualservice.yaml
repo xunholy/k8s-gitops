@@ -6,7 +6,7 @@ metadata:
   name: echo-server
   annotations:
     external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
-    external-dns.alpha.kubernetes.io/external: 'true'
+    external-dns.alpha.kubernetes.io/external: 'false'
 spec:
   hosts:
     - 'echo.${CLUSTER_DOMAIN}'

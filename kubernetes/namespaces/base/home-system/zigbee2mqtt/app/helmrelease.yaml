@@ -3,13 +3,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: zigbee2mqtt
+  name: &app zigbee2mqtt
   namespace: home-system
 spec:
   interval: 5m
   chart:
     spec:
-      version: 1.5.1
+      version: 3.6.1
       chart: app-template
       sourceRef:
         kind: HelmRepository
@@ -45,65 +45,112 @@ spec:
     - name: mosquitto
       namespace: home-system
   values:
-    image:
-      repository: ghcr.io/koenkk/zigbee2mqtt
-      tag: 1.30.2
-    env:
-      TZ: Australia/Melbourne
-      ZIGBEE2MQTT_DATA: /data
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "true"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: "true"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info
-      ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
-      ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
-      ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: "false"
-      ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
-      ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: "true"
-      ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: 8080
-      ZIGBEE2MQTT_CONFIG_FRONTEND_URL: z2m.${CLUSTER_DOMAIN}
-      ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: "true"
-      ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt
-      ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
-      ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
-      ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "false"
-      ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://mosquitto:1883
-      ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
-      ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://${EXT_ZIGBEE_CONTROLLER}:6638
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
-      ZIGBEE2MQTT_CONFIG_DEVICES: devices.yaml
-      ZIGBEE2MQTT_CONFIG_GROUPS: groups.yaml
-      ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "true"
-      ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: false
-    persistence:
-      config:
-        enabled: true
-        existingClaim: zigbee2mqtt-data
-        mountPath: "/data"
-    tolerations:
-      - effect: NoSchedule
-        key: node-role.kubernetes.io/control-plane
-        operator: Exists
-    nodeSelector:
-      openebs.io/storage: "true"
+    controllers:
+      zigbee2mqtt:
+        type: deployment
+        replicas: 1
+        containers:
+          main:
+            image:
+              repository: ghcr.io/koenkk/zigbee2mqtt
+              tag: 2.0.0@sha256:6105a3a01a66bbfb98909a7c309d0707ec7b41728ac15d399747077225231545
+            env:
+              TZ: Australia/Melbourne
+              ZIGBEE2MQTT_DATA: /data
+              ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: true
+              # adapter
+              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://${EXT_ZIGBEE_CONTROLLER}:6638
+              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
+              ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
+              ZIGBEE2MQTT_CONFIG_ADVANCED_TRANSMIT_POWER: 20
+              ZIGBEE2MQTT_CONFIG_ADVANCED_DISABLE_LED: false
+              # mqtt
+              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://mosquitto:1883
+              ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt
+              ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: true
+              ZIGBEE2MQTT_CONFIG_MQTT_USER: ${EMQX_USER_USERNAME}
+              ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD: ${EMQX_USER_PASSWORD}
+              ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
+              # zigbee network
+              ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 25
+              # frontend
+              ZIGBEE2MQTT_CONFIG_FRONTEND_ENABLED: true
+              ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 80
+              ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee2mqtt.${CLUSTER_DOMAIN}
+              # devices and groups
+              ZIGBEE2MQTT_CONFIG_DEVICES: devices.yaml
+              ZIGBEE2MQTT_CONFIG_GROUPS: groups.yaml
+              # logging
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
+              # device-availability
+              ZIGBEE2MQTT_CONFIG_AVAILABILITY_ENABLED: true
+              ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
+              ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
+              ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: true
+              # home-assistant
+              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: true
+              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
+              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
+              # security
+              ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: true
+            securityContext:
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+                add: ["NET_BIND_SERVICE"]
+            resources:
+              requests:
+                cpu: "10m"
+              limits:
+                memory: "256Mi"
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 300
+                  periodSeconds: 1
+                  initialDelaySeconds: 10
     service:
-      main:
+      zigbee2mqtt:
+        controller: *app
         ports:
           http:
-            port: 8080
-          metrics:
-            enabled: true
-            port: 9000
+            port: *port
+            protocol: HTTP
+            appProtocol: http
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: *app
         endpoints:
-          - port: metrics
+          - port: http
             scheme: http
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
+    persistence:
+      data:
+        existingClaim: zigbee2mqtt-data
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: &uid 1000
+        runAsGroup: *uid
+        fsGroup: *uid
+        fsGroupChangePolicy: Always
+        seccompProfile: { type: "RuntimeDefault" }
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app

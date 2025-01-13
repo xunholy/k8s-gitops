@@ -42,11 +42,10 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-    # TODO: Not yet pushed latest image to ghcr.io
-    # controller:
-    #   image:
-    #     repository: ghcr.io/xentra-ai/images/guardian-controller
-    #     tag: latest
+    controller:
+      image:
+        repository: ghcr.io/xentra-ai/images/guardian-controller
+        tag: latest
     broker:
       image:
         repository: ghcr.io/xentra-ai/images/guardian-broker
