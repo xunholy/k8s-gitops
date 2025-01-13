@@ -8,5 +8,5 @@ resources:
   - helmrelease.yaml
   # TODO: Re-enable once confirmed working
   # - networkpolicy.yaml
-  - pvc.yaml
+  # - pvc.yaml
   - virtualservice.yaml

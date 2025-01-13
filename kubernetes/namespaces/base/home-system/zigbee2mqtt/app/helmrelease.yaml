@@ -134,9 +134,9 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
-    persistence:
-      data:
-        existingClaim: zigbee2mqtt-data
+    # persistence:
+    #   data:
+    #     existingClaim: zigbee2mqtt-data
     defaultPodOptions:
       automountServiceAccountToken: false
       enableServiceLinks: false
