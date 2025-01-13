@@ -45,7 +45,7 @@ spec:
     controller:
       image:
         repository: ghcr.io/xentra-ai/images/guardian-controller
-        tag: latest
+        tag: edge
     broker:
       image:
         repository: ghcr.io/xentra-ai/images/guardian-broker
