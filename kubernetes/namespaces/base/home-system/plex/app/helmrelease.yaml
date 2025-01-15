@@ -100,3 +100,29 @@ spec:
         ports:
           http:
             port: 32400
+    persistence:
+      config:
+        # existingClaim: plex
+        # TODO: If setting up Plex for the first time, you'll want to add the globalMounts section
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server
+      # Separate PVC for cache to avoid backing up cache files
+      cache:
+        existingClaim: emptyDir
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server/Cache
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server/Logs
+      tmp:
+        type: emptyDir
+      transcode:
+        type: emptyDir
+      media:
+        type: nfs
+        server: ${EXT_NAS_IP}
+        path: /mnt/tank/Media
+        globalMounts:
+          - path: /media
+            readOnly: true
