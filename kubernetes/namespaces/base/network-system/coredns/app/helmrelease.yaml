@@ -136,4 +136,4 @@ spec:
           api.${CLUSTER_DOMAIN}.    IN A      192.168.50.112
           api.${CLUSTER_DOMAIN}.    IN A      192.168.50.113
           *.${CLUSTER_DOMAIN}.      IN CNAME  ${CLUSTER_DOMAIN}.
-          plex.local.               IN A      ${EXT_NAS_IP}
+          plex.home.                IN A      ${EXT_NAS_IP}
