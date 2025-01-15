@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app jellyseerr
+  name: &app sabnzbd
   namespace: home-system
 spec:
   interval: 5m
@@ -43,26 +43,32 @@ spec:
   maxHistory: 3
   values:
     controllers:
-      jellyseerr:
+      sabnzbd:
         containers:
           app:
             image:
-              repository: docker.io/fallenbagel/jellyseerr
-              tag: 2.2.3@sha256:a324fa4d81cce73116801bee3c50b632f3457c0ca0ad31aa692c640e22f50dea
+              repository: ghcr.io/onedr0p/sabnzbd
+              tag: 4.4.1@sha256:4188d3c29c53de1018edcfd5dc2d0a0c7955b9a239b91ff6c859626abd3494dc
             env:
               TZ: Australia/Melbourne
-              LOG_LEVEL: "info"
-              PORT: &port 80
+              SABNZBD__PORT: &port 80
+              SABNZBD__HOST_WHITELIST_ENTRIES: >-
+                sabnzbd,
+                sabnzbd.home-system,
+                sabnzbd.home-system.svc,
+                sabnzbd.home-system.svc.cluster,
+                sabnzbd.home-system.svc.cluster.local,
+                sab.${CLUSTER_DOMAIN},
             envFrom:
               - secretRef:
-                  name: jellyseerr-secret
+                  name: sabnzbd-secret
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/v1/status
+                    path: /api?mode=version
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
@@ -75,9 +81,9 @@ spec:
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
-                cpu: 10m
+                cpu: 100m
               limits:
-                memory: 2Gi
+                memory: 4Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -94,16 +100,13 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: jellyseerr
-        globalMounts:
-          - path: /app/config
-      cache:
-        existingClaim: jellyseerr-cache
-        globalMounts:
-          - path: /app/config/cache
-      logs:
         type: emptyDir
-        globalMounts:
-          - path: /app/config/logs
       tmp:
         type: emptyDir
+      media:
+        type: nfs
+        server: ${EXT_NAS_IP}
+        path: /mnt/tank/media
+        globalMounts:
+          - path: /media/Downloads/sabnzbd
+            subPath: Downloads/sabnzbd

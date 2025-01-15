@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app jellyseerr
+  name: &app qbittorrent
   namespace: home-system
 spec:
   interval: 5m
@@ -43,41 +43,35 @@ spec:
   maxHistory: 3
   values:
     controllers:
-      jellyseerr:
+      qbittorrent:
         containers:
           app:
             image:
-              repository: docker.io/fallenbagel/jellyseerr
-              tag: 2.2.3@sha256:a324fa4d81cce73116801bee3c50b632f3457c0ca0ad31aa692c640e22f50dea
+              repository: ghcr.io/onedr0p/qbittorrent
+              tag: 5.0.3@sha256:19597e4a5c5e52702ff6b4ea5c4b5f9f42433d6c2f1ef1d2db5964938bf44557
             env:
               TZ: Australia/Melbourne
-              LOG_LEVEL: "info"
-              PORT: &port 80
-            envFrom:
-              - secretRef:
-                  name: jellyseerr-secret
+              QBT_WEBUI_PORT: &port 80
+              QBT_TORRENTING_PORT: &torrentPort 50413
             probes:
-              liveness: &probes
+              liveness:
                 enabled: true
-                custom: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
                 spec:
-                  httpGet:
-                    path: /api/v1/status
-                    port: *port
-                  initialDelaySeconds: 0
+                  failureThreshold: 30
                   periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
-                cpu: 10m
+                cpu: 100m
               limits:
-                memory: 2Gi
+                memory: 4Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -92,18 +86,19 @@ spec:
         ports:
           http:
             port: *port
+          bittorrent:
+            enabled: true
+            port: *torrentPort
+            protocol: TCP
     persistence:
       config:
-        existingClaim: jellyseerr
-        globalMounts:
-          - path: /app/config
-      cache:
-        existingClaim: jellyseerr-cache
-        globalMounts:
-          - path: /app/config/cache
-      logs:
         type: emptyDir
-        globalMounts:
-          - path: /app/config/logs
       tmp:
         type: emptyDir
+      media:
+        type: nfs
+        server: ${EXTERNAL_NFS_IP}
+        path: /mnt/tank/media
+        globalMounts:
+          - path: /media/Downloads/qbittorrent
+            subPath: Downloads/qbittorrent
