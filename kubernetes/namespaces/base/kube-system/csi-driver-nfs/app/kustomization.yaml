@@ -6,15 +6,3 @@ namespace: kube-system
 
 resources:
   - helmrelease.yaml
-
-configMapGenerator:
-  - name: cilium-values
-    files:
-      - values.yaml=./1.16.x.yaml
-
-generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
-
-configurations:
-  - kustomizeconfig.yaml
