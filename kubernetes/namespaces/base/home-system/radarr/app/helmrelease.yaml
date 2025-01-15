@@ -112,6 +112,6 @@ spec:
       media:
         type: nfs
         server: ${EXT_NAS_IP}
-        path: /mnt/tank/Media
+        path: /mnt/tank/media
         globalMounts:
           - path: /media
