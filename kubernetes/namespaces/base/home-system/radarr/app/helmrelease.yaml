@@ -111,7 +111,7 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: expanse.internal
+        server: ${EXT_NAS_IP}
         path: /mnt/tank/Media
         globalMounts:
           - path: /media
