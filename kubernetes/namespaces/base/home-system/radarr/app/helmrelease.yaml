@@ -102,9 +102,9 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: radarr
+        type: emptyDir
       cache:
-        existingClaim: radarr-cache
+        type: emptyDir
         globalMounts:
           - path: /config/MediaCover
       tmp:
@@ -112,6 +112,6 @@ spec:
       media:
         type: nfs
         server: expanse.internal
-        path: /mnt/eros/Media
+        path: /mnt/tank/Media
         globalMounts:
           - path: /media

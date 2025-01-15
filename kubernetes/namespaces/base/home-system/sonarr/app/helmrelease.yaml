@@ -102,7 +102,7 @@ spec:
       config:
         existingClaim: sonarr
       cache:
-        existingClaim: sonarr-cache
+        type: emptyDir
         globalMounts:
           - path: /config/MediaCover
       scripts:
@@ -124,6 +124,6 @@ spec:
       media:
         type: nfs
         server: expanse.internal
-        path: /mnt/eros/Media
+        path: /mnt/tank/Media
         globalMounts:
           - path: /media
