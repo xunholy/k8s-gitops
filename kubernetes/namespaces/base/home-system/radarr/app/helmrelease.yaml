@@ -41,7 +41,6 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-  values:
     controllers:
       radarr:
         annotations:
