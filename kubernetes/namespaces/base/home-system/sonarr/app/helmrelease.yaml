@@ -100,30 +100,16 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: sonarr
+        type: emptyDir
       cache:
         type: emptyDir
         globalMounts:
           - path: /config/MediaCover
-      scripts:
-        type: configMap
-        name: sonarr-configmap
-        defaultMode: 0775
-        globalMounts:
-          - path: /scripts/codec-tagger.sh
-            subPath: codec-tagger.sh
-            readOnly: true
-          - path: /scripts/pushover-notifier.sh
-            subPath: pushover-notifier.sh
-            readOnly: true
-          - path: /scripts/tba-refresher.sh
-            subPath: tba-refresher.sh
-            readOnly: true
       tmp:
         type: emptyDir
       media:
         type: nfs
-        server: expanse.internal
+        server: ${EXT_NAS_IP}
         path: /mnt/tank/media
         globalMounts:
           - path: /media
