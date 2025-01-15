@@ -43,7 +43,7 @@ spec:
     # Zigbee2mqtt runs on its own dedicated loadbalancer IP
     - to:
         - ipBlock:
-            cidr: ${EXT_ZIGBEE_CONTROLLER}/32
+            cidr: ${EXT_ZIGBEE_CONTROLLER_IP}/32
       ports:
         - port: 6638
           protocol: TCP

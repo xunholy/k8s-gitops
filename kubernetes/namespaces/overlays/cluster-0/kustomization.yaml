@@ -48,6 +48,7 @@ resources:
   - ../../base/istio-system/istiod/ks.yaml
   - ../../base/kube-guardian/kube-guardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml
+  - ../../base/kube-system/csi-driver-nfs/ks.yaml
   - ../../base/kube-system/descheduler/ks.yaml
   # - ../../base/kube-system/kubefed/ks.yaml
   - ../../base/kube-system/kubelet-csr-approver/ks.yaml
@@ -82,7 +83,7 @@ resources:
   # - ../../base/observability/snmp-exporter/ks.yaml
   # - ../../base/observability/thanos/ks.yaml
   # - ../../base/observability/vpa/ks.yaml
-  # - ../../base/openebs/mayastor/ks.yaml
+  # - ../../base/openebs-system/openebs/ks.yaml
   # - ../../base/openfaas/openfaas/ks.yaml
   # - ../../base/rook-ceph/rook-ceph-operator/ks.yaml
   # - ../../base/security-system/kyverno/ks.yaml
