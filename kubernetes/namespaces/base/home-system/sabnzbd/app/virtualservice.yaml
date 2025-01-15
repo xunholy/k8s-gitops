@@ -18,5 +18,5 @@ spec:
         - destination:
             port:
               number: 80
-            host: sab.home-system.svc.cluster.local
+            host: sabnzbd.home-system.svc.cluster.local
           weight: 100

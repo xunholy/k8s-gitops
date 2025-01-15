@@ -98,7 +98,7 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: ${EXTERNAL_NFS_IP}
+        server: ${EXT_NFS_IP}
         path: /mnt/tank/media
         globalMounts:
           - path: /media/Downloads/qbittorrent
