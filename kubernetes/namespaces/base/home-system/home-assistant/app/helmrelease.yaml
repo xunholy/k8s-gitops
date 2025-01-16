@@ -101,8 +101,7 @@ spec:
             port: 12321
     persistence:
       config:
-        # existingClaim: home-assistant
-        type: emptyDir
+        existingClaim: home-assistant
         globalMounts:
           - path: /config
       logs:

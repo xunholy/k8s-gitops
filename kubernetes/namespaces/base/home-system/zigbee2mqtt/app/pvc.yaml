@@ -9,5 +9,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  # TODO: Use the new storage class
-  # storageClassName: cstor-replica-raspberry-pi-pool
+  storageClassName: truenas-iscsi-csi

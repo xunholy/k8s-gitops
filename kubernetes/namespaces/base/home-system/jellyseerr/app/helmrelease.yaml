@@ -94,11 +94,11 @@ spec:
             port: *port
     persistence:
       config:
-        type: emptyDir
+        existingClaim: jellyseerr
         globalMounts:
           - path: /app/config
       cache:
-        type: emptyDir
+        existingClaim: jellyseerr-cache
         globalMounts:
           - path: /app/config/cache
       logs:

@@ -93,7 +93,7 @@ spec:
             protocol: TCP
     persistence:
       config:
-        type: emptyDir
+        existingClaim: qbittorrent
       tmp:
         type: emptyDir
       media:

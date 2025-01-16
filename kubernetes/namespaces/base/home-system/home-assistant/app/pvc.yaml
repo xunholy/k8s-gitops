@@ -8,6 +8,5 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
-  # TODO: Use the new storage class
-  # storageClassName: cstor-replica-raspberry-pi-pool
+      storage: 5Gi
+  storageClassName: truenas-iscsi-csi

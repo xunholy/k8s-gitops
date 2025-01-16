@@ -101,7 +101,7 @@ spec:
             port: *port
     persistence:
       config:
-        type: emptyDir
+        existingClaim: sabnzbd
       tmp:
         type: emptyDir
       media:

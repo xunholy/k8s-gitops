@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: *app
-      version: 3.15.0
+      version: 0.14.7
       sourceRef:
         kind: HelmRepository
         name: democratic-csi-charts
@@ -43,12 +43,10 @@ spec:
   maxHistory: 3
   values:
     csiDriver:
-      # should be globally unique for a given cluster
       name: "org.democratic-csi.iscsi"
 
-    # add note here about volume expansion requirements
     storageClasses:
-      - name: freenas-iscsi-csi
+      - name: truenas-iscsi-csi
         defaultClass: false
         reclaimPolicy: Delete
         volumeBindingMode: Immediate
@@ -60,7 +58,7 @@ spec:
 
           # if true, volumes created from other snapshots will be
           # zfs send/received instead of zfs cloned
-          # detachedVolumesFromSnapshots: "false"
+          detachedVolumesFromSnapshots: "false"
 
           # if true, volumes created from other volumes will be
           # zfs send/received instead of zfs cloned
@@ -84,7 +82,10 @@ spec:
           controller-expand-secret:
 
     # if your cluster supports snapshots you may enable below
-    volumeSnapshotClasses: []
+    volumeSnapshotClasses:
+      - name: truenas-iscsi
+        parameters:
+          detachedSnapshots: "true"
     #- name: freenas-iscsi-csi
     #  parameters:
     #  # if true, snapshots will be created with zfs send/receive
@@ -92,10 +93,21 @@ spec:
     #  secrets:
     #    snapshotter-secret:
 
+    node:
+      hostPID: true
+      driver:
+        extraEnv:
+          - name: ISCSIADM_HOST_STRATEGY
+            value: nsenter
+          - name: ISCSIADM_HOST_PATH
+            value: /usr/local/sbin/iscsiadm
+        iscsiDirHostPath: /usr/local/etc/iscsi
+        iscsiDirHostPathType: ""
+
     driver:
+      existingConfigSecret: driver-config
       config:
         # please see the most up-to-date example of the corresponding config here:
         # https://github.com/democratic-csi/democratic-csi/tree/master/examples
         # YOU MUST COPY THE DATA HERE INLINE!
-        driver: freenas-iscsi
-        #...
+        driver: freenas-api-iscsi

@@ -103,9 +103,9 @@ spec:
             port: *port
     persistence:
       config:
-        type: emptyDir
+        existingClaim: radarr
       cache:
-        type: emptyDir
+        existingClaim: radarr-cache
         globalMounts:
           - path: /config/MediaCover
       tmp:

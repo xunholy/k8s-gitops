@@ -101,9 +101,9 @@ spec:
             port: *port
     persistence:
       config:
-        type: emptyDir
+        existingClaim: sonarr
       cache:
-        type: emptyDir
+        existingClaim: sonarr-cache
         globalMounts:
           - path: /config/MediaCover
       tmp:
