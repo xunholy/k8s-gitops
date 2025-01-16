@@ -93,8 +93,12 @@ spec:
     #  secrets:
     #    snapshotter-secret:
 
+    controller:
+      priorityClassName: "platform-cluster-critical"
+
     node:
       hostPID: true
+      priorityClassName: "platform-node-critical"
       driver:
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
