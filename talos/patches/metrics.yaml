@@ -1,3 +1,4 @@
+# https://www.talos.dev/v1.9/talos-guides/configuration/containerd/#exposing-metrics
 machine:
   files:
     - content: |

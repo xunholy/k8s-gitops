@@ -43,7 +43,7 @@ spec:
   maxHistory: 3
   values:
     controllers:
-      jellyseerr:
+      *app :
         containers:
           app:
             image:

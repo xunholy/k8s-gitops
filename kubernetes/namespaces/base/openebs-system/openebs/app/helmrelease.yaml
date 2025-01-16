@@ -41,3 +41,15 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
+  values:
+    engines:
+      local:
+        lvm:
+          enabled: false
+        zfs:
+          enabled: false
+    mayastor:
+      csi:
+        node:
+          initContainers:
+            enabled: false

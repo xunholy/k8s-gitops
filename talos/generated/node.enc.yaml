@@ -22,7 +22,7 @@ machine:
     # Used to provide additional options to the kubelet.
     kubelet:
         # The `image` field is an optional reference to an alternative kubelet image.
-        image: ghcr.io/siderolabs/kubelet:v1.29.4
+        image: ghcr.io/siderolabs/kubelet:v1.32.0
         # Enable container runtime default Seccomp profile.
         defaultRuntimeSeccompProfileEnabled: true
         # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
@@ -529,8 +529,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2024-05-08T03:46:25Z"
-    mac: ENC[AES256_GCM,data:qXLFROZvtDhPNZQnT1QN2Qzv/pBNihvWzQ7UonSK9J6ql6I2kdeMCZs0UMafnePgrrrS/Cyer9ak+Q+xApBXqBRsgWnmqLpggL1rvFEmld+6Atk+Djn1uWizSZk0vHgo2s89yef3H/6f76FfAjD8qBcg24LW9LQUfopX4fIK/O8=,iv:e7PblGwLO8GoeyWBCo6Rzju7VeEE1TyrAyum6E/KjWc=,tag:g5JOzEeNtHZ7BINgWBRi0g==,type:str]
+    lastmodified: "2025-01-16T08:17:22Z"
+    mac: ENC[AES256_GCM,data:WedifrlRWUniVt9JQQYAj/5WMfHtwkD8Lca7ws83t6uy4GnKcin677fIDbRhB6kvm10Po2nxAYOD5sUyvBX9dOFIJqfaq5eAtWjQJqI4gqR/OnIK8VhuKisz+InNuXvzB2v/CEhC1WH0mg2ltUmW5V2YDMTB4EMkak2I4HP0HLg=,iv:tcGJsi+hOpZIjNgPOOAH3Vex9E+sn8hK92hZLm+VHBA=,tag:o2NPnfizQGp49CS7+zahhg==,type:str]
     pgp:
         - created_at: "2023-03-02T05:48:23Z"
           enc: |
@@ -553,4 +553,4 @@ sops:
             -----END PGP MESSAGE-----
           fp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
     encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
-    version: 3.7.1
+    version: 3.9.1

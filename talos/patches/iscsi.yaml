@@ -1,15 +1,15 @@
-# https://www.talos.dev/v1.3/kubernetes-guides/configuration/replicated-local-storage-with-openebs-jiva/#preparing-the-nodes
-- op: add
-  path: /machine/install/extensions
-  value:
-    - image: ghcr.io/siderolabs/iscsi-tools:v0.1.1
-- op: add
-  path: /machine/kubelet/extraMounts
-  value:
-    - destination: /var/openebs/local
-      type: bind
-      source: /var/openebs/local
-      options:
-        - bind
-        - rshared
-        - rw
+# https://www.talos.dev/v1.9/kubernetes-guides/configuration/replicated-local-storage-with-openebs/
+machine:
+  sysctls:
+    vm.nr_hugepages: "1024"
+  nodeLabels:
+    openebs.io/engine: mayastor
+  kubelet:
+    extraMounts:
+      - destination: /var/openebs/local
+        type: bind
+        source: /var/openebs/local
+        options:
+          - rbind
+          - rshared
+          - rw

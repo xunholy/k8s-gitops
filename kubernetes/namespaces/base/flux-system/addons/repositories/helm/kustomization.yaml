@@ -16,6 +16,7 @@ resources:
   - crossplane-charts.yaml
   - crowdsec-charts.yaml
   - csi-driver-nfs-chart.yaml
+  - democratic-csi-charts.yaml
   - descheduler-chart.yaml
   - dex-chart.yaml
   - emqx-charts.yaml

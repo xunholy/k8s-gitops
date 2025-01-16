@@ -1,0 +1,101 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app democratic-csi
+  namespace: litmus
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: *app
+      version: 3.15.0
+      sourceRef:
+        kind: HelmRepository
+        name: democratic-csi-charts
+        namespace: flux-system
+      interval: 10m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    csiDriver:
+      # should be globally unique for a given cluster
+      name: "org.democratic-csi.iscsi"
+
+    # add note here about volume expansion requirements
+    storageClasses:
+      - name: freenas-iscsi-csi
+        defaultClass: false
+        reclaimPolicy: Delete
+        volumeBindingMode: Immediate
+        allowVolumeExpansion: true
+        parameters:
+          # for block-based storage can be ext3, ext4, xfs
+          # for nfs should be nfs
+          fsType: ext4
+
+          # if true, volumes created from other snapshots will be
+          # zfs send/received instead of zfs cloned
+          # detachedVolumesFromSnapshots: "false"
+
+          # if true, volumes created from other volumes will be
+          # zfs send/received instead of zfs cloned
+          # detachedVolumesFromVolumes: "false"
+
+        mountOptions: []
+        secrets:
+          provisioner-secret:
+          controller-publish-secret:
+          node-stage-secret:
+          #      # any arbitrary iscsiadm entries can be add by creating keys starting with node-db.<entry.name>
+          #      # if doing CHAP
+          #      node-db.node.session.auth.authmethod: CHAP
+          #      node-db.node.session.auth.username: foo
+          #      node-db.node.session.auth.password: bar
+          #
+          #      # if doing mutual CHAP
+          #      node-db.node.session.auth.username_in: baz
+          #      node-db.node.session.auth.password_in: bar
+          node-publish-secret:
+          controller-expand-secret:
+
+    # if your cluster supports snapshots you may enable below
+    volumeSnapshotClasses: []
+    #- name: freenas-iscsi-csi
+    #  parameters:
+    #  # if true, snapshots will be created with zfs send/receive
+    #  # detachedSnapshots: "false"
+    #  secrets:
+    #    snapshotter-secret:
+
+    driver:
+      config:
+        # please see the most up-to-date example of the corresponding config here:
+        # https://github.com/democratic-csi/democratic-csi/tree/master/examples
+        # YOU MUST COPY THE DATA HERE INLINE!
+        driver: freenas-iscsi
+        #...
