@@ -18,5 +18,7 @@ spec:
     kind: GitRepository
     name: flux-system
   dependsOn:
+    - name: democratic-csi
+      namespace: flux-system
     - name: istiod
       namespace: flux-system

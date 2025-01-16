@@ -11,7 +11,7 @@ spec:
   interval: 5m
   path: "./kubernetes/namespaces/base/democratic-csi/democratic-csi/app"
   prune: true
-  wait: false
+  wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system
