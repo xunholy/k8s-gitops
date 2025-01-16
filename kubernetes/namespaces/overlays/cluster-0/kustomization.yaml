@@ -29,7 +29,7 @@ resources:
   - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
   # - ../../base/backup-system/volsync/ks.yaml
-  - ../../base/crossplane-system/crossplane/ks.yaml
+  # - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
