@@ -46,7 +46,7 @@ spec:
       namespace: home-system
   values:
     controllers:
-      zigbee2mqtt:
+      *app :
         type: deployment
         replicas: 1
         containers:
@@ -134,9 +134,9 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
-    # persistence:
-    #   data:
-    #     existingClaim: zigbee2mqtt-data
+    persistence:
+      data:
+        existingClaim: zigbee2mqtt-data
     defaultPodOptions:
       automountServiceAccountToken: false
       enableServiceLinks: false

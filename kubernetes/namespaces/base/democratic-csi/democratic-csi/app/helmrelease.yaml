@@ -10,19 +10,21 @@ spec:
   chart:
     spec:
       chart: *app
-      version: 0.14.7
+      interval: 10m
       sourceRef:
         kind: HelmRepository
         name: democratic-csi-charts
         namespace: flux-system
-      interval: 10m
+      version: 0.14.7
+  driftDetection:
+    mode: enabled
   install:
-    timeout: 10m
-    replace: true
     crds: CreateReplace
     createNamespace: true
     remediation:
       retries: 3
+    replace: true
+    timeout: 10m
   upgrade:
     remediation:
       remediateLastFailure: true
@@ -38,76 +40,23 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
-  driftDetection:
-    mode: enabled
   maxHistory: 3
   values:
+    controller:
+      priorityClassName: platform-cluster-critical
     csiDriver:
       name: "org.democratic-csi.iscsi"
-
-    storageClasses:
-      - name: truenas-iscsi-csi
-        defaultClass: false
-        reclaimPolicy: Delete
-        volumeBindingMode: Immediate
-        allowVolumeExpansion: true
-        parameters:
-          # for block-based storage can be ext3, ext4, xfs
-          # for nfs should be nfs
-          fsType: ext4
-
-          # if true, volumes created from other snapshots will be
-          # zfs send/received instead of zfs cloned
-          detachedVolumesFromSnapshots: "false"
-
-          # if true, volumes created from other volumes will be
-          # zfs send/received instead of zfs cloned
-          # detachedVolumesFromVolumes: "false"
-
-        mountOptions: []
-        secrets:
-          provisioner-secret:
-          controller-publish-secret:
-          node-stage-secret:
-          #      # any arbitrary iscsiadm entries can be add by creating keys starting with node-db.<entry.name>
-          #      # if doing CHAP
-          #      node-db.node.session.auth.authmethod: CHAP
-          #      node-db.node.session.auth.username: foo
-          #      node-db.node.session.auth.password: bar
-          #
-          #      # if doing mutual CHAP
-          #      node-db.node.session.auth.username_in: baz
-          #      node-db.node.session.auth.password_in: bar
-          node-publish-secret:
-          controller-expand-secret:
-
-    # if your cluster supports snapshots you may enable below
-    volumeSnapshotClasses:
-      - name: truenas-iscsi
-        parameters:
-          detachedSnapshots: "true"
-    #- name: freenas-iscsi-csi
-    #  parameters:
-    #  # if true, snapshots will be created with zfs send/receive
-    #  # detachedSnapshots: "false"
-    #  secrets:
-    #    snapshotter-secret:
-
-    controller:
-      priorityClassName: "platform-cluster-critical"
-
     node:
-      hostPID: true
-      priorityClassName: "platform-node-critical"
       driver:
         extraEnv:
-          - name: ISCSIADM_HOST_STRATEGY
-            value: nsenter
-          - name: ISCSIADM_HOST_PATH
-            value: /usr/local/sbin/iscsiadm
+        - name: ISCSIADM_HOST_STRATEGY
+          value: nsenter
+        - name: ISCSIADM_HOST_PATH
+          value: /usr/local/sbin/iscsiadm
         iscsiDirHostPath: /usr/local/etc/iscsi
         iscsiDirHostPathType: ""
-
+      hostPID: true
+      priorityClassName: platform-node-critical
     driver:
       existingConfigSecret: driver-config
       config:
@@ -115,3 +64,25 @@ spec:
         # https://github.com/democratic-csi/democratic-csi/tree/master/examples
         # YOU MUST COPY THE DATA HERE INLINE!
         driver: freenas-api-iscsi
+    storageClasses:
+    - name: truenas-iscsi-csi
+      defaultClass: false
+      reclaimPolicy: Delete
+      volumeBindingMode: Immediate
+      allowVolumeExpansion: true
+      parameters:
+        # for block-based storage can be ext3, ext4, xfs
+        # for nfs should be nfs
+        fsType: ext4
+        detachedVolumesFromSnapshots: "false"
+      mountOptions: []
+      secrets:
+        controller-expand-secret: null
+        controller-publish-secret: null
+        node-publish-secret: null
+        node-stage-secret: null
+        provisioner-secret: null
+    volumeSnapshotClasses:
+    - name: truenas-iscsi
+      parameters:
+        detachedSnapshots: "true"
