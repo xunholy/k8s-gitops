@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: home-assistant
+  name: &app home-assistant
   namespace: home-system
 spec:
   interval: 5m
@@ -43,7 +43,7 @@ spec:
   maxHistory: 3
   values:
     controllers:
-      home-assistant:
+      *app :
         containers:
           app:
             image:
