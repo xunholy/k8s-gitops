@@ -4,7 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app democratic-csi
-  namespace: litmus
+  namespace: democratic-csi
 spec:
   interval: 5m
   chart:
