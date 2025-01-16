@@ -54,7 +54,7 @@ resources:
   - ../../base/istio-system/istiod/ks.yaml
   - ../../base/kube-guardian/kube-guardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml
-  - ../../base/kube-system/csi-driver-nfs/ks.yaml
+  # - ../../base/kube-system/csi-driver-nfs/ks.yaml
   - ../../base/kube-system/descheduler/ks.yaml
   # - ../../base/kube-system/kubefed/ks.yaml
   - ../../base/kube-system/kubelet-csr-approver/ks.yaml
@@ -64,7 +64,7 @@ resources:
   # - ../../base/kube-system/secret-store-csi-driver/ks.yaml
   # - ../../base/kube-system/tetragon/ks.yaml
   - ../../base/network-system/cert-manager/ks.yaml
-  - ../../base/network-system/cert-manager-csi-driver/ks.yaml
+  # - ../../base/network-system/cert-manager-csi-driver/ks.yaml
   - ../../base/network-system/cloudflare-ddns/ks.yaml
   - ../../base/network-system/cloudflared/ks.yaml
   - ../../base/network-system/coredns/ks.yaml
