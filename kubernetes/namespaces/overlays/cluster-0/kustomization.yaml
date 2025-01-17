@@ -91,7 +91,7 @@ resources:
   # - ../../base/observability/snmp-exporter/ks.yaml
   # - ../../base/observability/thanos/ks.yaml
   # - ../../base/observability/vpa/ks.yaml
-  - ../../base/openebs-system/openebs/ks.yaml
+  # - ../../base/openebs-system/openebs/ks.yaml
   # - ../../base/openfaas/openfaas/ks.yaml
   # - ../../base/rook-ceph/rook-ceph-operator/ks.yaml
   # - ../../base/security-system/kyverno/ks.yaml

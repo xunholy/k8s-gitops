@@ -65,7 +65,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_ADVANCED_TRANSMIT_POWER: 20
               ZIGBEE2MQTT_CONFIG_ADVANCED_DISABLE_LED: false
               # mqtt
-              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://mosquitto:1883
+              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://emqx-listeners.home-system.svc.cluster.local:1883"
               ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt
               ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: true
               ZIGBEE2MQTT_CONFIG_MQTT_USER: ${EMQX_USER_USERNAME}
@@ -104,6 +104,7 @@ spec:
             resources:
               requests:
                 cpu: "10m"
+                memory: "128Mi"
               limits:
                 memory: "256Mi"
             probes:
