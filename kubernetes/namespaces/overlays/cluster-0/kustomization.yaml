@@ -48,7 +48,7 @@ resources:
   - ../../base/home-system/qbittorrent/ks.yaml
   # - ../../base/home-system/mosquitto/ks.yaml
   # - ../../base/home-system/plex/ks.yaml
-  - ../../base/home-system/zigbee2mqtt/ks.yaml
+  # - ../../base/home-system/zigbee2mqtt/ks.yaml
   - ../../base/istio-ingress/istio-gateway/ks.yaml
   - ../../base/istio-system/flagger/ks.yaml
   - ../../base/istio-system/istio-base/ks.yaml
