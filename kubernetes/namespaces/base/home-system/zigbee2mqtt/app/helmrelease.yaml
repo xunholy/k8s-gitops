@@ -42,7 +42,7 @@ spec:
     mode: enabled
   maxHistory: 3
   dependsOn:
-    - name: mosquitto
+    - name: emqx
       namespace: home-system
   values:
     controllers:
