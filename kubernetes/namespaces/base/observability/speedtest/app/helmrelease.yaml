@@ -44,7 +44,7 @@ spec:
   values:
     image:
       repository: ghcr.io/miguelndecarvalho/speedtest-exporter
-      tag: v3.5.3
+      tag: v3.5.4
     resources:
       requests:
         cpu: 15m
