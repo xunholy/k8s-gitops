@@ -42,7 +42,7 @@ resources:
   - ../../base/home-system/jellyseerr/ks.yaml
   - ../../base/home-system/prowlarr/ks.yaml
   - ../../base/home-system/radarr/ks.yaml
-  - ../../base/home-system/recylarr/ks.yaml
+  - ../../base/home-system/recyclarr/ks.yaml
   - ../../base/home-system/sabnzbd/ks.yaml
   - ../../base/home-system/sonarr/ks.yaml
   - ../../base/home-system/qbittorrent/ks.yaml
