@@ -44,7 +44,7 @@ spec:
   values:
     image:
       repository: eclipse-mosquitto
-      tag: 2.0.15
+      tag: 2.0.20
     service:
       main:
         type: LoadBalancer
