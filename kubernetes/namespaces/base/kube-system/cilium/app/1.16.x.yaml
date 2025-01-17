@@ -78,7 +78,7 @@ hubble:
     enabled: true
   ui:
     enabled: true
- metrics:
+  metrics:
     enableOpenMetrics: true
     enabled:
       - dns
