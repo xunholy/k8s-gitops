@@ -41,11 +41,12 @@ resources:
   - ../../base/home-system/home-assistant/ks.yaml
   - ../../base/home-system/jellyseerr/ks.yaml
   - ../../base/home-system/prowlarr/ks.yaml
+  - ../../base/home-system/qbittorrent/ks.yaml
   - ../../base/home-system/radarr/ks.yaml
   - ../../base/home-system/recyclarr/ks.yaml
   - ../../base/home-system/sabnzbd/ks.yaml
   - ../../base/home-system/sonarr/ks.yaml
-  - ../../base/home-system/qbittorrent/ks.yaml
+  - ../../base/home-system/tautulli/ks.yaml
   # - ../../base/home-system/mosquitto/ks.yaml
   # - ../../base/home-system/plex/ks.yaml
   # - ../../base/home-system/zigbee2mqtt/ks.yaml
