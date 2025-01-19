@@ -7,7 +7,7 @@ metadata:
   namespace: home-system
   annotations:
     external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
-    external-dns.alpha.kubernetes.io/external: 'false'
+    external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
     - 'requests.${CLUSTER_DOMAIN}'
