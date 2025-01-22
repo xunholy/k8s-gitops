@@ -40,11 +40,6 @@ spec:
   hosts:
     - plex.${CLUSTER_DOMAIN}
   http:
-    - match:
-        - uri:
-            exact: /
-      redirect:
-        uri: "/web/index.html"
     - route:
         - destination:
             host: plex.${CLUSTER_DOMAIN}
