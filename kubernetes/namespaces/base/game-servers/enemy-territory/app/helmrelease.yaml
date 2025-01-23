@@ -67,7 +67,7 @@ spec:
             image:
               repository: xunholy/enemy-territory
               tag: sha-44a006e
-            args: ["cp /etlegacy/legacy/server/{{ .Values.repoConfig.repository }}/* /etlegacy/legacy/; /etlegacy/start.sh;" ]
+            args: ["cp /etlegacy/legacy/server/etlegacy-server/* /etlegacy/legacy/; /etlegacy/start.sh;" ]
             command: ["/bin/bash", "-c", "--"]
             # probes:
             #   liveness: &probes
