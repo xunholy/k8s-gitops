@@ -1,20 +1,19 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.jsonapiVersion: helm.toolkit.fluxcd.io/v2
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: enemy-territory
+  name: &app enemy-territory
   namespace: game-servers
 spec:
-  interval: 5m
-  releaseName: enemy-territory
+  interval: 30m
   chart:
     spec:
-      chart: enemy-territory
-      version: 0.1.11
+      version: 3.6.1
+      chart: app-template
       sourceRef:
         kind: HelmRepository
-        name: xunholy-charts
+        name: bjw-charts
         namespace: flux-system
       interval: 5m
   install:
@@ -43,16 +42,78 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-    container:
-      image:
-        repository: xunholy/enemy-territory
-        tag: sha-c099cba
+    controllers:
+      *app :
+        initContainers:
+          init-config:
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.2.3
+            args:
+              - --repo=https://github.com/xunholy/etlegacy
+              - --branch=main
+              - --username=xunholy
+              - --password=${{ GITHUB_TOKEN }}
+              - --root=/etlegacy/legacy/server
+              - --one-time=true
+            restartPolicy: Always
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 128M
+        containers:
+          app:
+            image:
+              repository: xunholy/enemy-territory
+              tag: sha-44a006e
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /
+            #         port: 27960
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #       failureThreshold: 3
+            #   readiness: *probes
+            #   startup:
+            #     enabled: true
+            #     spec:
+            #       failureThreshold: 30
+            #       periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+    # defaultPodOptions:
+    #   securityContext:
+    #     runAsNonRoot: true
+    #     runAsUser: 1000
+    #     runAsGroup: 1000
+    #     fsGroup: 1000
+    #     fsGroupChangePolicy: OnRootMismatch
+    #     supplementalGroups: [44]
+    #     seccompProfile: { type: RuntimeDefault }
     service:
-      type: LoadBalancer
-      annotations:
-        io.cilium/lb-ipam-ips: ${CLUSTER_LB_ENEMY_TERRITORY}
-    repoConfig:
-      owner: xunholy
-      repository: etlegacy-server.git
-      branch: main
-      token: ${GITHUB_TOKEN}
+      app:
+        controller: *app
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: ${CLUSTER_LB_ENEMY_TERRITORY}
+        ports:
+          udp:
+            port: 27960
+            protocol: UDP
+    persistence:
+      server-config:
+        type: emptyDir
+        globalMounts:
+          - path: /etlegacy/legacy/server

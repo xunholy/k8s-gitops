@@ -6,8 +6,8 @@
 # from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
 # E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
 ---
-warp-routing:
-  enabled: true
+# warp-routing:
+#   enabled: true
 
 # Top-level configuration
 originRequest:

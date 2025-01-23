@@ -9,7 +9,7 @@ resources:
   - ../../base/crossplane-system
   - ../../base/democratic-csi
   - ../../base/development
-  # - ../../base/game-servers
+  - ../../base/game-servers
   - ../../base/home-system
   - ../../base/istio-ingress
   - ../../base/istio-system
@@ -28,6 +28,7 @@ resources:
   - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
+  - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/home-system/emqx/ks.yaml
   - ../../base/home-system/home-assistant/ks.yaml
   - ../../base/home-system/jellyseerr/ks.yaml

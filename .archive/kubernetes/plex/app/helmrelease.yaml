@@ -43,7 +43,7 @@ spec:
   maxHistory: 3
   values:
     controllers:
-      plex:
+      *app :
         containers:
           app:
             image:
