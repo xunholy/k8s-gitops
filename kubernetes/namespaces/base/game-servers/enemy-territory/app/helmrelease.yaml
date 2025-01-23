@@ -53,7 +53,7 @@ spec:
               - --repo=https://github.com/xunholy/etlegacy-server
               - --ref=HEAD
               - --username=xunholy
-              - --password=${{ GITHUB_TOKEN }}
+              - --password=${GITHUB_TOKEN}
               - --root=/etlegacy/legacy/server
               - --one-time=true
             restartPolicy: Always
