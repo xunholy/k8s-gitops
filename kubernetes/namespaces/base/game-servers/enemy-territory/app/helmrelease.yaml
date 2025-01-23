@@ -56,7 +56,6 @@ spec:
               - --password=${GITHUB_TOKEN}
               - --root=/etlegacy/legacy/server
               - --one-time=true
-            restartPolicy: Always
             resources:
               requests:
                 cpu: 10m
