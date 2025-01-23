@@ -48,7 +48,7 @@ spec:
           init-config:
             image:
               repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.2.4
+              tag: v4.4.0
             args:
               - --repo=https://github.com/xunholy/etlegacy-server
               - --ref=HEAD
