@@ -84,7 +84,7 @@ spec:
         enableHttp: false
         enableHttps: false
         annotations:
-          io.cilium/lb-ipam-ips:${CLUSTER_LB_NGINX_INGRESS_GATEWAY}
+          io.cilium/lb-ipam-ips: ${CLUSTER_LB_NGINX_INGRESS_GATEWAY}
         externalTrafficPolicy: Local
     udp:
       '27960': "game-servers/enemy-territory:27960"
