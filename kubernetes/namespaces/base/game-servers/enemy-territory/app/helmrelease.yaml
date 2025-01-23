@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.jsonapiVersion: helm.toolkit.fluxcd.io/v2
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -53,9 +53,12 @@ spec:
               - --repo=https://github.com/xunholy/etlegacy-server
               - --ref=HEAD
               - --username=xunholy
-              - --password=${GITHUB_TOKEN}
               - --root=/etlegacy/legacy/server
               - --one-time=true
+            env:
+              - name: GITSYNC_PASSWORD
+                value: ${GITHUB_TOKEN}
+            restartPolicy: Never
             resources:
               requests:
                 cpu: 10m
