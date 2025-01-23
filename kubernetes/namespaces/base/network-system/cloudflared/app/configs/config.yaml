@@ -6,8 +6,8 @@
 # from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
 # E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
 ---
-# warp-routing:
-#   enabled: true
+warp-routing:
+  enabled: true
 
 # Top-level configuration
 originRequest:
@@ -31,7 +31,7 @@ ingress:
   # TODO: Add UDP ingress here to route directly to the service and bypass Istio.
   # This will also require a dnsendpoint to be added to create the CNAME in cloudflare.
   - hostname: et.${CLUSTER_DOMAIN}
-    service: http://enemy-territory.game-servers.svc.cluster.local:27960
+    service: https://enemy-territory.game-servers.svc.cluster.local:27960
     originRequest:
       originServerName: et.${CLUSTER_DOMAIN}
 
