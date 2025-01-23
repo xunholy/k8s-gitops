@@ -58,7 +58,6 @@ spec:
             env:
               - name: GITSYNC_PASSWORD
                 value: ${GITHUB_TOKEN}
-            restartPolicy: Always
             resources:
               requests:
                 cpu: 10m
