@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: nginx-ingress
+  name: &app nginx-ingress
   namespace: nginx-ingress
 spec:
   interval: 5m
@@ -43,12 +43,16 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
+    fullnameOverride: *app
     controller:
-      ingressClassByName: true
-      ingressClassResource:
-        enabled: true
-        name: nginx-udp
-        controllerValue: "k8s.io/ingress-nginx-udp"
+      service:
+        enableHttp: false
+        enableHttps: false
+        annotations:
+          io.cilium/lb-ipam-ips: ${CLUSTER_LB_NGINX_INGRESS_GATEWAY}
+      udp:
+        '27960': "game-servers/enemy-territory:27960"
+        # '19132': "game-servers/minecraft-bedrock-minecraft-bedrock:19132"
       metrics:
         enabled: true
         serviceMonitor:
@@ -56,23 +60,17 @@ spec:
           namespace: nginx-ingress
           namespaceSelector:
             any: true
-        prometheusRule:
-          enabled: false
+      config:
+        # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#proxy-stream-responses
+        proxy-stream-responses: '999999'
+        enable-real-ip: "true"
+        use-forwarded-headers: "true"
+        enable-ocsp: "true"
+        force-ssl-redirect: "true"
+        log-format-escape-json: "true"
+        ssl-protocols: TLSv1.3
       extraArgs:
         default-ssl-certificate: 'istio-ingress/raspbernetes-com-le'
-      config:
-        proxy-stream-responses: '999999'
-        custom-http-errors: '404,403,500,503'
-        enable-real-ip: true
-        forwarded-for-header: CF-Connecting-IP
-        # proxy-body-size: 50m
-        # Cloudflare IP Addresses - Used to forward the real client IP address to the backend service
-        # https://www.cloudflare.com/ips/
-        proxy-real-ip-cidr: 173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32
-        # ssl-protocols: TLSv1.2 TLSv1.3
-        # use-forwarded-headers: 'true'
-        # use-proxy-protocol: 'true'
-        enable-modsecurity: 'true'
       replicaCount: 1
       resources:
         limits:
@@ -80,12 +78,3 @@ spec:
         requests:
           cpu: 25m
           memory: 256Mi
-      service:
-        enableHttp: false
-        enableHttps: false
-        annotations:
-          io.cilium/lb-ipam-ips: ${CLUSTER_LB_NGINX_INGRESS_GATEWAY}
-        externalTrafficPolicy: Local
-    udp:
-      '27960': "game-servers/enemy-territory:27960"
-      # '19132': "game-servers/minecraft-bedrock-minecraft-bedrock:19132"
