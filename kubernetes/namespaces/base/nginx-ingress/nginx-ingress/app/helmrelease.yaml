@@ -43,7 +43,6 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-    fullnameOverride: *app
     controller:
       service:
         enableHttp: false
