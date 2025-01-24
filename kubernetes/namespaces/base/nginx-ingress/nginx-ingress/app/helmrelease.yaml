@@ -45,8 +45,8 @@ spec:
   values:
     controller:
       service:
-        enableHttp: false
-        enableHttps: false
+        enableHttp: true
+        enableHttps: true
         annotations:
           io.cilium/lb-ipam-ips: ${CLUSTER_LB_NGINX_INGRESS_GATEWAY}
       udp:
