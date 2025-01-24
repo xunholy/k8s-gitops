@@ -7,6 +7,8 @@ metadata:
   name: enemy-territory
   namespace: game-servers
   annotations:
+    # REQUIRED: https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/cloudflare.md#setting-cloudflare-proxied-on-a-per-ingress-basis
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     kubernetes.io/ingress.class: 'nginx'
     cert-manager.io/cluster-issuer: 'letsencrypt-prod'
 spec:

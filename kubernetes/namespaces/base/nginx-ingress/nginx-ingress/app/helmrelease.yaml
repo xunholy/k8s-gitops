@@ -43,15 +43,15 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
+    udp:
+      '27960': "game-servers/enemy-territory:27960"
+      # '19132': "game-servers/minecraft-bedrock-minecraft-bedrock:19132"
     controller:
       service:
         enableHttp: true
         enableHttps: true
         annotations:
           io.cilium/lb-ipam-ips: ${CLUSTER_LB_NGINX_INGRESS_GATEWAY}
-      udp:
-        '27960': "game-servers/enemy-territory:27960"
-        # '19132': "game-servers/minecraft-bedrock-minecraft-bedrock:19132"
       metrics:
         enabled: true
         serviceMonitor:
