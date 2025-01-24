@@ -68,6 +68,12 @@ spec:
         force-ssl-redirect: "true"
         log-format-escape-json: "true"
         ssl-protocols: TLSv1.3
+        hsts-max-age: 31449600
+        keep-alive: 120
+        keep-alive-requests: 10000
+        proxy-connect-timeout: 120
+        proxy-read-timeout: 120
+        proxy-send-timeout: 120
       extraArgs:
         default-ssl-certificate: 'istio-ingress/raspbernetes-com-le'
       replicaCount: 1
