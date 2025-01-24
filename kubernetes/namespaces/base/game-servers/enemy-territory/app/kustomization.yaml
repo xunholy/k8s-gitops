@@ -8,3 +8,4 @@ resources:
   - helmrelease.yaml
   # - ingress.yaml
   - secret.enc.yaml
+  - pvc.yaml
