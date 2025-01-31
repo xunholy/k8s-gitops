@@ -84,6 +84,9 @@ spec:
     service:
       app:
         controller: *app
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: ${CLUSTER_LB_QB}
         ports:
           http:
             port: *port
