@@ -54,3 +54,5 @@ spec:
     secrets:
       - create: false
         name: cluster-secrets
+    env:
+      LOG_LEVEL: debug
