@@ -42,9 +42,15 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
+    image:
+      repsotory: ghcr.io/xunholy/kustomize-mutating-webhook
+      tag: pr-7-7f964bfc
+    replicas: 1
     certManager:
       enabled: true
     configMaps:
       - create: false
-        name: cluster-settings
-    secrets: []
+        name: cluster-config
+    secrets:
+      - create: false
+        name: cluster-secrets
