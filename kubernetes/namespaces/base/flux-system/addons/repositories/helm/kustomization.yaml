@@ -24,6 +24,7 @@ resources:
   - fairwinds-charts.yaml
   - falco-security-charts.yaml
   - flagger-charts.yaml
+  - fluxcd-kustomize-mutating-webhook-chart.yaml
   - gatekeeper-charts.yaml
   - grafana-charts.yaml
   - ingress-nginx-chart.yaml

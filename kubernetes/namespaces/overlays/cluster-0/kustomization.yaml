@@ -28,6 +28,7 @@ resources:
   - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
+  - ../../base/flux-system/kustomize-mutating-webhook/ks.yaml
   - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/home-system/emqx/ks.yaml
   - ../../base/home-system/home-assistant/ks.yaml
