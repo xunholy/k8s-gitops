@@ -56,3 +56,5 @@ spec:
         name: cluster-secrets
     env:
       LOG_LEVEL: debug
+    podDisruptionBudget:
+      enabled: false
