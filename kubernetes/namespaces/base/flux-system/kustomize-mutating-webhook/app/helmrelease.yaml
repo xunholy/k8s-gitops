@@ -44,7 +44,7 @@ spec:
   values:
     image:
       repsotory: ghcr.io/xunholy/kustomize-mutating-webhook
-      tag: pr-7-7f964bfc
+      tag: pr-7-e6ae4b84
     replicaCount: 1
     certManager:
       enabled: true
