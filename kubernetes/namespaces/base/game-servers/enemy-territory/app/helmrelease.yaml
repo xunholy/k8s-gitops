@@ -67,27 +67,9 @@ spec:
           app:
             image:
               repository: xunholy/enemy-territory
-              tag: sha-49b6a57
+              tag: sha-214208b
             args: ["cp /etlegacy/legacy/server/etlegacy-server/* /etlegacy/legacy/; /etlegacy/start.sh;" ]
             command: ["/bin/bash", "-c", "--"]
-            # probes:
-            #   liveness: &probes
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       httpGet:
-            #         path: /
-            #         port: 27960
-            #       initialDelaySeconds: 0
-            #       periodSeconds: 10
-            #       timeoutSeconds: 1
-            #       failureThreshold: 3
-            #   readiness: *probes
-            #   startup:
-            #     enabled: true
-            #     spec:
-            #       failureThreshold: 30
-            #       periodSeconds: 10
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
