@@ -67,7 +67,7 @@ spec:
           app:
             image:
               repository: xunholy/enemy-territory
-              tag: sha-6aa411d
+              tag: sha-49b6a57
             args: ["cp /etlegacy/legacy/server/etlegacy-server/* /etlegacy/legacy/; /etlegacy/start.sh;" ]
             command: ["/bin/bash", "-c", "--"]
             # probes:
