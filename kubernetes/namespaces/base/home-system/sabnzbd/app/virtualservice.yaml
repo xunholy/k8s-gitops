@@ -10,7 +10,7 @@ metadata:
     external-dns.alpha.kubernetes.io/external: 'false'
 spec:
   hosts:
-    - 'nzb.${CLUSTER_DOMAIN}'
+    - 'sab.${CLUSTER_DOMAIN}'
   gateways:
     - istio-ingress/istio-ingressgateway
   http:
