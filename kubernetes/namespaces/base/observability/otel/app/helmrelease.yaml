@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: opentelemetry-operator
-      version: 0.79.0
+      version: 0.80.0
       sourceRef:
         kind: HelmRepository
         name: otel-charts
