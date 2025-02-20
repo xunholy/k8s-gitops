@@ -3,7 +3,6 @@
 instance:
   distribution:
     version: "2.5.x"
-    artifact: ""
   components:
     - source-controller
     - kustomize-controller
