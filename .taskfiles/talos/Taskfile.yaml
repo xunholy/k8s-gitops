@@ -1,5 +1,5 @@
 ---
-version: '3'
+version: '3.41.0'
 
 env:
   TALOS_DIR: "talos/generated"

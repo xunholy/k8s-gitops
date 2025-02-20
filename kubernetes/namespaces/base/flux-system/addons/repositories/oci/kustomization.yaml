@@ -7,5 +7,6 @@ namespace: flux-system
 resources:
   - bjw-charts.yaml
   - gha-runner-scale-set-charts.yaml
+  - controlplaneio-charts.yaml
   - prometheus-community-charts.yaml
   - xentra-charts.yaml

@@ -1,0 +1,36 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile
+
+helmDefaults:
+  force: true
+  timeout: 600
+  wait: true
+  waitForJobs: true
+
+repositories:
+  - name: kustomize-mutating-webhook
+    url: https://xunholy.github.io/fluxcd-kustomize-mutating-webhook
+
+releases:
+  - name: flux-operator
+    namespace: flux-system
+    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
+    version: 0.14.0
+    values: ['../../{{ requiredEnv "CLUSTER_DIR" }}/flux-system/flux-operator/app/values.yaml']
+
+  - name: flux-instance
+    namespace: flux-system
+    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
+    version: 0.14.0
+    wait: false
+    values: ['../../{{ requiredEnv "CLUSTER_DIR" }}/flux-system/flux-operator/instance/values.yaml']
+    needs: ['flux-system/flux-operator']
+
+  # TODO: Currently depends on cert-manager; Needs upstream improvement to be self contained.
+  # - name: kustomize-mutating-webhook
+  #   namespace: flux-system
+  #   chart: kustomize-mutating-webhook/kustomize-mutating-webhook
+  #   version: 0.4.1
+  #   wait: false
+  #   values: ['./webhook/values.yaml']
+  #   needs: ['flux-system/flux-instance']

@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-version: '3'
+version: '3.41.0'
 
 vars:
   CLUSTER: cluster-0
@@ -9,11 +9,11 @@ vars:
   GITHUB_BRANCH: main
 
 includes:
-  core: .taskfiles/Core
-  flux: .taskfiles/Flux
+  fluxcd: .taskfiles/bootstrap
+  core: .taskfiles/core
+  flux: .taskfiles/flux
   mkdocs: .taskfiles/Mkdocs
-  sidero: .taskfiles/Sidero
-  talos: .taskfiles/Talos
+  talos: .taskfiles/talos
 
 tasks:
   flux:
