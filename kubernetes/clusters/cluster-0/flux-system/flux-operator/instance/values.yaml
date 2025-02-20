@@ -2,7 +2,8 @@
 ---
 instance:
   distribution:
-    version: "2.4.x"
+    version: "2.5.x"
+    artifact: ""
   components:
     - source-controller
     - kustomize-controller
@@ -14,7 +15,7 @@ instance:
     fluxcd.controlplane.io/reconcileTimeout: "3m"
   cluster:
     multitenant: false
-    networkPolicy: true
+    networkPolicy: false
     domain: "cluster.local"
   commonMetadata:
     labels:
@@ -23,7 +24,7 @@ instance:
     kind: GitRepository
     url: https://github.com/xunholy/k8s-gitops
     ref: refs/heads/operator
-    path: kubernetes/clusters/cluster-0
+    path: kubernetes/clusters/main
     pullSecret: flux-system
   kustomize:
     patches:
