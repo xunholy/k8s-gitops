@@ -73,10 +73,12 @@ tasks:
           kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
           sops --decrypt "$CLUSTER_DIR/secrets/sops-gpg.encrypted.yaml" | kubectl apply -f -
           sops --decrypt "$CLUSTER_DIR/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
+          sops --decrypt "$CLUSTER_DIR/secrets/github-auth.enc.yaml" | kubectl apply -f -
           kubectl apply -f $CLUSTER_DIR/secrets/cluster-config.yaml
         silent: false
     preconditions:
       - test -f $CLUSTER_DIR/secrets/sops-gpg.encrypted.yaml
+      - test -f $CLUSTER_DIR/secrets/github-auth.enc.yaml
       - test -f $CLUSTER_DIR/secrets/cluster-secrets.enc.yaml
       - test -f $CLUSTER_DIR/secrets/cluster-config.yaml
     requires:

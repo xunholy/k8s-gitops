@@ -25,7 +25,7 @@ instance:
     url: https://github.com/xunholy/k8s-gitops
     ref: refs/heads/operator
     path: kubernetes/clusters/main
-    pullSecret: flux-system
+    pullSecret: github-auth
   kustomize:
     patches:
       - patch: |
