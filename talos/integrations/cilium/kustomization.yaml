@@ -8,7 +8,7 @@ helmCharts:
     includeCRDs: true
     releaseName: cilium
     namespace: kube-system
-    valuesFile: ../../../kubernetes/namespaces/base/kube-system/cilium/app/1.16.x.yaml
+    valuesFile: ../../../kubernetes/namespaces/base/kube-system/cilium/app/values.yaml
     version: 1.17.1
     repo: https://helm.cilium.io/
 

@@ -10,7 +10,7 @@ resources:
 configMapGenerator:
   - name: cilium-values
     files:
-      - values.yaml=./1.16.x.yaml
+      - values.yaml=./values.yaml
 
 generatorOptions:
   annotations:

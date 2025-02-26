@@ -12,7 +12,7 @@ includes:
   fluxcd: .taskfiles/bootstrap
   core: .taskfiles/core
   flux: .taskfiles/flux
-  mkdocs: .taskfiles/Mkdocs
+  docs: .taskfiles/mkdocs
   talos: .taskfiles/talos
 
 tasks:
