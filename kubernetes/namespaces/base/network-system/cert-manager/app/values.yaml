@@ -1,0 +1,24 @@
+---
+installCRDs: true
+# webhook:
+#   url:
+#     host: cert-manager-webhook.network-system.svc
+global:
+  # Set the verbosity of cert-manager. Range of 0 - 6 with 6 being the most verbose.
+  logLevel: 6
+  leaderElection:
+    # Override the namespace used to store the ConfigMap for leader election
+    namespace: 'network-system'
+extraArgs:
+  # Use this flag to set a namespace that cert-manager will use to store
+  # supporting resources required for each ClusterIssuer (default is kube-system)
+  - --cluster-resource-namespace=network-system
+  # When this flag is enabled, secrets will be automatically removed when the certificate resource is deleted
+  - --enable-certificate-owner-ref=true
+  - --dns01-recursive-nameservers=1.1.1.1:53,8.8.8.8:53
+  - --dns01-recursive-nameservers-only
+  - --default-issuer-name=letsencrypt-prod
+  - --default-issuer-kind=ClusterIssuer
+prometheus:
+  servicemonitor:
+    enabled: true
