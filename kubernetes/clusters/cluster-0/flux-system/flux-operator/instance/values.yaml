@@ -14,7 +14,7 @@ instance:
     fluxcd.controlplane.io/reconcileTimeout: "3m"
   cluster:
     multitenant: false
-    networkPolicy: false
+    networkPolicy: true
     domain: "cluster.local"
   commonMetadata:
     labels:
@@ -42,15 +42,6 @@ instance:
                 containers:
                   - name: manager
                     imagePullPolicy: Always
-                    securityContext:
-                      runAsUser: 65534
-                      runAsGroup: 65534
-                      readOnlyRootFilesystem: true
-                      allowPrivilegeEscalation: false
-                      runAsNonRoot: true
-                      capabilities:
-                        drop:
-                          - ALL
                     resources:
                       limits:
                         memory: 2Gi
