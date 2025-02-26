@@ -2,7 +2,7 @@
 ---
 instance:
   distribution:
-    version: "2.5.x"
+    version: "2.5.1"
   components:
     - source-controller
     - kustomize-controller
@@ -25,6 +25,7 @@ instance:
     ref: refs/heads/main
     path: kubernetes/clusters/cluster-0
     pullSecret: github-auth
+    provider: github
   kustomize:
     patches:
       - patch: |
@@ -123,11 +124,3 @@ instance:
             path: /spec/template/spec/containers/0/resources/limits/cpu
         target:
           kind: Deployment
-      # Required: Currently not supported in the FluxInstance CRD
-      - patch: |
-          - op: add
-            path: /spec/provider
-            value: github
-        target:
-          kind: GitRepository
-          name: flux-system
