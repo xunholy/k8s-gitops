@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: crossplane
-  namespace: flux-system
+  namespace: crossplane-system
   labels:
     substitution.flux/enabled: true
 spec:
@@ -23,7 +23,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: crossplane-providers
-  namespace: flux-system
+  namespace: crossplane-system
   labels:
     substitution.flux/enabled: true
 spec:
@@ -38,4 +38,4 @@ spec:
     name: flux-system
   dependsOn:
     - name: crossplane
-      namespace: flux-system
+      namespace: crossplane-system
