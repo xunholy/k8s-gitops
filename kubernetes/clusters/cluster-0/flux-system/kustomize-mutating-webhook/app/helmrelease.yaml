@@ -41,19 +41,6 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
-  values:
-    image:
-      repsotory: ghcr.io/xunholy/kustomize-mutating-webhook
-    replicaCount: 1
-    certManager:
-      enabled: true
-    configMaps:
-      - create: false
-        name: cluster-config
-    secrets:
-      - create: false
-        name: cluster-secrets
-    env:
-      LOG_LEVEL: debug
-    podDisruptionBudget:
-      enabled: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: kustomization-mutating-webhook-values

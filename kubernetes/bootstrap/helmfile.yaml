@@ -26,11 +26,10 @@ releases:
     values: ['../../{{ requiredEnv "CLUSTER_DIR" }}/flux-system/flux-operator/instance/values.yaml']
     needs: ['flux-system/flux-operator']
 
-  # TODO: Currently depends on cert-manager; Needs upstream improvement to be self contained.
-  # - name: kustomize-mutating-webhook
-  #   namespace: flux-system
-  #   chart: kustomize-mutating-webhook/kustomize-mutating-webhook
-  #   version: 0.4.1
-  #   wait: false
-  #   values: ['./webhook/values.yaml']
-  #   needs: ['flux-system/flux-instance']
+  - name: kustomize-mutating-webhook
+    namespace: flux-system
+    chart: kustomize-mutating-webhook/kustomize-mutating-webhook
+    version: 0.4.2
+    wait: false
+    values: ['../../{{ requiredEnv "CLUSTER_DIR" }}/flux-system/kustomize-mutating-webhook/app/values.yaml']
+    needs: ['flux-system/flux-instance']

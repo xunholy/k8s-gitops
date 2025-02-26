@@ -2,23 +2,24 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": ["Auto-merge GitHub Actions for minor and patch"],
+      "description": ["Auto-merge GitHub Actions"],
       "matchManagers": ["github-actions"],
       "matchDatasources": ["github-tags"],
       "automerge": true,
       "automergeType": "branch",
-      "matchUpdateTypes": ["minor", "patch"]
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "ignoreTests": true
     },
     {
-      "description": ["Auto-merge FluxCD for minor and patch"],
+      "description": ["Auto-merge FluxCD"],
       "matchManagers": ["flux"],
       "automerge": true,
       "automergeType": "pr",
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
-      "description": ["Auto-merge Helm for patch"],
-      "matchDatasources": ["helm"],
+      "description": ["Auto-merge Helm Release"],
+      "matchDatasources": ["helm", "docker"],
       "automerge": true,
       "automergeType": "pr",
       "matchUpdateTypes": ["patch"]

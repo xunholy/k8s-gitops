@@ -17,6 +17,3 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  dependsOn:
-    - name: cert-manager
-      namespace: flux-system
