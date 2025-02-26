@@ -18,7 +18,6 @@ resources:
   - ../../base/network-system
   - ../../base/nginx-ingress
   - ../../base/observability
-  - ../../base/openebs-system
   - ../../base/security-system
   - ../../base/velero
   - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
