@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: kube-prometheus-stack
-  namespace: flux-system
+  namespace: observability
   labels:
     substitution.flux/enabled: true
 spec:
@@ -24,7 +24,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: kube-prometheus-stack-addons
-  namespace: flux-system
+  namespace: observability
   labels:
     substitution.flux/enabled: true
 spec:
@@ -40,3 +40,4 @@ spec:
     namespace: flux-system
   dependsOn:
     - name: kube-prometheus-stack
+      namespace: observability
