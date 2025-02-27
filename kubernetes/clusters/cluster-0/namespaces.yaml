@@ -38,13 +38,5 @@ spec:
             provider: sops
             secretRef:
               name: sops-gpg
-          postBuild:
-            substituteFrom:
-              - kind: Secret
-                name: cluster-secrets
-                optional: true
-              - kind: ConfigMap
-                name: cluster-config
-                optional: true
       target:
         labelSelector: substitution.flux/enabled=true

@@ -1,0 +1,9 @@
+---
+controller:
+  image:
+    repository: ghcr.io/xentra-ai/images/guardian-controller
+    tag: edge
+broker:
+  image:
+    repository: ghcr.io/xentra-ai/images/guardian-broker
+    tag: latest

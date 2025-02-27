@@ -5,3 +5,16 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
+
+configMapGenerator:
+  - name: flux-instance-helm-values
+    namespace: flux-system
+    files:
+      - values.yaml=./values.yaml
+
+generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+
+configurations:
+  - kustomizeconfig.yaml

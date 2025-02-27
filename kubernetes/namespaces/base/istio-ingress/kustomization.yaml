@@ -5,4 +5,4 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
-  - networkpolicy.yaml
+  # - networkpolicy.yaml

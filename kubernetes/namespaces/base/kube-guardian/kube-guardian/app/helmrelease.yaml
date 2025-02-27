@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kube-guardian
+  name: &app kube-guardian
   namespace: kube-guardian
 spec:
   interval: 5m
@@ -41,12 +41,6 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
-  values:
-    controller:
-      image:
-        repository: ghcr.io/xentra-ai/images/guardian-controller
-        tag: edge
-    broker:
-      image:
-        repository: ghcr.io/xentra-ai/images/guardian-broker
-        tag: latest
+  valuesFrom:
+    - kind: ConfigMap
+      name: kube-guardian-values
