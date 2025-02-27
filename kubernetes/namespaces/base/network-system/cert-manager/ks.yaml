@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: cert-manager
-  namespace: flux-system
+  namespace: network-system
   labels:
     substitution.flux/enabled: true
 spec:
@@ -17,13 +17,14 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+    namespace: flux-system
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: cert-manager-clusterissuers
-  namespace: flux-system
+  namespace: network-system
 spec:
   interval: 30m
   retryInterval: 1m
@@ -34,6 +35,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+    namespace: flux-system
   dependsOn:
     - name: cert-manager
-      namespace: flux-system
+      namespace: network-system

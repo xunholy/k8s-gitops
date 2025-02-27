@@ -17,6 +17,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+    namespace: flux-system
   dependsOn:
     - name: democratic-csi
-      namespace: flux-system
+      namespace: democratic-csi

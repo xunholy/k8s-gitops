@@ -5,7 +5,6 @@ kind: Kustomization
 
 resources:
   - ../../base/actions-runner-system
-  - ../../base/backup-system
   - ../../base/crossplane-system
   - ../../base/democratic-csi
   - ../../base/development
@@ -19,10 +18,8 @@ resources:
   - ../../base/nginx-ingress
   - ../../base/observability
   - ../../base/security-system
-  - ../../base/velero
   - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
-  # - ../../base/backup-system/volsync/ks.yaml
   - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
@@ -73,4 +70,3 @@ resources:
   # - ../../base/observability/vpa/ks.yaml
   # - ../../base/security-system/kyverno/ks.yaml
   # - ../../base/security-system/gatekeeper/ks.yaml
-  # - ../../base/velero/velero/ks.yaml

@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: gha-runner-scale-set-controller
-  namespace: flux-system
+  namespace: actions-runner-system
   labels:
     substitution.flux/enabled: true
 spec:
