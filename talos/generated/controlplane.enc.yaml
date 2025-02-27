@@ -241,7 +241,7 @@ machine:
         # https://www.talos.dev/v1.7/talos-guides/network/host-dns/#enabling-host-dns
         hostDNS:
             enabled: true
-            forwardKubeDNSToHost: true
+            forwardKubeDNSToHost: false
             resolveMemberNames: true
             # # Provides machine specific control plane configuration options.
             # # ControlPlane definition example.
@@ -547,8 +547,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-01-06T04:15:43Z"
-    mac: ENC[AES256_GCM,data:yIT0ptyeCwsTOgiTmFvgtyoxZNplz+/LhAaO8dPd8fVvywrzyIqptYLMrv6qgWiR8dPnWGgls2Q/XQlAiJ1HeiRM7rUxwXT8POnDSZfhVGJu5OdL84IYC37DNvrk9Q/wFtCVADGL5+GclQ14fk/E+Db84NMH0yvPZyHdLoFhUwc=,iv:lTEY9OfzzA2wNP+CJXEwe7L1zWJXTzeMlIdRNnlHfF0=,tag:kmBtHPw0+QhQJQZWmWd0qw==,type:str]
+    lastmodified: "2025-02-27T00:11:48Z"
+    mac: ENC[AES256_GCM,data:8mzuOBSL5BNd7dI7XgJP713+TkSOp716sZgT00h1YUk8jwi+Cuxd959AjClVG+qaVs6rZxmItPcXsSfJGnr+8z6FwxBtdct1roU/1o9rwRQwzDCpIKNsIOpxyTP2nqkyad7xwQqKnYdVpmgxWypCG8a/ylCKJr0r8D2cn43pd74=,iv:+dunQmrLCEw4WK9pc3Aeyk8euOEcqNtJ3y0NkeBy9iQ=,tag:FM7O53+CoroLVoFlq/aTAg==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |

@@ -14,7 +14,7 @@ instance:
     fluxcd.controlplane.io/reconcileTimeout: "3m"
   cluster:
     multitenant: false
-    networkPolicy: true
+    networkPolicy: false
     domain: "cluster.local"
   commonMetadata:
     labels:

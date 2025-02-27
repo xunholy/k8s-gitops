@@ -53,7 +53,6 @@ resources:
   - ../../base/network-system/cert-manager/ks.yaml
   - ../../base/network-system/cloudflare-ddns/ks.yaml
   - ../../base/network-system/cloudflared/ks.yaml
-  - ../../base/network-system/coredns/ks.yaml
   - ../../base/network-system/dex/ks.yaml
   - ../../base/network-system/dex-k8s-authenticator/ks.yaml
   - ../../base/network-system/echo-server/ks.yaml
