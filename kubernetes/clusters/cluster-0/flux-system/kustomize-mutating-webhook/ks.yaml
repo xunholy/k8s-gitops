@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/flux-system/kustomize-mutating-webhook/app"
+  path: "./kubernetes/clusters/${CLUSTER_ID}/flux-system/kustomize-mutating-webhook/app"
   prune: true
   wait: false
   sourceRef:

@@ -22,3 +22,5 @@ securityContext:
       - ALL
   seccompProfile:
     type: RuntimeDefault
+service:
+  headless: false

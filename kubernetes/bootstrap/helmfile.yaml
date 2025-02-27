@@ -19,13 +19,14 @@ releases:
     namespace: flux-system
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
     version: 0.16.0
+    wait: true
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/clusters/{{ requiredEnv "CLUSTER_ID"}}/flux-system/flux-operator/app/values.yaml']
 
   - name: flux-instance
     namespace: flux-system
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
     version: 0.16.0
-    wait: false
+    wait: true
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/clusters/{{ requiredEnv "CLUSTER_ID"}}/flux-system/flux-operator/instance/values.yaml']
     needs: ['flux-system/flux-operator']
 
@@ -33,6 +34,7 @@ releases:
     namespace: network-system
     chart: jetstack/cert-manager
     version: v1.17.1
+    wait: true
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/namespaces/base/network-system/cert-manager/app/values.yaml']
 
   - name: kustomize-mutating-webhook
