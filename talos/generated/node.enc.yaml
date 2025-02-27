@@ -69,7 +69,12 @@ machine:
         #         - '!10.0.0.3/32'
         #         - fdc7::/16
     # Provides machine specific network configuration options.
-    network: {}
+    network:
+        interfaces:
+            - deviceSelector:
+                physical: ENC[AES256_GCM,data:SBmp3Q==,iv:sDybaJfztuOSVz7tAXje/UwkYPGhcjwP6zXSHKPF7Wc=,tag:YAUkZtTVmYMEjiL2Bo2gVA==,type:bool]
+              dhcp: true
+              mtu: 1450
     # # `interfaces` is used to define the network interface configuration.
     # interfaces:
     #     - interface: enp0s1 # The interface name.
@@ -529,8 +534,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-01-16T08:17:22Z"
-    mac: ENC[AES256_GCM,data:WedifrlRWUniVt9JQQYAj/5WMfHtwkD8Lca7ws83t6uy4GnKcin677fIDbRhB6kvm10Po2nxAYOD5sUyvBX9dOFIJqfaq5eAtWjQJqI4gqR/OnIK8VhuKisz+InNuXvzB2v/CEhC1WH0mg2ltUmW5V2YDMTB4EMkak2I4HP0HLg=,iv:tcGJsi+hOpZIjNgPOOAH3Vex9E+sn8hK92hZLm+VHBA=,tag:o2NPnfizQGp49CS7+zahhg==,type:str]
+    lastmodified: "2025-02-27T03:15:04Z"
+    mac: ENC[AES256_GCM,data:0JQPOq3a/ENR6Po0nIkvl7KjUaJ1duoBzf6IhZqqXwtzsRvXJkcC5lDx/MNvWsJJWERung/j4SMQ6ckjUqlh9AsSX0b5+01y0yBGxx+WDBLm1k0PKRbUCA41nqvm41+kYpN6f0JpTE6Ukaad65rVulY3PCz6Ldhc53XTf/7hbOo=,iv:SUhs9X/pwy4xJrO20mWPumcHNs/vEu/s95d1jsvFb3E=,tag:gLMSWtFM6LTJsnHTibxQ+g==,type:str]
     pgp:
         - created_at: "2023-03-02T05:48:23Z"
           enc: |

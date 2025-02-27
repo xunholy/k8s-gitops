@@ -83,7 +83,6 @@ machine:
               #         - network: 0.0.0.0/0 # The route's network (destination).
               #           gateway: 192.168.2.1 # The route's gateway (if empty, creates link scope route).
               #           metric: 1024 # The optional metric for the route.
-              #       mtu: 1500 # The interface's MTU.
               #
               #       # # Picks a network device using the selector.
               #       # # select a device with bus prefix 00:*.
@@ -122,6 +121,7 @@ machine:
               #       #         enabled: true # Whether Spanning Tree Protocol (STP) is enabled.
               # Indicates if DHCP should be used to configure the interface.
               dhcp: true
+              mtu: 1450
               #       # # DHCP specific options.
               #       # dhcpOptions:
               #       #     routeMetric: 1024 # The priority of all routes received via DHCP.
@@ -547,8 +547,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-02-27T00:11:48Z"
-    mac: ENC[AES256_GCM,data:8mzuOBSL5BNd7dI7XgJP713+TkSOp716sZgT00h1YUk8jwi+Cuxd959AjClVG+qaVs6rZxmItPcXsSfJGnr+8z6FwxBtdct1roU/1o9rwRQwzDCpIKNsIOpxyTP2nqkyad7xwQqKnYdVpmgxWypCG8a/ylCKJr0r8D2cn43pd74=,iv:+dunQmrLCEw4WK9pc3Aeyk8euOEcqNtJ3y0NkeBy9iQ=,tag:FM7O53+CoroLVoFlq/aTAg==,type:str]
+    lastmodified: "2025-02-27T03:20:52Z"
+    mac: ENC[AES256_GCM,data:U8pYl48tqoJ0uzRgjuU+/SauDyx3sJMspd/tov8zhaRXS8tT4kBaZCJqjiWDw8pFMsMnpoHcDnNlsagnfHgPuCYvKwmWBGGraXv5vYjAHllVDkJOOwIJ1WOzxvGLptfQy/rdQHsfPRbinbDfXd5Zsr3jnbe/hUx2MeGwPML9PUY=,iv:fX9mzLvxXLyUus1fa+t3/7Ckc1mBR8b36o/UxhqkdN0=,tag:ZLWNPD8ieOXC+YUAK6+yYw==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |

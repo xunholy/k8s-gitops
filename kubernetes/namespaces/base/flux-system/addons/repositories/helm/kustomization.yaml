@@ -52,7 +52,6 @@ resources:
   - sealed-secrets-charts.yaml
   - secrets-store-csi-driver-chart.yaml
   - stakater-charts.yaml
-  - tf-controller-chart.yaml
   - traefik-charts.yaml
   - vernemq-charts.yaml
   - vmware-charts.yaml
