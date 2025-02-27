@@ -45,7 +45,7 @@ resources:
   - ../../base/kube-system/descheduler/ks.yaml
   - ../../base/kube-system/kubelet-csr-approver/ks.yaml
   - ../../base/kube-system/metrics-server/ks.yaml
-  # - ../../base/kube-system/reloader/ks.yaml
+  - ../../base/kube-system/reflector/ks.yaml
   # - ../../base/kube-system/tetragon/ks.yaml
   - ../../base/network-system/cert-manager/ks.yaml
   - ../../base/network-system/cloudflare-ddns/ks.yaml
@@ -65,7 +65,6 @@ resources:
   - ../../base/observability/kube-prometheus-stack/ks.yaml
   # - ../../base/observability/loki/ks.yaml
   # - ../../base/observability/otel/ks.yaml
-  # - ../../base/observability/snmp-exporter/ks.yaml
   # - ../../base/observability/thanos/ks.yaml
   # - ../../base/observability/vpa/ks.yaml
   # - ../../base/security-system/kyverno/ks.yaml
