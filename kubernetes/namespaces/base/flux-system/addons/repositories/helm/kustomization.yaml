@@ -18,6 +18,7 @@ resources:
   - democratic-csi-charts.yaml
   - descheduler-chart.yaml
   - dex-chart.yaml
+  - emberstack-charts.yaml
   - emqx-charts.yaml
   - external-dns-chart.yaml
   - fairwinds-charts.yaml
