@@ -36,6 +36,12 @@ spec:
   path: "./kubernetes/namespaces/base/flux-system/addons/notifications"
   prune: true
   wait: false
+  postBuild:
+    substituteFrom:
+    - kind: ConfigMap
+      name: cluster-config
+    - kind: Secret
+      name: cluster-secrets
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -55,6 +61,12 @@ spec:
   path: "./kubernetes/namespaces/base/flux-system/addons/webhooks"
   prune: true
   wait: false
+  postBuild:
+    substituteFrom:
+    - kind: ConfigMap
+      name: cluster-config
+    - kind: Secret
+      name: cluster-secrets
   sourceRef:
     kind: GitRepository
     name: flux-system
