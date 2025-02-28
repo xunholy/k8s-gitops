@@ -7,8 +7,8 @@ resources:
   - helmrelease.yaml
 
 configMapGenerator:
-  - name: flux-instance-helm-values
-    namespace: flux-system
+  - name: kube-guardian-values
+    namespace: kube-guardian
     files:
       - values.yaml=./values.yaml
 
