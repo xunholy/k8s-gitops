@@ -60,6 +60,9 @@ spec:
               AUTOBRR__METRICS_PORT: &metricsPort 9094
               AUTOBRR__CHECK_FOR_UPDATES: false
               AUTOBRR__LOG_LEVEL: INFO
+            envFrom:
+              - secretRef:
+                  name: autobrr-secret
             probes:
               liveness: &probes
                 enabled: true
