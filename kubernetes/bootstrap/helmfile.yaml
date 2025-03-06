@@ -27,7 +27,7 @@ releases:
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
     version: 0.17.0
     wait: true
-    values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/clusters/{{ requiredEnv "CLUSTER_ID"}}/flux-system/flux-operator/instance/values.yaml']
+    values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/clusters/{{ requiredEnv "CLUSTER_ID"}}/flux-system/flux-instance/app/values.yaml']
     needs: ['flux-system/flux-operator']
 
   - name: cert-manager
