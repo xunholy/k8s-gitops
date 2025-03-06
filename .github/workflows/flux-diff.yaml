@@ -29,7 +29,7 @@ jobs:
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@8d5f40dca5aa5d3c0fc3414457dda15a0ac92fa4 # v2.5.1
 
-      - uses: allenporter/flux-local/action/diff@cb59c3892ece9ea94096aec9497222ad88124385 # 7.2.0
+      - uses: allenporter/flux-local/action/diff@9b9166d57ff7de9096211736cf5c04d7f335cbd2 # 7.2.1
         id: diff
         with:
           live-branch: main
