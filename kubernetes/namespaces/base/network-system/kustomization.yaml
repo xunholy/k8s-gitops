@@ -3,6 +3,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+components:
+  - ../../../components/common
+
 resources:
   - namespace.yaml
   # Test disabling network policy to debug node-feature-discovery connectivity issue
