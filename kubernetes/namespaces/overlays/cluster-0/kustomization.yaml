@@ -25,8 +25,9 @@ resources:
   # - ../../base/development/backstage/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
   - ../../base/game-servers/enemy-territory/ks.yaml
-  - ../../base/home-system/emqx/ks.yaml
+  - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/cross-seed/ks.yaml
+  - ../../base/home-system/emqx/ks.yaml
   - ../../base/home-system/home-assistant/ks.yaml
   - ../../base/home-system/jellyseerr/ks.yaml
   - ../../base/home-system/prowlarr/ks.yaml
