@@ -15,9 +15,7 @@ tasks:
       This task checks if the required dependencies are installed on your system.
       It then initializes the Helmfile environment to ensure it's ready for use.
     platforms: [darwin, linux]
-    cmds:
-      - cmd: |
-          helmfile init
+    cmd: helmfile init
     preconditions:
       - which helmfile helm kubectl
     silent: true
@@ -32,15 +30,13 @@ tasks:
       Make sure the necessary environment variables (`CLUSTER_ID`) are set before proceeding.
     prompt: You're bootstraping FluxCD operator configuration "kubernetes/clusters/{{.CLUSTER_ID}}" ... Do you want to continue?
     deps: [setup, secrets]
-    cmds:
-      - cmd: |
-          helmfile apply --file {{.ROOT_DIR}}/kubernetes/bootstrap/helmfile.yaml --skip-diff-on-install {{.CLI_ARGS}}
+    cmd: helmfile apply --file {{.ROOT_DIR}}/kubernetes/bootstrap/helmfile.yaml --skip-diff-on-install {{.CLI_ARGS}}
     requires:
       vars: [CLUSTER_ID]
     preconditions:
       - test -f kubernetes/bootstrap/helmfile.yaml
       - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/flux-system/flux-operator/app/values.yaml
-      - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/flux-system/flux-operator/instance/values.yaml
+      - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/flux-system/flux-instance/app/values.yaml
     silent: true
 
   diff:
@@ -49,15 +45,14 @@ tasks:
       This task compares the current state of the FluxCD operator with the desired state specified in the Helmfile.
       Use this to preview changes before applying them to the cluster.
     cmds:
-      - cmd: |
-          echo "Comparing FluxCD operator configurations... {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}"
-          helmfile diff -f {{.ROOT_DIR}}/kubernetes/bootstrap/helmfile.yaml
+      - echo "Comparing FluxCD operator configurations... {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}"
+      - helmfile diff -f {{.ROOT_DIR}}/kubernetes/bootstrap/helmfile.yaml
     requires:
-      vars: [CLUSTER_ENV, CLUSTER_ID]
+      vars: [CLUSTER_ID]
     preconditions:
       - test -f kubernetes/bootstrap/helmfile.yaml
       - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/flux-system/flux-operator/app/values.yaml
-      - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/flux-system/flux-operator/instance/values.yaml
+      - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/flux-system/flux-instance/app/values.yaml
     silent: true
 
   secrets:
@@ -65,13 +60,12 @@ tasks:
     env:
       GOOGLE_APPLICATION_CREDENTIALS: '{{.HOME}}/keys/raspbernetes-d72f2d61e4ac.json'
     cmds:
-      - cmd: |
-          kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
-          sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/sops-gpg.encrypted.yaml" | kubectl apply -f -
-          sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
-          sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/github-auth.enc.yaml" | kubectl apply -f -
-          kubectl apply -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-config.yaml
-        silent: false
+      - kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
+      - sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/sops-gpg.encrypted.yaml" | kubectl apply -f -
+      - sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
+      - sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/github-auth.enc.yaml" | kubectl apply -f -
+      - kubectl apply -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-config.yaml
+    silent: false
     preconditions:
       - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/sops-gpg.encrypted.yaml
       - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/github-auth.enc.yaml
