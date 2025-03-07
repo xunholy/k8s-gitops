@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: home-system
+
+resources:
+  - helmrelease.yaml
+  - pvc.yaml
+  - secret.enc.yaml
+  - virtualservice.yaml
+
+configMapGenerator:
+  - name: bazarr-scripts
+    namespace: home-system
+    files:
+      - subcleaner.sh=./resources/subcleaner.sh
+
+generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+
+configurations:
+  - kustomizeconfig.yaml
