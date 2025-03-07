@@ -2,6 +2,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: home-system
 
 resources:
   - helmrelease.yaml
@@ -11,6 +12,7 @@ resources:
 
 configMapGenerator:
   - name: sabnzbd-scripts
+    namespace: home-system
     files:
       - post-process.sh=./resources/post-process.sh
 
