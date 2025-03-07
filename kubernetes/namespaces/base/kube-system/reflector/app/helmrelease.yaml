@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: reflector
-      version: 9.0.318
+      version: 9.0.320
       sourceRef:
         kind: HelmRepository
         name: emberstack-charts
