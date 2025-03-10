@@ -1,0 +1,52 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app rcon-web-admin
+  namespace: game-servers
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: rcon-web-admin
+      version: 1.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: minecraft-server-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    rconWeb:
+      isAdmin: true
+      passwordExistingSecret: rcon-password
+      passwordKey: rcon-password
+      rconHost: minecraft-bedrock-minecraft-bedrock.game-servers.svc.cluster.local
+      rconPasswordExistingSecret: rcon-password
+    extraEnv:
+      TZ: Australia/Melbourne
