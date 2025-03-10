@@ -47,10 +47,10 @@ spec:
       type: LoadBalancer
     rconWeb:
       isAdmin: true
-      passwordExistingSecret: rcon-password
+      # passwordExistingSecret: rcon-password
       passwordKey: rcon-password
       rconHost: minecraft-bedrock-minecraft-bedrock.game-servers.svc.cluster.local
-      rconPasswordExistingSecret: rcon-password
+      # rconPasswordExistingSecret: rcon-password
     extraEnv:
       TZ: Australia/Melbourne
   postRenderers:
