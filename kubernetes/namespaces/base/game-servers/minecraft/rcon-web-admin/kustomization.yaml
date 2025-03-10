@@ -7,3 +7,4 @@ namespace: game-servers
 resources:
   - helmrelease.yaml
   - virtualservice.yaml
+  - secret.enc.yaml
