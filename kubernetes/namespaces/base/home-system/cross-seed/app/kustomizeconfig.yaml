@@ -1,5 +1,5 @@
 nameReference:
-- kind: ConfigMap
+- kind: Secret
   version: v1
   fieldSpecs:
   - path: spec/values/persistence/secret-file/name
