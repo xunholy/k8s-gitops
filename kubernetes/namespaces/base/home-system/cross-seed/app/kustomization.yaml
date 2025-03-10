@@ -7,4 +7,15 @@ namespace: home-system
 resources:
   - helmrelease.yaml
   - pvc.yaml
-  - secret.enc.yaml
+
+secretGenerator:
+  - name: cross-seed-secret
+    files:
+      - config.js=secret-secret.enc.yaml
+
+generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+
+configurations:
+  - kustomizeconfig.yaml
