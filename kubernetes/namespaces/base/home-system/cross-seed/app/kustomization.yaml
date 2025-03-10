@@ -11,7 +11,7 @@ resources:
 secretGenerator:
   - name: cross-seed-secret
     files:
-      - config.js=secret-secret.enc.yaml
+      - config.js=secret.enc.yaml
 
 generatorOptions:
   annotations:
