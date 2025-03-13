@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: kube-guardian
-      version: 0.0.28
+      version: 0.0.29
       sourceRef:
         kind: HelmRepository
         name: xentra-charts
