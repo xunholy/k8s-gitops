@@ -1,0 +1,14 @@
+minecraftServer:
+  # This must be overridden, since we can't accept this for the user.
+  eula: "TRUE"
+  version: "LATEST"
+  difficulty: easy
+  maxPlayers: 10
+  gameMode: survival
+  playerIdleTimeout: 10
+  cheats:
+  enableLanVisibility: true
+persistence:
+  dataDir:
+    enabled: true
+    existingClaim: minecraft-bedrock
