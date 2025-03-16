@@ -6,7 +6,7 @@ minecraftServer:
   maxPlayers: 10
   gameMode: survival
   playerIdleTimeout: 10
-  cheats:
+  cheats: true
   enableLanVisibility: true
 # persistence:
 #   dataDir:
