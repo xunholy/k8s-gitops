@@ -10,8 +10,7 @@ minecraftServer:
   playerIdleTimeout: 10
   cheats: true
   enableLanVisibility: true
-  ops: 2535459401367531
-  defaultPermission: member
+  defaultPermission: operator
   enableSSH: true
 persistence:
   dataDir:
