@@ -41,6 +41,8 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
+  values:
+    fullnameOverride: *name
   valuesFrom:
     - kind: ConfigMap
       name: mincraft-bedrock-values

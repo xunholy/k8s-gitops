@@ -8,3 +8,16 @@ resources:
   - helmrelease.yaml
   - virtualservice.yaml
   - secret.enc.yaml
+
+configMapGenerator:
+  - name: mincraft-rcon-values
+    namespace: game-servers
+    files:
+      - values.yaml=./values.yaml
+
+generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+
+configurations:
+  - kustomizeconfig.yaml

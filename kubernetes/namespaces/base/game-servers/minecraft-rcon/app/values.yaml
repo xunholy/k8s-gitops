@@ -1,0 +1,23 @@
+# Required: When not using ingress.enabled=true then must use Loadbalancer for deployment spec to render.
+service:
+  type: LoadBalancer
+rconWeb:
+  isAdmin: true
+  passwordExistingSecret: rcon-password
+  passwordKey: rcon-password
+  rconHost: minecraft-bedrock-minecraft-bedrock.game-servers.svc.cluster.local
+  rconPort: 19132
+  rconPasswordExistingSecret: rcon-password
+extraEnv:
+  TZ: Australia/Melbourne
+postRenderers:
+- kustomize:
+    patches:
+      - target:
+          version: v1
+          kind: Service
+          name: rcon-web-admin
+        patch: |
+          - op: add
+            path: /metadata/annotations/lbipam.cilium.io~1ips
+            value: ${CLUSTER_LB_MINECRAFT_RCON}
