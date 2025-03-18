@@ -42,7 +42,7 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-    fullnameOverride: *name
+    fullnameOverride: *app
   valuesFrom:
     - kind: ConfigMap
       name: mincraft-rcon-values
