@@ -26,6 +26,7 @@ resources:
   - ../../base/flux-system/addons/ks.yaml
   - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/game-servers/minecraft/ks.yaml
+  - ../../base/game-servers/minecraft-bedrock/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/cross-seed/ks.yaml
   - ../../base/home-system/emqx/ks.yaml

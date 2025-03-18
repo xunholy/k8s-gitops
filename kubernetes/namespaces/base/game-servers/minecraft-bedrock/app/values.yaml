@@ -1,0 +1,18 @@
+minecraftServer:
+  serverName: Wild Fire Minecraft Server
+  serverPort: 19132
+  # This must be overridden, since we can't accept this for the user.
+  eula: "TRUE"
+  version: LATEST
+  difficulty: peaceful
+  maxPlayers: 10
+  gameMode: survival
+  playerIdleTimeout: 10
+  cheats: true
+  enableLanVisibility: true
+  defaultPermission: operator
+  enableSSH: true
+persistence:
+  dataDir:
+    enabled: true
+    existingClaim: minecraft-bedrock

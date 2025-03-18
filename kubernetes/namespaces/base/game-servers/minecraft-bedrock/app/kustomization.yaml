@@ -8,7 +8,7 @@ resources:
   - pvc.yaml
 
 configMapGenerator:
-  - name: mincraft-values
+  - name: mincraft-bedrock-values
     namespace: game-servers
     files:
       - values.yaml=./values.yaml

@@ -1,18 +1,34 @@
 minecraftServer:
-  serverName: Wild Fire Minecraft Server
-  serverPort: 19132
+  # serverName: Wild Fire Minecraft Server
+  # serverPort: 19132
   # This must be overridden, since we can't accept this for the user.
   eula: "TRUE"
+  type: PAPER
   version: LATEST
   difficulty: peaceful
   maxPlayers: 10
   gameMode: survival
+  hardcore: false
+  pvp: false
+  worldSaveName: world
+  onlineMode: true
+  rcon:
+    enabled: true
+  motd: "Welcome to Minecraft on Kubernetes!"
   playerIdleTimeout: 10
   cheats: true
   enableLanVisibility: true
   defaultPermission: operator
   enableSSH: true
+  extraPorts:
+  - name: geysermc
+    containerPort: 25565
+    protocol: UDP
+    service:
+      enabled: true
+      embedded: true
+      port: 25565
 persistence:
   dataDir:
     enabled: true
-    existingClaim: minecraft-bedrock
+    existingClaim: minecraft
