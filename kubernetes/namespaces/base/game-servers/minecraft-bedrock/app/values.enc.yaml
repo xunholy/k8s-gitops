@@ -1,0 +1,34 @@
+minecraftServer:
+    passwordSSH: password
+    enableSSH: true
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2025-03-18T23:17:34Z"
+    mac: ENC[AES256_GCM,data:KT4NTBk4HNOKFQ2dKylfPsWyyFrOyN/NRBk/uyBNoyqTxqUPxtt8rvmmCsEo4PilZ/Nyr7HuYG6GliDdkYe10IRZH1ReblXgfWz/7AY091S7ZwNSNHfiBl9+MPIjm+rOGQ/I2Ob0JX7lMeXoirB4VkQs1SORyxYyvyX7IThKJNk=,iv:x9ovaYf5+QLBcXoHGRLPJe1xfNCD1ulJ0w+9gmkZw9A=,tag:fuCxSW920/dkMzNvW/+0eA==,type:str]
+    pgp:
+        - created_at: "2025-03-10T02:41:50Z"
+          enc: |-
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMAx42lmLHwoZwAQ//elI7s84lMkAXRupp2tL7SZR/IY+U1+K/Luy6ftptYmvR
+            UZgiZHpwWwtjKLPnUERNwQadzWrs7beYyXlibinHvZEeJWgeDjcoP/cB3VQ9eQvd
+            TA5cZbHYhQ6oYqq+DxLFXAQIffUgtNL6GTLmpvGrFD58xF6TmzijiGArzWSvW/JA
+            YVgWG8b5OM1ArFiBVoUJACFNtNjWA3F6zpU4Zu07ZyPR16g0o4p2NHFyMzArkdk8
+            TJT8sQ1yL8X/O6anh3dIB7A0ydcldunbOm+6mxeXhiWMnjw1CZ7OuYDfzKuL5Icr
+            8Y02cPacC9P2dYzw12saJm6p3iz0VjtBfCTZffDFTIUMfZLRCp/6iRCZlKXyjO1Z
+            fZ4PM3rgq9xUEiPbJpwesVIuFr6ch+O7ELGr5ByukYtNtT3UAhV0YUvHl3LT5i5H
+            tq3ubvbFzVUJ4DEZpueb1GSJSBPwnThCC5scxPoecs3gvv4vcUk0RkxftSbHubJ/
+            9reWyo37zvFVSmaFtjXWF0107WSvi79Hs5f6bReZWJqMnCx/a+4yiGOOHtATwA1R
+            9TqAo1EEjacoHZTXGtSrY5o3RXbUWoO/ZoMQ4xwBsyjkBSjygcoOUjnxu4oTsskc
+            kSdxEWgcrGeWTwfhKoFwK0YhLA6k6S2LT8/q1JJ0Ght3vACB9yR/czpsGQNCHBfS
+            XAGYIJpKe5TXxLOc0dsMnpwlFAQ7bocnnFWFAPY7GWgMRBOWB9TN7U1ZrHwQM7ZV
+            xrwEjuXTNZc1sdU1hAdO+QTB+I+P3x7Y92e+1NOM97Mdx07Od1rM0MmS7rsk
+            =a4LB
+            -----END PGP MESSAGE-----
+          fp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.1

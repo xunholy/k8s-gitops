@@ -46,6 +46,8 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: mincraft-bedrock-values
+    - kind: Secret
+      name: mincraft-bedrock-secret-values
   postRenderers:
     - kustomize:
         patches:

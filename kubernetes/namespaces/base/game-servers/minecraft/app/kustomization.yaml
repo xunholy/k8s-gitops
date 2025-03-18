@@ -13,6 +13,12 @@ configMapGenerator:
     files:
       - values.yaml=./values.yaml
 
+secretGenerator:
+  - name: mincraft-secret-values
+    namespace: game-servers
+    files:
+      - values.yaml=values.enc.yaml
+
 generatorOptions:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled

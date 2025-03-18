@@ -46,3 +46,5 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: mincraft-values
+    - kind: Secret
+      name: mincraft-secret-values
