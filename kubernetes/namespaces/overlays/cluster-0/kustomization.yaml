@@ -25,12 +25,11 @@ resources:
   # - ../../base/development/backstage/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
   - ../../base/game-servers/enemy-territory/ks.yaml
-  # TODO: Need to investigate why it's crashing
-  # - ../../base/game-servers/minecraft/ks.yaml
+  - ../../base/game-servers/minecraft/ks.yaml
   - ../../base/game-servers/minecraft-bedrock/ks.yaml
-  # - ../../base/game-servers/minecraft-proxy/ks.yaml
-  # - ../../base/game-servers/minecraft-rcon/ks.yaml
-  # - ../../base/game-servers/minecraft-router/ks.yaml
+  - ../../base/game-servers/minecraft-proxy/ks.yaml
+  - ../../base/game-servers/minecraft-rcon/ks.yaml
+  - ../../base/game-servers/minecraft-router/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/cross-seed/ks.yaml
   - ../../base/home-system/emqx/ks.yaml
