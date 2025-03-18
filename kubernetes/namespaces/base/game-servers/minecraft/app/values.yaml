@@ -5,6 +5,9 @@ minecraftServer:
   eula: "TRUE"
   type: PAPER
   version: LATEST
+  pluginUrls:
+    - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
+    - https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
   difficulty: peaceful
   maxPlayers: 4
   maxTickTime: -1
@@ -23,12 +26,11 @@ minecraftServer:
   enableSSH: true
   extraPorts:
   - name: geysermc
-    containerPort: 25565
+    containerPort: 19132
     protocol: UDP
     service:
       enabled: true
-      embedded: true
-      port: 25565
+      port: 19132
   overrideServerProperties: true
   removeOldMods: false
   jvmXXOpts: "-XX:ActiveProcessorCount=1"
@@ -44,94 +46,3 @@ persistence:
   dataDir:
     enabled: true
     existingClaim: minecraft
-
-sidecarContainers:
-  - name: geyser
-    image: "registry.lajas.tech/geyser:latest"
-    volumeMounts:
-      - name: geyser-data
-        mountPath: /app
-      - name: geyser-config-temp
-        mountPath: /config-temp
-    ports:
-      - name: geyser-mc
-        containerPort: 19132
-        protocol: UDP
-
-extraVolumes:
-  - volumeMounts:
-      - name: geyser-config-temp
-        mountPath: /geyser-temp/config.yml
-        subPath: config.yml
-      - name: geyser-data
-        mountPath: /app
-    volumes:
-      - name: geyser-config-temp
-        configMap:
-          name: geyser-config
-      - name: geyser-data
-        persistentVolumeClaim:
-          claimName: geyser-data
-
-extraDeploy:
-  - |
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: geyser-config
-    data:
-      config.yml: |
-        bedrock:
-          port: 19132
-          clone-remote-port: false
-          motd1: ""
-          motd2: "Brought to you by Geyser-MC!"
-          server-name: "Wilfer Minecraft Server"
-          compression-level: 6
-          enable-proxy-protocol: false
-        remote:
-          address: "minecraft.game-servers.svc.cluster.local"
-          port: 25565
-          auth-type: "online"
-          allow-password-authentication: true
-          use-proxy-protocol: false
-          forward-hostname: false
-        floodgate-key-file: "key.pem"
-        saved-user-logins:
-          - SpecOp eX
-          - Aliizsa
-        pending-authentication-timeout: 120
-        command-suggestions: true
-        passthrough-motd: true
-        passthrough-player-counts: true
-        legacy-ping-passthrough: false
-        ping-passthrough-interval: 3
-        forward-player-ping: false
-        max-players: 100
-        debug-mode: false
-        allow-third-party-capes: false
-        allow-third-party-ears: false
-        show-cooldown: "title"
-        show-coordinates: true
-        disable-bedrock-scaffolding: false
-        emote-offhand-workaround: "disabled"
-        cache-images: 0
-        allow-custom-skulls: true
-        max-visible-custom-skulls: 128
-        custom-skull-render-distance: 32
-        add-non-bedrock-items: true
-        above-bedrock-nether-building: true
-        force-resource-packs: true
-        xbox-achievements-enabled: false
-        log-player-ip-addresses: true
-        notify-on-new-bedrock-update: true
-        unusable-space-block: "minecraft:barrier"
-        metrics:
-          enabled: false
-          uuid: ""
-        scoreboard-packet-threshold: 20
-        enable-proxy-connections: false
-        mtu: 1400
-        use-direct-connection: true
-        disable-compression: true
-        config-version: 4
