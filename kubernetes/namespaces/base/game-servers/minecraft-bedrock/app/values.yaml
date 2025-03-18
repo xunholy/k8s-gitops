@@ -1,7 +1,7 @@
 minecraftServer:
-  serverName: Wild Fire Minecraft Server
+  serverName: Wildfire Minecraft Server
+  levelName: Wildfire
   serverPort: 19132
-  # This must be overridden, since we can't accept this for the user.
   eula: "TRUE"
   version: LATEST
   difficulty: peaceful

@@ -1,0 +1,5 @@
+minecraftProxy:
+  type: BUNGEECORD
+  onlineMode: true
+  rcon:
+    enabled: true
