@@ -6,7 +6,8 @@ minecraftServer:
   type: PAPER
   version: LATEST
   difficulty: peaceful
-  maxPlayers: 10
+  maxPlayers: 4
+  maxTickTime: -1
   gameMode: survival
   hardcore: false
   pvp: false
@@ -28,6 +29,16 @@ minecraftServer:
       enabled: true
       embedded: true
       port: 25565
+  overrideServerProperties: true
+  removeOldMods: false
+  jvmXXOpts: "-XX:ActiveProcessorCount=1"
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 500m
+  limits:
+    memory: 1Gi
+    cpu: 1
 persistence:
   dataDir:
     enabled: true
