@@ -3,10 +3,11 @@ service:
   type: LoadBalancer
 rconWeb:
   isAdmin: true
+  game: minecraft
   passwordExistingSecret: rcon-password
   passwordKey: rcon-password
-  rconHost: minecraft-bedrock-minecraft-bedrock.game-servers.svc.cluster.local
-  rconPort: 2222
+  rconHost: minecraft-proxy-minecraft-proxy-rcon.game-servers.svc.cluster.local
+  rconPort: 25575
   rconPasswordExistingSecret: rcon-password
 extraEnv:
   TZ: Australia/Melbourne
@@ -16,7 +17,7 @@ postRenderers:
       - target:
           version: v1
           kind: Service
-          name: rcon-web-admin
+          name: minecraft-rcon
         patch: |
           - op: add
             path: /metadata/annotations/lbipam.cilium.io~1ips

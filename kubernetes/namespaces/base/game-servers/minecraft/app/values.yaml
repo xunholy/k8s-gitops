@@ -1,5 +1,5 @@
 minecraftServer:
-  # serverName: Wild Fire Minecraft Server
+  serverName: Wildfire Minecraft Server
   # serverPort: 19132
   # This must be overridden, since we can't accept this for the user.
   eula: "TRUE"
