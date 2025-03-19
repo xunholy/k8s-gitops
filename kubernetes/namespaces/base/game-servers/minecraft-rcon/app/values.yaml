@@ -6,7 +6,7 @@ rconWeb:
   passwordExistingSecret: rcon-password
   passwordKey: rcon-password
   rconHost: minecraft-bedrock-minecraft-bedrock.game-servers.svc.cluster.local
-  rconPort: 19132
+  rconPort: 2222
   rconPasswordExistingSecret: rcon-password
 extraEnv:
   TZ: Australia/Melbourne
