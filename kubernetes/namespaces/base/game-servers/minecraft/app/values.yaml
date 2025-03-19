@@ -1,7 +1,5 @@
 minecraftServer:
   serverName: Wildfire Minecraft Server
-  # serverPort: 19132
-  # This must be overridden, since we can't accept this for the user.
   eula: "TRUE"
   type: PAPER
   version: LATEST
@@ -33,13 +31,10 @@ minecraftServer:
       port: 19132
   overrideServerProperties: true
   removeOldMods: false
-  jvmXXOpts: "-XX:ActiveProcessorCount=1"
+
 resources:
   requests:
-    memory: 512Mi
-    cpu: 500m
-  limits:
-    memory: 1Gi
+    memory: 2Gi
     cpu: 1
 
 persistence:
