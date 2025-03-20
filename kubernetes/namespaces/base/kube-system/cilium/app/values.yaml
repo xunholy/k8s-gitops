@@ -54,7 +54,7 @@ prometheus:
     enabled: true
     trustCRDsExist: true
 dashboards:
-  enabled: false
+  enabled: true
 rollOutCiliumPods: true
 routingMode: native
 securityContext:
