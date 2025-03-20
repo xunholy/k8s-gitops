@@ -24,7 +24,7 @@ endpointRoutes:
 envoy:
   enabled: false
 hubble:
-  enabled: false
+  enabled: true
 ipam:
   mode: kubernetes
 ipv4NativeRoutingCIDR: 10.244.0.0/16
