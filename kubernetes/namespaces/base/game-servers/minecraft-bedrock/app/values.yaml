@@ -13,7 +13,7 @@ minecraftServer:
   defaultPermission: operator
   # TODO: Consider disabling if Microsoft login failure occurs;
   # Check accounts against Minecraft account service.
-  onlineMode: true
+  onlineMode: false
 persistence:
   dataDir:
     enabled: true

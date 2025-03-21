@@ -41,8 +41,6 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
-  values:
-    fullnameOverride: *app
   valuesFrom:
     - kind: ConfigMap
       name: mincraft-values
