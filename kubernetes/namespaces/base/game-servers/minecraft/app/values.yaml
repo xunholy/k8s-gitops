@@ -31,6 +31,13 @@ minecraftServer:
       enabled: true
       embedded: true
       port: 19132
+  - name: geysermc-rcon
+    containerPort: 25575
+    protocol: UDP
+    service:
+      enabled: true
+      embedded: true
+      port: 25575
   overrideServerProperties: true
   removeOldMods: false
 
@@ -57,3 +64,11 @@ persistence:
   dataDir:
     enabled: true
     existingClaim: minecraft
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
