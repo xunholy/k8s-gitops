@@ -8,8 +8,8 @@ minecraftServer:
     - https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
     - https://github.com/ViaVersion/ViaVersion/releases/download/5.2.1/ViaVersion-5.2.1.jar
     - https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsX-2.20.1.jar
-    - https://www.spigotmc.org/resources/luckperms.28140/download?version=544174
-    - https://www.spigotmc.org/resources/vault.34315/download?version=344916
+    # - https://www.spigotmc.org/resources/luckperms.28140/download?version=544174
+    # - https://www.spigotmc.org/resources/vault.34315/download?version=344916
   difficulty: peaceful
   maxPlayers: 4
   maxTickTime: -1
