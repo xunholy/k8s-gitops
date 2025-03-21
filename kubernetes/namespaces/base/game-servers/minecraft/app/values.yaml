@@ -22,6 +22,7 @@ minecraftServer:
   enableLanVisibility: true
   defaultPermission: operator
   enableSSH: true
+  serviceType: LoadBalancer
   extraPorts:
   - name: geysermc
     containerPort: 19132
