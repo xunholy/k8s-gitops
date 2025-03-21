@@ -1,6 +1,3 @@
-serviceAnnotations:
-  io.cilium/lb-ipam-ips: ${CLUSTER_LB_MINECRAFT}
-
 minecraftServer:
   serverName: Wildfire Minecraft Server
   eula: "TRUE"

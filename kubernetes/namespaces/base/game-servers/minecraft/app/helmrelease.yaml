@@ -43,6 +43,8 @@ spec:
   maxHistory: 3
   values:
     fullnameOverride: *app
+    serviceAnnotations:
+      io.cilium/lb-ipam-ips: ${CLUSTER_LB_MINECRAFT}
   valuesFrom:
     - kind: ConfigMap
       name: mincraft-values
