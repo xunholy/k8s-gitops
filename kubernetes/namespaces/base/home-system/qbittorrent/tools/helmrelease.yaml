@@ -137,7 +137,7 @@ spec:
             <<: *container
             args: [
               "limiter",
-              "--max-line-speed-mbps", "100",
+              "--max-line-speed-mbps", "10",
               "--max-percent", "0.8",
               "--limit-percent", "0.4",
               "--interval", "5"
