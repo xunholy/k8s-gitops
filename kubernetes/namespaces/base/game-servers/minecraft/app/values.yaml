@@ -29,6 +29,7 @@ minecraftServer:
     protocol: UDP
     service:
       enabled: true
+      embedded: true
       port: 19132
   overrideServerProperties: true
   removeOldMods: false
