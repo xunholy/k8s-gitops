@@ -1,3 +1,6 @@
+serviceAnnotations:
+  io.cilium/lb-ipam-ips: ${CLUSTER_LB_MINECRAFT}
+
 minecraftServer:
   serverName: Wildfire Minecraft Server
   eula: "TRUE"
@@ -49,6 +52,7 @@ resources:
   requests:
     memory: 2Gi
     cpu: 1
+    ephemeral-storage: "1Gi"
 
 persistence:
   dataDir:
