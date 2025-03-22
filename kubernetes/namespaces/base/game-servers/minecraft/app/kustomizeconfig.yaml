@@ -8,7 +8,7 @@ nameReference:
   - kind: ConfigMap
     version: v1
     fieldSpecs:
-      - path: spec/values/extraVolumes/0/volumes/0/configMap/name
+      - path: spec/values/extraVolumes/volumes/configMap/name
         kind: HelmRelease
   - kind: Secret
     version: v1
