@@ -1,6 +1,6 @@
 minecraftServer:
     rcon:
-        enabled: true
+        enabled: false
         password: password
 sops:
     kms: []
@@ -8,8 +8,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-03-18T23:31:46Z"
-    mac: ENC[AES256_GCM,data:6xhNVtRoXo9GCdc6hVhUljzpPXiU/01CNxADuQ+cFS2gIgAxDTM61DTRhFqqzFIXq2/kDMoD5RaSs344RIUAda8P8RhZ7vCjTMZAxiQ4n9/wGv3am3XIIcz8E0iJQVXodt9CZMkJDv7VO+P4r6iI5/7UKCpA4e5Kc9Q7Wn4+jqE=,iv:No3S4VCInrRDDIwwmI7hHfRcbIuPP//4j4sumN6vvFY=,tag:UUZeGjCKsq0BF0zL2MirFw==,type:str]
+    lastmodified: "2025-03-22T02:08:47Z"
+    mac: ENC[AES256_GCM,data:tc62zpfdlaYTMa1NqlDfGYuYkV2iFMPDHKHwL8vkXfWeBII4CTykbUbfB3la955Hbl4OKghNc54Lid2/Hf9yZwB19bXynE0PzMCZlHXulDj83Wo9ZguusOBPaC2IZtAiHd3OGjgQVb0+xa+w+AubQiD4F7SHwHQ5tj07TQmlae0=,iv:cpwqwpaFjrRi4M0QPHulZUIE3tV3re4UzXZZ5Z1Zf/8=,tag:XhlDHK4TnW/uZAbL01eGJg==,type:str]
     pgp:
         - created_at: "2025-03-10T02:41:50Z"
           enc: |-
