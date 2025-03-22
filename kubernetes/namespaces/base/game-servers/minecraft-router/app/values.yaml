@@ -1,0 +1,23 @@
+services:
+  # Service for Minecraft client connections
+  minecraft:
+    type: LoadBalancer
+    annotations:
+      lbipam.cilium.io/ips: ${CLUSTER_LB_MINECRAFT_ROUTER}
+
+minecraftRouter:
+  debug:
+    enabled: true
+
+  # Default Minecraft server to use when mapping not found
+  defaultServer:
+    host: "minecraft.game-servers.svc.cluster.local"
+    port: 19132
+
+  mappings:
+    - externalHostname: "bedrock.${CLUSTER_DOMAIN}"
+      host: "minecraft.game-servers.svc.cluster.local"
+      port: 19132
+    - externalHostname: "java.${CLUSTER_DOMAIN}"
+      host: "minecraft.game-servers.svc.cluster.local"
+      port: 25565
