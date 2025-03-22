@@ -1,6 +1,9 @@
 # Required: When not using ingress.enabled=true then must use Loadbalancer for deployment spec to render.
 service:
   type: LoadBalancer
+# Required: Hack to avoid the startup scripts from determining the WS IP:PORT.
+ingress:
+  enabled: true
 rconWeb:
   isAdmin: true
   game: minecraft
@@ -12,15 +15,17 @@ rconWeb:
   rconPasswordKey: "rcon-password"
 extraEnv:
   TZ: Australia/Melbourne
-# Required: Cannot install jq as part of startup script.
-securityContext:
-  readOnlyRootFilesystem: false
-  allowPrivilegeEscalation: true
 
-podSecurityContext:
-  runAsUser: 1000
-  runAsGroup: 1000
-  runAsNonRoot: true
-  fsGroup: 1000
-  seccompProfile:
-    type: RuntimeDefault
+
+# Required: Cannot install jq as part of startup script.
+# securityContext: {}
+  # readOnlyRootFilesystem: false
+  # allowPrivilegeEscalation: true
+
+# podSecurityContext: {}
+  # runAsUser: 1000
+  # runAsGroup: 1000
+  # runAsNonRoot: true
+  # fsGroup: 1000
+  # seccompProfile:
+  #   type: RuntimeDefault
