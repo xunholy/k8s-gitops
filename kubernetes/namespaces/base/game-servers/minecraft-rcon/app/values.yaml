@@ -6,7 +6,7 @@ rconWeb:
   game: minecraft
   passwordExistingSecret: minecraft-rcon
   passwordKey: rcon-password
-  rconHost: minecraft.game-servers.svc.cluster.local
+  rconHost: 192.168.50.182
   rconPort: 25575
   rconPasswordExistingSecret: minecraft-rcon
   rconPasswordKey: "rcon-password"
