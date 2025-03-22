@@ -6,9 +6,11 @@ minecraftServer:
   pluginUrls:
     - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
     - https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
+    # - https://github.com/ViaVersion/ViaVersion/releases/download/5.2.1/ViaVersion-5.2.1.jar
+    - https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsX-2.20.1.jar
   spigetResources:
     - 19254 # ViaVersion
-    - 9089  # EssentialsX
+    # - 9089  # EssentialsX
     - 34315 # Vault
     - 28140 # LuckPerms
     - 32748 # Set Home
