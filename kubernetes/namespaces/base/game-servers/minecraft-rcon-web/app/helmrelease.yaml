@@ -64,12 +64,12 @@ spec:
               kind: Deployment
               name: minecraft-rcon-web
             patch: |
-              - op: add
+              - op: replace
                 path: /spec/template/spec/containers/0/env/-
                 value:
                   name: RWA_WEBSOCKET_URL
                   value: "ws://${CLUSTER_LB_MINECRAFT_RCON}:4327"
-              - op: add
+              - op: replace
                 path: /spec/template/spec/containers/0/env/-
                 value:
                   name: RWA_WEBSOCKET_URL_SSL
