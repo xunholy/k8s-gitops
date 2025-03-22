@@ -21,4 +21,4 @@ spec:
         - destination:
             port:
               number: 80
-            host: minecraft-rcon.game-servers.svc.cluster.local
+            host: minecraft-rcon-web.game-servers.svc.cluster.local
