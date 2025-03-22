@@ -12,3 +12,6 @@ rconWeb:
   rconPasswordKey: "rcon-password"
 extraEnv:
   TZ: Australia/Melbourne
+# Required: Cannot install jq as part of startup script.
+securityContext:
+  readOnlyRootFilesystem: false
