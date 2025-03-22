@@ -9,7 +9,7 @@ resources:
   - virtualservice.yaml
 
 configMapGenerator:
-  - name: mincraft-rcon-values
+  - name: mincraft-rcon-web-values
     namespace: game-servers
     files:
       - values.yaml=./values.yaml
