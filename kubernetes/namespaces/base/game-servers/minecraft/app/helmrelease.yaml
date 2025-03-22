@@ -45,6 +45,15 @@ spec:
     fullnameOverride: *app
     serviceAnnotations:
       io.cilium/lb-ipam-ips: ${CLUSTER_LB_MINECRAFT}
+    extraVolumes:
+      - volumeMounts:
+          - name: geyser-config-volume
+            mountPath: /data/plugins/Geyser-Spigot/config.yml
+            subPath: config.yml
+        volumes:
+          - name: geyser-config-volume
+            configMap:
+              name: geyser-config
   valuesFrom:
     - kind: ConfigMap
       name: mincraft-values

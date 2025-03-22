@@ -5,6 +5,11 @@ nameReference:
     fieldSpecs:
       - path: spec/valuesFrom/name
         kind: HelmRelease
+  - kind: ConfigMap
+    version: v1
+    fieldSpecs:
+      - path: spec/values/extraVolumes/0/volumes/0/configMap/name
+        kind: HelmRelease
   - kind: Secret
     version: v1
     fieldSpecs:

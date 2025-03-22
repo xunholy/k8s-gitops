@@ -2,6 +2,7 @@ services:
   # Service for Minecraft client connections
   minecraft:
     type: LoadBalancer
+    port: 19132
     annotations:
       lbipam.cilium.io/ips: ${CLUSTER_LB_MINECRAFT_ROUTER}
 

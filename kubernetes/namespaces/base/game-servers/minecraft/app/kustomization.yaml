@@ -12,6 +12,10 @@ configMapGenerator:
     namespace: game-servers
     files:
       - values.yaml=./values.yaml
+  - name: geysermc
+    namespace: game-servers
+    files:
+      - config.yml=./config/geysermc.yaml
 
 secretGenerator:
   - name: mincraft-secret-values
