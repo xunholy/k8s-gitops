@@ -1,6 +1,9 @@
 # Required: When not using ingress.enabled=true then must use Loadbalancer for deployment spec to render.
 service:
   type: LoadBalancer
+# Required: Ignored due to using virtual service.
+ingress:
+  enabled: true
 rconWeb:
   isAdmin: true
   game: minecraft
