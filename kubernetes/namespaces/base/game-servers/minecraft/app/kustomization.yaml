@@ -12,7 +12,7 @@ configMapGenerator:
     namespace: game-servers
     files:
       - values.yaml=./values.yaml
-  - name: geysermc
+  - name: geysermc-config
     namespace: game-servers
     files:
       - config.yml=./config/geysermc.yaml

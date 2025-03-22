@@ -53,7 +53,7 @@ spec:
         volumes:
           - name: geyser-config-volume
             configMap:
-              name: geyser-config
+              name: geysermc-config
   valuesFrom:
     - kind: ConfigMap
       name: mincraft-values
