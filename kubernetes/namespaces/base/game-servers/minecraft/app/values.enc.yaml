@@ -1,4 +1,5 @@
 minecraftServer:
+    ops: .Unholy050,Unholy050
     rcon:
         enabled: true
         password: password
@@ -8,8 +9,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-03-22T03:13:20Z"
-    mac: ENC[AES256_GCM,data:3BM7gj/9TdC7VUCvFDX94/3HK12XRj9TLVYxSkzllYl8PHZdC4FZcj7cwxwTXTsXX6FGwMRmBeQA4czUDWeo/bJ7JM49hYzq4Zl5AtHnXy31DcTnh8ES+knciXJSJ6k8vw9a4xYIK7Oy+mi81xX2ldCashuAdPHXS3oeRuKWn/A=,iv:n+hUpJ7miKE3X0UhYROWKO6ZsgpvD+Ar7ndvsJgTYJ0=,tag:+Wd/3FgtzzQnVbeq7MvBAg==,type:str]
+    lastmodified: "2025-03-22T10:02:04Z"
+    mac: ENC[AES256_GCM,data:bWG9hsW2O+Cp1+cfEi2mvGh8zfs6o2kpja5k+vPUjKuLIs4ZfVVnaoll0rp+XuZaRuSHeAybNqXfq6ZPFtgf8FDf3u2yVFgb/hKmfnZr77FQm+UMN4zkeYOHqyzfqvB20oHA54sUEl1o+2FoCAqjnom0kVsjWmzi3u26+6RYETo=,iv:nWcpwRu8gqnZ1d0dzFBE7jHJGlLwm6sI/AP7kiU0/os=,tag:MtkpTjR7YwnSzu66dJuvuw==,type:str]
     pgp:
         - created_at: "2025-03-10T02:41:50Z"
           enc: |-
