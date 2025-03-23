@@ -6,6 +6,8 @@ minecraftServer:
   eula: "TRUE"
   type: KETTING
   version: LATEST
+  pluginUrls:
+    - https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsX-2.20.1.jar
   # REQUIRED: Must use for spigot plugins that are listed as available via external sites
   spigetResources:
     - 19254 # ViaVersion
@@ -17,7 +19,6 @@ minecraftServer:
       - luckperms
       - multiverse-core
       - pixelmon
-      - essentialsx
     downloadDependencies: required
     allowedVersionType: release
   maxPlayers: 4
