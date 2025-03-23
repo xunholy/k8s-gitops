@@ -19,6 +19,7 @@ minecraftServer:
   modrinth:
     projects:
       - multiverse-core
+      - pixelmon
     downloadDependencies: required
     allowedVersionType: release
   maxPlayers: 4
