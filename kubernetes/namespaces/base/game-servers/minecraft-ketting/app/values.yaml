@@ -7,7 +7,8 @@ minecraftServer:
   type: AUTO_CURSEFORGE
   version: LATEST
   autoCurseForge:
-    pageUrl: "https://www.curseforge.com/minecraft/modpacks/the-pixelmon-modpack/download/5954570"
+    # pageUrl: "https://www.curseforge.com/minecraft/modpacks/the-pixelmon-modpack/download/5954570"
+    slug: "the-pixelmon-modpack"
   maxPlayers: 4
   maxTickTime: -1
   gameMode: survival
