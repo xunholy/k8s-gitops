@@ -10,15 +10,14 @@ minecraftServer:
   pluginUrls:
     - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
     - https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
-    - https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsX-2.20.1.jar
   spigetResources:
     - 19254 # ViaVersion
     - 34315 # Vault
     - 28140 # LuckPerms
-    - 32748 # Set Home
   modrinth:
     projects:
       - multiverse-core
+      - essentialsx
     downloadDependencies: required
     allowedVersionType: release
   maxPlayers: 4
