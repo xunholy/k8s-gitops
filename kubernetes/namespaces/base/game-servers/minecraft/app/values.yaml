@@ -4,7 +4,7 @@ extraEnv:
 minecraftServer:
   serverName: Wildfire Minecraft Server
   eula: "TRUE"
-  type: MAGMA_MAINTAINED
+  type: KETTING
   version: LATEST
   # REQUIRED: Must use for spigot plugins that are listed as available via external sites
   spigetResources:
