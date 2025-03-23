@@ -11,6 +11,7 @@ minecraftServer:
     slug: "the-pixelmon-modpack"
   maxPlayers: 4
   maxTickTime: -1
+  memory: 2048M
   gameMode: survival
   hardcore: false
   pvp: false
@@ -18,7 +19,7 @@ minecraftServer:
   onlineMode: true
   rcon:
     enabled: true
-  motd: "Welcome to Minecraft on Kubernetes!"
+  motd: "Welcome to Poke Minecraft on Kubernetes!"
   playerIdleTimeout: 10
   cheats: true
   enableLanVisibility: true
@@ -51,8 +52,8 @@ affinity:
 
 resources:
   requests:
-    memory: 2Gi
-    cpu: 1
+    memory: 2500Mi
+    cpu: 2
     ephemeral-storage: "1Gi"
 
 persistence:
