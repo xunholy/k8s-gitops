@@ -7,20 +7,8 @@ minecraftServer:
   type: KETTING
   version: LATEST
   # REQUIRED: Must use for spigot plugins that are listed as available via external sites
-  # pluginUrls:
-  #   - https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsX-2.20.1.jar
-  #   - https://cdn.modrinth.com/data/3wmN97b8/versions/jbQopAkk/multiverse-core-4.3.14.jar
-  # spigetResources:
-  #   - 19254 # ViaVersion
-  #   - 34315 # Vault
-  modrinth:
-    projects:
-      # - geyser
-      # - floodgate
-      # - luckperms
-      - pixelmon
-    downloadDependencies: required
-    allowedVersionType: release
+  pluginUrls:
+    - https://www.curseforge.com/minecraft/modpacks/the-pixelmon-modpack/download/5954570
   maxPlayers: 4
   maxTickTime: -1
   gameMode: survival
