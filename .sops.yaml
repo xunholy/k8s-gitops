@@ -6,6 +6,9 @@ creation_rules:
     encrypted_regex: ^(data|stringData)$
     unencrypted-regex: ^(description|metadata)$
     gcp_kms: projects/raspbernetes/locations/global/keyRings/sops/cryptoKeys/sops-key
+  # Helm values files using SOPS
+  - path_regex: kubernetes/.*/values.enc.ya?ml
+    pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
   # Kubernetes secret files using SOPS
   - path_regex: kubernetes/.*/*.enc.ya?ml
     encrypted_regex: ^(data|stringData)$
