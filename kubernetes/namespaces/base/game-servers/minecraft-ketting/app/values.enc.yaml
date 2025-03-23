@@ -1,15 +1,15 @@
 minecraftServer:
     autoCurseForge:
         apiKey:
-            key: ENC[AES256_GCM,data:PT9h71OHz3uL8UT5zIZ9KfSEwEzeyjIPD4Sclrue0dIfY9+XbtDrykl0Jq3mi7erVraVNDsq9bQUxX/6,iv:fl5CtXG31D4z5q7V8BMVF5wcD1s/GQm0I/OyN9zXCQ4=,tag:pUDsl5xs9JmVAaqgd+j15w==,type:str]
+            key: ENC[AES256_GCM,data:eVUHVi7d3z3uFAWjw96B7AJil3rhBBqB9fiHo5f3AHvWBh9o1N/slNFGq28oa5IPZToTTTvN5c777QFe,iv:Jbt04mfY4Dv7Pw9r9YxpOtq7fXNQT5zoEG13exndvME=,tag:nGuRAivqyvdyaYun6CSOlQ==,type:str]
 sops:
     kms: []
     gcp_kms: []
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-03-23T22:28:09Z"
-    mac: ENC[AES256_GCM,data:YiS8T2tR6/vCaNatGYiLC0S4WXlSspoZySmd/AQtR+PVEbh7BmoW9jFf6ZIRxViz84pzIy1rBc9NWMlADf2aMtEZqnSVxumBDeYQuWr/tfaLzUZT3RwPCGorETIM1R0Hhjdqy63Hke6lYQ1Tua5VdiHIlX7jqryrPqBZX9kkngY=,iv:pqOUj0O7YMP4gcdT2WisYaqEoyhv71AdI7OEBz80W20=,tag:cey6aNbw7x+hk4eBltaZvQ==,type:str]
+    lastmodified: "2025-03-23T22:59:22Z"
+    mac: ENC[AES256_GCM,data:Gx9ibm7rqL/n0qpbmMkuuvXZmGBX+NzDKCTHc21GJzkyvVzpev+o7fTMi4JkUcFkGG57t7A6BXrb8xDJp5XfBn2FlJCSygYr7PicqbSXopEZAO7L1uRzF/7WAkLy2bFv4+HzBrsH7ASx8b0TGNWhftzv0sn6tLD0Na0QjTRYWxw=,iv:Z5493xTgldq8DNsnmnd4f/1c9mQueozleXZZ14Ow64M=,tag:cYBe1twpJpu9yPRkwQBs3A==,type:str]
     pgp:
         - created_at: "2025-03-23T22:28:09Z"
           enc: |-
