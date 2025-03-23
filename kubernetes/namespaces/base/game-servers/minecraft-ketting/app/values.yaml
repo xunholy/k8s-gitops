@@ -4,21 +4,21 @@ extraEnv:
 minecraftServer:
   serverName: Wildfire Minecraft Server
   eula: "TRUE"
-  type: PAPER
+  type: KETTING
   version: LATEST
   # REQUIRED: Must use for spigot plugins that are listed as available via external sites
   pluginUrls:
-    - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
-    - https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
     - https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsX-2.20.1.jar
+    - https://cdn.modrinth.com/data/3wmN97b8/versions/jbQopAkk/multiverse-core-4.3.14.jar
   spigetResources:
     - 19254 # ViaVersion
     - 34315 # Vault
-    - 28140 # LuckPerms
-    - 32748 # Set Home
   modrinth:
     projects:
-      - multiverse-core
+      - geyser
+      - floodgate
+      - luckperms
+      - pixelmon
     downloadDependencies: required
     allowedVersionType: release
   maxPlayers: 4
@@ -70,7 +70,7 @@ resources:
 persistence:
   dataDir:
     enabled: true
-    existingClaim: minecraft
+    existingClaim: minecraft-ketting
 
 podSecurityContext:
   runAsUser: 1000
