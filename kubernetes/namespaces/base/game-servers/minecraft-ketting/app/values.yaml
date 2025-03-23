@@ -4,11 +4,10 @@ extraEnv:
 minecraftServer:
   serverName: Wildfire Minecraft Server
   eula: "TRUE"
-  type: KETTING
+  type: AUTO_CURSEFORGE
   version: LATEST
-  # REQUIRED: Must use for spigot plugins that are listed as available via external sites
-  pluginUrls:
-    - https://www.curseforge.com/minecraft/modpacks/the-pixelmon-modpack/download/5954570
+  autoCurseForge:
+    pageUrl: "https://www.curseforge.com/minecraft/modpacks/the-pixelmon-modpack/download/5954570"
   maxPlayers: 4
   maxTickTime: -1
   gameMode: survival
