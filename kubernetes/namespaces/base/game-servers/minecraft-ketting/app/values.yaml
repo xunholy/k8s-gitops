@@ -11,7 +11,7 @@ minecraftServer:
     slug: "the-pixelmon-modpack"
   maxPlayers: 4
   maxTickTime: -1
-  memory: 2048M
+  memory: 2560M
   gameMode: survival
   hardcore: false
   pvp: false
