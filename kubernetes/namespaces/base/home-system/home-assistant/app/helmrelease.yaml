@@ -47,8 +47,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/home-assistant
-              tag: 2025.3.3@sha256:9e2a7177b4600653d6cb46dff01b1598189a5ae93be0b99242fbc039d32d79f1
+              repository: ghcr.io/home-operations/home-assistant
+              tag: 2025.3.4@sha256:6bc52fda813091b9b17a73505d9f2af97d461924631776041bb7f2522e9568ea
             env:
               TZ: Australia/Melbourne
               HASS_HTTP_TRUSTED_PROXY_1: 192.168.50.0/24
