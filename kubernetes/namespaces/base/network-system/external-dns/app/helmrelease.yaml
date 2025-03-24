@@ -42,7 +42,8 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
-    provider: cloudflare
+    provider:
+      name: cloudflare
     domainFilters: ["raspbernetes.com"]
     env:
       - name: CF_API_TOKEN
