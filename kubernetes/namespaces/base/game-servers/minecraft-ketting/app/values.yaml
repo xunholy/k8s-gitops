@@ -54,7 +54,7 @@ resources:
   requests:
     memory: 2500Mi
     cpu: 2
-    ephemeral-storage: "1Gi"
+    ephemeral-storage: "500Mi"
 
 persistence:
   dataDir:
