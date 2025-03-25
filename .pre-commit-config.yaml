@@ -13,8 +13,9 @@ repos:
         args: [--allow-multiple-documents]
       - id: check-json
       - id: check-toml
-      - id: no-commit-to-branch
-        args: [--branch, main]
+      # Only enable this if we want to prevent commits directly to the main branch
+      # - id: no-commit-to-branch
+      #   args: [--branch, main]
 
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.37.0
