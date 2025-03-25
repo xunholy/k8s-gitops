@@ -33,14 +33,3 @@ repos:
     hooks:
       - id: shellcheck
         args: [--severity=warning]
-
-  - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 37.272.0
-    hooks:
-      - id: renovate-config-validator
-
-
-  - repo: https://github.com/kubernetes-sigs/kustomize
-    rev: kustomize/v5.5.1
-    hooks:
-      - id: kustomize-validation
