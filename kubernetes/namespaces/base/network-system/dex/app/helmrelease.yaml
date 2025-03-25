@@ -22,7 +22,7 @@ spec:
     crds: CreateReplace
     createNamespace: true
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     remediation:
       remediateLastFailure: true
@@ -119,11 +119,11 @@ spec:
           id: weave-gitops
           secret: '${DEX_WEAVE_GITOPS_SECRET}'
           redirectURIs:
-          - 'https://wge.${CLUSTER_DOMAIN}/oauth2/callback'
-          - 'https://gitops.${CLUSTER_DOMAIN}/oauth2/callback'
-          - 'https://localhost:9001/oauth2/callback'
-          - 'https://0.0.0.0:9001/oauth2/callback'
-          - 'http://0.0.0.0:9001/oauth2/callback'
-          - 'http://localhost:4567/oauth2/callback'
-          - 'https://localhost:4567/oauth2/callback'
-          - 'http://localhost:3000/oauth2/callback'
+            - 'https://wge.${CLUSTER_DOMAIN}/oauth2/callback'
+            - 'https://gitops.${CLUSTER_DOMAIN}/oauth2/callback'
+            - 'https://localhost:9001/oauth2/callback'
+            - 'https://0.0.0.0:9001/oauth2/callback'
+            - 'http://0.0.0.0:9001/oauth2/callback'
+            - 'http://localhost:4567/oauth2/callback'
+            - 'https://localhost:4567/oauth2/callback'
+            - 'http://localhost:3000/oauth2/callback'

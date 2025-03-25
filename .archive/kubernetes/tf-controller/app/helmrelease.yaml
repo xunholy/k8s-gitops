@@ -21,7 +21,7 @@ spec:
     crds: CreateReplace
     createNamespace: true
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     remediation:
       remediateLastFailure: true
@@ -35,7 +35,11 @@ spec:
     recreate: true
     force: true
     cleanupOnFail: true
-  uninstall:     keepHistory: false   driftDetection:     mode: enabled   maxHistory: 3
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
   values:
     affinity:
       nodeAffinity:

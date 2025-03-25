@@ -22,7 +22,7 @@ spec:
     crds: CreateReplace
     createNamespace: true
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     remediation:
       remediateLastFailure: true
@@ -72,7 +72,7 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 10
-            securityContext:  &securityContext
+            securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }

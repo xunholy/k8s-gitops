@@ -13,13 +13,15 @@ spec:
         kind: HelmRepository
         name: controlplaneio-charts
         namespace: flux-system
+      verify:
+        provider: cosign
   install:
+    timeout: 10m
+    replace: true
     crds: CreateReplace
     createNamespace: true
     remediation:
-      retries: 3
-    replace: true
-    timeout: 10m
+      retries: -1
   maxHistory: 3
   rollback:
     cleanupOnFail: true
