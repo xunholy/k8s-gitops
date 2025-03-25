@@ -10,40 +10,31 @@
     ":disableRateLimiting",
     ":dependencyDashboard",
     ":semanticCommits",
-    ":separatePatchReleases",
-    ":skipStatusChecks",
     ":timezone(Australia/Melbourne)",
-    "github>xUnholy/k8s-gitops//.github/renovate/autoMerge.json5",
-    "github>xUnholy/k8s-gitops//.github/renovate/commitMessage.json5",
-    "github>xUnholy/k8s-gitops//.github/renovate/customManagers.json5",
-    "github>xUnholy/k8s-gitops//.github/renovate/groups.json5",
-    "github>xUnholy/k8s-gitops//.github/renovate/labels.json5",
-    "github>xUnholy/k8s-gitops//.github/renovate/semanticCommits.json5",
+    "github>xUnholy/k8s-gitops//.renovate/autoMerge.json5",
+    "github>xUnholy/k8s-gitops//.renovate/customManagers.json5",
+    "github>xUnholy/k8s-gitops//.renovate/groups.json5",
+    "github>xUnholy/k8s-gitops//.renovate/labels.json5",
+    "github>xUnholy/k8s-gitops//.renovate/semanticCommits.json5",
   ],
-  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "dependencyDashboardAutoclose": true,
-  "configWarningReuseIssue": true,
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
-  "platformAutomerge": true,
   "pre-commit": {
+
     "enabled": true
   },
-  "kubernetes": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
-    ],
-    "ignorePaths": [
-      "kubernetes/clusters/",
-    ]
+  ignorePaths: [
+    "**/*.enc.*",
+    "**/resources/**",
+  ],
+  flux: {
+    fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"]
   },
-  "docker-compose": {
-    "fileMatch": [
-      "(^|/)docker-compose.*\\.ya?ml$"
-    ]
+  "helm-values": {
+    fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"]
   },
-  "flux": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
-    ]
-  }
+  kubernetes: {
+    fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"]
+  },
 }

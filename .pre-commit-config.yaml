@@ -9,9 +9,50 @@ repos:
       - id: check-added-large-files
       - id: check-merge-conflict
       - id: detect-private-key
-      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      - id: check-json
+      - id: check-toml
+      - id: no-commit-to-branch
+        args: [--branch, main]
+
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.37.0
     hooks:
       - id: yamllint
-        args: [-c=.github/.yamllint.yml]
+        args: [-c=.yamllint.yaml]
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.40.0
+    hooks:
+      - id: markdownlint
+        args: [--fix]
+
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.10.0
+    hooks:
+      - id: shellcheck
+        args: [--severity=warning]
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.88.5
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
+        args:
+          - --hook-config=--retry-once-with-cleanup=true
+
+  - repo: https://github.com/renovatebot/pre-commit-hooks
+    rev: 37.272.0
+    hooks:
+      - id: renovate-config-validator
+
+  - repo: https://github.com/mrtazz/checkmake
+    rev: 0.2.2
+    hooks:
+      - id: checkmake
+
+  - repo: https://github.com/kubernetes-sigs/kustomize
+    rev: kustomize/v5.5.1
+    hooks:
+      - id: kustomize-validation

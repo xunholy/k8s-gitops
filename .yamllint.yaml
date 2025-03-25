@@ -1,24 +1,63 @@
 ---
+# This configuration serves as a base for the entire repo
 ignore: |
   *.encrypted.yaml
   *.enc.yaml
   **/kubernetes/clusters/**
   talos/
+  .github/workflows/
+  .taskfiles/
 
 extends: default
 rules:
-  truthy:
-    allowed-values: ['true', 'false', 'on']
-  comments:
-    min-spaces-from-content: 1
+  # Disallow duplicate dictionary keys
+  key-duplicates: enable
+
+  # Require consistent indentation
+  indentation:
+    spaces: 2
+    indent-sequences: consistent
+    check-multi-line-strings: false
+
+  # Line length
   line-length:
     max: 240
     level: warning
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+
+  # Trailing spaces
+  trailing-spaces: enable
+
+  # Final newline at end of file
+  new-line-at-end-of-file: enable
+
+  # Allow specific syntax for boolean values
+  truthy:
+    allowed-values: ['true', 'false', 'on', 'off', 'yes', 'no']
+    check-keys: false
+
+  # Spacing for comments
+  comments:
+    require-starting-space: true
+    min-spaces-from-content: 1
+
+  # Consistent spacing in braces
   braces:
     min-spaces-inside: 0
     max-spaces-inside: 1
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+
+  # Consistent spacing in brackets
   brackets:
     min-spaces-inside: 0
     max-spaces-inside: 0
-  indentation:
-    indent-sequences: consistent
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+
+  # Consistent document start/end markers
+  document-start:
+    present: true
+  document-end:
+    present: false

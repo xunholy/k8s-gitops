@@ -1,0 +1,43 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Actions Runner Controller Group",
+      groupName: "Actions Runner Controller",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/gha-runner-scale-set-controller/", "/gha-runner-scale-set/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
+    {
+      description: ["Talos Group"],
+      groupName: "Talos",
+      matchPackagePatterns: ["siderolabs/talosctl", "siderolabs/installer"],
+      matchDatasources: ["docker"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group"
+      },
+      separateMinorPatch: true
+    },
+    {
+      description: "Istio Group",
+      groupName: "istio",
+      matchDatasources: ["helm"],
+      matchPackagePatterns: ["gateway", "istio-base", "istio-cni", "istiod"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group"
+      },
+      separateMinorPatch: true
+    },
+    {
+      description: "Flux Operator Group",
+      groupName: "Flux Operator",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/flux-operator/", "/flux-instance/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
+  ]
+}
