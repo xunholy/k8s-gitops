@@ -19,12 +19,12 @@ spec:
   driftDetection:
     mode: enabled
   install:
+    timeout: 10m
+    replace: true
     crds: CreateReplace
     createNamespace: true
     remediation:
-      retries: 3
-    replace: true
-    timeout: 10m
+      retries: -1
   upgrade:
     remediation:
       remediateLastFailure: true
@@ -58,9 +58,9 @@ spec:
       hostPID: true
       priorityClassName: platform-node-critical
       tolerations:
-        - key: "node-role.kubernetes.io/control-plane"
-          operator: "Exists"
-          effect: "NoSchedule"
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
     driver:
       existingConfigSecret: driver-config
       config:

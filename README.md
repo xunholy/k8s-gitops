@@ -13,7 +13,7 @@ _... managed with Flux, Renovate and GitHub Actions_
 [![Discord](https://img.shields.io/discord/673534664354430999?style=for-the-badge&label=discord&logo=discord&logoColor=white&color=blue)](https://discord.gg/home-operations)&nbsp;&nbsp;
 [![Kubernetes](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.raspbernetes.com%2Fkubernetes_version&style=for-the-badge&logo=kubernetes&logoColor=white&color=blue)](https://kubernetes.io/)&nbsp;&nbsp;
 [![Talos](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.raspbernetes.com%2Ftalos_version&style=for-the-badge&logo=talos&logoColor=white&color=blue)](https://talos.dev)&nbsp;&nbsp;
-<!-- [![FluxCD](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.raspbernetes.com%flux_version&style=for-the-badge&logo=flux&logoColor=white&color=blue)](https://fluxcd.io/)&nbsp;&nbsp; -->
+[![FluxCD](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.raspbernetes.com%2Fflux_version&style=for-the-badge&logo=flux&logoColor=white&color=blue)](https://fluxcd.io/)&nbsp;&nbsp;
 
 </div>
 
@@ -86,19 +86,18 @@ flux check --pre
 
 3. Run the bootstrap command to install Flux and deploy into the cluster:
 
-
 ```bash
 task cluster CLUSTER_NAME=cluster-0
 ```
 
-**Note:** *Many variables in the cluster depend on your specific configuration and should be modified accordingly. Be sure to review and adjust these variables as needed to match your environment and requirements.*
+**Note:** _Many variables in the cluster depend on your specific configuration and should be modified accordingly. Be sure to review and adjust these variables as needed to match your environment and requirements._
 
 ## 🔧 Hardware
 
 | Device                                                                                 | Description              | Quantity | CPU     | RAM      | Architecture | Operating System                      | Notes |
 | -------------------------------------------------------------------------------------- | ------------------------ | -------- | ------- | -------- | ------------ | ------------------------------------- | ----- |
 | [Protectli FW6E](https://protectli.com/product/fw6e/)                                  | Router                   | 1        | 4 Cores | 16GB RAM | AMD64        | [VyOs](https://vyos.io/)              |       |
-| [Protectli VP2410 ](https://protectli.com/product/vp2410/)                             | Kubernetes Control Plane | 3        | 4 Cores | 8GB RAM  | AMD64        | [Talos Linux](https://www.talos.dev/) |       |
+| [Protectli VP2410](https://protectli.com/product/vp2410/)                             | Kubernetes Control Plane | 3        | 4 Cores | 8GB RAM  | AMD64        | [Talos Linux](https://www.talos.dev/) |       |
 | [Protectli FW2B](https://protectli.com/product/fw2b/)                                  | Kubernetes Node(s)       | 3        | 2 Cores | 8GB RAM  | AMD64        | [Talos Linux](https://www.talos.dev/) |       |
 | [Raspberry Pi 4 Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) | Kubernetes Node(s)       | 4        | 4 Cores | 8GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) |       |
 | [Rock Pi 4 Model C](https://rockpi.org/rockpi4#)                                       | Kubernetes Node(s)       | 6        | 4 Cores | 4GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) |  Decommisioned   |

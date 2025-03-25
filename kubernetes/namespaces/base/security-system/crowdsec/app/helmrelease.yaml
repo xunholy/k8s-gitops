@@ -22,7 +22,7 @@ spec:
     crds: CreateReplace
     createNamespace: true
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     remediation:
       remediateLastFailure: true
@@ -52,7 +52,7 @@ spec:
                   - key: beta.kubernetes.io/arch
                     operator: In
                     values:
-                     - amd64
+                      - amd64
       dashboard:
         # TODO: No arm64 images, raise a GH issue
         enabled: false
