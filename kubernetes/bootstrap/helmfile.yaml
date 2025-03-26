@@ -40,7 +40,7 @@ releases:
   - name: kustomize-mutating-webhook
     namespace: flux-system
     chart: kustomize-mutating-webhook/kustomize-mutating-webhook
-    version: 0.4.2
+    version: 0.4.3
     wait: false
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/clusters/{{ requiredEnv "CLUSTER_ID"}}/flux-system/kustomize-mutating-webhook/app/values.yaml']
     needs: ['network-system/cert-manager']
