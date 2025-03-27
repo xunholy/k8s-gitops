@@ -12,6 +12,8 @@ minecraftServer:
     - https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
   spigetResources:
     - 19254 # ViaVersion
+    - 27448 # ViaBackwards
+    - 52109 # ViaRewind
     - 34315 # Vault
     - 28140 # LuckPerms
   modrinth:
