@@ -1,0 +1,19 @@
+# TODO: Enemy Territory runs as a 32bit binary which doesn't work on Talos currently. Must either use x86 or wait for if Talos support is added in the future.
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: enemy-territory
+  namespace: game-servers
+  labels:
+    substitution.flux/enabled: true
+spec:
+  interval: 5m
+  path: "./kubernetes/apps/base/game-servers/enemy-territory/app"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system

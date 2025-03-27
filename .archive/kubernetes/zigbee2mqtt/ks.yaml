@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/home-system/zigbee2mqtt/app"
+  path: "./kubernetes/apps/base/home-system/zigbee2mqtt/app"
   prune: true
   wait: false
   sourceRef:

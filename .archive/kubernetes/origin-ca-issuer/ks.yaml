@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/network-system/origin-ca-issuer/app"
+  path: "./kubernetes/apps/base/network-system/origin-ca-issuer/app"
   prune: true
   wait: true
   sourceRef:

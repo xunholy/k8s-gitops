@@ -9,7 +9,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/openfaas/openfaas/app"
+  path: "./kubernetes/apps/base/openfaas/openfaas/app"
   prune: true
   wait: true
   sourceRef:

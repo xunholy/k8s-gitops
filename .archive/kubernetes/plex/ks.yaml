@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/home-system/plex/app"
+  path: "./kubernetes/apps/base/home-system/plex/app"
   prune: true
   wait: false
   sourceRef:

@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/kube-system/sealed-secrets/app"
+  path: "./kubernetes/apps/base/kube-system/sealed-secrets/app"
   prune: true
   wait: true
   sourceRef:

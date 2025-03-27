@@ -1,0 +1,70 @@
+extraEnv:
+  TZ: "Australia/Melbourne"
+
+minecraftServer:
+  serverName: Wildfire Minecraft Server
+  eula: "TRUE"
+  type: AUTO_CURSEFORGE
+  version: LATEST
+  autoCurseForge:
+    # pageUrl: "https://www.curseforge.com/minecraft/modpacks/the-pixelmon-modpack/download/5954570"
+    slug: "the-pixelmon-modpack"
+  maxPlayers: 4
+  maxTickTime: -1
+  memory: 2560M
+  gameMode: survival
+  hardcore: false
+  pvp: false
+  worldSaveName: world
+  onlineMode: true
+  rcon:
+    enabled: true
+  motd: "Welcome to Poke Minecraft on Kubernetes!"
+  playerIdleTimeout: 10
+  cheats: true
+  enableLanVisibility: true
+  defaultPermission: operator
+  enableSSH: true
+  serviceType: LoadBalancer
+  extraPorts:
+  - name: geysermc
+    containerPort: 19132
+    protocol: UDP
+    service:
+      enabled: true
+      embedded: true
+      port: 19132
+  overrideServerProperties: true
+  removeOldMods: false
+
+tolerations:
+- key: "node-role.kubernetes.io/control-plane"
+  operator: "Exists"
+  effect: "NoSchedule"
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+
+resources:
+  requests:
+    memory: 2500Mi
+    cpu: 2
+    ephemeral-storage: "500Mi"
+
+persistence:
+  dataDir:
+    enabled: true
+    existingClaim: minecraft-ketting
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault

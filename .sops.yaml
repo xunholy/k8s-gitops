@@ -6,18 +6,27 @@ creation_rules:
     encrypted_regex: ^(data|stringData)$
     unencrypted-regex: ^(description|metadata)$
     gcp_kms: projects/raspbernetes/locations/global/keyRings/sops/cryptoKeys/sops-key
+    mac_only_encrypted: true
   # Helm values files using SOPS
   - path_regex: kubernetes/.*/values.enc.ya?ml
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
+    mac_only_encrypted: true
   # Kubernetes secret files using SOPS
   - path_regex: kubernetes/.*/*.enc.ya?ml
     encrypted_regex: ^(data|stringData)$
     unencrypted-regex: ^(description|metadata)$
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
+    mac_only_encrypted: true
   # Talos secret files using SOPS
   - path_regex: talos/.*/.*.enc.ya?ml
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
     encrypted_regex: '((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))'
+    mac_only_encrypted: true
   # Terraform secret files using SOPS
   - path_regex: terraform/.*/*.enc.ya?ml
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
+    mac_only_encrypted: true
+
+stores:
+  yaml:
+    indent: 2

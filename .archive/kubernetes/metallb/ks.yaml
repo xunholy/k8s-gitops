@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/network-system/metallb/app"
+  path: "./kubernetes/apps/base/network-system/metallb/app"
   prune: true
   wait: true
   sourceRef:
@@ -31,7 +31,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/network-system/metallb/config"
+  path: "./kubernetes/apps/base/network-system/metallb/config"
   prune: true
   wait: true
   sourceRef:

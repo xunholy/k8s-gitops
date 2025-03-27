@@ -65,7 +65,6 @@ tasks:
       - sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
       - sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/github-auth.enc.yaml" | kubectl apply -f -
       - kubectl apply -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-config.yaml
-    silent: false
     preconditions:
       - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/sops-gpg.encrypted.yaml
       - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/github-auth.enc.yaml

@@ -9,7 +9,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./kubernetes/namespaces/base/litmus/litmus/app"
+  path: "./kubernetes/apps/base/litmus/litmus/app"
   prune: true
   wait: true
   sourceRef:

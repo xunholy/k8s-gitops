@@ -1,0 +1,101 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app enemy-territory
+  namespace: game-servers
+spec:
+  interval: 30m
+  chart:
+    spec:
+      version: 3.7.3
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    controllers:
+      *app :
+        initContainers:
+          init-config:
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.4.0
+            args:
+              - --repo=https://github.com/xunholy/etlegacy-server
+              - --ref=HEAD
+              - --username=xunholy
+              - --root=/etlegacy/legacy/server
+              - --one-time=true
+            env:
+              - name: GITSYNC_PASSWORD
+                value: ${GITHUB_TOKEN}
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 128M
+        containers:
+          app:
+            image:
+              repository: xunholy/enemy-territory
+              tag: sha-214208b
+            args: ["cp /etlegacy/legacy/server/etlegacy-server/* /etlegacy/legacy/; /etlegacy/start.sh;"]
+            command: ["/bin/bash", "-c", "--"]
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [44]
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: *app
+        ports:
+          udp:
+            port: 27960
+            protocol: UDP
+    persistence:
+      server-config:
+        existingClaim: enemy-territory
+        globalMounts:
+          - path: /etlegacy/legacy/server

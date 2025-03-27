@@ -12,7 +12,7 @@ for RESOURCE in $RESOURCES; do
   RESOURCE_NAMES=$(kubectl get $RESOURCE -A -o name)
   # Loop over each resource name and force update the finalizer
   for RESOURCE_NAME in $RESOURCE_NAMES; do
-  # Update the finalizer for each resource in parallel using xargs
-  echo "$RESOURCE_NAMES" | xargs -n1 -P4 -I{} kubectl patch {} --namespace=$NAMESPACE -p '{"metadata":{"finalizers":null}}' --type=merge
+    # Update the finalizer for each resource in parallel using xargs
+    echo "$RESOURCE_NAME" | xargs -n1 -P4 -I{} kubectl patch {} --namespace=$NAMESPACE -p '{"metadata":{"finalizers":null}}' --type=merge
   done
 done

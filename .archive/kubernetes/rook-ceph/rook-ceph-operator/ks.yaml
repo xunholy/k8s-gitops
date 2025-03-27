@@ -9,7 +9,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/rook-ceph/rook-ceph-operator/app"
+  path: "./kubernetes/apps/base/rook-ceph/rook-ceph-operator/app"
   prune: true
   wait: true
   sourceRef:

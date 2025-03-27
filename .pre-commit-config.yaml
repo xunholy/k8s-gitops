@@ -11,6 +11,7 @@ repos:
       - id: detect-private-key
       - id: check-yaml
         args: [--allow-multiple-documents]
+        exclude: ^kubernetes/apps/base/home-system/recyclarr/app/resources/recyclarr\.yml$
       - id: check-json
       - id: check-toml
       # Only enable this if we want to prevent commits directly to the main branch

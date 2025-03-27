@@ -20,6 +20,7 @@ instance:
   commonMetadata:
     labels:
       app.kubernetes.io/name: flux
+  # TODO: Use OCIRepository instead of GitRepository
   sync:
     kind: GitRepository
     url: https://github.com/xunholy/k8s-gitops

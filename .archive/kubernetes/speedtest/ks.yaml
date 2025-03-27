@@ -9,7 +9,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/namespaces/base/observability/speedtest/app"
+  path: "./kubernetes/apps/base/observability/speedtest/app"
   prune: true
   wait: false
   sourceRef:

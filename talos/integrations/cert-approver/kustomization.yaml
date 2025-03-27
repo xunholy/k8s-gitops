@@ -9,7 +9,7 @@ helmCharts:
     skipTests: true
     releaseName: kubelet-csr-approver
     namespace: kube-system
-    valuesFile: ../../../kubernetes/namespaces/base/kube-system/kubelet-csr-approver/app/values.yaml
+    valuesFile: ../../../kubernetes/apps/base/kube-system/kubelet-csr-approver/app/values.yaml
     version: 1.2.6
     repo: https://postfinance.github.io/kubelet-csr-approver
 
