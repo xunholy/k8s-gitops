@@ -1,3 +1,6 @@
+image:
+  repository: itzg/minecraft-bedrock-server
+  tag: latest
 minecraftServer:
   serverName: Wildfire Minecraft Server
   levelName: Wildfire

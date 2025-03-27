@@ -45,9 +45,10 @@ spec:
   values:
     udp:
       '27960': "game-servers/enemy-territory:27960"
-      '19132': "game-servers/minecraft-bedrock-minecraft-bedrock:19132"
-      # '19132': "game-servers/minecraft:19132"
-      # '25565': "game-servers/minecraft:25565"
+      # TODO: Add Minecraft Bedrock support with custom port.
+      # '19132': "game-servers/minecraft-bedrock-minecraft-bedrock:19132"
+      '19132': "game-servers/minecraft:19132"
+      '25565': "game-servers/minecraft:25565"
     controller:
       service:
         enableHttp: true
