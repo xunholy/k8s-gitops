@@ -11,8 +11,8 @@ minecraftServer:
     - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
     - https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
     - https://hangarcdn.papermc.io/plugins/ViaVersion/ViaBackwards/versions/5.2.1/PAPER/ViaBackwards-5.2.1.jar
+    - https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.2.1/PAPER/ViaVersion-5.2.1.jar
   spigetResources:
-    - 19254 # ViaVersion
     - 52109 # ViaRewind
     - 34315 # Vault
     - 28140 # LuckPerms
