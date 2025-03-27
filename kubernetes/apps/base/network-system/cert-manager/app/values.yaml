@@ -1,5 +1,6 @@
 ---
-installCRDs: true
+crds:
+  enabled: true
 # webhook:
 #   url:
 #     host: cert-manager-webhook.network-system.svc

@@ -35,7 +35,7 @@ releases:
     chart: jetstack/cert-manager
     version: v1.17.1
     wait: true
-    values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/namespaces/base/network-system/cert-manager/app/values.yaml']
+    values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/base/network-system/cert-manager/app/values.yaml']
 
   - name: kustomize-mutating-webhook
     namespace: flux-system
