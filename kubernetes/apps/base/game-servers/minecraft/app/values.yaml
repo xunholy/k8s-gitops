@@ -33,6 +33,7 @@ minecraftServer:
     enabled: true
   motd: "Welcome to Minecraft on Kubernetes!"
   playerIdleTimeout: 10
+  memory: 2048M
   cheats: true
   enableLanVisibility: true
   defaultPermission: operator
