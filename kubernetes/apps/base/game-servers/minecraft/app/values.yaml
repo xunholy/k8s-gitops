@@ -24,7 +24,7 @@ minecraftServer:
       - viabackwards
       - luckperms
     downloadDependencies: required
-    allowedVersionType: release
+    allowedVersionType: beta
   maxPlayers: 4
   maxTickTime: -1
   gameMode: survival
