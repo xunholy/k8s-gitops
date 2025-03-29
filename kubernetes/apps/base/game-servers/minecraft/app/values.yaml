@@ -50,6 +50,13 @@ minecraftServer:
         enabled: true
         embedded: true
         port: 19132
+    - name: dynmap
+      containerPort: 8123
+      protocol: TCP
+      service:
+        enabled: true
+        embedded: true
+        port: 8123
   overrideServerProperties: true
   removeOldMods: false
 

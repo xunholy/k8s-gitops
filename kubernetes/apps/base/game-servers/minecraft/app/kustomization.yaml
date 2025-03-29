@@ -6,6 +6,7 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - pvc.yaml
+  - virtualservice.yaml
 
 configMapGenerator:
   - name: mincraft-values
