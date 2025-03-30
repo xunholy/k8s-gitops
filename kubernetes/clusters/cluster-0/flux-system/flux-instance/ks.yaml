@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/clusters/${CLUSTER_ID}/flux-system/flux-instance/app
+  path: ./kubernetes/clusters/cluster-0/flux-system/flux-instance/app
   prune: false
   sourceRef:
     kind: GitRepository
