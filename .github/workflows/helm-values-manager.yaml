@@ -97,7 +97,15 @@ jobs:
             HELM_RELEASE_DIRS=""
             CHANGED_DIRS=""
 
-            echo "$CHANGED_FILES_JSON" | jq -r '.[]' | while read -r FILE; do
+            # Process each changed file
+            for FILE in $(echo "$CHANGED_FILES_JSON" | jq -r '.[]'); do
+              # Skip encrypted files completely
+              if [[ "$FILE" =~ \.(enc\.yaml|enc\.yml)$ ]]; then
+                echo "Skipping encrypted file: $FILE"
+                echo "- Skipping encrypted file: $FILE" >> $GITHUB_STEP_SUMMARY
+                continue
+              fi
+
               # Skip non-YAML files
               if [[ ! "$FILE" =~ \.(yaml|yml)$ ]]; then
                 continue
@@ -110,16 +118,19 @@ jobs:
                 echo "- Found HelmRelease in: $FILE" >> $GITHUB_STEP_SUMMARY
               fi
 
-              # Also collect directories with changed values files
-              if [[ "$FILE" =~ values.*\.(yaml|yml)$ ]]; then
+              # Also collect directories with changed values files (non-encrypted only)
+              if [[ "$FILE" =~ /?values[^/]*\.(yaml|yml)$ ]]; then
                 DIR=$(dirname "$FILE")
                 CHANGED_DIRS="$CHANGED_DIRS $DIR"
                 echo "- Found values file in: $FILE" >> $GITHUB_STEP_SUMMARY
               fi
             done
 
-            # Combine dirs and remove duplicates
+            # Combine dirs and remove duplicates - fix for subshell issue with variables
+            echo "HELM_RELEASE_DIRS: $HELM_RELEASE_DIRS"
+            echo "CHANGED_DIRS: $CHANGED_DIRS"
             ALL_DIRS=$(echo "$HELM_RELEASE_DIRS $CHANGED_DIRS" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+            echo "ALL_DIRS: $ALL_DIRS"
 
             if [ -z "$ALL_DIRS" ]; then
               echo "No HelmRelease or values files found in changed files. Skipping analysis."
@@ -150,10 +161,10 @@ jobs:
               CHARTS_FROM_RELEASES="$CHARTS_FROM_RELEASES $RELEASE_DIR"
             done
 
-            # Also find directories with values.yaml files
+            # Also find directories with values.yaml files (exclude encrypted)
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "### Finding values.yaml files" >> $GITHUB_STEP_SUMMARY
-            VALUES_YAML_DIRS=$(find kubernetes -name "values*.yaml" | xargs dirname | sort -u)
+            VALUES_YAML_DIRS=$(find kubernetes -name "values*.yaml" -o -name "values*.yml" | grep -v "\.enc\." | xargs dirname | sort -u)
             for DIR in $VALUES_YAML_DIRS; do
               echo "- $DIR" >> $GITHUB_STEP_SUMMARY
             done
@@ -180,6 +191,9 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Helm Values Analysis Results" >> $GITHUB_STEP_SUMMARY
 
+          # Debug CHART_DIRS content
+          echo "Debug - CHART_DIRS content: '$CHART_DIRS'"
+
           # Process each chart directory
           for CHART_DIR in $CHART_DIRS; do
             if [ -z "$CHART_DIR" ]; then continue; fi
@@ -187,17 +201,27 @@ jobs:
             echo "Processing chart in: $CHART_DIR"
             echo "### Chart: $CHART_DIR" >> $GITHUB_STEP_SUMMARY
 
-            # Get values files - look for values.yaml and values-*.yaml
-            VALUES_FILES=$(find $CHART_DIR -name "values*.yaml" 2>/dev/null)
+            # Get values files - look for values.yaml and values-*.yaml, excluding encrypted files
+            PLAIN_VALUES_FILES=$(find $CHART_DIR -name "values*.yaml" -o -name "values*.yml" 2>/dev/null | grep -v "\.enc\." | grep -v "\.bak$")
+            ENCRYPTED_FILES=$(find $CHART_DIR -name "*.enc.yaml" -o -name "*.enc.yml" 2>/dev/null)
 
-            if [ -n "$VALUES_FILES" ]; then
-              echo "Found values files:" >> $GITHUB_STEP_SUMMARY
-              echo "$VALUES_FILES" | while read -r FILE; do
+            # Log any encrypted files found (for information only)
+            if [ -n "$ENCRYPTED_FILES" ]; then
+              echo "Skipping encrypted files in $CHART_DIR:" >> $GITHUB_STEP_SUMMARY
+              echo "$ENCRYPTED_FILES" | while read -r FILE; do
+                echo "- Skipping $FILE (encrypted)" >> $GITHUB_STEP_SUMMARY
+              done
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            if [ -n "$PLAIN_VALUES_FILES" ]; then
+              echo "Found values files for analysis:" >> $GITHUB_STEP_SUMMARY
+              echo "$PLAIN_VALUES_FILES" | while read -r FILE; do
                 echo "- $FILE" >> $GITHUB_STEP_SUMMARY
               done
 
-              # Use first values file as upstream
-              UPSTREAM_FILE=$(echo "$VALUES_FILES" | head -n 1)
+              # Use first plain values file as upstream
+              UPSTREAM_FILE=$(echo "$PLAIN_VALUES_FILES" | head -n 1)
               echo "Using $UPSTREAM_FILE as upstream values file"
 
               # Create documentation directory
@@ -212,7 +236,7 @@ jobs:
               echo "- Generated documentation for $UPSTREAM_BASENAME ✅" >> $GITHUB_STEP_SUMMARY
 
               # For each other values file, analyze it against the upstream
-              for VALUES_FILE in $VALUES_FILES; do
+              for VALUES_FILE in $PLAIN_VALUES_FILES; do
                 if [ "$VALUES_FILE" != "$UPSTREAM_FILE" ]; then
                   OUTPUT_DIR="values-analysis/$(dirname $VALUES_FILE | sed 's/\//_/g')"
                   mkdir -p $OUTPUT_DIR
@@ -281,7 +305,7 @@ jobs:
                 fi
               done
             else
-              echo "No values files found in $CHART_DIR" >> $GITHUB_STEP_SUMMARY
+              echo "No non-encrypted values files found in $CHART_DIR for analysis" >> $GITHUB_STEP_SUMMARY
             fi
 
             echo "" >> $GITHUB_STEP_SUMMARY
