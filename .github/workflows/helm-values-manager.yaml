@@ -237,11 +237,11 @@ jobs:
               CHART_NAME=$(basename "$CHART_DIR")
               echo "Chart name detected as: $CHART_NAME"
 
-              # Try to document using the document command
+              # Try to document using the document command - use proper parameters for upstream file
               helm values-manager document \
-                --values-file "$UPSTREAM_FILE" \
-                --output-file "$DOCS_FILE" \
-                --chart "$CHART_NAME" || true
+                -upstream "$UPSTREAM_FILE" \
+                -outdir "$DOCS_DIR" \
+                -chart "$CHART_NAME" || true
 
               echo "- Generated documentation for $UPSTREAM_BASENAME ✅" >> $GITHUB_STEP_SUMMARY
 
@@ -264,10 +264,10 @@ jobs:
                   # Create documentation for this values file too
                   DOCS_FILE="$DOCS_DIR/${BASENAME%.yaml}-documentation.md"
                   helm values-manager document \
-                    --values-file "$VALUES_FILE" \
-                    --output-file "$DOCS_FILE" \
-                    --chart "$CHART_NAME" \
-                    --upstream "$UPSTREAM_FILE" || true
+                    -downstream "$VALUES_FILE" \
+                    -upstream "$UPSTREAM_FILE" \
+                    -outdir "$DOCS_DIR" \
+                    -chart "$CHART_NAME" || true
                   echo "- Generated documentation ✅" >> $GITHUB_STEP_SUMMARY
 
                   # Check for optimized values
