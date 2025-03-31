@@ -1,0 +1,359 @@
+name: Helm Values Manager
+
+on:
+  workflow_dispatch:
+    inputs:
+      chart_path:
+        description: 'Path to a specific chart to analyze (relative to repo root)'
+        required: false
+        default: ''
+        type: string
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'kubernetes/**/*.yaml'
+      - 'kubernetes/**/*.yml'
+      - '.github/workflows/helm-values-manager.yaml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'kubernetes/**/*.yaml'
+      - 'kubernetes/**/*.yml'
+      - '.github/workflows/helm-values-manager.yaml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  filter:
+    name: Filter Changed Files
+    runs-on: ubuntu-latest
+    outputs:
+      changed-files: ${{ steps.changed-files.outputs.changed_files }}
+    steps:
+      - name: Get Changed Files
+        id: changed-files
+        uses: bjw-s-labs/action-changed-files@2cc35474e9d534ed0d743aa122fd142afbdaa0ad # v0.3.1
+        with:
+          patterns: kubernetes/**/*
+
+  analyze-helm-values:
+    name: Analyze Helm Values
+    runs-on: ubuntu-latest
+    needs: filter
+    if: ${{ needs.filter.outputs.changed-files != '[]' || github.event_name == 'workflow_dispatch' }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'v3.12.0'
+
+      - name: Install helm-values-manager plugin
+        run: |
+          helm plugin install https://github.com/xunholy/helm-values-manager
+
+      - name: Find changed HelmReleases
+        id: discover-charts
+        run: |
+          # Create directories for results
+          mkdir -p values-analysis
+
+          echo "### Discovering Helm resources in repository" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Process directly specified chart if provided via workflow_dispatch
+          if [ -n "${{ github.event.inputs.chart_path }}" ]; then
+            if [ -d "${{ github.event.inputs.chart_path }}" ]; then
+              echo "CHART_DIRS=${{ github.event.inputs.chart_path }}" >> $GITHUB_ENV
+              echo "Processing specific chart: ${{ github.event.inputs.chart_path }}" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "Specified chart path does not exist: ${{ github.event.inputs.chart_path }}"
+              exit 1
+            fi
+
+          # Process changed files from PR
+          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+            # Parse the changed files JSON output
+            CHANGED_FILES_JSON='${{ needs.filter.outputs.changed-files }}'
+
+            echo "Changed files:" >> $GITHUB_STEP_SUMMARY
+            echo "$CHANGED_FILES_JSON" | jq -r '.[]' | while read -r FILE; do
+              echo "- $FILE" >> $GITHUB_STEP_SUMMARY
+            done
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            # Find HelmReleases in changed files
+            HELM_RELEASE_DIRS=""
+            CHANGED_DIRS=""
+
+            echo "$CHANGED_FILES_JSON" | jq -r '.[]' | while read -r FILE; do
+              # Skip non-YAML files
+              if [[ ! "$FILE" =~ \.(yaml|yml)$ ]]; then
+                continue
+              fi
+
+              # Check if the file is a HelmRelease
+              if grep -q "kind: HelmRelease" "$FILE" 2>/dev/null; then
+                DIR=$(dirname "$FILE")
+                HELM_RELEASE_DIRS="$HELM_RELEASE_DIRS $DIR"
+                echo "- Found HelmRelease in: $FILE" >> $GITHUB_STEP_SUMMARY
+              fi
+
+              # Also collect directories with changed values files
+              if [[ "$FILE" =~ values.*\.(yaml|yml)$ ]]; then
+                DIR=$(dirname "$FILE")
+                CHANGED_DIRS="$CHANGED_DIRS $DIR"
+                echo "- Found values file in: $FILE" >> $GITHUB_STEP_SUMMARY
+              fi
+            done
+
+            # Combine dirs and remove duplicates
+            ALL_DIRS=$(echo "$HELM_RELEASE_DIRS $CHANGED_DIRS" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+
+            if [ -z "$ALL_DIRS" ]; then
+              echo "No HelmRelease or values files found in changed files. Skipping analysis."
+              echo "SKIP_ANALYSIS=true" >> $GITHUB_ENV
+            else
+              echo "CHART_DIRS=$ALL_DIRS" >> $GITHUB_ENV
+
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### Directories to analyze:" >> $GITHUB_STEP_SUMMARY
+              echo "$ALL_DIRS" | tr ' ' '\n' | while read -r DIR; do
+                if [ -n "$DIR" ]; then
+                  echo "- $DIR" >> $GITHUB_STEP_SUMMARY
+                fi
+              done
+            fi
+
+          # Process for push to main - analyze all
+          else
+            # Find all HelmReleases
+            HELM_RELEASES=$(find kubernetes -name "*.yaml" -o -name "*.yml" | xargs grep -l "kind: HelmRelease" | sort)
+            echo "Found HelmReleases:" >> $GITHUB_STEP_SUMMARY
+
+            # Extract chart references from HelmReleases
+            CHARTS_FROM_RELEASES=""
+            for RELEASE_FILE in $HELM_RELEASES; do
+              echo "- $RELEASE_FILE" >> $GITHUB_STEP_SUMMARY
+              RELEASE_DIR=$(dirname "$RELEASE_FILE")
+              CHARTS_FROM_RELEASES="$CHARTS_FROM_RELEASES $RELEASE_DIR"
+            done
+
+            # Also find directories with values.yaml files
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Finding values.yaml files" >> $GITHUB_STEP_SUMMARY
+            VALUES_YAML_DIRS=$(find kubernetes -name "values*.yaml" | xargs dirname | sort -u)
+            for DIR in $VALUES_YAML_DIRS; do
+              echo "- $DIR" >> $GITHUB_STEP_SUMMARY
+            done
+
+            # Combine all potential chart directories
+            ALL_CHART_DIRS=$(echo "$CHARTS_FROM_RELEASES $VALUES_YAML_DIRS" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+
+            echo "CHART_DIRS=$ALL_CHART_DIRS" >> $GITHUB_ENV
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Directories to analyze:" >> $GITHUB_STEP_SUMMARY
+            echo "$ALL_CHART_DIRS" | tr ' ' '\n' | while read -r DIR; do
+              if [ -n "$DIR" ]; then
+                echo "- $DIR" >> $GITHUB_STEP_SUMMARY
+              fi
+            done
+          fi
+
+      - name: Run helm-values-manager analysis
+        id: helm-values-manager
+        if: ${{ env.SKIP_ANALYSIS != 'true' }}
+        run: |
+          echo "CHANGES_MADE=false" >> $GITHUB_ENV
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Helm Values Analysis Results" >> $GITHUB_STEP_SUMMARY
+
+          # Process each chart directory
+          for CHART_DIR in $CHART_DIRS; do
+            if [ -z "$CHART_DIR" ]; then continue; fi
+
+            echo "Processing chart in: $CHART_DIR"
+            echo "### Chart: $CHART_DIR" >> $GITHUB_STEP_SUMMARY
+
+            # Get values files - look for values.yaml and values-*.yaml
+            VALUES_FILES=$(find $CHART_DIR -name "values*.yaml" 2>/dev/null)
+
+            if [ -n "$VALUES_FILES" ]; then
+              echo "Found values files:" >> $GITHUB_STEP_SUMMARY
+              echo "$VALUES_FILES" | while read -r FILE; do
+                echo "- $FILE" >> $GITHUB_STEP_SUMMARY
+              done
+
+              # Use first values file as upstream
+              UPSTREAM_FILE=$(echo "$VALUES_FILES" | head -n 1)
+              echo "Using $UPSTREAM_FILE as upstream values file"
+
+              # Create documentation directory
+              DOCS_DIR="$CHART_DIR/docs"
+              mkdir -p "$DOCS_DIR"
+
+              # Generate documentation for upstream file
+              UPSTREAM_BASENAME=$(basename "$UPSTREAM_FILE")
+              DOCS_FILE="$DOCS_DIR/${UPSTREAM_BASENAME%.yaml}-documentation.md"
+              echo "Generating documentation for $UPSTREAM_FILE -> $DOCS_FILE"
+              helm values-manager document --values-file "$UPSTREAM_FILE" --output-file "$DOCS_FILE"
+              echo "- Generated documentation for $UPSTREAM_BASENAME ✅" >> $GITHUB_STEP_SUMMARY
+
+              # For each other values file, analyze it against the upstream
+              for VALUES_FILE in $VALUES_FILES; do
+                if [ "$VALUES_FILE" != "$UPSTREAM_FILE" ]; then
+                  OUTPUT_DIR="values-analysis/$(dirname $VALUES_FILE | sed 's/\//_/g')"
+                  mkdir -p $OUTPUT_DIR
+
+                  BASENAME=$(basename "$VALUES_FILE")
+                  echo "Analyzing $VALUES_FILE against $UPSTREAM_FILE"
+                  echo "#### Analyzing $BASENAME" >> $GITHUB_STEP_SUMMARY
+
+                  # Run analysis
+                  helm values-manager analyze \
+                    --upstream-values $UPSTREAM_FILE \
+                    --downstream-values $VALUES_FILE \
+                    --output-dir $OUTPUT_DIR
+
+                  # Create documentation for this values file too
+                  DOCS_FILE="$DOCS_DIR/${BASENAME%.yaml}-documentation.md"
+                  helm values-manager document --values-file "$VALUES_FILE" --output-file "$DOCS_FILE"
+                  echo "- Generated documentation ✅" >> $GITHUB_STEP_SUMMARY
+
+                  # Check for optimized values
+                  if [ -f "$OUTPUT_DIR/optimized-values.yaml" ]; then
+                    # Compare optimized values with original
+                    if ! cmp -s "$VALUES_FILE" "$OUTPUT_DIR/optimized-values.yaml"; then
+                      echo "- Generated optimized values (differs from original) ✅" >> $GITHUB_STEP_SUMMARY
+
+                      # Create backup
+                      cp "$VALUES_FILE" "$VALUES_FILE.bak"
+
+                      # Replace with optimized version
+                      cp "$OUTPUT_DIR/optimized-values.yaml" "$VALUES_FILE"
+
+                      echo "CHANGES_MADE=true" >> $GITHUB_ENV
+                      echo "Replaced $VALUES_FILE with optimized version"
+                    else
+                      echo "- Values file is already optimized ✅" >> $GITHUB_STEP_SUMMARY
+                    fi
+                  else
+                    echo "- No optimized values generated ⚠️" >> $GITHUB_STEP_SUMMARY
+                  fi
+
+                  # Report on redundant values
+                  if [ -f "$OUTPUT_DIR/redundant-values.yaml" ]; then
+                    REDUNDANT_COUNT=$(grep -v "^#" "$OUTPUT_DIR/redundant-values.yaml" | grep -v "^$" | wc -l)
+                    if [ "$REDUNDANT_COUNT" -gt 0 ]; then
+                      echo "- Found $REDUNDANT_COUNT redundant values ⚠️" >> $GITHUB_STEP_SUMMARY
+                      mkdir -p "$CHART_DIR/reports"
+                      cp "$OUTPUT_DIR/redundant-values.yaml" "$CHART_DIR/reports/$(basename $VALUES_FILE .yaml)-redundant-values.yaml"
+                      echo "CHANGES_MADE=true" >> $GITHUB_ENV
+                    else
+                      echo "- No redundant values found ✅" >> $GITHUB_STEP_SUMMARY
+                    fi
+                  fi
+
+                  # Report on unsupported values
+                  if [ -f "$OUTPUT_DIR/unsupported-values.yaml" ]; then
+                    UNSUPPORTED_COUNT=$(grep -v "^#" "$OUTPUT_DIR/unsupported-values.yaml" | grep -v "^$" | wc -l)
+                    if [ "$UNSUPPORTED_COUNT" -gt 0 ]; then
+                      echo "- Found $UNSUPPORTED_COUNT unsupported values ⚠️" >> $GITHUB_STEP_SUMMARY
+                      mkdir -p "$CHART_DIR/reports"
+                      cp "$OUTPUT_DIR/unsupported-values.yaml" "$CHART_DIR/reports/$(basename $VALUES_FILE .yaml)-unsupported-values.yaml"
+                      echo "CHANGES_MADE=true" >> $GITHUB_ENV
+                    else
+                      echo "- No unsupported values found ✅" >> $GITHUB_STEP_SUMMARY
+                    fi
+                  fi
+                fi
+              done
+            else
+              echo "No values files found in $CHART_DIR" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            echo "" >> $GITHUB_STEP_SUMMARY
+          done
+
+      - name: Comment PR with analysis results
+        uses: actions/github-script@v7
+        if: ${{ github.event_name == 'pull_request' && env.SKIP_ANALYSIS != 'true' }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+
+            // Read the step summary which contains our analysis results
+            let summary = '';
+            try {
+              summary = fs.readFileSync(process.env.GITHUB_STEP_SUMMARY, 'utf8');
+            } catch (error) {
+              console.log('Error reading step summary:', error);
+              summary = 'Error reading Helm values analysis results.';
+            }
+
+            // Post comment to PR
+            const prComment = `# Helm Values Manager Analysis Results
+
+            ${summary}
+
+            Visit the [Actions tab](${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}) for more details.
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: prComment
+            });
+
+      - name: Create Pull Request with documentation and optimizations
+        if: ${{ env.CHANGES_MADE == 'true' }}
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: "chore: optimize Helm values and update documentation"
+          title: "chore: optimize Helm values and update documentation"
+          body: |
+            # Helm Values Optimization and Documentation
+
+            This PR includes:
+
+            1. **Optimized Helm values files**:
+               - Removed redundant values that match upstream defaults
+               - Improved organization of values files
+
+            2. **Documentation for Helm values**:
+               - Generated markdown documentation for all values files
+               - Documentation includes schema, descriptions, and default values
+
+            3. **Reports**:
+               - Identified redundant values
+               - Identified unsupported values
+
+            This is an automated PR created by the helm-values-manager GitHub workflow.
+          branch: helm-values-manager-updates
+          delete-branch: true
+          labels: |
+            documentation
+            optimization
+          draft: false
+
+      - name: Upload analysis results
+        if: ${{ env.SKIP_ANALYSIS != 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: helm-values-analysis
+          path: values-analysis/
+          if-no-files-found: warn
