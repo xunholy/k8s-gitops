@@ -43,10 +43,6 @@ spec:
   values:
     fullnameOverride: gha-runner-scale-set-controller
     replicaCount: 1
-    securityConect:
-      capabilities:
-        drop:
-        - ALL
     priorityClassName: platform-cluster-critical
     metrics:
       controllerManagerAddr: ":8080"

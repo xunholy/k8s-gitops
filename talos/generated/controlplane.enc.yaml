@@ -40,8 +40,10 @@ machine:
             enabled: true
             allowedRoles:
                 - os:reader
+                - os:admin
             allowedKubernetesNamespaces:
                 - kube-system
+                - actions-runner-system
         hostDNS:
             enabled: true
             forwardKubeDNSToHost: false
@@ -144,8 +146,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-03-27T01:22:08Z"
-    mac: ENC[AES256_GCM,data:DKCJ6je2tG6SAgNMWAbZ6y+HRcHDhgHhb+W5gaPq5WYzqPt4Adjra/tWN6p71zX21KFZ3BznWR296LeRFO3URyRNGMlxli0BHiMe6rlAUjHuwPL4x5MGreyrFazkX0hLL0wPwwg4dSDLcGkLBSDgTKhb80NrbB+TIIk1NHj6ajY=,iv:KACvk9/iT++1RPRYg9EVcSeQl34UpmKK11XG255DYoU=,tag:Evx7Gi3iZP5iMe3Gri7HOg==,type:str]
+    lastmodified: "2025-04-01T04:56:36Z"
+    mac: ENC[AES256_GCM,data:UH2EPbMxdPezaJ3+Gj+Pc3l80La1M684awjURpZuQfWdw8JldUtyBfkQ7jCRyHDOrIhTa5xCVtYxXpGhRx8gOx9x56Mdmaf9o3fqE/Jel1eD2qE1fcJKxhqTh19HI2DmFEuC4CyDEvXjevuH9v7YjpYDvgyEoZFAc4vOyGDuzxU=,iv:cXmPJkjQiirCqNJTmFogSS33xSWSDr3zvDfwOfYJGL4=,tag:tmQIRpDOFwIHfUNjWxFrSw==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |

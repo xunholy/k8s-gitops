@@ -6,4 +6,5 @@ namespace: actions-runner-system
 
 resources:
   - helmrelease.yaml
+  - rbac.yaml
   - secret.enc.yaml
