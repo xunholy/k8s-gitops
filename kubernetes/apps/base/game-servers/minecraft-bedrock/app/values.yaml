@@ -2,9 +2,9 @@ image:
   repository: itzg/minecraft-bedrock-server
   tag: latest
 minecraftServer:
-  serverName: Wildfire Minecraft Server
+  serverName: Bedrock Minecraft Server
   levelName: Wildfire
-  serverPort: 19132
+  serverPort: 19131
   eula: "TRUE"
   version: LATEST
   difficulty: peaceful
