@@ -63,6 +63,8 @@ spec:
             storage: 1Gi
     template:
       spec:
+        securityContext:
+          fsGroup: 123
         containers:
           - name: runner
             image: ghcr.io/home-operations/actions-runner:2.323.0@sha256:6d878ca00ecd301a5e5dab006d3ea96083e92f64e364a578f7b42bbc47ba738e

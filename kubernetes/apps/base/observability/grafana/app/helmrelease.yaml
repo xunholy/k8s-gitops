@@ -165,7 +165,8 @@ spec:
           # renovate: depName="Cilium Policy Verdict Dashboard"
           gnetId: 18015
           revision: 4
-          datasource: Prometheus
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         gatekeeper-dashboard:
           # renovate: depName="OPA Gatekeeper"
           gnetId: 15763

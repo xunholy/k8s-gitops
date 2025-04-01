@@ -6,8 +6,6 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - "kubernetes/**/*.yaml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
