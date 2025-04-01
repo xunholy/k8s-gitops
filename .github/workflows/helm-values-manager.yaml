@@ -1,0 +1,50 @@
+name: Helm Values Analysis
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'  # Run weekly
+
+permissions:
+  contents: read
+
+jobs:
+  analyze-helm-releases:
+    name: Analyze Helm Releases
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'v3.12.0'
+
+      - name: Install yq and jq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Setup Kubernetes Config
+        run: |
+          # Setup kubeconfig here - this would depend on your cluster authentication method
+          # For example, using azure/k8s-set-context or other relevant action
+
+      - name: Run Helm Values Analysis
+        run: |
+          # Install helm-values-manager plugin
+          helm plugin install https://github.com/xunholy/helm-values-manager
+          ./hack/analyze-helm-values.sh
+
+      - name: Upload Analysis Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: helm-values-analysis
+          path: values-analysis/
+          retention-days: 90
