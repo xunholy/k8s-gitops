@@ -25,6 +25,7 @@ minecraftServer:
       - luckperms
     downloadDependencies: required
     allowedVersionType: beta
+  resourcePackUrl: https://download.geysermc.org/v2/projects/geyseroptionalpack/versions/latest/builds/latest/downloads/geyseroptionalpack
   maxPlayers: 4
   maxTickTime: -1
   gameMode: survival
