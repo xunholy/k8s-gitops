@@ -37,7 +37,7 @@ minecraftServer:
     enabled: true
   motd: "Welcome to Minecraft on Kubernetes!"
   playerIdleTimeout: 10
-  memory: 2048M
+  memory: 3072M
   cheats: true
   enableLanVisibility: true
   defaultPermission: operator
@@ -76,7 +76,7 @@ affinity:
 
 resources:
   requests:
-    memory: 2Gi
+    memory: 3Gi
     cpu: 1
     ephemeral-storage: "1Gi"
 

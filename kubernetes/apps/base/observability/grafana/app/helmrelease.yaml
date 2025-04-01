@@ -102,7 +102,6 @@ spec:
       - grafana-piechart-panel
       - grafana-worldmap-panel
       - grafana-clock-panel
-      - isovalent-hubble-datasource
       - natel-discrete-panel
       - pr0ps-trackmap-panel
       - vonage-status-panel
@@ -152,7 +151,9 @@ spec:
     dashboards:
       default:
         cert-manager:
-          url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
+          # renovate: depName="Cert-manager-Kubernetes"
+          gnetId: 20842
+          revision: 3
           datasource: Prometheus
         cilium-dashboard:
           url: https://raw.githubusercontent.com/cilium/cilium/v1.16.5/install/kubernetes/cilium/files/cilium-agent/dashboards/cilium-dashboard.json
@@ -160,19 +161,15 @@ spec:
         cilium-operator-dashboard:
           url: https://raw.githubusercontent.com/cilium/cilium/v1.16.5/install/kubernetes/cilium/files/cilium-agent/dashboards/cilium-operator-dashboard.json
           datasource: Prometheus
-        # Source: https://grafana.com/grafana/dashboards/18015-cilium-policy-verdicts/
         cilium-policy-verdict-dashboard:
+          # renovate: depName="Cilium Policy Verdict Dashboard"
           gnetId: 18015
           revision: 4
           datasource: Prometheus
-        flux-cluster:
-          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
-          datasource: Prometheus
-        flux-control-plane:
-          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
-          datasource: Prometheus
         gatekeeper-dashboard:
-          url: https://grafana.com/api/dashboards/15763/revisions/1/download
+          # renovate: depName="OPA Gatekeeper"
+          gnetId: 15763
+          revision: 1
           datasource: Prometheus
         hubble-dashboard:
           url: https://raw.githubusercontent.com/cilium/cilium/v1.16.5/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
@@ -181,87 +178,95 @@ spec:
         # https://grafana.com/grafana/dashboards/7639/revisions
         # https://grafana.com/grafana/dashboards/?search=istio
         istio-mesh:
+          # renovate: depName="Istio Mesh Dashboard"
           gnetId: 7639
-          revision: 239
+          revision: 249
           datasource: Prometheus
         istio-service:
+          # renovate: depName="Istio Service Dashboard"
           gnetId: 7636
-          revision: 239
+          revision: 249
           datasource: Prometheus
         istio-workload:
+          # renovate: depName="Istio Workload Dashboard"
           gnetId: 7630
-          revision: 239
+          revision: 249
           datasource: Prometheus
         istio-performence:
+          # renovate: depName="Istio Performance Dashboard"
           gnetId: 11829
-          revision: 239
+          revision: 249
           datasource: Prometheus
         istio-control-plane:
+          # renovate: depName="Istio Control Plane Dashboard"
           gnetId: 7645
-          revision: 239
+          revision: 249
           datasource: Prometheus
         istio-wasm:
+          # renovate: depName="Istio Wasm Extension Dashboard"
           gnetId: 13277
-          revision: 239
+          revision: 249
           datasource: Prometheus
         kubernetes-api-server:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
+          # renovate: depName="Kubernetes / System / API Server"
+          gnetId: 15761
+          revision: 19
           datasource: Prometheus
         kubernetes-coredns:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
+          # renovate: depName="Kubernetes / System / CoreDNS"
+          gnetId: 15762
+          revision: 20
           datasource: Prometheus
         kubernetes-global:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
+          # renovate: depName="Kubernetes / Views / Global"
+          gnetId: 15757
+          revision: 43
           datasource: Prometheus
         kubernetes-namespaces:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
+          # renovate: depName="Kubernetes / Views / Namespaces"
+          gnetId: 15758
+          revision: 42
           datasource: Prometheus
         kubernetes-nodes:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
+          # renovate: depName="Kubernetes / Views / Nodes"
+          gnetId: 15759
+          revision: 35
           datasource: Prometheus
         kubernetes-pods:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
+          # renovate: depName="Kubernetes / Views / Pods"
+          gnetId: 15760
+          revision: 36
           datasource: Prometheus
         node-exporter-full:
-          url: https://grafana.com/api/dashboards/1860/revisions/31/download
+          # renovate: depName="Node Exporter Full"
+          gnetId: 1860
+          revision: 37
           datasource: Prometheus
-        sealed-secrets:
-          url: https://raw.githubusercontent.com/bitnami-labs/sealed-secrets/master/contrib/prometheus-mixin/dashboards/sealed-secrets-controller.json
-          datasource: Prometheus
-        # speedtest:
-        #   url: https://raw.githubusercontent.com/billimek/prometheus-speedtest-exporter/master/speedtest-exporter.json
-        #   datasource: Prometheus
-        thanos-overview:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/overview.json
-          datasource: Prometheus
-        thanos-compact:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/compact.json
-          datasource: Prometheus
-        thanos-querier:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/query.json
-          datasource: Prometheus
-        thanos-store:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/store.json
-          datasource: Prometheus
-        thanos-receiver:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/receive.json
-          datasource: Prometheus
-        thanos-sidecar:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/sidecar.json
-          datasource: Prometheus
-        thanos-ruler:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/rule.json
-          datasource: Prometheus
-        thanos-replicate:
-          url: https://raw.githubusercontent.com/thanos-io/thanos/main/examples/dashboards/bucket-replicate.json
+        kubernetes-volumes:
+          # renovate: depName="K8s / Storage / Volumes / Cluster"
+          gnetId: 11454
+          revision: 14
           datasource: Prometheus
         velero:
+          # renovate: depName="Kubernetes / Addons / Velero Stats"
           gnetId: 11055
-          revision: 2
+          revision: 5
           datasource: Prometheus
         velero-stats:
+          # renovate: depName="Kubernetes/Tanzu/Velero"
           gnetId: 16829
           revision: 3
           datasource: Prometheus
+        external-dns:
+          # renovate: depName="External-dns"
+          gnetId: 15038
+          revision: 3
+          datasource: Prometheus
+        cloudflared:
+          # renovate: depName="Cloudflare Tunnels (cloudflared)"
+          gnetId: 17457
+          revision: 6
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
     persistence:
       enabled: false
