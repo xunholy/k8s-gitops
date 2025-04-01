@@ -1,5 +1,4 @@
 ---
-notsupported: true
 annotateK8sNode: true
 autoDirectNodeRoutes: true
 bandwidthManager:
