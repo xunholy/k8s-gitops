@@ -48,3 +48,6 @@ spec:
       controllerManagerAddr: ":8080"
       listenerAddr: ":8080"
       listenerEndpoint: "/metrics"
+    flags:
+      logLevel: "debug"
+      logFormat: "json"
