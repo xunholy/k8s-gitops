@@ -44,7 +44,7 @@ spec:
   values:
     image:
       repository: thanosio/thanos
-      tag: v0.37.2
+      tag: v0.38.0
     queryFrontend:
       enabled: false
     query:
