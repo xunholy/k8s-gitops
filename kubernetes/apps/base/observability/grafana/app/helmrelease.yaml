@@ -256,7 +256,7 @@ spec:
         velero-stats:
           # renovate: depName="Kubernetes/Tanzu/Velero"
           gnetId: 16829
-          revision: 3
+          revision: 5
           datasource: Prometheus
         external-dns:
           # renovate: depName="External-dns"
