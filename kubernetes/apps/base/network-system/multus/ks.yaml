@@ -3,15 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: kube-prometheus-stack
-  namespace: observability
+  name: multus
+  namespace: network-system
   labels:
     substitution.flux/enabled: true
 spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/observability/kube-prometheus-stack/app"
+  path: "./kubernetes/apps/base/network-system/multus/app"
   prune: true
   wait: true
   sourceRef:
@@ -23,15 +23,13 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: kube-prometheus-stack-addons
-  namespace: observability
-  labels:
-    substitution.flux/enabled: true
+  name: multus-networks
+  namespace: network-system
 spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/observability/kube-prometheus-stack/addons"
+  path: "./kubernetes/apps/base/network-system/multus/networks"
   prune: true
   wait: true
   sourceRef:
@@ -39,5 +37,5 @@ spec:
     name: flux-system
     namespace: flux-system
   dependsOn:
-    - name: kube-prometheus-stack
-      namespace: observability
+    - name: multus
+      namespace: network-system

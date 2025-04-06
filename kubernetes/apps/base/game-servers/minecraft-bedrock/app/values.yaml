@@ -17,6 +17,8 @@ minecraftServer:
   # TODO: Consider disabling if Microsoft login failure occurs;
   # Check accounts against Minecraft account service.
   onlineMode: false
+podAnnotations:
+  k8s.v1.cni.cncf.io/networks: wifi-network
 persistence:
   dataDir:
     enabled: true
