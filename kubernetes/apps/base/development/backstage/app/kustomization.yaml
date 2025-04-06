@@ -5,5 +5,4 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
-  # TODO: Detect service name and update virtual service
-  # - virtualservice.yaml
+  - virtualservice.yaml

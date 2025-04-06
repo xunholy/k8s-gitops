@@ -22,7 +22,6 @@
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "pre-commit": {
-
     "enabled": true
   },
   ignorePaths: [

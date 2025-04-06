@@ -3,14 +3,14 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: kubernetes-schemas
+  name: backstage
   namespace: development
   annotations:
     external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
-    external-dns.alpha.kubernetes.io/external: 'true'
+    external-dns.alpha.kubernetes.io/external: 'false'
 spec:
   hosts:
-    - 'kubernetes-schemas.${CLUSTER_DOMAIN}'
+    - 'backstage.${CLUSTER_DOMAIN}'
   gateways:
     - istio-ingress/istio-ingressgateway
   http:
@@ -20,5 +20,5 @@ spec:
       route:
         - destination:
             port:
-              number: 8080
-            host: kubernetes-schemas.development.svc.cluster.local
+              number: 7007
+            host: backstage.development.svc.cluster.local

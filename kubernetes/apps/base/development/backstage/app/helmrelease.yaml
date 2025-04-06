@@ -10,10 +10,10 @@ spec:
   chart:
     spec:
       chart: backstage
-      version: 1.8.1
+      version: 2.4.1
       sourceRef:
         kind: HelmRepository
-        name: backstage-charts
+        name: backstage-chart
         namespace: flux-system
   maxHistory: 2
   install:
@@ -31,3 +31,9 @@ spec:
     keepHistory: false
   driftDetection:
     mode: enabled
+  values:
+    serviceAccount:
+      create: true
+    metrics:
+      serviceMonitor:
+        enabled: true
