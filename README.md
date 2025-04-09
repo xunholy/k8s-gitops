@@ -40,9 +40,6 @@ This repository leverages a range of cutting-edge open-source tools and platform
 
 - [🍼 Overview](#-overview)
   - [📖 Table of contents](#-table-of-contents)
-  - [📚 Documentation](#-documentation)
-  - [📋 Requirements](#-requirements)
-  - [🚀 Quick Start](#-quick-start)
   - [🔧 Hardware](#-hardware)
   - [☁️ Cloud Services](#️-cloud-services)
   - [🖥️ Technology Stack](#️-technology-stack)
@@ -53,45 +50,6 @@ This repository leverages a range of cutting-edge open-source tools and platform
     - [💡 Reporting Issues and Requesting Features](#-reporting-issues-and-requesting-features)
   - [📄 License](#-license)
 
-## 📚 Documentation
-
-- [Raspbernetes Docs](https://raspbernetes.github.io)
-- [Kubernetes @Home Docs](https://k8s-at-home.com)
-
-## 📋 Requirements
-
-In order to effectively utilize this repository, it is important to have the following tools set up in your environment.
-
-- [Kubernetes](https://kubernetes.io/) cluster
-- [Flux](https://toolkit.fluxcd.io/get-started/) installed
-- [Kustomize](https://kustomize.io/) installed
-- [Taskfile](https://taskfile.dev/) installed
-
-## 🚀 Quick Start
-
-1. Set up the necessary environment variables:
-
-```bash
-export GITHUB_TOKEN=<your-token>
-export GITHUB_USER=<your-username>
-export GITHUB_REPO=<your-repo>
-export CLUSTER=<target-cluster>
-```
-
-2. Verify that your cluster satisfies the prerequisites:
-
-```bash
-flux check --pre
-```
-
-3. Run the bootstrap command to install Flux and deploy into the cluster:
-
-```bash
-task cluster CLUSTER_NAME=cluster-0
-```
-
-**Note:** _Many variables in the cluster depend on your specific configuration and should be modified accordingly. Be sure to review and adjust these variables as needed to match your environment and requirements._
-
 ## 🔧 Hardware
 
 | Device                                                                                 | Description              | Quantity | CPU     | RAM      | Architecture | Operating System                      | Notes |
@@ -99,7 +57,7 @@ task cluster CLUSTER_NAME=cluster-0
 | [Protectli FW6E](https://protectli.com/product/fw6e/)                                  | Router                   | 1        | 4 Cores | 16GB RAM | AMD64        | [VyOs](https://vyos.io/)              |       |
 | [Protectli VP2410](https://protectli.com/product/vp2410/)                             | Kubernetes Control Plane | 3        | 4 Cores | 8GB RAM  | AMD64        | [Talos Linux](https://www.talos.dev/) |       |
 | [Protectli FW2B](https://protectli.com/product/fw2b/)                                  | Kubernetes Node(s)       | 3        | 2 Cores | 8GB RAM  | AMD64        | [Talos Linux](https://www.talos.dev/) |       |
-| [Raspberry Pi 4 Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) | Kubernetes Node(s)       | 4        | 4 Cores | 8GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) |       |
+| [Raspberry Pi 4 Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) | Kubernetes Node(s)       | 4        | 4 Cores | 8GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) | Decommisioned      |
 | [Rock Pi 4 Model C](https://rockpi.org/rockpi4#)                                       | Kubernetes Node(s)       | 6        | 4 Cores | 4GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) |  Decommisioned   |
 
 ## ☁️ Cloud Services
