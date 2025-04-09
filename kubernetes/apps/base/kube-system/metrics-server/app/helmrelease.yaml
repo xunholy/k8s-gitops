@@ -1,4 +1,19 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: metrics-server
+  namespace: kube-system
+spec:
+  interval: 5m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 3.12.2
+  url: oci://ghcr.io/home-operations/charts-mirror/metrics-server
+---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -7,15 +22,9 @@ metadata:
   namespace: kube-system
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: metrics-server
-      version: 3.12.2
-      sourceRef:
-        kind: HelmRepository
-        name: metrics-server-chart
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: metrics-server
   install:
     timeout: 10m
     replace: true

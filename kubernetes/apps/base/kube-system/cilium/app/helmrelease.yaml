@@ -1,4 +1,19 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  interval: 5m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 1.17.2
+  url: oci://ghcr.io/home-operations/charts-mirror/cilium
+---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -8,16 +23,9 @@ metadata:
 spec:
   interval: 5m
   timeout: 10m
-  chart:
-    spec:
-      chart: cilium
-      reconcileStrategy: ChartVersion
-      sourceRef:
-        kind: HelmRepository
-        name: cilium-chart
-        namespace: flux-system
-      # The HelmRelease version of Cilium MUST match the version installed via Talos to avoid collisions on cluster rebuilds
-      version: 1.17.2
+  chartRef:
+    kind: OCIRepository
+    name: cilium
   install:
     replace: true
     crds: CreateReplace

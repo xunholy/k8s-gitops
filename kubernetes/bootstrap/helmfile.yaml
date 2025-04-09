@@ -11,9 +11,6 @@ repositories:
   - name: kustomize-mutating-webhook
     url: https://xunholy.github.io/fluxcd-kustomize-mutating-webhook
 
-  - name: jetstack
-    url: https://charts.jetstack.io
-
 releases:
   - name: flux-operator
     namespace: flux-system
@@ -32,7 +29,7 @@ releases:
 
   - name: cert-manager
     namespace: network-system
-    chart: jetstack/cert-manager
+    chart: oci://quay.io/jetstack/charts/cert-manager
     version: v1.17.1
     wait: true
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/base/network-system/cert-manager/app/values.yaml']
