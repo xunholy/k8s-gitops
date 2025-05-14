@@ -252,7 +252,8 @@ spec:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
           revision: 37
-          datasource: Prometheus
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         kubernetes-volumes:
           # renovate: depName="K8s / Storage / Volumes / Cluster"
           gnetId: 11454
