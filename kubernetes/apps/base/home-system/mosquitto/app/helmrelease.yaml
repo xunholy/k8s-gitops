@@ -7,15 +7,10 @@ metadata:
   namespace: home-system
 spec:
   interval: 5m
-  chart:
-    spec:
-      version: 3.7.3
-      chart: app-template
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-charts
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   install:
     timeout: 10m
     replace: true
@@ -66,11 +61,16 @@ spec:
         enabled: true
         data:
           mosquitto.conf: |
-            listener 1883
             allow_anonymous true
-            persistence false
+            autosave_interval 60
             connection_messages false
+            listener 1883
+            per_listener_settings false
+            persistence true
+            persistence_location /data
     persistence:
+      data:
+        existingClaim: mosquitto-data
       config:
         enabled: true
         type: configMap

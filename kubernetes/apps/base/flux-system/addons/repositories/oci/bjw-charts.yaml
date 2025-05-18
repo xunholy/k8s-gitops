@@ -1,11 +1,15 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/source.toolkit.fluxcd.io/helmrepository_v1beta2.json
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
 metadata:
-  name: bjw-charts-oci
+  name: app-template
   namespace: flux-system
 spec:
-  type: oci
-  interval: 2h
-  url: oci://ghcr.io/bjw-s/helm
+  interval: 5m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 4.0.1
+  url: oci://ghcr.io/bjw-s-labs/helm/app-template
