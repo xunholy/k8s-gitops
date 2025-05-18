@@ -7,15 +7,10 @@ metadata:
   namespace: network-system
 spec:
   interval: 30m
-  chart:
-    spec:
-      version: 3.7.3
-      chart: app-template
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-charts
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   install:
     timeout: 10m
     replace: true
