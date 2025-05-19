@@ -23,3 +23,5 @@ spec:
       namespace: democratic-csi
     - name: istiod
       namespace: istio-system
+    - name: mosquitto
+      namespace: home-system
