@@ -86,8 +86,7 @@ spec:
     persistence:
       data:
         existingClaim: mosquitto-cache
-      config-file::
-        enabled: true
+      config-file:
         type: configMap
         name: mosquitto
         advancedMounts:
