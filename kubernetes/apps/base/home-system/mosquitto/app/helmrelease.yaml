@@ -74,7 +74,6 @@ spec:
         seccompProfile: { type: RuntimeDefault }
     configMaps:
       config:
-        enabled: true
         data:
           mosquitto.conf: |
             allow_anonymous true
@@ -87,9 +86,12 @@ spec:
     persistence:
       data:
         existingClaim: mosquitto-cache
-      config:
+      config-file::
         enabled: true
         type: configMap
-        name: mosquitto-config
-        mountPath: /mosquitto/config/mosquitto.conf
-        subPath: mosquitto.conf
+        name: mosquitto
+        advancedMounts:
+          mosquitto:
+            app:
+              - path: /mosquitto/config/mosquitto.conf
+                subPath: mosquitto.conf
