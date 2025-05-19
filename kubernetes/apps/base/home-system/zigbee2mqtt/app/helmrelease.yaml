@@ -128,7 +128,7 @@ spec:
             scrapeTimeout: 10s
     persistence:
       data:
-        existingClaim: zigbee2mqtt-data
+        existingClaim: zigbee2mqtt-cache
     defaultPodOptions:
       automountServiceAccountToken: false
       enableServiceLinks: false

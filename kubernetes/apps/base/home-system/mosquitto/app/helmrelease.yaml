@@ -70,7 +70,7 @@ spec:
             persistence_location /data
     persistence:
       data:
-        existingClaim: mosquitto-data
+        existingClaim: mosquitto-cache
       config:
         enabled: true
         type: configMap

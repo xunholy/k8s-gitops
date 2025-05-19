@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: zigbee2mqtt-data
+  name: zigbee2mqtt-cache
   namespace: home-system
 spec:
   accessModes:
