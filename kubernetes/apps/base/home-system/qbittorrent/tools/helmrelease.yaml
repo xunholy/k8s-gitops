@@ -66,7 +66,8 @@ spec:
               "--expired",
               "--last-activity",
               "--sites",
-              "--unregistered"
+              "--unregistered",
+              "--not-linked"
             ]
             securityContext:
               allowPrivilegeEscalation: false
@@ -154,8 +155,6 @@ spec:
         type: nfs
         server: ${EXT_NAS_IP}
         path: /mnt/tank/media
-        advancedMounts:
-          orphaned:
-            app:
-              - path: /media/Downloads/qbittorrent
-                subPath: Downloads/qbittorrent
+        globalMounts:
+          - path: /media/Downloads/qbittorrent
+            subPath: Downloads/qbittorrent

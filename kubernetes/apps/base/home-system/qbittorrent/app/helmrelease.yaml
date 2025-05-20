@@ -48,11 +48,13 @@ spec:
               TZ: Australia/Melbourne
               QBT_WEBUI_PORT: &port 80
               QBT_TORRENTING_PORT: &torrentPort 50413
-              CROSS_SEED_ENABLED: false
-              CROSS_SEED_HOST: cross-seed.home-system.svc.cluster.local
-              CROSS_SEED_PORT: 80
-              CROSS_SEED_SLEEP_INTERVAL: 0
-              PUSHOVER_ENABLED: false
+              XSEED_HOST: cross-seed.home-system.svc.cluster.local
+              XSEED_PORT: 80
+              XSEED_APIKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: qbittorrent-secret
+                    key: CROSS_SEED_API_KEY
             probes:
               liveness: &probes
                 enabled: true
@@ -107,6 +109,14 @@ spec:
         existingClaim: qbittorrent
       tmp:
         type: emptyDir
+      scripts:
+        type: configMap
+        name: qbittorrent-scripts
+        defaultMode: 0775
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /config/scripts
       media:
         type: nfs
         server: ${EXT_NAS_IP}

@@ -77,9 +77,7 @@ spec:
       ## Settings affecting prometheusSpec
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
       prometheusSpec:
-        replicas: 1
         priorityClassName: platform-cluster-critical
-        replicaExternalLabelName: __replica__
         # REQUIRED: Cilium Hubble metrics are exposed via OpenMetrics. Prometheus Operator requires the `exemplar-storage` feature to be enabled to scrape OpenMetrics.
         # https://docs.cilium.io/en/stable/observability/metrics/#openmetrics
         # https://prometheus.io/docs/prometheus/latest/feature_flags/#exemplars-storage
