@@ -11,10 +11,6 @@ resources:
   - virtualservice.yaml
 
 configMapGenerator:
-  - name: sabnzbd-scripts
-    namespace: home-system
-    files:
-      - post-process.sh=./resources/post-process.sh
   - name: qbittorrent-scripts
     files:
       - resources/xseed.sh
