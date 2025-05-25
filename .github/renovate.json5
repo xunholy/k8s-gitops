@@ -1,6 +1,6 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
     "config:recommended",
     "docker:enableMajor",
     "helpers:pinGitHubActionDigests",
@@ -18,11 +18,11 @@
     "github>xUnholy/k8s-gitops//.renovate/labels.json5",
     "github>xUnholy/k8s-gitops//.renovate/semanticCommits.json5",
   ],
-  "dependencyDashboardAutoclose": true,
-  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
-  "pre-commit": {
-    "enabled": true
+  dependencyDashboardAutoclose: true,
+  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
+  pre-commit: {
+    enabled: true
   },
   ignorePaths: [
     "**/*.enc.*",
