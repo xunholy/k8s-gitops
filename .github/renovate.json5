@@ -21,7 +21,7 @@
   dependencyDashboardAutoclose: true,
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
   suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
-  pre-commit: {
+  "pre-commit": {
     "enabled": true
   },
   ignorePaths: [
