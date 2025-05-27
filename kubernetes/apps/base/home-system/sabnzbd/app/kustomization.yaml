@@ -12,9 +12,8 @@ resources:
 
 configMapGenerator:
   - name: sabnzbd-scripts
-    namespace: home-system
     files:
-      - post-process.sh=./resources/post-process.sh
+      - resources/xseed.sh
 
 generatorOptions:
   annotations:
