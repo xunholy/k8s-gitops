@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Run flux-local test
-        uses: docker://ghcr.io/allenporter/flux-local:v7.5.3
+        uses: docker://ghcr.io/allenporter/flux-local:v7.5.4
         with:
           args: >-
             test
@@ -71,7 +71,7 @@ jobs:
           path: default
 
       - name: Run flux-local diff
-        uses: docker://ghcr.io/allenporter/flux-local:v7.5.3
+        uses: docker://ghcr.io/allenporter/flux-local:v7.5.4
         with:
           args: >-
             diff ${{ matrix.resource }}
