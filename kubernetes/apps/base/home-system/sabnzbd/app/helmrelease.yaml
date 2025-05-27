@@ -38,7 +38,7 @@ spec:
   maxHistory: 3
   values:
     controllers:
-      sabnzbd:
+      *app :
         containers:
           app:
             image:
@@ -53,12 +53,14 @@ spec:
                 sabnzbd.home-system.svc,
                 sabnzbd.home-system.svc.cluster,
                 sabnzbd.home-system.svc.cluster.local,
-                sab.${CLUSTER_DOMAIN},
-              CROSS_SEED_ENABLED: false
-              CROSS_SEED_HOST: cross-seed.home-system.svc.cluster.local
-              CROSS_SEED_PORT: 80
-              CROSS_SEED_SLEEP_INTERVAL: 30
-              PUSHOVER_ENABLED: false
+                sab.${CLUSTER_DOMAIN}
+              XSEED_HOST: cross-seed.home-system.svc.cluster.local
+              XSEED_PORT: 80
+              XSEED_APIKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: sabnzbd-secret
+                    key: CROSS_SEED_API_KEY
             envFrom:
               - secretRef:
                   name: sabnzbd-secret
@@ -102,14 +104,20 @@ spec:
     persistence:
       config:
         existingClaim: sabnzbd
+        advancedMounts:
+          sabnzbd:
+            app:
+              - path: /config
       tmp:
         type: emptyDir
       scripts:
         type: configMap
         name: sabnzbd-scripts
         defaultMode: 0775
-        globalMounts:
-          - readOnly: true
+        advancedMounts:
+          sabnzbd:
+            app:
+              - path: /config/scripts
       media:
         type: nfs
         server: ${EXT_NAS_IP}
