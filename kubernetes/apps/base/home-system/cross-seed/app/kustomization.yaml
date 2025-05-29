@@ -12,7 +12,7 @@ secretGenerator:
   - name: cross-seed-secret
     namespace: home-system
     files:
-      - secret-file=secret.enc.yaml
+      - config.js=secret.enc.yaml
 
 generatorOptions:
   annotations:
