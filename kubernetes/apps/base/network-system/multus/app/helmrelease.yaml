@@ -52,6 +52,8 @@ spec:
             image:
               repository: ghcr.io/k8snetworkplumbingwg/multus-cni
               tag: latest@sha256:e30a3a8130d82b72d8c195b26ce55f318f28ca7f9446ab6e2cae8d8283eeeabb
+            command:
+              - /thin_entrypoint
             args:
               - --cleanup-config-on-exit
             securityContext:
@@ -62,6 +64,8 @@ spec:
                 memory: 32Mi
               limits:
                 memory: 256Mi
+        serviceAccount:
+          identifier: multus
     persistence:
       etc-cni-net-d:
         type: hostPath
@@ -74,5 +78,4 @@ spec:
         globalMounts:
           - path: /host/opt/cni/bin
     serviceAccount:
-      create: true
-      name: *app
+      multus: {}
