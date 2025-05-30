@@ -18,7 +18,7 @@ minecraftServer:
   # Check accounts against Minecraft account service.
   onlineMode: false
 podAnnotations:
-  k8s.v1.cni.cncf.io/networks: wifi-network
+  k8s.v1.cni.cncf.io/networks: network-system/wifi-network
 persistence:
   dataDir:
     enabled: true
