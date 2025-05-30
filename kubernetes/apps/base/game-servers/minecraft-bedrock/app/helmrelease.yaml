@@ -48,14 +48,15 @@ spec:
       name: mincraft-bedrock-values
     - kind: Secret
       name: mincraft-bedrock-secret-values
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              version: v1
-              kind: Deployment
-              name: minecraft-bedrock-minecraft-bedrock
-            patch: |
-              - op: add
-                path: /spec/template/spec/hostNetwork
-                value: true
+  # Disabled: Does not work with multus
+  # postRenderers:
+  #   - kustomize:
+  #       patches:
+  #         - target:
+  #             version: v1
+  #             kind: Deployment
+  #             name: minecraft-bedrock-minecraft-bedrock
+  #           patch: |
+  #             - op: add
+  #               path: /spec/template/spec/hostNetwork
+  #               value: true
