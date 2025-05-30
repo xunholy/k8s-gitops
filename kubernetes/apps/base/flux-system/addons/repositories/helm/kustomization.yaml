@@ -9,7 +9,6 @@ resources:
   - backstage-charts.yaml
   - backube-charts.yaml
   - bitnami-charts.yaml
-  - bjw-charts.yaml
   - cilium-chart.yaml
   - coredns-charts.yaml
   - crossplane-charts.yaml
