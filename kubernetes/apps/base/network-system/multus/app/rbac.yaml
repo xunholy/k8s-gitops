@@ -25,4 +25,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: multus
-    namespace: networking
+    namespace: network-system
