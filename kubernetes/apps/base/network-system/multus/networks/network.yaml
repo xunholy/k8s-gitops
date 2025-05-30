@@ -14,7 +14,7 @@ spec:
           "master": "eth0",
           "mode": "bridge",
           "ipam": {
-            "type": "host-local"
+            "type": "host-local",
             "subnet": "192.168.86.0/24",
             "rangeStart": "192.168.86.100",
             "rangeEnd": "192.168.86.200",
