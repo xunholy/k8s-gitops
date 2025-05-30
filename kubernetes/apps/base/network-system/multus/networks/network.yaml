@@ -26,3 +26,31 @@ spec:
         }
       ]
     }
+---
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: lan-network
+  namespace: network-system
+spec:
+  config: |-
+    {
+      "cniVersion": "0.3.1",
+      "name": "lan-network",
+      "plugins": [
+        {
+          "type": "macvlan",
+          "master": "enp2s0",
+          "mode": "bridge",
+          "ipam": {
+            "type": "host-local",
+            "subnet": "192.168.50.0/24",
+            "rangeStart": "192.168.50.100",
+            "rangeEnd": "192.168.50.200",
+            "routes": [
+              { "dst": "0.0.0.0/0", "gw": "192.168.50.1" }
+            ]
+          }
+        }
+      ]
+    }
