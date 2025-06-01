@@ -46,7 +46,7 @@ spec:
           cni-plugins:
             image:
               repository: ghcr.io/home-operations/cni-plugins
-              tag: 1.7.1@sha256:a2b59b11a9cd50b5e699d7162a899a81c9b30a9386378b1deb01c054eedb38fe
+              tag: 1.7.1@sha256:4bd4e77e3fbc21dd63b9826a011cead1333b6975efa4d1d2631ca932bfd27371
         containers:
           app:
             image:
