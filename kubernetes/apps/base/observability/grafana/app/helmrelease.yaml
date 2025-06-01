@@ -191,7 +191,7 @@ spec:
         istio-mesh:
           # renovate: depName="Istio Mesh Dashboard"
           gnetId: 7639
-          revision: 249
+          revision: 259
           datasource: Prometheus
         istio-service:
           # renovate: depName="Istio Service Dashboard"
