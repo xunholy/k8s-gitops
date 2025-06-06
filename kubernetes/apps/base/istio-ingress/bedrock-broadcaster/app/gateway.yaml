@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/gateway_v1beta1.json
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-ingress
+spec:
+  selector:
+    app: istio-gateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - '${BEDROCK_BROADCASTER_DOMAIN}'
+        - '*.${BEDROCK_BROADCASTER_DOMAIN}'
+      tls:
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - '${BEDROCK_BROADCASTER_DOMAIN}'
+        - '*.${BEDROCK_BROADCASTER_DOMAIN}'
+      tls:
+        credentialName: bedrock-broadcaster-com-le
+        mode: SIMPLE
+        minProtocolVersion: TLSV1_2
+        maxProtocolVersion: TLSV1_3
