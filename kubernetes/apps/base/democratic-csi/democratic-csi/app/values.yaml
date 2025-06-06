@@ -1,0 +1,48 @@
+controller:
+  priorityClassName: platform-cluster-critical
+csiDriver:
+  name: "org.democratic-csi.iscsi"
+node:
+  driver:
+    extraEnv:
+    - name: ISCSIADM_HOST_STRATEGY
+      value: nsenter
+    - name: ISCSIADM_HOST_PATH
+      value: /usr/local/sbin/iscsiadm
+    iscsiDirHostPath: /var/lib/iscsi
+    iscsiDirHostPathType: ""
+  hostPID: true
+  priorityClassName: platform-node-critical
+  tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
+driver:
+  existingConfigSecret: driver-config
+  config:
+    # please see the most up-to-date example of the corresponding config here:
+    # https://github.com/democratic-csi/democratic-csi/tree/master/examples
+    # YOU MUST COPY THE DATA HERE INLINE!
+    driver: freenas-api-iscsi
+storageClasses:
+- name: truenas-iscsi-csi
+  defaultClass: false
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
+  allowVolumeExpansion: true
+  parameters:
+    # for block-based storage can be ext3, ext4, xfs
+    # for nfs should be nfs
+    fsType: ext4
+    detachedVolumesFromSnapshots: "false"
+  mountOptions: []
+  secrets:
+    controller-expand-secret: null
+    controller-publish-secret: null
+    node-publish-secret: null
+    node-stage-secret: null
+    provisioner-secret: null
+volumeSnapshotClasses:
+- name: truenas-iscsi
+  parameters:
+    detachedSnapshots: "true"
