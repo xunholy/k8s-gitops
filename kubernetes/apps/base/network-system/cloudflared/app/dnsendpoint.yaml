@@ -36,7 +36,7 @@ spec:
 apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
-  name: cloudflared-ingress
+  name: cloudflared-bedrock-broadcaster-ingress
   namespace: networking
   annotations:
     external-dns.alpha.kubernetes.io/target: "ingress.${BEDROCK_BROADCASTER_DOMAIN}"
