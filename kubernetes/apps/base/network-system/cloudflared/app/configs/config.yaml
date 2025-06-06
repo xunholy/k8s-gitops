@@ -48,6 +48,9 @@ ingress:
     originRequest:
       originServerName: ingress.${CLUSTER_DOMAIN}
 
+  - hostname: "*.${BEDROCK_BROADCASTER_DOMAIN}"
+    service: *ingress
+
   # Catch-all rule, which responds with 404 if traffic doesn't match any of
   # the earlier rules
   - service: http_status:404
