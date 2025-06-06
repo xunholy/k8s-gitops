@@ -50,6 +50,8 @@ ingress:
 
   - hostname: "*.${BEDROCK_BROADCASTER_DOMAIN}"
     service: *ingress
+    originRequest:
+      originServerName: ingress.${BEDROCK_BROADCASTER_DOMAIN}
 
   # Catch-all rule, which responds with 404 if traffic doesn't match any of
   # the earlier rules
