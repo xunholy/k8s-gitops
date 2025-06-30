@@ -3,7 +3,7 @@
 instance:
   distribution:
     # renovate: datasource=github-releases depName=controlplaneio-fluxcd/distribution
-    version: v2.6.2
+    version: v2.6.3
   components:
     - source-controller
     - kustomize-controller
