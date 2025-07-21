@@ -18,7 +18,6 @@
       group: {
         commitMessageTopic: "{{{groupName}}} group"
       },
-      separateMinorPatch: true
     },
     {
       description: "Istio Group",
@@ -28,13 +27,30 @@
       group: {
         commitMessageTopic: "{{{groupName}}} group"
       },
-      separateMinorPatch: true
+    },
+    {
+      description: "Cilium Group",
+      groupName: "Cilium",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/cilium/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
     },
     {
       description: "Flux Operator Group",
       groupName: "Flux Operator",
       matchDatasources: ["docker"],
       matchPackageNames: ["/flux-operator/", "/flux-instance/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
+    {
+      description: "Cert-Manager Group",
+      groupName: "Cert-Manager",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/cert-manager/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
