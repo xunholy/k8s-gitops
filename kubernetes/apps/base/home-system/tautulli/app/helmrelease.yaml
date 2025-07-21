@@ -6,7 +6,7 @@ metadata:
   name: &app tautulli
   namespace: home-system
 spec:
-  interval: 5m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: app-template

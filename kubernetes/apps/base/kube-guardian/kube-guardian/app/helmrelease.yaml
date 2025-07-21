@@ -21,7 +21,7 @@ metadata:
   name: &app kube-guardian
   namespace: kube-guardian
 spec:
-  interval: 5m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: kube-guardian

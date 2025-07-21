@@ -21,7 +21,7 @@ metadata:
   name: descheduler
   namespace: kube-system
 spec:
-  interval: 5m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: descheduler

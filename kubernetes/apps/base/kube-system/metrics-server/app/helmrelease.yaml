@@ -21,7 +21,7 @@ metadata:
   name: metrics-server
   namespace: kube-system
 spec:
-  interval: 5m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: metrics-server

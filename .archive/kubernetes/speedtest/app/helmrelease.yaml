@@ -6,7 +6,7 @@ metadata:
   name: speedtest
   namespace: observability
 spec:
-  interval: 5m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: app-template

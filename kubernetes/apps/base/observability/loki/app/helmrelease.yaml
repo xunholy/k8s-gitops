@@ -21,7 +21,7 @@ metadata:
   name: &app loki
   namespace: observability
 spec:
-  interval: 5m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: loki

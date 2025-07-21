@@ -21,12 +21,12 @@ metadata:
   name: kube-prometheus-stack
   namespace: observability
 spec:
-  interval: 5m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: kube-prometheus-stack
   install:
-    timeout: 30m
+    timeout: 1h
     replace: true
     crds: CreateReplace
     createNamespace: true
