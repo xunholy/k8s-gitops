@@ -45,6 +45,7 @@ jobs:
             --enable-helm
             --path /github/workspace/kubernetes/clusters/${{ matrix.cluster }}
             --verbose
+            --skip-invalid-kustomization-paths
 
   diff:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
@@ -83,6 +84,7 @@ jobs:
             --all-namespaces
             --sources "flux-system"
             --output-file diff.patch
+            --skip-invalid-kustomization-paths
 
       - name: Generate Diff
         id: diff
