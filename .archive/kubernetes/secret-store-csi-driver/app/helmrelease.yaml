@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: secrets-store-csi-driver
-      version: 1.5.2
+      version: 1.5.3
       sourceRef:
         kind: HelmRepository
         name: secrets-store-csi-driver-chart
