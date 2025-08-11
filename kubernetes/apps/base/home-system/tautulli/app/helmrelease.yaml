@@ -43,7 +43,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/tautulli
-              tag: 2.15.3@sha256:498b1126a5bd35569609c89f932856ac111ca39efb269d84ca125877493b8156
+              tag: 2.15.3@sha256:3e0eaca8c082ebe121a0ae9125bea1b4e2d177fca34ac8df4ec14a28e62f63a4
             env:
               TZ: Australia/Melbourne
               TAUTULLI__PORT: &port 80
