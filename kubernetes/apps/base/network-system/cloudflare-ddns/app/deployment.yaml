@@ -1,11 +1,11 @@
 ---
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
-  namespace: network-system
-  name: cloudflare-ddns
   labels:
     app: cloudflare-ddns
+  name: cloudflare-ddns
+  namespace: network-system
 spec:
   replicas: 1
   selector:
@@ -13,44 +13,44 @@ spec:
       app: cloudflare-ddns
   template:
     metadata:
-      labels:
-        app: cloudflare-ddns
       annotations:
         sidecar.istio.io/inject: 'false'
+      labels:
+        app: cloudflare-ddns
     spec:
       containers:
-        - name: cloudflare-ddns
-          image: hotio/cloudflareddns:latest
-          env:
+        - env:
             - name: CF_APITOKEN
               valueFrom:
                 secretKeyRef:
-                  name: cloudflare-ddns
                   key: api-token
+                  name: cloudflare-ddns
             - name: CF_ZONES
               valueFrom:
                 secretKeyRef:
-                  name: cloudflare-ddns
                   key: zones
+                  name: cloudflare-ddns
             - name: CF_HOSTS
               valueFrom:
                 secretKeyRef:
-                  name: cloudflare-ddns
                   key: hosts
+                  name: cloudflare-ddns
             - name: CF_RECORDTYPES
               valueFrom:
                 secretKeyRef:
-                  name: cloudflare-ddns
                   key: record-types
+                  name: cloudflare-ddns
             # https://github.com/docker-hotio/docker-cloudflare-ddns#log-levels
             - name: LOG_LEVEL
               value: '3'
             - name: INTERVAL
               value: '300'
+          image: ghcr.io/hotio/cloudflareddns:latest
+          name: cloudflare-ddns
           # Resources allocated based on Robusta KRR output
           resources:
+            limits:
+              memory: 64Mi
             requests:
               cpu: 20m
               memory: 10Mi
-            limits:
-              memory: 64Mi
