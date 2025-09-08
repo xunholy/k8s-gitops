@@ -55,5 +55,14 @@
         commitMessageTopic: "{{{groupName}}} group",
       },
     },
+    {
+      description: "Litmus Group",
+      groupName: "Litmus",
+      matchDatasources: ["helm"],
+      matchPackagePatterns: ["litmus", "litmus-core"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
   ]
 }
