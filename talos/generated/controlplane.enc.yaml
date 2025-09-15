@@ -24,8 +24,8 @@ machine:
               vip:
                 ip: 192.168.50.200
     install:
-        disk: /dev/mmcblk0
-        image: factory.talos.dev/installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.10.3
+        disk: /dev/sda
+        image: factory.talos.dev/installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.10.5
         wipe: true
     registries: {}
     features:
@@ -142,8 +142,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-06-06T03:54:36Z"
-    mac: ENC[AES256_GCM,data:q+5H2Of6jDtx5hBVrSNiCBQTnP8toNw8efmLch9MB2x4XRL5s7BE6h+21qJso00KIQKUO+a++udhDwfKqOTLK/5y6KiBFvTo/AhdbmXt4yY0wPx3AqgsDtH2cDRqdjO/Bmb5oq5F1GnioKV/FR8ri/nEOPb5s49B9KOUwGk0MwE=,iv:DjByh8odScePYOSAH1hemT02uWJzZ0HW2i+mBo0D2g0=,tag:cFbKz3k7dc8yBGfH630aRQ==,type:str]
+    lastmodified: "2025-07-22T23:19:50Z"
+    mac: ENC[AES256_GCM,data:BTRDia2mQaHWqCtbx0xxglwT7Y+t9/v4KTQxfGQD/prQ3GXfwdg5NH8Fd3AZnPYwQdXwp9A4cuVUv/mWngsVgKUTvbxjvW+pyw71WFE/15eYhzfgNN2KZSAqAMRTEzraU0rf3sNENRazpq4Now6CxuTo7/oA/5vNmOa0CqvAwuQ=,iv:0K2nuqfgB3TL1AeQzp4vJY+o/bXB0Wc354pn8Xsd2Yc=,tag:81j4P9e08WvF2rauLAwVdw==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |
