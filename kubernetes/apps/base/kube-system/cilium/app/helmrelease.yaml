@@ -11,7 +11,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 1.18.1
+    tag: 1.18.1@sha256:ad1014a3d58c65f9600b6fe8ab6258b559797b20b797fee5fe86d778faa0bc3c
   url: oci://ghcr.io/home-operations/charts-mirror/cilium
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
