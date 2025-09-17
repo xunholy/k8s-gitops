@@ -1,9 +1,8 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    "config:recommended",
+    "config:best-practices",
     "docker:enableMajor",
-    "helpers:pinGitHubActionDigests",
     "security:openssf-scorecard",
     ":automergeBranch",
     ":automergeDigest",
@@ -22,19 +21,16 @@
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
   suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
   "pre-commit": {
-    "enabled": true
+    enabled: true,
   },
-  ignorePaths: [
-    "**/*.enc.*",
-    "**/resources/**",
-  ],
+  ignorePaths: ["**/*.enc.*", "**/resources/**"],
   flux: {
-    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
   },
   "helm-values": {
-    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
   },
   kubernetes: {
-    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
   },
 }
