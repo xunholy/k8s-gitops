@@ -9,11 +9,11 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/istio-system/istio-cni/app"
+  path: "./apps/base/istio-system/istio-cni/app"
   prune: true
   wait: false
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   dependsOn:

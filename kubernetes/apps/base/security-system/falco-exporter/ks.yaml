@@ -9,7 +9,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/security-system/falco-exporter/app"
+  path: "./apps/base/security-system/falco-exporter/app"
   prune: true
   wait: true
   sourceRef:

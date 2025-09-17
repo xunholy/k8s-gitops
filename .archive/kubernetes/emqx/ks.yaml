@@ -11,11 +11,11 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/home-system/emqx/app"
+  path: "./apps/base/home-system/emqx/app"
   prune: true
   wait: false
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
 ---
@@ -31,10 +31,10 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/home-system/emqx/cluster"
+  path: "./apps/base/home-system/emqx/cluster"
   prune: true
   wait: false
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system

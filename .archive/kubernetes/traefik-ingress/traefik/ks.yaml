@@ -9,7 +9,7 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./kubernetes/apps/base/traefik-ingress/traefik/app"
+  path: "./apps/base/traefik-ingress/traefik/app"
   prune: true
   wait: true
   sourceRef:

@@ -9,7 +9,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/rook-ceph/rook-ceph-cluster/app"
+  path: "./apps/base/rook-ceph/rook-ceph-cluster/app"
   prune: true
   wait: true
   sourceRef:

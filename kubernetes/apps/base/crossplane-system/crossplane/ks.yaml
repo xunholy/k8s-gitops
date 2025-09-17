@@ -11,11 +11,11 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/crossplane-system/crossplane/app"
+  path: "./apps/base/crossplane-system/crossplane/app"
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
 ---
@@ -31,11 +31,11 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/crossplane-system/crossplane/providers"
+  path: "./apps/base/crossplane-system/crossplane/providers"
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   dependsOn:

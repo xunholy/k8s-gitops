@@ -7,10 +7,10 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./kubernetes/apps/base/litmus/litmus-core/app"
+  path: "./apps/base/litmus/litmus-core/app"
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system

@@ -9,7 +9,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/observability/loki-stack/app"
+  path: "./apps/base/observability/loki-stack/app"
   prune: true
   wait: false
   sourceRef:

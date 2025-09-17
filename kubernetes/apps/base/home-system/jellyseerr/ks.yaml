@@ -11,11 +11,11 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/home-system/jellyseerr/app"
+  path: "./apps/base/home-system/jellyseerr/app"
   prune: true
   wait: false
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   dependsOn:

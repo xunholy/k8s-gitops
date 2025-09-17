@@ -13,7 +13,7 @@ spec:
   path: ./kubernetes/clusters/cluster-0/flux-system/flux-instance/app
   prune: false
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: flux-system
