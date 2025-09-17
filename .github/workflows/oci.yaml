@@ -54,7 +54,7 @@ jobs:
             --path="./kubernetes" \
             --source="$(git config --get remote.origin.url)" \
             --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)" \
-            --ignore-paths=["kubernetes/clusters/**/secrets/*.encrypted.yaml","kubernetes/clusters/**/secrets/.sops.pub.asc"]
+            --ignore-paths=["./clusters/**/secrets/*.encrypted.yaml","./clusters/**/secrets/.sops.pub.asc"]
 
       - name: Create OCI artifact tag
         run: |
