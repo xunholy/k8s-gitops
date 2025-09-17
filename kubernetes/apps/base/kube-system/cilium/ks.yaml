@@ -11,12 +11,12 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/kube-system/cilium/app"
+  path: "./apps/base/kube-system/cilium/app"
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: OCIRepository
+    name: cluster
     namespace: flux-system
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -29,12 +29,12 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/kube-system/cilium/config"
+  path: "./apps/base/kube-system/cilium/config"
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: OCIRepository
+    name: cluster
     namespace: flux-system
   dependsOn:
     - name: istiod
