@@ -12,7 +12,7 @@ machine:
         - talos.api.raspbernetes.com
         - 192.168.50.200
     kubelet:
-        image: ghcr.io/siderolabs/kubelet:v1.29.4
+        image: ghcr.io/siderolabs/kubelet:v1.32.5
         defaultRuntimeSeccompProfileEnabled: true
         disableManifestsDirectory: true
     network:
@@ -25,7 +25,7 @@ machine:
                 ip: 192.168.50.200
     install:
         disk: /dev/sda
-        image: factory.talos.dev/installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.10.5
+        image: factory.talos.dev/installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.11.1
         wipe: true
     registries: {}
     features:
@@ -75,7 +75,7 @@ cluster:
     serviceAccount:
         key: ENC[AES256_GCM,data:aCXLadIlpOk5A5C8UO7XNlUW2XQJJM7/2awWzmDV3zDob9zuHSFC48rlle/agw2c5RHGfl5c4BI12xFf0ClpNb9R0U/QUFRxvRhq8HXjY3v7m0wRds4ejhyWg9Z8z8BjIdqXND5GCXv/NhNjEjH0povTUiR/LrqW34MvdvpiJ29hPgNZcoRKT/Q09QlNpMnc5+xwUKs8azFjH/FymUAxJDUhXictQ54P1WQGWv6HMa3HaVw3SHYc8rrg0DjSI0uEMxQZNL1ABzFL324XxGG09/eupb5vv7UvsCGwM37tO+2dm/0WtYtTrGXM5a6vr5toNFGE7UCWhNRHo9Uz8hFwf1F3Ku59Z59jb488EBjxH/mO+yUrPp/CI0raLv5YSQpXyqw1vfXNXoUFVVEe0084Dw==,iv:vfrsDBxtUsUDJBYmakZzA2xeknbftGlFSwFNCMsGEWk=,tag:lRdsJqqhqM5ZM4IeKoR+lw==,type:str]
     apiServer:
-        image: registry.k8s.io/kube-apiserver:v1.29.3
+        image: registry.k8s.io/kube-apiserver:v1.32.5
         certSANs:
             - api.raspbernetes.com
             - talos.api.raspbernetes.com
@@ -110,12 +110,12 @@ cluster:
             rules:
                 - level: Metadata
     controllerManager:
-        image: registry.k8s.io/kube-controller-manager:v1.29.3
+        image: registry.k8s.io/kube-controller-manager:v1.32.5
     proxy:
-        image: registry.k8s.io/kube-proxy:v1.29.3
+        image: registry.k8s.io/kube-proxy:v1.32.5
         disabled: true
     scheduler:
-        image: registry.k8s.io/kube-scheduler:v1.29.3
+        image: registry.k8s.io/kube-scheduler:v1.32.5
     discovery:
         enabled: true
         registries:
@@ -142,8 +142,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-07-22T23:19:50Z"
-    mac: ENC[AES256_GCM,data:BTRDia2mQaHWqCtbx0xxglwT7Y+t9/v4KTQxfGQD/prQ3GXfwdg5NH8Fd3AZnPYwQdXwp9A4cuVUv/mWngsVgKUTvbxjvW+pyw71WFE/15eYhzfgNN2KZSAqAMRTEzraU0rf3sNENRazpq4Now6CxuTo7/oA/5vNmOa0CqvAwuQ=,iv:0K2nuqfgB3TL1AeQzp4vJY+o/bXB0Wc354pn8Xsd2Yc=,tag:81j4P9e08WvF2rauLAwVdw==,type:str]
+    lastmodified: "2025-09-16T00:08:12Z"
+    mac: ENC[AES256_GCM,data:7Z6FL08r1XxppsA8M4RQIWwnEVIgBn/zYAFKvvsC+y/1TBFLG6ID9tO49eqP5rYRacYUYhAH5370i94sLxKZEBQINvs+1wrNXAy0f6PN/rEj3F7pLKf9m3yO87SJVxAYQEJZC1Cf/RjaetZzrk36M4DeI+U6T/5iKdfcxD3ynZo=,iv:oIhhMHpC5R7URlgq2C7NP/zp65gm9M8agv9AG5r/X/M=,tag:3DgsuOERN1HZ5azPD79uvA==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |
