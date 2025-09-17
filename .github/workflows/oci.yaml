@@ -35,6 +35,12 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Setup Crane
+        uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
+
+      - name: Setup Cosign
+        uses: sigstore/cosign-installer@main
+
       - name: Login to GHCR
         uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3
         with:
@@ -52,10 +58,6 @@ jobs:
       - name: Create OCI artifact tag
         run: |
           flux tag artifact "$OCI_REPO:$(git rev-parse --short HEAD)" --tag main
-
-      - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
-
-      - uses: sigstore/cosign-installer@main
 
       - name: Get the digest of the OCI artifact
         id: crane
