@@ -47,7 +47,7 @@ spec:
             env:
               TZ: Australia/Melbourne
               TAUTULLI_HTTP_BASE_URL: https://tautulli.${CLUSTER_DOMAIN}
-              TAUTULLI__PORT: &port 80
+              TAUTULLI_HTTP_PORT: &port 80
             envFrom:
               - secretRef:
                   name: tautulli-secret
