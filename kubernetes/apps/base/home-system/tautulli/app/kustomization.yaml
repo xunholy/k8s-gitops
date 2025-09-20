@@ -6,4 +6,5 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - pvc.yaml
+  - secret.enc.yaml
   - virtualservice.yaml
