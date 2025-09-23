@@ -9,11 +9,11 @@ metadata:
     substitution.flux/enabled: true
 spec:
   interval: 5m
-  path: "./kubernetes/apps/base/litmus/litmus/app"
+  path: "./apps/base/litmus/litmus/app"
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   dependsOn:

@@ -9,7 +9,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/security-system/gatekeeper/app"
+  path: "./apps/base/security-system/gatekeeper/app"
   prune: true
   wait: true
   sourceRef:

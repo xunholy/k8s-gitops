@@ -8,11 +8,11 @@ metadata:
 spec:
   interval: 10m
   timeout: 30m
-  path: ./kubernetes/apps/overlays/cluster-0
+  path: ./apps/overlays/cluster-0
   prune: true
   wait: false
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
   decryption:
     provider: sops

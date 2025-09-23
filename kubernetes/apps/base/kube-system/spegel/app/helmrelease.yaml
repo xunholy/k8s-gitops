@@ -3,30 +3,29 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: cilium
-  namespace: kube-system
+  name: spegel
 spec:
   interval: 5m
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 1.18.2
-  url: oci://ghcr.io/home-operations/charts-mirror/cilium
+    tag: 0.4.0
+  url: oci://ghcr.io/spegel-org/helm-charts/spegel
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: cilium
+  name: &app reflector
   namespace: kube-system
 spec:
-  interval: 5m
-  timeout: 10m
+  interval: 1h
   chartRef:
     kind: OCIRepository
-    name: cilium
+    name: spegel
   install:
+    timeout: 10m
     replace: true
     crds: CreateReplace
     createNamespace: true
@@ -47,21 +46,17 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
-  # TODO: Disabled for now
-  # driftDetection:
-  #   mode: enabled
+  driftDetection:
+    mode: enabled
   maxHistory: 3
-  valuesFrom:
-    - kind: ConfigMap
-      name: cilium-values
-  # Required: Using Kustomize helmChart can't pass the Helm chart validation because of the serviceMonitor CRDs, therefore these are disabled in the values.yaml however, re-enabled via the HelmRelease
-  # The values are merged in the order given, with the later values overwriting earlier, and then spec.values overwriting those
   values:
-    # Enable Gateway API here as the CRDs may not be deployed at the time the CNI is installed via Talos.
-    gatewayAPI:
-      # TODO: Manually installed https://gateway-api.sigs.k8s.io/guides/#installing-gateway-api
-      enabled: false
-    ingressController:
-      service:
-        annotations:
-          io.cilium/lb-ipam-ips: ${CLUSTER_LB_CILIUM_INGRESS}
+    grafanaDashboard:
+      enabled: true
+    service:
+      registry:
+        hostPort: 29999
+    serviceMonitor:
+      enabled: true
+    spegel:
+      containerdSock: /run/containerd/containerd.sock
+      containerdRegistryConfigPath: /etc/cri/conf.d/hosts

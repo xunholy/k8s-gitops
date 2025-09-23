@@ -35,6 +35,12 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Setup Crane
+        uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
+
+      - name: Setup Cosign
+        uses: sigstore/cosign-installer@main
+
       - name: Login to GHCR
         uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3
         with:
@@ -47,15 +53,13 @@ jobs:
           flux push artifact "$OCI_REPO:$(git rev-parse --short HEAD)" \
             --path="./kubernetes" \
             --source="$(git config --get remote.origin.url)" \
-            --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)"
+            --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)" \
+            --ignore-paths="sops-gpg.encrypted.yaml,.sops.pub.asc" \
+            --reproducible
 
       - name: Create OCI artifact tag
         run: |
           flux tag artifact "$OCI_REPO:$(git rev-parse --short HEAD)" --tag main
-
-      - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
-
-      - uses: sigstore/cosign-installer@main
 
       - name: Get the digest of the OCI artifact
         id: crane

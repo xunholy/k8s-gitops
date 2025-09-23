@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/kube-system/csi-driver-nfs/app"
+  path: "./apps/base/kube-system/csi-driver-nfs/app"
   prune: true
   wait: true
   sourceRef:

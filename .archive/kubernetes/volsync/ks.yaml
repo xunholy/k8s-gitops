@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/backup-system/volsync/app"
+  path: "./apps/base/backup-system/volsync/app"
   prune: true
   wait: true
   sourceRef:

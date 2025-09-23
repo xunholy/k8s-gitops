@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./kubernetes/apps/base/flux-system/tf-controller/app"
+  path: "./apps/base/flux-system/tf-controller/app"
   prune: true
   wait: false
   sourceRef:

@@ -57,6 +57,7 @@ resources:
   - ../../base/kube-system/kubelet-csr-approver/ks.yaml
   - ../../base/kube-system/metrics-server/ks.yaml
   - ../../base/kube-system/reflector/ks.yaml
+  # - ../../base/kube-system/spegel/ks.yaml
   # - ../../base/kube-system/tetragon/ks.yaml
   - ../../base/network-system/cert-manager/ks.yaml
   - ../../base/network-system/cloudflare-ddns/ks.yaml
