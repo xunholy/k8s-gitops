@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.12.1
+    tag: 0.12.1@sha256:621fb48c3fbf79cb817f03da35d19a26c35ad34de13e8cfa9816f9e462d2ce80
   url: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
