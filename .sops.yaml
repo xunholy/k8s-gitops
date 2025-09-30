@@ -26,6 +26,11 @@ creation_rules:
   - path_regex: terraform/.*/*.enc.ya?ml
     pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
     mac_only_encrypted: true
+  # AGE encrypted Kubernetes secret files
+  - path_regex: kubernetes/.*/*.enc.age.ya?ml
+    encrypted_regex: ^(data|stringData)$
+    mac_only_encrypted: true
+    age: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
 
 stores:
   yaml:

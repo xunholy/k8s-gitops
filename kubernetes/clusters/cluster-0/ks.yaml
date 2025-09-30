@@ -40,3 +40,45 @@ spec:
               name: sops-gpg
       target:
         labelSelector: substitution.flux/enabled=true
+    # Add HelmRelease defaults to all Kustomizations
+    - patch: |-
+        apiVersion: kustomize.toolkit.fluxcd.io/v1
+        kind: Kustomization
+        metadata:
+          name: not-used
+        spec:
+          patches:
+            - patch: |-
+                apiVersion: helm.toolkit.fluxcd.io/v2
+                kind: HelmRelease
+                metadata:
+                  name: not-used
+                spec:
+                  driftDetection:
+                    mode: enabled
+                  install:
+                    crds: CreateReplace
+                    createNamespace: true
+                    replace: true
+                    strategy:
+                      name: RetryOnFailure
+                    timeout: 10m
+                  rollback:
+                    recreate: true
+                    force: true
+                    cleanupOnFail: true
+                  test:
+                    enable: true
+                  upgrade:
+                    cleanupOnFail: true
+                    crds: CreateReplace
+                    remediation:
+                      remediateLastFailure: true
+                      retries: 3
+                      strategy: rollback
+              target:
+                group: helm.toolkit.fluxcd.io
+                kind: HelmRelease
+      target:
+        group: kustomize.toolkit.fluxcd.io
+        kind: Kustomization

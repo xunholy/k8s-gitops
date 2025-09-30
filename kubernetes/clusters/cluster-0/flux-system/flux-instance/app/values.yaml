@@ -9,6 +9,7 @@ instance:
     - kustomize-controller
     - helm-controller
     - notification-controller
+    - source-watcher
   commonAnnotations:
     fluxcd.controlplane.io/reconcile: "enabled"
     fluxcd.controlplane.io/reconcileEvery: "1h"
@@ -27,6 +28,7 @@ instance:
     path: ./clusters/cluster-0
   kustomize:
     patches:
+      # OPTIONAL: Allow cluster-autoscaler to evict flux controllers if needed
       - patch: |
           apiVersion: apps/v1
           kind: Deployment
@@ -46,6 +48,7 @@ instance:
                         memory: 2Gi
         target:
           kind: Deployment
+      # REQUIRED: Increase concurrency and requeue time for helm-controller
       - patch: |
           - op: add
             path: /spec/template/spec/containers/0/args/-
@@ -59,6 +62,7 @@ instance:
         target:
           kind: Deployment
           name: helm-controller
+      # REQUIRED: Increase concurrency and requeue time for kustomize-controller
       - patch: |
           - op: replace
             path: /spec/template/spec/volumes/0
@@ -78,6 +82,7 @@ instance:
         target:
           kind: Deployment
           name: kustomize-controller
+      # REQUIRED: Increase concurrency and requeue time for source-controller
       - patch: |
           - op: add
             path: /spec/template/spec/containers/0/args/-
@@ -88,6 +93,7 @@ instance:
         target:
           kind: Deployment
           name: source-controller
+      # REQUIRED: KustomizeController SOPS decryption for all Kustomizations
       - patch: |
           apiVersion: kustomize.toolkit.fluxcd.io/v1
           kind: Kustomization
@@ -109,8 +115,33 @@ instance:
         target:
           kind: Kustomization
           name: flux-system
+      # OPTIONAL: Remove CPU limits from all controllers to avoid OOMKills
       - patch: |
           - op: remove
             path: /spec/template/spec/containers/0/resources/limits/cpu
         target:
           kind: Deployment
+      # REQUIRED: Controller-level SOPS decryption
+      - patch: |
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --sops-age-secret=sops-age-secret
+        target:
+          kind: Deployment
+          name: kustomize-controller
+      - # REQUIRED: Watch configmaps and secrets attached to HelmReleases and Kustomizations
+      - patch: |
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --watch-configs-label-selector=owner!=helm
+        target:
+          kind: Deployment
+          name: (helm-controller|kustomize-controller)
+      # REQUIRED: Cancel health checks on new Kustomizations revisions
+      - patch: |
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --feature-gates=CancelHealthCheckOnNewRevision=true
+        target:
+          kind: Deployment
+          name: kustomize-controller
