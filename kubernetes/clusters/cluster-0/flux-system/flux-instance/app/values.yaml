@@ -129,7 +129,7 @@ instance:
         target:
           kind: Deployment
           name: kustomize-controller
-      - # REQUIRED: Watch configmaps and secrets attached to HelmReleases and Kustomizations
+      # REQUIRED: Watch configmaps and secrets attached to HelmReleases and Kustomizations
       - patch: |
           - op: add
             path: /spec/template/spec/containers/0/args/-
