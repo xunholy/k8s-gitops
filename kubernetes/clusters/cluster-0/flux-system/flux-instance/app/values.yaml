@@ -3,7 +3,7 @@
 instance:
   distribution:
     artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.30.0
-    version: v2.7.0
+    version: 2.x
   components:
     - source-controller
     - kustomize-controller
