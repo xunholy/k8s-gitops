@@ -9,7 +9,7 @@ instance:
     - kustomize-controller
     - helm-controller
     - notification-controller
-    - source-watcher
+    # - source-watcher
   commonAnnotations:
     fluxcd.controlplane.io/reconcile: "enabled"
     fluxcd.controlplane.io/reconcileEvery: "1h"
