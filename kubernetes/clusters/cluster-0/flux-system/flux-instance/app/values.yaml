@@ -9,7 +9,7 @@ instance:
     - kustomize-controller
     - helm-controller
     - notification-controller
-    # - source-watcher
+    - source-watcher
   commonAnnotations:
     fluxcd.controlplane.io/reconcile: "enabled"
     fluxcd.controlplane.io/reconcileEvery: "1h"
@@ -121,27 +121,27 @@ instance:
             path: /spec/template/spec/containers/0/resources/limits/cpu
         target:
           kind: Deployment
-      # # REQUIRED: Controller-level SOPS decryption
-      # - patch: |
-      #     - op: add
-      #       path: /spec/template/spec/containers/0/args/-
-      #       value: --sops-age-secret=sops-age-secret
-      #   target:
-      #     kind: Deployment
-      #     name: kustomize-controller
-      # # REQUIRED: Watch configmaps and secrets attached to HelmReleases and Kustomizations
-      # - patch: |
-      #     - op: add
-      #       path: /spec/template/spec/containers/0/args/-
-      #       value: --watch-configs-label-selector=owner!=helm
-      #   target:
-      #     kind: Deployment
-      #     name: (helm-controller|kustomize-controller)
-      # # REQUIRED: Cancel health checks on new Kustomizations revisions
-      # - patch: |
-      #     - op: add
-      #       path: /spec/template/spec/containers/0/args/-
-      #       value: --feature-gates=CancelHealthCheckOnNewRevision=true
-      #   target:
-      #     kind: Deployment
-      #     name: kustomize-controller
+      # REQUIRED: Controller-level SOPS decryption
+      - patch: |
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --sops-age-secret=sops-age-secret
+        target:
+          kind: Deployment
+          name: kustomize-controller
+      # REQUIRED: Watch configmaps and secrets attached to HelmReleases and Kustomizations
+      - patch: |
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --watch-configs-label-selector=owner!=helm
+        target:
+          kind: Deployment
+          name: (helm-controller|kustomize-controller)
+      # REQUIRED: Cancel health checks on new Kustomizations revisions
+      - patch: |
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --feature-gates=CancelHealthCheckOnNewRevision=true
+        target:
+          kind: Deployment
+          name: kustomize-controller
