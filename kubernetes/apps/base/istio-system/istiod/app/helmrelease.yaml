@@ -76,3 +76,14 @@ spec:
                 "x-auth-request-access-token",
               ]
             headersToDownstreamOnDeny: ["content-type", "set-cookie"]
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              version: v1
+              kind: ValidatingWebhookConfiguration
+              name: istio-validator-istio-system
+            patch: |
+              - op: add
+                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
+                value: disabled
