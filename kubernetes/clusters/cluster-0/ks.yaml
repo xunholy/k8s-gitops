@@ -54,8 +54,6 @@ spec:
                 metadata:
                   name: not-used
                 spec:
-                  driftDetection:
-                    mode: enabled
                   install:
                     crds: CreateReplace
                     createNamespace: true
