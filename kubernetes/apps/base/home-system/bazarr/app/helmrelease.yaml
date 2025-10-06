@@ -16,8 +16,9 @@ spec:
     replace: true
     crds: CreateReplace
     createNamespace: true
-    remediation:
-      retries: -1
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 5m
   upgrade:
     remediation:
       remediateLastFailure: true
