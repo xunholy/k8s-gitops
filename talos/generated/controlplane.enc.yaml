@@ -48,6 +48,14 @@ machine:
             enabled: true
             forwardKubeDNSToHost: false
             resolveMemberNames: true
+    files:
+        - op: create
+          path: /etc/cri/conf.d/20-customization.part
+          content: |
+            [plugins."io.containerd.cri.v1.images"]
+              discard_unpacked_layers = false
+            [plugins."io.containerd.cri.v1.runtime"]
+              cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
 cluster:
     id: v-bEFwPI9So3weaq5tJIdzKIwzL2CrvK4-Qrc4CGRIs=
     secret: ENC[AES256_GCM,data:n9QSCg7a7lyelBzYak53f1G777ql6D6z9Ac6VJN26yqSq5sDLDXGV2RltyY=,iv:lmJG3qCkgXbE9K5azvX0AXJWS+tR7O81sJa9o4E123k=,tag:8PfLPtAXGdrUf6RBIsXlAw==,type:str]
@@ -139,8 +147,13 @@ cluster:
     inlineManifests: []
     allowSchedulingOnControlPlanes: false
 sops:
-    lastmodified: "2025-10-09T00:18:43Z"
-    mac: ENC[AES256_GCM,data:Ev/xGZWqHScmmw1l4LuRf3AyuyzTQbsW3sX69Wje3QC+xSZqQbAI4O4dMp4rBAuTpF5tQ41s1q0DdP1RDfrvqLYPF1XRe0eOQ4iAybc4mddbTGnAR0qP2/P7yxMu97WKAPlRdWF4G1Zaj3AlqNoNUO1TeFPY6h7BoZ582jBefmw=,iv:LA3jc9cXTa8otpeIV2dvS7yMxACLcpwpB3H8mqk8geQ=,tag:cVAih7q8wZKbcP0POW1O+A==,type:str]
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2025-10-09T08:58:39Z"
+    mac: ENC[AES256_GCM,data:U9P9H2P6Nbih6S6YlerM/f3ncQ0wKiZPTufZvKrUa+sr5pjbzabwsP7BPRJ6onUu0rS0m2kuC94N7bFJ0Oh8ZSAZhVqO6joWrXPtPh6y5/KjqhBGPv7KLf2Kd3xG/mXtwXW9/RMzmmZP/bwKtCUvJ9W6mNHBA0dcZDokyHyGPr0=,iv:jPFn0EuAExitkJIO33HxenB6RDILWKRiCWxDevk4LCw=,tag:3B+54YKVWst300pvpuObMA==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |
