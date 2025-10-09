@@ -139,11 +139,11 @@ cluster:
     extraManifests:
         - https://raw.githubusercontent.com/xUnholy/k8s-gitops/main/talos/integrations/cert-approver/cert-approver.yaml
         # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
-        - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/experimental-install.yaml
+        - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/experimental-install.yaml
         # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
-        - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.81.0/stripped-down-crds.yaml
+        - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.86.0/stripped-down-crds.yaml
         # renovate: datasource=github-releases depName=k8snetworkplumbingwg/network-attachment-definition-client
-        - https://github.com/k8snetworkplumbingwg/network-attachment-definition-client/raw/refs/tags/v1.7.6/artifacts/networks-crd.yaml
+        - https://github.com/k8snetworkplumbingwg/network-attachment-definition-client/raw/refs/tags/v1.7.7/artifacts/networks-crd.yaml
     inlineManifests: []
     allowSchedulingOnControlPlanes: false
 sops:
@@ -152,8 +152,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-10-09T08:58:39Z"
-    mac: ENC[AES256_GCM,data:U9P9H2P6Nbih6S6YlerM/f3ncQ0wKiZPTufZvKrUa+sr5pjbzabwsP7BPRJ6onUu0rS0m2kuC94N7bFJ0Oh8ZSAZhVqO6joWrXPtPh6y5/KjqhBGPv7KLf2Kd3xG/mXtwXW9/RMzmmZP/bwKtCUvJ9W6mNHBA0dcZDokyHyGPr0=,iv:jPFn0EuAExitkJIO33HxenB6RDILWKRiCWxDevk4LCw=,tag:3B+54YKVWst300pvpuObMA==,type:str]
+    lastmodified: "2025-10-09T09:14:57Z"
+    mac: ENC[AES256_GCM,data:3+lMijGDWA+rG10EARqegC4PpTjjVDMdtpjHjUrDJ6JqBkx50niUTtPdg/J+aOrzhN1BrlpoOBSiL0EEqSi4ya+j044uyJACROxtaBCBwKU/ml+WjXroKd9YzhH3XDqEc3CgYSeduQsRWvzQyL3I51Lvgl+cTHxpSnRGCca9z+4=,iv:5Xm31eEnC/Pkfh8pQ3jdOEdCZK1AQQJRc6a1gaYZboY=,tag:NXYmP8iEbVxeDXsCcgHGLw==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |
