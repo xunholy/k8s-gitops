@@ -5,6 +5,7 @@ kind: Kustomization
 
 resources:
   - ../../base/actions-runner-system
+  - ../../base/apps-preview
   - ../../base/crossplane-system
   - ../../base/democratic-csi
   - ../../base/development
@@ -18,6 +19,7 @@ resources:
   - ../../base/nginx-ingress
   - ../../base/observability
   - ../../base/security-system
+  - ../../base/apps-preview/ks.yaml
   - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
   - ../../base/crossplane-system/crossplane/ks.yaml
