@@ -65,8 +65,6 @@ spec:
                     recreate: true
                     force: true
                     cleanupOnFail: true
-                  test:
-                    enable: true
                   upgrade:
                     cleanupOnFail: true
                     crds: CreateReplace
