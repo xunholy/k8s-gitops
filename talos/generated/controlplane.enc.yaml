@@ -81,6 +81,8 @@ cluster:
             - talos.api.raspbernetes.com
             - 192.168.50.200
         extraArgs:
+            enable-aggregator-routing: "true"
+            feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true,ResourceHealthStatus=true
             oidc-client-id: dex-k8s-authenticator
             oidc-issuer-url: https://dex.raspbernetes.com
             oidc-username-claim: email
@@ -137,13 +139,8 @@ cluster:
     inlineManifests: []
     allowSchedulingOnControlPlanes: false
 sops:
-    kms: []
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
-    age: []
-    lastmodified: "2025-09-16T00:08:12Z"
-    mac: ENC[AES256_GCM,data:7Z6FL08r1XxppsA8M4RQIWwnEVIgBn/zYAFKvvsC+y/1TBFLG6ID9tO49eqP5rYRacYUYhAH5370i94sLxKZEBQINvs+1wrNXAy0f6PN/rEj3F7pLKf9m3yO87SJVxAYQEJZC1Cf/RjaetZzrk36M4DeI+U6T/5iKdfcxD3ynZo=,iv:oIhhMHpC5R7URlgq2C7NP/zp65gm9M8agv9AG5r/X/M=,tag:3DgsuOERN1HZ5azPD79uvA==,type:str]
+    lastmodified: "2025-10-09T00:18:43Z"
+    mac: ENC[AES256_GCM,data:Ev/xGZWqHScmmw1l4LuRf3AyuyzTQbsW3sX69Wje3QC+xSZqQbAI4O4dMp4rBAuTpF5tQ41s1q0DdP1RDfrvqLYPF1XRe0eOQ4iAybc4mddbTGnAR0qP2/P7yxMu97WKAPlRdWF4G1Zaj3AlqNoNUO1TeFPY6h7BoZ582jBefmw=,iv:LA3jc9cXTa8otpeIV2dvS7yMxACLcpwpB3H8mqk8geQ=,tag:cVAih7q8wZKbcP0POW1O+A==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |
@@ -166,4 +163,4 @@ sops:
             -----END PGP MESSAGE-----
           fp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
     encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
-    version: 3.9.1
+    version: 3.10.2
