@@ -15,6 +15,8 @@ machine:
         image: ghcr.io/siderolabs/kubelet:v1.32.5
         defaultRuntimeSeccompProfileEnabled: true
         disableManifestsDirectory: true
+        extraArgs:
+            rotate-server-certificates: ENC[AES256_GCM,data:nanDoA==,iv:Z8zRE4BHEcIDK8Og5lyMPZ9+LAkCe7hwsGNx0uD0bys=,tag:WmiEBfYmEjoXjrbUF+k6Og==,type:bool]
     network:
         interfaces:
             - deviceSelector:
@@ -56,6 +58,8 @@ machine:
               discard_unpacked_layers = false
             [plugins."io.containerd.cri.v1.runtime"]
               cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
+            [metrics]
+              address = "0.0.0.0:11234"
 cluster:
     id: v-bEFwPI9So3weaq5tJIdzKIwzL2CrvK4-Qrc4CGRIs=
     secret: ENC[AES256_GCM,data:n9QSCg7a7lyelBzYak53f1G777ql6D6z9Ac6VJN26yqSq5sDLDXGV2RltyY=,iv:lmJG3qCkgXbE9K5azvX0AXJWS+tR7O81sJa9o4E123k=,tag:8PfLPtAXGdrUf6RBIsXlAw==,type:str]
@@ -152,8 +156,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2025-10-09T09:14:57Z"
-    mac: ENC[AES256_GCM,data:3+lMijGDWA+rG10EARqegC4PpTjjVDMdtpjHjUrDJ6JqBkx50niUTtPdg/J+aOrzhN1BrlpoOBSiL0EEqSi4ya+j044uyJACROxtaBCBwKU/ml+WjXroKd9YzhH3XDqEc3CgYSeduQsRWvzQyL3I51Lvgl+cTHxpSnRGCca9z+4=,iv:5Xm31eEnC/Pkfh8pQ3jdOEdCZK1AQQJRc6a1gaYZboY=,tag:NXYmP8iEbVxeDXsCcgHGLw==,type:str]
+    lastmodified: "2025-10-10T22:36:03Z"
+    mac: ENC[AES256_GCM,data:ezCx7P01P6/zvpOT2OQUPggnTj6p6tP1kZSTJCSE5MNVW4uy/qxeUVXYxcTIIUh9D8D5MlkTERLdJig82VtpBiIMbs5Xc6KKpl1I/2Gck5QpAsLMacAadAJpbPDYHKMCJs9bNNQI+2kvBGVSzQJx6m8uvYXVLmTBHBmlEkLRL0A=,iv:eJE79CRdjk0UzMQN3ONlVt0tp0GpqWVWUlZJarIEpLI=,tag:CsuuCpgYCA7UnLOcI3HCiw==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |
