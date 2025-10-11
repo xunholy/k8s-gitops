@@ -34,7 +34,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   strategy:
   #     matrix:
-  #       cluster: ["cluster-0"]
+  #       cluster: ["cluster-00"]
   #   steps:
   #     - name: Checkout
   #       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -60,7 +60,7 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        cluster: ["cluster-0"]
+        cluster: ["cluster-00"]
         resource: ["helmrelease", "kustomization"]
       fail-fast: false
     steps:

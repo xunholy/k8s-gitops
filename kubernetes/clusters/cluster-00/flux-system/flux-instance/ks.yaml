@@ -3,18 +3,23 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname kustomize-mutating-webhook
+  name: &app flux-instance
   namespace: flux-system
-  labels:
-    substitution.flux/enabled: true
 spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
   interval: 30m
-  retryInterval: 1m
-  timeout: 3m
-  path: "./clusters/cluster-0/flux-system/kustomize-mutating-webhook/app"
-  prune: true
-  wait: false
+  path: ./clusters/cluster-00/flux-system/flux-instance/app
+  prune: false
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
+  targetNamespace: flux-system
+  timeout: 5m
+  wait: false
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config

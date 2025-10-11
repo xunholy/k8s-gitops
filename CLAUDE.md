@@ -123,7 +123,7 @@ sops path/to/encrypted.yaml
 
 ## Important Notes
 
-- The cluster uses cluster ID "cluster-0" as the default
+- The cluster uses cluster ID "cluster-00" as the default
 - Talos config is stored encrypted in `talos/generated/`
 - FluxCD manages all application deployments automatically
 - Changes to `main` branch trigger automatic reconciliation

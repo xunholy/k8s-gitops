@@ -10,7 +10,7 @@ spec:
   parameters:
     repository: https://github.com/xunholy/k8s-gitops
     branch: main
-    path: "kubernetes/clusters/cluster-0"
+    path: "kubernetes/clusters/cluster-00"
   compositionSelector:
     matchLabels:
       provider: gcp

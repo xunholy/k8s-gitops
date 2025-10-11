@@ -25,7 +25,7 @@ instance:
     kind: OCIRepository
     url: oci://ghcr.io/xunholy/manifests/k8s-gitops
     ref: main
-    path: ./clusters/cluster-0
+    path: ./clusters/cluster-00
   kustomize:
     patches:
       # OPTIONAL: Allow cluster-autoscaler to evict flux controllers if needed
