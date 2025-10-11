@@ -20,23 +20,23 @@ resources:
   - ../../base/observability
   - ../../base/security-system
   - ../../base/apps-preview/ks.yaml
-  - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
-  - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
-  - ../../base/crossplane-system/crossplane/ks.yaml
+  # - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
+  # - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
+  # - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
-  - ../../base/game-servers/enemy-territory/ks.yaml
-  - ../../base/game-servers/minecraft/ks.yaml
+  # - ../../base/game-servers/enemy-territory/ks.yaml
+  # - ../../base/game-servers/minecraft/ks.yaml
   # - ../../base/game-servers/minecraft-ketting/ks.yaml
-  - ../../base/game-servers/minecraft-bedrock/ks.yaml
+  # - ../../base/game-servers/minecraft-bedrock/ks.yaml
   # - ../../base/game-servers/minecraft-proxy/ks.yaml
   # - ../../base/game-servers/minecraft-rcon-web/ks.yaml
   # - ../../base/game-servers/minecraft-router/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/cross-seed/ks.yaml
   # - ../../base/home-system/emqx/ks.yaml
-  - ../../base/home-system/home-assistant/ks.yaml
+  # - ../../base/home-system/home-assistant/ks.yaml
   - ../../base/home-system/jellyseerr/ks.yaml
   - ../../base/home-system/mosquitto/ks.yaml
   - ../../base/home-system/prowlarr/ks.yaml
@@ -48,18 +48,18 @@ resources:
   - ../../base/home-system/tautulli/ks.yaml
   - ../../base/home-system/zigbee2mqtt/ks.yaml
   - ../../base/istio-ingress/istio-gateway/ks.yaml
-  - ../../base/istio-ingress/bedrock-broadcaster/ks.yaml
-  - ../../base/istio-system/flagger/ks.yaml
+  # - ../../base/istio-ingress/bedrock-broadcaster/ks.yaml
+  # - ../../base/istio-system/flagger/ks.yaml
   - ../../base/istio-system/istio-base/ks.yaml
   - ../../base/istio-system/istio-cni/ks.yaml
   - ../../base/istio-system/istiod/ks.yaml
-  - ../../base/kube-guardian/kube-guardian/ks.yaml
+  # - ../../base/kube-guardian/kube-guardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml
-  - ../../base/kube-system/descheduler/ks.yaml
-  - ../../base/kube-system/kubelet-csr-approver/ks.yaml
+  # - ../../base/kube-system/descheduler/ks.yaml
+  # - ../../base/kube-system/kubelet-csr-approver/ks.yaml
   - ../../base/kube-system/metrics-server/ks.yaml
   - ../../base/kube-system/reflector/ks.yaml
-  - ../../base/kube-system/spegel/ks.yaml
+  # - ../../base/kube-system/spegel/ks.yaml
   # - ../../base/kube-system/tetragon/ks.yaml
   - ../../base/network-system/cert-manager/ks.yaml
   - ../../base/network-system/cloudflare-ddns/ks.yaml
@@ -69,15 +69,15 @@ resources:
   - ../../base/network-system/echo-server/ks.yaml
   - ../../base/network-system/external-dns/ks.yaml
   # - ../../base/network-system/multus/ks.yaml
-  - ../../base/network-system/node-feature-discovery/ks.yaml
+  # - ../../base/network-system/node-feature-discovery/ks.yaml
   - ../../base/network-system/oauth2-proxy/ks.yaml
   - ../../base/nginx-ingress/nginx-ingress/ks.yaml
   # - ../../base/observability/goldilocks/ks.yaml
-  - ../../base/observability/grafana/ks.yaml
+  # - ../../base/observability/grafana/ks.yaml
   # - ../../base/observability/jaeger/ks.yaml
   # - ../../base/observability/kiali/ks.yaml
-  - ../../base/observability/kromgo/ks.yaml
-  - ../../base/observability/kube-prometheus-stack/ks.yaml
+  # - ../../base/observability/kromgo/ks.yaml
+  # - ../../base/observability/kube-prometheus-stack/ks.yaml
   # - ../../base/observability/loki/ks.yaml
   # - ../../base/observability/otel/ks.yaml
   # - ../../base/observability/thanos/ks.yaml
