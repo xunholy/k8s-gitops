@@ -19,7 +19,7 @@ resources:
   - ../../base/nginx-ingress
   - ../../base/observability
   - ../../base/security-system
-  - ../../base/apps-preview/ks.yaml
+  # - ../../base/apps-preview/ks.yaml
   # - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
   # - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
   # - ../../base/crossplane-system/crossplane/ks.yaml
