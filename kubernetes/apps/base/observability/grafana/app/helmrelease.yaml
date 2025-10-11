@@ -11,7 +11,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 10.0.0
+    tag: 10.1.0@sha256:b02b4687b11570f82c8bc9967556f782efaa9bf0422b39b5b2a1b0c2203f3cb3
   url: oci://ghcr.io/grafana/helm-charts/grafana
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
