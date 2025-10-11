@@ -16,6 +16,9 @@ spec:
         name: democratic-csi-charts
         namespace: flux-system
       version: 0.15.0
+  dependsOn:
+    - name: snapshot-controller
+      namespace: kube-system
   driftDetection:
     mode: enabled
   install:
