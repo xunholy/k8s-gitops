@@ -10,15 +10,3 @@ spec:
     requests:
       storage: 5Gi
   storageClassName: truenas-iscsi-csi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: tautulli-cache
-  namespace: home-system
-spec:
-  accessModes: ["ReadWriteOnce"]
-  resources:
-    requests:
-      storage: 15Gi
-  storageClassName: truenas-iscsi-csi

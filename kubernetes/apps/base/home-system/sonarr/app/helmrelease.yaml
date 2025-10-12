@@ -98,10 +98,6 @@ spec:
     persistence:
       config:
         existingClaim: sonarr
-      cache:
-        existingClaim: sonarr-cache
-        globalMounts:
-          - path: /config/MediaCover
       tmp:
         type: emptyDir
       media:
