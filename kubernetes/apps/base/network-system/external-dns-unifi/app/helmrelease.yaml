@@ -71,6 +71,6 @@ spec:
       - istio-virtualservice
     txtPrefix: k8s.
     domainFilters:
-      - rasbernetes.com
+      - raspbernetes.com
     serviceMonitor:
       enabled: true
