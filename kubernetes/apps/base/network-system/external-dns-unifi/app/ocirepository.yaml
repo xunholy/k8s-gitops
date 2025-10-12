@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: unifi-dns
+  name: external-dns-unifi
   namespace: network-system
 spec:
   interval: 5m

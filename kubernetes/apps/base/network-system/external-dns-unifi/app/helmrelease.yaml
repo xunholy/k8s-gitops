@@ -3,13 +3,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app unifi-dns
+  name: &app external-dns-unifi
   namespace: network-system
 spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: unifi-dns
+    name: external-dns-unifi
   install:
     timeout: 10m
     replace: true
@@ -46,7 +46,7 @@ spec:
           tag: v0.7.0@sha256:a5503c1c61e3a8f6d66a0172fca6fb9affbe1f527ae6360ccf5ff5f0bf181c6e
         env:
           - name: UNIFI_HOST
-            value: http://unifi.internal
+            value: https://192.168.1.1
           - name: UNIFI_API_KEY
             valueFrom:
               secretKeyRef:
