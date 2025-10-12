@@ -27,7 +27,7 @@ driver:
 storageClasses:
 - name: truenas-iscsi-csi
   defaultClass: false
-  reclaimPolicy: Delete
+  reclaimPolicy: Retain
   volumeBindingMode: Immediate
   allowVolumeExpansion: true
   parameters:
