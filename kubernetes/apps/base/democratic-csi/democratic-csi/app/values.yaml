@@ -44,5 +44,6 @@ storageClasses:
     provisioner-secret: null
 volumeSnapshotClasses:
 - name: truenas-iscsi
+  deletionPolicy: Retain
   parameters:
     detachedSnapshots: "true"
