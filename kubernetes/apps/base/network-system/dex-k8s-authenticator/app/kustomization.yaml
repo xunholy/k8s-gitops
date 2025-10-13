@@ -7,3 +7,12 @@ resources:
   - clusterrolebinding.yaml
   - helmrelease.yaml
   - virtualservice.yaml
+
+configMapGenerator:
+  - name: dex-k8s-authenticator-values
+    namespace: network-system
+    files:
+      - values.yaml=./values.yaml
+
+configurations:
+  - kustomizeconfig.yaml

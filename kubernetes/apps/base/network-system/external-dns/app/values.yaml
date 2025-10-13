@@ -1,0 +1,26 @@
+provider:
+  name: cloudflare
+domainFilters: ["raspbernetes.com"]
+env:
+  - name: CF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        key: cloudflare_api_token
+        name: cloudflare-external-dns
+extraArgs:
+  - --cloudflare-proxied
+  - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+  - --crd-source-kind=DNSEndpoint
+  - --annotation-filter=external-dns.alpha.kubernetes.io/external=true
+policy: sync
+txtPrefix: k8s.
+sources:
+  # Disable service and ingress to avoid exposing services externally that are not routed through istio
+  # - service
+  # - ingress
+  - crd
+  - istio-virtualservice
+  # Disable istio gateway as it adds a wildcard CNAME which is not able to be proxied in cloudflare
+  # - istio-gateway
+serviceMonitor:
+  enabled: true

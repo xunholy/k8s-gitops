@@ -7,3 +7,12 @@ resources:
   - helmrelease.yaml
   - ocirepository.yaml
   - secret.enc.yaml
+
+configMapGenerator:
+  - name: external-dns-values
+    namespace: network-system
+    files:
+      - values.yaml=./values.yaml
+
+configurations:
+  - kustomizeconfig.yaml

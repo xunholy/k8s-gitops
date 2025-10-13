@@ -7,3 +7,12 @@ resources:
   - helmrelease.yaml
   - secret.enc.yaml
   - virtualservice.yaml
+
+configMapGenerator:
+  - name: dex-values
+    namespace: network-system
+    files:
+      - values.yaml=./values.yaml
+
+configurations:
+  - kustomizeconfig.yaml

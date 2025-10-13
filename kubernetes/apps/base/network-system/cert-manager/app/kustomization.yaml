@@ -11,7 +11,7 @@ resources:
 
 configMapGenerator:
   - name: cert-manager-values
-    namespace: flux-system
+    namespace: network-system
     files:
       - values.yaml=./values.yaml
 

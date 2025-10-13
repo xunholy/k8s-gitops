@@ -7,6 +7,12 @@ resources:
   - helmrelease.yaml
   - ocirepository.yaml
   - secret.enc.yaml
-  # REQUIRED: This installed the DNSEndpoint CRD which is not installed automatically via the Helm chart currently.
-  # Added in recent version: https://github.com/kubernetes-sigs/external-dns/commit/aef83b936b73cffc7e6c44b0804cbf7f7687cf46
-  # - https://raw.githubusercontent.com/kubernetes-sigs/external-dns/master/docs/contributing/crd-source/crd-manifest.yaml
+
+configMapGenerator:
+  - name: external-dns-unifi-values
+    namespace: network-system
+    files:
+      - values.yaml=./values.yaml
+
+configurations:
+  - kustomizeconfig.yaml
