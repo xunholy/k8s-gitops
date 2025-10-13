@@ -116,15 +116,3 @@ spec:
           redirectURIs:
             - '/auth/dex/callback'
             - 'http://localhost:8080/auth/dex/callback' # Included for local testing purposes
-        - name: 'Weave GitOps Core'
-          id: weave-gitops
-          secret: '${DEX_WEAVE_GITOPS_SECRET}'
-          redirectURIs:
-            - 'https://wge.${CLUSTER_DOMAIN}/oauth2/callback'
-            - 'https://gitops.${CLUSTER_DOMAIN}/oauth2/callback'
-            - 'https://localhost:9001/oauth2/callback'
-            - 'https://0.0.0.0:9001/oauth2/callback'
-            - 'http://0.0.0.0:9001/oauth2/callback'
-            - 'http://localhost:4567/oauth2/callback'
-            - 'https://localhost:4567/oauth2/callback'
-            - 'http://localhost:3000/oauth2/callback'
