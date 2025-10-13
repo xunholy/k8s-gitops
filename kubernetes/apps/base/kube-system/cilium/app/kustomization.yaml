@@ -6,6 +6,7 @@ namespace: kube-system
 
 resources:
   - helmrelease.yaml
+  - ocirepository.yaml
 
 configMapGenerator:
   - name: cilium-values

@@ -5,3 +5,13 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
+  - ocirepository.yaml
+
+configMapGenerator:
+  - name: descheduler-values
+    namespace: kube-system
+    files:
+      - values.yaml
+
+configurations:
+  - kustomizeconfig.yaml

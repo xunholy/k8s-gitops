@@ -1,0 +1,23 @@
+service:
+  enabled: true
+serviceMonitor:
+  enabled: true
+kind: Deployment
+leaderElection:
+  enabled: true
+  leaseDuration: 30s
+  renewDeadline: 15s
+  retryPeriod: 5s
+  resourceLock: "leases"
+  resourceName: "descheduler"
+  resourceNamescape: "kube-system"
+deschedulerPolicy:
+  strategies:
+    RemovePodsHavingTooManyRestarts:
+      params:
+        podsHavingTooManyRestarts:
+          podRestartThreshold: 10
+    RemovePodsViolatingTopologySpreadConstraint:
+      enabled: true
+      params:
+        includeSoftConstraints: false

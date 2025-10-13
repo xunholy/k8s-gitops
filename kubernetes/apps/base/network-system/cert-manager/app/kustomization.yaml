@@ -6,6 +6,7 @@ namespace: network-system
 
 resources:
   - helmrelease.yaml
+  - ocirepository.yaml
   - secret.enc.yaml
 
 configMapGenerator:
