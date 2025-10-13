@@ -38,7 +38,7 @@ resources:
   # - ../../base/home-system/emqx/ks.yaml
   # - ../../base/home-system/home-assistant/ks.yaml
   - ../../base/home-system/jellyseerr/ks.yaml
-  - ../../base/home-system/mosquitto/ks.yaml
+  # - ../../base/home-system/mosquitto/ks.yaml
   - ../../base/home-system/prowlarr/ks.yaml
   - ../../base/home-system/qbittorrent/ks.yaml
   - ../../base/home-system/radarr/ks.yaml
@@ -46,7 +46,7 @@ resources:
   - ../../base/home-system/sabnzbd/ks.yaml
   - ../../base/home-system/sonarr/ks.yaml
   - ../../base/home-system/tautulli/ks.yaml
-  - ../../base/home-system/zigbee2mqtt/ks.yaml
+  # - ../../base/home-system/zigbee2mqtt/ks.yaml
   - ../../base/istio-ingress/istio-gateway/ks.yaml
   # - ../../base/istio-ingress/bedrock-broadcaster/ks.yaml
   # - ../../base/istio-system/flagger/ks.yaml
