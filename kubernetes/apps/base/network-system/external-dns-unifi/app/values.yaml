@@ -1,4 +1,4 @@
-fullnameOverride: *app
+fullnameOverride: external-dns-unifi
 provider:
   name: webhook
   webhook:
@@ -32,6 +32,6 @@ sources:
   - istio-virtualservice
 txtPrefix: k8s.
 domainFilters:
-  - raspbernetes.com
+  - ${CLUSTER_DOMAIN}
 serviceMonitor:
   enabled: true
