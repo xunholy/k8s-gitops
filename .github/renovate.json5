@@ -1,7 +1,9 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    "config:best-practices",
+    "config:recommended",
+    // TODO: Consider using best-practices once OCI sha256 digests are supported
+    // "config:best-practices",
     "docker:enableMajor",
     "security:openssf-scorecard",
     ":automergeBranch",
