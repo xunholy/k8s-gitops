@@ -36,7 +36,7 @@ k8sServicePort: 7445
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 # TEST: See if this fixes hubble issues
-egressMasqueradeInterfaces: "*"
+# egressMasqueradeInterfaces: "*"
 l2announcements:
   enabled: true
 loadBalancer:
