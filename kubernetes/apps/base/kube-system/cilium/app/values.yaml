@@ -15,7 +15,7 @@ cgroup:
   hostRoot: /sys/fs/cgroup
 cluster:
   id: 1
-  name: talos-default
+  name: cluster-00
 cni:
   chainingMode: none
   exclusive: false
@@ -25,6 +25,8 @@ envoy:
   enabled: false
 hubble:
   enabled: true
+  relay:
+    enabled: true
 ipam:
   mode: kubernetes
 ipv4NativeRoutingCIDR: 10.244.0.0/16
@@ -41,13 +43,16 @@ localRedirectPolicy: true
 operator:
   dashboards:
     enabled: true
+    annotations:
+      grafana_folder: kube-system
   prometheus:
     enabled: true
     serviceMonitor:
       enabled: true
   replicas: 2
   rollOutPods: true
-priorityClassName: system-node-critical
+pmtuDiscovery:
+  enabled: true
 prometheus:
   enabled: true
   serviceMonitor:
@@ -55,6 +60,8 @@ prometheus:
     trustCRDsExist: true
 dashboards:
   enabled: true
+  annotations:
+    grafana_folder: kube-system
 rollOutCiliumPods: true
 routingMode: native
 securityContext:

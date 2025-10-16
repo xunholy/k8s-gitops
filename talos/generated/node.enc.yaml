@@ -67,13 +67,8 @@ cluster:
                 disabled: true
             service: {}
 sops:
-    kms: []
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
-    age: []
-    lastmodified: "2025-10-11T04:05:37Z"
-    mac: ENC[AES256_GCM,data:FhFIULNBGTuegRlfNSHRPh4n6vnFPqL7bnBUW29qh+oiuS/5rcC2gMURo45s0su8CfqLvicNPR9n3lWmtjFdLprnX6WgjvAAM4EqqKPxTT3oCAY3G6E3HlkRlVYB1KtbPQpIF8VG4tLLnfRORx08DVaEVfQYe69IWL4LnBYSfko=,iv:LF2b03OhjXPeangku2mZ9HCY3lD2D10sNVc2vOiYNK0=,tag:+FVV/A5RX9wbygGv/pMBrQ==,type:str]
+    lastmodified: "2025-10-16T08:41:46Z"
+    mac: ENC[AES256_GCM,data:6OrT86Cx3cBaBjpLn5QYBuGf3t7OoFcAJj/EPzFr/WlEFRxkBhALN/e+ixobUyCOHoKNpZoLWMF79W0aFc4D/RZXUcn0diww8ouOZRSQZ79rX7ZzQQBKqtEyr/cttSPRgR9I9ehNHz5MrNZmDOTlFE+mhQAAeaKMa1J8RQ3AIcg=,iv:3TQG86iGSQR02nhFoy2HPessehQAe0wUgl0XtKeCP6A=,tag:GNeN2t55idsAXKE2m6T1+g==,type:str]
     pgp:
         - created_at: "2023-03-02T05:48:23Z"
           enc: |
@@ -96,4 +91,4 @@ sops:
             -----END PGP MESSAGE-----
           fp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
     encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
-    version: 3.9.1
+    version: 3.11.0

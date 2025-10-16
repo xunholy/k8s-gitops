@@ -17,13 +17,9 @@ machine:
         - talos.api.raspbernetes.com
         - 192.168.50.200
     kubelet:
-        image: ghcr.io/siderolabs/kubelet:v1.34.0
+        image: ghcr.io/siderolabs/kubelet:v1.34.1
         defaultRuntimeSeccompProfileEnabled: true
         disableManifestsDirectory: true
-        extraConfig:
-            featureGates:
-                ImageVolume: true
-                ResourceHealthStatus: true
     network:
         interfaces:
             - deviceSelector:
@@ -105,15 +101,13 @@ cluster:
     # API server specific configuration options.
     apiServer:
         # The container image used in the API server manifest.
-        image: registry.k8s.io/kube-apiserver:v1.34.0
+        image: registry.k8s.io/kube-apiserver:v1.34.1
         # Extra certificate subject alternative names for the API server's certificate.
         certSANs:
             - api.raspbernetes.com
             - talos.api.raspbernetes.com
             - 192.168.50.200
         extraArgs:
-            enable-aggregator-routing: "true"
-            feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true,ResourceHealthStatus=true
             oidc-client-id: dex-k8s-authenticator
             oidc-issuer-url: https://dex.raspbernetes.com
             oidc-username-claim: email
@@ -145,12 +139,12 @@ cluster:
     controllerManager:
         extraArgs:
             bind-address: 0.0.0.0
-        image: registry.k8s.io/kube-controller-manager:v1.34.0
+        image: registry.k8s.io/kube-controller-manager:v1.34.1
     proxy:
-        image: registry.k8s.io/kube-proxy:v1.34.0
+        image: registry.k8s.io/kube-proxy:v1.34.1
         disabled: true
     scheduler:
-        image: registry.k8s.io/kube-scheduler:v1.34.0
+        image: registry.k8s.io/kube-scheduler:v1.34.1
     discovery:
         enabled: true
         registries:
@@ -158,7 +152,6 @@ cluster:
                 disabled: true
             service: {}
     etcd:
-        # The `ca` is the root certificate authority of the PKI.
         ca:
             crt: ENC[AES256_GCM,data:KK0TKqU5YE0GdQgHxkoApjOegd6qxRo3QwqOWIU+LBTAcxKfbE3uzl87O7p6Hu5caERvXosMLXEihLAen++Fsu7ALFkbRTArWPa+sx/wpFbQQPlMY9f2nQgnDuw3mRaJ3eSsXH8X0bh769jE88nLTqbEq1GJuq6N3RHIWZ5Icd4KfvNu+Ndpw5IfB2y/qA7jf7TbSgOw0m1CkgCH98D9Rcoc/P+K1qYqeQKd9XSEN+D3kBIA1IdKe3TaYpFyEocEQc8W2a8K0nvn6BGf4/KnlayDM4MeYQDVTXsBiwp6JRJt1aauMP1692uGiTRQDsAgU+IlUV02Bv4rqvT2C+5jgncch0aRcZmm2t+GoI1bkxjumo1TslKX2Ukxi7Vs0eSfCQtcPh7D6wQabxEgWe9krrABEfuNp5OH9JZN51nYeKzrLSYsBl0iMA7/XL9n2OdDDTMxHgwEaUVXpz/b+HzGoz4u46HYcVOAIlbPzunZEjua7mMDKbf9ktZjmcqm8FRkdErTN1Tp5x67I4YPCSp8NUICA04uCC54KCBTWSXp43h+PG24/u/Sf0nyH71WyhWMGmLquMmrwh06Pi8MR0/XEfqGLh6jt3YVYoteqN+4kW+gI7aykYFFrgssLyZlvrO+u+14q8OeAttwkIXYWzZiP/2Zoy9qijXfhla6CdHDZ9p2p8seQxgW5l0UhNPJz/AgJ8CJjA/Qq0tEjF+W6gJouxyiOvR/8xx5M7G8x51BoNPu5qRx8mVy9AWpIOgCzLzLITy5EYn5meDRl/IgvJpGwSgqRfHZF80BL5MMLPplz70hI01t/tcPOt9fYGLCDuiZkRUid7iAlvc3fmeOW0Q+tq/tKKSre5KojTAPRa3Wn4BnJjO7/BjEqN55ZOCrYd9ecmF57S4+K5wPtDXLDU31sv/j231BvtwEOsOlVIs3nEEc+JOUrTpEwl+bfM0gIL176xJko6U2iiW/tXfeXt6kt7Q2eQs5o8eVb02sRD4PRN0IeWEZQaOEMMSVVWp7adVl,iv:CtM7MRx0qHMzak4mrwlAFFM3G2p+PviWUPoy2En9Yd8=,tag:F4g+Jn4FBbpsobhQ89iL4g==,type:str]
             key: ENC[AES256_GCM,data:5iyHWSS8lg7HqCarJ6dZZfOZAEZyQ7a2aMqnRRdlVJabvDoSd6erPT4PGandD/+EpWc67v6M5+D08LHKDOfEcSOSgTp5U8Ix1E/KtfeWOA9rG/6OobnISec/WNFLi+fTA/yIz8FMZtvv1MaAsRvogvbnsMQ8gKQG4gkqhvnWhojHuxKLrTjvdXOZfSeo5tYOAjP5PeuOqXKX3lys0AWr9RYmJqdaLGk3+M4xzuAGzt+M/MpqjmVIlRBMLMlvXWZI8s5YaN8t68qP8yrli41nSiLWDn8KhmVzUuzGtI+OVMEt1SfAaCnR9pIsg7wnWOBpWkQr3EPhq7iqlhxmEuy97jKyPPSWW+x9/XKS+wRClBT7S4qVHKU9cCS0mnEopvvJCL5VhqLRZp+irVV7YVHhag==,iv:NWM3bNfGtDvsU9plkDoaNmR4JlxjjyNv3axG8f57WhE=,tag:9Jnmak+Wm25NjIFvfkgKTg==,type:str]
@@ -171,15 +164,10 @@ cluster:
         # renovate: datasource=github-releases depName=k8snetworkplumbingwg/network-attachment-definition-client
         - https://github.com/k8snetworkplumbingwg/network-attachment-definition-client/raw/refs/tags/v1.7.7/artifacts/networks-crd.yaml
     inlineManifests: []
-    allowSchedulingOnControlPlanes: false
+    allowSchedulingOnControlPlanes: true
 sops:
-    kms: []
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
-    age: []
-    lastmodified: "2025-10-11T04:05:16Z"
-    mac: ENC[AES256_GCM,data:9eHNFz5h58LysJA634TsrdisfzKRdpidb5r8LqI47UOQ1TpEpOepNzHhI6U0lohC1Mch3Cc71CYeGL8GPZ/jTN1xlqjJX/bU2Zod7gkqCUCiL1qEADB4PZFO4Zl+EW/gMGafBP56Q1LfiCNOrdCQUtO2Ln4RgUcc6jeF/9tjpVM=,iv:Jyd/ZEF95iMHrGMtK3RM6JIvSBE92pk8xCGUTfYcbcA=,tag:xXcJ+IIwn9nWP/ojPQHkfg==,type:str]
+    lastmodified: "2025-10-16T08:41:16Z"
+    mac: ENC[AES256_GCM,data:k0GEoLpPSo4WkCj9416aBoawYpSUuR6W77TiLyr3Z9RIj8+pPI+lSXjwjegDrBTEhB+XWBg0Vi+3SBXxDfDh1nGPScFDh6VhbFAc7K8EsfzbdfcFD8CHEVfHluSj5ojOMKdOEwctgLd/WSLNZ7RgzWBqsaFuQh4GSz5vSjhfVds=,iv:ruoUhxME8whqje0XQdJUxILlhNhi88/B9W8BVw+CjIQ=,tag:pH7/gu663TnklKJ80p9JZA==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |
@@ -202,4 +190,4 @@ sops:
             -----END PGP MESSAGE-----
           fp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
     encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
-    version: 3.10.2
+    version: 3.11.0
