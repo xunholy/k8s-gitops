@@ -46,7 +46,7 @@ spec:
     # Enable Gateway API here as the CRDs may not be deployed at the time the CNI is installed via Talos.
     gatewayAPI:
       # TODO: Manually installed https://gateway-api.sigs.k8s.io/guides/#installing-gateway-api
-      enabled: false
+      enabled: true
     ingressController:
       service:
         annotations:

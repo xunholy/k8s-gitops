@@ -13,12 +13,13 @@ cgroup:
   autoMount:
     enabled: false
   hostRoot: /sys/fs/cgroup
-cluster:
-  id: 1
-  name: cluster-00
 cni:
   chainingMode: none
   exclusive: false
+dashboards:
+  enabled: true
+  annotations:
+    grafana_folder: kube-system
 endpointRoutes:
   enabled: true
 envoy:
@@ -34,6 +35,8 @@ k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+# TEST: See if this fixes hubble issues
+egressMasqueradeInterfaces: "*"
 l2announcements:
   enabled: true
 loadBalancer:
@@ -58,10 +61,6 @@ prometheus:
   serviceMonitor:
     enabled: true
     trustCRDsExist: true
-dashboards:
-  enabled: true
-  annotations:
-    grafana_folder: kube-system
 rollOutCiliumPods: true
 routingMode: native
 securityContext:
