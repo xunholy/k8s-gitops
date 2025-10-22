@@ -197,7 +197,7 @@ spec:
         istio-control-plane:
           # renovate: depName="Istio Control Plane Dashboard"
           gnetId: 7645
-          revision: 273
+          revision: 274
           datasource: Prometheus
         istio-wasm:
           # renovate: depName="Istio Wasm Extension Dashboard"
