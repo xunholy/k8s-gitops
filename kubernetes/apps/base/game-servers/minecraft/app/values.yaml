@@ -26,7 +26,7 @@ minecraftServer:
     downloadDependencies: required
     allowedVersionType: beta
   resourcePackUrl: https://download.geysermc.org/v2/projects/geyseroptionalpack/versions/latest/builds/latest/downloads/geyseroptionalpack
-  maxPlayers: 4
+  maxPlayers: 10
   maxTickTime: -1
   gameMode: survival
   hardcore: false
@@ -37,7 +37,7 @@ minecraftServer:
     enabled: true
   motd: "Welcome to Minecraft on Kubernetes!"
   playerIdleTimeout: 10
-  memory: 3072M
+  memory: 8192M
   cheats: true
   enableLanVisibility: true
   defaultPermission: operator
@@ -76,9 +76,8 @@ affinity:
 
 resources:
   requests:
-    memory: 3Gi
-    cpu: 1
-    ephemeral-storage: "1Gi"
+    memory: 8Gi
+    cpu: 4
 
 persistence:
   dataDir:
