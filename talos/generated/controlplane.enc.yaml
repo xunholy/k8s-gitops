@@ -29,7 +29,9 @@ machine:
               vip:
                 ip: 192.168.50.200
     install:
-        disk: /dev/sdb
+        diskSelector:
+            size: '>= 1TB'
+            model: CT1000BX500SSD1
         image: factory.talos.dev/installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.11.1
         wipe: true
     registries: {}
@@ -166,8 +168,8 @@ cluster:
     inlineManifests: []
     allowSchedulingOnControlPlanes: true
 sops:
-    lastmodified: "2025-10-16T08:41:16Z"
-    mac: ENC[AES256_GCM,data:k0GEoLpPSo4WkCj9416aBoawYpSUuR6W77TiLyr3Z9RIj8+pPI+lSXjwjegDrBTEhB+XWBg0Vi+3SBXxDfDh1nGPScFDh6VhbFAc7K8EsfzbdfcFD8CHEVfHluSj5ojOMKdOEwctgLd/WSLNZ7RgzWBqsaFuQh4GSz5vSjhfVds=,iv:ruoUhxME8whqje0XQdJUxILlhNhi88/B9W8BVw+CjIQ=,tag:pH7/gu663TnklKJ80p9JZA==,type:str]
+    lastmodified: "2025-10-22T08:45:28Z"
+    mac: ENC[AES256_GCM,data:gLEzCt158AG78TW4wIOTrR+E6VzEIKXCHp7UYYPgqqKlV/810u5J/Cu/xnYGVM+QqWKzJ2J9exqSTkOZ6kc8OCF15Yd+s4PHhD2NujFUwZsRi8fJXENbizsUVXjepqBZ3GIQHqmlZMty82Vs2pFwSjJEX14g2EUebff1JRaxBTM=,iv:DULdKkMWFkxwrbV76iyNAoYO1aN7qfI7HGKLNLH2uQo=,tag:0h8FGluu6AZyFLGZ2JXw3w==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |
