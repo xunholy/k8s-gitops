@@ -56,6 +56,8 @@ machine:
             forwardKubeDNSToHost: false
             resolveMemberNames: true
     files:
+        # REQUIRED: The following documentation explains why these are needed.
+        # https://spegel.dev/docs/getting-started/#talos
         - op: create
           path: /etc/cri/conf.d/20-customization.part
           content: |
@@ -168,8 +170,8 @@ cluster:
     inlineManifests: []
     allowSchedulingOnControlPlanes: true
 sops:
-    lastmodified: "2025-10-22T08:45:28Z"
-    mac: ENC[AES256_GCM,data:gLEzCt158AG78TW4wIOTrR+E6VzEIKXCHp7UYYPgqqKlV/810u5J/Cu/xnYGVM+QqWKzJ2J9exqSTkOZ6kc8OCF15Yd+s4PHhD2NujFUwZsRi8fJXENbizsUVXjepqBZ3GIQHqmlZMty82Vs2pFwSjJEX14g2EUebff1JRaxBTM=,iv:DULdKkMWFkxwrbV76iyNAoYO1aN7qfI7HGKLNLH2uQo=,tag:0h8FGluu6AZyFLGZ2JXw3w==,type:str]
+    lastmodified: "2025-10-22T23:13:58Z"
+    mac: ENC[AES256_GCM,data:0I2mLDTX8ks4v/DY/oQwKSnr7/EYhQ59mMAq1uhQSzI0IXqirjQa/AskimeWIWh+6qCstD1B9NL9nNGeTry9uqdkmT/gqHXWR1a2mJd+Mmo7TxgFuzbjR34jrWjf1ZR4B/1ICRnjjaRGTWgHD8j2mPKPtS49Wbp9MtgoAj3QsXE=,iv:X2CThFI14H46+WrPFgC0CGYXkkJyx6I3yyPEDMsbhtg=,tag:Xq1N0SUSQKZtW5aKOOD9Vw==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |

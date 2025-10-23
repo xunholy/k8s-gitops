@@ -1,8 +1,5 @@
 grafanaDashboard:
   enabled: true
-service:
-  registry:
-    hostPort: 29999
 serviceMonitor:
   enabled: true
 spegel:

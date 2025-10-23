@@ -36,9 +36,9 @@ resources:
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/cross-seed/ks.yaml
   # - ../../base/home-system/emqx/ks.yaml
-  # - ../../base/home-system/home-assistant/ks.yaml
+  - ../../base/home-system/home-assistant/ks.yaml
   - ../../base/home-system/jellyseerr/ks.yaml
-  # - ../../base/home-system/mosquitto/ks.yaml
+  - ../../base/home-system/mosquitto/ks.yaml
   - ../../base/home-system/prowlarr/ks.yaml
   - ../../base/home-system/qbittorrent/ks.yaml
   - ../../base/home-system/radarr/ks.yaml
@@ -53,14 +53,14 @@ resources:
   - ../../base/istio-system/istio-base/ks.yaml
   - ../../base/istio-system/istio-cni/ks.yaml
   - ../../base/istio-system/istiod/ks.yaml
-  # - ../../base/kube-guardian/kube-guardian/ks.yaml
+  - ../../base/kube-guardian/kube-guardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml
-  # - ../../base/kube-system/descheduler/ks.yaml
-  # - ../../base/kube-system/kubelet-csr-approver/ks.yaml
+  - ../../base/kube-system/descheduler/ks.yaml
+  - ../../base/kube-system/kubelet-csr-approver/ks.yaml
   - ../../base/kube-system/metrics-server/ks.yaml
   - ../../base/kube-system/reflector/ks.yaml
   - ../../base/kube-system/snapshot-controller/ks.yaml
-  # - ../../base/kube-system/spegel/ks.yaml
+  - ../../base/kube-system/spegel/ks.yaml
   # - ../../base/kube-system/tetragon/ks.yaml
   - ../../base/network-system/cert-manager/ks.yaml
   - ../../base/network-system/cloudflare-ddns/ks.yaml
