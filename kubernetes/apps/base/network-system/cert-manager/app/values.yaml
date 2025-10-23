@@ -6,7 +6,7 @@ crds:
 #     host: cert-manager-webhook.network-system.svc
 global:
   # Set the verbosity of cert-manager. Range of 0 - 6 with 6 being the most verbose.
-  logLevel: 6
+  logLevel: 2
   leaderElection:
     # Override the namespace used to store the ConfigMap for leader election
     namespace: 'network-system'
@@ -23,3 +23,5 @@ extraArgs:
 prometheus:
   servicemonitor:
     enabled: true
+podDisruptionBudget:
+  enabled: true
