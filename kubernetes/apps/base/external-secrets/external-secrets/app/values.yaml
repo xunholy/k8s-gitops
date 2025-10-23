@@ -1,0 +1,12 @@
+leaderElect: true
+serviceMonitor:
+  enabled: true
+grafanaDashboard:
+  enabled: true
+certController:
+  serviceMonitor:
+    enabled: true
+webhook:
+  replicaCount: 2
+  serviceMonitor:
+    enabled: true

@@ -9,6 +9,7 @@ resources:
   - ../../base/crossplane-system
   - ../../base/democratic-csi
   - ../../base/development
+  - ../../base/external-secrets
   - ../../base/game-servers
   - ../../base/home-system
   - ../../base/istio-ingress
@@ -25,6 +26,7 @@ resources:
   # - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
+  - ../../base/external-secrets/external-secrets/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
   # - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/game-servers/minecraft/ks.yaml
