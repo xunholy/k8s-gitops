@@ -28,8 +28,16 @@ hubble:
   enabled: true
   ui:
     enabled: true
+    PodDisruptionBudget:
+      enabled: true
+      minAvailable: 1
+      unhealthyPodEvictionPolicy: AlwaysAllow
   relay:
     enabled: true
+    PodDisruptionBudget:
+      enabled: true
+      minAvailable: 1
+      unhealthyPodEvictionPolicy: AlwaysAllow
 ipam:
   mode: kubernetes
 ipv4NativeRoutingCIDR: 10.244.0.0/16
@@ -48,6 +56,10 @@ localRedirectPolicy: true
 nodePort:
   enabled: true
 operator:
+  PodDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+    unhealthyPodEvictionPolicy: AlwaysAllow
   dashboards:
     enabled: true
     annotations:
