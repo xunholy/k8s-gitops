@@ -38,7 +38,7 @@ spec:
   maxHistory: 3
   values:
     controllers:
-      cloudflared:
+      *app :
         replicas: 1
         strategy: RollingUpdate
         containers:
