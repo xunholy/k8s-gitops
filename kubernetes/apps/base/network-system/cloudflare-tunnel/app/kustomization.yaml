@@ -7,10 +7,11 @@ namespace: network-system
 resources:
   - dnsendpoint.yaml
   - helmrelease.yaml
+  - ocirepository.yaml
   - secret.enc.yaml
 
 configMapGenerator:
-  - name: cloudflared
+  - name: cloudflare-tunnel
     files:
       - ./configs/config.yaml
 

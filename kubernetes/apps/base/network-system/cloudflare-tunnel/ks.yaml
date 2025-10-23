@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cloudflared
+  name: cloudflare-tunnel
   namespace: network-system
   labels:
     substitution.flux/enabled: true
@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
-  path: "./apps/base/network-system/cloudflared/app"
+  path: "./apps/base/network-system/cloudflare-tunnel/app"
   prune: true
   wait: true
   sourceRef:
