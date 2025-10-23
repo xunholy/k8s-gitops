@@ -32,7 +32,7 @@ machine:
         diskSelector:
             size: '>= 1TB'
             model: CT1000BX500SSD1
-        image: factory.talos.dev/installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.11.1
+        image: factory.talos.dev/installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.11.3
         wipe: true
     registries: {}
     features:
@@ -170,8 +170,8 @@ cluster:
     inlineManifests: []
     allowSchedulingOnControlPlanes: true
 sops:
-    lastmodified: "2025-10-22T23:13:58Z"
-    mac: ENC[AES256_GCM,data:0I2mLDTX8ks4v/DY/oQwKSnr7/EYhQ59mMAq1uhQSzI0IXqirjQa/AskimeWIWh+6qCstD1B9NL9nNGeTry9uqdkmT/gqHXWR1a2mJd+Mmo7TxgFuzbjR34jrWjf1ZR4B/1ICRnjjaRGTWgHD8j2mPKPtS49Wbp9MtgoAj3QsXE=,iv:X2CThFI14H46+WrPFgC0CGYXkkJyx6I3yyPEDMsbhtg=,tag:Xq1N0SUSQKZtW5aKOOD9Vw==,type:str]
+    lastmodified: "2025-10-23T02:41:56Z"
+    mac: ENC[AES256_GCM,data:NFRR8ZfeZfYocV4eiZxcQmysXpBMbQdYU/iDLx822ykcli0yhl8ctjTnwROpbj0kBZha0xoIbixmL0u2P6VjmTrUuk9KoH9B+bYLaMzN1nZvmwq0qxggIU0JMp6iT0E6Da0JV9OHrEWk9h7wz6QHNBIVNLcnfZBlj+g7+IWmTRs=,iv:J0wd6RhM80WOSVpWL6t5d7eNY7lG7TyfLysA9/XBAgc=,tag:cjNIM9QTZfNu5H7/qCoZ5g==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |

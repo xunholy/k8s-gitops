@@ -26,6 +26,8 @@ envoy:
   enabled: false
 hubble:
   enabled: true
+  ui:
+    enabled: true
   relay:
     enabled: true
 ipam:
