@@ -43,7 +43,10 @@ spec:
     mode: warn
   maxHistory: 3
   values:
-    replicaCount: 1
+    podDisruptionBudget:
+      minAvailable: 1
+      unhealthyPodEvictionPolicy: AlwaysAllow
+    priorityClassName: "platform-cluster-critical"
     service:
       annotations:
         io.cilium/lb-ipam-ips: ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}

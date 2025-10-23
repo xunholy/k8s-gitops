@@ -5,5 +5,5 @@ kind: Kustomization
 namespace: istio-system
 
 resources:
-  - ../addons/monitoring
   - helmrelease.yaml
+  - podmonitor.yaml
