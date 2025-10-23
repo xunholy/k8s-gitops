@@ -45,6 +45,8 @@ loadBalancer:
   algorithm: maglev
   mode: hybrid
 localRedirectPolicy: true
+nodePort:
+  enabled: true
 operator:
   dashboards:
     enabled: true
