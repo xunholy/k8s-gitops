@@ -40,4 +40,4 @@ spec:
     - kind: ConfigMap
       name: kagent-values
     - kind: Secret
-      name: kagent-values
+      name: kagent-values-secret
