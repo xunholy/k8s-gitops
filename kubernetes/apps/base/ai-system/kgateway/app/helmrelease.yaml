@@ -39,5 +39,3 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: kgateway-values
-    - kind: Secret
-      name: kgateway-values-secret
