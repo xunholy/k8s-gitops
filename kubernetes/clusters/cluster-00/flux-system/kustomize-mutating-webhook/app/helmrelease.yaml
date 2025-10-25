@@ -9,7 +9,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      version: 0.6.0
+      version: 0.7.0
       chart: kustomize-mutating-webhook
       sourceRef:
         kind: HelmRepository
