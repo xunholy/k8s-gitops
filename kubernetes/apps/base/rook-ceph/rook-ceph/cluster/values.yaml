@@ -1,0 +1,128 @@
+monitoring:
+  enabled: true
+  createPrometheusRules: true
+toolbox:
+  enabled: true
+cephClusterSpec:
+  cephConfig:
+    global:
+      bdev_enable_discard: "true" # quote
+      bdev_async_discard_threads: "1" # quote
+      osd_class_update_on_start: "false" # quote
+      device_failure_prediction_mode: local # requires mgr module
+  cleanupPolicy:
+    wipeDevicesFromOtherClusters: true
+  crashCollector:
+    disable: false
+  csi:
+    readAffinity:
+      enabled: true
+  dashboard:
+    enabled: true
+    urlPrefix: /
+    ssl: false
+    prometheusEndpoint: http://prometheus-operated.observability.svc.cluster.local:9090
+  mgr:
+    modules:
+      - name: diskprediction_local
+        enabled: true
+      - name: insights
+        enabled: true
+      - name: pg_autoscaler
+        enabled: true
+      - name: rook
+        enabled: true
+  network:
+    provider: host
+    connections:
+      requireMsgr2: true
+  storage:
+    useAllNodes: true
+    useAllDevices: false
+    devicePathFilter: /dev/disk/by-id/nvme-Micron_7450_MTFDKBA960TFR_.*
+    config:
+      osdsPerDevice: "1"
+cephBlockPools:
+  - name: ceph-blockpool
+    spec:
+      failureDomain: host
+      replicated:
+        size: 3
+    storageClass:
+      enabled: true
+      name: ceph-block
+      isDefault: true
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      volumeBindingMode: Immediate
+      mountOptions:
+        - discard
+      parameters:
+        compression_mode: aggressive
+        compression_algorithm: zstd
+        imageFormat: "2"
+        imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
+        csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
+        csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
+        csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+        csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
+        csi.storage.k8s.io/fstype: ext4
+cephBlockPoolsVolumeSnapshotClass:
+  enabled: true
+  name: csi-ceph-blockpool
+  isDefault: false
+  deletionPolicy: Delete
+cephFileSystems:
+  - name: &cephFileSystemName ceph-filesystem
+    spec:
+      metadataPool:
+        replicated:
+          size: 3
+      dataPools:
+        - failureDomain: host
+          replicated:
+            size: 3
+          name: data0
+      metadataServer:
+        activeCount: 1
+        activeStandby: true
+        priorityClassName: platform-cluster-critical
+        placement:
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: ceph-mds
+                  app.kubernetes.io/part-of: *cephFileSystemName
+        resources:
+          requests:
+            cpu: 100m
+            memory: 1Gi
+          limits:
+            memory: 4Gi
+    storageClass:
+      enabled: true
+      isDefault: false
+      name: ceph-filesystem
+      pool: data0
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      volumeBindingMode: Immediate
+      parameters:
+        csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+        csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
+        csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+        csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
+        csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+        csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
+        csi.storage.k8s.io/fstype: ext4
+cephFileSystemVolumeSnapshotClass:
+  enabled: true
+  name: csi-ceph-filesystem
+  isDefault: false
+  deletionPolicy: Delete
+cephObjectStores: []
