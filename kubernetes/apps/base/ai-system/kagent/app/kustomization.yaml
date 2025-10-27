@@ -6,13 +6,18 @@ namespace: ai-system
 
 resources:
   - helmrelease.yaml
-  - secret.enc.yaml
   - ocirepository.yaml
 
 configMapGenerator:
   - name: kagent-values
     files:
       - values.yaml=./values.yaml
+
+secretGenerator:
+  - name: kagent-values-secret
+    namespace: game-servers
+    files:
+      - values.yaml=values.enc.yaml
 
 configurations:
   - kustomizeconfig.yaml
