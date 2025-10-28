@@ -6,7 +6,6 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - ocirepository.yaml
-  - pdb.yaml
 
 configMapGenerator:
   - name: rook-ceph-cluster-values
