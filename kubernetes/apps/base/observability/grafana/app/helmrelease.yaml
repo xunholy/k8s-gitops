@@ -192,7 +192,7 @@ spec:
         istio-performence:
           # renovate: depName="Istio Performance Dashboard"
           gnetId: 11829
-          revision: 275
+          revision: 276
           datasource: Prometheus
         istio-control-plane:
           # renovate: depName="Istio Control Plane Dashboard"
