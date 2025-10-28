@@ -20,6 +20,7 @@ resources:
   - ../../base/network-system
   - ../../base/nginx-ingress
   - ../../base/observability
+  - ../../base/rook-ceph
   - ../../base/security-system
   # - ../../base/apps-preview/ks.yaml
   # - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
@@ -88,5 +89,6 @@ resources:
   # - ../../base/observability/otel/ks.yaml
   # - ../../base/observability/thanos/ks.yaml
   # - ../../base/observability/vpa/ks.yaml
+  - ../../base/rook-ceph/rook-ceph/ks.yaml
   # - ../../base/security-system/kyverno/ks.yaml
   # - ../../base/security-system/gatekeeper/ks.yaml
