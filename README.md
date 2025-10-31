@@ -52,13 +52,16 @@ This repository leverages a range of cutting-edge open-source tools and platform
 
 ## 🔧 Hardware
 
-| Device                                                                                 | Description              | Quantity | CPU     | RAM      | Architecture | Operating System                      | Notes |
-| -------------------------------------------------------------------------------------- | ------------------------ | -------- | ------- | -------- | ------------ | ------------------------------------- | ----- |
-| [Protectli FW6E](https://protectli.com/product/fw6e/)                                  | Router                   | 1        | 4 Cores | 16GB RAM | AMD64        | [VyOs](https://vyos.io/)              |       |
-| [Protectli VP2410](https://protectli.com/product/vp2410/)                             | Kubernetes Control Plane | 3        | 4 Cores | 8GB RAM  | AMD64        | [Talos Linux](https://www.talos.dev/) |       |
-| [Protectli FW2B](https://protectli.com/product/fw2b/)                                  | Kubernetes Node(s)       | 3        | 2 Cores | 8GB RAM  | AMD64        | [Talos Linux](https://www.talos.dev/) |       |
-| [Raspberry Pi 4 Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) | Kubernetes Node(s)       | 4        | 4 Cores | 8GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) | Decommisioned      |
-| [Rock Pi 4 Model C](https://rockpi.org/rockpi4#)                                       | Kubernetes Node(s)       | 6        | 4 Cores | 4GB RAM  | ARM64        | [Talos Linux](https://www.talos.dev/) |  Decommisioned   |
+| Device                                                                                 | Description        | Quantity | CPU      | RAM   | Storage                     | Architecture | Operating System                      | Notes          |
+| -------------------------------------------------------------------------------------- | ------------------ | -------- | -------- | ----- | --------------------------- | ------------ | ------------------------------------- | -------------- |
+| [Ubiquiti UDM-Pro-Max](https://ui.com/us/en/cloud-gateways/dream-machine-pro-max)     | Router/Gateway     | 1        | -  | -   | 8TB                           | -        | UniFi OS                              |                |
+| [Ubiquiti USW-Pro-Max-48-PoE](https://ui.com/switching/pro-max-48-poe)                | Network Switch     | 1        | -        | -     | -                           | -            | UniFi OS                              | 48-port PoE    |
+| [Asus NUC 14 Pro](https://www.asus.com/displays-desktops/nucs/nuc-mini-pcs/asus-nuc-14-pro/) | Kubernetes Cluster | 3        | 14 Cores | 48GN   | 1TB NVMe + 1TB SSD          | AMD64        | [Talos Linux](https://www.talos.dev/) | Ultra 5-125H   |
+| [Protectli FW6E](https://protectli.com/product/fw6e/)                                  | Router             | 1        | 4 Cores  | 16GB  | -                           | AMD64        | [VyOs](https://vyos.io/)              | Decommissioned |
+| [Protectli VP2410](https://protectli.com/product/vp2410/)                             | Kubernetes Node(s) | 3        | 4 Cores  | 8GB   | -                           | AMD64        | [Talos Linux](https://www.talos.dev/) | Decommissioned |
+| [Protectli FW2B](https://protectli.com/product/fw2b/)                                  | Kubernetes Node(s) | 3        | 2 Cores  | 8GB   | -                           | AMD64        | [Talos Linux](https://www.talos.dev/) | Decommissioned |
+| [Raspberry Pi 4 Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) | Kubernetes Node(s) | 4        | 4 Cores  | 8GB   | -                           | ARM64        | [Talos Linux](https://www.talos.dev/) | Decommissioned |
+| [Rock Pi 4 Model C](https://rockpi.org/rockpi4#)                                       | Kubernetes Node(s) | 6        | 4 Cores  | 4GB   | -                           | ARM64        | [Talos Linux](https://www.talos.dev/) | Decommissioned |
 
 ## ☁️ Cloud Services
 
