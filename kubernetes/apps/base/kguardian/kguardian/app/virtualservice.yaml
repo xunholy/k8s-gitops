@@ -17,6 +17,6 @@ spec:
     - route:
         - destination:
             port:
-              number: 80
-            host: ui.kguardian.svc.cluster.local
+              number: 5173
+            host: kguardian-frontend.kguardian.svc.cluster.local
           weight: 100
