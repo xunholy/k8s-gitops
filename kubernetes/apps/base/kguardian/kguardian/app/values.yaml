@@ -1,6 +1,6 @@
 ---
-ui:
+frontend:
   securityContext:
     readOnlyRootFilesystem: false
   image:
-    tag: "v1.2.2"
+    tag: "v1.2.5"
