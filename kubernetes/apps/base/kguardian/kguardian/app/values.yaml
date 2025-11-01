@@ -3,4 +3,4 @@ ui:
   securityContext:
     readOnlyRootFilesystem: false
   image:
-    tag: "v1.2.1"
+    tag: "v1.2.2"
