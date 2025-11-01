@@ -2,11 +2,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 resources:
-  - ../../github
-  - authorization-policy.yaml
-  - certificates.yaml
-  - gateway-api.yaml
-  - helmrelease.yaml
-  - secret.enc.yaml
+  - ./externalsecret.yaml
+  - ./kopiamaintenance.yaml
+  - ./mutatingadmissionpolicy.yaml

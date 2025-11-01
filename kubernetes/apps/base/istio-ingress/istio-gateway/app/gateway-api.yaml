@@ -1,0 +1,34 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/gateway.networking.k8s.io/gateway_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: istio-gateway
+  namespace: istio-ingress
+  annotations:
+    networking.istio.io/service-type: LoadBalancer
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "*.${CLUSTER_DOMAIN}"
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.${CLUSTER_DOMAIN}"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: raspbernetes-com-le
+            kind: Secret
+        options:
+          gateway.istio.io/tls-min-protocol-version: "1.2"
+          gateway.istio.io/tls-max-protocol-version: "1.3"

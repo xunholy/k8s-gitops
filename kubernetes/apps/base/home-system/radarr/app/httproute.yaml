@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: radarr
+  namespace: home-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
+    external-dns.alpha.kubernetes.io/external: 'false'
+spec:
+  parentRefs:
+    - name: istio-gateway
+      namespace: istio-ingress
+  hostnames:
+    - 'radarr.${CLUSTER_DOMAIN}'
+  rules:
+    - backendRefs:
+        - name: radarr
+          namespace: home-system
+          port: 80
