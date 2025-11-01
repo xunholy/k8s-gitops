@@ -3,8 +3,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: kube-guardian
-  namespace: kube-guardian
+  name: kguardian
+  namespace: kguardian
 spec:
   interval: 5m
   layerSelector:
@@ -12,4 +12,4 @@ spec:
     operation: copy
   ref:
     tag: 0.0.33
-  url: oci://ghcr.io/aegion-dev/charts/kube-guardian
+  url: oci://ghcr.io/kguardian-dev/charts/kguardian:1.0.0

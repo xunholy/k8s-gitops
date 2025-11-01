@@ -3,13 +3,12 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app kube-guardian
-  namespace: kube-guardian
+  name: &app kguardian
 spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: kube-guardian
+    name: kguardian
   install:
     timeout: 10m
     replace: true
@@ -38,4 +37,4 @@ spec:
   maxHistory: 3
   valuesFrom:
     - kind: ConfigMap
-      name: kube-guardian-values
+      name: kguardian-values

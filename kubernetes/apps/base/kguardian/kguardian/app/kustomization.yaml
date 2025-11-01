@@ -8,14 +8,10 @@ resources:
   - ocirepository.yaml
 
 configMapGenerator:
-  - name: kube-guardian-values
-    namespace: kube-guardian
+  - name: kguardian-values
+    namespace: kguardian
     files:
       - values.yaml=./values.yaml
-
-generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
 
 configurations:
   - kustomizeconfig.yaml

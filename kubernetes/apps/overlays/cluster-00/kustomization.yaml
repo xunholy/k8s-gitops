@@ -15,7 +15,7 @@ resources:
   - ../../base/home-system
   - ../../base/istio-ingress
   - ../../base/istio-system
-  - ../../base/kube-guardian
+  - ../../base/kguardian
   - ../../base/kube-system
   - ../../base/network-system
   - ../../base/nginx-ingress
@@ -59,7 +59,7 @@ resources:
   - ../../base/istio-system/istio-base/ks.yaml
   - ../../base/istio-system/istio-cni/ks.yaml
   - ../../base/istio-system/istiod/ks.yaml
-  - ../../base/kube-guardian/kube-guardian/ks.yaml
+  - ../../base/kguardian/kguardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml
   - ../../base/kube-system/descheduler/ks.yaml
   - ../../base/kube-system/kubelet-csr-approver/ks.yaml
