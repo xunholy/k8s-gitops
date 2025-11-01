@@ -1,7 +1,11 @@
 ---
+controller:
+  image:
+    tag: "v1.1.1"
+
 frontend:
   # TODO: Determine if this is still required?
   securityContext:
     readOnlyRootFilesystem: false
   image:
-    tag: "v1.2.7"
+    tag: "v1.2.8"
