@@ -8,4 +8,4 @@ frontend:
   securityContext:
     readOnlyRootFilesystem: false
   image:
-    tag: "v1.2.10"
+    tag: "pr-417"
