@@ -8,4 +8,4 @@ frontend:
     readOnlyRootFilesystem: false
   image:
     tag: "pr-417"
-    sha: "sha256:9f6a77e87c20834f44597cab4dddb7fab87730af210f21f01adb9b28fd6d02db"
+    sha: "sha256:422555f6b6111b5c23137b329b24d2f721427ecd20ca615bc5097aeae9c0b099"
