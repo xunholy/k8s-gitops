@@ -4,6 +4,8 @@ controller:
     tag: "v1.2.0"
 
 frontend:
+  securityContext:
+    readOnlyRootFilesystem: false
   image:
     tag: "pr-417"
     sha: "sha256:9f6a77e87c20834f44597cab4dddb7fab87730af210f21f01adb9b28fd6d02db"
