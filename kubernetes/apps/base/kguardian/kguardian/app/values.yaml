@@ -11,6 +11,7 @@ frontend:
     sha: "sha256:83e6c742b5b2dd69dcf0b30561bb513908961fc880e5798cc73e9a3658c10e9e"
 
 llmBridge:
+  enabled: true
   image:
     tag: "pr-417"
 
