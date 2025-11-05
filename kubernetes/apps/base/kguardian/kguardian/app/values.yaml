@@ -8,7 +8,7 @@ frontend:
     readOnlyRootFilesystem: false
   image:
     tag: "pr-423"
-    sha: "sha256:83e6c742b5b2dd69dcf0b30561bb513908961fc880e5798cc73e9a3658c10e9e"
+    sha: "sha256:7fb60b3272bc6a402091b3dbbb1bf0f48fd40f0d7519527034026caae51b124e"
 
 llmBridge:
   enabled: true
@@ -23,3 +23,4 @@ mcpServer:
   enabled: true
   image:
     tag: "pr-423"
+    sha: "sha256:736614c057a7623db4ed18f012166e0b6e88fb7845d422bb6a35dcc0b946612c"
