@@ -14,7 +14,10 @@ llmBridge:
   enabled: true
   image:
     tag: "pr-423"
-
+  secrets:
+    openai:
+      enabled: true
+      name: "kguardian-secrets"
 
 mcpServer:
   image:
