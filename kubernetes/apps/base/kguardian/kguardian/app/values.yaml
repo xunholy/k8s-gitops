@@ -1,19 +1,18 @@
 ---
 controller:
   image:
-    tag: "v1.2.0"
+    tag: "v1.3.0"
 
 frontend:
-  securityContext:
-    readOnlyRootFilesystem: false
   image:
     tag: "pr-423"
-    sha: "sha256:7fb60b3272bc6a402091b3dbbb1bf0f48fd40f0d7519527034026caae51b124e"
+    sha: "sha256:ceac9d03d138292c01a56379e7ad45c05d9c748485d1b41a2705255ee96958d6"
 
 llmBridge:
   enabled: true
   image:
     tag: "pr-423"
+    sha: "sha256:b63803642995a5a30bee0bd8dc3ae41c93dd4775f8cac069f9f1348fe2c028e2"
   secrets:
     openai:
       enabled: true
@@ -23,4 +22,4 @@ mcpServer:
   enabled: true
   image:
     tag: "pr-423"
-    sha: "sha256:736614c057a7623db4ed18f012166e0b6e88fb7845d422bb6a35dcc0b946612c"
+    sha: "sha256:0c8e4892e96938da65a3c017f1130891c895a6c4629150f010e48e7cec260447"
