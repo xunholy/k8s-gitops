@@ -9,12 +9,12 @@ resources:
   - ocirepository.yaml
 
 configMapGenerator:
-  - name: kagent-values
+  - name: kmcp-values
     files:
       - values.yaml=./values.yaml
 
 secretGenerator:
-  - name: kagent-values-secret
+  - name: kmcp-values-secret
     namespace: ai-system
     files:
       - values.yaml=values.enc.yaml
