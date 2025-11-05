@@ -20,5 +20,6 @@ llmBridge:
       name: "kguardian-secrets"
 
 mcpServer:
+  enabled: true
   image:
     tag: "pr-423"
