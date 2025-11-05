@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: kubelet-csr-approver
-      version: 1.2.11
+      version: 1.2.12
       sourceRef:
         kind: HelmRepository
         name: postfinance-charts
