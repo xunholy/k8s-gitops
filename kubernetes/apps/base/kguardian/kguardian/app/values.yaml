@@ -6,13 +6,13 @@ controller:
 frontend:
   image:
     tag: "pr-423"
-    sha: "sha256:ceac9d03d138292c01a56379e7ad45c05d9c748485d1b41a2705255ee96958d6"
+    sha: "sha256:ceba0c4164e2232c44f5c23a26a1517b764b60608aefaa86d04903433d9689cd"
 
 llmBridge:
   enabled: true
   image:
     tag: "pr-423"
-    sha: "sha256:b63803642995a5a30bee0bd8dc3ae41c93dd4775f8cac069f9f1348fe2c028e2"
+    sha: "sha256:35beabf2627fe63d170d6fe7658092c4b7a6031d8aeefafc30984ffbd20d46e1"
   secrets:
     openai:
       enabled: true
@@ -22,4 +22,4 @@ mcpServer:
   enabled: true
   image:
     tag: "pr-423"
-    sha: "sha256:0c8e4892e96938da65a3c017f1130891c895a6c4629150f010e48e7cec260447"
+    sha: "sha256:8fec5f49c6ec8f54090b47fd9ab92ffdb10f7b5a05fd40fca7ee620f65f257f6"

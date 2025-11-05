@@ -9,8 +9,9 @@ resources:
 
 configMapGenerator:
   - name: blackbox-exporter-values
+    namespace: observability
     files:
-      - config.yaml=./resources/config.yaml
+      - values.yaml=./values.yaml
 
 generatorOptions:
   annotations:
