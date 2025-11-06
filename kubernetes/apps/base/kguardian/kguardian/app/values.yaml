@@ -20,6 +20,7 @@ llmBridge:
 
 mcpServer:
   enabled: true
+  useKmcp: true
   image:
     tag: "pr-423"
     sha: "sha256:8fec5f49c6ec8f54090b47fd9ab92ffdb10f7b5a05fd40fca7ee620f65f257f6"
