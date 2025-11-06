@@ -12,7 +12,7 @@ llmBridge:
   enabled: true
   image:
     tag: "pr-423"
-    sha: "sha256:35beabf2627fe63d170d6fe7658092c4b7a6031d8aeefafc30984ffbd20d46e1"
+    sha: "sha256:9b036dc16ae6e4c3dc3620af105c8d640f20463359583606910789c7168bc1ec"
   secrets:
     openai:
       enabled: true
@@ -23,4 +23,4 @@ mcpServer:
   useKmcp: true
   image:
     tag: "pr-423"
-    sha: "sha256:8fec5f49c6ec8f54090b47fd9ab92ffdb10f7b5a05fd40fca7ee620f65f257f6"
+    sha: "sha256:e858c3abd4ff96144f0def2c5224e51a2e4f9a64676043f4e6c579ba774f94f2"
