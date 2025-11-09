@@ -22,5 +22,5 @@ mcpServer:
   enabled: true
   useKmcp: true
   image:
-    tag: "pr-423"
+    tag: "v1.2.0"
     sha: "sha256:2aa6f79b76ce24ddd23c7717545c7f7ce5000c4ea571e34f637cc35a2ae3e58c"
