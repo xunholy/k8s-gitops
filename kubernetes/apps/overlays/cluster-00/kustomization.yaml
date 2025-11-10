@@ -32,6 +32,7 @@ resources:
   - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
   - ../../base/external-secrets/external-secrets/ks.yaml
+  - ../../base/external-secrets/onepassword/ks.yaml
   - ../../base/flux-system/addons/ks.yaml
   # - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/game-servers/minecraft/ks.yaml
