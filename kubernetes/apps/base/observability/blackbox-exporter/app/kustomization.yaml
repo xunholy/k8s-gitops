@@ -6,6 +6,7 @@ namespace: observability
 
 resources:
   - helmrelease.yaml
+  - ocirepository.yaml
 
 configMapGenerator:
   - name: blackbox-exporter-values
