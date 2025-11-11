@@ -1,11 +1,11 @@
 ---
 controller:
   image:
-    tag: "v1.4.0"
+    tag: "v1.5.0"
 
 broker:
   image:
-    tag: "v1.3.0"
+    tag: "v1.4.0"
 
 frontend:
   image:
