@@ -46,21 +46,7 @@ spec:
   maxHistory: 3
   values:
     recommender:
-      nodeSelector:
-        beta.kubernetes.io/arch: amd64
       extraArgs:
         storage: prometheus
         prometheus-address: |-
-          http://thanos-query.observability.svc.cluster.local:9090
-    updater:
-      nodeSelector:
-        beta.kubernetes.io/arch: amd64
-    admissionController:
-      nodeSelector:
-        beta.kubernetes.io/arch: amd64
-      certGen:
-        nodeSelector:
-          beta.kubernetes.io/arch: amd64
-      cleanupOnDelete:
-        nodeSelector:
-          beta.kubernetes.io/arch: amd64
+          http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090

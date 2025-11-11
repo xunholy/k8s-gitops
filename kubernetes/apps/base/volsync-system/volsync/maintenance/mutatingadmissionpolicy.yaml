@@ -45,7 +45,7 @@ spec:
                 name: "repository",
                 nfs: Object.spec.template.spec.volumes.nfs{
                   server: "${EXT_NAS_IP}",
-                  path: "/mnt/tank/VolsyncKopia"
+                  path: "/mnt/tank/volsynckopia"
                 }
               }
             },

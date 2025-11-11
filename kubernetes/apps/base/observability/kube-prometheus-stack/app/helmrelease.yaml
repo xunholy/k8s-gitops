@@ -43,18 +43,21 @@ spec:
   timeout: 30m
   values:
     cleanPrometheusOperatorObjectNames: true
+    alertmanager:
+      alertmanagerSpec:
+        alertmanagerConfiguration:
+          name: alertmanager
+        externalUrl: https://alertmanager.${CLUSTER_DOMAIN}
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: ceph-block
+              resources:
+                requests:
+                  storage: 1Gi
     grafana:
       enabled: false
       forceDeployDashboards: true
-    prometheusOperator:
-      prometheusConfigReloader:
-        # Resources allocated based on Robusta KRR output
-        resources:
-          requests:
-            cpu: 5m
-            memory: 24Mi
-          limits:
-            memory: 50Mi
     prometheus:
       # thanosService:
       #   enabled: true
@@ -78,89 +81,30 @@ spec:
           - etcd-client-cert
         externalUrl: https://prometheus.${CLUSTER_DOMAIN}
         podAntiAffinity: hard
-        # Resources allocated based on Robusta KRR output
-        resources:
-          requests:
-            memory: 4Gi
-            cpu: 1000m
-          limits:
-            memory: 6294M
-        # # Thanos chart will generate the secret: thanos
-        # thanos:
-        #   objectStorageConfig:
-        #     name: thanos-objstore-secret
-        #     key: objstore.yml
-        #   # Resources allocated based on Robusta KRR output
-        #   resources:
-        #     requests:
-        #       memory: 128Mi
-        #       cpu: 10m
-        #     limits:
-        #       memory: 160Mi
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
+        retention: 14d
+        retentionSize: 50GB
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: ceph-block
+              resources:
+                requests:
+                  storage: 50Gi
         enableAdminAPI: true
         walCompression: true
-    prometheus-node-exporter:
-      fullnameOverride: node-exporter
-      prometheus:
-        monitor:
-          enabled: true
-          relabelings:
-            - action: replace
-              regex: (.*)
-              replacement: $1
-              sourceLabels: ["__meta_kubernetes_pod_node_name"]
-              targetLabel: kubernetes_node
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       verticalPodAutoscaler:
         enabled: false
-      prometheus:
-        monitor:
-          enabled: true
-          relabelings:
-            - action: replace
-              regex: (.*)
-              replacement: $1
-              sourceLabels: ["__meta_kubernetes_pod_node_name"]
-              targetLabel: kubernetes_node
-      # REQUIRED kube-state-metrics must be configured to enable Vertical Pod Autoscalar metrics.
-      # https://github.com/prometheus-community/helm-charts/blob/cbbc1d6965d5f90c31bb7dd08ecab09e59544a65/charts/kube-state-metrics/values.yaml#L311
-      collectors:
-        - certificatesigningrequests
-        - configmaps
-        - cronjobs
-        - daemonsets
-        - deployments
-        - endpoints
-        - horizontalpodautoscalers
-        - ingresses
-        - jobs
-        - leases
-        - limitranges
-        - mutatingwebhookconfigurations
-        - namespaces
-        - networkpolicies
-        - nodes
-        - persistentvolumeclaims
-        - persistentvolumes
-        - poddisruptionbudgets
-        - pods
-        - replicasets
-        - replicationcontrollers
-        - resourcequotas
-        - secrets
-        - services
-        - statefulsets
-        - storageclasses
-        - validatingwebhookconfigurations
-        - volumeattachments
-        # TODO: Add once VPA is re-enabled
-        # - verticalpodautoscalers
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
+    kubeEtcd:
+      service:
+        selector:
+          component: kube-apiserver
