@@ -2,6 +2,8 @@
 controller:
   image:
     tag: "v1.5.0"
+  excludedNamespaces:
+    - kguardian
 
 broker:
   image:
