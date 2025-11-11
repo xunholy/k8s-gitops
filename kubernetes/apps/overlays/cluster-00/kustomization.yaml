@@ -22,6 +22,7 @@ resources:
   - ../../base/observability
   - ../../base/rook-ceph
   - ../../base/security-system
+  - ../../base/volsync-system
   # - ../../base/apps-preview/ks.yaml
   - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
@@ -93,5 +94,7 @@ resources:
   # - ../../base/observability/thanos/ks.yaml
   - ../../base/observability/vpa/ks.yaml
   - ../../base/rook-ceph/rook-ceph/ks.yaml
+  - ../../base/volsync-system/kopia/ks.yaml
+  - ../../base/volsync-system/volsync/ks.yaml
   # - ../../base/security-system/kyverno/ks.yaml
   # - ../../base/security-system/gatekeeper/ks.yaml
