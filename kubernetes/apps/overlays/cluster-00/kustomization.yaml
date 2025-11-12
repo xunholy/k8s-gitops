@@ -34,6 +34,7 @@ resources:
   # - ../../base/development/backstage/ks.yaml
   - ../../base/external-secrets/external-secrets/ks.yaml
   - ../../base/external-secrets/onepassword/ks.yaml
+  - ../../base/flux-system/flux-instance/ks.yaml
   - ../../base/flux-system/repositories
   # - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/game-servers/minecraft/ks.yaml
