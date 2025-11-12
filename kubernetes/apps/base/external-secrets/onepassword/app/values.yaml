@@ -16,7 +16,7 @@ controllers:
           OP_SESSION:
             valueFrom:
               secretKeyRef:
-                name: "{{ .Release.Name }}-secret"
+                name: connect-server-credentials
                 key: 1password-credentials.json
         probes:
           liveness:
@@ -62,7 +62,7 @@ controllers:
           OP_SESSION:
             valueFrom:
               secretKeyRef:
-                name: "{{ .Release.Name }}-secret"
+                name: connect-server-credentials
                 key: 1password-credentials.json
         probes:
           liveness:
