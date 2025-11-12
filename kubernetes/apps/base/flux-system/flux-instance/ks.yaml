@@ -25,3 +25,7 @@ spec:
   dependsOn:
   - name: istiod
     namespace: istio-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
