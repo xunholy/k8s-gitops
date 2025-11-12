@@ -6,7 +6,7 @@ metadata:
   namespace: istio-ingress
 spec:
   addresses:
-    - ${EXT_NAS_IP}
+    - expanse.internal
   hosts:
     - plex.${CLUSTER_DOMAIN}
   ports:
@@ -16,7 +16,7 @@ spec:
   location: MESH_EXTERNAL
   resolution: STATIC
   endpoints:
-    - address: ${EXT_NAS_IP}
+    - address: expanse.internal
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule

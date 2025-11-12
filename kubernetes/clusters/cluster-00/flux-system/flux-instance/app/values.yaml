@@ -28,8 +28,8 @@ instance:
     path: ./clusters/cluster-00
   kustomize:
     patches:
-      # OPTIONAL: Allow cluster-autoscaler to evict flux controllers if needed
-      - patch: |
+      # Allow cluster-autoscaler to evict flux controllers if needed
+      - patch: |-
           apiVersion: apps/v1
           kind: Deployment
           metadata:
@@ -48,11 +48,8 @@ instance:
                         memory: 2Gi
         target:
           kind: Deployment
-      # REQUIRED: Increase concurrency and requeue time for helm-controller
-      - patch: |
-          - op: add
-            path: /spec/template/spec/containers/0/args/-
-            value: --feature-gates=OOMWatch=true
+      # Increase concurrency and requeue time for helm-controller
+      - patch: |-
           - op: add
             path: /spec/template/spec/containers/0/args/-
             value: --concurrent=10
@@ -62,8 +59,8 @@ instance:
         target:
           kind: Deployment
           name: helm-controller
-      # REQUIRED: Increase concurrency and requeue time for kustomize-controller
-      - patch: |
+      # Increase concurrency and requeue time for kustomize-controller
+      - patch: |-
           - op: replace
             path: /spec/template/spec/volumes/0
             value:
@@ -82,8 +79,36 @@ instance:
         target:
           kind: Deployment
           name: kustomize-controller
-      # REQUIRED: Increase concurrency and requeue time for source-controller
-      - patch: |
+      # Enable Helm repositories caching
+      - patch: |-
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --helm-cache-max-size=10
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --helm-cache-ttl=60m
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --helm-cache-purge-interval=5m
+        target:
+          kind: Deployment
+          name: source-controller
+      # Flux near OOM detection for Helm
+      - patch: |-
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --feature-gates=OOMWatch=true
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --oom-watch-memory-threshold=95
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --oom-watch-interval=500ms
+        target:
+          kind: Deployment
+          name: helm-controller
+      # Increase concurrency and requeue time for source-controller
+      - patch: |-
           - op: add
             path: /spec/template/spec/containers/0/args/-
             value: --concurrent=10
@@ -93,8 +118,8 @@ instance:
         target:
           kind: Deployment
           name: source-controller
-      # REQUIRED: KustomizeController SOPS decryption for all Kustomizations
-      - patch: |
+      # KustomizeController SOPS decryption for all Kustomizations
+      - patch: |-
           apiVersion: kustomize.toolkit.fluxcd.io/v1
           kind: Kustomization
           metadata:
@@ -115,30 +140,38 @@ instance:
         target:
           kind: Kustomization
           name: flux-system
-      # OPTIONAL: Remove CPU limits from all controllers to avoid OOMKills
-      - patch: |
+      # Remove CPU limits from all controllers to avoid OOMKills
+      - patch: |-
           - op: remove
             path: /spec/template/spec/containers/0/resources/limits/cpu
         target:
           kind: Deployment
-      # REQUIRED: Controller-level SOPS decryption
-      - patch: |
+      - # Disable chart digest tracking
+        patch: |-
+          - op: add
+            path: /spec/template/spec/containers/0/args/-
+            value: --feature-gates=DisableChartDigestTracking=true
+        target:
+          kind: Deployment
+          name: helm-controller
+      # Controller-level SOPS decryption
+      - patch: |-
           - op: add
             path: /spec/template/spec/containers/0/args/-
             value: --sops-age-secret=sops-age-secret
         target:
           kind: Deployment
           name: kustomize-controller
-      # REQUIRED: Watch configmaps and secrets attached to HelmReleases and Kustomizations
-      - patch: |
+      # Watch configmaps and secrets attached to HelmReleases and Kustomizations
+      - patch: |-
           - op: add
             path: /spec/template/spec/containers/0/args/-
             value: --watch-configs-label-selector=owner!=helm
         target:
           kind: Deployment
           name: (helm-controller|kustomize-controller)
-      # REQUIRED: Cancel health checks on new Kustomizations revisions
-      - patch: |
+      # Cancel health checks on new Kustomizations revisions
+      - patch: |-
           - op: add
             path: /spec/template/spec/containers/0/args/-
             value: --feature-gates=CancelHealthCheckOnNewRevision=true

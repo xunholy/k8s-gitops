@@ -133,8 +133,8 @@ spec:
           ${CLUSTER_DOMAIN}.        IN NS     ns.dns.raspbernetes.com.
           ${CLUSTER_DOMAIN}.        IN A      ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
           et.${CLUSTER_DOMAIN}.     IN A      ${CLUSTER_LB_NGINX_INGRESS_GATEWAY}
-          api.${CLUSTER_DOMAIN}.    IN A      192.168.50.111
-          api.${CLUSTER_DOMAIN}.    IN A      192.168.50.112
-          api.${CLUSTER_DOMAIN}.    IN A      192.168.50.113
+          api.${CLUSTER_DOMAIN}.    IN A      192.168.50.101
+          api.${CLUSTER_DOMAIN}.    IN A      192.168.50.102
+          api.${CLUSTER_DOMAIN}.    IN A      192.168.50.103
           *.${CLUSTER_DOMAIN}.      IN CNAME  ${CLUSTER_DOMAIN}.
-          plex.${CLUSTER_DOMAIN}.   IN A      ${EXT_NAS_IP}
+          plex.${CLUSTER_DOMAIN}.   IN A      expanse.internal

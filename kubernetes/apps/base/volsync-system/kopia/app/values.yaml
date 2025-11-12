@@ -73,7 +73,7 @@ persistence:
         subPath: repository.config
   repository:
     type: nfs
-    server: ${EXT_NAS_IP}
+    server: expanse.internal
     path: /mnt/tank/volsynckopia
     globalMounts:
       - path: /repository

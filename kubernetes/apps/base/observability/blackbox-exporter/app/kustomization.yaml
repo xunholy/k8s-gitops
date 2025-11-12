@@ -6,6 +6,7 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - ocirepository.yaml
+  - probes.yaml
 
 configMapGenerator:
   - name: blackbox-exporter-values

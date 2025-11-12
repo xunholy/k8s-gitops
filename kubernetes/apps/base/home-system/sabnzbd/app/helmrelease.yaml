@@ -128,7 +128,7 @@ spec:
               - path: /config/scripts
       media:
         type: nfs
-        server: ${EXT_NAS_IP}
+        server: expanse.internal
         path: /mnt/tank/media
         globalMounts:
           - path: /media/Downloads/sabnzbd

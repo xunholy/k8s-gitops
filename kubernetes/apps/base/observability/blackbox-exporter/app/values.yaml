@@ -1,4 +1,4 @@
-fullnameOverride: blackbox-exporter-lan
+fullnameOverride: blackbox-exporter
 securityContext:
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
@@ -33,7 +33,7 @@ prometheusRule:
   rules:
     - alert: LanProbeFailed
       expr: |-
-        probe_success{service="blackbox-exporter-lan"} == 0
+        probe_success{service="blackbox-exporter"} == 0
       for: 15m
       labels:
         severity: critical
