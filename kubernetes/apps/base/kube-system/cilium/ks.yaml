@@ -13,7 +13,7 @@ spec:
   timeout: 3m
   path: "./apps/base/kube-system/cilium/app"
   prune: true
-  wait: true
+  wait: false
   sourceRef:
     kind: OCIRepository
     name: flux-system

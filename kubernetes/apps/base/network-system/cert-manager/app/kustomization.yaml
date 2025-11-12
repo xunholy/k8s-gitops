@@ -5,8 +5,10 @@ kind: Kustomization
 namespace: network-system
 
 resources:
+  - grafanadashboard.yaml
   - helmrelease.yaml
   - ocirepository.yaml
+  - prometheusrule.yaml
   - secret.enc.yaml
 
 configMapGenerator:
@@ -14,10 +16,6 @@ configMapGenerator:
     namespace: network-system
     files:
       - values.yaml=./values.yaml
-
-generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
 
 configurations:
   - kustomizeconfig.yaml

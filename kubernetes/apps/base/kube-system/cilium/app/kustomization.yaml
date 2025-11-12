@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
+  - grafanadashboard.yaml
   - helmrelease.yaml
   - ocirepository.yaml
 

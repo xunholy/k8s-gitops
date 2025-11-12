@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: observability
 
 resources:
-  - etcd-client-cert.enc.yaml
   - helmrelease.yaml
   - ocirepository.yaml
   - secret.enc.yaml

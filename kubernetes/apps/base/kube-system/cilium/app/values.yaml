@@ -68,6 +68,7 @@ operator:
     enabled: true
     serviceMonitor:
       enabled: true
+      trustCRDsExist: true
   replicas: 2
   rollOutPods: true
 pmtuDiscovery:

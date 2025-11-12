@@ -6,6 +6,7 @@ namespace: network-system
 
 resources:
   - dnsendpoint.yaml
+  - grafanadashboard.yaml
   - helmrelease.yaml
   - ocirepository.yaml
   - secret.enc.yaml

@@ -58,6 +58,11 @@ spec:
     grafana:
       enabled: false
       forceDeployDashboards: true
+      operator:
+        dashboardsConfigMapRefEnabled: true
+        folder: observability
+        matchLabels:
+          grafana.internal/instance: grafana
     prometheus:
       # thanosService:
       #   enabled: true
@@ -77,8 +82,6 @@ spec:
         ## Defaults to 30s.
         ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/release-0.44/pkg/prometheus/promcfg.go#L180-L183
         scrapeInterval: 1m
-        secrets:
-          - etcd-client-cert
         externalUrl: https://prometheus.${CLUSTER_DOMAIN}
         podAntiAffinity: hard
         ruleSelectorNilUsesHelmValues: false
