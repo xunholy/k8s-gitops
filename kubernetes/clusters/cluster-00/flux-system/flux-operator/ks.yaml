@@ -6,9 +6,6 @@ metadata:
   name: &app flux-operator
   namespace: flux-system
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 30m
   path: ./clusters/cluster-00/flux-system/flux-operator/app
   prune: false
