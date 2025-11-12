@@ -7,7 +7,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./clusters/cluster-00/flux-system/flux-instance/extras
+  path: ./apps/base/flux-system/flux-instance/extras
   prune: false
   sourceRef:
     kind: OCIRepository
