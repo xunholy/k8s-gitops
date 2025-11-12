@@ -5,6 +5,6 @@ kind: Kustomization
 
 resources:
   - grafana.yaml
-  - grafanadashboard.yaml
+  - grafanadatasource.yaml
   - servicemonitor.yaml
   - virtualservice.yaml
