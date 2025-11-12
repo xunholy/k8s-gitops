@@ -7,4 +7,3 @@ resources:
   - helmrelease.yaml
   - ocirepository.yaml
   - secret.enc.yaml
-  - virtualservice.yaml
