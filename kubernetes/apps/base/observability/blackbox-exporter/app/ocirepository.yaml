@@ -4,7 +4,6 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: blackbox-exporter
-  namespace: observability
 spec:
   interval: 5m
   layerSelector:

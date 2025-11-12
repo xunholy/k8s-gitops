@@ -19,3 +19,4 @@ spec:
   dependsOn:
     - name: istiod
       namespace: istio-system
+  targetNamespace: network-system
