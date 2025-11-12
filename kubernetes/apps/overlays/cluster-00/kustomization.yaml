@@ -70,7 +70,7 @@ resources:
   - ../../base/kube-system/reflector/ks.yaml
   - ../../base/kube-system/snapshot-controller/ks.yaml
   - ../../base/kube-system/spegel/ks.yaml
-  # - ../../base/kube-system/tetragon/ks.yaml
+  - ../../base/kube-system/tetragon/ks.yaml
   - ../../base/network-system/cert-manager/ks.yaml
   - ../../base/network-system/cloudflare-ddns/ks.yaml
   - ../../base/network-system/cloudflare-tunnel/ks.yaml
@@ -83,7 +83,6 @@ resources:
   - ../../base/network-system/oauth2-proxy/ks.yaml
   - ../../base/nginx-ingress/nginx-ingress/ks.yaml
   - ../../base/observability/blackbox-exporter/ks.yaml
-  # - ../../base/observability/goldilocks/ks.yaml
   - ../../base/observability/grafana/ks.yaml
   # - ../../base/observability/jaeger/ks.yaml
   # - ../../base/observability/kiali/ks.yaml
@@ -91,7 +90,7 @@ resources:
   - ../../base/observability/kube-prometheus-stack/ks.yaml
   # - ../../base/observability/loki/ks.yaml
   # - ../../base/observability/otel/ks.yaml
-  # - ../../base/observability/thanos/ks.yaml
+  - ../../base/observability/silence-operator/ks.yaml
   - ../../base/observability/vpa/ks.yaml
   - ../../base/rook-ceph/rook-ceph/ks.yaml
   - ../../base/volsync-system/kopia/ks.yaml
