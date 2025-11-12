@@ -11,7 +11,7 @@ broker:
 
 frontend:
   image:
-    tag: "v1.4.0"
+    tag: "v1.5.0"
 
 llmBridge:
   enabled: true
