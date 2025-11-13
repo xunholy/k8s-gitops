@@ -7,5 +7,4 @@ resources:
   - externalsecret.yaml
   - helmrelease.yaml
   - pvc.yaml
-  - secret.enc.yaml
   - virtualservice.yaml
