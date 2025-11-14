@@ -25,3 +25,4 @@ spec:
       namespace: istio-system
     - name: mosquitto
       namespace: home-system
+  targetNamespace: home-system

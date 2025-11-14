@@ -21,3 +21,4 @@ spec:
   dependsOn:
     - name: democratic-csi
       namespace: democratic-csi
+  targetNamespace: home-system
