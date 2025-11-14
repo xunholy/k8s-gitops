@@ -3,7 +3,6 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: zigbee2mqtt
-  namespace: home-system
 spec:
   podSelector:
     matchLabels:

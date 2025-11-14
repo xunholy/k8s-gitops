@@ -9,8 +9,7 @@ spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: cross-seed
   install:
     timeout: 10m
     replace: true
@@ -95,12 +94,6 @@ spec:
           http:
             port: *port
     persistence:
-      config:
-        existingClaim: cross-seed
-      config-cross-seeds:
-        type: emptyDir
-        globalMounts:
-          - path: /config/cross-seeds
       secret-file:
         type: secret
         name: cross-seed-secret

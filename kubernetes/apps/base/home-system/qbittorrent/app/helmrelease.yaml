@@ -4,13 +4,11 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app qbittorrent
-  namespace: home-system
 spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: qbittorrent
   install:
     timeout: 10m
     replace: true

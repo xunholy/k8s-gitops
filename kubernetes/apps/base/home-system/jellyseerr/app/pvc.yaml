@@ -3,7 +3,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: jellyseerr
-  namespace: home-system
 spec:
   accessModes: ["ReadWriteOnce"]
   resources:
@@ -15,7 +14,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: jellyseerr-cache
-  namespace: home-system
 spec:
   accessModes: ["ReadWriteOnce"]
   resources:

@@ -3,12 +3,12 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: kguardian
+  name: zigbee2mqtt
 spec:
   interval: 5m
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 1.6.2
-  url: oci://ghcr.io/kguardian-dev/charts/kguardian
+    tag: 4.4.0
+  url: oci://ghcr.io/bjw-s-labs/helm/app-template
