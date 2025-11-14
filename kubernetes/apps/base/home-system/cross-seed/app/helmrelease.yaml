@@ -107,7 +107,6 @@ spec:
         globalMounts:
           - path: /config/config.js
             subPath: config.js
-            readOnly: true
       media:
         type: nfs
         server: expanse.internal

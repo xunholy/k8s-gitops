@@ -1,6 +1,0 @@
-nameReference:
-- kind: Secret
-  version: v1
-  fieldSpecs:
-  - path: spec/values/persistence/secret-file/name
-    kind: HelmRelease
