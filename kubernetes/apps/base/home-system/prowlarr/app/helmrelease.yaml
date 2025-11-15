@@ -9,7 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: prowlarr
-    namespace: flux-system
   install:
     timeout: 10m
     replace: true
