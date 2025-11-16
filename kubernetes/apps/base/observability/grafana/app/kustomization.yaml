@@ -6,4 +6,3 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - ocirepository.yaml
-  - secret.enc.yaml
