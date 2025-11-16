@@ -130,10 +130,10 @@ tetragon:
   enableCiliumAPI: true
 
   # enableProcessCred enables Capabilities visibility in exec and kprobe events.
-  enableProcessCred: false
+  enableProcessCred: true
 
   # enableProcessNs enables Namespaces visibility in exec and kprobe events.
-  enableProcessNs: false
+  enableProcessNs: true
 
   # Set --btf option to explicitly specify an absolute path to a btf file. For advanced users only.
   btf: ""

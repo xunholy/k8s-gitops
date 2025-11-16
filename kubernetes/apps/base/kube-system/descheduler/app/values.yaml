@@ -11,13 +11,3 @@ leaderElection:
   resourceLock: "leases"
   resourceName: "descheduler"
   resourceNamescape: "kube-system"
-deschedulerPolicy:
-  strategies:
-    RemovePodsHavingTooManyRestarts:
-      params:
-        podsHavingTooManyRestarts:
-          podRestartThreshold: 10
-    RemovePodsViolatingTopologySpreadConstraint:
-      enabled: true
-      params:
-        includeSoftConstraints: false
