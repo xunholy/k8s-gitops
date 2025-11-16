@@ -101,14 +101,6 @@ spec:
         existingClaim: qbittorrent
       tmp:
         type: emptyDir
-      scripts:
-        type: configMap
-        name: qbittorrent-scripts
-        defaultMode: 0775
-        advancedMounts:
-          qbittorrent:
-            app:
-              - path: /config/scripts
       media:
         type: nfs
         server: expanse.internal
