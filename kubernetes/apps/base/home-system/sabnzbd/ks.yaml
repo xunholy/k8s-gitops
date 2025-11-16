@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: sabnzbd
   namespace: home-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 30m
   retryInterval: 1m

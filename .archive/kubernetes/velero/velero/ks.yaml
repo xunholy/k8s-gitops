@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: velero
   namespace: flux-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./apps/base/velero/velero/app"

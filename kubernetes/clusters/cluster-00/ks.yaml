@@ -26,20 +26,6 @@ spec:
       - kind: Secret
         name: cluster-secrets
   patches:
-    # Used to keep kustomizations DRY that require decryption and substitution variables
-    # TODO: Consider if there are use cases where decryption is used but not substitution and vice versa, if so split this into two separate optional patches
-    - patch: |-
-        apiVersion: kustomize.toolkit.fluxcd.io/v1
-        kind: Kustomization
-        metadata:
-          name: not-used
-        spec:
-          decryption:
-            provider: sops
-            secretRef:
-              name: sops-gpg
-      target:
-        labelSelector: substitution.flux/enabled=true
     # Add HelmRelease defaults to all Kustomizations
     - patch: |-
         apiVersion: kustomize.toolkit.fluxcd.io/v1

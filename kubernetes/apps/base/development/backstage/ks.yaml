@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: backstage
   namespace: flux-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./apps/base/development/backstage/app"

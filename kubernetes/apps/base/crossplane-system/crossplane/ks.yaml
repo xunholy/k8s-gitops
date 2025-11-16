@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: crossplane
   namespace: crossplane-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 30m
   retryInterval: 1m
@@ -25,8 +23,6 @@ kind: Kustomization
 metadata:
   name: crossplane-providers
   namespace: crossplane-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 30m
   retryInterval: 1m

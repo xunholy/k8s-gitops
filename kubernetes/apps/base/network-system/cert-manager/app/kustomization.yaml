@@ -5,11 +5,11 @@ kind: Kustomization
 
 resources:
   - clusterissuer-prod.yaml
+  - externalsecret.yaml
   - grafanadashboard.yaml
   - helmrelease.yaml
   - ocirepository.yaml
   - prometheusrule.yaml
-  - secret.enc.yaml
 
 configMapGenerator:
   - name: cert-manager-values

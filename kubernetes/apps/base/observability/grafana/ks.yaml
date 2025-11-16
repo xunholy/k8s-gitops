@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: grafana
   namespace: observability
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 30m
   retryInterval: 1m
@@ -29,8 +27,6 @@ kind: Kustomization
 metadata:
   name: grafana-instance
   namespace: observability
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 30m
   retryInterval: 1m

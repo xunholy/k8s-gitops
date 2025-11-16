@@ -23,7 +23,6 @@ resources:
   - ../../base/rook-ceph
   - ../../base/security-system
   - ../../base/volsync-system
-  # - ../../base/apps-preview/ks.yaml
   - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
   - ../../base/ai-system/kagent/ks.yaml
@@ -73,7 +72,6 @@ resources:
   - ../../base/kube-system/spegel/ks.yaml
   - ../../base/kube-system/tetragon/ks.yaml
   - ../../base/network-system/cert-manager/ks.yaml
-  - ../../base/network-system/cloudflare-ddns/ks.yaml
   - ../../base/network-system/cloudflare-tunnel/ks.yaml
   - ../../base/network-system/dex/ks.yaml
   - ../../base/network-system/dex-k8s-authenticator/ks.yaml

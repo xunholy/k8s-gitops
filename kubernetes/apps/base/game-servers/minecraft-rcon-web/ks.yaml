@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: minecraft-rcon-web
   namespace: game-servers
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./apps/base/game-servers/minecraft-rcon-web/app"

@@ -5,8 +5,7 @@ kind: Kustomization
 metadata:
   name: gha-runner-scale-set-controller
   namespace: actions-runner-system
-  labels:
-    substitution.flux/enabled: true
+
 spec:
   interval: 30m
   retryInterval: 1m

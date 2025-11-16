@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: emqx
   namespace: home-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 30m
   retryInterval: 1m
@@ -25,8 +23,6 @@ kind: Kustomization
 metadata:
   name: emqx-cluster
   namespace: home-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 30m
   retryInterval: 1m

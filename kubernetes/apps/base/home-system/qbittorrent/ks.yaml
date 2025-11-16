@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: qbittorrent
   namespace: home-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 30m
   retryInterval: 1m
@@ -22,23 +20,3 @@ spec:
     - name: democratic-csi
       namespace: democratic-csi
   targetNamespace: home-system
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: qbittorrent-tools
-#   namespace: home-system
-#   labels:
-#     substitution.flux/enabled: true
-# spec:
-#   interval: 30m
-#   retryInterval: 1m
-#   timeout: 3m
-#   path: "./apps/base/home-system/qbittorrent/tools"
-#   prune: true
-#   wait: false
-#   sourceRef:
-#     kind: GitRepository
-#     name: flux-system
-#     namespace: flux-system

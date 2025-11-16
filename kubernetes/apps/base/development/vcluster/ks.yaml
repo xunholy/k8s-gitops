@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: vcluster
   namespace: flux-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./apps/base/development/vcluster/app"

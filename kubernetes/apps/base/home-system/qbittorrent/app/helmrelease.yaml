@@ -47,13 +47,6 @@ spec:
               TZ: Australia/Melbourne
               QBT_WEBUI_PORT: &port 80
               QBT_TORRENTING_PORT: &torrentPort 50413
-              XSEED_HOST: cross-seed.home-system.svc.cluster.local
-              XSEED_PORT: 80
-              XSEED_APIKEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: qbittorrent-secret
-                    key: CROSS_SEED_API_KEY
             probes:
               liveness: &probes
                 enabled: true

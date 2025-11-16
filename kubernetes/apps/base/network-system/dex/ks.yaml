@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: dex
   namespace: network-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 30m
   retryInterval: 1m

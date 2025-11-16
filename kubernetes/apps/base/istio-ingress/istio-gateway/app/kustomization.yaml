@@ -9,4 +9,3 @@ resources:
   - certificates.yaml
   - gateway.yaml
   - helmrelease.yaml
-  - secret.enc.yaml

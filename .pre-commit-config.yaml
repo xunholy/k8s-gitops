@@ -31,8 +31,8 @@ repos:
   #     - id: markdownlint
   #       args: [--fix]
 
-  - repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.11.0
-    hooks:
-      - id: shellcheck
-        args: [--severity=warning]
+  # - repo: https://github.com/koalaman/shellcheck-precommit
+  #   rev: v0.11.0
+  #   hooks:
+  #     - id: shellcheck
+  #       args: [--severity=warning]

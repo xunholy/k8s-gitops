@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: coredns
   namespace: network-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 30m
   retryInterval: 1m

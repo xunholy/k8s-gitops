@@ -11,7 +11,7 @@ provider:
       - name: UNIFI_API_KEY
         valueFrom:
           secretKeyRef:
-            name: &secret unifi-dns-secret
+            name: &secret external-dns-unifi
             key: UNIFI_API_KEY
     livenessProbe:
       httpGet:

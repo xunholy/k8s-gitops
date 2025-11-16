@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: litmus
   namespace: flux-system
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./apps/base/litmus/litmus/app"

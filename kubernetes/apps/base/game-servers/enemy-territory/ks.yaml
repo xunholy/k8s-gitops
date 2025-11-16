@@ -6,8 +6,6 @@ kind: Kustomization
 metadata:
   name: enemy-territory
   namespace: game-servers
-  labels:
-    substitution.flux/enabled: true
 spec:
   interval: 5m
   path: "./apps/base/game-servers/enemy-territory/app"
@@ -17,3 +15,8 @@ spec:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  targetNamespace: game-servers

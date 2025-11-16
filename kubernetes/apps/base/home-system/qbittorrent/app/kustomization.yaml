@@ -8,17 +8,7 @@ resources:
   - helmrelease.yaml
   - ocirepository.yaml
   - pvc.yaml
-  - secret.enc.yaml
   - virtualservice.yaml
-
-configMapGenerator:
-  - name: qbittorrent-scripts
-    files:
-      - resources/xseed.sh
-
-generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
 
 configurations:
   - kustomizeconfig.yaml
