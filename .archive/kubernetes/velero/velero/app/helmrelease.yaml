@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: velero
-      version: 11.1.1
+      version: 11.2.0
       sourceRef:
         kind: HelmRepository
         name: vmware-charts
