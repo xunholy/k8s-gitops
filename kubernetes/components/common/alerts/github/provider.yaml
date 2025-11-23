@@ -9,4 +9,4 @@ spec:
   type: github
   address: https://github.com/xunholy/k8s-gitops
   secretRef:
-    name: git-api-token
+    name: github-status-token-secret
