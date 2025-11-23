@@ -7,7 +7,9 @@ namespace: kube-system
 resources:
   - grafanadashboard.yaml
   - helmrelease.yaml
+  - loadbalancer.yaml
   - ocirepository.yaml
+  - virtualservice.yaml
 
 configMapGenerator:
   - name: cilium-values
