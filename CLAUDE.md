@@ -18,6 +18,12 @@ This is a Kubernetes GitOps repository for a personal homelab cluster managed wi
 - **Load Balancing**: MetalLB for bare metal load balancing
 - **Chaos Engineering**: Litmus for chaos testing
 
+## Cluster Topology
+
+- Cluster-00 runs 3 Talos control-plane nodes and 3 Talos worker nodes.
+- Control planes are NVMe boot only; avoid scheduling storage workloads there.
+- Rook Ceph OSDs should bind to worker NVMe by-id devices (update the filter to exact IDs when known).
+
 ## Directory Structure
 
 ```

@@ -39,9 +39,17 @@ cephClusterSpec:
   storage:
     useAllNodes: true
     useAllDevices: false
-    devicePathFilter: /dev/disk/by-id/nvme-Micron_7450_MTFDKBA960TFR_.*
+    devicePathFilter: /dev/disk/by-id/nvme-*
     config:
       osdsPerDevice: "1"
+  placement:
+    osd:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: DoesNotExist
 cephBlockPools:
   - name: ceph-blockpool
     spec:

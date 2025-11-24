@@ -80,11 +80,12 @@ For details on configuration and usage, see the respective directories and docum
 
 ## 🔧 Hardware
 
-| Device                                                                                 | Description        | Quantity | CPU      | RAM   | Storage                     | Architecture | Operating System                      | Notes          |
-| -------------------------------------------------------------------------------------- | ------------------ | -------- | -------- | ----- | --------------------------- | ------------ | ------------------------------------- | -------------- |
-| [Ubiquiti UDM-Pro-Max](https://ui.com/us/en/cloud-gateways/dream-machine-pro-max)     | Router/Gateway     | 1        | -  | -   | 8TB                           | -        | UniFi OS                              |                |
-| [Ubiquiti USW-Pro-Max-48-PoE](https://ui.com/switching/pro-max-48-poe)                | Network Switch     | 1        | -        | -     | -                           | -            | UniFi OS                              | 48-port PoE    |
-| [Asus NUC 14 Pro](https://www.asus.com/displays-desktops/nucs/nuc-mini-pcs/asus-nuc-14-pro/) | Kubernetes Cluster | 3        | 14 Cores | 48GB   | 1TB NVMe + 1TB SSD          | AMD64        | [Talos Linux](https://www.talos.dev/) | Ultra 5-125H   |
+| Device                                                                                 | Description         | Quantity | CPU      | RAM   | Storage                            | Architecture | Operating System                      | Notes                        |
+| -------------------------------------------------------------------------------------- | ------------------- | -------- | -------- | ----- | ---------------------------------- | ------------ | ------------------------------------- | --------------------------- |
+| [Ubiquiti UDM-Pro-Max](https://ui.com/us/en/cloud-gateways/dream-machine-pro-max)     | Router/Gateway      | 1        | -  | -   | 8TB                              | -        | UniFi OS                              |                             |
+| [Ubiquiti USW-Pro-Max-48-PoE](https://ui.com/switching/pro-max-48-poe)                | Network Switch      | 1        | -        | -     | -                                | -            | UniFi OS                              | 48-port PoE                 |
+| [Asus NUC 14 Pro](https://www.asus.com/displays-desktops/nucs/nuc-mini-pcs/asus-nuc-14-pro/) | Control Plane Nodes | 3        | 14 Cores | 48GB   | 1TB NVMe (boot)                  | AMD64        | [Talos Linux](https://www.talos.dev/) | Ultra 5-125H; control plane only |
+| [Asus NUC 14 Pro](https://www.asus.com/displays-desktops/nucs/nuc-mini-pcs/asus-nuc-14-pro/) | Worker Nodes        | 3        | 14 Cores | 48GB   | 1TB NVMe (+ data disk for Ceph) | AMD64        | [Talos Linux](https://www.talos.dev/) | Ultra 5-125H; workloads + storage |
 
 <details>
 <summary>Decommissioned Hardware</summary>

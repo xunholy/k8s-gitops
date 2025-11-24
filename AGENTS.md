@@ -3,6 +3,9 @@
 ## Project Structure & Module Organization
 `kubernetes/` hosts GitOps manifests. Use `clusters/<cluster-id>` for environment overlays (default `cluster-00`), `apps/` for per-namespace services, `components/` for reusable bundles, and `tenants/` for Flux tenant definitions. `terraform/` contains infrastructure code; run plans from the provider-specific subdirectories. `talos/` stores machine configuration with encrypted outputs in `talos/generated`. `docs/` feeds the MkDocs site under `.github/mkdocs`, while `hack/` carries operational scripts. Shared Task definitions live in `.taskfiles/` and power the workflows described below.
 
+## Cluster Topology
+Cluster-00 runs 3 Talos control-plane nodes and 3 Talos worker nodes. Control planes are NVMe boot only; keep storage workloads off them. Rook Ceph OSDs are limited to worker nodes and match NVMe by-id devices—replace the generic NVMe filter with the exact worker disk IDs when available.
+
 ## Build, Test, and Development Commands
 Use `task core:lint` to run repository yamllint checks configured by `.yamllint.yaml`. `task flux:bootstrap` bootstraps Flux against this GitHub repository; pair it with `task flux:secrets` when rotating cluster secrets. Preview Flux operator changes with `task bootstrap:diff -- --cluster-id cluster-00` before applying them via `task bootstrap:bootstrap`. Docs authors can run `task docs:serve` from the repo root to preview the site, and `pre-commit run --all-files` mirrors CI validations locally.
 
