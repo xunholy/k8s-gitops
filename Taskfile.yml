@@ -21,3 +21,11 @@ tasks:
     cmds:
       - task: flux:secrets
       - task: flux:bootstrap
+
+  git:sync:
+    desc: "Rebase master onto upstream/main and push to origin"
+    cmds:
+      - git fetch upstream
+      - git checkout master
+      - git rebase upstream/main
+      - git push --force-with-lease origin master
