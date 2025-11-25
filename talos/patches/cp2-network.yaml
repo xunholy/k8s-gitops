@@ -1,0 +1,15 @@
+# Control Plane 2 - Network Configuration
+machine:
+  network:
+    hostname: cp2
+    interfaces:
+      - interface: eno1
+        addresses:
+          - 192.168.50.12/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.50.1
+        vip:
+          ip: 192.168.50.200
+    nameservers:
+      - 192.168.50.1
