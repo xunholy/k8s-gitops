@@ -23,7 +23,7 @@ instance:
       app.kubernetes.io/name: flux
   sync:
     kind: OCIRepository
-    url: oci://ghcr.io/xunholy/manifests/k8s-gitops
+    url: oci://ghcr.io/mak011p/manifests/k8s-gitops-hayden
     ref: main
     path: ./clusters/cluster-00
   kustomize:

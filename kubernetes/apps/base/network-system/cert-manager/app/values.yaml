@@ -20,8 +20,10 @@ extraArgs:
   - --dns01-recursive-nameservers-only
   - --default-issuer-name=letsencrypt-prod
   - --default-issuer-kind=ClusterIssuer
+# NOTE: servicemonitor disabled for bootstrap (Prometheus CRDs don't exist yet)
+# Once Prometheus is deployed via Flux, this can be enabled
 prometheus:
   servicemonitor:
-    enabled: true
+    enabled: false
 podDisruptionBudget:
   enabled: true

@@ -1,3 +1,5 @@
 ---
+# NOTE: serviceMonitor disabled for bootstrap (Prometheus CRDs don't exist yet)
+# Once Prometheus is deployed via Flux, this can be enabled
 serviceMonitor:
-  create: true
+  create: false

@@ -17,8 +17,8 @@ on:
 permissions: write-all
 
 env:
-  OCI_REPO: "oci://ghcr.io/xunholy/manifests/${{ github.event.repository.name }}"
-  GHCR_REPO: "ghcr.io/xunholy/manifests/${{ github.event.repository.name }}"
+  OCI_REPO: "oci://ghcr.io/mak011p/manifests/${{ github.event.repository.name }}"
+  GHCR_REPO: "ghcr.io/mak011p/manifests/${{ github.event.repository.name }}"
 
 jobs:
   publish:
