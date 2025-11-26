@@ -1,0 +1,18 @@
+# Worker 2 - Network Configuration
+machine:
+  install:
+    image: ghcr.io/siderolabs/installer:v1.11.5
+    wipe: true
+    diskSelector:
+      size: "<= 1100GB"
+  network:
+    hostname: worker2
+    interfaces:
+      - interface: enp11s0
+        addresses:
+          - 192.168.50.22/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.50.1
+    nameservers:
+      - 192.168.50.1

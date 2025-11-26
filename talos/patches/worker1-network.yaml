@@ -1,0 +1,18 @@
+# Worker 1 - Network Configuration
+machine:
+  install:
+    image: ghcr.io/siderolabs/installer:v1.11.5
+    wipe: true
+    diskSelector:
+      size: "<= 600GB"
+  network:
+    hostname: worker1
+    interfaces:
+      - interface: enp7s0
+        addresses:
+          - 192.168.50.21/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.50.1
+    nameservers:
+      - 192.168.50.1

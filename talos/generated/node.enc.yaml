@@ -130,7 +130,7 @@ machine:
   #       # # wireguard server example
   #       # wireguard:
   #       #     privateKey: ABCDEF... # Specifies a private key configuration (base64 encoded).
-  #       #     listenPort: 51111 # Specifies a device's listening port.
+  #       #     listenPort: 51110 # Specifies a device's listening port.
   #       #     # Specifies a list of peer configurations to apply to a device.
   #       #     peers:
   #       #         - publicKey: ABCDEF... # Specifies the public key of this peer.
@@ -173,12 +173,10 @@ machine:
   #     enabled: true # Enable the KubeSpan feature.
   # Used to provide instructions for installations.
   install:
-    # The disk used for installations.
-    disk: /dev/sda
     # Allows for supplying the image used to perform the installation.
     image: ghcr.io/siderolabs/installer:v1.11.5
     # Indicates if the installation disk should be wiped at installation time.
-    wipe: false
+    wipe: true
     # # Look up disk using disk attributes like model, size, serial and others.
     # diskSelector:
     #     size: 4GB # Disk size.
@@ -192,7 +190,8 @@ machine:
   registries: {}
   # # Specifies mirror configuration for each registry host namespace.
   # mirrors:
-  #     ghcr.io:
+  #     gh
+  #icr.io:
   #         # List of endpoints (URLs) for registry mirrors to use.
   #         endpoints:
   #             - https://registry.insecure
@@ -545,8 +544,8 @@ sops:
         d1dOU0FPdkZscGpPUXVBRGF4a2ZieEUKcmOEqZtN8zyxH10K2uWaj0JshhbRyeak
         rDoqKwXP/sBtlYkUs3qEoeS/Z9ApTkdtOv/Z//4bwduCbcXGN5XotA==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2025-11-25T02:35:49Z"
-  mac: ENC[AES256_GCM,data:V26BcCNqcw7GxM05WLY709M7Z9JoiD12Vy3jFWKo9RRpnsj5qzTbleb05ZbXBo8EcjqP+ohJ/6YoNXMeadBP7zPOe1W6b1QI+AHau9KGTKwLOac7+RJGAjibYfVMNpSUx8rzfdSX38h0xJ8wXxiptHOFhba7nlzmW3wdd0mCSc4=,iv:17fDRL0jfSd/MHK7a0PI4IwcZi2gEqKeraB5fe7THQU=,tag:KeXsgXMyZ0X0nIMKcSErdg==,type:str]
+  lastmodified: "2025-11-26T00:19:46Z"
+  mac: ENC[AES256_GCM,data:7NRjnFDtLAYCOyPZk/6Az+a9WS0ASMwKgQAiXE4JNXmojlYhcOdJERYgI1sQXgvivOZIDqpXictO8CNWqRDO7mSO72p5LaOTdH1SzfWoN0QaRq4xUazKLxGt2vvhXPaQhKsaO9jTniiD7itiipNpkxxJkoTKkODJ1Jy3UCL91Ko=,iv:0T9ENAzuYIo1wck3MX+KED86sH45XcBrLgJih3aBoz0=,tag:AHjTpn3RvcXpqs9xT9W7qA==,type:str]
   pgp:
     - created_at: "2025-11-25T02:35:49Z"
       enc: |-
