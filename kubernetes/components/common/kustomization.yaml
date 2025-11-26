@@ -7,3 +7,8 @@ kind: Component
 # Once external-secrets is deployed via Flux, this can be re-enabled
 # resources:
 #   - ./alerts
+
+# Placeholder to keep kustomization valid (empty components fail validation)
+labels:
+  - pairs:
+      component: common
