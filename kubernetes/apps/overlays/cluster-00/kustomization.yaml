@@ -9,8 +9,6 @@ resources:
   - ../../base/crossplane-system
   - ../../base/development
   - ../../base/external-secrets
-  - ../../base/game-servers
-  - ../../base/home-system
   - ../../base/istio-ingress
   - ../../base/istio-system
   - ../../base/kguardian
@@ -20,8 +18,6 @@ resources:
   - ../../base/observability
   - ../../base/rook-ceph
   - ../../base/security-system
-  - ../../base/volsync-system
-  - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
   - ../../base/ai-system/kgateway/ks.yaml
   # - ../../base/crossplane-system/crossplane/ks.yaml
@@ -30,26 +26,6 @@ resources:
   - ../../base/external-secrets/onepassword/ks.yaml
   - ../../base/flux-system/flux-instance/ks.yaml
   - ../../base/flux-system/repositories
-  # - ../../base/game-servers/enemy-territory/ks.yaml
-  # - ../../base/game-servers/minecraft-ketting/ks.yaml
-  - ../../base/game-servers/minecraft-bedrock/ks.yaml
-  # - ../../base/game-servers/minecraft-proxy/ks.yaml
-  # - ../../base/game-servers/minecraft-rcon-web/ks.yaml
-  # - ../../base/game-servers/minecraft-router/ks.yaml
-  - ../../base/home-system/autobrr/ks.yaml
-  - ../../base/home-system/cross-seed/ks.yaml
-  # - ../../base/home-system/emqx/ks.yaml
-  - ../../base/home-system/home-assistant/ks.yaml
-  - ../../base/home-system/jellyseerr/ks.yaml
-  - ../../base/home-system/mosquitto/ks.yaml
-  - ../../base/home-system/prowlarr/ks.yaml
-  - ../../base/home-system/qbittorrent/ks.yaml
-  - ../../base/home-system/radarr/ks.yaml
-  - ../../base/home-system/recyclarr/ks.yaml
-  - ../../base/home-system/sabnzbd/ks.yaml
-  - ../../base/home-system/sonarr/ks.yaml
-  - ../../base/home-system/tautulli/ks.yaml
-  # - ../../base/home-system/zigbee2mqtt/ks.yaml
   - ../../base/istio-ingress/istio-gateway/ks.yaml
   # - ../../base/istio-ingress/bedrock-broadcaster/ks.yaml
   # - ../../base/istio-system/flagger/ks.yaml
@@ -86,7 +62,5 @@ resources:
   - ../../base/observability/silence-operator/ks.yaml
   - ../../base/observability/vpa/ks.yaml
   - ../../base/rook-ceph/rook-ceph/ks.yaml
-  - ../../base/volsync-system/kopia/ks.yaml
-  - ../../base/volsync-system/volsync/ks.yaml
   # - ../../base/security-system/kyverno/ks.yaml
   # - ../../base/security-system/gatekeeper/ks.yaml

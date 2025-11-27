@@ -14,7 +14,7 @@ frontend:
     tag: "v1.5.0"
 
 llmBridge:
-  enabled: true
+  enabled: false
   image:
     tag: "pr-423"
     sha: "sha256:4a5d89450175c0978fed59f562958c92229f821ce1b6727fc35f7e97ab7eb8c3"
@@ -24,8 +24,8 @@ llmBridge:
       name: "kguardian-secrets"
 
 mcpServer:
-  enabled: true
-  useKmcp: true
+  enabled: false
+  useKmcp: false
   image:
     tag: "v1.2.0"
     sha: "sha256:2aa6f79b76ce24ddd23c7717545c7f7ce5000c4ea571e34f637cc35a2ae3e58c"
