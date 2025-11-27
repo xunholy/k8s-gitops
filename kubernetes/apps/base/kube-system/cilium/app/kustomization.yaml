@@ -7,9 +7,7 @@ namespace: kube-system
 resources:
   - grafanadashboard.yaml
   - helmrelease.yaml
-  # NOTE: loadbalancer.yaml commented for bootstrap - requires Cilium CRDs first
-  # Re-enable after Cilium HelmRelease installs the CRDs
-  # - loadbalancer.yaml
+  - loadbalancer.yaml
   - ocirepository.yaml
   - virtualservice.yaml
 
