@@ -7,7 +7,6 @@ resources:
   - ../../base/actions-runner-system
   - ../../base/ai-system
   - ../../base/crossplane-system
-  - ../../base/democratic-csi
   - ../../base/development
   - ../../base/external-secrets
   - ../../base/game-servers
@@ -24,18 +23,14 @@ resources:
   - ../../base/volsync-system
   - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
-  - ../../base/ai-system/kagent/ks.yaml
   - ../../base/ai-system/kgateway/ks.yaml
-  - ../../base/ai-system/kmcp/ks.yaml
   # - ../../base/crossplane-system/crossplane/ks.yaml
-  - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
   - ../../base/external-secrets/external-secrets/ks.yaml
   - ../../base/external-secrets/onepassword/ks.yaml
   - ../../base/flux-system/flux-instance/ks.yaml
   - ../../base/flux-system/repositories
   # - ../../base/game-servers/enemy-territory/ks.yaml
-  - ../../base/game-servers/minecraft/ks.yaml
   # - ../../base/game-servers/minecraft-ketting/ks.yaml
   - ../../base/game-servers/minecraft-bedrock/ks.yaml
   # - ../../base/game-servers/minecraft-proxy/ks.yaml
