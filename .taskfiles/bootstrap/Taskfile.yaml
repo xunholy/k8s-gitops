@@ -58,7 +58,7 @@ tasks:
   secrets:
     desc: "Install cluster secrets and configs; Only to be used when updating secrets manually"
     env:
-      GOOGLE_APPLICATION_CREDENTIALS: '{{.HOME}}/keys/raspbernetes-d72f2d61e4ac.json'
+      GOOGLE_APPLICATION_CREDENTIALS: '{{.HOME}}/.config/gcloud/application_default_credentials.json'
     cmds:
       - kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
       - kubectl create namespace external-secrets --dry-run=client -oyaml | kubectl apply -f -
