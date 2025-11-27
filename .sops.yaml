@@ -9,8 +9,8 @@ creation_rules:
     mac_only_encrypted: true
   # Helm values files using SOPS (Age + PGP dual encryption)
   - path_regex: kubernetes/.*/values.enc.ya?ml
-    age: age1rkrsu00j5fhmmv9vhcw60m3s8tywc6enjsc05jwa6sle2xyt6f8q0y0tg3
-    pgp: BC25F32C8A7C4B27C25FC5A084EA1D2E7EEAFB67
+    age: age1ha5rkmrmdgd079xkvlp3svelhgd3wxm9l0v88es7hjp6ujcvnyjsxxrc7h
+    pgp: 67AF5B5A73800481D8E41667C87721FBF6BBF30C
     mac_only_encrypted: true
   # Age key file - encrypted with GCP KMS only (so Age private key can be stored in Git)
   - path_regex: kubernetes/clusters/.*/secrets/sops-age.encrypted.ya?ml
@@ -22,19 +22,19 @@ creation_rules:
   - path_regex: kubernetes/.*/*.enc.ya?ml
     encrypted_regex: ^(data|stringData)$
     unencrypted-regex: ^(description|metadata)$
-    age: age1rkrsu00j5fhmmv9vhcw60m3s8tywc6enjsc05jwa6sle2xyt6f8q0y0tg3
-    pgp: BC25F32C8A7C4B27C25FC5A084EA1D2E7EEAFB67
+    age: age1ha5rkmrmdgd079xkvlp3svelhgd3wxm9l0v88es7hjp6ujcvnyjsxxrc7h
+    pgp: 67AF5B5A73800481D8E41667C87721FBF6BBF30C
     mac_only_encrypted: true
   # Talos secret files using SOPS (Age + PGP dual encryption)
   - path_regex: talos/.*/.*.enc.ya?ml
-    age: age1rkrsu00j5fhmmv9vhcw60m3s8tywc6enjsc05jwa6sle2xyt6f8q0y0tg3
-    pgp: BC25F32C8A7C4B27C25FC5A084EA1D2E7EEAFB67
+    age: age1ha5rkmrmdgd079xkvlp3svelhgd3wxm9l0v88es7hjp6ujcvnyjsxxrc7h
+    pgp: 67AF5B5A73800481D8E41667C87721FBF6BBF30C
     encrypted_regex: '((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))'
     mac_only_encrypted: true
   # Terraform secret files using SOPS (Age + PGP dual encryption)
   - path_regex: terraform/.*/*.enc.ya?ml
-    age: age1rkrsu00j5fhmmv9vhcw60m3s8tywc6enjsc05jwa6sle2xyt6f8q0y0tg3
-    pgp: BC25F32C8A7C4B27C25FC5A084EA1D2E7EEAFB67
+    age: age1ha5rkmrmdgd079xkvlp3svelhgd3wxm9l0v88es7hjp6ujcvnyjsxxrc7h
+    pgp: 67AF5B5A73800481D8E41667C87721FBF6BBF30C
     mac_only_encrypted: true
 
 stores:

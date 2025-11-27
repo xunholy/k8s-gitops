@@ -1,0 +1,14 @@
+# Prevent Claude from reading secret files
+**/*.enc.yaml
+**/*.enc.age.yaml
+**/secret.yaml
+**/secrets.yaml
+**/*-secret.yaml
+**/*-secrets.yaml
+
+# Age private keys
+**/.config/sops/age/keys.txt
+**/keys.txt
+
+# GPG keyrings
+**/.gnupg/
