@@ -1,12 +1,18 @@
 variable "domain" {
-  description = "(OPTIONAL) The domain name to use for the cluster. (default: raspbernetes.com)"
-  default     = "raspbernetes.com"
+  description = "(OPTIONAL) The primary domain name for business/cluster services. (default: haydenagencies.com.au)"
+  default     = "haydenagencies.com.au"
+  type        = string
+}
+
+variable "personal_domain" {
+  description = "(OPTIONAL) The personal domain name for gaming/media services. (default: toemass.com)"
+  default     = "toemass.com"
   type        = string
 }
 
 variable "kubernetes_cluster_api" {
-  description = "(OPTIONAL) The Kubernetes cluster API endpoint to use for the cluster. (default: https://api.raspbernetes.com)"
-  default     = "api.raspbernetes.com"
+  description = "(OPTIONAL) The Kubernetes cluster API endpoint to use for the cluster. (default: https://api.haydenagencies.com.au)"
+  default     = "api.haydenagencies.com.au"
   type        = string
 }
 

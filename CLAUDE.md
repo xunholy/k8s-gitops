@@ -84,9 +84,9 @@ task --list
 
 **Important Variables:**
 - `CLUSTER`: cluster-00 (default cluster ID)
-- `GITHUB_USER`: xunholy
-- `GITHUB_REPO`: k8s-gitops
-- `GITHUB_BRANCH`: main
+- `GITHUB_USER`: mak011p
+- `GITHUB_REPO`: k8s-gitops-hayden
+- `GITHUB_BRANCH`: master
 
 ### Pre-commit Hooks
 The repository uses pre-commit for code quality:
@@ -111,9 +111,9 @@ sops -d path/to/file.enc.yaml
 ```
 
 **SOPS Configuration:**
-- **PGP Key**: `0635B8D34037A9453003FB7B93CAA682FF4C9014`
-- **Age Key**: `age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t`
-- **GCP KMS**: Used for stored PGP keys
+- **PGP Key**: `67AF5B5A73800481D8E41667C87721FBF6BBF30C`
+- **Age Key**: `age1ha5rkmrmdgd079xkvlp3svelhgd3wxm9l0v88es7hjp6ujcvnyjsxxrc7h`
+- **GCP KMS**: `projects/hayden-agencies-infra/locations/global/keyRings/sops/cryptoKeys/sops-key`
 - Encrypted files use `.enc.yaml` or `.enc.age.yaml` suffix
 
 ## Key Technologies & Patterns
@@ -202,7 +202,7 @@ task talos:config      # Decrypts talosconfig to ~/.talos/config
    - `ocirepository.yaml`: OCI repository sources
 4. **Ensure secrets are encrypted** before committing (use `sops` command)
 5. **Run pre-commit hooks**: `pre-commit run --all-files`
-6. **FluxCD auto-reconciles** from main branch after push
+6. **FluxCD auto-reconciles** from master branch after push
 
 ### Adding New Applications
 1. Create directory structure: `kubernetes/apps/base/[system-name]/[app-name]/`
@@ -252,7 +252,7 @@ dependsOn:
 ## Important Notes
 
 - **Cluster ID**: "cluster-00" is the default cluster identifier
-- **Branch**: `main` is the primary branch (auto-reconciled by FluxCD)
+- **Branch**: `master` is the primary branch (auto-reconciled by FluxCD)
 - **Talos configs**: Stored encrypted in `talos/generated/`
 - **Bootstrap method**: Uses Flux Operator (not traditional `flux bootstrap`)
 - **Chart sources**: Uses OCIRepository instead of HelmRepository
