@@ -30,7 +30,7 @@ spec:
       auth_url: "https://dex.${CLUSTER_DOMAIN}/auth"
       token_url: "https://dex.${CLUSTER_DOMAIN}/token"
       api_url: "https://dex.${CLUSTER_DOMAIN}/userinfo"
-      role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || contains(groups[*], 'people') && 'Viewer'"
+      role_attribute_path: "contains(groups[*], 'Hayden-Agencies:k8s-admins') && 'Admin' || contains(groups[*], 'people') && 'Viewer'"
     log:
       mode: console
     metrics:

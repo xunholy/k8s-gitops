@@ -17,9 +17,9 @@ config:
     http: 0.0.0.0:5556
   frontend:
     theme: 'tectonic'
-    issuer: 'Raspbernetes'
+    issuer: 'Hayden-Agencies'
     issuerUrl: 'https://${CLUSTER_DOMAIN}'
-    logoUrl: https://raw.githubusercontent.com/raspbernetes/docs/master/website/static/img/logo.png
+    logoUrl: https://avatars.githubusercontent.com/u/Hayden-Agencies
   expiry:
     signingKeys: '6h'
     idTokens: '24h'
@@ -43,7 +43,7 @@ config:
         # 'orgs' can be used to map groups from Github
         # https://github.com/coreos/dex/blob/master/Documentation/connectors/github.md
         orgs:
-          - name: raspbernetes
+          - name: Hayden-Agencies
   # The 'name' must match the k8s API server's 'oidc-client-id'
   staticClients:
     - id: oauth2-proxy

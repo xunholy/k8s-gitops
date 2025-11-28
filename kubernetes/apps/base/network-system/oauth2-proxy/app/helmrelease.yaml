@@ -65,7 +65,7 @@ spec:
         auth_logging = true
         cookie_domains = ".${CLUSTER_DOMAIN}"
         cookie_httponly = true
-        cookie_name = "_raspbernetes_oauth"
+        cookie_name = "_hayden_agencies_oauth"
         cookie_refresh = "1h"
         cookie_samesite = "lax"
         cookie_secure = true
