@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/monitoring.coreos.com/podmonitor_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/monitoring.coreos.com/podmonitor_v1.json
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
@@ -47,7 +47,7 @@ spec:
       action: replace
       targetLabel: pod
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/monitoring.coreos.com/servicemonitor_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/monitoring.coreos.com/servicemonitor_v1.json
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:

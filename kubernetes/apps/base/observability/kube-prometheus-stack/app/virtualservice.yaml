@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1beta1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/networking.istio.io/virtualservice_v1beta1.json
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -19,7 +19,7 @@ spec:
               number: 9093
             host: alertmanager-operated.observability.svc.cluster.local
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1beta1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/networking.istio.io/virtualservice_v1beta1.json
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:

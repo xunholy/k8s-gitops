@@ -1,6 +1,6 @@
 # Used to enable webhook-receivers https://toolkit.fluxcd.io/guides/webhook-receivers/
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1beta1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/networking.istio.io/virtualservice_v1beta1.json
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:

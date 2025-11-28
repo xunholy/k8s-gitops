@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1beta1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/networking.istio.io/virtualservice_v1beta1.json
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -21,7 +21,7 @@ spec:
             host: home-assistant.home-system.svc.cluster.local
           weight: 100
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.istio.io/virtualservice_v1beta1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/networking.istio.io/virtualservice_v1beta1.json
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:

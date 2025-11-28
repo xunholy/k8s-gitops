@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/infra.contrib.fluxcd.io/terraform_v1alpha1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/infra.contrib.fluxcd.io/terraform_v1alpha1.json
 apiVersion: infra.contrib.fluxcd.io/v1alpha1
 kind: Terraform
 metadata:

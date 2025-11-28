@@ -7,8 +7,8 @@ Use the following command to generate the secret with the required fields for th
 ```bash
 kubectl create secret generic cloudflare-ddns \
   --from-literal=api-token="" \
-  --from-literal=zones="raspbernetes.com" \
-  --from-literal=hosts="raspbernetes.com" \
+  --from-literal=zones="haydenagencies.com.au" \
+  --from-literal=hosts="haydenagencies.com.au" \
   --from-literal=record-types="A;A;AAAA" \
   --namespace network-system --dry-run -o yaml > .secrets/k8s-secret-cloudflare-ddns.yaml
 ```

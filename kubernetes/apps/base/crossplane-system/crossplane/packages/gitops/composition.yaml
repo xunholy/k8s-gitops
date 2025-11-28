@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/apiextensions.crossplane.io/composition_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/apiextensions.crossplane.io/composition_v1.json
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:

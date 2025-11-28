@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/security.istio.io/authorizationpolicy_v1beta1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/security.istio.io/authorizationpolicy_v1beta1.json
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -24,6 +24,6 @@ spec:
     - to:
         - operation:
             hosts:
-              - 'sealed-secrets.raspbernetes.com'
-              - 'alert-manager.raspbernetes.com'
-              - 'prometheus.raspbernetes.com'
+              - 'sealed-secrets.haydenagencies.com.au'
+              - 'alert-manager.haydenagencies.com.au'
+              - 'prometheus.haydenagencies.com.au'

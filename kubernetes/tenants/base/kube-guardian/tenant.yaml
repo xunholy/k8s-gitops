@@ -17,7 +17,7 @@ metadata:
   namespace: kube-guardian-tenant
 
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/rbac.authorization.k8s.io/rolebinding_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/rbac.authorization.k8s.io/rolebinding_v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
