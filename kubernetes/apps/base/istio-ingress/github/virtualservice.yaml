@@ -15,10 +15,10 @@ spec:
         - uri:
             exact: "/"
       rewrite:
-        uri: "/k8s-gitops"
-        authority: xunholy.github.io
+        uri: "/k8s-gitops-hayden"
+        authority: mak011p.github.io
       route:
         - destination:
-            host: xunholy.github.io
+            host: mak011p.github.io
             port:
               number: 443

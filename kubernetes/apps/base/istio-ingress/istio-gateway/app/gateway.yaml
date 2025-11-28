@@ -26,7 +26,7 @@ spec:
         - '${CLUSTER_DOMAIN}'
         - '*.${CLUSTER_DOMAIN}'
       tls:
-        credentialName: raspbernetes-com-le
+        credentialName: hayden-agencies-le
         mode: SIMPLE
         minProtocolVersion: TLSV1_2
         maxProtocolVersion: TLSV1_3

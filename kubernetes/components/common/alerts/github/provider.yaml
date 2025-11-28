@@ -7,6 +7,6 @@ metadata:
   namespace: flux-system
 spec:
   type: github
-  address: https://github.com/xunholy/k8s-gitops
+  address: https://github.com/mak011p/k8s-gitops-hayden
   secretRef:
     name: github-status-token-secret

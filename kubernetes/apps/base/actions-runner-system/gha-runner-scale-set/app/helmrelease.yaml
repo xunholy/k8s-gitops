@@ -43,7 +43,7 @@ spec:
     nameOverride: gha-runner-scale-set
     runnerScaleSetName: gha-runner-scale-set
     githubConfigSecret: github-app-secret
-    githubConfigUrl: https://github.com/xunholy/k8s-gitops
+    githubConfigUrl: https://github.com/mak011p/k8s-gitops-hayden
     maxRunners: 3
     minRunners: 1
     controllerServiceAccount:

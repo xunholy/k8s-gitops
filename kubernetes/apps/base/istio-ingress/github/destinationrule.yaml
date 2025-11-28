@@ -4,7 +4,7 @@ metadata:
   name: github
   namespace: istio-ingress
 spec:
-  host: "xunholy.github.io"
+  host: "mak011p.github.io"
   trafficPolicy:
     tls:
       mode: SIMPLE
