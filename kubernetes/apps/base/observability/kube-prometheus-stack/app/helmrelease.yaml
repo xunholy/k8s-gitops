@@ -45,9 +45,7 @@ spec:
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
       alertmanagerSpec:
-        alertmanagerConfiguration:
-          name: alertmanager
-        externalUrl: https://alertmanager.${CLUSTER_DOMAIN}
+        externalUrl: https://alert-manager.${CLUSTER_DOMAIN}
         storage:
           volumeClaimTemplate:
             spec:
