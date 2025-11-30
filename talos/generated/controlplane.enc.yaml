@@ -451,10 +451,10 @@ cluster:
     image: registry.k8s.io/kube-controller-manager:v1.34.1
   # Kube-proxy server-specific configuration options
   proxy:
+    # # Disable kube-proxy deployment on cluster bootstrap.
+    disabled: true
     # The container image used in the kube-proxy manifest.
     image: registry.k8s.io/kube-proxy:v1.34.1
-    # # Disable kube-proxy deployment on cluster bootstrap.
-    # disabled: false
   # Scheduler server specific configuration options.
   scheduler:
     # The container image used in the scheduler manifest.
