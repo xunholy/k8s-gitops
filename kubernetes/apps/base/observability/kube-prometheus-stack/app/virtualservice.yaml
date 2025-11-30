@@ -5,6 +5,9 @@ kind: VirtualService
 metadata:
   name: alert-manager
   namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
+    external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
     - 'alert-manager.${CLUSTER_DOMAIN}'
@@ -25,6 +28,9 @@ kind: VirtualService
 metadata:
   name: prometheus
   namespace: observability
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
+    external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   hosts:
     - 'prometheus.${CLUSTER_DOMAIN}'
