@@ -64,7 +64,7 @@ resource "cloudflare_zone_settings_override" "primary_domain" {
       nosniff            = true
       preload            = true
     }
-    security_level              = "high"
+    security_level              = "medium"
     server_side_exclude         = "on"
     sort_query_string_for_cache = "off"
     ssl                         = "full"
@@ -92,47 +92,7 @@ resource "cloudflare_filter" "waf_geoip_country_filter" {
 }
 
 resource "cloudflare_filter" "waf_badbots_filter" {
-  expression = <<-EOT
-    (http.user_agent contains "Yandex") or
-    (http.user_agent contains "muckrack") or
-    (http.user_agent contains "Qwantify") or
-    (http.user_agent contains "Sogou") or
-    (http.user_agent contains "BUbiNG") or
-    (http.user_agent contains "knowledge") or
-    (http.user_agent contains "CFNetwork") or
-    (http.user_agent contains "Scrapy") or
-    (http.user_agent contains "SemrushBot") or
-    (http.user_agent contains "AhrefsBot") or
-    (http.user_agent contains "Baiduspider") or
-    (http.user_agent contains "python-requests") or
-    (http.user_agent contains "curl") or
-    (http.user_agent contains "wget") or
-    (http.user_agent contains "Go-http-client") or
-    (http.user_agent contains "Java") or
-    (http.user_agent contains "libwww") or
-    (http.user_agent contains "httpunit") or
-    (http.user_agent contains "nutch") or
-    (http.user_agent contains "phpcrawl") or
-    (http.user_agent contains "msnbot") or
-    (http.user_agent contains "dotbot") or
-    (http.user_agent contains "MJ12bot") or
-    (http.user_agent contains "AspiegelBot") or
-    (http.user_agent contains "ZoominfoBot") or
-    (http.user_agent contains "GPTBot") or
-    (http.user_agent contains "CCBot") or
-    (http.user_agent contains "anthropic-ai") or
-    (http.user_agent contains "ClaudeBot") or
-    (http.user_agent contains "PetalBot") or
-    (http.user_agent contains "DataForSeoBot") or
-    (http.user_agent eq "") or
-    ((http.user_agent contains "crawl") or
-    (http.user_agent contains "Crawl") or
-    (http.user_agent contains "bot" and not http.user_agent contains "bingbot" and not http.user_agent contains "Googlebot" and not http.user_agent contains "Twitterbot") or
-    (http.user_agent contains "Bot" and not http.user_agent contains "Googlebot") or
-    (http.user_agent contains "Spider") or
-    (http.user_agent contains "spider"))
-    and not cf.client.bot
-  EOT
+  expression = "(http.user_agent contains \"Yandex\") \nor (http.user_agent contains \"muckrack\") \nor (http.user_agent contains \"Qwantify\") \nor (http.user_agent contains \"Sogou\") \nor (http.user_agent contains \"BUbiNG\") \nor (http.user_agent contains \"knowledge\") \nor (http.user_agent contains \"CFNetwork\") \nor (http.user_agent contains \"Scrapy\") \nor (http.user_agent contains \"SemrushBot\") \nor (http.user_agent contains \"AhrefsBot\") \nor (http.user_agent contains \"Baiduspider\") \nor (http.user_agent contains \"python-requests\") \nor ((http.user_agent contains \"crawl\") \nor (http.user_agent contains \"Crawl\") \nor (http.user_agent contains \"bot\" and not http.user_agent contains \"bingbot\" and not http.user_agent contains \"Google\" and not http.user_agent contains \"Twitter\")\nor (http.user_agent contains \"Bot\" and not http.user_agent contains \"Google\") \nor (http.user_agent contains \"Spider\") \nor (http.user_agent contains \"spider\") \nand not cf.client.bot)"
   paused     = false
   zone_id    = data.cloudflare_zone.domain.id
 }
@@ -195,7 +155,7 @@ resource "cloudflare_firewall_rule" "terraform_managed_resource_67142a92e1ff4293
 resource "cloudflare_rate_limit" "zone_rate_limit" {
   description = "Rate Limit Protection"
   period      = 10
-  threshold   = 1000
+  threshold   = 5000
   zone_id     = data.cloudflare_zone.domain.id
   action {
     mode    = "ban"
@@ -402,11 +362,11 @@ resource "cloudflare_firewall_rule" "personal_geoip_rule" {
 resource "cloudflare_rate_limit" "personal_zone_rate_limit" {
   description = "Rate Limit Protection"
   period      = 10
-  threshold   = 1000
+  threshold   = 4000
   zone_id     = data.cloudflare_zone.personal_domain.id
   action {
     mode    = "ban"
-    timeout = 3600
+    timeout = 900
   }
   match {
     request {
