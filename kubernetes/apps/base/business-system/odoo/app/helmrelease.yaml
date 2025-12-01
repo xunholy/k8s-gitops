@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/odoo
-              tag: 0.1.0
+              tag: 18.0-custom1
             envFrom:
               - secretRef:
                   name: odoo-app
