@@ -123,3 +123,15 @@ spec:
         globalMounts:
           - path: /etc/odoo/odoo.conf
             subPath: odoo.conf
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      extra-addons:
+        type: emptyDir
+        globalMounts:
+          - path: /mnt/extra-addons
+      enterprise-addons:
+        type: emptyDir
+        globalMounts:
+          - path: /mnt/enterprise-addons
