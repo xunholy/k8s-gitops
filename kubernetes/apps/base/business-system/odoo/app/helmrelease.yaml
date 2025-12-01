@@ -100,6 +100,8 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
+      imagePullSecrets:
+        - name: ghcr-pull
     service:
       app:
         controller: odoo
