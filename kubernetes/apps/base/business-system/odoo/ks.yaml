@@ -19,7 +19,7 @@ spec:
   decryption:
     provider: sops
     secretRef:
-      name: sops-age-secret
+      name: sops-gpg
   dependsOn:
     - name: cnpg
       namespace: database-system
