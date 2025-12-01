@@ -5,9 +5,8 @@ kind: Kustomization
 
 resources:
   - configmap.yaml
-  - externalsecret-app.yaml
   - externalsecret-ghcr.yaml
-  - externalsecret-postgres.yaml
+  - secrets.enc.yaml
   - helmrelease.yaml
   - ocirepository.yaml
   - postgres-cluster.yaml

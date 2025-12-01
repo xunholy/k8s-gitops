@@ -13,6 +13,7 @@ includes:
   core: .taskfiles/core
   flux: .taskfiles/flux
   docs: .taskfiles/mkdocs
+  odoo: .taskfiles/odoo
   talos: .taskfiles/talos
 
 tasks:

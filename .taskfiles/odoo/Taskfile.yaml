@@ -1,0 +1,166 @@
+---
+version: '3.41.0'
+
+vars:
+  ODOO_NAMESPACE: '{{.ODOO_NAMESPACE | default "business-system"}}'
+  ODOO_DEPLOYMENT: '{{.ODOO_DEPLOYMENT | default "odoo"}}'
+  ODOO_CONTAINER: '{{.ODOO_CONTAINER | default "app"}}'
+  PG_NAMESPACE: '{{.PG_NAMESPACE | default "database-system"}}'
+  PG_CLUSTER: '{{.PG_CLUSTER | default "odoo-pg"}}'
+  PG_APP_SECRET: '{{.PG_APP_SECRET | default "odoo-pg-app"}}'
+  INTEGRATION_ID: '{{.INTEGRATION_ID | default "1"}}'
+
+tasks:
+  shell:
+    desc: "Odoo shell inside the running pod"
+    cmds:
+      - |
+        kubectl -n {{.ODOO_NAMESPACE}} exec deploy/{{.ODOO_DEPLOYMENT}} -c {{.ODOO_CONTAINER}} -- \
+          bash -lc 'odoo shell -d "$POSTGRES_DB" --db_user="$POSTGRES_USER" --db_password="$POSTGRES_PASSWORD" --no-http'
+
+  upgrade:
+    desc: "Upgrade a module (MODULE=name)"
+    cmds:
+      - |
+        if [ -z "{{.MODULE}}" ]; then echo "MODULE is required"; exit 1; fi
+        kubectl -n {{.ODOO_NAMESPACE}} exec deploy/{{.ODOO_DEPLOYMENT}} -c {{.ODOO_CONTAINER}} -- \
+          bash -lc 'odoo -u "{{.MODULE}}" -d "$POSTGRES_DB" --db_user="$POSTGRES_USER" --db_password="$POSTGRES_PASSWORD" -c /etc/odoo/odoo.conf'
+
+  install:
+    desc: "Install a module (MODULE=name)"
+    cmds:
+      - |
+        if [ -z "{{.MODULE}}" ]; then echo "MODULE is required"; exit 1; fi
+        kubectl -n {{.ODOO_NAMESPACE}} exec deploy/{{.ODOO_DEPLOYMENT}} -c {{.ODOO_CONTAINER}} -- \
+          bash -lc 'odoo -i "{{.MODULE}}" -d "$POSTGRES_DB" --db_user="$POSTGRES_USER" --db_password="$POSTGRES_PASSWORD" -c /etc/odoo/odoo.conf'
+
+  logs:
+    desc: "Tail Odoo logs"
+    cmds:
+      - kubectl -n {{.ODOO_NAMESPACE}} logs deploy/{{.ODOO_DEPLOYMENT}} -c {{.ODOO_CONTAINER}} -f {{.CLI_ARGS}}
+
+  restart:
+    desc: "Rollout restart the Odoo deployment"
+    cmds:
+      - kubectl -n {{.ODOO_NAMESPACE}} rollout restart deploy/{{.ODOO_DEPLOYMENT}}
+
+  psql:
+    desc: "psql into the CNPG primary (uses odoo-pg-app secret)"
+    cmds:
+      - |
+        bash -lc 'set -euo pipefail
+        PG_POD=$(kubectl -n {{.PG_NAMESPACE}} get pod -l cnpg.io/cluster={{.PG_CLUSTER}},cnpg.io/podRole=primary -o jsonpath="{.items[0].metadata.name}")
+        if [ -z "$PG_POD" ]; then echo "Primary pod not found"; exit 1; fi
+        PGUSER=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.username}" | base64 -d)
+        PGPASSWORD=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.password}" | base64 -d)
+        PGDATABASE=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.dbname}" | base64 -d)
+        kubectl -n {{.PG_NAMESPACE}} exec -it "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" "$PGDATABASE" {{.CLI_ARGS}}'
+
+  dump:
+    desc: "Dump database to a local file (FILE=/path/to/out.dump, default /tmp/odoo-<timestamp>.dump)"
+    cmds:
+      - |
+        bash -lc 'set -euo pipefail
+        FILE="{{.FILE}}"
+        if [ -z "$FILE" ]; then FILE="/tmp/odoo-$(date +%Y%m%d_%H%M%S).dump"; fi
+        PG_POD=$(kubectl -n {{.PG_NAMESPACE}} get pod -l cnpg.io/cluster={{.PG_CLUSTER}},cnpg.io/podRole=primary -o jsonpath="{.items[0].metadata.name}")
+        if [ -z "$PG_POD" ]; then echo "Primary pod not found"; exit 1; fi
+        PGUSER=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.username}" | base64 -d)
+        PGPASSWORD=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.password}" | base64 -d)
+        PGDATABASE=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.dbname}" | base64 -d)
+        echo "Writing dump to $FILE"
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" pg_dump -Fc -U "$PGUSER" "$PGDATABASE" > "$FILE"'
+
+  restore:
+    desc: "Restore database from a dump file (FILE=/path/to/dump)"
+    cmds:
+      - |
+        bash -lc 'set -euo pipefail
+        if [ -z "{{.FILE}}" ]; then echo "FILE is required"; exit 1; fi
+        if [ ! -f "{{.FILE}}" ]; then echo "FILE not found: {{.FILE}}"; exit 1; fi
+        PG_POD=$(kubectl -n {{.PG_NAMESPACE}} get pod -l cnpg.io/cluster={{.PG_CLUSTER}},cnpg.io/podRole=primary -o jsonpath="{.items[0].metadata.name}")
+        if [ -z "$PG_POD" ]; then echo "Primary pod not found"; exit 1; fi
+        PGUSER=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.username}" | base64 -d)
+        PGPASSWORD=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.password}" | base64 -d)
+        PGDATABASE=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.dbname}" | base64 -d)
+        echo "Restoring {{.FILE}} into $PGDATABASE"
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" dropdb -U "$PGUSER" --if-exists "$PGDATABASE"
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" createdb -U "$PGUSER" "$PGDATABASE"
+        kubectl -n {{.PG_NAMESPACE}} exec -i "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" pg_restore -U "$PGUSER" -d "$PGDATABASE" < "{{.FILE}}"'
+
+  check-jobs:
+    desc: "Check queue job status and Odoo worker counts"
+    cmds:
+      - |
+        bash -lc 'set -euo pipefail
+        PG_POD=$(kubectl -n {{.PG_NAMESPACE}} get pod -l cnpg.io/cluster={{.PG_CLUSTER}},cnpg.io/podRole=primary -o jsonpath="{.items[0].metadata.name}")
+        if [ -z "$PG_POD" ]; then echo "Primary pod not found"; exit 1; fi
+        PGUSER=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.username}" | base64 -d)
+        PGPASSWORD=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.password}" | base64 -d)
+        PGDATABASE=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.dbname}" | base64 -d)
+
+        echo "=== QUEUE JOB STATUS BY CHANNEL ==="
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" "$PGDATABASE" -c "SELECT channel, state, COUNT(*) FROM queue_job WHERE state IN ('started','enqueued','failed') GROUP BY channel, state ORDER BY channel, state;" || echo "No active jobs"
+        echo
+        echo "=== QUEUE JOB SUMMARY ==="
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" "$PGDATABASE" -c "SELECT state, COUNT(*) FROM queue_job GROUP BY state ORDER BY state;" || echo "No queue_job table"
+        echo
+        echo "=== QUEUE JOB CHANNELS CONFIGURED ==="
+        kubectl -n {{.ODOO_NAMESPACE}} logs deploy/{{.ODOO_DEPLOYMENT}} -c {{.ODOO_CONTAINER}} | grep "Configured channel" | tail -4 || echo "No channel configuration found"
+        echo
+        echo "=== POSTGRESQL CONNECTIONS ==="
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" "$PGDATABASE" -c "SELECT COUNT(*) as current_connections, (SELECT setting::int FROM pg_settings WHERE name='max_connections') as max_connections, ROUND(100.0 * COUNT(*) / (SELECT setting::int FROM pg_settings WHERE name='max_connections'), 1) as percent_used FROM pg_stat_activity WHERE datname='$PGDATABASE';" || echo "Cannot connect to database"
+        echo
+        echo "=== ODOO WORKERS ==="
+        kubectl -n {{.ODOO_NAMESPACE}} exec deploy/{{.ODOO_DEPLOYMENT}} -c {{.ODOO_CONTAINER}} -- bash -c "ps -ef | grep 'python3 /usr/bin/odoo' | grep -v grep | wc -l" || echo "Cannot count workers"'
+
+  fix-jobs:
+    desc: "Mark started/enqueued jobs back to pending"
+    cmds:
+      - |
+        bash -lc 'set -euo pipefail
+        PG_POD=$(kubectl -n {{.PG_NAMESPACE}} get pod -l cnpg.io/cluster={{.PG_CLUSTER}},cnpg.io/podRole=primary -o jsonpath="{.items[0].metadata.name}")
+        if [ -z "$PG_POD" ]; then echo "Primary pod not found"; exit 1; fi
+        PGUSER=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.username}" | base64 -d)
+        PGPASSWORD=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.password}" | base64 -d)
+        PGDATABASE=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.dbname}" | base64 -d)
+        SQL="UPDATE queue_job SET state='pending' WHERE state IN ('started','enqueued');"
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" "$PGDATABASE" -c "$SQL"'
+
+  clear-jobs:
+    desc: "Delete pending/enqueued/started jobs"
+    cmds:
+      - |
+        bash -lc 'set -euo pipefail
+        PG_POD=$(kubectl -n {{.PG_NAMESPACE}} get pod -l cnpg.io/cluster={{.PG_CLUSTER}},cnpg.io/podRole=primary -o jsonpath="{.items[0].metadata.name}")
+        if [ -z "$PG_POD" ]; then echo "Primary pod not found"; exit 1; fi
+        PGUSER=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.username}" | base64 -d)
+        PGPASSWORD=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.password}" | base64 -d)
+        PGDATABASE=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.dbname}" | base64 -d)
+        SQL="DELETE FROM queue_job WHERE state IN ('pending','enqueued','started');"
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" "$PGDATABASE" -c "$SQL"'
+
+  purge-product:
+    desc: "Purge integration externals/mappings for PRODUCT (PRODUCT=sku prefix, INTEGRATION_ID defaults to 1)"
+    cmds:
+      - |
+        bash -lc 'set -euo pipefail
+        if [ -z "{{.PRODUCT}}" ]; then echo "PRODUCT is required, e.g. task odoo:purge-product PRODUCT=test1234"; exit 1; fi
+        PG_POD=$(kubectl -n {{.PG_NAMESPACE}} get pod -l cnpg.io/cluster={{.PG_CLUSTER}},cnpg.io/podRole=primary -o jsonpath="{.items[0].metadata.name}")
+        if [ -z "$PG_POD" ]; then echo "Primary pod not found"; exit 1; fi
+        PGUSER=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.username}" | base64 -d)
+        PGPASSWORD=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.password}" | base64 -d)
+        PGDATABASE=$(kubectl -n {{.PG_NAMESPACE}} get secret {{.PG_APP_SECRET}} -o jsonpath="{.data.dbname}" | base64 -d)
+        PRODUCT="{{.PRODUCT}}"
+        INTEGRATION_ID="{{.INTEGRATION_ID}}"
+        echo "Purging records with prefix '$PRODUCT' for integration $INTEGRATION_ID"
+        SQL1="WITH variant_ids AS (SELECT id, external_product_template_id FROM integration_product_product_external WHERE integration_id = ${INTEGRATION_ID} AND (lower(external_reference) LIKE lower('${PRODUCT}%') OR lower(code) LIKE lower('${PRODUCT}%') OR lower(name) LIKE lower('${PRODUCT}%'))) DELETE FROM integration_product_product_mapping WHERE integration_id = ${INTEGRATION_ID} AND external_product_id IN (SELECT id FROM variant_ids);"
+        SQL2="WITH variant_ids AS (SELECT id, external_product_template_id FROM integration_product_product_external WHERE integration_id = ${INTEGRATION_ID} AND (lower(external_reference) LIKE lower('${PRODUCT}%') OR lower(code) LIKE lower('${PRODUCT}%') OR lower(name) LIKE lower('${PRODUCT}%'))) DELETE FROM integration_product_product_external WHERE id IN (SELECT id FROM variant_ids);"
+        SQL3="WITH variant_ids AS (SELECT id, external_product_template_id FROM integration_product_product_external WHERE integration_id = ${INTEGRATION_ID} AND (lower(external_reference) LIKE lower('${PRODUCT}%') OR lower(code) LIKE lower('${PRODUCT}%') OR lower(name) LIKE lower('${PRODUCT}%'))), template_ids AS (SELECT external_product_template_id FROM variant_ids WHERE external_product_template_id IS NOT NULL UNION SELECT id FROM integration_product_template_external WHERE integration_id = ${INTEGRATION_ID} AND (lower(external_reference) LIKE lower('${PRODUCT}%') OR lower(code) LIKE lower('${PRODUCT}%') OR lower(name) LIKE lower('${PRODUCT}%'))) DELETE FROM integration_product_template_mapping WHERE integration_id = ${INTEGRATION_ID} AND external_template_id IN (SELECT id FROM template_ids);"
+        SQL4="WITH variant_ids AS (SELECT id, external_product_template_id FROM integration_product_product_external WHERE integration_id = ${INTEGRATION_ID} AND (lower(external_reference) LIKE lower('${PRODUCT}%') OR lower(code) LIKE lower('${PRODUCT}%') OR lower(name) LIKE lower('${PRODUCT}%'))), template_ids AS (SELECT external_product_template_id FROM variant_ids WHERE external_product_template_id IS NOT NULL UNION SELECT id FROM integration_product_template_external WHERE integration_id = ${INTEGRATION_ID} AND (lower(external_reference) LIKE lower('${PRODUCT}%') OR lower(code) LIKE lower('${PRODUCT}%') OR lower(name) LIKE lower('${PRODUCT}%'))) DELETE FROM integration_product_template_external WHERE id IN (SELECT id FROM template_ids);"
+        SQL5="DELETE FROM import_product_line WHERE lower(code) LIKE lower('${PRODUCT}%') OR lower(reference) LIKE lower('${PRODUCT}%') OR lower(name) LIKE lower('${PRODUCT}%');"
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" "$PGDATABASE" -c "$SQL1"
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" "$PGDATABASE" -c "$SQL2"
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" "$PGDATABASE" -c "$SQL3"
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" "$PGDATABASE" -c "$SQL4"
+        kubectl -n {{.PG_NAMESPACE}} exec "$PG_POD" -c postgres -- env PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" "$PGDATABASE" -c "$SQL5"'
