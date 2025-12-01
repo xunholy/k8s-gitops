@@ -45,14 +45,31 @@ spec:
             image:
               repository: ghcr.io/hayden-agencies/odoo
               tag: 18.0-custom1
-            envFrom:
-              - secretRef:
-                  name: odoo-app
             env:
               - name: POSTGRES_HOST
                 value: odoo-pg-rw.business-system.svc.cluster.local
               - name: POSTGRES_PORT
                 value: "5432"
+              - name: POSTGRES_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: odoo-pg-app
+                    key: username
+              - name: POSTGRES_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: odoo-pg-app
+                    key: password
+              - name: POSTGRES_DB
+                valueFrom:
+                  secretKeyRef:
+                    name: odoo-pg-app
+                    key: dbname
+              - name: ODOO_MASTER_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: odoo-app
+                    key: ODOO_MASTER_PASSWORD
             command:
               - /bin/bash
               - -c
