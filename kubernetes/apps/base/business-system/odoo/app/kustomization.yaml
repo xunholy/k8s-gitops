@@ -6,7 +6,10 @@ kind: Kustomization
 resources:
   - configmap.yaml
   - externalsecret-ghcr.yaml
-  - secrets.enc.yaml
+  - externalsecret-backup.yaml
+  - secret-odoo-app.enc.yaml
+  - secret-odoo-pg-superuser.enc.yaml
+  - secret-odoo-pg-app.enc.yaml
   - helmrelease.yaml
   - ocirepository.yaml
   - postgres-cluster.yaml
