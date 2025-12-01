@@ -49,7 +49,7 @@ spec:
     retentionPolicy: "7d"
     barmanObjectStore:
       destinationPath: gs://haydenagencies-odoo-backups/base
-      gcsCredentials:
+      googleCredentials:
         applicationCredentials:
           name: odoo-pg-backup
           key: gcsApplicationCredentials
