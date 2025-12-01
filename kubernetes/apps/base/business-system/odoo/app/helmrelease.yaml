@@ -43,7 +43,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/home-operations/odoo
+              repository: ghcr.io/hayden-agencies/odoo
               tag: 18.0-custom1
             envFrom:
               - secretRef:
