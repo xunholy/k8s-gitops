@@ -83,10 +83,10 @@ spec:
                 spec:
                   httpGet:
                     path: /web/health
-                    port: http
-                  initialDelaySeconds: 30
-                  periodSeconds: 10
-                  timeoutSeconds: 5
+                    port: 8069
+                  initialDelaySeconds: 120
+                  periodSeconds: 30
+                  timeoutSeconds: 10
                   failureThreshold: 6
               readiness:
                 enabled: true
@@ -94,11 +94,11 @@ spec:
                 spec:
                   httpGet:
                     path: /web/health
-                    port: http
-                  initialDelaySeconds: 20
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 3
+                    port: 8069
+                  initialDelaySeconds: 60
+                  periodSeconds: 15
+                  timeoutSeconds: 10
+                  failureThreshold: 10
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
