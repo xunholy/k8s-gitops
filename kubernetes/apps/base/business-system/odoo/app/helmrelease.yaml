@@ -50,7 +50,7 @@ spec:
                   name: odoo-app
             env:
               - name: POSTGRES_HOST
-                value: odoo-pg-rw.database-system.svc.cluster.local
+                value: odoo-pg-rw.business-system.svc.cluster.local
               - name: POSTGRES_PORT
                 value: "5432"
             command:

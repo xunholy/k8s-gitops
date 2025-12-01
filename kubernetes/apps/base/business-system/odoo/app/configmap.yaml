@@ -7,7 +7,7 @@ metadata:
 data:
   odoo.conf: |
     [options]
-    db_host = odoo-pg-rw.database-system.svc.cluster.local
+    db_host = odoo-pg-rw.business-system.svc.cluster.local
     db_port = 5432
     db_template = template0
     import_limit = 25000
