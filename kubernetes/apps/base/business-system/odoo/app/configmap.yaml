@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: odoo-config
+  namespace: business-system
+data:
+  odoo.conf: |
+    [options]
+    db_host = odoo-pg-rw.database-system.svc.cluster.local
+    db_port = 5432
+    db_template = template0
+    import_limit = 25000
+
+    # Server settings
+    http_port = 8069
+    xmlrpc_port = 8071
+    gevent_port = 8072
+
+    # Addons paths
+    addons_path = /usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons/custom,/mnt/extra-addons/vendor-oca,/mnt/extra-addons/vendor-ventor,/mnt/enterprise-addons
+
+    # Data directory
+    data_dir = /var/lib/odoo
+
+    # Server-wide modules
+    server_wide_modules = base,web
+
+    # Log settings
+    log_level = info
+    log_handler = :INFO
+
+    # Performance settings
+    workers = 60
+    worker_class = gevent
+    max_cron_threads = 8
+    limit_memory_hard = 5368709120
+    limit_memory_soft = 4294967296
+    limit_request = 8192
+    limit_time_cpu = 600
+    limit_time_real = 2400
+    limit_time_real_cron = 3600
+
+    # Deployment settings
+    proxy_mode = True
+    list_db = False

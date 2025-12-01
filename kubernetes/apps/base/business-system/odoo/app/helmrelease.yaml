@@ -1,0 +1,123 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app odoo
+  namespace: business-system
+spec:
+  interval: 15m
+  chartRef:
+    kind: OCIRepository
+    name: odoo
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 5m
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: false
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    controllers:
+      *app :
+        replicas: 1
+        containers:
+          app:
+            image:
+              repository: ghcr.io/home-operations/odoo
+              tag: 0.1.0
+            envFrom:
+              - secretRef:
+                  name: odoo-app
+            env:
+              - name: POSTGRES_HOST
+                value: odoo-pg-rw.database-system.svc.cluster.local
+              - name: POSTGRES_PORT
+                value: "5432"
+            command:
+              - /bin/bash
+              - -c
+              - |
+                mkdir -p /mnt/extra-addons/custom /mnt/extra-addons/vendor-oca /mnt/extra-addons/vendor-ventor /mnt/enterprise-addons
+                exec odoo -c /etc/odoo/odoo.conf --db_user=${POSTGRES_USER} --db_password=${POSTGRES_PASSWORD} --db-filter=^${POSTGRES_DB}$
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /web/health
+                    port: http
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /web/health
+                    port: http
+                  initialDelaySeconds: 20
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 500m
+                memory: 2Gi
+              limits:
+                memory: 6Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: odoo
+        ports:
+          http:
+            port: 8069
+          xmlrpc:
+            port: 8071
+          gevent:
+            port: 8072
+    persistence:
+      filestore:
+        existingClaim: odoo-filestore
+        globalMounts:
+          - path: /var/lib/odoo
+      config:
+        type: configMap
+        name: odoo-config
+        globalMounts:
+          - path: /etc/odoo/odoo.conf
+            subPath: odoo.conf

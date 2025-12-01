@@ -1,0 +1,50 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/networking.istio.io/virtualservice_v1beta1.json
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: odoo
+  namespace: business-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  hosts:
+    - 'odoo.${CLUSTER_DOMAIN}'
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - route:
+        - destination:
+            host: odoo.business-system.svc.cluster.local
+            port:
+              number: 8069
+          weight: 100
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/networking.istio.io/virtualservice_v1beta1.json
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: odoo-webhook
+  namespace: business-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  hosts:
+    - 'odoo-webhook.${CLUSTER_DOMAIN}'
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - match:
+        - uri:
+            regex: "/[^/]+/integration/magento2/[0-9]+/.*"
+        - uri:
+            regex: "/[^/]+/integration/[0-9]+/external-order/.*"
+      timeout: 60s
+      route:
+        - destination:
+            host: odoo.business-system.svc.cluster.local
+            port:
+              number: 8072
+          weight: 100

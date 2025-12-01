@@ -6,7 +6,9 @@ kind: Kustomization
 resources:
   - ../../base/actions-runner-system
   - ../../base/ai-system
+  - ../../base/business-system
   - ../../base/crossplane-system
+  - ../../base/database-system
   - ../../base/development
   - ../../base/external-secrets
   - ../../base/istio-ingress
@@ -20,7 +22,9 @@ resources:
   - ../../base/security-system
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
   - ../../base/ai-system/kgateway/ks.yaml
+  - ../../base/business-system/odoo/ks.yaml
   # - ../../base/crossplane-system/crossplane/ks.yaml
+  - ../../base/database-system/cnpg/ks.yaml
   # - ../../base/development/backstage/ks.yaml
   - ../../base/external-secrets/external-secrets/ks.yaml
   - ../../base/external-secrets/onepassword/ks.yaml
