@@ -75,7 +75,7 @@ spec:
               - -c
               - |
                 mkdir -p /mnt/extra-addons/custom /mnt/extra-addons/vendor-oca /mnt/extra-addons/vendor-ventor /mnt/enterprise-addons
-                exec odoo -c /etc/odoo/odoo.conf --db_user=${POSTGRES_USER} --db_password=${POSTGRES_PASSWORD} --db-filter=^${POSTGRES_DB}$
+                exec odoo -c /etc/odoo/odoo.conf --db_user=$${POSTGRES_USER} --db_password=$${POSTGRES_PASSWORD} --db-filter=^$${POSTGRES_DB}$$
             probes:
               liveness:
                 enabled: true
