@@ -21,10 +21,10 @@ spec:
         name: odoo-pg-app
   storage:
     size: 100Gi
-    storageClass: rook-ceph-block
+    storageClass: ceph-block
   walStorage:
     size: 20Gi
-    storageClass: rook-ceph-block
+    storageClass: ceph-block
   resources:
     requests:
       cpu: 500m
