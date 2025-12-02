@@ -48,11 +48,8 @@ spec:
       recordType: A
       targets:
         - "192.168.50.180"
-    - dnsName: odoo-webhook.${CLUSTER_DOMAIN}
-      recordTTL: 300
-      recordType: A
-      targets:
-        - "192.168.50.180"
+    # NOTE: odoo-webhook intentionally NOT included - webhooks from external
+    # Magento must route through Cloudflare tunnel for Access policy enforcement
     # Networking/Debug
     - dnsName: echo.${CLUSTER_DOMAIN}
       recordTTL: 300
