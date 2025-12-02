@@ -9,9 +9,9 @@ set -euo pipefail
 # TODO: Create an uninstall script to remove these resources that are not managed via Terraform
 # TODO: Make script idemopotent so it can be re-run without error
 # TODO: QUOTAS default for IN_USE_ADDRESSES is 8 and needs to be 9
-#   Error: error creating NodePool: googleapi: Error 403: Insufficient regional quota to satisfy request: resource "IN_USE_ADDRESSES": request requires '9.0' and is short '1.0'. project has a quota of '8.0' with '8.0' available. View and manage quotas at https://console.cloud.google.com/iam-admin/quotas?usage=USED&project=raspbernetes., forbidden
+#   Error: error creating NodePool: googleapi: Error 403: Insufficient regional quota to satisfy request: resource "IN_USE_ADDRESSES": request requires '9.0' and is short '1.0'. project has a quota of '8.0' with '8.0' available. View and manage quotas at https://console.cloud.google.com/iam-admin/quotas?usage=USED&project=hayden-agencies-infra., forbidden
 
-export TF_VAR_PROJ_ID="${TF_VAR_PROJ_ID:-raspbernetes}"
+export TF_VAR_PROJ_ID="${TF_VAR_PROJ_ID:-hayden-agencies-infra}"
 export TF_CREDS=~/.config/gcloud/${TF_VAR_PROJ_ID}-terraform-admin.json
 
 # Create the service account in the Terraform admin project and download the JSON credentials

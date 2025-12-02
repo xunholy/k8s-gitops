@@ -42,8 +42,8 @@ resource "google_storage_bucket" "thanos" {
   default_event_based_hold = "false"
   force_destroy            = "false"
   location                 = "ASIA"
-  name                     = "thanos-raspbernetes-storage"
-  project                  = "raspbernetes"
+  name                     = "hayden-thanos-storage"
+  project                  = var.project_id
   requester_pays           = "false"
   storage_class            = "STANDARD"
 }

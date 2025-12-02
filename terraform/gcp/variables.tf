@@ -1,6 +1,6 @@
 variable "project_id" {
-  description = "(OPTIONAL) The GCP project ID to use for the cluster. (default: raspbernetes)"
-  default     = "raspbernetes"
+  description = "(OPTIONAL) The GCP project ID to use for the cluster. (default: hayden-agencies-infra)"
+  default     = "hayden-agencies-infra"
   type        = string
 }
 

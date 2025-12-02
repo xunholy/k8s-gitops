@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "raspbernetes-gitops-terraform-state"
-    prefix = "terraform/state"
+    bucket = "hayden-k8s-terraform-state"
+    prefix = "gcp"
   }
 }

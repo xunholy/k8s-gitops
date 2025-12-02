@@ -40,7 +40,7 @@ resource "google_project_iam_binding" "velero" {
 
 resource "google_storage_bucket_iam_binding" "binding" {
   bucket = google_storage_bucket.openebs.name
-  role   = "projects/raspbernetes/roles/${google_project_iam_custom_role.velero.role_id}"
+  role   = "projects/${var.project_id}/roles/${google_project_iam_custom_role.velero.role_id}"
   members = [
     "serviceAccount:${google_service_account.velero.email}",
   ]
@@ -50,8 +50,8 @@ resource "google_storage_bucket" "velero" {
   default_event_based_hold = "false"
   force_destroy            = "false"
   location                 = "US"
-  name                     = "raspbernetes-velero-backups"
-  project                  = "raspbernetes"
+  name                     = "hayden-velero-backups"
+  project                  = var.project_id
   requester_pays           = "false"
   storage_class            = "STANDARD"
 }
@@ -60,8 +60,8 @@ resource "google_storage_bucket" "openebs" {
   default_event_based_hold = "false"
   force_destroy            = "false"
   location                 = "US"
-  name                     = "raspbernetes-openebs-backups"
-  project                  = "raspbernetes"
+  name                     = "hayden-openebs-backups"
+  project                  = var.project_id
   requester_pays           = "false"
   storage_class            = "STANDARD"
 }
