@@ -80,9 +80,5 @@ spec:
       recordType: A
       targets:
         - "192.168.50.180"
-    # Root domain
-    - dnsName: ${CLUSTER_DOMAIN}
-      recordTTL: 300
-      recordType: A
-      targets:
-        - "192.168.50.180"
+    # NOTE: Root domain (haydenagencies.com.au) intentionally NOT included
+    # as it's hosted externally on Magento, not on this cluster
