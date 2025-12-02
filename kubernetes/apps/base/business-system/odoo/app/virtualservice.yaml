@@ -18,7 +18,7 @@ spec:
         - destination:
             host: odoo.business-system.svc.cluster.local
             port:
-              number: 8069
+              number: 8071
           weight: 100
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/networking.istio.io/virtualservice_v1beta1.json
