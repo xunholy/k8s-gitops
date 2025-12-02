@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: ghcr.io/hayden-agencies/odoo
-              tag: 18.0-custom1
+              tag: 18.0-latest  # Built from Dockerfile.prod with baked-in addons
             env:
               - name: POSTGRES_HOST
                 value: odoo-pg-rw.business-system.svc.cluster.local
@@ -70,12 +70,12 @@ spec:
                   secretKeyRef:
                     name: odoo-app
                     key: ODOO_MASTER_PASSWORD
-            command:
-              - /bin/bash
+            args:
               - -c
-              - |
-                mkdir -p /mnt/extra-addons/custom /mnt/extra-addons/vendor-oca /mnt/extra-addons/vendor-ventor /mnt/enterprise-addons
-                exec odoo -c /etc/odoo/odoo.conf --db_user=$${POSTGRES_USER} --db_password=$${POSTGRES_PASSWORD} --db-filter=^$${POSTGRES_DB}$$
+              - /etc/odoo/odoo.conf
+              - --db_user=$$(POSTGRES_USER)
+              - --db_password=$$(POSTGRES_PASSWORD)
+              - --db-filter=^$$(POSTGRES_DB)$$
             probes:
               liveness:
                 enabled: true
@@ -101,7 +101,7 @@ spec:
                   failureThreshold: 10
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false  # Odoo needs to write .pyc cache to addon dirs
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
@@ -144,11 +144,4 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
-      extra-addons:
-        type: emptyDir
-        globalMounts:
-          - path: /mnt/extra-addons
-      enterprise-addons:
-        type: emptyDir
-        globalMounts:
-          - path: /mnt/enterprise-addons
+      # Addons are baked into the image (Dockerfile.prod) - no volume mounts needed
