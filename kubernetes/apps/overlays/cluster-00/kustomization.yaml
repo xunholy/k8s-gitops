@@ -20,6 +20,7 @@ resources:
   - ../../base/observability
   - ../../base/rook-ceph
   - ../../base/security-system
+  - ../../base/volsync-system
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
   - ../../base/ai-system/kgateway/ks.yaml
   - ../../base/business-system/odoo/ks.yaml

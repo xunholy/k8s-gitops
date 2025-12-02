@@ -2,10 +2,11 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: odoo-pg-daily
+  name: odoo-pg-weekly
   namespace: business-system
 spec:
-  schedule: "0 17 * * 0"
+  # Weekly backup: Sunday at 03:00 UTC (13:00 AEST)
+  schedule: "0 3 * * 0"
   backupOwnerReference: self
   cluster:
     name: odoo-pg

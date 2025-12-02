@@ -48,11 +48,11 @@ spec:
   backup:
     retentionPolicy: "7d"
     barmanObjectStore:
-      destinationPath: gs://haydenagencies-odoo-backups/base
+      destinationPath: gs://hayden-odoo-backups/base
       googleCredentials:
         applicationCredentials:
-          name: odoo-pg-backup
-          key: gcsApplicationCredentials
+          name: odoo-objstore
+          key: serviceAccount
       wal:
         compression: gzip
         maxParallel: 4

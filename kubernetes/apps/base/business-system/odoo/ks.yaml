@@ -25,3 +25,5 @@ spec:
       namespace: database-system
     - name: istiod
       namespace: istio-system
+    - name: onepassword
+      namespace: external-secrets
