@@ -14,6 +14,15 @@ spec:
   gateways:
     - istio-ingress/istio-ingressgateway
   http:
+    - match:
+        - uri:
+            prefix: /oauth2/
+      route:
+        - destination:
+            host: oauth2-proxy.network-system.svc.cluster.local
+            port:
+              number: 80
+          weight: 100
     - route:
         - destination:
             host: odoo.business-system.svc.cluster.local
