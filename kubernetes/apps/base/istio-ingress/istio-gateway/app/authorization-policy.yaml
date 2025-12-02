@@ -27,3 +27,4 @@ spec:
               - 'sealed-secrets.haydenagencies.com.au'
               - 'alert-manager.haydenagencies.com.au'
               - 'prometheus.haydenagencies.com.au'
+              - 'odoo.haydenagencies.com.au'
