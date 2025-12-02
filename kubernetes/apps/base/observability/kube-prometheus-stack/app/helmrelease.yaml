@@ -62,10 +62,10 @@ spec:
         matchLabels:
           grafana.internal/instance: grafana
     prometheus:
-      # thanosService:
-      #   enabled: true
-      # thanosServiceMonitor:
-      #   enabled: true
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
       ## Settings affecting prometheusSpec
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
       prometheusSpec:
@@ -98,6 +98,11 @@ spec:
                   storage: 50Gi
         enableAdminAPI: true
         walCompression: true
+        thanos:
+          objectStorageConfig:
+            existingSecret:
+              name: thanos-objstore-config
+              key: thanos.yaml
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       verticalPodAutoscaler:

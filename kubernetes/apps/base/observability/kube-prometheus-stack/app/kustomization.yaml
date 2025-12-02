@@ -9,3 +9,4 @@ resources:
   - ocirepository.yaml
   - scrapeconfig.yaml
   - virtualservice.yaml
+  - externalsecret-thanos.yaml
