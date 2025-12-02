@@ -23,6 +23,18 @@ spec:
             port:
               number: 80
           weight: 100
+    # WebSocket/longpolling routes to gevent port
+    - match:
+        - uri:
+            prefix: /websocket
+        - uri:
+            prefix: /longpolling
+      route:
+        - destination:
+            host: odoo.business-system.svc.cluster.local
+            port:
+              number: 8072
+          weight: 100
     - route:
         - destination:
             host: odoo.business-system.svc.cluster.local
