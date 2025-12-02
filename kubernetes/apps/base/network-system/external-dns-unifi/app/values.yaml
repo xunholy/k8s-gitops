@@ -28,10 +28,12 @@ provider:
 triggerLoopOnEvent: true
 policy: sync
 sources:
-  - crd
-  - istio-virtualservice
-txtPrefix: k8s.
+  - crd  # Only DNSEndpoints - VirtualServices have CNAME targets that UniFi rejects
+txtPrefix: k8s.unifi.
 domainFilters:
   - ${CLUSTER_DOMAIN}
+# Filter for resources with internal=true annotation (local DNS A records)
+extraArgs:
+  - --annotation-filter=external-dns.alpha.kubernetes.io/internal=true
 serviceMonitor:
   enabled: true
