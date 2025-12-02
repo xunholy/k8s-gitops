@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "raspbernetes-cloudflare-terraform-state"
-    prefix = "terraform/state"
+    bucket = "hayden-k8s-terraform-state"
+    prefix = "cloudflare"
   }
 }
