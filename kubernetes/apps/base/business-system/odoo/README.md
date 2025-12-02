@@ -5,18 +5,15 @@ Production Odoo 18 deployment with baked-in addons.
 ## Image Pipeline
 
 ```
-odoo-deployment-development repo          Cluster
+odoo-deployment-development repo          Cluster repo
 ┌─────────────────────────────┐    ┌──────────────────────┐
-│ push to master              │    │ HelmRelease uses     │
-│   ↓                         │    │ 18.0-latest tag      │
+│ push to master              │    │ Renovate detects new │
+│   ↓                         │    │ image tag            │
 │ GitHub Actions builds       │───►│   ↓                  │
-│   ↓                         │    │ Flux reconciles      │
+│   ↓                         │    │ Creates PR           │
 │ ghcr.io/hayden-agencies/odoo│    │   ↓                  │
-│ - 18.0.YYYYMMDD-<sha>       │    │ Pod pulls new image  │
-│ - 18.0-latest               │    └──────────────────────┘
-└─────────────────────────────┘
-         ↑
-   Renovate PRs when odoo:18 base updates
+│ 18.0.YYYYMMDD-<sha>@digest  │    │ Merge → Flux deploys │
+└─────────────────────────────┘    └──────────────────────┘
 ```
 
 ## Ports
@@ -26,9 +23,3 @@ odoo-deployment-development repo          Cluster
 | 8069 | http_port (unused in worker mode) |
 | 8071 | xmlrpc_port (main HTTP traffic) |
 | 8072 | gevent/longpolling |
-
-## Force Image Update
-
-```bash
-kubectl rollout restart deployment/odoo -n business-system
-```

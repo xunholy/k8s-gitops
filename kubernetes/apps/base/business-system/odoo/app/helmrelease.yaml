@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: ghcr.io/hayden-agencies/odoo
-              tag: 18.0-latest  # Built from Dockerfile.prod with baked-in addons
+              tag: 18.0.20251202-570e99e@sha256:05ba0176528f4636a45cb7cb2e3731efc97ef3c158d8eae8681dce520fd8a573
             env:
               - name: POSTGRES_HOST
                 value: odoo-pg-rw.business-system.svc.cluster.local
