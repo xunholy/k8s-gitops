@@ -7,7 +7,7 @@ provider:
       tag: v0.7.0@sha256:a5503c1c61e3a8f6d66a0172fca6fb9affbe1f527ae6360ccf5ff5f0bf181c6e
     env:
       - name: UNIFI_HOST
-        value: https://192.168.1.1
+        value: https://192.168.0.1
       - name: UNIFI_API_KEY
         valueFrom:
           secretKeyRef:
