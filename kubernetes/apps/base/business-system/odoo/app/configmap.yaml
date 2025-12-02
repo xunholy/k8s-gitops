@@ -23,8 +23,8 @@ data:
     # Data directory
     data_dir = /var/lib/odoo
 
-    # Server-wide modules
-    server_wide_modules = base,web
+    # Server-wide modules (queue_job enables background job processing)
+    server_wide_modules = base,web,queue_job
 
     # Log settings
     log_level = info
@@ -44,3 +44,7 @@ data:
     # Deployment settings
     proxy_mode = True
     list_db = False
+
+    # Queue Job Configuration
+    [queue_job]
+    channels = root:60,root.sale_order:45,root.product_template:30,root.inventory:10

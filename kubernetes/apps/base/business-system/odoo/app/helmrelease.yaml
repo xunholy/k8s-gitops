@@ -73,6 +73,7 @@ spec:
             args:
               - -c
               - /etc/odoo/odoo.conf
+              - --load=web,queue_job
               - --db_user=$$(POSTGRES_USER)
               - --db_password=$$(POSTGRES_PASSWORD)
               - --db-filter=^$$(POSTGRES_DB)$$
