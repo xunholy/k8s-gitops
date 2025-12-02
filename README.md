@@ -37,34 +37,6 @@ The main goal of this project is to demonstrate best practices for implementing 
 This repository leverages a range of cutting-edge open-source tools and platforms, forming a comprehensive technology stack that demonstrates the power of the [CNCF ecosystem](https://landscape.cncf.io/).
 
 ## 📖 Table of contents
-## 🌐 Cloud Services BOM & 3rd Party Integrations
-
-This repository integrates a variety of third-party cloud and open-source services to provide a robust, production-grade Kubernetes platform. Key integrations include:
-
-### Talos Integrations
-- **Cilium**: Advanced networking and security (see `talos/integrations/cilium/`)
-- **Kubelet CSR Approver**: Automated certificate signing for Talos nodes (see `talos/integrations/cert-approver/`)
-
-### Terraform Cloud Modules
-- **Cloudflare**: DNS, Access, and security controls (see `terraform/cloudflare/`)
-- **Google Cloud Platform (GCP)**: Infrastructure provisioning and cloud resource management (see `terraform/gcp/`)
-
-### Kubernetes Apps & Operators
-- **Rook Ceph**: Distributed storage (see `kubernetes/apps/base/rook-ceph/`)
-- **Istio**: Service mesh and ingress (see `kubernetes/apps/base/istio-ingress/`)
-- **Cilium**: CNI and network observability (see `kubernetes/apps/base/kube-system/cilium/`)
-- **Cert-Manager**: Automated certificate management (see `kubernetes/apps/base/network-system/cert-manager/`)
-- **ExternalDNS**: DNS automation (see `kubernetes/apps/base/network-system/external-dns/`)
-- **OAuth2 Proxy, Dex**: Authentication and SSO (see `kubernetes/apps/base/network-system/oauth2-proxy/`, `kubernetes/apps/base/network-system/dex/`)
-- **Multus**: Multi-network support (see `kubernetes/apps/base/network-system/multus/`)
-- **Velero**: Backup and disaster recovery (see `terraform/gcp/velero.tf`)
-- **Thanos**: Scalable metrics storage (see `terraform/gcp/thanos.tf`)
-- **Prometheus & Grafana**: Monitoring and dashboards
-- **Sealed Secrets & SOPS**: Secure secret management
-- **OpenEBS, Longhorn**: Additional storage options
-- **Kyverno, Keda, Kubecost, Linkerd, Rook, Vault, Crossplane, ArgoCD**: Various cloud-native enhancements
-
-For details on configuration and usage, see the respective directories and documentation files.
 
 - [🍼 Overview](#-overview)
   - [📖 Table of contents](#-table-of-contents)
@@ -80,11 +52,13 @@ For details on configuration and usage, see the respective directories and docum
 
 ## 🔧 Hardware
 
-| Device                                                                                 | Description        | Quantity | CPU      | RAM   | Storage                     | Architecture | Operating System                      | Notes          |
-| -------------------------------------------------------------------------------------- | ------------------ | -------- | -------- | ----- | --------------------------- | ------------ | ------------------------------------- | -------------- |
-| [Ubiquiti UDM-Pro-Max](https://ui.com/us/en/cloud-gateways/dream-machine-pro-max)     | Router/Gateway     | 1        | -  | -   | 8TB                           | -        | UniFi OS                              |                |
-| [Ubiquiti USW-Pro-Max-48-PoE](https://ui.com/switching/pro-max-48-poe)                | Network Switch     | 1        | -        | -     | -                           | -            | UniFi OS                              | 48-port PoE    |
-| [Asus NUC 14 Pro](https://www.asus.com/displays-desktops/nucs/nuc-mini-pcs/asus-nuc-14-pro/) | Kubernetes Cluster | 3        | 14 Cores | 48GB   | 1TB NVMe + 1TB SSD          | AMD64        | [Talos Linux](https://www.talos.dev/) | Ultra 5-125H   |
+| Device | Description | Quantity | CPU | RAM | Storage | Architecture | Operating System |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [Ubiquiti UDM-Pro-Max](https://ui.com/us/en/cloud-gateways/dream-machine-pro-max) | Router/Gateway | 1 | - | - | 8TB | - | UniFi OS |
+| [Ubiquiti USW-Pro-Max-48-PoE](https://ui.com/switching/pro-max-48-poe) | Network Switch | 1 | - | - | - | - | UniFi OS |
+| [Asus NUC 14 Pro](https://www.asus.com/displays-desktops/nucs/nuc-mini-pcs/asus-nuc-14-pro/) | Kubernetes Nodes | 3 | 14 cores | 48GB | 1TB NVMe + 1TB SSD | AMD64 | [Talos Linux](https://www.talos.dev/) |
+| NAS | Storage | 1 | 8 cores | 16GB | 48TB | AMD64 | [TrueNAS](https://www.truenas.com/) |
+| [JetKVM](https://jetkvm.com/) | Remote KVM | 3 | - | - | - | - | - |
 
 <details>
 <summary>Decommissioned Hardware</summary>
