@@ -16,6 +16,49 @@ resource "cloudflare_access_application" "kubernetes_cluster_access" {
   }
 }
 
+locals {
+  odoo_webhook_hostname = "odoo-webhook.${var.domain}"
+}
+
+resource "cloudflare_access_service_token" "odoo_webhook" {
+  account_id = data.cloudflare_zone.domain.account_id
+  name       = "odoo-webhook"
+}
+
+resource "cloudflare_access_application" "odoo_webhook" {
+  account_id                 = data.cloudflare_zone.domain.account_id
+  zone_id                    = data.cloudflare_zone.domain.id
+  app_launcher_visible       = false
+  auto_redirect_to_identity  = false
+  domain                     = local.odoo_webhook_hostname
+  enable_binding_cookie      = false
+  http_only_cookie_attribute = true
+  name                       = "Odoo Webhook"
+  session_duration           = var.session_duration
+  skip_interstitial          = true
+  type                       = "self_hosted"
+}
+
+resource "cloudflare_access_policy" "odoo_webhook" {
+  account_id     = data.cloudflare_zone.domain.account_id
+  application_id = cloudflare_access_application.odoo_webhook.id
+  decision       = "allow"
+  name           = "Magento webhook allowlist"
+  precedence     = 1
+
+  include {
+    service_token {
+      token_id = cloudflare_access_service_token.odoo_webhook.id
+    }
+  }
+
+  require {
+    ip {
+      cidrs = var.odoo_webhook_allowed_ips
+    }
+  }
+}
+
 resource "cloudflare_zone_settings_override" "primary_domain" {
   zone_id = data.cloudflare_zone.domain.id
   settings {

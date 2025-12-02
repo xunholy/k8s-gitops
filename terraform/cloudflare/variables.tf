@@ -21,3 +21,13 @@ variable "session_duration" {
   default     = "24h"
   type        = string
 }
+
+variable "odoo_webhook_allowed_ips" {
+  description = "(REQUIRED) CIDR list of Magento egress IPs permitted to call odoo-webhook.${var.domain}."
+  default     = ["103.21.130.236/32"]
+  type        = list(string)
+  validation {
+    condition     = length(var.odoo_webhook_allowed_ips) > 0
+    error_message = "Provide at least one CIDR for odoo_webhook_allowed_ips (e.g. [\"203.0.113.10/32\"])."
+  }
+}
