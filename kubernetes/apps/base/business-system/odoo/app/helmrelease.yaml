@@ -83,7 +83,7 @@ spec:
                 spec:
                   httpGet:
                     path: /web/health
-                    port: 8069
+                    port: 8071
                   initialDelaySeconds: 120
                   periodSeconds: 30
                   timeoutSeconds: 10
@@ -94,7 +94,7 @@ spec:
                 spec:
                   httpGet:
                     path: /web/health
-                    port: 8069
+                    port: 8071
                   initialDelaySeconds: 60
                   periodSeconds: 15
                   timeoutSeconds: 10
