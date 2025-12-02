@@ -5,7 +5,7 @@ metadata:
   name: odoo-pg-daily
   namespace: business-system
 spec:
-  schedule: "0 17 * * *"
+  schedule: "0 17 * * 0"
   backupOwnerReference: self
   cluster:
     name: odoo-pg
