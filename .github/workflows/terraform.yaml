@@ -92,7 +92,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
-            }
+            })
 
   apply:
     runs-on: ubuntu-latest
