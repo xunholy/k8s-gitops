@@ -37,9 +37,30 @@ resource "google_project_iam_member" "terraform_ci_storage_admin" {
   member  = "serviceAccount:${google_service_account.terraform_ci.email}"
 }
 
-resource "google_project_iam_member" "terraform_ci_kms_admin" {
+# Custom role for Terraform to manage KMS resources without decrypt access
+resource "google_project_iam_custom_role" "terraform_ci_kms" {
+  role_id     = "terraformCiKms"
+  title       = "Terraform CI KMS Manager"
+  description = "Allows Terraform to manage KMS resources without decrypt/encrypt permissions"
+  permissions = [
+    "cloudkms.cryptoKeys.create",
+    "cloudkms.cryptoKeys.get",
+    "cloudkms.cryptoKeys.list",
+    "cloudkms.cryptoKeys.update",
+    "cloudkms.cryptoKeyVersions.get",
+    "cloudkms.cryptoKeyVersions.list",
+    "cloudkms.keyRings.create",
+    "cloudkms.keyRings.get",
+    "cloudkms.keyRings.list",
+    "cloudkms.locations.get",
+    "cloudkms.locations.list",
+    # Note: Does NOT include useToDecrypt or useToEncrypt
+  ]
+}
+
+resource "google_project_iam_member" "terraform_ci_kms" {
   project = var.project_id
-  role    = "roles/cloudkms.admin"
+  role    = google_project_iam_custom_role.terraform_ci_kms.name
   member  = "serviceAccount:${google_service_account.terraform_ci.email}"
 }
 
