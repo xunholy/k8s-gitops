@@ -5,6 +5,7 @@
     {
       // PAT with read:packages scope for hayden-agencies org
       matchHost: "ghcr.io",
+      username: "mak011p",
       password: "{{ secrets.GHCR_PAT }}",
     },
   ],
