@@ -39,6 +39,6 @@ resource "google_project_iam_binding" "sops" {
   project = var.project_id
   role    = "projects/${var.project_id}/roles/${google_project_iam_custom_role.sops.role_id}"
   members = [
-    "user:saurabh.c.pandit@gmail.com",
+    "user:thomas@haydenagencies.com.au",
   ]
 }
