@@ -5,7 +5,7 @@ name: Flux Local
 on:
   pull_request:
     branches:
-      - main
+      - master
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}

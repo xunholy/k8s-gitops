@@ -1,6 +1,13 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   forkProcessing: "enabled",
+  hostRules: [
+    {
+      // PAT with read:packages scope for hayden-agencies org
+      matchHost: "ghcr.io",
+      password: "{{ secrets.GHCR_PAT }}",
+    },
+  ],
   extends: [
     "config:recommended",
     // TODO: Consider using best-practices once OCI sha256 digests are supported

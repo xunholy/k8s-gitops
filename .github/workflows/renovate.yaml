@@ -30,11 +30,11 @@ on:
     - cron: "0 * * * *"
   push:
     branches:
-      - main
+      - master
     paths:
       - .github/workflows/renovate.yaml
       - .github/renovate.json5
-      - .github/renovate/**.json5
+      - .renovate/**.json5
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}

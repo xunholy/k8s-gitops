@@ -6,7 +6,7 @@ on:
   workflow_dispatch: {}
   push:
     branches:
-      - main
+      - master
     paths:
       - ".github/workflows/publish-docs.yaml"
       - '.github/mkdocs/**'
