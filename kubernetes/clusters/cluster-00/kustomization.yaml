@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # Root cluster Kustomization
+  - ks.yaml
+  # Bootstrap components
+  - flux-system/flux-operator/ks.yaml
+  - flux-system/flux-instance/ks.yaml
+  - flux-system/kustomize-mutating-webhook/ks.yaml

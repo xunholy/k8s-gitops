@@ -94,7 +94,7 @@ jobs:
         id: diff
         run: |-
           echo 'diff<<EOF' >> $GITHUB_OUTPUT
-          cat diff.patch >> $GITHUB_OUTPUT
+          cat diff.patch 2>/dev/null >> $GITHUB_OUTPUT || true
           echo 'EOF' >> $GITHUB_OUTPUT
 
       - if: ${{ steps.diff.outputs.diff != '' }}
