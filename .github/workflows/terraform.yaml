@@ -28,7 +28,7 @@ jobs:
         working-directory: terraform/${{ matrix.directory }}
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@71f986410dfbc7added4569d411d040a91dc6935 # v2
@@ -103,7 +103,7 @@ jobs:
         working-directory: terraform/gcp
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@71f986410dfbc7added4569d411d040a91dc6935 # v2
