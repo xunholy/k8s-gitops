@@ -70,6 +70,7 @@ jobs:
           RENOVATE_AUTODISCOVER_FILTER: "${{ github.repository }}"
           RENOVATE_USERNAME: "${{ secrets.BOT_USERNAME }}[bot]"
           RENOVATE_GIT_AUTHOR: "${{ secrets.BOT_USERNAME }} <${{ secrets.BOT_USER_ID }}+${{ secrets.BOT_USERNAME }}[bot]@users.noreply.github.com>"
+          RENOVATE_SECRETS: '{"GHCR_PAT": "${{ secrets.GHCR_PAT }}"}'
         with:
           configurationFile: .github/renovate.json5
           token: "x-access-token:${{ steps.app-token.outputs.token }}"
