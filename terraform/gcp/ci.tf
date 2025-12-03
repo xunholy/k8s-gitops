@@ -45,7 +45,9 @@ resource "google_project_iam_custom_role" "terraform_ci_kms" {
   permissions = [
     "cloudkms.cryptoKeys.create",
     "cloudkms.cryptoKeys.get",
+    "cloudkms.cryptoKeys.getIamPolicy",
     "cloudkms.cryptoKeys.list",
+    "cloudkms.cryptoKeys.setIamPolicy",
     "cloudkms.cryptoKeys.update",
     "cloudkms.cryptoKeyVersions.get",
     "cloudkms.cryptoKeyVersions.list",
@@ -56,6 +58,13 @@ resource "google_project_iam_custom_role" "terraform_ci_kms" {
     "cloudkms.locations.list",
     # Note: Does NOT include useToDecrypt or useToEncrypt
   ]
+}
+
+# Service Usage viewer for managing google_project_service resources
+resource "google_project_iam_member" "terraform_ci_service_usage" {
+  project = var.project_id
+  role    = "roles/serviceusage.serviceUsageAdmin"
+  member  = "serviceAccount:${google_service_account.terraform_ci.email}"
 }
 
 resource "google_project_iam_member" "terraform_ci_kms" {
