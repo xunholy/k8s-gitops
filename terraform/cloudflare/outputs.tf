@@ -1,12 +1,30 @@
-output "zone_id" {
-  value       = data.cloudflare_zone.domain.id
-  description = "The primary domain zone ID in Cloudflare."
+# ==============================================
+# Zone ID Outputs
+# ==============================================
+
+output "haydenagencies_zone_id" {
+  value       = data.cloudflare_zone.haydenagencies.id
+  description = "The haydenagencies.com.au zone ID in Cloudflare."
 }
 
-output "personal_zone_id" {
-  value       = data.cloudflare_zone.personal_domain.id
-  description = "The personal domain zone ID in Cloudflare."
+output "toemass_zone_id" {
+  value       = data.cloudflare_zone.toemass.id
+  description = "The toemass.com zone ID in Cloudflare."
 }
+
+output "auntalma_zone_id" {
+  value       = data.cloudflare_zone.auntalma.id
+  description = "The auntalma.com.au zone ID in Cloudflare."
+}
+
+output "dropdrape_zone_id" {
+  value       = data.cloudflare_zone.dropdrape.id
+  description = "The dropdrape.com.au zone ID in Cloudflare."
+}
+
+# ==============================================
+# Service Token Outputs (for Magento/Odoo integration)
+# ==============================================
 
 output "odoo_webhook_service_token_client_id" {
   value       = cloudflare_access_service_token.odoo_webhook.client_id

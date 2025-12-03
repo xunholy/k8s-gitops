@@ -1,0 +1,6 @@
+# Backup files from cf-terraforming exports
+backup/
+backup_cloudflare.sh
+
+# Disabled/unused config files
+*.disabled
