@@ -39,11 +39,9 @@
   packageRules: [
     {
       // Custom versioning for Odoo with date-based tags (18.0.YYYYMMDD-sha)
-      // Disable automerge to ensure PRs are created for review
       matchDatasources: ["docker"],
       matchPackageNames: ["ghcr.io/hayden-agencies/odoo"],
       versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>.+)$",
-      automerge: false,
     },
   ],
   flux: {
