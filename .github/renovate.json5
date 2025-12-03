@@ -36,6 +36,14 @@
     enabled: true,
   },
   ignorePaths: ["**/*.enc.*", "**/resources/**"],
+  packageRules: [
+    {
+      // Custom versioning for Odoo with date-based tags (18.0.YYYYMMDD-sha)
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/hayden-agencies/odoo"],
+      versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>.+)$",
+    },
+  ],
   flux: {
     managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
   },
