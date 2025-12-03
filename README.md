@@ -150,6 +150,22 @@ The Cloud Native Computing Foundation (CNCF) has played a crucial role in the de
 
 This repository is automatically managed by [Renovate](https://renovatebot.com/). Renovate will keep all of the container images within this repository up to date automatically. It can also be configured to keep Helm chart dependencies up to date as well.
 
+### Upstream Sync
+
+This repository is a fork of [xunholy/k8s-gitops](https://github.com/xunholy/k8s-gitops). An automated workflow syncs updates from upstream while preserving local customizations.
+
+**How it works:**
+1. **Daily sync** - The `upstream-sync` workflow runs at 6am Melbourne time
+2. **Change detection** - Compares `master` with `upstream/main` to find new changes
+3. **Smart filtering** - Excludes local files (secrets, `.sops.yaml`, `CLAUDE.md`, renovate config)
+4. **Auto PR creation** - Creates a PR with categorized changes for review
+5. **CI validation** - PR runs through flux-local, security, and terraform checks
+6. **Manual merge** - Review and merge when ready
+
+**Handling conflicts:**
+- If merge conflicts occur, the workflow reports them and provides manual resolution steps
+- Typically: take upstream for shared tooling, keep ours for local config (hardware, secrets)
+
 ## 🤝 Acknowledgments
 
 A special thank you to everyone in the [Home Operation Discord](https://discord.com/invite/home-operations) community for their valuable contributions and time. Much of the inspiration for my cluster comes from fellow enthusiasts who have shared their own clusters under the k8s-at-home GitHub topic.

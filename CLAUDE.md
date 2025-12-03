@@ -219,6 +219,54 @@ task talos:config      # Decrypts talosconfig to ~/.talos/config
 4. Add to parent `kustomization.yaml`
 5. Create overlay if cluster-specific customization needed
 
+### Syncing from Upstream
+
+This repo is forked from [xunholy/k8s-gitops](https://github.com/xunholy/k8s-gitops). The `upstream-sync` workflow (`.github/workflows/upstream-sync.yaml`) automates syncing.
+
+**Automatic Flow (daily at 6am Melbourne / 8pm UTC):**
+1. Workflow fetches `upstream/main` and compares with `master`
+2. Excludes local customizations (`.sops.yaml`, secrets, `CLAUDE.md`, renovate config)
+3. If no conflicts: creates PR automatically with categorized change summary
+4. If conflicts: reports them in workflow output with manual resolution steps
+
+**Manual Sync (when conflicts exist):**
+```bash
+# 1. Fetch upstream
+git fetch upstream main
+
+# 2. Create sync branch
+git checkout -b upstream-sync/$(date +%Y-%m-%d)
+
+# 3. Attempt merge
+git merge upstream/main --no-edit
+
+# 4. Resolve conflicts (if any)
+# For each conflicted file, choose:
+git checkout --theirs <file>   # Take upstream version
+git checkout --ours <file>     # Keep our version
+
+# 5. Complete merge
+git add . && git commit --no-edit
+
+# 6. Push and create PR
+git push -u origin upstream-sync/$(date +%Y-%m-%d)
+gh pr create --title "chore: sync with upstream" --body "..."
+```
+
+**Conflict Resolution Guidelines:**
+| File Type | Typical Resolution |
+|-----------|-------------------|
+| GitHub Actions (checkout, etc.) | Take upstream (newer versions) |
+| Helm chart versions | Take upstream (version bumps) |
+| README.md (hardware table) | Keep ours (local config) |
+| `.sops.yaml`, secrets | Keep ours (excluded anyway) |
+| `CLAUDE.md` | Keep ours (excluded anyway) |
+
+**Triggering Manual Sync:**
+```bash
+gh workflow run upstream-sync.yaml -f dry_run=false
+```
+
 ## Important Patterns & Conventions
 
 ### File Naming
