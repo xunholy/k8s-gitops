@@ -231,26 +231,55 @@ This repo is forked from [xunholy/k8s-gitops](https://github.com/xunholy/k8s-git
 
 **Manual Sync (when conflicts exist):**
 ```bash
-# 1. Fetch upstream
+# 1. Ensure upstream remote exists and fetch
+git remote add upstream https://github.com/xunholy/k8s-gitops.git 2>/dev/null || true
 git fetch upstream main
 
-# 2. Create sync branch
+# 2. Check what's changed from upstream
+git diff --stat master...upstream/main
+
+# 3. Create sync branch from master
+git checkout master
 git checkout -b upstream-sync/$(date +%Y-%m-%d)
 
-# 3. Attempt merge
+# 4. Attempt merge (will report conflicts if any)
 git merge upstream/main --no-edit
 
-# 4. Resolve conflicts (if any)
-# For each conflicted file, choose:
+# 5. List conflicted files
+git diff --name-only --diff-filter=U
+
+# 6. Resolve each conflict - choose one:
 git checkout --theirs <file>   # Take upstream version
 git checkout --ours <file>     # Keep our version
+# Or manually edit the file to resolve
 
-# 5. Complete merge
-git add . && git commit --no-edit
+# 7. Stage resolved files and complete merge
+git add .
+git commit --no-edit
 
-# 6. Push and create PR
+# 8. Push branch
 git push -u origin upstream-sync/$(date +%Y-%m-%d)
-gh pr create --title "chore: sync with upstream" --body "..."
+
+# 9. Create PR via gh CLI
+gh pr create --repo mak011p/k8s-gitops-hayden --base master \
+  --title "chore: sync with upstream xunholy/k8s-gitops" \
+  --body "## Upstream Sync
+
+Syncs changes from [xunholy/k8s-gitops](https://github.com/xunholy/k8s-gitops).
+
+### Conflict Resolutions
+- List resolved conflicts here
+
+---
+🤖 Generated manually"
+
+# 10. Check PR status and merge when ready
+gh pr checks <PR_NUMBER> --repo mak011p/k8s-gitops-hayden
+gh pr merge <PR_NUMBER> --repo mak011p/k8s-gitops-hayden --merge --delete-branch
+
+# 11. Return to master and pull
+git checkout master
+git pull
 ```
 
 **Conflict Resolution Guidelines:**
