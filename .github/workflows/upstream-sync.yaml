@@ -82,10 +82,17 @@ jobs:
           SAFE_CHANGES=$(echo "$ALL_CHANGES" | grep -vE "$EXCLUDE_REGEX" || echo "")
           EXCLUDED_CHANGES=$(echo "$ALL_CHANGES" | grep -E "$EXCLUDE_REGEX" || echo "")
 
-          # Count changes
-          TOTAL_COUNT=$(echo "$ALL_CHANGES" | grep -c . || echo "0")
-          SAFE_COUNT=$(echo "$SAFE_CHANGES" | grep -c . || echo "0")
-          EXCLUDED_COUNT=$(echo "$EXCLUDED_CHANGES" | grep -c . || echo "0")
+          # Count changes (use wc -l with empty string check to avoid grep exit code issues)
+          count_lines() {
+            if [ -z "$1" ]; then
+              echo 0
+            else
+              echo "$1" | wc -l | tr -d ' '
+            fi
+          }
+          TOTAL_COUNT=$(count_lines "$ALL_CHANGES")
+          SAFE_COUNT=$(count_lines "$SAFE_CHANGES")
+          EXCLUDED_COUNT=$(count_lines "$EXCLUDED_CHANGES")
 
           echo "total_count=$TOTAL_COUNT" >> $GITHUB_OUTPUT
           echo "safe_count=$SAFE_COUNT" >> $GITHUB_OUTPUT
@@ -103,7 +110,7 @@ jobs:
           # Kubernetes changes
           K8S_CHANGES=$(echo "$SAFE_CHANGES" | grep "^kubernetes/" || echo "")
           if [ -n "$K8S_CHANGES" ]; then
-            echo "<details><summary>📦 Kubernetes ($( echo "$K8S_CHANGES" | grep -c . || echo 0) files)</summary>" >> /tmp/change_summary.md
+            echo "<details><summary>📦 Kubernetes ($(count_lines "$K8S_CHANGES") files)</summary>" >> /tmp/change_summary.md
             echo "" >> /tmp/change_summary.md
             echo '```' >> /tmp/change_summary.md
             echo "$K8S_CHANGES" >> /tmp/change_summary.md
@@ -115,7 +122,7 @@ jobs:
           # Terraform changes
           TF_CHANGES=$(echo "$SAFE_CHANGES" | grep "^terraform/" || echo "")
           if [ -n "$TF_CHANGES" ]; then
-            echo "<details><summary>🏗️ Terraform ($(echo "$TF_CHANGES" | grep -c . || echo 0) files)</summary>" >> /tmp/change_summary.md
+            echo "<details><summary>🏗️ Terraform ($(count_lines "$TF_CHANGES") files)</summary>" >> /tmp/change_summary.md
             echo "" >> /tmp/change_summary.md
             echo '```' >> /tmp/change_summary.md
             echo "$TF_CHANGES" >> /tmp/change_summary.md
@@ -127,7 +134,7 @@ jobs:
           # GitHub workflows
           GH_CHANGES=$(echo "$SAFE_CHANGES" | grep "^\.github/" || echo "")
           if [ -n "$GH_CHANGES" ]; then
-            echo "<details><summary>⚙️ GitHub Workflows ($(echo "$GH_CHANGES" | grep -c . || echo 0) files)</summary>" >> /tmp/change_summary.md
+            echo "<details><summary>⚙️ GitHub Workflows ($(count_lines "$GH_CHANGES") files)</summary>" >> /tmp/change_summary.md
             echo "" >> /tmp/change_summary.md
             echo '```' >> /tmp/change_summary.md
             echo "$GH_CHANGES" >> /tmp/change_summary.md
@@ -139,7 +146,7 @@ jobs:
           # Other changes
           OTHER_CHANGES=$(echo "$SAFE_CHANGES" | grep -vE "^(kubernetes/|terraform/|\.github/)" || echo "")
           if [ -n "$OTHER_CHANGES" ]; then
-            echo "<details><summary>📄 Other ($(echo "$OTHER_CHANGES" | grep -c . || echo 0) files)</summary>" >> /tmp/change_summary.md
+            echo "<details><summary>📄 Other ($(count_lines "$OTHER_CHANGES") files)</summary>" >> /tmp/change_summary.md
             echo "" >> /tmp/change_summary.md
             echo '```' >> /tmp/change_summary.md
             echo "$OTHER_CHANGES" >> /tmp/change_summary.md
