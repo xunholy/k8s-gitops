@@ -6,7 +6,7 @@ tasks:
     desc: "Import the public and private gpg keys locally"
     cmds:
       - gpg --import kubernetes/clusters/cluster-00/secrets/.sops.pub.asc
-      - gpg --import <(sops --decrypt "kubernetes/clusters/cluster-00/secrets/sops-gpg.encrypted.yaml" | yq e '.data[]' - | base64 -d)
+      - gpg --import <(sops --decrypt "kubernetes/clusters/cluster-00/secrets/sops-gpg.encrypted.yaml" | yq e '.stringData[]' -)
     status:
       - gpg --list-secret-keys --keyid-format=long | grep production.haydenagencies.com.au
 
