@@ -1,23 +1,23 @@
 ---
 controller:
   image:
-    tag: "v1.5.0"
+    tag: "v1.6.0"
   excludedNamespaces:
     - kguardian
 
 broker:
   image:
-    tag: "v1.4.0"
+    tag: "v1.5.0"
 
 frontend:
   image:
-    tag: "v1.5.0"
+    tag: "v1.6.0"
 
 llmBridge:
   enabled: false
   image:
-    tag: "pr-423"
-    sha: "sha256:4a5d89450175c0978fed59f562958c92229f821ce1b6727fc35f7e97ab7eb8c3"
+    tag: "pr-510"
+    sha: "sha256:3c323dcc2b2bdd04ae706b3d71c1e5ddd3bcfc1bfd360a3b5fc082ade45df156"
   secrets:
     openai:
       enabled: true
@@ -27,5 +27,5 @@ mcpServer:
   enabled: false
   useKmcp: false
   image:
-    tag: "v1.2.0"
-    sha: "sha256:2aa6f79b76ce24ddd23c7717545c7f7ce5000c4ea571e34f637cc35a2ae3e58c"
+    tag: "pr-510"
+    sha: "sha256:f810e9cbc48e5de25c0cd652e92a68f4e11d2d9cc20be7afd7123223b837382a"

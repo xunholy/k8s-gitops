@@ -6,67 +6,69 @@ on:
   workflow_dispatch: {}
   pull_request:
     branches:
-      - master
+      - main
     paths:
-      - '.github/workflows/terraform.yaml'
+      - '.github/workflows/terraform.yml'
       - 'terraform/**'
 
 env:
+  tf_actions_working_dir: terraform/gcp
   terraform_version: 1.4.2
 
 jobs:
   plan:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        directory:
-          - gcp
-          - cloudflare
     defaults:
       run:
-        working-directory: terraform/${{ matrix.directory }}
+        working-directory: ${{ env.tf_actions_working_dir }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: checkout
+        id: checkout_code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@71f986410dfbc7added4569d411d040a91dc6935 # v2
+      - uses: 'google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093' # v3
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Setup Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@77e7a554d41e2ee56fc945c52dfd3f33d12def9a # v2
+      - uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3.0.1
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
+          export_default_credentials: true
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
         with:
           terraform_version: ${{ env.terraform_version }}
 
-      - name: Terraform Format
+      - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
+        continue-on-error: false
+
+      - name: Terraform Lint
+        uses: reviewdog/action-tflint@master
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          fail_on_error: 'true'
+          filter_mode: 'nofilter'
 
       - name: Terraform Init
         id: init
         run: terraform init
+        continue-on-error: false
 
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
+        continue-on-error: false
 
-      # Full plan only for GCP (has API credentials)
-      # Cloudflare uses SOPS for API token which CI can't decrypt
       - name: Terraform Plan
         id: plan
-        if: matrix.directory == 'gcp'
         run: terraform plan -no-color
+        continue-on-error: false
 
-      - name: Post PR Comment
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
-        if: github.event_name == 'pull_request' && matrix.directory == 'gcp'
+      - uses: actions/github-script@deb7ae927cc19ae3a8b57293dd5cd2f16171e1e2 # v4.1
+        if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
@@ -74,25 +76,23 @@ jobs:
           script: |
             const output = `#### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️ \`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖 \`${{ steps.validate.outcome }}\`
+            #### Terraform Validation 🤖 ${{ steps.validate.outputs.stdout }}
             #### Terraform Plan 📖 \`${{ steps.plan.outcome }}\`
 
             <details><summary>Show Plan</summary>
 
-            \`\`\`
-            ${process.env.PLAN}
-            \`\`\`
+            \`\`\`${process.env.PLAN}\`\`\`
 
             </details>
 
-            *Pusher: @${{ github.actor }}, Directory: \`terraform/${{ matrix.directory }}\`*`;
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
-            github.rest.issues.createComment({
+            github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
-            })
+            }
 
   apply:
     runs-on: ubuntu-latest
@@ -100,28 +100,31 @@ jobs:
     needs: ["plan"]
     defaults:
       run:
-        working-directory: terraform/gcp
+        working-directory: ${{ env.tf_actions_working_dir }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: checkout
+        id: checkout_code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@71f986410dfbc7added4569d411d040a91dc6935 # v2
+      - uses: 'google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093' # v3
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Setup Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@77e7a554d41e2ee56fc945c52dfd3f33d12def9a # v2
+      - uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3.0.1
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
+          export_default_credentials: true
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
         with:
           terraform_version: ${{ env.terraform_version }}
 
       - name: Terraform Init
+        id: init
         run: terraform init
+        continue-on-error: false
 
       - name: Terraform Apply
+        id: apply
         run: terraform apply -no-color -auto-approve -input=false
+        continue-on-error: false
