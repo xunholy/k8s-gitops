@@ -31,6 +31,7 @@ jobs:
           exit-code: "1"
           severity: "CRITICAL"
           format: "table"
+          trivyignores: ".trivyignore"
 
   trivy-terraform:
     name: Security - Terraform
@@ -47,6 +48,7 @@ jobs:
           exit-code: "1"
           severity: "CRITICAL"
           format: "table"
+          trivyignores: ".trivyignore"
 
   success:
     if: ${{ !cancelled() }}

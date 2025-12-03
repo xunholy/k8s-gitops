@@ -1,0 +1,7 @@
+# Trivy ignore file
+# https://aquasecurity.github.io/trivy/latest/docs/configuration/filtering/#by-inline-comments
+
+# Multus CNI requires broad access to k8s.cni.cncf.io resources
+# This is a standard pattern for CNI plugins and is not a security issue
+# File: kubernetes/apps/base/network-system/multus/app/rbac.yaml
+AVD-KSV-0046

@@ -1,0 +1,256 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Upstream Sync
+
+on:
+  schedule:
+    # Run daily at 6am Melbourne time (8pm UTC previous day)
+    - cron: "0 20 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (don't create PR)"
+        required: false
+        default: "false"
+        type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  UPSTREAM_REPO: "xunholy/k8s-gitops"
+  UPSTREAM_BRANCH: "main"
+  # Files/paths that should never be synced (contain local customizations)
+  EXCLUDE_PATTERNS: |
+    .sops.yaml
+    terraform/gcp/sops.tf
+    kubernetes/clusters/cluster-00/secrets/
+    .github/renovate.json5
+    .renovate/
+    CLAUDE.md
+
+jobs:
+  sync:
+    name: Sync from Upstream
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add Upstream Remote
+        run: |
+          git remote add upstream "https://github.com/${{ env.UPSTREAM_REPO }}.git" || true
+          git fetch upstream "${{ env.UPSTREAM_BRANCH }}"
+
+      - name: Analyze Changes
+        id: analyze
+        run: |
+          # Get all changed files
+          ALL_CHANGES=$(git diff --name-only master...upstream/${{ env.UPSTREAM_BRANCH }} 2>/dev/null || echo "")
+
+          if [ -z "$ALL_CHANGES" ]; then
+            echo "No changes from upstream"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+
+          # Filter out excluded patterns
+          EXCLUDE_REGEX=$(echo "$EXCLUDE_PATTERNS" | grep -v '^$' | sed 's/\./\\./g' | sed 's/\*/.*/g' | tr '\n' '|' | sed 's/|$//')
+
+          SAFE_CHANGES=$(echo "$ALL_CHANGES" | grep -vE "$EXCLUDE_REGEX" || echo "")
+          EXCLUDED_CHANGES=$(echo "$ALL_CHANGES" | grep -E "$EXCLUDE_REGEX" || echo "")
+
+          # Count changes
+          TOTAL_COUNT=$(echo "$ALL_CHANGES" | grep -c . || echo "0")
+          SAFE_COUNT=$(echo "$SAFE_CHANGES" | grep -c . || echo "0")
+          EXCLUDED_COUNT=$(echo "$EXCLUDED_CHANGES" | grep -c . || echo "0")
+
+          echo "total_count=$TOTAL_COUNT" >> $GITHUB_OUTPUT
+          echo "safe_count=$SAFE_COUNT" >> $GITHUB_OUTPUT
+          echo "excluded_count=$EXCLUDED_COUNT" >> $GITHUB_OUTPUT
+
+          # Save to files for PR body
+          echo "$ALL_CHANGES" > /tmp/all_changes.txt
+          echo "$SAFE_CHANGES" > /tmp/safe_changes.txt
+          echo "$EXCLUDED_CHANGES" > /tmp/excluded_changes.txt
+
+          # Categorize changes
+          echo "### Changed Files by Category" > /tmp/change_summary.md
+          echo "" >> /tmp/change_summary.md
+
+          # Kubernetes changes
+          K8S_CHANGES=$(echo "$SAFE_CHANGES" | grep "^kubernetes/" || echo "")
+          if [ -n "$K8S_CHANGES" ]; then
+            echo "<details><summary>📦 Kubernetes ($( echo "$K8S_CHANGES" | grep -c . || echo 0) files)</summary>" >> /tmp/change_summary.md
+            echo "" >> /tmp/change_summary.md
+            echo '```' >> /tmp/change_summary.md
+            echo "$K8S_CHANGES" >> /tmp/change_summary.md
+            echo '```' >> /tmp/change_summary.md
+            echo "</details>" >> /tmp/change_summary.md
+            echo "" >> /tmp/change_summary.md
+          fi
+
+          # Terraform changes
+          TF_CHANGES=$(echo "$SAFE_CHANGES" | grep "^terraform/" || echo "")
+          if [ -n "$TF_CHANGES" ]; then
+            echo "<details><summary>🏗️ Terraform ($(echo "$TF_CHANGES" | grep -c . || echo 0) files)</summary>" >> /tmp/change_summary.md
+            echo "" >> /tmp/change_summary.md
+            echo '```' >> /tmp/change_summary.md
+            echo "$TF_CHANGES" >> /tmp/change_summary.md
+            echo '```' >> /tmp/change_summary.md
+            echo "</details>" >> /tmp/change_summary.md
+            echo "" >> /tmp/change_summary.md
+          fi
+
+          # GitHub workflows
+          GH_CHANGES=$(echo "$SAFE_CHANGES" | grep "^\.github/" || echo "")
+          if [ -n "$GH_CHANGES" ]; then
+            echo "<details><summary>⚙️ GitHub Workflows ($(echo "$GH_CHANGES" | grep -c . || echo 0) files)</summary>" >> /tmp/change_summary.md
+            echo "" >> /tmp/change_summary.md
+            echo '```' >> /tmp/change_summary.md
+            echo "$GH_CHANGES" >> /tmp/change_summary.md
+            echo '```' >> /tmp/change_summary.md
+            echo "</details>" >> /tmp/change_summary.md
+            echo "" >> /tmp/change_summary.md
+          fi
+
+          # Other changes
+          OTHER_CHANGES=$(echo "$SAFE_CHANGES" | grep -vE "^(kubernetes/|terraform/|\.github/)" || echo "")
+          if [ -n "$OTHER_CHANGES" ]; then
+            echo "<details><summary>📄 Other ($(echo "$OTHER_CHANGES" | grep -c . || echo 0) files)</summary>" >> /tmp/change_summary.md
+            echo "" >> /tmp/change_summary.md
+            echo '```' >> /tmp/change_summary.md
+            echo "$OTHER_CHANGES" >> /tmp/change_summary.md
+            echo '```' >> /tmp/change_summary.md
+            echo "</details>" >> /tmp/change_summary.md
+            echo "" >> /tmp/change_summary.md
+          fi
+
+          # Excluded files warning
+          if [ -n "$EXCLUDED_CHANGES" ]; then
+            echo "" >> /tmp/change_summary.md
+            echo "### ⚠️ Excluded Files (not synced)" >> /tmp/change_summary.md
+            echo "These files have local customizations and were excluded:" >> /tmp/change_summary.md
+            echo '```' >> /tmp/change_summary.md
+            echo "$EXCLUDED_CHANGES" >> /tmp/change_summary.md
+            echo '```' >> /tmp/change_summary.md
+          fi
+
+          if [ "$SAFE_COUNT" = "0" ]; then
+            echo "All changes are in excluded paths - nothing to sync"
+            echo "has_syncable_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_syncable_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Sync Branch
+        if: steps.analyze.outputs.has_syncable_changes == 'true' && inputs.dry_run != 'true'
+        id: branch
+        run: |
+          BRANCH_NAME="upstream-sync/$(date +%Y-%m-%d)"
+          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+          # Check if branch already exists remotely
+          if git ls-remote --exit-code origin "$BRANCH_NAME" 2>/dev/null; then
+            echo "Branch $BRANCH_NAME already exists - checking for existing PR"
+            echo "branch_exists=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "branch_exists=false" >> $GITHUB_OUTPUT
+
+          # Create new branch from master
+          git checkout -b "$BRANCH_NAME"
+
+          # Try to merge upstream changes
+          if git merge "upstream/${{ env.UPSTREAM_BRANCH }}" --no-edit -m "chore: sync with upstream ${{ env.UPSTREAM_REPO }}"; then
+            echo "merge_status=success" >> $GITHUB_OUTPUT
+          else
+            echo "Merge conflicts detected"
+            echo "merge_status=conflicts" >> $GITHUB_OUTPUT
+            git merge --abort
+          fi
+
+      - name: Push Branch
+        if: steps.analyze.outputs.has_syncable_changes == 'true' && inputs.dry_run != 'true' && steps.branch.outputs.merge_status == 'success' && steps.branch.outputs.branch_exists == 'false'
+        run: |
+          git push origin "${{ steps.branch.outputs.branch }}"
+
+      - name: Create Pull Request
+        if: steps.analyze.outputs.has_syncable_changes == 'true' && inputs.dry_run != 'true' && steps.branch.outputs.merge_status == 'success' && steps.branch.outputs.branch_exists == 'false'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          CHANGE_SUMMARY=$(cat /tmp/change_summary.md)
+
+          gh pr create \
+            --title "chore: sync with upstream ${{ env.UPSTREAM_REPO }}" \
+            --body "## Upstream Sync
+
+          This PR syncs changes from [${{ env.UPSTREAM_REPO }}](https://github.com/${{ env.UPSTREAM_REPO }}).
+
+          | Metric | Count |
+          |--------|-------|
+          | Total upstream changes | ${{ steps.analyze.outputs.total_count }} |
+          | Files to sync | ${{ steps.analyze.outputs.safe_count }} |
+          | Excluded (local customizations) | ${{ steps.analyze.outputs.excluded_count }} |
+
+          $CHANGE_SUMMARY
+
+          ---
+
+          ### Review Checklist
+          - [ ] Review changes for upstream-specific configurations that need customization
+          - [ ] Check for new secrets or environment variables
+          - [ ] Verify no breaking changes to existing deployments
+          - [ ] Check if excluded files need manual updates
+
+          ---
+          🤖 Generated automatically by upstream-sync workflow" \
+            --label "upstream-sync"
+
+      - name: Report Conflicts
+        if: steps.branch.outputs.merge_status == 'conflicts'
+        run: |
+          echo "::warning::Upstream sync has merge conflicts that need manual resolution"
+          echo ""
+          echo "To resolve manually:"
+          echo "  git fetch upstream ${{ env.UPSTREAM_BRANCH }}"
+          echo "  git checkout -b upstream-sync/manual"
+          echo "  git merge upstream/${{ env.UPSTREAM_BRANCH }}"
+          echo "  # resolve conflicts"
+          echo "  git commit"
+          echo "  git push origin upstream-sync/manual"
+          echo "  # create PR manually"
+
+      - name: Dry Run Summary
+        if: inputs.dry_run == 'true' && steps.analyze.outputs.has_changes == 'true'
+        run: |
+          echo "## Dry Run Summary"
+          echo ""
+          echo "Would sync ${{ steps.analyze.outputs.safe_count }} files from upstream"
+          echo "Would exclude ${{ steps.analyze.outputs.excluded_count }} files"
+          echo ""
+          cat /tmp/change_summary.md
