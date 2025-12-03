@@ -67,5 +67,5 @@ spec:
         - destination:
             host: odoo.business-system.svc.cluster.local
             port:
-              number: 8072
+              number: 8071
           weight: 100
