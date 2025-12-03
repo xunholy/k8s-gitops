@@ -29,15 +29,8 @@ jobs:
           scan-type: "config"
           scan-ref: "kubernetes/"
           exit-code: "1"
-          severity: "HIGH,CRITICAL"
-          format: "sarif"
-          output: "trivy-kubernetes.sarif"
-
-      - name: Upload Trivy scan results
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: "trivy-kubernetes.sarif"
+          severity: "CRITICAL"
+          format: "table"
 
   trivy-terraform:
     name: Security - Terraform
@@ -52,15 +45,8 @@ jobs:
           scan-type: "config"
           scan-ref: "terraform/"
           exit-code: "1"
-          severity: "HIGH,CRITICAL"
-          format: "sarif"
-          output: "trivy-terraform.sarif"
-
-      - name: Upload Trivy scan results
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: "trivy-terraform.sarif"
+          severity: "CRITICAL"
+          format: "table"
 
   success:
     if: ${{ !cancelled() }}
