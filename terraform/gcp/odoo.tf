@@ -65,6 +65,13 @@ resource "google_storage_bucket_iam_member" "odoo_backup_object_admin" {
   member = "serviceAccount:${google_service_account.odoo_backup.email}"
 }
 
+# Barman Cloud also needs storage.buckets.get for WAL archive checks
+resource "google_storage_bucket_iam_member" "odoo_backup_bucket_reader" {
+  bucket = google_storage_bucket.odoo_backups.name
+  role   = "roles/storage.legacyBucketReader"
+  member = "serviceAccount:${google_service_account.odoo_backup.email}"
+}
+
 # Generate SA key (JSON format for gcsApplicationCredentials)
 resource "google_service_account_key" "odoo_backup" {
   service_account_id = google_service_account.odoo_backup.name
