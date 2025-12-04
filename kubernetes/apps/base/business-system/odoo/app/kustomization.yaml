@@ -18,3 +18,5 @@ resources:
   - prometheusrule.yaml
   - scheduledbackup.yaml
   - virtualservice.yaml
+  - secret-filestore-restic.enc.yaml
+  - replicationsource.yaml

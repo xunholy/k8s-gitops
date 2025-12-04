@@ -69,3 +69,4 @@ resources:
   - ../../base/rook-ceph/rook-ceph/ks.yaml
   - ../../base/security-system/kyverno/ks.yaml
   # - ../../base/security-system/gatekeeper/ks.yaml
+  - ../../base/volsync-system/volsync/ks.yaml

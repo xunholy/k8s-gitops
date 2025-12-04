@@ -1,0 +1,32 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: odoo-filestore
+  namespace: business-system
+spec:
+  sourcePVC: odoo-filestore
+  trigger:
+    # Daily at 4:00 UTC (15:00 AEDT) - 1 hour after DB backup
+    schedule: "0 4 * * *"
+  restic:
+    # Secret containing RESTIC_REPOSITORY, RESTIC_PASSWORD, and rclone GCS config
+    repository: odoo-filestore-restic
+    # Retention policy: 7 daily, 4 weekly, 3 monthly snapshots
+    retain:
+      daily: 7
+      weekly: 4
+      monthly: 3
+    # Use Ceph CSI snapshots for consistent backups
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    # Storage class for temporary snapshot PVC
+    storageClassName: ceph-block
+    # Cache for faster incremental backups
+    cacheStorageClassName: ceph-block
+    cacheCapacity: 2Gi
+    # Mover pod security context (match Odoo's UID/GID)
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
