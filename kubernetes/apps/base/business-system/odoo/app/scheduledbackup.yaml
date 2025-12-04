@@ -6,7 +6,8 @@ metadata:
   namespace: business-system
 spec:
   # Weekly backup: Sunday at 03:00 UTC (13:00 AEST)
-  schedule: "0 3 * * 0"
+  # CNPG uses 1-7 for day-of-week (Sunday=7), not 0-6
+  schedule: "0 3 * * 7"
   backupOwnerReference: self
   cluster:
     name: odoo-pg
