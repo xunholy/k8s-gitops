@@ -30,5 +30,14 @@
       matchStrings: ["oci://(?<depName>[^:]+):(?<currentValue>\\S+)"],
       datasourceTemplate: "docker",
     },
+    {
+      customType: "regex",
+      description: "Update Flux ResourceSet OCIRepository tags",
+      managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
+      matchStrings: [
+        "url:\\s+oci://(?<depName>[^\\s]+)\\s*\\n\\s*ref:\\s*\\n\\s*tag:\\s*'?(?<currentValue>[^'\"\\s]+)'?",
+      ],
+      datasourceTemplate: "docker",
+    },
   ],
 }

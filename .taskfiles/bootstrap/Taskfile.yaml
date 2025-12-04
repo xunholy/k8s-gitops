@@ -9,6 +9,58 @@ env:
   ROOT_DIR: '{{.ROOT_DIR}}'
 
 tasks:
+  preflight:
+    desc: "Run preflight checks before bootstrap"
+    summary: |
+      Validates local environment before running bootstrap:
+      - Docker config doesn't have broken credential helpers (WSL issue)
+      - kubectl can connect to cluster
+      - GCP credentials are valid for SOPS decryption
+      - talosconfig exists for recovery
+    platforms: [darwin, linux]
+    cmds:
+      # Check for broken docker credsStore (common WSL issue)
+      - cmd: |
+          if [ -f "$HOME/.docker/config.json" ]; then
+            if grep -q '"credsStore"' "$HOME/.docker/config.json" 2>/dev/null; then
+              CREDS_STORE=$(grep '"credsStore"' "$HOME/.docker/config.json" | cut -d'"' -f4)
+              if [ "$CREDS_STORE" = "desktop.exe" ] || [ "$CREDS_STORE" = "wincred.exe" ]; then
+                echo "ERROR: ~/.docker/config.json has credsStore=$CREDS_STORE (Windows credential helper)"
+                echo "This will cause GHCR 403 errors. Fix with: mv ~/.docker/config.json ~/.docker/config.json.bak"
+                exit 1
+              fi
+            fi
+          fi
+          echo "✓ Docker config OK"
+        silent: false
+      # Check kubectl connectivity
+      - cmd: |
+          if ! kubectl cluster-info --request-timeout=5s >/dev/null 2>&1; then
+            echo "ERROR: kubectl cannot connect to cluster"
+            echo "Fix with: talosctl kubeconfig --force --nodes 192.168.50.11 ~/.kube/config"
+            exit 1
+          fi
+          echo "✓ kubectl connectivity OK"
+        silent: false
+      # Check GCP credentials for SOPS
+      - cmd: |
+          if [ ! -f "$HOME/.config/gcloud/application_default_credentials.json" ]; then
+            echo "ERROR: GCP application default credentials not found"
+            echo "Fix with: gcloud auth application-default login"
+            exit 1
+          fi
+          echo "✓ GCP credentials OK"
+        silent: false
+      # Check talosconfig exists
+      - cmd: |
+          if [ ! -f "$HOME/.talos/config" ]; then
+            echo "WARNING: talosconfig not found at ~/.talos/config"
+            echo "Run 'task talos:config' to decrypt talosconfig"
+          else
+            echo "✓ talosconfig OK"
+          fi
+        silent: false
+
   setup:
     desc: "Ensure required CLIs are installed and initialized"
     summary: |
@@ -29,7 +81,7 @@ tasks:
       The command applies the FluxCD operator configuration using Helm.
       Make sure the necessary environment variables (`CLUSTER_ID`) are set before proceeding.
     prompt: You're bootstraping FluxCD operator configuration "kubernetes/clusters/{{.CLUSTER_ID}}" ... Do you want to continue?
-    deps: [setup, secrets]
+    deps: [preflight, setup, secrets]
     cmd: helmfile apply --file {{.ROOT_DIR}}/kubernetes/bootstrap/helmfile.yaml --skip-diff-on-install {{.CLI_ARGS}}
     requires:
       vars: [CLUSTER_ID]
