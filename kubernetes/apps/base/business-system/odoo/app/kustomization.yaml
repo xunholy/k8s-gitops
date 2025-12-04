@@ -14,5 +14,7 @@ resources:
   - ocirepository.yaml
   - postgres-cluster.yaml
   - pvc.yaml
+  - podmonitor.yaml
+  - prometheusrule.yaml
   - scheduledbackup.yaml
   - virtualservice.yaml

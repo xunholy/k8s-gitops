@@ -1,0 +1,49 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: odoo-pg-backup-alerts
+  namespace: business-system
+spec:
+  groups:
+    - name: odoo-pg.backup
+      rules:
+        - alert: OdooPgBackupFailedRecently
+          expr: |
+            max by (cluster) (cnpg_collector_last_failed_backup_timestamp{cluster="odoo-pg"}) > 0
+              and (time() - max by (cluster) (cnpg_collector_last_failed_backup_timestamp{cluster="odoo-pg"})) < 6 * 60 * 60
+          for: 30m
+          labels:
+            severity: warning
+            service: odoo-postgres
+          annotations:
+            summary: "Odoo PostgreSQL backup failure (recent)"
+            description: >
+              CloudNativePG reported a failed backup for {{ $labels.cluster }} within the last 6 hours.
+              Check Barman logs and GCS access to restore healthy backups.
+        - alert: OdooPgBackupsStale
+          expr: |
+            max by (cluster) (cnpg_collector_last_available_backup_timestamp{cluster="odoo-pg"}) > 0
+              and (time() - max by (cluster) (cnpg_collector_last_available_backup_timestamp{cluster="odoo-pg"})) > 8 * 24 * 60 * 60
+          for: 15m
+          labels:
+            severity: critical
+            service: odoo-postgres
+          annotations:
+            summary: "Odoo PostgreSQL backups are stale"
+            description: >
+              No successful backup for {{ $labels.cluster }} in over 8 days (weekly schedule with buffer).
+              Investigate scheduledbackup job, CNPG logs, and GCS bucket writes.
+        - alert: OdooPgBackupNeverSucceeded
+          expr: |
+            max by (cluster) (cnpg_collector_last_available_backup_timestamp{cluster="odoo-pg"}) == 0
+          for: 24h
+          labels:
+            severity: warning
+            service: odoo-postgres
+          annotations:
+            summary: "Odoo PostgreSQL backup has never completed"
+            description: >
+              No successful backup detected for {{ $labels.cluster }}.
+              Ensure the ScheduledBackup is running and the GCS service account credentials are valid.
