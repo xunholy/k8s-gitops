@@ -11,5 +11,5 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: v2.1.1
+    tag: v2.1.2
   url: oci://ghcr.io/kgateway-dev/charts/kgateway
