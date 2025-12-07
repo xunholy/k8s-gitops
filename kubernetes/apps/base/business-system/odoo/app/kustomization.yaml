@@ -18,5 +18,6 @@ resources:
   - prometheusrule.yaml
   - scheduledbackup.yaml
   - virtualservice.yaml
-  - secret-filestore-restic.enc.yaml
-  - replicationsource.yaml
+  # VolSync disabled until TrueNAS is set up
+  # - secret-filestore-restic.enc.yaml
+  # - replicationsource.yaml

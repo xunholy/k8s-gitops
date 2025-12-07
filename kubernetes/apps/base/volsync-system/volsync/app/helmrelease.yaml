@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: &app volsync
 spec:
+  # Suspended until TrueNAS (expanse.internal) is set up
+  suspend: true
   interval: 5m
   chartRef:
     kind: OCIRepository
