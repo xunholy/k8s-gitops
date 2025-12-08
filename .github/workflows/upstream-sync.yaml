@@ -211,10 +211,12 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          if gh label list --json name --jq '.[].name' --limit 1000 | grep -Fxq "upstream-sync"; then
+          REPO="${{ github.repository }}"
+
+          if gh label list --repo "$REPO" --json name --jq '.[].name' --limit 1000 | grep -Fxq "upstream-sync"; then
             echo "Label upstream-sync already exists"
           else
-            gh label create upstream-sync --color "0E8A16" --description "Automated upstream sync"
+            gh label create upstream-sync --repo "$REPO" --color "0E8A16" --description "Automated upstream sync"
           fi
 
       - name: Create Pull Request
@@ -223,7 +225,9 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           BRANCH="${{ steps.branch.outputs.branch }}"
-          EXISTING_PR=$(gh pr list --state open --head "$BRANCH" --json number --jq '.[0].number' || true)
+          REPO="${{ github.repository }}"
+
+          EXISTING_PR=$(gh pr list --repo "$REPO" --state open --head "$BRANCH" --json number --jq '.[0].number' || true)
 
           if [ -n "$EXISTING_PR" ]; then
             echo "PR already exists: #$EXISTING_PR"
@@ -233,6 +237,7 @@ jobs:
           CHANGE_SUMMARY=$(cat /tmp/change_summary.md)
 
           gh pr create \
+            --repo "$REPO" \
             --title "chore: sync with upstream ${{ env.UPSTREAM_REPO }}" \
             --head "${{ github.repository_owner }}:${{ steps.branch.outputs.branch }}" \
             --body "## Upstream Sync
