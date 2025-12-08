@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: oauth2-proxy
-      version: 9.0.0
+      version: 9.0.1
       sourceRef:
         kind: HelmRepository
         name: oauth2-proxy-chart
