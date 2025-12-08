@@ -205,6 +205,17 @@ jobs:
         run: |
           git push -u origin "${{ steps.branch.outputs.branch }}"
 
+      - name: Ensure Label
+        if: steps.analyze.outputs.has_syncable_changes == 'true' && inputs.dry_run != 'true' && steps.branch.outputs.merge_status == 'success' && steps.branch.outputs.branch_exists == 'false'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          if gh label list --json name --jq '.[].name' --limit 1000 | grep -Fxq "upstream-sync"; then
+            echo "Label upstream-sync already exists"
+          else
+            gh label create upstream-sync --color "0E8A16" --description "Automated upstream sync"
+          fi
+
       - name: Create Pull Request
         if: steps.analyze.outputs.has_syncable_changes == 'true' && inputs.dry_run != 'true' && steps.branch.outputs.merge_status == 'success' && steps.branch.outputs.branch_exists == 'false'
         env:
