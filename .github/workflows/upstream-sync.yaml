@@ -203,7 +203,7 @@ jobs:
       - name: Push Branch
         if: steps.analyze.outputs.has_syncable_changes == 'true' && inputs.dry_run != 'true' && steps.branch.outputs.merge_status == 'success' && steps.branch.outputs.branch_exists == 'false'
         run: |
-          git push origin "${{ steps.branch.outputs.branch }}"
+          git push -u origin "${{ steps.branch.outputs.branch }}"
 
       - name: Create Pull Request
         if: steps.analyze.outputs.has_syncable_changes == 'true' && inputs.dry_run != 'true' && steps.branch.outputs.merge_status == 'success' && steps.branch.outputs.branch_exists == 'false'
