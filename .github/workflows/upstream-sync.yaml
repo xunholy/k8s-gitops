@@ -183,6 +183,7 @@ jobs:
           if git ls-remote --exit-code origin "$BRANCH_NAME" 2>/dev/null; then
             echo "Branch $BRANCH_NAME already exists - checking for existing PR"
             echo "branch_exists=true" >> $GITHUB_OUTPUT
+            echo "merge_status=exists" >> $GITHUB_OUTPUT
             exit 0
           fi
 
@@ -206,7 +207,7 @@ jobs:
           git push -u origin "${{ steps.branch.outputs.branch }}"
 
       - name: Ensure Label
-        if: steps.analyze.outputs.has_syncable_changes == 'true' && inputs.dry_run != 'true' && steps.branch.outputs.merge_status == 'success' && steps.branch.outputs.branch_exists == 'false'
+        if: steps.analyze.outputs.has_syncable_changes == 'true' && inputs.dry_run != 'true' && steps.branch.outputs.merge_status != 'conflicts'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
@@ -217,14 +218,23 @@ jobs:
           fi
 
       - name: Create Pull Request
-        if: steps.analyze.outputs.has_syncable_changes == 'true' && inputs.dry_run != 'true' && steps.branch.outputs.merge_status == 'success' && steps.branch.outputs.branch_exists == 'false'
+        if: steps.analyze.outputs.has_syncable_changes == 'true' && inputs.dry_run != 'true' && (steps.branch.outputs.merge_status == 'success' || steps.branch.outputs.merge_status == 'exists')
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
+          BRANCH="${{ steps.branch.outputs.branch }}"
+          EXISTING_PR=$(gh pr list --state open --head "$BRANCH" --json number --jq '.[0].number' || true)
+
+          if [ -n "$EXISTING_PR" ]; then
+            echo "PR already exists: #$EXISTING_PR"
+            exit 0
+          fi
+
           CHANGE_SUMMARY=$(cat /tmp/change_summary.md)
 
           gh pr create \
             --title "chore: sync with upstream ${{ env.UPSTREAM_REPO }}" \
+            --head "${{ github.repository_owner }}:${{ steps.branch.outputs.branch }}" \
             --body "## Upstream Sync
 
           This PR syncs changes from [${{ env.UPSTREAM_REPO }}](https://github.com/${{ env.UPSTREAM_REPO }}).
