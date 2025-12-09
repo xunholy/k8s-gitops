@@ -191,6 +191,45 @@ task flux:secrets      # Decrypts and applies sops-gpg, sops-age, cluster-secret
 task talos:config      # Decrypts talosconfig to ~/.talos/config
 ```
 
+### Remote Cluster Access
+
+The cluster API is exposed via Cloudflare Tunnel for secure remote access. This requires `cloudflared` installed locally.
+
+**Prerequisites:**
+- Install cloudflared: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/
+- Have access to the email configured in Cloudflare Access (for OTP authentication)
+
+**First-time setup (or when token expires ~24hrs):**
+```bash
+# Authenticate via browser (OTP sent to your email)
+cloudflared access login api.haydenagencies.com.au
+```
+
+**Start the tunnel and use kubectl:**
+```bash
+# Start the tunnel (runs in background)
+cloudflared access tcp --hostname api.haydenagencies.com.au --url 127.0.0.1:1234 &
+
+# Use kubectl with SOCKS proxy
+HTTPS_PROXY=socks5://127.0.0.1:1234 kubectl get nodes
+```
+
+**Optional shell alias** (add to `~/.bashrc` or `~/.zshrc`):
+```bash
+alias kuberemote="HTTPS_PROXY=socks5://127.0.0.1:1234 kubectl"
+```
+
+**Local network access:**
+When on the same network as the cluster (192.168.50.x), use kubectl directly without the proxy:
+```bash
+kubectl get nodes
+```
+
+**Refreshing kubeconfig (from Talos):**
+```bash
+talosctl -n 192.168.50.11 kubeconfig --force
+```
+
 ### Making Changes to Applications
 1. **Edit base configuration** in `kubernetes/apps/base/[system-name]/[app-name]/`
 2. **Use overlays** for cluster-specific customization in `kubernetes/apps/overlays/cluster-00/`

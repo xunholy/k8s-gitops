@@ -23,7 +23,7 @@ spec:
     size: 100Gi
     storageClass: ceph-block
   walStorage:
-    size: 20Gi
+    size: 50Gi
     storageClass: ceph-block
   resources:
     requests:
