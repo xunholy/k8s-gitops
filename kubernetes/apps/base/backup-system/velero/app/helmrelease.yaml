@@ -21,6 +21,9 @@ spec:
       repository: velero/velero
       tag: v1.15.0
 
+    # Disable CRD upgrades - bitnami/kubectl image version issues
+    upgradeCRDs: false
+
     initContainers:
       - name: velero-plugin-for-gcp
         image: velero/velero-plugin-for-gcp:v1.11.0
