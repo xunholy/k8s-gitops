@@ -16,26 +16,42 @@ spec:
         name: vmware-charts
         namespace: flux-system
       interval: 12h
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
   values:
-    image:
-      repository: velero/velero
-      tag: v1.15.0
-
     # Disable CRD upgrades - bitnami/kubectl image version issues
     upgradeCRDs: false
 
     initContainers:
+      # GCP plugin for object storage
       - name: velero-plugin-for-gcp
-        image: velero/velero-plugin-for-gcp:v1.11.0
+        image: velero/velero-plugin-for-gcp:v1.12.1
+        imagePullPolicy: IfNotPresent
         volumeMounts:
           - name: plugins
             mountPath: /target
-
-      - name: velero-plugin-for-csi
-        image: velero/velero-plugin-for-csi:v0.8.0
-        volumeMounts:
-          - name: plugins
-            mountPath: /target
+      # CSI plugin merged into Velero core v1.14+ - no longer needed as separate init container
 
     configuration:
       backupStorageLocation:
