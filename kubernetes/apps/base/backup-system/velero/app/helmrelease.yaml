@@ -7,9 +7,15 @@ metadata:
   namespace: velero
 spec:
   interval: 30m
-  chartRef:
-    kind: OCIRepository
-    name: velero
+  chart:
+    spec:
+      chart: velero
+      version: 8.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: vmware-charts
+        namespace: flux-system
+      interval: 12h
   values:
     image:
       repository: velero/velero
