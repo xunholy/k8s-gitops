@@ -1,0 +1,51 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: velero
+  namespace: velero
+spec:
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  path: "./apps/base/backup-system/velero/app"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: velero
+  dependsOn:
+    - name: onepassword
+      namespace: external-secrets
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: velero
+      namespace: velero
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: velero-schedules
+  namespace: velero
+spec:
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  path: "./apps/base/backup-system/velero/schedules"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: velero
+  dependsOn:
+    - name: velero
+      namespace: velero

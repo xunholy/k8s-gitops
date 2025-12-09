@@ -4,6 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: odoo-filestore
   namespace: business-system
+  labels:
+    app.kubernetes.io/name: odoo
 spec:
   accessModes:
     - ReadWriteOnce

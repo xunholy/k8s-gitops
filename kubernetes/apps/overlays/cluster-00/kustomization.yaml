@@ -6,6 +6,7 @@ kind: Kustomization
 resources:
   # - ../../base/actions-runner-system
   - ../../base/ai-system
+  - ../../base/backup-system
   - ../../base/business-system
   - ../../base/crossplane-system
   - ../../base/database-system
@@ -23,6 +24,7 @@ resources:
   - ../../base/volsync-system
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
   - ../../base/ai-system/kgateway/ks.yaml
+  - ../../base/backup-system/velero/ks.yaml
   - ../../base/business-system/odoo/ks.yaml
   # - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/database-system/cnpg/ks.yaml

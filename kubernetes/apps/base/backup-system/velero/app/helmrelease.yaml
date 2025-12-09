@@ -1,0 +1,67 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: velero
+  namespace: velero
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: velero
+  values:
+    image:
+      repository: velero/velero
+      tag: v1.15.0
+
+    initContainers:
+      - name: velero-plugin-for-gcp
+        image: velero/velero-plugin-for-gcp:v1.11.0
+        volumeMounts:
+          - name: plugins
+            mountPath: /target
+
+      - name: velero-plugin-for-csi
+        image: velero/velero-plugin-for-csi:v0.8.0
+        volumeMounts:
+          - name: plugins
+            mountPath: /target
+
+    configuration:
+      backupStorageLocation:
+        - name: gcs
+          provider: gcp
+          bucket: hayden-velero-backups
+          credential:
+            name: velero-gcs
+            key: cloud
+
+      volumeSnapshotLocation:
+        - name: csi-ceph-blockpool
+          provider: velero.io/csi
+
+      defaultBackupStorageLocation: gcs
+      defaultVolumeSnapshotLocations: velero.io/csi:csi-ceph-blockpool
+
+      features: EnableCSI
+
+    credentials:
+      useSecret: true
+      existingSecret: velero-gcs
+
+    snapshotsEnabled: true
+    deployNodeAgent: true
+
+    nodeAgent:
+      podVolumePath: /var/lib/kubelet/pods
+      privileged: true
+
+    schedules: {}
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 512Mi

@@ -111,6 +111,15 @@ spec:
               limits:
                 memory: 16Gi
     defaultPodOptions:
+      labels:
+        app.kubernetes.io/name: odoo
+      annotations:
+        # Velero backup hooks
+        backup.velero.io/backup-volumes: filestore
+        pre.hook.backup.velero.io/container: app
+        pre.hook.backup.velero.io/command: '["/bin/sh", "-c", "echo Starting Velero backup"]'
+        post.hook.backup.velero.io/container: app
+        post.hook.backup.velero.io/command: '["/bin/sh", "-c", "echo Velero backup complete"]'
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

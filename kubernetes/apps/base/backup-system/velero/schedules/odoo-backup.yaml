@@ -1,0 +1,43 @@
+---
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: odoo-daily
+  namespace: velero
+spec:
+  # Daily at 03:00 UTC (14:00 AEDT)
+  schedule: "0 3 * * *"
+  template:
+    # Backup business-system namespace
+    includedNamespaces:
+      - business-system
+
+    # Include specific resources
+    includedResources:
+      - persistentvolumeclaims
+      - persistentvolumes
+      - pods
+      - deployments
+      - statefulsets
+      - configmaps
+      - secrets
+
+    # Label selector for Odoo resources
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: odoo
+
+    # Snapshot PVCs
+    snapshotVolumes: true
+    storageLocation: gcs
+    volumeSnapshotLocations:
+      - csi-ceph-blockpool
+
+    # Retention: 7 days
+    ttl: 168h
+
+    # Hooks enabled via pod annotations
+    hooks:
+      resources: []
+
+  useOwnerReferencesInBackup: false
