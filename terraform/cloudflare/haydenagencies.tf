@@ -30,6 +30,18 @@ resource "cloudflare_access_application" "kubernetes_cluster_access" {
   }
 }
 
+resource "cloudflare_access_policy" "kubernetes_cluster_access_allow_thomas" {
+  zone_id        = local.haydenagencies_zone_id
+  application_id = cloudflare_access_application.kubernetes_cluster_access.id
+  name           = "Allow thomas@haydenagencies.com.au"
+  precedence     = 1
+  decision       = "allow"
+
+  include {
+    email = ["thomas@haydenagencies.com.au"]
+  }
+}
+
 # Service token for Odoo webhook (account-level, can be used across zones)
 resource "cloudflare_access_service_token" "odoo_webhook" {
   account_id = data.cloudflare_zone.haydenagencies.account_id
