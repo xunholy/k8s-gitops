@@ -27,12 +27,13 @@ spec:
               - 'sealed-secrets.haydenagencies.com.au'
               - 'alert-manager.haydenagencies.com.au'
               - 'prometheus.haydenagencies.com.au'
-    # Require auth for Odoo only when NOT from local network
+    # Require auth for Odoo only when NOT from local/trusted network
     # Local network users can access Odoo without GitHub auth
     - from:
         - source:
             notIpBlocks:
               - "192.168.0.0/16"
+              - "144.6.92.244/32"  # Hayden office public IP (via Cloudflare)
       to:
         - operation:
             hosts:

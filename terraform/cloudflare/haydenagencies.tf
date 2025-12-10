@@ -189,7 +189,7 @@ resource "cloudflare_zone_settings_override" "haydenagencies" {
     early_hints              = "off"
     email_obfuscation        = "on"
     hotlink_protection       = "off"
-    http3                    = "on"
+    http3                    = "off"
     ip_geolocation           = "on"
     ipv6                     = "on"
     max_upload               = 100
