@@ -17,14 +17,23 @@ spec:
   # talk to the external auth service.
   provider:
     name: 'oauth2-proxy'
-  # The rule specifies that the access control is triggered only if the request path has the prefix "/admin/".
-  # This allows you to easily enable or disable the external authorization based on the requests, avoiding the external
-  # check request if it is not needed.
+  # Rules defining when to trigger external authorization.
+  # Note: odoo.haydenagencies.com.au has separate rules to allow local network bypass.
   rules:
+    # Always require auth for these hosts (all traffic)
     - to:
         - operation:
             hosts:
               - 'sealed-secrets.haydenagencies.com.au'
               - 'alert-manager.haydenagencies.com.au'
               - 'prometheus.haydenagencies.com.au'
+    # Require auth for Odoo only when NOT from local network (192.168.50.0/24)
+    # Local network users can access Odoo without GitHub auth
+    - from:
+        - source:
+            notIpBlocks:
+              - "192.168.50.0/24"
+      to:
+        - operation:
+            hosts:
               - 'odoo.haydenagencies.com.au'

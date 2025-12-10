@@ -48,6 +48,8 @@ spec:
       unhealthyPodEvictionPolicy: AlwaysAllow
     priorityClassName: "platform-cluster-critical"
     service:
+      # Preserve client source IPs for IP-based authorization policies
+      externalTrafficPolicy: Local
       annotations:
         io.cilium/lb-ipam-ips: ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
     affinity:
