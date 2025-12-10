@@ -2,11 +2,11 @@
 apiVersion: velero.io/v1
 kind: Schedule
 metadata:
-  name: odoo-daily
+  name: odoo-weekly
   namespace: velero
 spec:
-  # Daily at 03:00 UTC (14:00 AEDT)
-  schedule: "0 3 * * *"
+  # Weekly Sunday 04:00 UTC (15:00 AEDT) - 1 hour after CNPG backup
+  schedule: "0 4 * * 0"
   template:
     # Backup business-system namespace
     includedNamespaces:
@@ -33,8 +33,8 @@ spec:
     volumeSnapshotLocations:
       - csi-ceph-blockpool
 
-    # Retention: 7 days
-    ttl: 168h
+    # Retention: 30 days (keep ~4 weekly backups)
+    ttl: 720h
 
     # Hooks enabled via pod annotations
     hooks:
