@@ -65,13 +65,4 @@ resource "google_storage_bucket_iam_member" "thanos_object_admin" {
   member = "serviceAccount:${google_service_account.thanos.email}"
 }
 
-# Generate SA key for 1Password
-resource "google_service_account_key" "thanos" {
-  service_account_id = google_service_account.thanos.name
-}
-
-output "thanos_sa_key" {
-  value       = google_service_account_key.thanos.private_key
-  sensitive   = true
-  description = "Base64-encoded JSON key for Thanos. Decode and save to 1Password item 'thanos-objstore' field 'serviceAccount'"
-}
+# SA key managed externally via 1Password (thanos-objstore)

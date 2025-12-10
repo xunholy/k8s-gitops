@@ -93,13 +93,4 @@ resource "google_storage_bucket_iam_member" "velero_object_admin" {
   member = "serviceAccount:${google_service_account.velero.email}"
 }
 
-# Generate SA key for 1Password
-resource "google_service_account_key" "velero" {
-  service_account_id = google_service_account.velero.name
-}
-
-output "velero_sa_key" {
-  value       = google_service_account_key.velero.private_key
-  sensitive   = true
-  description = "Base64-encoded JSON key for Velero. Decode and save to 1Password"
-}
+# SA key managed externally via 1Password (velero-gcs)

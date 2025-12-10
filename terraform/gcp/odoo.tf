@@ -72,10 +72,7 @@ resource "google_storage_bucket_iam_member" "odoo_backup_bucket_reader" {
   member = "serviceAccount:${google_service_account.odoo_backup.email}"
 }
 
-# Generate SA key (JSON format for gcsApplicationCredentials)
-resource "google_service_account_key" "odoo_backup" {
-  service_account_id = google_service_account.odoo_backup.name
-}
+# SA key managed externally via 1Password (odoo-objstore)
 
 # -----------------------------------------------------------------------------
 # Outputs
@@ -84,12 +81,6 @@ resource "google_service_account_key" "odoo_backup" {
 output "odoo_backup_sa_email" {
   value       = google_service_account.odoo_backup.email
   description = "Email of the Odoo backup service account"
-}
-
-output "odoo_backup_sa_key" {
-  value       = google_service_account_key.odoo_backup.private_key
-  sensitive   = true
-  description = "Base64-encoded JSON key. Decode and save to 1Password item 'odoo-objstore' field 'serviceAccount'"
 }
 
 output "odoo_backup_bucket" {
