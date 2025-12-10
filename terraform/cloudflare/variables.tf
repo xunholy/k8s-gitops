@@ -64,7 +64,7 @@ variable "haydenagencies_whitelisted_countries" {
 
 variable "haydenagencies_rate_limit_requests" {
   description = "Rate limit requests per period for haydenagencies.com.au"
-  default     = 20
+  default     = 100
   type        = number
 }
 

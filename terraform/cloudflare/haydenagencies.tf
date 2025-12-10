@@ -9,6 +9,38 @@ locals {
 }
 
 # ==============================================
+# IP Lists (WAF)
+# ==============================================
+
+resource "cloudflare_list" "whitelisted_ips" {
+  account_id  = data.cloudflare_zone.haydenagencies.account_id
+  name        = "whitelisted_ips"
+  description = "IPs that bypass rate limiting and WAF challenges"
+  kind        = "ip"
+
+  item {
+    value {
+      ip = "119.18.0.248"
+    }
+    comment = "Rival - Justin"
+  }
+
+  item {
+    value {
+      ip = "144.6.92.244"
+    }
+    comment = "Hayden"
+  }
+
+  item {
+    value {
+      ip = "121.200.5.240"
+    }
+    comment = "Thomas home IP"
+  }
+}
+
+# ==============================================
 # Access Applications and Policies
 # ==============================================
 
