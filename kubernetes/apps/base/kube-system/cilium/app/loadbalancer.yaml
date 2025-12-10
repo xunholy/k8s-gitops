@@ -5,9 +5,11 @@ kind: CiliumL2AnnouncementPolicy
 metadata:
   name: l2-policy
 spec:
+  # Only announce from worker nodes (not control plane) to match where ingress pods run
   nodeSelector:
-    matchLabels:
-      kubernetes.io/os: linux
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: DoesNotExist
   externalIPs: true
   loadBalancerIPs: true
 ---

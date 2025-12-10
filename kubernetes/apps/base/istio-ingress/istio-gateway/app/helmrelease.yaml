@@ -43,6 +43,8 @@ spec:
     mode: warn
   maxHistory: 3
   values:
+    # Run on all 3 worker nodes to ensure L2 announcement always hits a node with a pod
+    replicaCount: 3
     podDisruptionBudget:
       minAvailable: 1
       unhealthyPodEvictionPolicy: AlwaysAllow
@@ -53,7 +55,14 @@ spec:
       annotations:
         io.cilium/lb-ipam-ips: ${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}
     affinity:
-      # This podAntiAffinity ensures ingress controllers are not scheduled on the same node
+      # Prevent scheduling on control plane nodes
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: DoesNotExist
+      # Spread across worker nodes - one pod per node
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
