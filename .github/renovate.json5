@@ -43,6 +43,12 @@
       matchPackageNames: ["ghcr.io/hayden-agencies/odoo"],
       versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>.+)$",
     },
+    {
+      // Custom versioning for CNPG PostgreSQL images (17.7-202512080807-system-bookworm)
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/cloudnative-pg/postgresql"],
+      versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)-(?<patch>\\d+)-system-bookworm$",
+    },
   ],
   flux: {
     managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
