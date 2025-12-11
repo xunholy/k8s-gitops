@@ -45,6 +45,9 @@ spec:
   values:
     # Run on all 3 worker nodes to ensure L2 announcement always hits a node with a pod
     replicaCount: 3
+    autoscaling:
+      minReplicas: 3
+      maxReplicas: 5
     podDisruptionBudget:
       minAvailable: 1
       unhealthyPodEvictionPolicy: AlwaysAllow
