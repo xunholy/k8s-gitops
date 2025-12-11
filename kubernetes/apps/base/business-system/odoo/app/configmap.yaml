@@ -47,4 +47,4 @@ data:
 
     # Queue Job Configuration
     [queue_job]
-    channels = root:60,root.sale_order:45,root.product_template:30,root.inventory:10
+    channels = root:60,root.sale_order:45,root.product_template:5,root.inventory:10
