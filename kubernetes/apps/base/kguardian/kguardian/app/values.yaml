@@ -11,13 +11,12 @@ broker:
 
 frontend:
   image:
-    tag: "v1.6.0"
+    tag: "v1.6.1"
 
 llmBridge:
   enabled: true
   image:
-    tag: "pr-510"
-    sha: "sha256:3c323dcc2b2bdd04ae706b3d71c1e5ddd3bcfc1bfd360a3b5fc082ade45df156"
+    tag: "1.1.0"
   secrets:
     openai:
       enabled: true
@@ -27,5 +26,4 @@ mcpServer:
   enabled: true
   useKmcp: true
   image:
-    tag: "pr-510"
-    sha: "sha256:f810e9cbc48e5de25c0cd652e92a68f4e11d2d9cc20be7afd7123223b837382a"
+    tag: "1.2.0"
