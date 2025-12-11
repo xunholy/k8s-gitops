@@ -16,7 +16,7 @@ frontend:
 llmBridge:
   enabled: true
   image:
-    tag: "1.1.0"
+    tag: "pr-552"
   secrets:
     openai:
       enabled: true
@@ -26,4 +26,4 @@ mcpServer:
   enabled: true
   useKmcp: true
   image:
-    tag: "1.2.0"
+    tag: "pr-552"
