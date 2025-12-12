@@ -1,0 +1,50 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: odoo-config
+  namespace: business-system-staging
+data:
+  odoo.conf: |
+    [options]
+    db_host = odoo-pg-staging-rw.business-system-staging.svc.cluster.local
+    db_port = 5432
+    db_template = template0
+    import_limit = 25000
+
+    # Server settings
+    http_port = 8069
+    xmlrpc_port = 8071
+    gevent_port = 8072
+
+    # Addons paths
+    addons_path = /usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons/custom,/mnt/extra-addons/vendor-oca,/mnt/extra-addons/vendor-ventor,/mnt/enterprise-addons
+
+    # Data directory
+    data_dir = /var/lib/odoo
+
+    # Server-wide modules (queue_job enables background job processing)
+    server_wide_modules = base,web,queue_job
+
+    # Log settings
+    log_level = info
+    log_handler = :INFO
+
+    # Performance settings (reduced for staging)
+    workers = 8
+    worker_class = gevent
+    max_cron_threads = 2
+    limit_memory_hard = 2147483648
+    limit_memory_soft = 1610612736
+    limit_request = 8192
+    limit_time_cpu = 600
+    limit_time_real = 2400
+    limit_time_real_cron = 3600
+
+    # Deployment settings
+    proxy_mode = True
+    list_db = False
+
+    # Queue Job Configuration (reduced for staging)
+    [queue_job]
+    channels = root:8,root.sale_order:6,root.product_template:2,root.inventory:2

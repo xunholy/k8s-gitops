@@ -1,0 +1,57 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: odoo-pg-staging
+  namespace: business-system-staging
+spec:
+  instances: 1
+  primaryUpdateStrategy: unsupervised
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.7-202512080807-system-bookworm
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: odoo-pg-superuser
+  monitoring:
+    enablePodMonitor: true
+  # Bootstrap from production backup (CNPG recovery)
+  bootstrap:
+    recovery:
+      source: odoo-pg-production
+  # External cluster reference for recovery source
+  externalClusters:
+    - name: odoo-pg-production
+      barmanObjectStore:
+        destinationPath: gs://hayden-odoo-backups/base
+        googleCredentials:
+          applicationCredentials:
+            name: odoo-objstore
+            key: serviceAccount
+        wal:
+          maxParallel: 4
+  storage:
+    size: 20Gi
+    storageClass: ceph-block
+  walStorage:
+    size: 10Gi
+    storageClass: ceph-block
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      memory: 2Gi
+  postgresql:
+    parameters:
+      max_connections: "100"
+      shared_buffers: 128MB
+      effective_cache_size: 512MB
+      maintenance_work_mem: 64MB
+      checkpoint_completion_target: "0.9"
+      wal_buffers: 8MB
+      default_statistics_target: "100"
+      random_page_cost: "1.1"
+      effective_io_concurrency: "200"
+      work_mem: 2MB
+      min_wal_size: 256MB
+      max_wal_size: 1GB
+  # No backups for staging - it's restored from production

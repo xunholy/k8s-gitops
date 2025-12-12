@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: odoo-staging
+  namespace: business-system-staging
+spec:
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  path: "./apps/base/business-system-staging/odoo-staging/app"
+  prune: true
+  wait: false
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  dependsOn:
+    - name: cnpg
+      namespace: database-system
+    - name: istiod
+      namespace: istio-system
+    - name: onepassword
+      namespace: external-secrets
+    - name: reflector
+      namespace: kube-system
+    - name: odoo
+      namespace: business-system

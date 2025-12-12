@@ -8,6 +8,7 @@ resources:
   - ../../base/ai-system
   - ../../base/backup-system
   - ../../base/business-system
+  - ../../base/business-system-staging
   - ../../base/crossplane-system
   - ../../base/database-system
   - ../../base/development
@@ -26,6 +27,7 @@ resources:
   - ../../base/ai-system/kgateway/ks.yaml
   - ../../base/backup-system/velero/ks.yaml
   - ../../base/business-system/odoo/ks.yaml
+  - ../../base/business-system-staging/odoo-staging/ks.yaml
   # - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/database-system/cnpg/ks.yaml
   # - ../../base/development/backstage/ks.yaml

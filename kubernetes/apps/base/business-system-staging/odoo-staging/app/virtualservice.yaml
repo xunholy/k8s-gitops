@@ -1,0 +1,43 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.haydenagencies.com.au/networking.istio.io/virtualservice_v1beta1.json
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: odoo-staging
+  namespace: business-system-staging
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  hosts:
+    - 'odoo-staging.${CLUSTER_DOMAIN}'
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - match:
+        - uri:
+            prefix: /oauth2/
+      route:
+        - destination:
+            host: oauth2-proxy.network-system.svc.cluster.local
+            port:
+              number: 80
+          weight: 100
+    # WebSocket/longpolling routes to gevent port
+    - match:
+        - uri:
+            prefix: /websocket
+        - uri:
+            prefix: /longpolling
+      route:
+        - destination:
+            host: odoo-staging.business-system-staging.svc.cluster.local
+            port:
+              number: 8072
+          weight: 100
+    - route:
+        - destination:
+            host: odoo-staging.business-system-staging.svc.cluster.local
+            port:
+              number: 8071
+          weight: 100
