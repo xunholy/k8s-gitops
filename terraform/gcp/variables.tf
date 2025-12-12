@@ -9,3 +9,9 @@ variable "region" {
   default     = "us-central1"
   type        = string
 }
+
+variable "billing_account" {
+  description = "GCP billing account ID for new projects"
+  default     = "01CA75-6E963A-0AD9ED"
+  type        = string
+}
