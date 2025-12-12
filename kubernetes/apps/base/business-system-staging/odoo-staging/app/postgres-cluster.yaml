@@ -21,6 +21,8 @@ spec:
   externalClusters:
     - name: odoo-pg-production
       barmanObjectStore:
+        # Server name must match the original cluster name used in backups
+        serverName: odoo-pg
         destinationPath: gs://hayden-odoo-backups/base
         googleCredentials:
           applicationCredentials:
