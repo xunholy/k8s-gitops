@@ -51,13 +51,7 @@ spec:
         volumeMounts:
           - name: plugins
             mountPath: /target
-      # CSI plugin for volume snapshots (required for snapshotVolumes: true)
-      - name: velero-plugin-for-csi
-        image: velero/velero-plugin-for-csi:v0.7.1
-        imagePullPolicy: IfNotPresent
-        volumeMounts:
-          - name: plugins
-            mountPath: /target
+      # NOTE: CSI plugin is built into Velero v1.14+ - do NOT add external CSI plugin
 
     configuration:
       backupStorageLocation:
