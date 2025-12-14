@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ai-system
+
+resources:
+  - helmrelease.yaml
+  - helmrepository.yaml
+
+configMapGenerator:
+  - name: n8n-values
+    files:
+      - values.yaml=./values.yaml
+
+secretGenerator:
+  - name: n8n-values-secret
+    namespace: ai-system
+    files:
+      - values.yaml=values.enc.yaml
+
+configurations:
+  - kustomizeconfig.yaml
