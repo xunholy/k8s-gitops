@@ -216,7 +216,7 @@ HTTPS_PROXY=socks5://127.0.0.1:1234 kubectl get nodes
 
 **Optional shell alias** (add to `~/.bashrc` or `~/.zshrc`):
 ```bash
-alias kuberemote="HTTPS_PROXY=socks5://127.0.0.1:1234 kubectl"
+alias kubeone="env HTTPS_PROXY=socks5://127.0.0.1:1234 kubectl"
 ```
 
 **Local network access:**
