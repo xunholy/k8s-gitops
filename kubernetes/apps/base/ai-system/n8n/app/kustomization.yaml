@@ -7,6 +7,7 @@ namespace: ai-system
 resources:
   - helmrelease.yaml
   - helmrepository.yaml
+  - virtualservice.yaml
 
 configMapGenerator:
   - name: n8n-values
