@@ -9,7 +9,7 @@ helmCharts:
     releaseName: cilium
     namespace: kube-system
     valuesFile: ../../../kubernetes/apps/base/kube-system/cilium/app/values.yaml
-    version: 1.18.4
+    version: 1.18.5
     repo: https://helm.cilium.io/
 
 # REQUIRED: Use transformers to avoid creating the labels & annotations on all references rather than only metadata/annotations or metadata/labels respectively
