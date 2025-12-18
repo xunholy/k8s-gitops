@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: jaeger
-      version: 4.0.1
+      version: 4.1.5
       sourceRef:
         kind: HelmRepository
         name: jaegertracing-charts
