@@ -46,7 +46,7 @@ spec:
     initContainers:
       # GCP plugin for object storage
       - name: velero-plugin-for-gcp
-        image: velero/velero-plugin-for-gcp:v1.12.1
+        image: velero/velero-plugin-for-gcp:v1.13.1
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - name: plugins
