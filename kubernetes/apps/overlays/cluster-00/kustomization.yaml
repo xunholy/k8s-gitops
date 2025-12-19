@@ -26,6 +26,7 @@ resources:
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
   - ../../base/ai-system/kgateway/ks.yaml
   - ../../base/backup-system/velero/ks.yaml
+  - ../../base/business-system/label-generator/ks.yaml
   - ../../base/business-system/odoo/ks.yaml
   - ../../base/business-system-staging/odoo-staging/ks.yaml
   # - ../../base/crossplane-system/crossplane/ks.yaml
