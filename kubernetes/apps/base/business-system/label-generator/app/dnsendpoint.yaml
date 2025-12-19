@@ -1,0 +1,16 @@
+---
+# DNSEndpoint for internal DNS resolution via Unifi
+# This allows local network access without going through Cloudflare
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: label-generator-internal
+  namespace: business-system
+  annotations:
+    external-dns.alpha.kubernetes.io/internal: 'true'
+spec:
+  endpoints:
+    - dnsName: 'labels.${CLUSTER_DOMAIN}'
+      recordType: A
+      targets:
+        - '${CLUSTER_LB_ISTIO_INGRESS_GATEWAY}'
