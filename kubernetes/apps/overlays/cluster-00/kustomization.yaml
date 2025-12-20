@@ -65,7 +65,6 @@ resources:
   - ../../base/istio-system/istiod/ks.yaml
   - ../../base/kguardian/kguardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml
-  - ../../base/kube-system/cilium/gateway-api/ks.yaml
   - ../../base/kube-system/descheduler/ks.yaml
   - ../../base/kube-system/kubelet-csr-approver/ks.yaml
   - ../../base/kube-system/metrics-server/ks.yaml
