@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: raspbernetes-com-le
+spec:
+  # The secret name where cert-manager should store the signed certificate
+  secretName: raspbernetes-com-le
+  duration: 2160h0m0s # 90d
+  renewBefore: 360h0m0s # 15d
+  # cert-manager regenerates a new private key on each issuance
+  # https://cert-manager.io/docs/usage/certificate/#rotation-private-key
+  privateKey:
+    rotationPolicy: Always
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: ${CLUSTER_DOMAIN}
+  dnsNames:
+    - ${CLUSTER_DOMAIN}
+    - '*.${CLUSTER_DOMAIN}'
