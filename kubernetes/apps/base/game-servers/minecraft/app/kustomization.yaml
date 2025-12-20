@@ -24,9 +24,5 @@ secretGenerator:
     files:
       - values.yaml=values.enc.yaml
 
-generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
-
 configurations:
   - kustomizeconfig.yaml
