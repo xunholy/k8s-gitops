@@ -1,0 +1,23 @@
+# Used to enable webhook-receivers https://toolkit.fluxcd.io/guides/webhook-receivers/
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: receiver
+  namespace: flux-system
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  parentRefs:
+    - name: cilium-gateway-main
+      namespace: istio-ingress
+      sectionName: https
+  hostnames:
+    - 'cilium-receiver.${CLUSTER_DOMAIN}'
+  rules:
+    - backendRefs:
+        - name: webhook-receiver
+          port: 80
+          weight: 100

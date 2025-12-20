@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: github
+  namespace: istio-ingress
+spec:
+  parentRefs:
+    - name: cilium-gateway-main
+      namespace: istio-ingress
+      sectionName: https
+  hostnames:
+    - 'cilium-${CLUSTER_DOMAIN}'
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /k8s-gitops
+            hostname: xunholy.github.io
+      backendRefs:
+        - kind: Service
+          name: xunholy-github-io
+          port: 443

@@ -5,5 +5,7 @@ kind: Kustomization
 
 resources:
   - destinationrule.yaml
+  - httproute.yaml
+  - service.yaml
   - serviceentry.yaml
   - virtualservice.yaml

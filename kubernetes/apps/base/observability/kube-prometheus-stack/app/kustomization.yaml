@@ -6,6 +6,7 @@ kind: Kustomization
 resources:
   - grafanadashboard.yaml
   - helmrelease.yaml
+  - httproute.yaml
   - ocirepository.yaml
   - scrapeconfig.yaml
   - virtualservice.yaml
