@@ -14,7 +14,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-radarr.${CLUSTER_DOMAIN}'
+    - 'radarr.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: radarr

@@ -11,7 +11,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-alert-manager.${CLUSTER_DOMAIN}'
+    - 'alert-manager.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: alertmanager-operated
@@ -30,7 +30,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-prometheus.${CLUSTER_DOMAIN}'
+    - 'prometheus.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: kube-prometheus-stack-prometheus

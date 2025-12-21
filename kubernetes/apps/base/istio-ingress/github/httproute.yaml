@@ -11,7 +11,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-${CLUSTER_DOMAIN}'
+    - '${CLUSTER_DOMAIN}'
   rules:
     - matches:
         - path:

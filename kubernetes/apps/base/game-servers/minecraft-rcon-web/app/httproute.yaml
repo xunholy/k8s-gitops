@@ -14,7 +14,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-rcon.${CLUSTER_DOMAIN}'
+    - 'rcon.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: minecraft-rcon-web

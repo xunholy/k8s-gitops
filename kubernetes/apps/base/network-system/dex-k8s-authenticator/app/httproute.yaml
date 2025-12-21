@@ -14,7 +14,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-login.${CLUSTER_DOMAIN}'
+    - 'login.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: dex-k8s-authenticator

@@ -14,7 +14,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-dex.${CLUSTER_DOMAIN}'
+    - 'dex.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: dex

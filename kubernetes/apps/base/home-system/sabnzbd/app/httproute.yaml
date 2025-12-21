@@ -14,7 +14,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-sab.${CLUSTER_DOMAIN}'
+    - 'sab.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: sabnzbd

@@ -14,7 +14,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-requests.${CLUSTER_DOMAIN}'
+    - 'requests.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: jellyseerr

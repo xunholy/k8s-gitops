@@ -14,7 +14,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-qui.${CLUSTER_DOMAIN}'
+    - 'qui.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: qui

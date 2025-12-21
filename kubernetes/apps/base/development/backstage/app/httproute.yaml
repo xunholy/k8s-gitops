@@ -14,7 +14,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-backstage.${CLUSTER_DOMAIN}'
+    - 'backstage.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: backstage

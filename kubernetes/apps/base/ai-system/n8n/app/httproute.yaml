@@ -14,8 +14,8 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-n8n.${CLUSTER_DOMAIN}'
-    - 'cilium-webhook.${CLUSTER_DOMAIN}'
+    - 'n8n.${CLUSTER_DOMAIN}'
+    - 'webhook.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: n8n

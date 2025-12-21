@@ -14,7 +14,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-kiali.${CLUSTER_DOMAIN}'
+    - 'kiali.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: kiali

@@ -14,7 +14,7 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'cilium-grafana.${CLUSTER_DOMAIN}'
+    - 'grafana.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: grafana-service
