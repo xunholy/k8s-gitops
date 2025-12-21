@@ -49,8 +49,7 @@ kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 # egressMasqueradeInterfaces: "*"
 l2announcements:
   enabled: true
-l7Proxy:
-  enabled: true
+l7Proxy: true
 loadBalancer:
   algorithm: maglev
   mode: hybrid
