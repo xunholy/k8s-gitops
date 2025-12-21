@@ -41,7 +41,3 @@ spec:
     - name: cert-manager
       namespace: network-system
   targetNamespace: kube-system
-  postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
