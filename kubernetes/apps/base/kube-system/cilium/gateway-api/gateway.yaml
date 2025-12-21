@@ -6,6 +6,9 @@ metadata:
   name: cilium-gateway
 spec:
   gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      io.cilium/lb-ipam-ips: ${CLUSTER_LB_GATEWAY_API}
   addresses:
     - type: IPAddress
       value: ${CLUSTER_LB_GATEWAY_API}
