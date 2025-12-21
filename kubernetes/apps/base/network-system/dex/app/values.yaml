@@ -51,6 +51,7 @@ config:
       secret: '${DEX_OAUTH2_PROXY_SECRET}'
       redirectURIs:
         - 'https://alert-manager.${CLUSTER_DOMAIN}/oauth2/callback'
+        - 'https://labels.${CLUSTER_DOMAIN}/oauth2/callback'
         - 'https://odoo.${CLUSTER_DOMAIN}/oauth2/callback'
         - 'https://hass.${CLUSTER_DOMAIN}/oauth2/callback'
         - 'https://kiali.${CLUSTER_DOMAIN}/oauth2/callback'
