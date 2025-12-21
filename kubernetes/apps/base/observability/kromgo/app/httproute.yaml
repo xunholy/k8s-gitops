@@ -11,7 +11,7 @@ metadata:
 spec:
   parentRefs:
     - name: cilium-gateway
-      namespace: istio-ingress
+      namespace: kube-system
       sectionName: https
   hostnames:
     - 'cilium-kromgo.${CLUSTER_DOMAIN}'

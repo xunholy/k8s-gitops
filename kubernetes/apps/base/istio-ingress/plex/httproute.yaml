@@ -8,7 +8,7 @@ metadata:
 spec:
   parentRefs:
     - name: cilium-gateway
-      namespace: istio-ingress
+      namespace: kube-system
       sectionName: https
   hostnames:
     - 'cilium-plex.${CLUSTER_DOMAIN}'
