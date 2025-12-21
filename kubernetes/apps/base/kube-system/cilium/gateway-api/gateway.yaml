@@ -6,6 +6,9 @@ metadata:
   name: cilium-gateway-main
 spec:
   gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: ${CLUSTER_LB_GATEWAY_API}
   listeners:
     - name: http
       protocol: HTTP
