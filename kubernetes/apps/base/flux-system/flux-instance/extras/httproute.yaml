@@ -11,7 +11,7 @@ metadata:
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   parentRefs:
-    - name: cilium-gateway-main
+    - name: cilium-gateway
       namespace: istio-ingress
       sectionName: https
   hostnames:

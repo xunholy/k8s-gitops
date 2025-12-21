@@ -7,7 +7,7 @@ metadata:
   namespace: observability
 spec:
   parentRefs:
-    - name: cilium-gateway-main
+    - name: cilium-gateway
       namespace: istio-ingress
       sectionName: https
   hostnames:
@@ -26,7 +26,7 @@ metadata:
   namespace: observability
 spec:
   parentRefs:
-    - name: cilium-gateway-main
+    - name: cilium-gateway
       namespace: istio-ingress
       sectionName: https
   hostnames:

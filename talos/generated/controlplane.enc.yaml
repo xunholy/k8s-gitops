@@ -162,7 +162,7 @@ cluster:
     extraManifests:
         - https://raw.githubusercontent.com/xUnholy/k8s-gitops/main/talos/integrations/cert-approver/cert-approver.yaml
         # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
-        - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/experimental-install.yaml
+        - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.1/experimental-install.yaml
         # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
         - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.86.0/stripped-down-crds.yaml
         # renovate: datasource=github-releases depName=k8snetworkplumbingwg/network-attachment-definition-client
@@ -170,8 +170,8 @@ cluster:
     inlineManifests: []
     allowSchedulingOnControlPlanes: true
 sops:
-    lastmodified: "2025-10-23T02:41:56Z"
-    mac: ENC[AES256_GCM,data:NFRR8ZfeZfYocV4eiZxcQmysXpBMbQdYU/iDLx822ykcli0yhl8ctjTnwROpbj0kBZha0xoIbixmL0u2P6VjmTrUuk9KoH9B+bYLaMzN1nZvmwq0qxggIU0JMp6iT0E6Da0JV9OHrEWk9h7wz6QHNBIVNLcnfZBlj+g7+IWmTRs=,iv:J0wd6RhM80WOSVpWL6t5d7eNY7lG7TyfLysA9/XBAgc=,tag:cjNIM9QTZfNu5H7/qCoZ5g==,type:str]
+    lastmodified: "2025-12-21T01:20:39Z"
+    mac: ENC[AES256_GCM,data:lz47/epWXsNRFhBBTafmvmeZWgELhkFvJr51OiKvbxZxroUNs6Qsec89b5Itkd+o4T2IyhEpE3ykovg5ctJ1oQUQR0N0OLaBTgkJxe9VNmSwtf6wiG0EwUii5EsfR2fcy27UyxaeCfzhxEpown8l6TfWmO5wpqWX8OkJTdTdsjg=,iv:fE3vHW9WMhRiyHq0aOk2+HKsrYavjyPXtIroZoGkXc4=,tag:JiAUAFkDXv6/OYiWTyjpcQ==,type:str]
     pgp:
         - created_at: "2023-03-01T22:28:05Z"
           enc: |

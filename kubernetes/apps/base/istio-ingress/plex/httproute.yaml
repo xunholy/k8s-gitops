@@ -7,7 +7,7 @@ metadata:
   namespace: istio-ingress
 spec:
   parentRefs:
-    - name: cilium-gateway-main
+    - name: cilium-gateway
       namespace: istio-ingress
       sectionName: https
   hostnames:
