@@ -5,7 +5,8 @@ kind: Kustomization
 
 resources:
   - destinationrule.yaml
-  - httproute.yaml
+  # TODO: Re-enable when switching to Gateway API for Istio ingress
+  # - httproute.yaml
   - service.yaml
   - serviceentry.yaml
   - virtualservice.yaml
