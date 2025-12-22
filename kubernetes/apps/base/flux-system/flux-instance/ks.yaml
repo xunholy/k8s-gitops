@@ -16,16 +16,13 @@ spec:
   targetNamespace: flux-system
   timeout: 5m
   wait: false
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age-secret
   postBuild:
     substituteFrom:
     - kind: ConfigMap
       name: cluster-config
     - kind: Secret
       name: cluster-secrets
-  dependsOn:
-  - name: istiod
-    namespace: istio-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg

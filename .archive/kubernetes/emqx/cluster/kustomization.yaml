@@ -6,5 +6,5 @@ kind: Kustomization
 resources:
   - cluster.yaml
   - podmonitor.yaml
-  - secret.enc.yaml
+  - secret.enc.age.yaml
   - virtualservice.yaml

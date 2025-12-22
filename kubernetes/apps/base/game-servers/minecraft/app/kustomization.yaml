@@ -5,8 +5,8 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
+  - httproute.yaml
   - pvc.yaml
-  - virtualservice.yaml
 
 configMapGenerator:
   - name: mincraft-values
@@ -22,11 +22,7 @@ secretGenerator:
   - name: mincraft-secret-values
     namespace: game-servers
     files:
-      - values.yaml=values.enc.yaml
-
-generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
+      - values.yaml=values.enc.age.yaml
 
 configurations:
   - kustomizeconfig.yaml

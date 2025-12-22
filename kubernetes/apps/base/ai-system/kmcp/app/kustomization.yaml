@@ -17,7 +17,7 @@ secretGenerator:
   - name: kmcp-values-secret
     namespace: ai-system
     files:
-      - values.yaml=values.enc.yaml
+      - values.yaml=values.enc.age.yaml
 
 configurations:
   - kustomizeconfig.yaml

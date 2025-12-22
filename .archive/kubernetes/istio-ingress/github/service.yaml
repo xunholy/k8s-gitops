@@ -1,0 +1,14 @@
+---
+# External service definition for xunholy.github.io
+apiVersion: v1
+kind: Service
+metadata:
+  name: xunholy-github-io
+  namespace: istio-ingress
+spec:
+  type: ExternalName
+  externalName: xunholy.github.io
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP

@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: home-assistant
+  namespace: home-system
+  annotations:
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  parentRefs:
+    - name: external
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - 'hass.${CLUSTER_DOMAIN}'
+  rules:
+    - backendRefs:
+        - name: home-assistant
+          port: 8123
+          weight: 100
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: home-assistant-code
+  namespace: home-system
+spec:
+  parentRefs:
+    - name: external
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - 'hass-code.${CLUSTER_DOMAIN}'
+  rules:
+    - backendRefs:
+        - name: home-assistant
+          port: 12321
+          weight: 100

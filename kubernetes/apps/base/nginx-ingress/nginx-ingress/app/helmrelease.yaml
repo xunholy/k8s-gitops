@@ -79,7 +79,7 @@ spec:
         proxy-read-timeout: 120
         proxy-send-timeout: 120
       extraArgs:
-        default-ssl-certificate: 'istio-ingress/hayden-agencies-le'
+        default-ssl-certificate: 'kube-system/raspbernetes-com-le'
       replicaCount: 1
       resources:
         limits:

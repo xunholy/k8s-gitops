@@ -1,0 +1,20 @@
+minecraftServer:
+  autoCurseForge:
+    apiKey:
+      key: $2a$10$CZ7ShpFitHTW/PJ7NTXcwOi48/I4JiakwI.khtSpEykLv9Pw39dou
+sops:
+  age:
+    - recipient: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA5OUpEaUNRbmY0bkxjR3ZK
+        T2E1V2pQRlNJRGVSR0t2VlZRVHM3N25JZEdNCnFuQVlGRmozZjkzcnZ2NTFFaU1C
+        cldSYTRXZUl5cGxHMFQ3NHFxYThySDgKLS0tIFVlTnhpVC9EcWI5VXpHdWkzMWFM
+        TXMxRUw3Q1l1TzNkMXVzbUxOa3VSMGsKQXw+0x0CFRnZCkBbPyOOstFDRuJSk0WD
+        wDtB92n4gbo7P+UU692kXpuJaYTQjM9QYmdeAQKCD6oBdau60X/99w==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2025-12-22T01:21:04Z"
+  mac: ENC[AES256_GCM,data:Es6M+Tc+LvAgJNRjnJSQMX2nf11h9VCHuZpOHnrxJofcw+aTTZfaoqEQ0rz6/67u9pa7kTNJp5mpLVo0g/JYrbQrmz9p2FnPcn/ckLEz//kHHPG5kYhfoZJTpAluSWmFZDzPFpX0UK7wqM4fu4ZKMpcHIvglSV5L2ATEDVm7CWQ=,iv:QbhEf1MLSw4gSe1RlgBy4w4TQRw4xZKzWQ/PQeTiqx8=,tag:Ki9eCet91+wz8pkKTNEIdQ==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.11.0

@@ -16,10 +16,6 @@ spec:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
   dependsOn:
     - name: kagent-crds
       namespace: ai-system

@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: minecraft-rcon
+  namespace: game-servers
+spec:
+  parentRefs:
+    - name: external
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - 'rcon.${CLUSTER_DOMAIN}'
+  rules:
+    - backendRefs:
+        - name: minecraft-rcon-web
+          port: 80
+          weight: 100

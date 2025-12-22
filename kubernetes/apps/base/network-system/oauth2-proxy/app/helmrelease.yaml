@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: oauth2-proxy
-      version: 9.0.1
+      version: 10.0.0
       sourceRef:
         kind: HelmRepository
         name: oauth2-proxy-chart
@@ -47,13 +47,6 @@ spec:
     - name: cert-manager
       namespace: network-system
   values:
-    # Configure Kubernetes liveness and readiness probes.
-    # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
-    # Disable both when deploying with Istio 1.0 mTLS. https://istio.io/help/faq/security/#k8s-health-checks
-    livenessProbe:
-      enabled: false
-    readinessProbe:
-      enabled: false
     metrics:
       servicemonitor:
         enabled: true
@@ -61,7 +54,7 @@ spec:
       existingSecret: oauth2-proxy-dex
       configFile: |
         provider = "oidc"
-        oidc_issuer_url = "https://dex.${CLUSTER_DOMAIN}"
+        oidc_issuer_url = "https://dex.raspbernetes.com"
         auth_logging = true
         cookie_domains = ".${CLUSTER_DOMAIN}"
         cookie_httponly = true

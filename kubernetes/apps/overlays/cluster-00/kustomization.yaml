@@ -11,10 +11,11 @@ resources:
   - ../../base/business-system-staging
   - ../../base/crossplane-system
   - ../../base/database-system
+  - ../../base/democratic-csi
   - ../../base/development
   - ../../base/external-secrets
-  - ../../base/istio-ingress
-  - ../../base/istio-system
+  - ../../base/game-servers
+  - ../../base/home-system
   - ../../base/kguardian
   - ../../base/kube-system
   - ../../base/network-system
@@ -23,25 +24,46 @@ resources:
   - ../../base/rook-ceph
   - ../../base/security-system
   - ../../base/volsync-system
+  - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
   - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
+  - ../../base/ai-system/kagent/ks.yaml
   - ../../base/ai-system/kgateway/ks.yaml
+  - ../../base/ai-system/kmcp/ks.yaml
+  - ../../base/ai-system/n8n/ks.yaml
   - ../../base/backup-system/velero/ks.yaml
   - ../../base/business-system/label-generator/ks.yaml
   - ../../base/business-system/odoo/ks.yaml
   - ../../base/business-system-staging/odoo-staging/ks.yaml
   # - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/database-system/cnpg/ks.yaml
+  - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
   - ../../base/external-secrets/external-secrets/ks.yaml
   - ../../base/external-secrets/onepassword/ks.yaml
   - ../../base/flux-system/flux-instance/ks.yaml
   - ../../base/flux-system/repositories
-  - ../../base/istio-ingress/istio-gateway/ks.yaml
-  # - ../../base/istio-ingress/bedrock-broadcaster/ks.yaml
-  # - ../../base/istio-system/flagger/ks.yaml
-  - ../../base/istio-system/istio-base/ks.yaml
-  - ../../base/istio-system/istio-cni/ks.yaml
-  - ../../base/istio-system/istiod/ks.yaml
+  # - ../../base/game-servers/enemy-territory/ks.yaml
+  - ../../base/game-servers/minecraft/ks.yaml
+  # - ../../base/game-servers/minecraft-ketting/ks.yaml
+  - ../../base/game-servers/minecraft-bedrock/ks.yaml
+  # - ../../base/game-servers/minecraft-proxy/ks.yaml
+  # - ../../base/game-servers/minecraft-rcon-web/ks.yaml
+  # - ../../base/game-servers/minecraft-router/ks.yaml
+  - ../../base/home-system/autobrr/ks.yaml
+  - ../../base/home-system/cross-seed/ks.yaml
+  # - ../../base/home-system/emqx/ks.yaml
+  - ../../base/home-system/home-assistant/ks.yaml
+  - ../../base/home-system/jellyseerr/ks.yaml
+  - ../../base/home-system/mosquitto/ks.yaml
+  - ../../base/home-system/prowlarr/ks.yaml
+  - ../../base/home-system/qbittorrent/ks.yaml
+  - ../../base/home-system/qui/ks.yaml
+  - ../../base/home-system/radarr/ks.yaml
+  - ../../base/home-system/recyclarr/ks.yaml
+  - ../../base/home-system/sabnzbd/ks.yaml
+  - ../../base/home-system/sonarr/ks.yaml
+  - ../../base/home-system/tautulli/ks.yaml
+  # - ../../base/home-system/zigbee2mqtt/ks.yaml
   - ../../base/kguardian/kguardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml
   - ../../base/kube-system/descheduler/ks.yaml
@@ -57,7 +79,6 @@ resources:
   - ../../base/network-system/dex-k8s-authenticator/ks.yaml
   - ../../base/network-system/echo-server/ks.yaml
   - ../../base/network-system/external-dns/ks.yaml
-  - ../../base/network-system/external-dns-unifi/ks.yaml
   # - ../../base/network-system/multus/ks.yaml
   - ../../base/network-system/oauth2-proxy/ks.yaml
   - ../../base/nginx-ingress/nginx-ingress/ks.yaml
@@ -72,6 +93,7 @@ resources:
   - ../../base/observability/silence-operator/ks.yaml
   - ../../base/observability/vpa/ks.yaml
   - ../../base/rook-ceph/rook-ceph/ks.yaml
+  - ../../base/volsync-system/kopia/ks.yaml
+  - ../../base/volsync-system/volsync/ks.yaml
   - ../../base/security-system/kyverno/ks.yaml
   # - ../../base/security-system/gatekeeper/ks.yaml
-  - ../../base/volsync-system/volsync/ks.yaml

@@ -5,17 +5,13 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
-  - secret.enc.yaml
+  - secret.enc.age.yaml
 
 configMapGenerator:
   - name: democratic-csi-values
     namespace: democratic-csi
     files:
       - values.yaml=./values.yaml
-
-generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
 
 configurations:
   - kustomizeconfig.yaml

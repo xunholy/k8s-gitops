@@ -21,13 +21,12 @@ tasks:
   secrets:
     desc: "Install cluster secrets and configs; Only to be used when updating secrets manually"
     env:
-      GOOGLE_APPLICATION_CREDENTIALS: '{{.HOME}}/.config/gcloud/application_default_credentials.json'
+      GOOGLE_APPLICATION_CREDENTIALS: ~/raspbernetes-d72f2d61e4ac.json
     cmds:
       - cmd: |
           kubectl create namespace flux-system --dry-run=client -oyaml | kubectl apply -f -
           sops --decrypt "kubernetes/clusters/{{.CLUSTER}}/secrets/sops-gpg.encrypted.yaml" | kubectl apply -f -
-          sops --decrypt "kubernetes/clusters/{{.CLUSTER}}/secrets/sops-age.encrypted.yaml" | kubectl apply -f -
-          sops --decrypt "kubernetes/clusters/{{.CLUSTER}}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
+          sops --decrypt "kubernetes/clusters/{{.CLUSTER}}/secrets/cluster-secrets.enc.age.yaml" | kubectl apply -f -
           kubectl apply -f kubernetes/clusters/{{.CLUSTER}}/secrets/cluster-config.yaml
         silent: false
 

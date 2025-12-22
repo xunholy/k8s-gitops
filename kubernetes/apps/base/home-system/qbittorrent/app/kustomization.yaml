@@ -6,9 +6,9 @@ namespace: home-system
 
 resources:
   - helmrelease.yaml
+  - httproute.yaml
   - ocirepository.yaml
   - pvc.yaml
-  - virtualservice.yaml
 
 configurations:
   - kustomizeconfig.yaml

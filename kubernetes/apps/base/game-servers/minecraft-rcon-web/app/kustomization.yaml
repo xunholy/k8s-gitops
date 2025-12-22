@@ -6,7 +6,7 @@ namespace: game-servers
 
 resources:
   - helmrelease.yaml
-  - virtualservice.yaml
+  - httproute.yaml
 
 configMapGenerator:
   - name: mincraft-rcon-web-values

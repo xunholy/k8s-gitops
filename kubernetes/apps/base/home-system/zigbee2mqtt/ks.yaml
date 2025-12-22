@@ -19,8 +19,6 @@ spec:
   dependsOn:
     - name: democratic-csi
       namespace: democratic-csi
-    - name: istiod
-      namespace: istio-system
     - name: mosquitto
       namespace: home-system
   targetNamespace: home-system

@@ -1,0 +1,84 @@
+version: v1alpha1
+debug: false
+persist: true
+machine:
+  # Defines the role of the machine within the cluster.
+  type: worker
+  # The `token` is used by a machine to join the PKI of the cluster.
+  token: ENC[AES256_GCM,data:5NhYCjqGH4b0GOusmkMDtxngQ0nDwK4=,iv:YlHs5/iTh9xs2sTDy+ep8y9eYQBwWlxpqXdeSMHu5F8=,tag:thFa1klCjt4TQjsEAJ1p5w==,type:str]
+  # The root certificate authority of the PKI.
+  ca:
+    crt: ENC[AES256_GCM,data:XYRn+7KjvQnKcDR57qEAM7I06mWjditr4FlanO3yremh+HSHwdnnhVPkpp3b2GHrqBbBgLPWMV1Nf0jjJiZsLeA/MxEWho99Fil47gVS9y/aFZ/VqFw0ZzbnNuC/ECP6cCmjStpez4uQaoyekoQSE59U1scjvBtRRt50vSdYppRsLWBf9VEATCoif+aD18e1AJeLjjBIP23hfC11mkCe7RjByDWnS8GCmLJ6CYLfrVecXQzZoYlsycLc5cdKsGE5Q6T/pNg4wJzCS8sVGA+4hdCSn8mVaebRjFs3HgvKjQo79tRVybLspLxCrT5dEPFfF/lLFSMl6pys2B1BcxGTIdt/c18r1JbjXDoeGxLC3NkNQTTvxy0IQCiEXTHCxHGCigH6UrTJiglCvu+gxG2qo16MsYYxphT2Mv3vdhRTU7YN+4Ka6W/BjstNEa/BoTdL753P77CBFm3f1WTY/LpliS7PzqpciBdthaP0YHAG72/lXZZDYi6wvE5FFWfzYn5mTFq0/mYWpuja9/0fgKgU8gcHrI6OtLrqiCrzQ8Hsu0YoQ3Scc1I+HxX9b1JEMGWWiexDO1j75YGs0YSsy3pbvSvxqLJ9skRt+V9H6FIHmCd1zONVehySyTVN+jYZboimjocFNYPkp+5rsS1mQD5U1oEtIaWZcSmd+h/G1Uxx4coWwewgvcXHkBDNFXovKPu9SXMy71LUlNeq4ro/oIJP1KnWGfwDzw/KoO96cQCZOwEyYL1F3wtPv8p17OKcUw4tU02h86ccHiDd0mLK1LA2FklmFSrMN+XmAXqfNPh7o03UOH0joz3qDpi1mIRsUZmBJV45fnECoLTJwnUSOGJUJNNJg7T/LmiW2Y/JMjHbhiGlXImh,iv:ck1UAorhXvMD3FL8KqNEisz6H+uhy0/MIZaDXjhFfVI=,tag:KMuSrW0pYtF8gSVWENNrYg==,type:str]
+    key: ""
+  certSANs: []
+  kubelet:
+    image: ghcr.io/siderolabs/kubelet:v1.34.0
+    defaultRuntimeSeccompProfileEnabled: true
+    disableManifestsDirectory: true
+  network:
+    interfaces:
+      - deviceSelector:
+          physical: ENC[AES256_GCM,data:JVOjww==,iv:IFglJmjIv+Ln2GOX16/eI7trc9zKz/huYzMDhkBL9f8=,tag:PUibthiaREdfA3KlNizjYQ==,type:bool]
+        dhcp: true
+        mtu: 1450
+  install:
+    disk: /dev/sda
+    image: factory.talos.dev/installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.11.1
+    wipe: true
+  registries: {}
+  features:
+    rbac: true
+    stableHostname: true
+    apidCheckExtKeyUsage: ENC[AES256_GCM,data:hVBSBw==,iv:LRqX8SEZUVE2Ry7zxdId/JPOZ+DUadKDvCQ/JPQo/+o=,tag:z0mgcDRMJKgdE0abRBzhmA==,type:bool]
+    diskQuotaSupport: true
+    kubePrism:
+      enabled: true
+      port: 7445
+    hostDNS:
+      enabled: true
+      forwardKubeDNSToHost: true
+      resolveMemberNames: true
+cluster:
+  # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
+  id: GsSf9LerhTOpktH7JMlySUhdB4tdxlX1b6ZDGM7a8ZE=
+  # Shared secret of cluster (base64 encoded random 32 bytes).
+  secret: ENC[AES256_GCM,data:A96W2DO3Xxar/9hoRdbXhVKtdtNwKeSN7Kk1kXdebWSYGCL+fAwlcgDN29Q=,iv:7vycg4ldsPIHCb6Go7nsD/Fc7DRN3kEO9ZdmUxbTIus=,tag:XiMbR54KmEY4grJI8dkPLw==,type:str]
+  # Provides control plane specific configuration options.
+  controlPlane:
+    # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
+    endpoint: https://192.168.50.200:6443
+  # Configures the cluster's name.
+  clusterName: cluster-00
+  # Provides cluster specific network configuration options.
+  network:
+    dnsDomain: cluster.local
+    podSubnets:
+      - 10.244.0.0/16
+    serviceSubnets:
+      - 10.96.0.0/12
+  token: ENC[AES256_GCM,data:IO0nbVHl9BTR2hSF24zhP/9bbzs3shk=,iv:SjRGlmAwgfOjfANexvvOFlj9c7wLi8ajvRkytyVC320=,tag:w36Dpl43THcIaYcvSDLNqw==,type:str]
+  ca:
+    crt: ENC[AES256_GCM,data:WVt3TIuM+sfbbezXK1XVIdaZXnIFXRWWmbMReS81J0Gsulu+iCG/3ZUCz8Dz0Eg0hiA5rRwAsVvZmG2bok+FSjFMHW78ZyOwfeicVxpf+0S3GkQ/r0SquBcbgZ02ZJTCe3+iHk2PXx5zh4oPTUzH3yHF3wRLW12RfNRNljXkGVwzikUWwwOMo5LCKlWkk5tXZAMxkd7685xNcISI4Liu0vgYz4kbuFbuFA7UVVGWC9QHQ1Lk3FUTNmjrZAf2DFwM4g/RHfb9iXT/bStTqxXDM3CkXATW2dR/CHMjUleuKe31F7VQeFzIGSVOQblrxWrJgM6ZsWv2CQsjcq+gMkLuYyKAwJNisBtPau+r98vsvcgPn+ABw/Zet841ug9gUj44fEEsgCLziKLL11SilNPRkURd7FzpIBWYMZYveyGFyd0robSD52IzxD53J2xYj0XS9Ll8uJL4rrT3i1nQATMn++LSCsZaEqo7g1YFfcMqSu9XkcVbA0n4Y7pKJaUeQjBB2bwkcS2YLP023mLfSl1QDXs2GrKi1sqdRJ1MTeukpO5TYpK756EzDX86/5vZrlM9Us26CqEzqI7Lcv6UTN4gO9ijsILCDo5tasaDsy05ZFuW70rImjs71WIxWiq/l7ivyGGmVQRaU04Yuwvzac85vg6SapRjabS6X7Psb0g4rZgLXNqIGUYQy2B+LdDULUqXLJgjPrKk5AUsQsJOSO6HdDmoGjV/v5JvyIjS9fFhYDJiAOyH/qEfwe2aEuu8vWcRQEam6j5hu1+bm9IdlGjvsDTD6tO0N0QXkm5T6hf3eqLD45EYX2FsI7HTwLr9jzjO/bt6X/RndY0iEHUiJNVrBANCsNKB9Ha2MSMfZHxOMPU3oNCltCGxMixXJRpUX1elZECz6c63hTGSFKfg5POsqD6BTzsvyiMQTOAoPVwmzO1LjllBnFw9vloT+ymvG1T4VZx8rSmyVOGQ9Jvns9Qs+Xfkp2XWrzTyA1GFPs7/J202/Q928yBTeF9/+fTTOfzF0Krol2YhZodBfQIK4oMK/55TqLErnxs5m3vPSw==,iv:mGL6mj/UnAfV7piw7+crqfEoeVQBr0i5Q2hyYiGOTFQ=,tag:145FZPVtc5uk8y2m4XZ6uQ==,type:str]
+    key: ""
+  discovery:
+    enabled: true
+    registries:
+      kubernetes:
+        disabled: true
+      service: {}
+sops:
+  age:
+    - recipient: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBaOE81SUVBaE9SVjUzaDg5
+        RVZFR3FIRXcrMnhSMkxPOHYvUkNIelNUUVFBCmJmTU52UXEwVjk2UmNQMzdidTdy
+        emZ4NUhYaWtXQkg3M1oxeDQ2TnNlUzgKLS0tIE1OdlIzdDF0TzlmbUFyWjFkZnF4
+        K0xmY0JmclovUGEzMlprZ3JjQWNlak0KbjZfp3OdVWP/dprgCJarLqY7PIAApEIt
+        M2ZqsI3L0pMshg2AN1521wbVORwcr2VwUPzJfukW/NiagjA0v/7mpw==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2025-12-22T01:34:33Z"
+  mac: ENC[AES256_GCM,data:ryGvE3cDf+rJKy1bwmGwIXFSeckkvPMQBOtPvnqwpXCxZGKABhHfpBywpjW1ZSuecaXcC2y7GaWHwCPiYyci98Dc6hwC/6nHKOjnQDV0BIO6Gbh5NDJFq4F72gmw8Gkcb2/Xe2YLpOEVb06scOyASeebFd4bnoYUX81GFC4tSv0=,iv:z15YIcbktMFVZmLVUWJSHS6kTuHdCR9WMu1IqIUXQ4c=,tag:scT2wgsMclyJrFbZNZ84fQ==,type:str]
+  encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
+  mac_only_encrypted: true
+  version: 3.11.0

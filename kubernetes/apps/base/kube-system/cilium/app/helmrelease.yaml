@@ -40,14 +40,3 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: cilium-values
-  # Required: Using Kustomize helmChart can't pass the Helm chart validation because of the serviceMonitor CRDs, therefore these are disabled in the values.yaml however, re-enabled via the HelmRelease
-  # The values are merged in the order given, with the later values overwriting earlier, and then spec.values overwriting those
-  values:
-    # Enable Gateway API here as the CRDs may not be deployed at the time the CNI is installed via Talos.
-    gatewayAPI:
-      # TODO: Manually installed https://gateway-api.sigs.k8s.io/guides/#installing-gateway-api
-      enabled: true
-    ingressController:
-      service:
-        annotations:
-          io.cilium/lb-ipam-ips: ${CLUSTER_LB_CILIUM_INGRESS}

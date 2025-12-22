@@ -1,0 +1,19 @@
+providers:
+  openAI:
+    apiKey: PLACEHOLDER
+sops:
+  age:
+    - recipient: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDRXpYSDI2ZWFGQ2ZaOVVV
+        NitUM290S2xIWDYwR3F4UTUyNkUzNkxKMmlBCmw3TEo2ZlI2Smt2RWVUK3lBMXVR
+        UDhpanJhTU16a1RsT2p1RkdSczQ4UlUKLS0tIGEyVTBrTjJ5R3RIclEyUm1DbzQy
+        WURjVy9QV0VadG5lZERmbzFKQ09oNjQKJBrP1aC9RFZropDxKb0Mm7Gmm7SMJYTI
+        9CKg+E8kB8+5F/BnVNCBqsbXqOXCEDMGD7rbtulR/UdwMzaIhx6ZrQ==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2025-12-22T01:21:04Z"
+  mac: ENC[AES256_GCM,data:zfFjgC62XPfpQ+1QQY7/0L7D/2xudrc/tadEyHxngjQojMX8UyGljnwh9rJrDHqDnL0XYlN+Y52QgraqfC0yrAKUvEBL162RUv48b2WUY/gzc9xkUc0VqaDQ/9rmDFttG6D4TPsoqNLHHISGP7ZCSYFoK0jYRfPhBDwXDDUhUqA=,iv:EZAFHGTbvXbcktWRCW+XWjXtQB/ZibdCWnnyDT0DnMU=,tag:TKMiYIkxcvhw4GycP1FxvQ==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.11.0

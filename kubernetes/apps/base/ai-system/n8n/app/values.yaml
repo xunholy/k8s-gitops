@@ -1,0 +1,3 @@
+---
+webhook:
+  url: "https://webhook.${CLUSTER_DOMAIN}"

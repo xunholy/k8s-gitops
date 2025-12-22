@@ -1,6 +1,6 @@
 # The `ingress` block tells cloudflared which local service to route incoming
 # requests to. For more about ingress rules, see
-# https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/ingress
+# https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/do-more-with-tunnels/local-management/configuration-file/
 #
 # Remember, these rules route traffic from cloudflared to a local service. To route traffic
 # from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
@@ -8,10 +8,6 @@
 ---
 warp-routing:
   enabled: true
-
-# Top-level configuration
-originRequest:
-  http2Origin: true
 
 tunnel: ${CLOUDFLARED_TUNNEL_ID}
 
@@ -23,35 +19,11 @@ ingress:
     originRequest:
       proxyType: socks
 
-  - hostname: ingress.${CLUSTER_DOMAIN}
-    service: &ingress https://istio-gateway.istio-ingress.svc.cluster.local
-    originRequest:
-      originServerName: ingress.${CLUSTER_DOMAIN}
-
-  # TODO: Add UDP ingress here to route directly to the service and bypass Istio.
-  # This will also require a dnsendpoint to be added to create the CNAME in cloudflare.
-  # Note: UDP is not currently supported
-  # - hostname: et.${CLUSTER_DOMAIN}
-  #   service: https://enemy-territory.game-servers.svc.cluster.local:27960
-  #   originRequest:
-  #     originServerName: et.${CLUSTER_DOMAIN}
-
-  # Required: dex-k8s-authenticator required http2Origin=false otherwise it will produce 400 error code.
-  - hostname: "login.${CLUSTER_DOMAIN}"
-    service: *ingress
-    originRequest:
-      originServerName: ingress.${CLUSTER_DOMAIN}
-      http2Origin: false
-
   - hostname: "*.${CLUSTER_DOMAIN}"
-    service: *ingress
+    service: https://cilium-gateway-external.kube-system.svc.cluster.local:443
     originRequest:
-      originServerName: ingress.${CLUSTER_DOMAIN}
-
-  - hostname: "*.${BEDROCK_BROADCASTER_DOMAIN}"
-    service: *ingress
-    originRequest:
-      originServerName: ingress.${BEDROCK_BROADCASTER_DOMAIN}
+      http2Origin: true
+      originServerName: external.${CLUSTER_DOMAIN}
 
   # Catch-all rule, which responds with 404 if traffic doesn't match any of
   # the earlier rules
