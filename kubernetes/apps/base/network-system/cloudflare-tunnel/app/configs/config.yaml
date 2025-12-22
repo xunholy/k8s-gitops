@@ -18,7 +18,7 @@ tunnel: ${CLOUDFLARED_TUNNEL_ID}
 credentials-file: /etc/cloudflared/credential.json
 
 ingress:
-  - hostname: api.raspbernetes.com
+  - hostname: api.${CLUSTER_DOMAIN}
     service: tcp://kubernetes.default.svc.cluster.local:443
     originRequest:
       proxyType: socks

@@ -4,6 +4,8 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: cilium-gateway
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: cilium
   infrastructure:
@@ -16,33 +18,12 @@ spec:
     - name: http
       protocol: HTTP
       port: 80
-      hostname: "*.${CLUSTER_DOMAIN}"
-      allowedRoutes:
-        namespaces:
-          from: All
-    - name: http-root
-      protocol: HTTP
-      port: 80
-      hostname: "${CLUSTER_DOMAIN}"
       allowedRoutes:
         namespaces:
           from: All
     - name: https
       protocol: HTTPS
       port: 443
-      hostname: "*.${CLUSTER_DOMAIN}"
-      allowedRoutes:
-        namespaces:
-          from: All
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - kind: Secret
-            name: raspbernetes-com-le
-    - name: https-root
-      protocol: HTTPS
-      port: 443
-      hostname: "${CLUSTER_DOMAIN}"
       allowedRoutes:
         namespaces:
           from: All
