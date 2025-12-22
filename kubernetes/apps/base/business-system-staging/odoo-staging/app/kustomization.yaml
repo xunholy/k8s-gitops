@@ -12,4 +12,4 @@ resources:
   - ocirepository.yaml
   - postgres-cluster.yaml
   - pvc.yaml
-  - virtualservice.yaml
+  - httproute.yaml

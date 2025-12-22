@@ -17,7 +17,7 @@ resources:
   - podmonitor.yaml
   - prometheusrule.yaml
   - scheduledbackup.yaml
-  - virtualservice.yaml
+  - httproute.yaml
   # VolSync disabled until TrueNAS is set up
   # - secret-filestore-restic.enc.yaml
   # - replicationsource.yaml

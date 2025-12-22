@@ -1,12 +1,12 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/cert-manager.io/certificate_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: raspbernetes-com-le
+  name: cluster-wildcard-le
 spec:
   # The secret name where cert-manager should store the signed certificate
-  secretName: raspbernetes-com-le
+  secretName: cluster-wildcard-le
   duration: 2160h0m0s # 90d
   renewBefore: 360h0m0s # 15d
   # cert-manager regenerates a new private key on each issuance
