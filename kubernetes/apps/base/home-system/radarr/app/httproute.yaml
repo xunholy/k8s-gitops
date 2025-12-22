@@ -5,9 +5,6 @@ kind: HTTPRoute
 metadata:
   name: radarr
   namespace: home-system
-  annotations:
-    external-dns.alpha.kubernetes.io/target: '${CLOUDFLARED_INGRESS_DOMAIN}'
-    external-dns.alpha.kubernetes.io/external: 'false'
 spec:
   parentRefs:
     - name: cilium-gateway
