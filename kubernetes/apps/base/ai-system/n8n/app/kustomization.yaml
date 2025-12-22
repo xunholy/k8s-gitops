@@ -8,7 +8,6 @@ resources:
   - helmrelease.yaml
   - helmrepository.yaml
   - httproute.yaml
-  - virtualservice.yaml
 
 configMapGenerator:
   - name: n8n-values

@@ -7,7 +7,6 @@ resources:
   - helmrelease.yaml
   - httproute.yaml
   - ocirepository.yaml
-  - virtualservice.yaml
 
 configMapGenerator:
   - name: kopia-values

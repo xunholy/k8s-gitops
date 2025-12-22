@@ -7,7 +7,6 @@ resources:
   - helmrelease.yaml
   - httproute.yaml
   - pvc.yaml
-  - virtualservice.yaml
 
 configMapGenerator:
   - name: mincraft-values

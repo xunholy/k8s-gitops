@@ -8,4 +8,3 @@ resources:
   - grafanadatasource.yaml
   - servicemonitor.yaml
   - httproute.yaml
-  - virtualservice.yaml

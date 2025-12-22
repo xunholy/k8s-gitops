@@ -9,6 +9,8 @@ bpf:
   masquerade: true
   preallocateMaps: true
   tproxy: true
+  enableIPv4BIGTCP: true
+  enableIPv6BIGTCP: true
 cgroup:
   autoMount:
     enabled: false
@@ -26,6 +28,33 @@ envoy:
   enabled: true
 hubble:
   enabled: true
+  metrics:
+    enabled:
+      - dns:query;ignoreAAAA
+      - drop
+      - tcp
+      - flow
+      - icmp
+      - http
+      - port-distribution
+      - policy-verdict:sourceContext=pod;destinationContext=pod;labelsContext=source_namespace,destination_namespace
+    enableOpenMetrics: true
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: kube-prometheus
+  export:
+    dynamic:
+      enabled: true
+      config:
+        configMapName: cilium-flowlog-config
+        content:
+          - name: all
+            fieldMask: []
+            includeFilters: []
+            excludeFilters: []
+    fileMaxSizeMb: 10
+    fileMaxBackups: 5
   ui:
     enabled: true
     PodDisruptionBudget:
@@ -40,7 +69,12 @@ hubble:
       unhealthyPodEvictionPolicy: AlwaysAllow
 ipam:
   mode: kubernetes
+ipv4:
+  enabled: true
 ipv4NativeRoutingCIDR: 10.244.0.0/16
+ipv6:
+  enabled: true
+ipv6NativeRoutingCIDR: fd00:10:244::/48
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
 kubeProxyReplacement: true
@@ -105,6 +139,6 @@ socketLB:
   enabled: true
   hostNamespaceOnly: true
 ingressController:
-  enabled: true
+  enabled: false
   loadbalancerMode: dedicated
-  default: true
+  default: false

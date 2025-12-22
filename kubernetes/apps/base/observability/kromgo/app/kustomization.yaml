@@ -6,7 +6,6 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - httproute.yaml
-  - virtualservice.yaml
 
 configMapGenerator:
   - name: kromgo-config

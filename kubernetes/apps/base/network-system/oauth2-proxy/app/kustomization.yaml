@@ -7,4 +7,3 @@ resources:
   - httproute.yaml
   - externalsecret.yaml
   - helmrelease.yaml
-  - virtualservice.yaml

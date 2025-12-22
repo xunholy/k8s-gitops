@@ -6,7 +6,6 @@ kind: Kustomization
 resources:
   - httproute.yaml
   - helmrelease.yaml
-  - virtualservice.yaml
 
 configMapGenerator:
   - name: dex-values

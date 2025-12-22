@@ -10,4 +10,3 @@ resources:
   - prometheusrule.yaml
   - receiver.yaml
   - secret.enc.yaml
-  - virtualservice.yaml

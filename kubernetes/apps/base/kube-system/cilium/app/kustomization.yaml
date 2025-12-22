@@ -10,7 +10,6 @@ resources:
   - httproute.yaml
   - loadbalancer.yaml
   - ocirepository.yaml
-  - virtualservice.yaml
 
 configMapGenerator:
   - name: cilium-values

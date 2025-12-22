@@ -9,7 +9,6 @@ resources:
   - httproute.yaml
   - ocirepository.yaml
   - pvc.yaml
-  - virtualservice.yaml
 
 configurations:
   - kustomizeconfig.yaml

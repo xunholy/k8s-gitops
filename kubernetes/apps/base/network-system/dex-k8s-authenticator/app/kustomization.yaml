@@ -7,7 +7,6 @@ resources:
   - httproute.yaml
   - clusterrolebinding.yaml
   - helmrelease.yaml
-  - virtualservice.yaml
 
 configMapGenerator:
   - name: dex-k8s-authenticator-values
