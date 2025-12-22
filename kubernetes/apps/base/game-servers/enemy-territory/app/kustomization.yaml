@@ -7,5 +7,5 @@ resources:
   # - dnsendpoint.yaml
   - helmrelease.yaml
   # - ingress.yaml
-  - secret.enc.yaml
+  - secret.enc.age.yaml
   - pvc.yaml

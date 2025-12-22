@@ -64,14 +64,14 @@ tasks:
       - kubectl create namespace external-secrets --dry-run=client -oyaml | kubectl apply -f -
       - sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/sops-gpg.encrypted.yaml" | kubectl apply -f -
       - sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/sops-age.encrypted.yaml" | kubectl apply -f -
-      - sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-secrets.enc.yaml" | kubectl apply -f -
-      - sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/github-auth.enc.yaml" | kubectl apply -f -
+      - sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-secrets.enc.age.yaml" | kubectl apply -f -
+      - sops --decrypt "{{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/github-auth.enc.age.yaml" | kubectl apply -f -
       - kubectl apply -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-config.yaml
     preconditions:
       - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/sops-gpg.encrypted.yaml
       - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/sops-age.encrypted.yaml
-      - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/github-auth.enc.yaml
-      - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-secrets.enc.yaml
+      - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/github-auth.enc.age.yaml
+      - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-secrets.enc.age.yaml
       - test -f {{.ROOT_DIR}}/kubernetes/clusters/{{.CLUSTER_ID}}/secrets/cluster-config.yaml
     requires:
       vars: [CLUSTER_ID]

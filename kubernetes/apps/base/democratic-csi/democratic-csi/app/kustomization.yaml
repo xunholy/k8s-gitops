@@ -5,7 +5,7 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
-  - secret.enc.yaml
+  - secret.enc.age.yaml
 
 configMapGenerator:
   - name: democratic-csi-values

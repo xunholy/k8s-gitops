@@ -21,7 +21,7 @@ secretGenerator:
   - name: mincraft-ketting-secret-values
     namespace: game-servers
     files:
-      - values.yaml=values.enc.yaml
+      - values.yaml=values.enc.age.yaml
 
 generatorOptions:
   annotations:

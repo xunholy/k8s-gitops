@@ -22,7 +22,7 @@ secretGenerator:
   - name: mincraft-secret-values
     namespace: game-servers
     files:
-      - values.yaml=values.enc.yaml
+      - values.yaml=values.enc.age.yaml
 
 configurations:
   - kustomizeconfig.yaml

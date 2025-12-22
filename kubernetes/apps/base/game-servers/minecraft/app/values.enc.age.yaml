@@ -1,0 +1,21 @@
+minecraftServer:
+  ops: .Unholy050,Unholy050,
+  rcon:
+    enabled: true
+    password: password
+sops:
+  age:
+    - recipient: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA5anNlM2FCK3d5SWdQb1FF
+        TzhscWJ1OGp2U1N3QTdLU09PdVprVWdGMFJZCjZ4a1E5bHhVNVVTSXBRdS9IanhN
+        SXFKUHR4MmI5bWdJZGtkeUREMTljNU0KLS0tIDVvTVVoeE4zbDFuRTQxS05IMjJi
+        cUkwTkRlYWNBWkJ0MDUrSnRGSStOc00K4WAXsRCumnGqI8mSD4EZQQlBJZ+A0Y5w
+        4t1w9S5tZ3eda4SYZ5DzxyOu57NWGlMxmV5imBPcj84bFziXIu6isQ==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2025-12-22T01:21:05Z"
+  mac: ENC[AES256_GCM,data:grClF+yYX6TiyGi9YM4hatSHJQUw6ck6Ohj/JHyLQp+7qMjwigUWeQFqrz9p7wZKm1pvflLMD1GXpCrdutfAluI71dCauAGjMS+WX3ly0SUecpEbnmaoHw9w72iQvsqV95HEcKFbKnJLOa89ZbLQIh1+EZYUGQxLPMpwdnm2BPk=,iv:lWQBh+DlcKCTv5otDid/aMNN5YJOOG+AnV+rNy1Py0I=,tag:/2DEK/oZ81AHx+SJ/SHY3w==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.11.0

@@ -7,28 +7,14 @@ creation_rules:
     unencrypted-regex: ^(description|metadata)$
     gcp_kms: projects/raspbernetes/locations/global/keyRings/sops/cryptoKeys/sops-key
     mac_only_encrypted: true
-  # Helm values files using SOPS
-  - path_regex: kubernetes/.*/values.enc.ya?ml
-    pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
-    mac_only_encrypted: true
-  # Kubernetes secret files using SOPS
-  - path_regex: kubernetes/.*/*.enc.ya?ml
-    encrypted_regex: ^(data|stringData)$
-    unencrypted-regex: ^(description|metadata)$
-    pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
-    mac_only_encrypted: true
-  # Talos secret files using SOPS
-  - path_regex: talos/.*/.*.enc.ya?ml
-    pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
-    encrypted_regex: '((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))'
-    mac_only_encrypted: true
-  # Terraform secret files using SOPS
-  - path_regex: terraform/.*/*.enc.ya?ml
-    pgp: 0635B8D34037A9453003FB7B93CAA682FF4C9014
-    mac_only_encrypted: true
   # AGE encrypted Kubernetes secret files
-  - path_regex: kubernetes/.*/*.enc.age.ya?ml
+  - path_regex: kubernetes/.*/.*\.enc\.age\.ya?ml
     encrypted_regex: ^(data|stringData)$
+    mac_only_encrypted: true
+    age: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
+  # AGE encrypted Talos secret files
+  - path_regex: talos/.*/.*\.enc\.age\.ya?ml
+    encrypted_regex: '((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))'
     mac_only_encrypted: true
     age: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
 

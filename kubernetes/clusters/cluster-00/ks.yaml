@@ -14,10 +14,6 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
   postBuild:
     substitute: {}
     substituteFrom:

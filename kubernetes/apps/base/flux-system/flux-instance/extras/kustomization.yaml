@@ -9,4 +9,4 @@ resources:
   - podmonitor.yaml
   - prometheusrule.yaml
   - receiver.yaml
-  - secret.enc.yaml
+  - secret.enc.age.yaml
