@@ -1,6 +1,7 @@
 provider:
   name: cloudflare
-domainFilters: ["raspbernetes.com"]
+domainFilters:
+  - "${CLUSTER_DOMAIN}"
 env:
   - name: CF_API_TOKEN
     valueFrom:

@@ -20,3 +20,4 @@ spec:
     provider: sops
     secretRef:
       name: sops-gpg
+  targetNamespace: ai-system
