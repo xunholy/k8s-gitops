@@ -1,6 +1,5 @@
 ---
 # This resource defines a DNSEndpoint for the ingress gateway with a CNAME record pointing to the Cloudflare Argo tunnel.
-# It is used for exposing the ingress gateway, which is currently istio-ingress.
 apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:

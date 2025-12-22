@@ -16,9 +16,6 @@ spec:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  dependsOn:
-    - name: istiod
-      namespace: istio-system
   targetNamespace: observability
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json

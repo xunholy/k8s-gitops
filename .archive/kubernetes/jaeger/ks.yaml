@@ -16,6 +16,3 @@ spec:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  dependsOn:
-    - name: istiod
-      namespace: istio-system

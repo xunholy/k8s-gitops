@@ -15,12 +15,7 @@ extraArgs:
 policy: sync
 txtPrefix: k8s.
 sources:
-  # Disable service and ingress to avoid exposing services externally that are not routed through istio
-  # - service
-  # - ingress
   - crd
-  - istio-virtualservice
-  # Disable istio gateway as it adds a wildcard CNAME which is not able to be proxied in cloudflare
-  # - istio-gateway
+  - gateway-httproute
 serviceMonitor:
   enabled: true

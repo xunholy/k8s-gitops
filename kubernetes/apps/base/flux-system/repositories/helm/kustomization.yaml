@@ -27,7 +27,6 @@ resources:
   - gatekeeper-charts.yaml
   - grafana-charts.yaml
   - ingress-nginx-chart.yaml
-  - istio-charts.yaml
   - jaegertracing-charts.yaml
   - jetstack-charts.yaml
   - kiali-charts.yaml

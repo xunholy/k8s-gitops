@@ -12,8 +12,6 @@ resources:
   - ../../base/external-secrets
   - ../../base/game-servers
   - ../../base/home-system
-  - ../../base/istio-ingress
-  - ../../base/istio-system
   - ../../base/kguardian
   - ../../base/kube-system
   - ../../base/network-system
@@ -57,12 +55,6 @@ resources:
   - ../../base/home-system/sonarr/ks.yaml
   - ../../base/home-system/tautulli/ks.yaml
   # - ../../base/home-system/zigbee2mqtt/ks.yaml
-  # - ../../base/istio-ingress/istio-gateway/ks.yaml
-  # - ../../base/istio-ingress/bedrock-broadcaster/ks.yaml
-  # - ../../base/istio-system/flagger/ks.yaml
-  # - ../../base/istio-system/istio-base/ks.yaml
-  # - ../../base/istio-system/istio-cni/ks.yaml
-  # - ../../base/istio-system/istiod/ks.yaml
   - ../../base/kguardian/kguardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml
   - ../../base/kube-system/descheduler/ks.yaml

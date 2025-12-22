@@ -22,9 +22,6 @@ spec:
       name: cluster-config
     - kind: Secret
       name: cluster-secrets
-  dependsOn:
-  - name: istiod
-    namespace: istio-system
   decryption:
     provider: sops
     secretRef:
