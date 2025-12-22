@@ -3,14 +3,14 @@
 apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
-  name: cloudflared-ingress
+  name: cloudflare-tunnel
   namespace: networking
   annotations:
-    external-dns.alpha.kubernetes.io/target: "ingress.${CLUSTER_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: "external.${CLUSTER_DOMAIN}"
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   endpoints:
-    - dnsName: "ingress.${CLUSTER_DOMAIN}"
+    - dnsName: "external.${CLUSTER_DOMAIN}"
       recordType: CNAME
       targets:
         - "${CLOUDFLARED_TUNNEL_ID}.cfargotunnel.com"
@@ -28,21 +28,6 @@ metadata:
 spec:
   endpoints:
     - dnsName: "api.${CLUSTER_DOMAIN}"
-      recordType: CNAME
-      targets:
-        - "${CLOUDFLARED_TUNNEL_ID}.cfargotunnel.com"
----
-apiVersion: externaldns.k8s.io/v1alpha1
-kind: DNSEndpoint
-metadata:
-  name: cloudflared-bedrock-broadcaster-ingress
-  namespace: networking
-  annotations:
-    external-dns.alpha.kubernetes.io/target: "ingress.${BEDROCK_BROADCASTER_DOMAIN}"
-    external-dns.alpha.kubernetes.io/external: 'true'
-spec:
-  endpoints:
-    - dnsName: "ingress.${BEDROCK_BROADCASTER_DOMAIN}"
       recordType: CNAME
       targets:
         - "${CLOUDFLARED_TUNNEL_ID}.cfargotunnel.com"

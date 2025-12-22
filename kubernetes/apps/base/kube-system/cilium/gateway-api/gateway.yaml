@@ -3,9 +3,9 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: cilium-gateway
+  name: external
   annotations:
-    external-dns.alpha.kubernetes.io/target: "ingress.${CLUSTER_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: "external.${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: cilium
   infrastructure:
