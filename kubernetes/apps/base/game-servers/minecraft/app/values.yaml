@@ -18,7 +18,7 @@ minecraftServer:
       - essentialsx
       - worldguard
       - worldedit
-      # - dynmap
+      - dynmap
       - viaversion
       - viarewind
       - viabackwards
