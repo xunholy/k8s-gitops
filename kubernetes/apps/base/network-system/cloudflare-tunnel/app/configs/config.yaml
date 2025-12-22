@@ -20,7 +20,7 @@ ingress:
       proxyType: socks
 
   - hostname: "*.${CLUSTER_DOMAIN}"
-    service: https://cilium-gateway-cilium-gateway.kube-system.svc.cluster.local:443
+    service: https://cilium-gateway-external.kube-system.svc.cluster.local:443
     originRequest:
       http2Origin: true
       originServerName: external.${CLUSTER_DOMAIN}

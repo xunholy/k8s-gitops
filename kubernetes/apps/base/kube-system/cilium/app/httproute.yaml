@@ -7,7 +7,7 @@ metadata:
   namespace: kube-system
 spec:
   parentRefs:
-    - name: cilium-gateway
+    - name: external
       namespace: kube-system
       sectionName: https
   hostnames:

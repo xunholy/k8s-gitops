@@ -4,12 +4,11 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: auth
-  namespace: network-system
   annotations:
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   parentRefs:
-    - name: cilium-gateway
+    - name: external
       namespace: kube-system
       sectionName: https
   hostnames:

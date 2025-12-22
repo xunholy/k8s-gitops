@@ -5,15 +5,51 @@ kind: Gateway
 metadata:
   name: external
   annotations:
-    external-dns.alpha.kubernetes.io/target: "external.${CLUSTER_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: &hostname "external.${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      io.cilium/lb-ipam-ips: ${CLUSTER_LB_GATEWAY_API}
+      external-dns.alpha.kubernetes.io/hostname: *hostname
+      io.cilium/lb-ipam-ips: ${CLUSTER_LB_EXT_GATEWAY_API}
   addresses:
     - type: IPAddress
-      value: ${CLUSTER_LB_GATEWAY_API}
+      value: ${CLUSTER_LB_EXT_GATEWAY_API}
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: raspbernetes-com-le
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gateway_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: internal
+  annotations:
+    external-dns.alpha.kubernetes.io/target: &hostname "internal.${CLUSTER_DOMAIN}"
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: *hostname
+      io.cilium/lb-ipam-ips: ${CLUSTER_LB_INT_GATEWAY_API}
+  addresses:
+    - type: IPAddress
+      value: ${CLUSTER_LB_INT_GATEWAY_API}
   listeners:
     - name: http
       protocol: HTTP

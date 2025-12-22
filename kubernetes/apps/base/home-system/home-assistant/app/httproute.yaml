@@ -9,7 +9,7 @@ metadata:
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   parentRefs:
-    - name: cilium-gateway
+    - name: external
       namespace: kube-system
       sectionName: https
   hostnames:
@@ -28,7 +28,7 @@ metadata:
   namespace: home-system
 spec:
   parentRefs:
-    - name: cilium-gateway
+    - name: external
       namespace: kube-system
       sectionName: https
   hostnames:
