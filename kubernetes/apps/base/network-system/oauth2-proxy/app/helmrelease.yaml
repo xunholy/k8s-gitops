@@ -47,13 +47,6 @@ spec:
     - name: cert-manager
       namespace: network-system
   values:
-    # Configure Kubernetes liveness and readiness probes.
-    # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
-    # Disable both when deploying with Istio 1.0 mTLS. https://istio.io/help/faq/security/#k8s-health-checks
-    livenessProbe:
-      enabled: false
-    readinessProbe:
-      enabled: false
     metrics:
       servicemonitor:
         enabled: true

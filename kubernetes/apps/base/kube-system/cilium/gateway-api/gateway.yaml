@@ -5,7 +5,7 @@ kind: Gateway
 metadata:
   name: cilium-gateway
   annotations:
-    external-dns.alpha.kubernetes.io/target: "${CLUSTER_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: "ingress.${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: cilium
   infrastructure:
