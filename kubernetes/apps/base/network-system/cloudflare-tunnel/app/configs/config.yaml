@@ -1,14 +1,3 @@
-# The `ingress` block tells cloudflared which local service to route incoming
-# requests to. For more about ingress rules, see
-# https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/do-more-with-tunnels/local-management/configuration-file/
-#
-# Remember, these rules route traffic from cloudflared to a local service. To route traffic
-# from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
-# E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
----
-warp-routing:
-  enabled: true
-
 tunnel: ${CLOUDFLARED_TUNNEL_ID}
 
 credentials-file: /etc/cloudflared/credential.json
@@ -18,6 +7,12 @@ ingress:
     service: tcp://kubernetes.default.svc.cluster.local:443
     originRequest:
       proxyType: socks
+
+  - hostname: "login.${CLUSTER_DOMAIN}"
+    service: https://cilium-gateway-external.kube-system.svc.cluster.local:443
+    originRequest:
+      originServerName: external.${CLUSTER_DOMAIN}
+      http2Origin: false
 
   - hostname: "*.${CLUSTER_DOMAIN}"
     service: https://cilium-gateway-external.kube-system.svc.cluster.local:443
