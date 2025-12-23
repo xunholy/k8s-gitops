@@ -124,7 +124,7 @@ securityContext:
       - SYS_RESOURCE
 socketLB:
   enabled: true
-  hostNamespaceOnly: false
+  hostNamespaceOnly: true
 ingressController:
   enabled: false
   loadbalancerMode: dedicated
