@@ -41,16 +41,7 @@ hubble:
         prometheus: kube-prometheus
   export:
     dynamic:
-      enabled: true
-      config:
-        configMapName: cilium-flowlog-config
-        content:
-          - name: all
-            fieldMask: []
-            includeFilters: []
-            excludeFilters: []
-    fileMaxSizeMb: 10
-    fileMaxBackups: 5
+      enabled: false
   ui:
     enabled: true
     PodDisruptionBudget:
