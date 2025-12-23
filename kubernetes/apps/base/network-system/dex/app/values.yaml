@@ -4,7 +4,7 @@ image:
 env:
   KUBERNETES_POD_namespace: network-system
 config:
-  issuer: 'http://dex.network-system.svc.cluster.local:5556'
+  issuer: 'https://dex.${CLUSTER_DOMAIN}'
   storage:
     type: kubernetes
     config:
@@ -18,7 +18,7 @@ config:
   frontend:
     theme: 'tectonic'
     issuer: 'Raspbernetes'
-    issuerUrl: 'http://dex.network-system.svc.cluster.local:5556'
+    issuerUrl: 'https://dex.${CLUSTER_DOMAIN}'
     logoUrl: https://raw.githubusercontent.com/raspbernetes/docs/master/website/static/img/logo.png
   expiry:
     signingKeys: '6h'
