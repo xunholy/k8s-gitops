@@ -11,9 +11,6 @@ spec:
     - name: external
       namespace: kube-system
       sectionName: https
-    - name: external
-      namespace: kube-system
-      sectionName: http
   hostnames:
     - 'dex.${CLUSTER_DOMAIN}'
   rules:
