@@ -87,7 +87,8 @@ l7Proxy: true
 loadBalancer:
   algorithm: maglev
   mode: hybrid
-localRedirectPolicy: true
+localRedirectPolicies:
+  enabled: true
 nodePort:
   enabled: true
 operator:
