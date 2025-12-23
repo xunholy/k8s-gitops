@@ -140,7 +140,7 @@ socketLB:
   enabled: false
   hostNamespaceOnly: true
 ingressController:
-  enabled: enabled
+  enabled: true
   loadbalancerMode: dedicated
   default: true
 gatewayAPI:
