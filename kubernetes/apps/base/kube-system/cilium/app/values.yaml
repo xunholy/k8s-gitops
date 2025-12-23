@@ -137,7 +137,7 @@ securityContext:
       - SYS_ADMIN
       - SYS_RESOURCE
 socketLB:
-  enabled: false
+  enabled: true
   hostNamespaceOnly: true
 ingressController:
   enabled: true
