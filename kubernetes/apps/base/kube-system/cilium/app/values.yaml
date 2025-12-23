@@ -101,7 +101,7 @@ prometheus:
     enabled: true
     trustCRDsExist: true
 rollOutCiliumPods: true
-routingMode: tunnel
+routingMode: native
 securityContext:
   capabilities:
     ciliumAgent:
