@@ -10,21 +10,18 @@ bpf:
   preallocateMaps: true
   tproxy: true
   enableIPv4BIGTCP: true
-  enableIPv6BIGTCP: true
+bpfClockProbe: true
 cgroup:
   autoMount:
     enabled: false
   hostRoot: /sys/fs/cgroup
 cni:
-  chainingMode: none
   exclusive: false
 dashboards:
   enabled: true
   annotations:
     grafana_folder: kube-system
 endpointRoutes:
-  enabled: true
-envoy:
   enabled: true
 hubble:
   enabled: true
@@ -69,27 +66,16 @@ hubble:
       unhealthyPodEvictionPolicy: AlwaysAllow
 ipam:
   mode: kubernetes
-ipv4:
-  enabled: true
 ipv4NativeRoutingCIDR: 10.244.0.0/16
-ipv6:
-  enabled: false
-ipv6NativeRoutingCIDR: fd00:10:244::/48
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-# TEST: See if this fixes hubble issues
-# egressMasqueradeInterfaces: "*"
-l2announcements:
-  enabled: true
 l7Proxy: true
 loadBalancer:
   algorithm: maglev
   mode: hybrid
 localRedirectPolicies:
-  enabled: true
-nodePort:
   enabled: true
 operator:
   PodDisruptionBudget:
@@ -140,8 +126,10 @@ socketLB:
   enabled: true
   hostNamespaceOnly: true
 ingressController:
-  enabled: true
+  enabled: false
   loadbalancerMode: dedicated
-  default: true
+  default: false
 gatewayAPI:
+  enabled: true
+nodePort:
   enabled: true
