@@ -1,32 +1,31 @@
 ---
 annotateK8sNode: true
+autoDirectNodeRoutes: true
+bandwidthManager:
+  bbr: true
+  enabled: true
 bpf:
+  datapathMode: netkit
   masquerade: true
+  preallocateMaps: true
+  tproxy: true
 cgroup:
   autoMount:
     enabled: false
   hostRoot: /sys/fs/cgroup
+cni:
+  chainingMode: none
+  exclusive: false
 dashboards:
   enabled: true
   annotations:
     grafana_folder: kube-system
+endpointRoutes:
+  enabled: true
+envoy:
+  enabled: false
 hubble:
   enabled: true
-  metrics:
-    enabled:
-      - dns:query;ignoreAAAA
-      - drop
-      - tcp
-      - flow
-      - icmp
-      - http
-      - port-distribution
-      - policy-verdict:sourceContext=pod;destinationContext=pod;labelsContext=source_namespace,destination_namespace
-    enableOpenMetrics: true
-    serviceMonitor:
-      enabled: true
-      labels:
-        prometheus: kube-prometheus
   ui:
     enabled: true
     PodDisruptionBudget:
@@ -41,14 +40,18 @@ hubble:
       unhealthyPodEvictionPolicy: AlwaysAllow
 ipam:
   mode: kubernetes
+ipv4NativeRoutingCIDR: 10.244.0.0/16
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-l7Proxy: true
+l2announcements:
+  enabled: true
 loadBalancer:
   algorithm: maglev
-localRedirectPolicies:
+  mode: hybrid
+localRedirectPolicy: true
+nodePort:
   enabled: true
 operator:
   PodDisruptionBudget:
@@ -74,6 +77,7 @@ prometheus:
     enabled: true
     trustCRDsExist: true
 rollOutCiliumPods: true
+routingMode: native
 securityContext:
   capabilities:
     ciliumAgent:
@@ -94,5 +98,8 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
+socketLB:
+  enabled: true
+  hostNamespaceOnly: true
 gatewayAPI:
   enabled: true
