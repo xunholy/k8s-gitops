@@ -103,3 +103,4 @@ socketLB:
   hostNamespaceOnly: false
 gatewayAPI:
   enabled: true
+l7Proxy: true
