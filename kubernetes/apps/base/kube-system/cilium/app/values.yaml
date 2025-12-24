@@ -1,27 +1,15 @@
 ---
 annotateK8sNode: true
-autoDirectNodeRoutes: false
-bandwidthManager:
-  bbr: true
-  enabled: true
 bpf:
   masquerade: true
-  preallocateMaps: true
-  tproxy: true
-  enableIPv4BIGTCP: true
-bpfClockProbe: true
 cgroup:
   autoMount:
     enabled: false
   hostRoot: /sys/fs/cgroup
-cni:
-  exclusive: false
 dashboards:
   enabled: true
   annotations:
     grafana_folder: kube-system
-endpointRoutes:
-  enabled: false
 hubble:
   enabled: true
   metrics:
@@ -39,9 +27,6 @@ hubble:
       enabled: true
       labels:
         prometheus: kube-prometheus
-  export:
-    dynamic:
-      enabled: false
   ui:
     enabled: true
     PodDisruptionBudget:
@@ -89,8 +74,6 @@ prometheus:
     enabled: true
     trustCRDsExist: true
 rollOutCiliumPods: true
-routingMode: tunnel
-tunnelProtocol: vxlan
 securityContext:
   capabilities:
     ciliumAgent:
@@ -111,14 +94,5 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
-socketLB:
-  enabled: true
-  hostNamespaceOnly: false
-ingressController:
-  enabled: false
-  loadbalancerMode: dedicated
-  default: false
 gatewayAPI:
-  enabled: true
-nodePort:
   enabled: true
