@@ -118,7 +118,7 @@ instance:
         target:
           kind: Deployment
           name: source-controller
-      # KustomizeController SOPS decryption for all Kustomizations
+      # Add postBuild substitution to flux-system Kustomization
       - patch: |-
           apiVersion: kustomize.toolkit.fluxcd.io/v1
           kind: Kustomization
@@ -126,10 +126,6 @@ instance:
             name: flux-system
             namespace: flux-system
           spec:
-            decryption:
-              provider: sops
-              secretRef:
-                name: sops-age-secret
             postBuild:
               substitute: {}
               substituteFrom:
@@ -140,14 +136,8 @@ instance:
         target:
           kind: Kustomization
           name: flux-system
-      # Remove CPU limits from all controllers to avoid OOMKills
+      # Disable chart digest tracking
       - patch: |-
-          - op: remove
-            path: /spec/template/spec/containers/0/resources/limits/cpu
-        target:
-          kind: Deployment
-      - # Disable chart digest tracking
-        patch: |-
           - op: add
             path: /spec/template/spec/containers/0/args/-
             value: --feature-gates=DisableChartDigestTracking=true
