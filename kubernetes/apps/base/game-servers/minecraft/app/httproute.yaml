@@ -3,7 +3,7 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: minecraft-dynmap
+  name: minecraft-map
   namespace: game-servers
   annotations:
     external-dns.alpha.kubernetes.io/external: 'true'
@@ -13,9 +13,9 @@ spec:
       namespace: kube-system
       sectionName: https
   hostnames:
-    - 'dynmap.${CLUSTER_DOMAIN}'
+    - 'map.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: minecraft
-          port: 8123
+          port: 8100
           weight: 100

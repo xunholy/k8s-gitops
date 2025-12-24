@@ -7,10 +7,9 @@
 !/kubernetes
 
 # Exclude sub-foler(s) and file(s)
-/kubernetes/clusters/**/infrastructure/
 /kubernetes/clusters/**/secrets/
 
 # Include sub-foler(s) and file(s)
 !/kubernetes/clusters/**/secrets/cluster-config.yaml
-!/kubernetes/clusters/**/secrets/cluster-secrets.enc.yaml
-!/kubernetes/clusters/**/secrets/sealed-secret-private-key.enc.yaml
+!/kubernetes/clusters/**/secrets/cluster-secrets.enc.age.yaml
+!/kubernetes/clusters/**/secrets/github-auth.enc.age.yaml
