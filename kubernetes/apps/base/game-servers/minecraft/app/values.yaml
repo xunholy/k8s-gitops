@@ -18,7 +18,7 @@ minecraftServer:
       - essentialsx
       - worldguard
       - worldedit
-      - dynmap
+      - bluemap
       - viaversion
       - viarewind
       - viabackwards
@@ -51,15 +51,15 @@ minecraftServer:
         enabled: true
         embedded: true
         port: 19132
-    - name: dynmap
-      containerPort: 8123
+    - name: bluemap
+      containerPort: 8100
       protocol: TCP
       service:
         enabled: true
         embedded: true
-        port: 8123
+        port: 8100
   overrideServerProperties: true
-  removeOldMods: false
+  removeOldMods: true
 
 tolerations:
   - key: "node-role.kubernetes.io/control-plane"
