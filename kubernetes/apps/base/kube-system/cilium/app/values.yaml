@@ -1,11 +1,10 @@
 ---
 annotateK8sNode: true
-autoDirectNodeRoutes: true
+autoDirectNodeRoutes: false
 bandwidthManager:
   bbr: true
   enabled: true
 bpf:
-  datapathMode: netkit
   masquerade: true
   preallocateMaps: true
   tproxy: true
@@ -21,7 +20,7 @@ dashboards:
   annotations:
     grafana_folder: kube-system
 endpointRoutes:
-  enabled: true
+  enabled: false
 envoy:
   enabled: false
 hubble:
@@ -40,7 +39,6 @@ hubble:
       unhealthyPodEvictionPolicy: AlwaysAllow
 ipam:
   mode: kubernetes
-ipv4NativeRoutingCIDR: 10.244.0.0/16
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
 kubeProxyReplacement: true
@@ -77,7 +75,8 @@ prometheus:
     enabled: true
     trustCRDsExist: true
 rollOutCiliumPods: true
-routingMode: native
+routingMode: tunnel
+tunnelProtocol: vxlan
 securityContext:
   capabilities:
     ciliumAgent:
