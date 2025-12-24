@@ -40,8 +40,6 @@ hubble:
       - port-distribution
       - policy-verdict:sourceContext=pod;destinationContext=pod;labelsContext=source_namespace,destination_namespace
     enableOpenMetrics: true
-    dynamic:
-      enabled: true
     serviceMonitor:
       enabled: true
       labels:
