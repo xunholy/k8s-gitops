@@ -14,6 +14,7 @@ minecraftServer:
   cheats: true
   enableLanVisibility: true
   defaultPermission: operator
+  serviceType: LoadBalancer
   # TODO: Consider disabling if Microsoft login failure occurs;
   # Check accounts against Minecraft account service.
   onlineMode: false
