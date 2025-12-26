@@ -69,6 +69,7 @@ resources:
   - ../../base/network-system/dex/ks.yaml
   - ../../base/network-system/dex-k8s-authenticator/ks.yaml
   - ../../base/network-system/echo-server/ks.yaml
+  - ../../base/network-system/envoy-gateway/ks.yaml
   - ../../base/network-system/external-dns/ks.yaml
   # - ../../base/network-system/multus/ks.yaml
   - ../../base/network-system/oauth2-proxy/ks.yaml
