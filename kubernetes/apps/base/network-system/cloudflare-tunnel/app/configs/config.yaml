@@ -14,6 +14,11 @@ ingress:
       originServerName: external.${CLUSTER_DOMAIN}
       http2Origin: false
 
+  - hostname: "mc.${CLUSTER_DOMAIN}"
+    service: https://envoy-external.network-system.svc.cluster.local
+    originRequest:
+      originServerName: ext.${CLUSTER_DOMAIN}
+
   - hostname: "*.${CLUSTER_DOMAIN}"
     service: https://cilium-gateway-external.kube-system.svc.cluster.local
     originRequest:
