@@ -33,6 +33,12 @@ spec:
         certificateRefs:
           - kind: Secret
             name: raspbernetes-com-le
+    - name: minecraft-bedrock
+      protocol: UDP
+      port: 19132
+      allowedRoutes:
+        namespaces:
+          from: All
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1

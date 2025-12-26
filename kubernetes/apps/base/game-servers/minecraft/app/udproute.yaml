@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/udproute_1alpha2.json
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: UDPRoute
+metadata:
+  name: minecraft-bedrock
+  annotations:
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  parentRefs:
+    - name: envoy-external
+      namespace: network-system
+      sectionName: minecraft-bedrock
+  hostnames:
+    - 'minecraft-bedrock.${CLUSTER_DOMAIN}'
+  rules:
+    - backendRefs:
+        - name: minecraft
+          port: 19132
