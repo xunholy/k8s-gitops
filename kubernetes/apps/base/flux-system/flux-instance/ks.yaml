@@ -6,6 +6,8 @@ metadata:
   name: &app flux-instance-extras
   namespace: flux-system
 spec:
+  decryption:
+    provider: sops
   interval: 30m
   path: ./apps/base/flux-system/flux-instance/extras
   prune: false
@@ -16,10 +18,6 @@ spec:
   targetNamespace: flux-system
   timeout: 5m
   wait: false
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age-secret
   postBuild:
     substituteFrom:
     - kind: ConfigMap

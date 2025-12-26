@@ -6,6 +6,8 @@ metadata:
   name: kagent
   namespace: ai-system
 spec:
+  decryption:
+    provider: sops
   interval: 30m
   retryInterval: 1m
   timeout: 3m
@@ -27,6 +29,8 @@ metadata:
   name: kagent-crds
   namespace: ai-system
 spec:
+  decryption:
+    provider: sops
   interval: 30m
   retryInterval: 1m
   timeout: 3m

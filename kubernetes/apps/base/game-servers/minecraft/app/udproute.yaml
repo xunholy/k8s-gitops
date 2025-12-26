@@ -10,10 +10,9 @@ spec:
   parentRefs:
     - name: envoy-external
       namespace: network-system
-      sectionName: minecraft-bedrock
-  hostnames:
-    - 'minecraft-bedrock.${CLUSTER_DOMAIN}'
+      sectionName: minecraft-java
   rules:
     - backendRefs:
         - name: minecraft
-          port: 19132
+          port: 25565
+          weight: 100

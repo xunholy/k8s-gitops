@@ -6,6 +6,8 @@ metadata:
   name: node-feature-discovery
   namespace: network-system
 spec:
+  decryption:
+    provider: sops
   interval: 30m
   retryInterval: 1m
   timeout: 3m

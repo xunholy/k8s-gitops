@@ -6,6 +6,8 @@ metadata:
   name: &app flux-instance
   namespace: flux-system
 spec:
+  decryption:
+    provider: sops
   interval: 30m
   path: ./clusters/cluster-00/flux-system/flux-instance/app
   prune: false
