@@ -19,7 +19,7 @@ spec:
 apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
-  name: cloudflare-tunnel
+  name: cloudflare-envoy-tunnel
   namespace: networking
   annotations:
     external-dns.alpha.kubernetes.io/target: "ext.${CLUSTER_DOMAIN}"
@@ -46,4 +46,4 @@ spec:
     - dnsName: "api.${CLUSTER_DOMAIN}"
       recordType: CNAME
       targets:
-        - "${CLOUDFLARED_TUNNEL_ID}.cfargotunnel.com"
+        - "external.${CLUSTER_DOMAIN}"
