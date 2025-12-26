@@ -6,7 +6,9 @@ metadata:
   name: vcluster
   namespace: flux-system
 spec:
-  interval: 5m
+  decryption:
+    provider: sops
+  interval: 30m
   path: "./apps/base/development/vcluster/app"
   prune: true
   wait: true

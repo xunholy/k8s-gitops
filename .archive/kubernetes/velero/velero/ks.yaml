@@ -6,7 +6,9 @@ metadata:
   name: velero
   namespace: flux-system
 spec:
-  interval: 5m
+  decryption:
+    provider: sops
+  interval: 30m
   path: "./apps/base/velero/velero/app"
   prune: true
   wait: true

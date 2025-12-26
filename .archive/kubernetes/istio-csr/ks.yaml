@@ -7,7 +7,9 @@ metadata:
   name: istio-csr
   namespace: network-system
 spec:
-  interval: 5m
+  decryption:
+    provider: sops
+  interval: 30m
   path: "./apps/base/network-system/istio-csr/app"
   prune: true
   wait: true

@@ -7,7 +7,9 @@ metadata:
   name: enemy-territory
   namespace: game-servers
 spec:
-  interval: 5m
+  decryption:
+    provider: sops
+  interval: 30m
   path: "./apps/base/game-servers/enemy-territory/app"
   prune: true
   wait: true

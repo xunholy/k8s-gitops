@@ -6,7 +6,9 @@ metadata:
   name: minecraft-proxy
   namespace: game-servers
 spec:
-  interval: 5m
+  decryption:
+    provider: sops
+  interval: 30m
   path: "./apps/base/game-servers/minecraft-proxy/app"
   prune: true
   wait: true

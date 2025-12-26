@@ -6,7 +6,9 @@ metadata:
   name: volsync
   namespace: volsync-system
 spec:
-  interval: 5m
+  decryption:
+    provider: sops
+  interval: 30m
   path: "./apps/base/volsync-system/volsync/app"
   prune: true
   wait: true
@@ -23,7 +25,9 @@ metadata:
   name: volsync-maintenance
   namespace: volsync-system
 spec:
-  interval: 5m
+  decryption:
+    provider: sops
+  interval: 30m
   path: "./apps/base/volsync-system/volsync/maintenance"
   prune: true
   wait: true

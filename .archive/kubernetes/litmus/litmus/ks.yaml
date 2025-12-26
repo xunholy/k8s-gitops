@@ -6,7 +6,9 @@ metadata:
   name: litmus
   namespace: flux-system
 spec:
-  interval: 5m
+  decryption:
+    provider: sops
+  interval: 30m
   path: "./apps/base/litmus/litmus/app"
   prune: true
   wait: true

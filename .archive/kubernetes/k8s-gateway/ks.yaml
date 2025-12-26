@@ -6,7 +6,9 @@ metadata:
   name: k8s-gateway
   namespace: flux-system
 spec:
-  interval: 5m
+  decryption:
+    provider: sops
+  interval: 30m
   path: "./apps/base/network-system/k8s-gateway/app"
   prune: true
   wait: true

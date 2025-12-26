@@ -6,7 +6,9 @@ metadata:
   name: rook-ceph
   namespace: rook-ceph
 spec:
-  interval: 5m
+  decryption:
+    provider: sops
+  interval: 30m
   path: "./apps/base/rook-ceph/rook-ceph/app"
   prune: true
   wait: true
@@ -23,7 +25,9 @@ metadata:
   name: rook-ceph-cluster
   namespace: rook-ceph
 spec:
-  interval: 5m
+  decryption:
+    provider: sops
+  interval: 30m
   path: "./apps/base/rook-ceph/rook-ceph/cluster"
   prune: true
   wait: true
