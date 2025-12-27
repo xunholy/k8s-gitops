@@ -6,8 +6,6 @@ metadata:
   name: democratic-csi
   namespace: democratic-csi
 spec:
-  decryption:
-    provider: sops
   interval: 30m
   path: "./apps/base/democratic-csi/democratic-csi/app"
   prune: true

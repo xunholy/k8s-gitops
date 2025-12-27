@@ -6,8 +6,6 @@ metadata:
   name: kopia
   namespace: volsync-system
 spec:
-  decryption:
-    provider: sops
   interval: 30m
   path: "./apps/base/volsync-system/kopia/app"
   prune: true

@@ -6,8 +6,6 @@ metadata:
   name: onepassword
   namespace: external-secrets
 spec:
-  decryption:
-    provider: sops
   interval: 30m
   path: "./apps/base/external-secrets/onepassword/app"
   prune: true

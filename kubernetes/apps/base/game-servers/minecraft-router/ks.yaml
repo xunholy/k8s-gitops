@@ -6,8 +6,6 @@ metadata:
   name: minecraft-router
   namespace: game-servers
 spec:
-  decryption:
-    provider: sops
   interval: 30m
   path: "./apps/base/game-servers/minecraft-router/app"
   prune: true

@@ -6,8 +6,6 @@ metadata:
   name: &app flux-instance-extras
   namespace: flux-system
 spec:
-  decryption:
-    provider: sops
   interval: 30m
   path: ./apps/base/flux-system/flux-instance/extras
   prune: false
