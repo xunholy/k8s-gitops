@@ -136,6 +136,19 @@ instance:
         target:
           kind: Kustomization
           name: flux-system
+      # SOPS decryption for all Kustomizations
+      - patch: |-
+          apiVersion: kustomize.toolkit.fluxcd.io/v1
+          kind: Kustomization
+          metadata:
+            name: all
+          spec:
+            decryption:
+              provider: sops
+              secretRef:
+                name: sops-age-secret
+        target:
+          kind: Kustomization
       # Disable chart digest tracking
       - patch: |-
           - op: add
