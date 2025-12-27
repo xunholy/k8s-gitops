@@ -6,6 +6,8 @@ metadata:
   name: external-secrets
   namespace: external-secrets
 spec:
+  decryption:
+    provider: sops
   interval: 30m
   path: "./apps/base/external-secrets/external-secrets/app"
   prune: true

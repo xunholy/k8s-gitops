@@ -6,6 +6,8 @@ metadata:
   name: cluster
   namespace: flux-system
 spec:
+  decryption:
+    provider: sops
   interval: 10m
   timeout: 30m
   path: ./apps/overlays/cluster-00
@@ -14,7 +16,6 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: flux-system
-
   postBuild:
     substitute: {}
     substituteFrom:

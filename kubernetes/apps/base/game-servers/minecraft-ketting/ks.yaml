@@ -6,6 +6,8 @@ metadata:
   name: minecraft-ketting
   namespace: game-servers
 spec:
+  decryption:
+    provider: sops
   interval: 30m
   path: "./apps/base/game-servers/minecraft-ketting/app"
   prune: true
