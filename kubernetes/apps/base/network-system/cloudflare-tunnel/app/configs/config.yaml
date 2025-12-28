@@ -14,16 +14,16 @@ ingress:
       originServerName: external.${CLUSTER_DOMAIN}
       http2Origin: false
 
-  - hostname: "mc.${CLUSTER_DOMAIN}"
+  - hostname: "*.${CLUSTER_DOMAIN}"
     service: https://envoy-external.network-system.svc.cluster.local
     originRequest:
-      originServerName: ext.${CLUSTER_DOMAIN}
-
-  - hostname: "*.${CLUSTER_DOMAIN}"
-    service: https://cilium-gateway-external.kube-system.svc.cluster.local
-    originRequest:
-      http2Origin: true
       originServerName: external.${CLUSTER_DOMAIN}
+
+  # - hostname: "*.${CLUSTER_DOMAIN}"
+  #   service: https://cilium-gateway-external.kube-system.svc.cluster.local
+  #   originRequest:
+  #     http2Origin: true
+  #     originServerName: external.${CLUSTER_DOMAIN}
 
   # Catch-all rule, which responds with 404 if traffic doesn't match any of
   # the earlier rules

@@ -7,8 +7,8 @@ metadata:
   namespace: home-system
 spec:
   parentRefs:
-    - name: external
-      namespace: kube-system
+    - name: envoy-external
+      namespace: network-system
       sectionName: https
   hostnames:
     - 'sonarr.${CLUSTER_DOMAIN}'

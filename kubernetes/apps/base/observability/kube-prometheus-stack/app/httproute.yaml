@@ -7,8 +7,8 @@ metadata:
   namespace: observability
 spec:
   parentRefs:
-    - name: external
-      namespace: kube-system
+    - name: envoy-external
+      namespace: network-system
       sectionName: https
   hostnames:
     - 'alert-manager.${CLUSTER_DOMAIN}'
@@ -26,8 +26,8 @@ metadata:
   namespace: observability
 spec:
   parentRefs:
-    - name: external
-      namespace: kube-system
+    - name: envoy-external
+      namespace: network-system
       sectionName: https
   hostnames:
     - 'prometheus.${CLUSTER_DOMAIN}'

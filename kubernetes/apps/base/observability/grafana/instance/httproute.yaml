@@ -9,8 +9,8 @@ metadata:
     external-dns.alpha.kubernetes.io/external: 'true'
 spec:
   parentRefs:
-    - name: external
-      namespace: kube-system
+    - name: envoy-external
+      namespace: network-system
       sectionName: https
   hostnames:
     - 'grafana.${CLUSTER_DOMAIN}'
