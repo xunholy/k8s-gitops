@@ -6,8 +6,6 @@ metadata:
   name: &app cloudflare-tunnel
   namespace: network-system
 spec:
-  decryption:
-    provider: sops
   interval: 30m
   chartRef:
     kind: OCIRepository

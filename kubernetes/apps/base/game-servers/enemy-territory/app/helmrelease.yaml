@@ -6,8 +6,6 @@ metadata:
   name: &app enemy-territory
   namespace: game-servers
 spec:
-  decryption:
-    provider: sops
   interval: 30m
   chartRef:
     kind: OCIRepository

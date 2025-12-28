@@ -6,8 +6,6 @@ metadata:
   name: &app plex
   namespace: home-system
 spec:
-  decryption:
-    provider: sops
   interval: 30m
   chartRef:
     kind: OCIRepository
