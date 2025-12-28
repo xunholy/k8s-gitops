@@ -118,7 +118,7 @@ instance:
         target:
           kind: Deployment
           name: source-controller
-      # Add postBuild substitution to flux-system Kustomization
+      # Add postBuild substitution and SOPS decryption to flux-system Kustomization
       - patch: |-
           apiVersion: kustomize.toolkit.fluxcd.io/v1
           kind: Kustomization
@@ -126,6 +126,8 @@ instance:
             name: flux-system
             namespace: flux-system
           spec:
+            decryption:
+              provider: sops
             postBuild:
               substitute: {}
               substituteFrom:

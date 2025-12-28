@@ -1,19 +1,19 @@
 ---
 # creation rules are evaluated sequentially, the first match wins
 creation_rules:
-  # secret files using AGE to encrypt the stored AGE keys
-  - path_regex: kubernetes/clusters/.*/secrets/sops-age.encrypted.ya?ml
+  # secret files using GCP KMS to encrypt the stored PGP keys
+  - path_regex: kubernetes/clusters/.*/secrets/sops-gpg.encrypted.ya?ml
     encrypted_regex: ^(data|stringData)$
     unencrypted-regex: ^(description|metadata)$
-    age: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
+    gcp_kms: projects/raspbernetes/locations/global/keyRings/sops/cryptoKeys/sops-key
     mac_only_encrypted: true
   # AGE encrypted Kubernetes secret files
-  - path_regex: kubernetes/.+\.enc.age.ya?ml
+  - path_regex: kubernetes/.*/.*\.enc\.age\.ya?ml
     encrypted_regex: ^(data|stringData)$
     mac_only_encrypted: true
     age: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
   # AGE encrypted Talos secret files
-  - path_regex: talos/.+\.enc.age.ya?ml
+  - path_regex: talos/.*/.*\.enc\.age\.ya?ml
     encrypted_regex: '((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))'
     mac_only_encrypted: true
     age: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
