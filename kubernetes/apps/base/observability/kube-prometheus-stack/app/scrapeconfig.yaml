@@ -30,18 +30,18 @@ spec:
       replacement: smartctl-exporter
 ---
 # # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
-# apiVersion: monitoring.coreos.com/v1alpha1
-# kind: ScrapeConfig
-# metadata:
-#   name: jetkvm
-# spec:
-#   staticConfigs:
-#     - targets:
-#         - jetkvm-01.internal
-#         - jetkvm-02.internal
-#         - jetkvm-03.internal
-#   metricsPath: /metrics
-#   relabelings:
-#     - action: replace
-#       targetLabel: job
-#       replacement: jetkvm
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: jetkvm
+spec:
+  staticConfigs:
+    - targets:
+        - jetkvm-01.internal
+        - jetkvm-02.internal
+        - jetkvm-03.internal
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: jetkvm

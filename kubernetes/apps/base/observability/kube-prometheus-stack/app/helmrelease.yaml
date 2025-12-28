@@ -78,9 +78,6 @@ spec:
         enableFeatures:
           - exemplar-storage
           - memory-snapshot-on-shutdown
-        ## Interval between consecutive scrapes.
-        ## Defaults to 30s.
-        ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/release-0.44/pkg/prometheus/promcfg.go#L180-L183
         scrapeInterval: 1m
         externalUrl: https://prometheus.${CLUSTER_DOMAIN}
         podAntiAffinity: hard
@@ -100,6 +97,8 @@ spec:
                   storage: 50Gi
         enableAdminAPI: true
         walCompression: true
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       verticalPodAutoscaler:
