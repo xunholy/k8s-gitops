@@ -34,5 +34,5 @@ spec:
   uninstall:
     keepHistory: false
   driftDetection:
-    mode: enabled
+    mode: warn
   maxHistory: 3
