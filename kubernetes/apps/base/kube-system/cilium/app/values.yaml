@@ -120,7 +120,7 @@ socketLB:
   enabled: true
   hostNamespaceOnly: true
 gatewayAPI:
-  enabled: true
+  enabled: false
 hostFirewall:
   enabled: true
 l7Proxy: true
