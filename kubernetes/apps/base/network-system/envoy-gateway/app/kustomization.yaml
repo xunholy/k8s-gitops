@@ -5,6 +5,7 @@ kind: Kustomization
 
 resources:
   - certificates.yaml
+  - envoy.yaml
   - gatewayclass.yaml
   - gateways.yaml
   - grafanadashboards.yaml
