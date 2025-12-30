@@ -1,26 +1,30 @@
 ---
 annotateK8sNode: true
-autoDirectNodeRoutes: false
+autoDirectNodeRoutes: true
 bandwidthManager:
   bbr: true
   enabled: true
 bpf:
+  datapathMode: netkit
   masquerade: true
   preallocateMaps: true
   tproxy: true
+bpfClockProbe: true
+bgpControlPlane:
+  enabled: true
 cgroup:
   autoMount:
     enabled: false
   hostRoot: /sys/fs/cgroup
 cni:
-  chainingMode: none
   exclusive: false
 dashboards:
   enabled: true
   annotations:
     grafana_folder: kube-system
+enableIPv4BIGTCP: true
 endpointRoutes:
-  enabled: false
+  enabled: true
 envoy:
   enabled: false
 hubble:
@@ -54,18 +58,18 @@ hubble:
       unhealthyPodEvictionPolicy: AlwaysAllow
 ipam:
   mode: kubernetes
+ipv4NativeRoutingCIDR: 10.244.0.0/16
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
-k8sClientRateLimit:
-  qps: 50
-  burst: 100
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+l2announcements:
+  enabled: false
 loadBalancer:
   algorithm: maglev
-  mode: snat
-localRedirectPolicy: true
-nodePort:
+  mode: hybrid
+  serviceTopology: true
+localRedirectPolicies:
   enabled: true
 operator:
   PodDisruptionBudget:
@@ -91,8 +95,7 @@ prometheus:
     enabled: true
     trustCRDsExist: true
 rollOutCiliumPods: true
-routingMode: tunnel
-tunnelProtocol: vxlan
+routingMode: native
 securityContext:
   capabilities:
     ciliumAgent:
@@ -116,15 +119,3 @@ securityContext:
 socketLB:
   enabled: true
   hostNamespaceOnly: true
-gatewayAPI:
-  enabled: false
-hostFirewall:
-  enabled: true
-l7Proxy: true
-l2announcements:
-  enabled: true
-  leaseDuration: 60s
-  leaseRenewDeadline: 30s
-  leaseRetryPeriod: 5s
-monitor:
-  enabled: true
