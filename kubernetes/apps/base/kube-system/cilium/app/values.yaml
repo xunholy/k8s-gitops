@@ -56,6 +56,9 @@ ipam:
   mode: kubernetes
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
+k8sClientRateLimit:
+  qps: 50
+  burst: 100
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 loadBalancer:
@@ -118,5 +121,10 @@ gatewayAPI:
 hostFirewall:
   enabled: true
 l7Proxy: true
+l2announcements:
+  enabled: true
+  leaseDuration: 60s
+  leaseRenewDeadline: 30s
+  leaseRetryPeriod: 5s
 monitor:
   enabled: true

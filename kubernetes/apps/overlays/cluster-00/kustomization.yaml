@@ -63,7 +63,7 @@ resources:
   - ../../base/kube-system/reflector/ks.yaml
   - ../../base/kube-system/snapshot-controller/ks.yaml
   - ../../base/kube-system/spegel/ks.yaml
-  - ../../base/kube-system/tetragon/ks.yaml
+  # - ../../base/kube-system/tetragon/ks.yaml  # Disabled: requires debugfs/tracefs on Talos
   - ../../base/network-system/cert-manager/ks.yaml
   - ../../base/network-system/cloudflare-tunnel/ks.yaml
   - ../../base/network-system/dex/ks.yaml
