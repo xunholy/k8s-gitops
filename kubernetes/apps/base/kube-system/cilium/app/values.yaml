@@ -8,10 +8,6 @@ bpf:
   masquerade: true
   preallocateMaps: true
   tproxy: true
-  ctAccounting: true
-bpfClockProbe: true
-bgpControlPlane:
-  enabled: true
 cgroup:
   autoMount:
     enabled: false

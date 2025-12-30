@@ -17,14 +17,34 @@ spec:
           imageRepository: mirror.gcr.io/envoyproxy/envoy
           resources:
             requests:
-              cpu: 100m
+              cpu: 200m
+              memory: 512Mi
             limits:
+              cpu: 2000m
               memory: 1Gi
+        pod:
+          podDisruptionBudget:
+            minAvailable: 1
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  gateway.envoyproxy.io/owning-gateway-name: envoy-external
       envoyService:
         externalTrafficPolicy: Local
   shutdown:
     drainTimeout: 180s
   telemetry:
+    accessLog:
+      settings:
+        - format:
+            type: JSON
+          sinks:
+            - type: File
+              file:
+                path: /dev/stdout
     metrics:
       prometheus:
         compression:
