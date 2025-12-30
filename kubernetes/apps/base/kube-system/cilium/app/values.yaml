@@ -11,7 +11,7 @@ bpf:
   tproxy: true
 bpfClockProbe: true
 bgpControlPlane:
-  enabled: true
+  enabled: false
 cgroup:
   autoMount:
     enabled: false
