@@ -6,6 +6,7 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - httproute.yaml
+  - tcproute.yaml
   - pvc.yaml
 
 configMapGenerator:

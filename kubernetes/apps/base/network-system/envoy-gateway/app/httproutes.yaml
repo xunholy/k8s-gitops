@@ -11,9 +11,6 @@ spec:
     - name: envoy-external
       namespace: network-system
       sectionName: http
-    - name: envoy-internal
-      namespace: network-system
-      sectionName: http
   rules:
     - filters:
         - type: RequestRedirect

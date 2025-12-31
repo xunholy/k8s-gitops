@@ -10,9 +10,9 @@ spec:
   parentRefs:
     - name: envoy-external
       namespace: network-system
-      sectionName: minecraft-java
+      sectionName: minecraft-bedrock
   rules:
     - backendRefs:
         - name: minecraft
-          port: 25565
+          port: 19132
           weight: 100

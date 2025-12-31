@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/tcproute_v1alpha2.json
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: minecraft-java
+  annotations:
+    external-dns.alpha.kubernetes.io/external: 'true'
+spec:
+  parentRefs:
+    - name: envoy-external
+      namespace: network-system
+      sectionName: minecraft-java
+  rules:
+    - backendRefs:
+        - name: minecraft
+          port: 25565
+          weight: 100

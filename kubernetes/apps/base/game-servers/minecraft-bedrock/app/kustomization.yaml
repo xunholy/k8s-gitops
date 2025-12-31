@@ -6,6 +6,7 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - pvc.yaml
+  - udproute.yaml
 
 configMapGenerator:
   - name: mincraft-bedrock-values
