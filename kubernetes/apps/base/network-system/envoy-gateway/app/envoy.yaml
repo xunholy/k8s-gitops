@@ -23,8 +23,6 @@ spec:
               cpu: 2000m
               memory: 1Gi
         pod:
-          podDisruptionBudget:
-            minAvailable: 1
           topologySpreadConstraints:
             - maxSkew: 1
               topologyKey: kubernetes.io/hostname
