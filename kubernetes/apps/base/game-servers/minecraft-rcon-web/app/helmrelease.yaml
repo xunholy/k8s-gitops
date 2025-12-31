@@ -58,20 +58,3 @@ spec:
               - op: add
                 path: /metadata/annotations/lbipam.cilium.io~1ips
                 value: ${CLUSTER_LB_MINECRAFT_RCON}
-    - kustomize:
-        patches:
-          - target:
-              version: v1
-              kind: Deployment
-              name: minecraft-rcon-web
-            patch: |
-              - op: replace
-                path: /spec/template/spec/containers/0/env/-
-                value:
-                  name: RWA_WEBSOCKET_URL
-                  value: "ws://${CLUSTER_LB_MINECRAFT_RCON}:4327"
-              - op: replace
-                path: /spec/template/spec/containers/0/env/-
-                value:
-                  name: RWA_WEBSOCKET_URL_SSL
-                  value: "wss://${CLUSTER_LB_MINECRAFT_RCON}:4327"
