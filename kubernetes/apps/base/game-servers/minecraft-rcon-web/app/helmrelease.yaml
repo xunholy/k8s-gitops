@@ -47,14 +47,3 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: mincraft-rcon-web-values
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              version: v1
-              kind: Service
-              name: minecraft-rcon
-            patch: |
-              - op: add
-                path: /metadata/annotations/lbipam.cilium.io~1ips
-                value: ${CLUSTER_LB_MINECRAFT_RCON}
