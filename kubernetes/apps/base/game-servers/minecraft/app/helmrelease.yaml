@@ -58,6 +58,6 @@ spec:
               name: geysermc-config
   valuesFrom:
     - kind: ConfigMap
-      name: mincraft-values
+      name: minecraft-values
     - kind: Secret
-      name: mincraft-secret-values
+      name: minecraft-secret-values

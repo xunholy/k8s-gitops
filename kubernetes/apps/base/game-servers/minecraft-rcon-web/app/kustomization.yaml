@@ -9,7 +9,7 @@ resources:
   - httproute.yaml
 
 configMapGenerator:
-  - name: mincraft-rcon-web-values
+  - name: minecraft-rcon-web-values
     namespace: game-servers
     files:
       - values.yaml=./values.yaml
