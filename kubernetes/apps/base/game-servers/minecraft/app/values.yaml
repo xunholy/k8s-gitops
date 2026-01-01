@@ -1,5 +1,7 @@
 extraEnv:
   TZ: "Australia/Melbourne"
+  # Force IPv4 stack to fix RCON connectivity issues
+  JVM_OPTS: "-Djava.net.preferIPv4Stack=true"
 
 minecraftServer:
   serverName: Wildfire Minecraft Server

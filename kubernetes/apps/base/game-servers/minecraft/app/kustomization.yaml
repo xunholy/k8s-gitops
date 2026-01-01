@@ -10,7 +10,7 @@ resources:
   - pvc.yaml
 
 configMapGenerator:
-  - name: mincraft-values
+  - name: minecraft-values
     namespace: game-servers
     files:
       - values.yaml=./values.yaml
@@ -20,7 +20,7 @@ configMapGenerator:
       - config.yml=./config/geysermc.yaml
 
 secretGenerator:
-  - name: mincraft-secret-values
+  - name: minecraft-secret-values
     namespace: game-servers
     files:
       - values.yaml=values.enc.age.yaml
