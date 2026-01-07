@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: democratic-csi-charts
         namespace: flux-system
-      version: 0.15.0
+      version: 0.15.1
   dependsOn:
     - name: snapshot-controller
       namespace: kube-system
