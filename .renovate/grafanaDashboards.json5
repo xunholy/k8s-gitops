@@ -4,20 +4,20 @@
     "grafana-dashboards": {
       defaultRegistryUrlTemplate: "https://grafana.com/api/dashboards/{{packageName}}",
       format: "json",
-      transformTemplates: ['{"releases":[{"version": $string(revision)}]}'],
+      transformTemplates: ['{"releases":[{"version": $string(revision)}], "sourceDirectory": name}'],
     },
   },
   customManagers: [
     {
       description: "Process Grafana dashboards",
       customType: "regex",
-      managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
+      managerFilePatterns: ["/grafanadashboard\\.yaml(?:\\.j2)?$/",],
       matchStrings: [
-        'depName="(?<depName>.*)"\\n(?<indentation>\\s+)gnetId: (?<packageName>\\d+)\\n.+revision: (?<currentValue>\\d+)'
+        "dashboards\\/(?<depName>\\d+)\\/revisions\\/(?<currentValue>\\d+)\\/download",
       ],
-      autoReplaceStringTemplate: 'depName="{{{depName}}}"\n{{{indentation}}}gnetId: {{{packageName}}}\n{{{indentation}}}revision: {{{newValue}}}',
       datasourceTemplate: "custom.grafana-dashboards",
       versioningTemplate: "regex:^(?<major>\\d+)$",
+      autoReplaceStringTemplate: "dashboards/{{depName}}/revisions/{{newValue}}/download",
     },
   ],
   packageRules: [
@@ -25,8 +25,8 @@
       addLabels: ["renovate/grafana-dashboard"],
       automerge: true,
       automergeType: "branch",
-      commitMessageExtra: "({{currentVersion}} → {{newVersion}})",
-      commitMessageTopic: "dashboard {{depName}}",
+      commitMessageExtra: "({{currentVersion}} ➔ {{newVersion}})",
+      commitMessageTopic: "dashboard {{sourceDirectory}}",
       ignoreTests: true,
       matchDatasources: ["custom.grafana-dashboards"],
       matchUpdateTypes: ["major"],
