@@ -12,4 +12,4 @@ spec:
     operation: copy
   ref:
     tag: 4.14.1
-  url: oci://ghcr.io/kubernetes/ingress-nginx
+  url: oci://ghcr.io/home-operations/charts-mirror/ingress-nginx

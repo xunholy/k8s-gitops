@@ -29,10 +29,19 @@ The following OCIRepository manifests have been generated and are ready for migr
 | 3 | **falco-exporter** | `security-system/falco-exporter/app/ocirepository.yaml` | `oci://ghcr.io/falcosecurity/charts/falco-exporter` |
 | 4 | **tetragon** | `kube-system/tetragon/app/ocirepository.yaml` | `oci://ghcr.io/cilium/charts/tetragon` |
 | 5 | **crossplane** | `crossplane-system/crossplane/app/ocirepository.yaml` | `oci://xpkg.upbound.io/upbound/crossplane` |
-| 6 | **ingress-nginx** | `nginx-ingress/nginx-ingress/app/ocirepository.yaml` | `oci://ghcr.io/kubernetes/ingress-nginx` |
-| 7 | **oauth2-proxy** | `network-system/oauth2-proxy/app/ocirepository.yaml` | `oci://ghcr.io/oauth2-proxy/charts/oauth2-proxy` |
+| 6 | **ingress-nginx** | `nginx-ingress/nginx-ingress/app/ocirepository.yaml` | `oci://ghcr.io/home-operations/charts-mirror/ingress-nginx` ⚠️ |
+| 7 | **oauth2-proxy** | `network-system/oauth2-proxy/app/ocirepository.yaml` | `oci://ghcr.io/oauth2-proxy/charts/oauth2-proxy` ✅ |
 | 8 | **opentelemetry-operator** | `observability/otel/app/ocirepository.yaml` | `oci://ghcr.io/open-telemetry/opentelemetry-helm-charts/opentelemetry-operator` |
-| 9 | **vpa** | `observability/vpa/app/ocirepository.yaml` | `oci://ghcr.io/fairwinds/charts/vpa` |
+
+⚠️ **Note**: ingress-nginx uses charts-mirror because the official kubernetes/ingress-nginx doesn't publish to OCI registries yet.
+
+### ❌ Charts That Cannot Use OCI
+
+These charts do NOT have OCI registry support and must continue using HelmRepository:
+
+| Chart | Reason | Current Source |
+|-------|--------|----------------|
+| **vpa** | Fairwinds only publishes to traditional Helm repos | `fairwinds-charts` HelmRepository |
 
 ---
 
@@ -143,9 +152,7 @@ Priority: **MEDIUM**
    - Update: `kubernetes/apps/base/observability/otel/app/helmrelease.yaml`
    - Update: `kubernetes/apps/base/observability/otel/app/kustomization.yaml`
 
-9. **vpa** - Vertical autoscaling
-   - Update: `kubernetes/apps/base/observability/vpa/app/helmrelease.yaml`
-   - Update: `kubernetes/apps/base/observability/vpa/app/kustomization.yaml`
+**Note**: VPA has been removed from migration as Fairwinds doesn't support OCI registries.
 
 ---
 
