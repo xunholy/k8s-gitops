@@ -29,11 +29,8 @@ The following OCIRepository manifests have been generated and are ready for migr
 | 3 | **falco-exporter** | `security-system/falco-exporter/app/ocirepository.yaml` | `oci://ghcr.io/falcosecurity/charts/falco-exporter` |
 | 4 | **tetragon** | `kube-system/tetragon/app/ocirepository.yaml` | `oci://ghcr.io/cilium/charts/tetragon` |
 | 5 | **crossplane** | `crossplane-system/crossplane/app/ocirepository.yaml` | `oci://xpkg.upbound.io/upbound/crossplane` |
-| 6 | **ingress-nginx** | `nginx-ingress/nginx-ingress/app/ocirepository.yaml` | `oci://ghcr.io/home-operations/charts-mirror/ingress-nginx` ⚠️ |
-| 7 | **oauth2-proxy** | `network-system/oauth2-proxy/app/ocirepository.yaml` | `oci://ghcr.io/oauth2-proxy/charts/oauth2-proxy` ✅ |
-| 8 | **opentelemetry-operator** | `observability/otel/app/ocirepository.yaml` | `oci://ghcr.io/open-telemetry/opentelemetry-helm-charts/opentelemetry-operator` |
-
-⚠️ **Note**: ingress-nginx uses charts-mirror because the official kubernetes/ingress-nginx doesn't publish to OCI registries yet.
+| 6 | **oauth2-proxy** | `network-system/oauth2-proxy/app/ocirepository.yaml` | `oci://ghcr.io/oauth2-proxy/charts/oauth2-proxy` ✅ |
+| 7 | **opentelemetry-operator** | `observability/otel/app/ocirepository.yaml` | `oci://ghcr.io/open-telemetry/opentelemetry-helm-charts/opentelemetry-operator` |
 
 ### ❌ Charts That Cannot Use OCI
 
@@ -41,6 +38,7 @@ These charts do NOT have OCI registry support and must continue using HelmReposi
 
 | Chart | Reason | Current Source |
 |-------|--------|----------------|
+| **ingress-nginx** | charts-mirror lags behind official releases (4.13.0 vs 4.14.1) | `ingress-nginx-chart` HelmRepository |
 | **vpa** | Fairwinds only publishes to traditional Helm repos | `fairwinds-charts` HelmRepository |
 
 ---
@@ -133,26 +131,24 @@ Priority: **CRITICAL**
 ### Phase 2 - Networking & Infrastructure (Week 2)
 Priority: **HIGH**
 
-5. **ingress-nginx** - Traffic ingress
-   - Update: `kubernetes/apps/base/nginx-ingress/nginx-ingress/app/helmrelease.yaml`
-   - Update: `kubernetes/apps/base/nginx-ingress/nginx-ingress/app/kustomization.yaml`
-
-6. **oauth2-proxy** - Authentication proxy
+5. **oauth2-proxy** - Authentication proxy ✅ ALREADY MIGRATED
    - Update: `kubernetes/apps/base/network-system/oauth2-proxy/app/helmrelease.yaml`
    - Update: `kubernetes/apps/base/network-system/oauth2-proxy/app/kustomization.yaml`
 
-7. **crossplane** - Infrastructure provisioning
+6. **crossplane** - Infrastructure provisioning
    - Update: `kubernetes/apps/base/crossplane-system/crossplane/app/helmrelease.yaml`
    - Update: `kubernetes/apps/base/crossplane-system/crossplane/app/kustomization.yaml`
 
 ### Phase 3 - Observability (Week 3)
 Priority: **MEDIUM**
 
-8. **opentelemetry-operator** - Observability
+7. **opentelemetry-operator** - Observability
    - Update: `kubernetes/apps/base/observability/otel/app/helmrelease.yaml`
    - Update: `kubernetes/apps/base/observability/otel/app/kustomization.yaml`
 
-**Note**: VPA has been removed from migration as Fairwinds doesn't support OCI registries.
+**Notes**:
+- VPA and ingress-nginx removed from migration - no suitable OCI registries available
+- oauth2-proxy already successfully migrated and running in production
 
 ---
 
