@@ -6,16 +6,10 @@ metadata:
   name: &app crossplane
   namespace: crossplane-system
 spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: crossplane
-      version: 2.1.3
-      sourceRef:
-        kind: HelmRepository
-        name: crossplane-charts
-        namespace: flux-system
-      interval: 10m
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: crossplane
   install:
     timeout: 10m
     replace: true

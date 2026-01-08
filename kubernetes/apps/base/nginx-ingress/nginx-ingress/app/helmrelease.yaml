@@ -6,17 +6,11 @@ metadata:
   name: &app nginx-ingress
   namespace: nginx-ingress
 spec:
-  interval: 5m
+  interval: 1h
   releaseName: ingress-nginx
-  chart:
-    spec:
-      chart: ingress-nginx
-      version: 4.14.1
-      sourceRef:
-        kind: HelmRepository
-        name: ingress-nginx-chart
-        namespace: flux-system
-      interval: 10m
+  chartRef:
+    kind: OCIRepository
+    name: ingress-nginx
   install:
     timeout: 10m
     replace: true
