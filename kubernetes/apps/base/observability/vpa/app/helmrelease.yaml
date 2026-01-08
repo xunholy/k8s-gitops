@@ -6,9 +6,15 @@ metadata:
   name: vpa
 spec:
   interval: 1h
-  chartRef:
-    kind: OCIRepository
-    name: vpa
+  chart:
+    spec:
+      chart: vpa
+      version: 4.10.1
+      sourceRef:
+        kind: HelmRepository
+        name: fairwinds-charts
+        namespace: flux-system
+      interval: 10m
   install:
     timeout: 10m
     replace: true
