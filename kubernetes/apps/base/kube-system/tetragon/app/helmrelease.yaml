@@ -5,17 +5,10 @@ kind: HelmRelease
 metadata:
   name: tetragon
 spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: tetragon
-      reconcileStrategy: ChartVersion
-      sourceRef:
-        kind: HelmRepository
-        name: cilium-chart
-        namespace: flux-system
-      # The HelmRelease version of Cilium MUST match the version installed via Talos to avoid collisions on cluster rebuilds
-      version: 1.6.0
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: tetragon
   install:
     timeout: 10m
     replace: true

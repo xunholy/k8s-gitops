@@ -6,16 +6,10 @@ metadata:
   name: kyverno
   namespace: security-system
 spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: kyverno
-      version: 3.6.1
-      sourceRef:
-        kind: HelmRepository
-        name: kyverno-charts
-        namespace: flux-system
-      interval: 10m
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: kyverno
   install:
     timeout: 10m
     replace: true

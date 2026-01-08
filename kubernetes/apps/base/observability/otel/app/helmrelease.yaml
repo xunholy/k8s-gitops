@@ -6,16 +6,10 @@ metadata:
   name: otel-operator
   namespace: observability
 spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: opentelemetry-operator
-      version: 0.102.0
-      sourceRef:
-        kind: HelmRepository
-        name: otel-charts
-        namespace: flux-system
-      interval: 1m
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: opentelemetry-operator
   install:
     timeout: 10m
     replace: true

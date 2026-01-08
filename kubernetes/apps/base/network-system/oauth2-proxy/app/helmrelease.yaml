@@ -5,16 +5,10 @@ kind: HelmRelease
 metadata:
   name: &app oauth2-proxy
 spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: oauth2-proxy
-      version: 10.0.0
-      sourceRef:
-        kind: HelmRepository
-        name: oauth2-proxy-chart
-        namespace: flux-system
-      interval: 10m
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: oauth2-proxy
   install:
     timeout: 10m
     replace: true
