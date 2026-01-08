@@ -8,9 +8,15 @@ metadata:
 spec:
   interval: 1h
   releaseName: ingress-nginx
-  chartRef:
-    kind: OCIRepository
-    name: ingress-nginx
+  chart:
+    spec:
+      chart: ingress-nginx
+      version: 4.14.1
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx-chart
+        namespace: flux-system
+      interval: 10m
   install:
     timeout: 10m
     replace: true
