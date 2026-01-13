@@ -12,7 +12,7 @@ spec:
     type: Kubernetes
     kubernetes:
       envoyDeployment:
-        replicas: 2
+        replicas: 3
         container:
           imageRepository: mirror.gcr.io/envoyproxy/envoy
           resources:
@@ -21,7 +21,7 @@ spec:
               memory: 512Mi
             limits:
               cpu: 2000m
-              memory: 1Gi
+              memory: 2Gi
         pod:
           topologySpreadConstraints:
             - maxSkew: 1
@@ -48,4 +48,4 @@ spec:
     metrics:
       prometheus:
         compression:
-          type: Gzip
+          type: Zstd
