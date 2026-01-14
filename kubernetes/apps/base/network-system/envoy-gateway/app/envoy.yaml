@@ -31,7 +31,7 @@ spec:
                 matchLabels:
                   gateway.envoyproxy.io/owning-gateway-name: envoy-external
       envoyService:
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
   shutdown:
     drainTimeout: 180s
   telemetry:
