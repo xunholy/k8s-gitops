@@ -41,7 +41,6 @@ resources:
   - ../../base/game-servers/minecraft-rcon-web/ks.yaml
   # - ../../base/game-servers/minecraft-router/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
-  - ../../base/home-system/cross-seed/ks.yaml
   # - ../../base/home-system/emqx/ks.yaml
   - ../../base/home-system/home-assistant/ks.yaml
   - ../../base/home-system/jellyseerr/ks.yaml
