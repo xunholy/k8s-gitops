@@ -52,7 +52,7 @@ spec:
           app:
             image:
               repository: ghcr.io/k8snetworkplumbingwg/multus-cni
-              tag: latest@sha256:3064c3a2a60319ab245fcacbd579b38aec63274164f1562afbe549e328072eb1
+              tag: latest@sha256:00e51d4d647d2e74e760cbe8b1fa874c88a563cf1996e56dc75dd3f99d879e8a
             command:
               - /thin_entrypoint
             args:
