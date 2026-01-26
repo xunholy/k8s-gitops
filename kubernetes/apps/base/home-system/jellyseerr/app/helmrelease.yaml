@@ -89,11 +89,11 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: jellyseerr
+        existingClaim: jellyseerr-ceph
         globalMounts:
           - path: /app/config
       cache:
-        existingClaim: jellyseerr-cache
+        existingClaim: jellyseerr-cache-ceph
         globalMounts:
           - path: /app/config/cache
       logs:

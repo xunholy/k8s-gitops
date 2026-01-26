@@ -98,7 +98,7 @@ spec:
             protocol: TCP
     persistence:
       config:
-        existingClaim: qbittorrent
+        existingClaim: qbittorrent-ceph
       tmp:
         type: emptyDir
       media:

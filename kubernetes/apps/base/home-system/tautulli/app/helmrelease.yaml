@@ -87,7 +87,7 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: tautulli
+        existingClaim: tautulli-ceph
       tmpfs:
         type: emptyDir
         advancedMounts:

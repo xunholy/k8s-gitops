@@ -84,7 +84,7 @@ resources:
 persistence:
   dataDir:
     enabled: true
-    existingClaim: minecraft
+    existingClaim: minecraft-ceph
 
 podSecurityContext:
   runAsUser: 1000

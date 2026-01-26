@@ -102,7 +102,7 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: sabnzbd
+        existingClaim: sabnzbd-ceph
         advancedMounts:
           sabnzbd:
             app:

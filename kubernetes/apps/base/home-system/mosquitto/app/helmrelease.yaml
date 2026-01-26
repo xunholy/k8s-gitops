@@ -86,7 +86,7 @@ spec:
             persistence_location /data
     persistence:
       data:
-        existingClaim: mosquitto-cache
+        existingClaim: mosquitto-cache-ceph
       config-file:
         type: configMap
         name: mosquitto

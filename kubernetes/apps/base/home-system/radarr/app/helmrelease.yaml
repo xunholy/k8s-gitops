@@ -97,7 +97,7 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: radarr
+        existingClaim: radarr-ceph
       tmp:
         type: emptyDir
       media:
