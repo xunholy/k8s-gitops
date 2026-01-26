@@ -23,4 +23,4 @@ podAnnotations:
 persistence:
   dataDir:
     enabled: true
-    existingClaim: minecraft-bedrock
+    existingClaim: minecraft-bedrock-ceph
