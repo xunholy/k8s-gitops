@@ -10,13 +10,13 @@ resources:
   - udproute.yaml
 
 configMapGenerator:
-  - name: mincraft-bedrock-values
+  - name: minecraft-bedrock-broadcaster-values
     namespace: game-servers
     files:
       - values.yaml=./values.yaml
 
 secretGenerator:
-  - name: mincraft-bedrock-secret-values
+  - name: minecraft-bedrock-broadcaster-secret-values
     namespace: game-servers
     files:
       - values.yaml=values.enc.age.yaml

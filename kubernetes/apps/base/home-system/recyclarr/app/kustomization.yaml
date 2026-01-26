@@ -8,6 +8,7 @@ resources:
   - helmrelease.yaml
   - ocirepository.yaml
   - pvc.yaml
+  - pvc-ceph.yaml
 
 configMapGenerator:
   - name: recyclarr-configmap

@@ -37,6 +37,7 @@ resources:
   - ../../base/game-servers/minecraft/ks.yaml
   # - ../../base/game-servers/minecraft-ketting/ks.yaml
   - ../../base/game-servers/minecraft-bedrock/ks.yaml
+  - ../../base/game-servers/minecraft-bedrock-broadcaster/ks.yaml
   # - ../../base/game-servers/minecraft-proxy/ks.yaml
   - ../../base/game-servers/minecraft-rcon-web/ks.yaml
   # - ../../base/game-servers/minecraft-router/ks.yaml

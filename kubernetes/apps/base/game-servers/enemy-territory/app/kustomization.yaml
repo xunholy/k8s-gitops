@@ -9,3 +9,4 @@ resources:
   # - ingress.yaml
   - secret.enc.age.yaml
   - pvc.yaml
+  - pvc-ceph.yaml
