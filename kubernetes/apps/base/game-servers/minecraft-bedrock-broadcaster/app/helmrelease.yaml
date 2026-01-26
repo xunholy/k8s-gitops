@@ -1,0 +1,63 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app minecraft-bedrock-broadcaster
+  namespace: game-servers
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: minecraft-bedrock
+      version: 2.8.4
+      sourceRef:
+        kind: HelmRepository
+        name: minecraft-server-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 5m
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    fullnameOverride: *app
+  valuesFrom:
+    - kind: ConfigMap
+      name: minecraft-bedrock-broadcaster-values
+    - kind: Secret
+      name: minecraft-bedrock-broadcaster-secret-values
+  postRenderers:
+    # IMPORTANT: Does not work with multus when using hostNetwork: true
+    - kustomize:
+        patches:
+          - target:
+              version: v1
+              kind: Deployment
+              name: minecraft-bedrock-broadcaster-minecraft-bedrock
+            patch: |
+              - op: add
+                path: /spec/template/spec/hostNetwork
+                value: true

@@ -8,6 +8,7 @@ resources:
   - httproute.yaml
   - tcproute.yaml
   - pvc.yaml
+  - pvc-ceph.yaml
 
 configMapGenerator:
   - name: minecraft-values

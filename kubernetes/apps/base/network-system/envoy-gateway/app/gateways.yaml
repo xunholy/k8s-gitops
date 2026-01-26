@@ -39,6 +39,12 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: minecraft-bedrock-broadcaster
+      protocol: UDP
+      port: 19133
+      allowedRoutes:
+        namespaces:
+          from: All
     - name: minecraft-java
       protocol: TCP
       port: 25565

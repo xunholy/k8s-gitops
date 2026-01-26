@@ -9,6 +9,7 @@ resources:
   - httproute.yaml
   - ocirepository.yaml
   - pvc.yaml
+  - pvc-ceph.yaml
 
 configMapGenerator:
   - name: sabnzbd-scripts

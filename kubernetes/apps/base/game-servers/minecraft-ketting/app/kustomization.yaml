@@ -6,6 +6,7 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - pvc.yaml
+  - pvc-ceph.yaml
 
 configMapGenerator:
   - name: mincraft-ketting-values

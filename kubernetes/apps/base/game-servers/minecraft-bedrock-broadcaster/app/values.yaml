@@ -1,0 +1,26 @@
+image:
+  repository: itzg/minecraft-bedrock-server
+  tag: latest
+minecraftServer:
+  serverName: Bedrock Broadcaster Server
+  levelName: Broadcaster
+  serverPort: 19133
+  eula: "TRUE"
+  version: LATEST
+  difficulty: peaceful
+  maxPlayers: 10
+  gameMode: survival
+  playerIdleTimeout: 10
+  cheats: true
+  enableLanVisibility: true
+  defaultPermission: operator
+  serviceType: LoadBalancer
+  # TODO: Consider disabling if Microsoft login failure occurs;
+  # Check accounts against Minecraft account service.
+  onlineMode: false
+podAnnotations:
+  k8s.v1.cni.cncf.io/networks: network-system/wifi-network
+persistence:
+  dataDir:
+    enabled: true
+    existingClaim: minecraft-bedrock-broadcaster-ceph
