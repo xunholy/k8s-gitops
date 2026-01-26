@@ -95,6 +95,6 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: prowlarr
+        existingClaim: prowlarr-ceph
       tmp:
         type: emptyDir

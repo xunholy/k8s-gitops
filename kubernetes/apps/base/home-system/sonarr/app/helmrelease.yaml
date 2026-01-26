@@ -95,7 +95,7 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: sonarr
+        existingClaim: sonarr-ceph
       tmp:
         type: emptyDir
       media:

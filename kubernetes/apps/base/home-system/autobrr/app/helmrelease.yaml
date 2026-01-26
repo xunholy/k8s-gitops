@@ -108,7 +108,7 @@ spec:
           - port: metrics
     persistence:
       config:
-        existingClaim: autobrr
+        existingClaim: autobrr-ceph
       config-log:
         type: emptyDir
         globalMounts:

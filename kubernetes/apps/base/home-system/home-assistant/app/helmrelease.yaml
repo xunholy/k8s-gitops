@@ -97,7 +97,7 @@ spec:
             port: 12321
     persistence:
       config:
-        existingClaim: home-assistant
+        existingClaim: home-assistant-ceph
         globalMounts:
           - path: /config
       logs:
