@@ -1,0 +1,1300 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="This repo is a declarative implementation of a Kubernetes cluster using GitOps.">
+      
+      
+        <meta name="author" content="Michael Fornaro">
+      
+      
+        <link rel="canonical" href="https://xunholy.github.io/k8s-gitops/oci-migration-guide/">
+      
+      
+      
+      
+      <link rel="icon" href="https://raspbernetes.github.io/img/logo.svg">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>OCI Migration Guide - xUnholy | Raspbernetes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../_static/custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="preference" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#oci-migration-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="xUnholy | Raspbernetes" class="md-header__button md-logo" aria-label="xUnholy | Raspbernetes" data-md-component="logo">
+      
+  <img src="https://raspbernetes.github.io/img/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            xUnholy | Raspbernetes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OCI Migration Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xunholy/k8s-gitops" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xunholy/k8s-gitops
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="xUnholy | Raspbernetes" class="md-nav__button md-logo" aria-label="xUnholy | Raspbernetes" data-md-component="logo">
+      
+  <img src="https://raspbernetes.github.io/img/logo.svg" alt="logo">
+
+    </a>
+    xUnholy | Raspbernetes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xunholy/k8s-gitops" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xunholy/k8s-gitops
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../README.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Configuration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/api-access/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Access
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/ip-allocation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IP Allocation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/repo-structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Repository Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sponsor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sponsor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Status Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Status Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#already-migrated-to-oci-tier-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Already Migrated to OCI (Tier 1)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-ocirepository-manifests-created" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆕 New OCIRepository Manifests Created
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#charts-that-cannot-use-oci" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❌ Charts That Cannot Use OCI
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Steps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-update-helmrelease" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Update HelmRelease
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-update-kustomizationyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Update kustomization.yaml
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-test-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Test Reconciliation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-verify-chart-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Verify Chart Version
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#priority-migration-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Priority Migration Order
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Priority Migration Order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-security-week-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1 - Security (Week 1)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-networking-infrastructure-week-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2 - Networking &amp; Infrastructure (Week 2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-observability-week-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3 - Observability (Week 3)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-migration-kyverno" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Migration: kyverno
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example Migration: kyverno">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-check-current-helmrelease" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Check Current HelmRelease
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-update-helmrelease" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Update HelmRelease
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-update-kustomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Update Kustomization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-commit-and-push" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Commit and Push
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-monitor-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Monitor Reconciliation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verification Checklist
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rollback-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rollback Procedure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rollback Procedure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-revert-helmrelease" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option 1: Revert HelmRelease
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-git-revert" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option 2: Git Revert
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues &amp; Solutions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues & Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#issue-ocirepository-fails-to-reconcile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Issue: OCIRepository fails to reconcile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-helmrelease-shows-chart-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      Issue: HelmRelease shows "chart not found"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-version-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Issue: Version mismatch
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-Migration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Post-Migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cleanup-old-helmrepositories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cleanup Old HelmRepositories
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-renovate-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update Renovate Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-realized" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefits Realized
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="oci-migration-guide">OCI Migration Guide<a class="headerlink" href="#oci-migration-guide" title="Permanent link">&para;</a></h1>
+<p>This guide documents the migration of Helm charts from HelmRepository to OCIRepository following oneDr0p's patterns.</p>
+<h2 id="status-overview">Status Overview<a class="headerlink" href="#status-overview" title="Permanent link">&para;</a></h2>
+<h3 id="already-migrated-to-oci-tier-1">✅ Already Migrated to OCI (Tier 1)<a class="headerlink" href="#already-migrated-to-oci-tier-1" title="Permanent link">&para;</a></h3>
+<p>These charts are already using OCIRepositories:</p>
+<table>
+<thead>
+<tr>
+<th>Chart</th>
+<th>Namespace</th>
+<th>OCI Registry</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cert-manager</td>
+<td>network-system</td>
+<td><code>oci://quay.io/jetstack/charts/cert-manager</code></td>
+<td>✅ Official</td>
+</tr>
+<tr>
+<td>kube-prometheus-stack</td>
+<td>observability</td>
+<td><code>oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack</code></td>
+<td>✅ Official</td>
+</tr>
+<tr>
+<td>grafana-operator</td>
+<td>observability</td>
+<td><code>oci://ghcr.io/grafana/helm-charts/grafana-operator</code></td>
+<td>✅ Official</td>
+</tr>
+<tr>
+<td>external-secrets</td>
+<td>external-secrets</td>
+<td><code>oci://ghcr.io/external-secrets/charts/external-secrets</code></td>
+<td>✅ Official</td>
+</tr>
+<tr>
+<td>external-dns</td>
+<td>network-system</td>
+<td><code>oci://ghcr.io/home-operations/charts-mirror/external-dns</code></td>
+<td>⚠️ Mirror</td>
+</tr>
+<tr>
+<td>gha-runner-scale-set-controller</td>
+<td>actions-runner-system</td>
+<td><code>oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller</code></td>
+<td>✅ Official</td>
+</tr>
+<tr>
+<td>gha-runner-scale-set</td>
+<td>actions-runner-system</td>
+<td><code>oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set</code></td>
+<td>✅ Official</td>
+</tr>
+</tbody>
+</table>
+<h3 id="new-ocirepository-manifests-created">🆕 New OCIRepository Manifests Created<a class="headerlink" href="#new-ocirepository-manifests-created" title="Permanent link">&para;</a></h3>
+<p>The following OCIRepository manifests have been generated and are ready for migration:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Chart</th>
+<th>Location</th>
+<th>OCI Registry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>kyverno</strong></td>
+<td><code>security-system/kyverno/app/ocirepository.yaml</code></td>
+<td><code>oci://ghcr.io/kyverno/kyverno</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>falco</strong></td>
+<td><code>security-system/falco/app/ocirepository.yaml</code></td>
+<td><code>oci://ghcr.io/falcosecurity/charts/falco</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>falco-exporter</strong></td>
+<td><code>security-system/falco-exporter/app/ocirepository.yaml</code></td>
+<td><code>oci://ghcr.io/falcosecurity/charts/falco-exporter</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>tetragon</strong></td>
+<td><code>kube-system/tetragon/app/ocirepository.yaml</code></td>
+<td><code>oci://ghcr.io/cilium/charts/tetragon</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>crossplane</strong></td>
+<td><code>crossplane-system/crossplane/app/ocirepository.yaml</code></td>
+<td><code>oci://xpkg.upbound.io/upbound/crossplane</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>oauth2-proxy</strong></td>
+<td><code>network-system/oauth2-proxy/app/ocirepository.yaml</code></td>
+<td><code>oci://ghcr.io/oauth2-proxy/charts/oauth2-proxy</code> ✅</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>opentelemetry-operator</strong></td>
+<td><code>observability/otel/app/ocirepository.yaml</code></td>
+<td><code>oci://ghcr.io/open-telemetry/opentelemetry-helm-charts/opentelemetry-operator</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="charts-that-cannot-use-oci">❌ Charts That Cannot Use OCI<a class="headerlink" href="#charts-that-cannot-use-oci" title="Permanent link">&para;</a></h3>
+<p>These charts do NOT have OCI registry support and must continue using HelmRepository:</p>
+<table>
+<thead>
+<tr>
+<th>Chart</th>
+<th>Reason</th>
+<th>Current Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ingress-nginx</strong></td>
+<td>charts-mirror lags behind official releases (4.13.0 vs 4.14.1)</td>
+<td><code>ingress-nginx-chart</code> HelmRepository</td>
+</tr>
+<tr>
+<td><strong>vpa</strong></td>
+<td>Fairwinds only publishes to traditional Helm repos</td>
+<td><code>fairwinds-charts</code> HelmRepository</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="migration-steps">Migration Steps<a class="headerlink" href="#migration-steps" title="Permanent link">&para;</a></h2>
+<p>For each chart, follow these steps:</p>
+<h3 id="step-1-update-helmrelease">Step 1: Update HelmRelease<a class="headerlink" href="#step-1-update-helmrelease" title="Permanent link">&para;</a></h3>
+<p>Replace the <code>chart.spec</code> section with <code>chartRef</code>:</p>
+<p><strong>Before:</strong>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">chart</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">chart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kyverno</span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.x.x</span>
+<span class="w">      </span><span class="nt">sourceRef</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HelmRepository</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kyverno-charts</span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flux-system</span>
+</code></pre></div></p>
+<p><strong>After:</strong>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">chartRef</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OCIRepository</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kyverno</span><span class="w">  </span><span class="c1"># Must match OCIRepository metadata.name</span>
+</code></pre></div></p>
+<h3 id="step-2-update-kustomizationyaml">Step 2: Update kustomization.yaml<a class="headerlink" href="#step-2-update-kustomizationyaml" title="Permanent link">&para;</a></h3>
+<p>Add the OCIRepository to resources:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">helmrelease.yaml</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ocirepository.yaml</span><span class="w">  </span><span class="c1"># Add this line</span>
+</code></pre></div>
+<h3 id="step-3-test-reconciliation">Step 3: Test Reconciliation<a class="headerlink" href="#step-3-test-reconciliation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Force reconcile the OCIRepository</span>
+flux<span class="w"> </span>reconcile<span class="w"> </span><span class="nb">source</span><span class="w"> </span>oci<span class="w"> </span>&lt;name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+
+<span class="c1"># Force reconcile the HelmRelease</span>
+flux<span class="w"> </span>reconcile<span class="w"> </span>helmrelease<span class="w"> </span>&lt;name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+
+<span class="c1"># Watch for success</span>
+flux<span class="w"> </span>get<span class="w"> </span>helmrelease<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;name&gt;
+</code></pre></div>
+<h3 id="step-4-verify-chart-version">Step 4: Verify Chart Version<a class="headerlink" href="#step-4-verify-chart-version" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check the OCI tag/version</span>
+flux<span class="w"> </span>get<span class="w"> </span><span class="nb">source</span><span class="w"> </span>oci<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;name&gt;
+
+<span class="c1"># Verify HelmRelease is using the OCI chart</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>hr<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;name&gt;<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;chartRef:&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="priority-migration-order">Priority Migration Order<a class="headerlink" href="#priority-migration-order" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-security-week-1">Phase 1 - Security (Week 1)<a class="headerlink" href="#phase-1-security-week-1" title="Permanent link">&para;</a></h3>
+<p>Priority: <strong>CRITICAL</strong></p>
+<ol>
+<li><strong>kyverno</strong> - Policy engine</li>
+<li>Update: <code>kubernetes/apps/base/security-system/kyverno/app/helmrelease.yaml</code></li>
+<li>
+<p>Update: <code>kubernetes/apps/base/security-system/kyverno/app/kustomization.yaml</code></p>
+</li>
+<li>
+<p><strong>falco</strong> - Runtime security</p>
+</li>
+<li>Update: <code>kubernetes/apps/base/security-system/falco/app/helmrelease.yaml</code></li>
+<li>
+<p>Update: <code>kubernetes/apps/base/security-system/falco/app/kustomization.yaml</code></p>
+</li>
+<li>
+<p><strong>falco-exporter</strong> - Falco metrics</p>
+</li>
+<li>Update: <code>kubernetes/apps/base/security-system/falco-exporter/app/helmrelease.yaml</code></li>
+<li>
+<p>Update: <code>kubernetes/apps/base/security-system/falco-exporter/app/kustomization.yaml</code></p>
+</li>
+<li>
+<p><strong>tetragon</strong> - eBPF security</p>
+</li>
+<li>Update: <code>kubernetes/apps/base/kube-system/tetragon/app/helmrelease.yaml</code></li>
+<li>Update: <code>kubernetes/apps/base/kube-system/tetragon/app/kustomization.yaml</code></li>
+</ol>
+<h3 id="phase-2-networking-infrastructure-week-2">Phase 2 - Networking &amp; Infrastructure (Week 2)<a class="headerlink" href="#phase-2-networking-infrastructure-week-2" title="Permanent link">&para;</a></h3>
+<p>Priority: <strong>HIGH</strong></p>
+<ol>
+<li><strong>oauth2-proxy</strong> - Authentication proxy ✅ ALREADY MIGRATED</li>
+<li>Update: <code>kubernetes/apps/base/network-system/oauth2-proxy/app/helmrelease.yaml</code></li>
+<li>
+<p>Update: <code>kubernetes/apps/base/network-system/oauth2-proxy/app/kustomization.yaml</code></p>
+</li>
+<li>
+<p><strong>crossplane</strong> - Infrastructure provisioning</p>
+</li>
+<li>Update: <code>kubernetes/apps/base/crossplane-system/crossplane/app/helmrelease.yaml</code></li>
+<li>Update: <code>kubernetes/apps/base/crossplane-system/crossplane/app/kustomization.yaml</code></li>
+</ol>
+<h3 id="phase-3-observability-week-3">Phase 3 - Observability (Week 3)<a class="headerlink" href="#phase-3-observability-week-3" title="Permanent link">&para;</a></h3>
+<p>Priority: <strong>MEDIUM</strong></p>
+<ol>
+<li><strong>opentelemetry-operator</strong> - Observability</li>
+<li>Update: <code>kubernetes/apps/base/observability/otel/app/helmrelease.yaml</code></li>
+<li>Update: <code>kubernetes/apps/base/observability/otel/app/kustomization.yaml</code></li>
+</ol>
+<p><strong>Notes</strong>:
+- VPA and ingress-nginx removed from migration - no suitable OCI registries available
+- oauth2-proxy already successfully migrated and running in production</p>
+<hr />
+<h2 id="example-migration-kyverno">Example Migration: kyverno<a class="headerlink" href="#example-migration-kyverno" title="Permanent link">&para;</a></h2>
+<h3 id="1-check-current-helmrelease">1. Check Current HelmRelease<a class="headerlink" href="#1-check-current-helmrelease" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>hr<span class="w"> </span>-n<span class="w"> </span>security-system<span class="w"> </span>kyverno<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<h3 id="2-update-helmrelease">2. Update HelmRelease<a class="headerlink" href="#2-update-helmrelease" title="Permanent link">&para;</a></h3>
+<p>Edit <code>kubernetes/apps/base/security-system/kyverno/app/helmrelease.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">helm.toolkit.fluxcd.io/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HelmRelease</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kyverno</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">security-system</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1h</span><span class="w">  </span><span class="c1"># Match oneDr0p pattern</span>
+<span class="w">  </span><span class="nt">chartRef</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OCIRepository</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kyverno</span>
+<span class="w">  </span><span class="c1"># ... rest of spec unchanged</span>
+</code></pre></div>
+<h3 id="3-update-kustomization">3. Update Kustomization<a class="headerlink" href="#3-update-kustomization" title="Permanent link">&para;</a></h3>
+<p>Edit <code>kubernetes/apps/base/security-system/kyverno/app/kustomization.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">helmrelease.yaml</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ocirepository.yaml</span><span class="w">  </span><span class="c1"># Add this</span>
+<span class="w">  </span><span class="c1"># ... other resources</span>
+</code></pre></div>
+<h3 id="4-commit-and-push">4. Commit and Push<a class="headerlink" href="#4-commit-and-push" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>kubernetes/apps/base/security-system/kyverno/
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat(kyverno): migrate to OCI registry&quot;</span>
+git<span class="w"> </span>push
+</code></pre></div>
+<h3 id="5-monitor-reconciliation">5. Monitor Reconciliation<a class="headerlink" href="#5-monitor-reconciliation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Watch Flux reconcile</span>
+flux<span class="w"> </span>get<span class="w"> </span>all<span class="w"> </span>-A<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>kyverno
+
+<span class="c1"># Check for errors</span>
+flux<span class="w"> </span>logs<span class="w"> </span>--all-namespaces<span class="w"> </span>--since<span class="o">=</span>5m<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>kyverno
+</code></pre></div>
+<hr />
+<h2 id="verification-checklist">Verification Checklist<a class="headerlink" href="#verification-checklist" title="Permanent link">&para;</a></h2>
+<p>For each migrated chart:</p>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> OCIRepository created in app directory</li>
+<li class="task-list-item"><input type="checkbox" disabled/> HelmRelease updated to use <code>chartRef</code></li>
+<li class="task-list-item"><input type="checkbox" disabled/> kustomization.yaml includes ocirepository.yaml</li>
+<li class="task-list-item"><input type="checkbox" disabled/> OCIRepository reconciles successfully</li>
+<li class="task-list-item"><input type="checkbox" disabled/> HelmRelease reconciles successfully</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Chart version matches expected</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Application pods running normally</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Monitor for 24 hours for stability</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Document any issues encountered</li>
+</ul>
+<hr />
+<h2 id="rollback-procedure">Rollback Procedure<a class="headerlink" href="#rollback-procedure" title="Permanent link">&para;</a></h2>
+<p>If migration fails:</p>
+<h3 id="option-1-revert-helmrelease">Option 1: Revert HelmRelease<a class="headerlink" href="#option-1-revert-helmrelease" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Restore chart.spec pattern</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">chart</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">chart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;chart-name&gt;</span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;version&gt;</span>
+<span class="w">      </span><span class="nt">sourceRef</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HelmRepository</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;repo-name&gt;</span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flux-system</span>
+</code></pre></div>
+<h3 id="option-2-git-revert">Option 2: Git Revert<a class="headerlink" href="#option-2-git-revert" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>revert<span class="w"> </span>&lt;commit-hash&gt;
+git<span class="w"> </span>push
+</code></pre></div>
+<hr />
+<h2 id="common-issues-solutions">Common Issues &amp; Solutions<a class="headerlink" href="#common-issues-solutions" title="Permanent link">&para;</a></h2>
+<h3 id="issue-ocirepository-fails-to-reconcile">Issue: OCIRepository fails to reconcile<a class="headerlink" href="#issue-ocirepository-fails-to-reconcile" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom:</strong>
+<div class="highlight"><pre><span></span><code>OCIRepository/kyverno.security-system - reconciliation failed: failed to pull artifact from oci://...
+</code></pre></div></p>
+<p><strong>Solutions:</strong>
+1. Verify OCI registry URL is correct
+2. Check internet connectivity
+3. Verify namespace exists
+4. Check for rate limiting</p>
+<h3 id="issue-helmrelease-shows-chart-not-found">Issue: HelmRelease shows "chart not found"<a class="headerlink" href="#issue-helmrelease-shows-chart-not-found" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom:</strong>
+<div class="highlight"><pre><span></span><code>HelmRelease/kyverno.security-system - Helm install failed: chart &quot;kyverno&quot; not found
+</code></pre></div></p>
+<p><strong>Solutions:</strong>
+1. Ensure OCIRepository name matches chartRef.name
+2. Verify OCIRepository is in same namespace
+3. Wait for OCIRepository to reconcile first</p>
+<h3 id="issue-version-mismatch">Issue: Version mismatch<a class="headerlink" href="#issue-version-mismatch" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom:</strong>
+Chart deploys but with unexpected version</p>
+<p><strong>Solutions:</strong>
+1. Check OCIRepository ref.tag or ref.semver
+2. Use exact tag instead of semver for critical apps
+3. Verify renovate automation is updating tags correctly</p>
+<hr />
+<h2 id="post-migration">Post-Migration<a class="headerlink" href="#post-migration" title="Permanent link">&para;</a></h2>
+<h3 id="cleanup-old-helmrepositories">Cleanup Old HelmRepositories<a class="headerlink" href="#cleanup-old-helmrepositories" title="Permanent link">&para;</a></h3>
+<p>After successful migration, remove unused HelmRepository resources:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># List HelmRepositories</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>helmrepository<span class="w"> </span>-n<span class="w"> </span>flux-system
+
+<span class="c1"># Delete unused ones</span>
+kubectl<span class="w"> </span>delete<span class="w"> </span>helmrepository<span class="w"> </span>-n<span class="w"> </span>flux-system<span class="w"> </span>&lt;repo-name&gt;
+</code></pre></div>
+<p><strong>Note:</strong> Only delete if no other charts reference them!</p>
+<h3 id="update-renovate-configuration">Update Renovate Configuration<a class="headerlink" href="#update-renovate-configuration" title="Permanent link">&para;</a></h3>
+<p>Ensure Renovate is configured to update OCI tags:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># renovate.json</span>
+<span class="p p-Indicator">{</span>
+<span class="w">  </span><span class="s">&quot;kubernetes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">    </span><span class="s">&quot;fileMatch&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;kubernetes/.+\\.yaml$&quot;</span><span class="p p-Indicator">],</span>
+<span class="w">    </span><span class="s">&quot;ignorePaths&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">      </span><span class="s">&quot;kubernetes/flux/&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">},</span>
+<span class="w">  </span><span class="s">&quot;regexManagers&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">    </span><span class="p p-Indicator">{</span>
+<span class="w">      </span><span class="s">&quot;fileMatch&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;kubernetes/.+ocirepository\\.yaml$&quot;</span><span class="p p-Indicator">],</span>
+<span class="w">      </span><span class="s">&quot;matchStrings&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">        </span><span class="s">&quot;tag:\\s+(?&lt;currentValue&gt;.*?)\\n&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">],</span>
+<span class="w">      </span><span class="s">&quot;datasourceTemplate&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;docker&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">      </span><span class="s">&quot;depNameTemplate&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;{{{depName}}}&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="p p-Indicator">]</span>
+<span class="p p-Indicator">}</span>
+</code></pre></div>
+<hr />
+<h2 id="benefits-realized">Benefits Realized<a class="headerlink" href="#benefits-realized" title="Permanent link">&para;</a></h2>
+<p>After migration, you'll gain:</p>
+<p>✅ <strong>Unified Storage</strong> - Charts stored alongside container images
+✅ <strong>Better Caching</strong> - OCI registries have superior caching
+✅ <strong>Signed Artifacts</strong> - Cosign/Notation support for chart signing
+✅ <strong>Renovate Integration</strong> - Better automation for OCI-based charts
+✅ <strong>Rate Limiting</strong> - Avoid HelmRepository rate limits
+✅ <strong>Air-Gapped Ready</strong> - Easier to mirror for offline environments
+✅ <strong>Consistency</strong> - All charts use same pattern (100% OCI)</p>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://github.com/onedr0p/home-ops">oneDr0p home-ops Repository</a></li>
+<li><a href="https://fluxcd.io/flux/components/source/ocirepositories/">Flux OCI Documentation</a></li>
+<li><a href="https://helm.sh/docs/topics/registries/">Helm OCI Registries</a></li>
+<li>Repository CLAUDE.md - GitOps patterns and conventions</li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 3, 2026 16:17:30 UTC">February 3, 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2020 - 2022 Michael Fornaro
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/xunholy" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://hub.docker.com/u/xunholy" target="_blank" rel="noopener" title="hub.docker.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1v59.4zm0-204.3h-66.1v60.7h66.1V32zm78.2 144.8H362v59.4h66.1v-59.4zm-156.3-72.1h-66.1v60.1h66.1v-60.1zm78.1 0h-66.1v60.1h66.1v-60.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1l-13.3-8.9zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm-78.1-72.1h-66.1v60.1h66.1v-60.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/michael-fornaro-5b756179/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://medium.com/@michaelfornaro" target="_blank" rel="noopener" title="medium.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M180.5 74.262C80.813 74.262 0 155.633 0 256s80.819 181.738 180.5 181.738S361 356.373 361 256 280.191 74.262 180.5 74.262Zm288.25 10.646c-49.845 0-90.245 76.619-90.245 171.095s40.406 171.1 90.251 171.1 90.251-76.619 90.251-171.1H559c0-94.503-40.4-171.095-90.248-171.095Zm139.506 17.821c-17.526 0-31.735 68.628-31.735 153.274s14.2 153.274 31.735 153.274S640 340.631 640 256c0-84.649-14.215-153.271-31.742-153.271Z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+    
+  </body>
+</html>
