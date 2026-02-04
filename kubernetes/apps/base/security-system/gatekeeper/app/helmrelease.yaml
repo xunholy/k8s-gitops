@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: gatekeeper
-      version: 3.21.0
+      version: 3.21.1
       sourceRef:
         kind: HelmRepository
         name: gatekeeper-charts
