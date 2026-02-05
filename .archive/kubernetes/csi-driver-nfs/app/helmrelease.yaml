@@ -16,7 +16,7 @@ spec:
         kind: HelmRepository
         name: csi-driver-nfs-chart
         namespace: flux-system
-      version: 4.12.1
+      version: 4.13.0
   install:
     replace: true
     crds: CreateReplace
