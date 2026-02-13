@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/autobrr/qui
-              tag: develop@sha256:3f2e3461ab89b083434f6515716853cbd60aa59c6e3960ca1ea9c721715ca193
+              tag: develop@sha256:97864cf6e39d04a318df336bd381de3d4f4e9a62a74457cf5cb7d8ca173e0c17
             env:
               TZ: Australia/Melbourne
               QUI__HOST: 0.0.0.0
