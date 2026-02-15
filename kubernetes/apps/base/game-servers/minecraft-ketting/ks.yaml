@@ -17,3 +17,7 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: game-servers
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: minecraft-ketting-secrets
