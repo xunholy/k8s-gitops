@@ -1,25 +1,43 @@
 extraEnv:
   TZ: "Australia/Melbourne"
+  # CurseForge mods to download (auto-downloads dependencies like GeckoLib)
+  # Using full URL format for proper resolution
+  CURSEFORGE_FILES: |
+    https://www.curseforge.com/minecraft/mc-mods/crackers-wither-storm-mod
+
+# Required for Bedrock/console UDP traffic to reach Geyser via Multus
+podAnnotations:
+  k8s.v1.cni.cncf.io/networks: network-system/wifi-network
 
 minecraftServer:
-  serverName: Wildfire Minecraft Server
-  eula: "TRUE"
-  type: AUTO_CURSEFORGE
-  version: LATEST
+  # Configure autoCurseForge to use our secret (avoids duplicate CF_API_KEY)
   autoCurseForge:
-    # pageUrl: "https://www.curseforge.com/minecraft/modpacks/the-pixelmon-modpack/download/5954570"
-    slug: "the-pixelmon-modpack"
-  maxPlayers: 4
+    apiKey:
+      existingSecret: minecraft-ketting-secrets
+      secretKey: CF_API_KEY
+  serverName: Wildfire Wither Storm Server
+  eula: "TRUE"
+  type: KETTING
+  version: "1.20.1"
+  # Plugins - KETTING supports Bukkit/Spigot plugins
+  # Note: Floodgate has compatibility issues with Ketting, using Geyser only
+  # ViaVersion plugins for protocol translation (required for Bedrock clients on newer versions)
+  pluginUrls:
+    - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
+    - https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.7.1/PAPER/ViaVersion-5.7.1.jar
+    - https://hangarcdn.papermc.io/plugins/ViaVersion/ViaBackwards/versions/5.7.1/PAPER/ViaBackwards-5.7.1.jar
+  maxPlayers: 10
   maxTickTime: -1
-  memory: 2560M
+  memory: 6144M
   gameMode: survival
   hardcore: false
-  pvp: false
-  worldSaveName: world
-  onlineMode: true
+  pvp: true
+  worldSaveName: witherstorm-world
+  # Offline mode allows Bedrock players to join without Microsoft auth
+  onlineMode: false
   rcon:
     enabled: true
-  motd: "Welcome to Poke Minecraft on Kubernetes!"
+  motd: "Welcome to Wither Storm on Kubernetes!"
   playerIdleTimeout: 10
   cheats: true
   enableLanVisibility: true
@@ -27,44 +45,48 @@ minecraftServer:
   enableSSH: true
   serviceType: LoadBalancer
   extraPorts:
-  - name: geysermc
-    containerPort: 19132
-    protocol: UDP
-    service:
-      enabled: true
-      embedded: true
-      port: 19132
+    - name: geysermc
+      containerPort: 19133
+      protocol: UDP
+      service:
+        enabled: true
+        embedded: true
+        port: 19133
   overrideServerProperties: true
-  removeOldMods: false
+  removeOldMods: true
 
 tolerations:
-- key: "node-role.kubernetes.io/control-plane"
-  operator: "Exists"
-  effect: "NoSchedule"
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
 
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
-      - matchExpressions:
-        - key: "node-role.kubernetes.io/control-plane"
-          operator: "Exists"
+        - matchExpressions:
+            - key: "node-role.kubernetes.io/control-plane"
+              operator: "Exists"
 
 resources:
   requests:
-    memory: 2500Mi
+    memory: 6Gi
     cpu: 2
-    ephemeral-storage: "500Mi"
+  limits:
+    memory: 8Gi
 
 persistence:
   dataDir:
     enabled: true
-    existingClaim: minecraft-ketting
+    existingClaim: minecraft-ketting-ceph
 
 podSecurityContext:
-  runAsUser: 1000
-  runAsGroup: 1000
-  runAsNonRoot: true
   fsGroup: 1000
   seccompProfile:
     type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
