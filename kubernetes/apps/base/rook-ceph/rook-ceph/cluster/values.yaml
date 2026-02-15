@@ -52,7 +52,7 @@ cephBlockPools:
       enabled: true
       name: ceph-block
       isDefault: true
-      reclaimPolicy: Retain
+      reclaimPolicy: Delete
       allowVolumeExpansion: true
       volumeBindingMode: Immediate
       mountOptions:
@@ -109,7 +109,7 @@ cephFileSystems:
       isDefault: false
       name: ceph-filesystem
       pool: data0
-      reclaimPolicy: Retain
+      reclaimPolicy: Delete
       allowVolumeExpansion: true
       volumeBindingMode: Immediate
       parameters:
