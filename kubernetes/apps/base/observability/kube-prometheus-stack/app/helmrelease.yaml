@@ -10,6 +10,10 @@ spec:
   chartRef:
     kind: OCIRepository
     name: kube-prometheus-stack
+  valuesFrom:
+    - kind: ConfigMap
+      name: flux-metrics-configmap
+      valuesKey: flux-metrics.yaml
   install:
     timeout: 1h
     replace: true

@@ -76,6 +76,7 @@ spec:
               limits:
                 memory: 4Gi
     defaultPodOptions:
+      terminationGracePeriodSeconds: 300
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
