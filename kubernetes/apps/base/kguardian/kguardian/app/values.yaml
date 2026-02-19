@@ -7,16 +7,16 @@ controller:
 
 broker:
   image:
-    tag: "v1.6.0"
+    tag: "v1.6.1"
 
 frontend:
   image:
-    tag: "v1.7.0"
+    tag: "pr-670"
 
 llmBridge:
   enabled: true
   image:
-    tag: "v1.2.1"
+    tag: "pr-670"
   secrets:
     openai:
       enabled: true
@@ -26,4 +26,4 @@ mcpServer:
   enabled: true
   useKmcp: true
   image:
-    tag: "v1.3.1"
+    tag: "pr-670"
