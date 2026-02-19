@@ -7,7 +7,7 @@ controller:
 
 broker:
   image:
-    tag: "v1.6.1"
+    tag: "pr-670"
 
 frontend:
   image:
