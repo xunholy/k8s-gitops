@@ -4,3 +4,9 @@ machine:
       - ip: 10.96.0.186
         aliases:
           - dex.raspbernetes.com
+cluster:
+  apiServer:
+    extraVolumes:
+      - hostPath: /etc/hosts
+        mountPath: /etc/hosts
+        readonly: true
