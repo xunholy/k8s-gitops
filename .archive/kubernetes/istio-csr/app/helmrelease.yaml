@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: cert-manager-istio-csr
-      version: v0.15.0
+      version: v0.15.1
       sourceRef:
         kind: HelmRepository
         name: jetstack-charts
