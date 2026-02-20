@@ -1,0 +1,6 @@
+machine:
+  network:
+    extraHostEntries:
+      - ip: 10.96.0.186
+        aliases:
+          - dex.raspbernetes.com

@@ -13,3 +13,4 @@ resources:
   - httproutes.yaml
   - monitors.yaml
   - ocirepository.yaml
+  - service-internal.yaml
