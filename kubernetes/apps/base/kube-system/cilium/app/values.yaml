@@ -71,6 +71,7 @@ loadBalancer:
 localRedirectPolicies:
   enabled: true
 operator:
+  priorityClassName: system-cluster-critical
   PodDisruptionBudget:
     enabled: true
     minAvailable: 1
@@ -93,6 +94,7 @@ prometheus:
   serviceMonitor:
     enabled: true
     trustCRDsExist: true
+priorityClassName: system-node-critical
 rollOutCiliumPods: true
 routingMode: native
 securityContext:

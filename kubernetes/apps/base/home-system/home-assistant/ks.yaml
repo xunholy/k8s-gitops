@@ -21,4 +21,6 @@ spec:
   dependsOn:
     - name: democratic-csi
       namespace: democratic-csi
+    - name: volsync
+      namespace: volsync-system
   targetNamespace: home-system

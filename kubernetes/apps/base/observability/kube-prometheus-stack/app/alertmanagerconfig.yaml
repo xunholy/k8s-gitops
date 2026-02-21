@@ -1,0 +1,46 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/alertmanagerconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: alertmanager
+spec:
+  route:
+    receiver: "null"
+    groupBy:
+      - namespace
+      - alertname
+    groupWait: 30s
+    groupInterval: 5m
+    repeatInterval: 12h
+    routes:
+      - receiver: "null"
+        matchers:
+          - name: alertname
+            matchType: "=~"
+            value: "InfoInhibitor|Watchdog"
+        continue: false
+  receivers:
+    - name: "null"
+  inhibitRules:
+    - sourceMatch:
+        - name: severity
+          matchType: "="
+          value: critical
+      targetMatch:
+        - name: severity
+          matchType: "=~"
+          value: warning|info
+      equal:
+        - namespace
+        - alertname
+    - sourceMatch:
+        - name: alertname
+          matchType: "="
+          value: InfoInhibitor
+      targetMatch:
+        - name: severity
+          matchType: "="
+          value: info
+      equal:
+        - namespace

@@ -9,6 +9,8 @@ resources:
   - ocirepository.yaml
   - pvc.yaml
   - pvc-ceph.yaml
+  - replicationsource.yaml
+  - volsync-externalsecret.yaml
 
 configMapGenerator:
   - name: recyclarr-configmap

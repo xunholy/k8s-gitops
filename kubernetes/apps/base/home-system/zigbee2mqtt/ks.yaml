@@ -23,4 +23,6 @@ spec:
       namespace: democratic-csi
     - name: mosquitto
       namespace: home-system
+    - name: volsync
+      namespace: volsync-system
   targetNamespace: home-system
