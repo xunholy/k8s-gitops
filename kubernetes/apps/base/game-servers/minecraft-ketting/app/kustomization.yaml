@@ -8,6 +8,8 @@ resources:
   - pvc.yaml
   - pvc-ceph.yaml
   - secret.enc.age.yaml
+  - replicationsource.yaml
+  - volsync-externalsecret.yaml
 
 configMapGenerator:
   - name: mincraft-ketting-values
