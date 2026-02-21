@@ -16,7 +16,7 @@ extraArgs:
   - --cluster-resource-namespace=network-system
   # When this flag is enabled, secrets will be automatically removed when the certificate resource is deleted
   - --enable-certificate-owner-ref=true
-  - --dns01-recursive-nameservers=1.1.1.1:53,8.8.8.8:53
+  - --dns01-recursive-nameservers=https://1.1.1.1:443/dns-query,https://1.0.0.1:443/dns-query
   - --dns01-recursive-nameservers-only
   - --default-issuer-name=letsencrypt-prod
   - --default-issuer-kind=ClusterIssuer

@@ -20,7 +20,6 @@ spec:
               cpu: 200m
               memory: 512Mi
             limits:
-              cpu: 2000m
               memory: 2Gi
         pod:
           topologySpreadConstraints:
@@ -31,7 +30,7 @@ spec:
                 matchLabels:
                   gateway.envoyproxy.io/owning-gateway-name: envoy-external
       envoyService:
-        externalTrafficPolicy: Cluster
+        externalTrafficPolicy: Local
   shutdown:
     drainTimeout: 180s
   telemetry:

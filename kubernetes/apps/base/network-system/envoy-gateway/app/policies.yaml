@@ -1,0 +1,49 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: envoy-default
+spec:
+  targetSelectors:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+  compression:
+    - type: Zstd
+    - type: Brotli
+    - type: Gzip
+  retry:
+    numRetries: 2
+    retryOn:
+      triggers:
+        - reset
+  tcpKeepalive:
+    probes: 3
+    idleTime: 20m
+    interval: 60s
+  timeout:
+    http:
+      requestTimeout: "0s"
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: envoy-default
+spec:
+  targetSelectors:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+  clientIPDetection:
+    xForwardedFor:
+      numTrustedHops: 1
+  http2:
+    onInvalidMessage: TerminateStream
+  http3: {}
+  tcpKeepalive:
+    probes: 3
+    idleTime: 20m
+    interval: 60s
+  tls:
+    minVersion: "1.2"
+    alpnProtocols:
+      - h2
+      - http/1.1

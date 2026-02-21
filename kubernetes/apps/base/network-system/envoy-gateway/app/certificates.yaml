@@ -13,9 +13,9 @@ spec:
   # https://cert-manager.io/docs/usage/certificate/#rotation-private-key
   privateKey:
     rotationPolicy: Always
-    algorithm: RSA
-    encoding: PKCS1
-    size: 2048
+    algorithm: ECDSA
+    encoding: PKCS8
+    size: 256
   usages:
     - server auth
     - client auth

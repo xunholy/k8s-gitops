@@ -13,7 +13,9 @@ extraArgs:
   - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
   - --crd-source-kind=DNSEndpoint
   - --annotation-filter=external-dns.alpha.kubernetes.io/external=true
+  - --gateway-name=envoy-external
 policy: sync
+triggerLoopOnEvent: true
 txtPrefix: k8s.
 sources:
   - crd
