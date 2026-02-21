@@ -57,10 +57,13 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: envoy-internal
+  annotations:
+    external-dns.alpha.kubernetes.io/target: &hostname "internal.${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
+      external-dns.alpha.kubernetes.io/hostname: *hostname
       io.cilium/lb-ipam-ips: ${CLUSTER_LB_ENVOY_INT_GATEWAY_API}
   addresses:
     - type: IPAddress

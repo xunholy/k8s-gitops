@@ -26,7 +26,7 @@ provider:
       initialDelaySeconds: 10
       timeoutSeconds: 5
 triggerLoopOnEvent: true
-policy: upsert-only
+policy: sync
 sources:
   - gateway-httproute
   - service
