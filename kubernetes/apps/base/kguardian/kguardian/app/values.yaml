@@ -8,18 +8,18 @@ controller:
 broker:
   image:
     tag: "pr-670"
-    sha: "sha256:39a5042caff4190e5d74edb3a089082951ddf890a1609d1a0bb8608ea869453b"
+    sha: "sha256:6c7dfdb1ced778613cea6a17fd487a0a5a07995c8936e2f3a0ab93701289254d"
 
 frontend:
   image:
     tag: "pr-670"
-    sha: "sha256:5f6f0626b69b0e51c0178fe69c69244f84c7b2f6fc88b1bc0f093e1d89d02032"
+    sha: "sha256:40ad4473ff404ecbac856e093ca8db9ad54f043952cce7d43cf68b6911fc76f1"
 
 llmBridge:
   enabled: true
   image:
     tag: "pr-670"
-    sha: "sha256:25060237e27dae7fb07a7608804e97c290e2a42325e049c94039b02a5d74d8d1"
+    sha: "sha256:6308210ba44e1a6ede932be38b8a69294d8fedeb55038d8276decf0a124f96ad"
   secrets:
     openai:
       enabled: true
@@ -30,4 +30,4 @@ mcpServer:
   useKmcp: true
   image:
     tag: "pr-670"
-    sha: "sha256:1ceea9c754b6689f3433ad4bec6673298d69de7093aa9d28c6804d636d34f790"
+    sha: "sha256:c36df13046de91e43139bd68666a634c4a8425d3ca8e2d0de447fe1d0b7ae52f"
