@@ -1,0 +1,40 @@
+fullnameOverride: external-dns-unifi
+provider:
+  name: webhook
+  webhook:
+    image:
+      repository: ghcr.io/kashalls/external-dns-unifi-webhook
+      tag: v0.8.2@sha256:7f0ddbbc83a36a2a9d762e25eef9cafcb3adf0493068a27d72ae71087eafe6f0
+    env:
+      - name: UNIFI_HOST
+        value: https://192.168.1.1
+      - name: UNIFI_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: &secret external-dns-unifi
+            key: UNIFI_API_KEY
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: http-webhook
+      initialDelaySeconds: 10
+      timeoutSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /readyz
+        port: http-webhook
+      initialDelaySeconds: 10
+      timeoutSeconds: 5
+triggerLoopOnEvent: true
+policy: upsert-only
+sources:
+  - gateway-httproute
+  - service
+extraArgs:
+  - --gateway-name=envoy-internal
+txtOwnerId: unifi
+txtPrefix: k8s.unifi.
+domainFilters:
+  - ${CLUSTER_DOMAIN}
+serviceMonitor:
+  enabled: true

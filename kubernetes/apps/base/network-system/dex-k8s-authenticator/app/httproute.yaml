@@ -12,6 +12,9 @@ spec:
     - name: envoy-external
       namespace: network-system
       sectionName: https
+    - name: envoy-internal
+      namespace: network-system
+      sectionName: https
   hostnames:
     - 'login.${CLUSTER_DOMAIN}'
   rules:

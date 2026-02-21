@@ -12,6 +12,9 @@ spec:
     - name: envoy-external
       namespace: network-system
       sectionName: https
+    - name: envoy-internal
+      namespace: network-system
+      sectionName: https
   hostnames:
     - 'receiver.${CLUSTER_DOMAIN}'
   rules:
@@ -30,6 +33,9 @@ metadata:
 spec:
   parentRefs:
     - name: envoy-external
+      namespace: network-system
+      sectionName: https
+    - name: envoy-internal
       namespace: network-system
       sectionName: https
   hostnames:
