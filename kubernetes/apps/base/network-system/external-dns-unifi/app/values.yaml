@@ -29,7 +29,6 @@ triggerLoopOnEvent: true
 policy: sync
 sources:
   - gateway-httproute
-  - service
 extraArgs:
   - --gateway-name=envoy-internal
 txtOwnerId: unifi
