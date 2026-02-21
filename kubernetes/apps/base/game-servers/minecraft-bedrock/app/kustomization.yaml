@@ -8,6 +8,8 @@ resources:
   - pvc.yaml
   - pvc-ceph.yaml
   - udproute.yaml
+  - replicationsource.yaml
+  - volsync-externalsecret.yaml
 
 configMapGenerator:
   - name: mincraft-bedrock-values

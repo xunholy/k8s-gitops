@@ -9,6 +9,8 @@ resources:
   - tcproute.yaml
   - pvc.yaml
   - pvc-ceph.yaml
+  - replicationsource.yaml
+  - volsync-externalsecret.yaml
 
 configMapGenerator:
   - name: minecraft-values

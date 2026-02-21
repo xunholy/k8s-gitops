@@ -4,11 +4,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+  - alertmanager-replicationsource.yaml
+  - alertmanager-volsync-externalsecret.yaml
   - alertmanagerconfig.yaml
   - grafanadashboard.yaml
   - helmrelease.yaml
   - httproute.yaml
   - ocirepository.yaml
+  - prometheus-replicationsource.yaml
+  - prometheus-volsync-externalsecret.yaml
   - scrapeconfig.yaml
 configMapGenerator:
   - name: flux-metrics-configmap

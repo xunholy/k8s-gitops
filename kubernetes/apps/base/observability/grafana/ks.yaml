@@ -42,4 +42,6 @@ spec:
   dependsOn:
     - name: grafana
       namespace: observability
+    - name: volsync
+      namespace: volsync-system
   targetNamespace: observability

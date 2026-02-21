@@ -6,5 +6,7 @@ kind: Kustomization
 resources:
   - grafana.yaml
   - grafanadatasource.yaml
-  - servicemonitor.yaml
   - httproute.yaml
+  - replicationsource.yaml
+  - servicemonitor.yaml
+  - volsync-externalsecret.yaml
