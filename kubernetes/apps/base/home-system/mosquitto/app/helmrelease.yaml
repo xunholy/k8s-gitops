@@ -69,7 +69,7 @@ spec:
         controller: *app
         type: LoadBalancer
         annotations:
-          io.cilium/lb-ipam-ips: '${CLUSTER_LB_MOSQUITTO}'
+          lbipam.cilium.io/ips: '${CLUSTER_LB_MOSQUITTO}'
         ports:
           http:
             port: 1883

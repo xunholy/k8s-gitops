@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -55,7 +55,7 @@ spec:
         enableHttp: true
         enableHttps: true
         annotations:
-          io.cilium/lb-ipam-ips: ${CLUSTER_LB_NGINX_INGRESS_GATEWAY}
+          lbipam.cilium.io/ips: ${CLUSTER_LB_NGINX_INGRESS_GATEWAY}
       metrics:
         enabled: true
         serviceMonitor:
