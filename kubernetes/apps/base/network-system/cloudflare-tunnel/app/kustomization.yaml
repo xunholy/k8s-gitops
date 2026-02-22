@@ -8,7 +8,6 @@ resources:
   - externalsecret.yaml
   - grafanadashboard.yaml
   - helmrelease.yaml
-  - ocirepository.yaml
 
 configMapGenerator:
   - name: cloudflare-tunnel

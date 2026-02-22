@@ -9,7 +9,8 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: cloudflare-tunnel
+    name: app-template
+    namespace: flux-system
   install:
     timeout: 10m
     replace: true

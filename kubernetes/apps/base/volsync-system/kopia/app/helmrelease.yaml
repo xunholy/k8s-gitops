@@ -8,7 +8,8 @@ spec:
   interval: 5m
   chartRef:
     kind: OCIRepository
-    name: kopia
+    name: app-template
+    namespace: flux-system
   driftDetection:
     mode: enabled
   install:

@@ -7,7 +7,6 @@ namespace: home-system
 resources:
   - helmrelease.yaml
   - httproute.yaml
-  - ocirepository.yaml
   - pvc.yaml
   - pvc-ceph.yaml
   - replicationsource.yaml

@@ -6,7 +6,6 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - httproute.yaml
-  - ocirepository.yaml
 
 configMapGenerator:
   - name: kopia-values
