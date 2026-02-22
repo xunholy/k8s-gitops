@@ -9,7 +9,8 @@ spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: home-assistant
+    name: app-template
+    namespace: flux-system
   install:
     timeout: 10m
     replace: true

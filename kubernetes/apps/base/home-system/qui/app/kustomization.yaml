@@ -8,7 +8,6 @@ resources:
   - externalsecret.yaml
   - helmrelease.yaml
   - httproute.yaml
-  - ocirepository.yaml
   - pvc.yaml
   - replicationsource.yaml
   - volsync-externalsecret.yaml
