@@ -1,26 +1,26 @@
 ---
 controller:
   image:
-    tag: "v1.7.0"
-    sha: "sha256:d51efee9a4a5c0fee298f331b006d391f3d258291629a215c0155969c3bdffbf"
+    tag: "v1.8.0"
+    sha: "sha256:1e6af8de980eb785b6e4397401adb1ea8e1c64fd9f802c0d810e930ac0a92bb9"
   excludedNamespaces:
     - kguardian
 
 broker:
   image:
-    tag: "v1.6.1"
-    sha: "sha256:9aeb2e3fe5a9255856105b0e0d6ce0e517e896a8fb635fa85af06b34dad0363b"
+    tag: "v1.7.0"
+    sha: "sha256:26866620ba01362bdfd777c698b5385088721be899327d9e77a8c0e4322322a3"
 
 frontend:
   image:
-    tag: "v1.7.0"
-    sha: "sha256:64aceca4cc8dc5714f9e9c491a96c7a22f164013fbc7b6137e1ca6bc2c41afcf"
+    tag: "v1.7.1"
+    sha: "sha256:d5a679d4d83c3a2bccc970c39401cd81e9775177bb400585053713152b2e4ca2"
 
 llmBridge:
   enabled: true
   image:
-    tag: "v1.2.1"
-    sha: "sha256:d70beb0e20e5460546091591e3a488ac183b09b742470dec7adfa3a44375a067"
+    tag: "v1.2.2"
+    sha: "sha256:aba33d013bdf273d553aa781c4b66ed8159a438206e07c829aeb6c027c1b0918"
   secrets:
     openai:
       enabled: true
@@ -30,5 +30,5 @@ mcpServer:
   enabled: true
   useKmcp: true
   image:
-    tag: "v1.3.1"
-    sha: "sha256:394d429aded7828f910b830a0f88e030f29301b01cf5b9c99f513f84a022a25f"
+    tag: "v1.3.2"
+    sha: "sha256:1ca186593b1948ec5a237f8f863047bea56880d73015b35576ec45a27b51a604"
