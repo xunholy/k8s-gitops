@@ -7,15 +7,9 @@ metadata:
   namespace: kube-system
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: reflector
-      version: 10.0.10
-      sourceRef:
-        kind: HelmRepository
-        name: emberstack-charts
-        namespace: flux-system
-      interval: 10m
+  chartRef:
+    kind: OCIRepository
+    name: reflector
   install:
     timeout: 10m
     replace: true
