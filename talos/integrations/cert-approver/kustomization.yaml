@@ -10,8 +10,9 @@ helmCharts:
     releaseName: kubelet-csr-approver
     namespace: kube-system
     valuesFile: ../../../kubernetes/apps/base/kube-system/kubelet-csr-approver/app/values.yaml
+    # renovate: registryUrl=oci://ghcr.io/postfinance/charts
     version: 1.2.13
-    repo: https://postfinance.github.io/kubelet-csr-approver
+    repo: oci://ghcr.io/postfinance/charts
 
 # REQUIRED: Use transformers to avoid creating the labels & annotations on all references rather than only metadata/annotations or metadata/labels respectively
 transformers:
