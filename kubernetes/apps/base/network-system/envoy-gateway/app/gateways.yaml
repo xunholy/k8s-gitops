@@ -11,7 +11,7 @@ spec:
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: *hostname
-      io.cilium/lb-ipam-ips: ${CLUSTER_LB_ENVOY_EXT_GATEWAY_API}
+      lbipam.cilium.io/ips: ${CLUSTER_LB_ENVOY_EXT_GATEWAY_API}
   addresses:
     - type: IPAddress
       value: ${CLUSTER_LB_ENVOY_EXT_GATEWAY_API}
@@ -64,7 +64,7 @@ spec:
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: *hostname
-      io.cilium/lb-ipam-ips: ${CLUSTER_LB_ENVOY_INT_GATEWAY_API}
+      lbipam.cilium.io/ips: ${CLUSTER_LB_ENVOY_INT_GATEWAY_API}
   addresses:
     - type: IPAddress
       value: ${CLUSTER_LB_ENVOY_INT_GATEWAY_API}
