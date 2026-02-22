@@ -7,15 +7,9 @@ metadata:
   namespace: kube-system
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: kubelet-csr-approver
-      version: 1.2.13
-      sourceRef:
-        kind: HelmRepository
-        name: postfinance-charts
-        namespace: flux-system
-      interval: 10m
+  chartRef:
+    kind: OCIRepository
+    name: kubelet-csr-approver
   install:
     timeout: 10m
     replace: true
