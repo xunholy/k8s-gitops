@@ -1,25 +1,26 @@
 ---
 controller:
   image:
-    tag: "v1.7.0"
+    tag: "pr-670"
+    sha: "sha256:7398d65313c841ded7c1b4f87517d8050fd17ac1a885e7728d371022e37c7b6c"
   excludedNamespaces:
     - kguardian
 
 broker:
   image:
     tag: "pr-670"
-    sha: "sha256:6c7dfdb1ced778613cea6a17fd487a0a5a07995c8936e2f3a0ab93701289254d"
+    sha: "sha256:159a62ea72ef8557040dd0c941df3fa6bd62f079882db9359e0fd12cfba024c8"
 
 frontend:
   image:
     tag: "pr-670"
-    sha: "sha256:40ad4473ff404ecbac856e093ca8db9ad54f043952cce7d43cf68b6911fc76f1"
+    sha: "sha256:be7bf8c0caa7e9a40e983f23f9ff96888c24a61a28eb11f8746d781379be166a"
 
 llmBridge:
   enabled: true
   image:
     tag: "pr-670"
-    sha: "sha256:6308210ba44e1a6ede932be38b8a69294d8fedeb55038d8276decf0a124f96ad"
+    sha: "sha256:47359ecea1bc6f753f199c35eefa57f34cfdda7d2d04f825fd45149dae2bd80a"
   secrets:
     openai:
       enabled: true
@@ -30,4 +31,4 @@ mcpServer:
   useKmcp: true
   image:
     tag: "pr-670"
-    sha: "sha256:c36df13046de91e43139bd68666a634c4a8425d3ca8e2d0de447fe1d0b7ae52f"
+    sha: "sha256:fd3fff1bb4da79d5d6b0fc798fed0dcba67dfd974197688771fcc3a65d80ad22"
