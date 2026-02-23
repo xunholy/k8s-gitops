@@ -14,8 +14,9 @@ spec:
       feedback_links_enabled: "false"
       reporting_enabled: "false"
     auth:
-      disable_login_form: "false"
+      disable_login_form: "true"
     auth.generic_oauth:
+      auto_login: "true"
       # For variables see https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#env-provider
       enabled: "true"
       name: "GitHub SSO"
@@ -44,6 +45,12 @@ spec:
     server:
       enable_gzip: "true"
       root_url: https://grafana.${CLUSTER_DOMAIN}
+    smtp:
+      enabled: "true"
+      host: "smtp-relay.home-system.svc.cluster.local:25"
+      from_address: "noreply@owncloud.ai"
+      from_name: "Grafana"
+      skip_verify: "true"
   deployment:
     spec:
       strategy:
