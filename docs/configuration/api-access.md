@@ -22,7 +22,7 @@ By following these steps, you will set up the kubeconfig correctly on your local
 
 To enable remote kubectl access to the Kubernetes cluster, follow the instructions below.
 
-**Note**: *These instructions are applicable if you are part of the Raspbernetes project and have been granted access by an admin.*
+**Note**: *These instructions are applicable if you have been granted access by an admin.*
 
 ### 1. Install Cloudflared on the Client Machine
 

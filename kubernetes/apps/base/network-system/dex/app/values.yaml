@@ -17,7 +17,7 @@ config:
     http: 0.0.0.0:5556
   frontend:
     theme: 'tectonic'
-    issuer: 'Raspbernetes'
+    issuer: 'Homelab SSO'
     issuerUrl: 'https://dex.${CLUSTER_DOMAIN}'
     logoUrl: https://raw.githubusercontent.com/raspbernetes/docs/master/website/static/img/logo.png
   expiry:

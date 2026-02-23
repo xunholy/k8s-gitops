@@ -1,5 +1,5 @@
 # Project information
-site_name: xUnholy | Raspbernetes
+site_name: xUnholy | Homelab
 site_description: This repo is a declarative implementation of a Kubernetes cluster using GitOps.
 site_author: Michael Fornaro
 site_url: https://xunholy.github.io/k8s-gitops/

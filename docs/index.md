@@ -1,4 +1,4 @@
-# Raspbernetes
+# Homelab
 
 This *repo* is a declarative implementation of a Kubernetes cluster which follows GitOps princples. It's using the [FluxCD](https://toolkit.fluxcd.io/get-started/).
 
