@@ -1,6 +1,6 @@
 # This will scrap for both audit and controller-manager as the label is consistent in both pods.
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/monitoring.coreos.com/podmonitor_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/podmonitor_v1.json
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:

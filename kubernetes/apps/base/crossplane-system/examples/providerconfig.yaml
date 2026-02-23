@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/gcp.upbound.io/providerconfig_v1beta1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gcp.upbound.io/providerconfig_v1beta1.json
 apiVersion: gcp.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:

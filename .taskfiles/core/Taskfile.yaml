@@ -8,7 +8,7 @@ tasks:
       - gpg --import kubernetes/clusters/cluster-00/secrets/.sops.pub.asc
       - gpg --import <(sops --decrypt "kubernetes/clusters/cluster-00/secrets/sops-gpg.encrypted.yaml" | yq e '.data[]' - | base64 -d)
     status:
-      - gpg --list-secret-keys --keyid-format=long | grep production.raspbernetes.com
+      - gpg --list-secret-keys --keyid-format=long | grep production.owncloud.ai
 
   lint:
     desc: "Example: task core:lint -- --no-warnings"

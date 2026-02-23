@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/meta.pkg.crossplane.io/configuration_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/meta.pkg.crossplane.io/configuration_v1.json
 apiVersion: meta.pkg.crossplane.io/v1
 kind: Configuration
 metadata:

@@ -48,11 +48,11 @@ spec:
       existingSecret: oauth2-proxy-dex
       configFile: |
         provider = "oidc"
-        oidc_issuer_url = "https://dex.raspbernetes.com"
+        oidc_issuer_url = "https://dex.${CLUSTER_DOMAIN}"
         auth_logging = true
         cookie_domains = ".${CLUSTER_DOMAIN}"
         cookie_httponly = true
-        cookie_name = "_raspbernetes_oauth"
+        cookie_name = "_owncloud_oauth"
         cookie_refresh = "1h"
         cookie_samesite = "lax"
         cookie_secure = true

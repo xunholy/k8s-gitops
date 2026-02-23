@@ -1,6 +1,6 @@
 # UDP traffic through nginx-ingress is configured in the nginx-ingress helmrelease.yaml
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/networking.k8s.io/ingress_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/networking.k8s.io/ingress_v1.json
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -14,11 +14,11 @@ metadata:
 spec:
   tls:
     - hosts:
-        - et.raspbernetes.com
+        - et.${CLUSTER_DOMAIN}
       # TODO: discover why this wasn't created
-      secretName: et.raspbernetes.com-ingress-cert
+      secretName: et.${CLUSTER_DOMAIN}-ingress-cert
   rules:
-    - host: et.raspbernetes.com
+    - host: et.${CLUSTER_DOMAIN}
       http:
         paths:
           - path: /
