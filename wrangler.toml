@@ -1,0 +1,5 @@
+name = "k8s-gitops"
+compatibility_date = "2026-02-23"
+
+[assets]
+directory = "./docs"
