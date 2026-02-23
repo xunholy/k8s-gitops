@@ -11,7 +11,7 @@ config:
       inCluster: true
   oauth2:
     alwaysShowLoginScreen: false
-    responseTypes: ['code', 'token', 'id_token']
+    responseTypes: ['code', 'token', 'id_token', 'device']
     skipApprovalScreen: true
   web:
     http: 0.0.0.0:5556
