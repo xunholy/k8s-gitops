@@ -28,9 +28,11 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 1000;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.35;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 128px 128px;
     }
 
     /* ─── Three.js Canvas ──────────────────────────────────────── */
@@ -45,24 +47,32 @@
     /* Radial glow */
     .bg-glow {
       position: fixed;
-      top: -20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 900px;
-      height: 700px;
-      background: radial-gradient(ellipse at center, rgba(99,102,241,0.18) 0%, rgba(139,92,246,0.10) 40%, transparent 70%);
+      z-index: 0;
       pointer-events: none;
-      z-index: 1;
+      width: 700px;
+      height: 700px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -40%);
+      background: radial-gradient(circle, rgba(124,58,237,0.14) 0%, rgba(79,70,229,0.07) 40%, transparent 70%);
+      filter: blur(40px);
+      animation: glowPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowPulse {
+      0%   { opacity: 0.6; transform: translate(-50%, -40%) scale(1); }
+      100% { opacity: 1;   transform: translate(-50%, -40%) scale(1.1); }
     }
 
     /* Scroll-driven darkening overlay */
     #scroll-darken {
       position: fixed;
       inset: 0;
-      background: rgba(5, 5, 16, 0);
+      background: #050510;
+      opacity: 0;
       pointer-events: none;
-      z-index: 2;
-      transition: background 0.1s linear;
+      z-index: 1;
+      transition: opacity 0.1s linear;
     }
 
     /* ─── Glass Utilities ──────────────────────────────────────── */
@@ -361,109 +371,6 @@
       gap: 14px;
       justify-content: center;
       flex-wrap: wrap;
-    }
-
-    /* ─── Floating Glass Cards ─────────────────────────────────── */
-    .float-cards {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    .glass-card {
-      position: absolute;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(20px) saturate(130%);
-      -webkit-backdrop-filter: blur(20px) saturate(130%);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 16px 20px;
-      min-width: 140px;
-      transition: opacity 0.4s ease;
-    }
-
-    .card-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #6366f1;
-      margin-bottom: 4px;
-    }
-
-    .card-value {
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.02em;
-    }
-
-    .card-sub {
-      font-size: 0.72rem;
-      color: #6b7280;
-      margin-top: 3px;
-    }
-
-    .card-1 {
-      top: 18%;
-      left: 4%;
-      animation: float-1 6s ease-in-out infinite;
-    }
-
-    .card-2 {
-      top: 26%;
-      right: 4%;
-      animation: float-2 7s ease-in-out infinite;
-    }
-
-    .card-3 {
-      bottom: 22%;
-      left: 6%;
-      animation: float-3 5.5s ease-in-out infinite;
-    }
-
-    @keyframes float-1 {
-      0%, 100% { transform: translateY(0px) rotate(-1deg); }
-      50%       { transform: translateY(-14px) rotate(1deg); }
-    }
-
-    @keyframes float-2 {
-      0%, 100% { transform: translateY(0px) rotate(1deg); }
-      50%       { transform: translateY(-18px) rotate(-1deg); }
-    }
-
-    @keyframes float-3 {
-      0%, 100% { transform: translateY(0px) rotate(0.5deg); }
-      50%       { transform: translateY(-10px) rotate(-0.5deg); }
-    }
-
-    /* Mini chart bars */
-    .mini-chart {
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      height: 20px;
-      margin-top: 6px;
-    }
-
-    .mini-chart-bar {
-      width: 6px;
-      background: linear-gradient(to top, #6366f1, #a78bfa);
-      border-radius: 2px;
-      animation: bar-grow 2s ease-in-out infinite alternate;
-    }
-
-    .mini-chart-bar:nth-child(1) { height: 40%;  animation-delay: 0s; }
-    .mini-chart-bar:nth-child(2) { height: 70%;  animation-delay: 0.15s; }
-    .mini-chart-bar:nth-child(3) { height: 55%;  animation-delay: 0.3s; }
-    .mini-chart-bar:nth-child(4) { height: 90%;  animation-delay: 0.1s; }
-    .mini-chart-bar:nth-child(5) { height: 65%;  animation-delay: 0.25s; }
-    .mini-chart-bar:nth-child(6) { height: 100%; animation-delay: 0.05s; }
-
-    @keyframes bar-grow {
-      from { opacity: 0.5; }
-      to   { opacity: 1; }
     }
 
     /* ─── Divider ──────────────────────────────────────────────── */
@@ -770,8 +677,6 @@
       .nav-hamburger { display: flex; }
       .hero { padding: 100px 24px 60px; }
       .hero-frost { padding: 44px 28px; }
-      .card-1, .card-3 { display: none; }
-      .card-2 { top: 12%; right: 5%; }
       .section { padding: 72px 24px; }
       .features-grid { grid-template-columns: 1fr; }
       .arch-row { flex-direction: column; align-items: center; gap: 0; }
@@ -823,32 +728,6 @@
     <a href="#stack" onclick="closeMobile()">Stack</a>
     <a href="#hardware" onclick="closeMobile()">Hardware</a>
     <a href="https://github.com/xunholy/k8s-gitops" target="_blank" rel="noopener">GitHub</a>
-  </div>
-
-  <!-- ── Floating Cards (positioned relative to viewport) ──── -->
-  <div class="float-cards">
-    <div class="glass-card card-1">
-      <div class="card-label">Cluster</div>
-      <div class="card-value">3 Nodes</div>
-      <div class="card-sub">Asus NUC 14 Pro</div>
-    </div>
-    <div class="glass-card card-2">
-      <div class="card-label">Uptime</div>
-      <div class="card-value">99.9%</div>
-      <div class="mini-chart">
-        <div class="mini-chart-bar"></div>
-        <div class="mini-chart-bar"></div>
-        <div class="mini-chart-bar"></div>
-        <div class="mini-chart-bar"></div>
-        <div class="mini-chart-bar"></div>
-        <div class="mini-chart-bar"></div>
-      </div>
-    </div>
-    <div class="glass-card card-3">
-      <div class="card-label">GitOps</div>
-      <div class="card-value">FluxCD</div>
-      <div class="card-sub">Fully declarative</div>
-    </div>
   </div>
 
   <!-- ── Hero ─────────────────────────────────────────────────── -->
@@ -1166,27 +1045,23 @@
   <!-- ── Scripts ──────────────────────────────────────────────── -->
 
   <!-- Three.js from CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <script>
     /* ── Navbar scroll handler ──────────────────────────── */
-    const navbar      = document.getElementById('navbar');
-    const darken      = document.getElementById('scroll-darken');
-    const floatCards  = document.querySelectorAll('.glass-card');
+    const navbar = document.getElementById('navbar');
+    const darken = document.getElementById('scroll-darken');
 
     function onScroll() {
-      const y = window.scrollY;
+      const y  = window.scrollY;
+      const vh = window.innerHeight;
 
       // Scrolled class
       navbar.classList.toggle('scrolled', y > 30);
 
-      // Darken overlay (max 0.72 opacity)
-      const darkenAmt = Math.min(y / 600, 0.72);
-      darken.style.background = `rgba(5, 5, 16, ${darkenAmt})`;
-
-      // Float cards fade out as user scrolls
-      const cardOpacity = Math.max(1 - y / 320, 0);
-      floatCards.forEach(c => { c.style.opacity = cardOpacity; });
+      // Darken overlay (max 0.75 opacity)
+      const darkenProgress = Math.min(y / (vh * 2), 0.75);
+      darken.style.opacity = darkenProgress;
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -1240,108 +1115,102 @@
 
     staggerEls.forEach(el => staggerObserver.observe(el));
 
-    /* ── Three.js animated wireframe orb ───────────────── */
-    (function initOrb() {
+    /* ── Three.js animated wireframe orb (ecto.chat style) ── */
+    (function() {
       if (typeof THREE === 'undefined') return;
 
       const canvas   = document.getElementById('hero-canvas');
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setClearColor(0x000000, 0);
 
       const scene  = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 1000);
-      camera.position.z = 3.8;
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+      camera.position.z = 5;
+
+      // Outer wireframe sphere
+      const geo     = new THREE.IcosahedronGeometry(1.8, 24);
+      const origPos = new Float32Array(geo.attributes.position.array);
+
+      const wireMat = new THREE.MeshBasicMaterial({
+        color: 0x7c3aed,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.12,
+      });
+      const wire = new THREE.Mesh(geo, wireMat);
+      scene.add(wire);
+
+      // Inner emissive sphere
+      const innerGeo = new THREE.IcosahedronGeometry(1.75, 16);
+      const innerMat = new THREE.MeshStandardMaterial({
+        color: 0x0a0a1a,
+        emissive: 0x2e1065,
+        emissiveIntensity: 0.4,
+        metalness: 0.9,
+        roughness: 0.7,
+        transparent: true,
+        opacity: 0.6,
+      });
+      const inner = new THREE.Mesh(innerGeo, innerMat);
+      scene.add(inner);
+
+      // Lights
+      const light1 = new THREE.PointLight(0x7c3aed, 2, 12);
+      light1.position.set(3, 2, 4);
+      scene.add(light1);
+      const light2 = new THREE.PointLight(0x6366f1, 1.5, 12);
+      light2.position.set(-3, -2, 3);
+      scene.add(light2);
+      scene.add(new THREE.AmbientLight(0x1a1a2e, 0.5));
+
+      // Vertex displacement
+      function displace(time) {
+        const pos = geo.attributes.position.array;
+        for (let i = 0; i < pos.length; i += 3) {
+          const ox = origPos[i], oy = origPos[i+1], oz = origPos[i+2];
+          const d = Math.sin(ox*2.1+time*0.6)*Math.cos(oy*1.8+time*0.5)*Math.sin(oz*2.4+time*0.7)*0.08
+                  + Math.sin(ox*4.3+oy*3.7+time*0.4)*0.03;
+          const s = 1 + d;
+          pos[i] = ox*s; pos[i+1] = oy*s; pos[i+2] = oz*s;
+        }
+        geo.attributes.position.needsUpdate = true;
+      }
 
       // Resize
       function resize() {
-        const w = window.innerWidth;
-        const h = window.innerHeight;
+        const w = window.innerWidth, h = window.innerHeight;
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
       }
-      resize();
+
+      wire.position.y  = -0.5;
+      inner.position.y = -0.5;
+
       window.addEventListener('resize', resize);
-
-      // Geometry
-      const geo = new THREE.IcosahedronGeometry(1.25, 5);
-
-      // Store original positions for displacement
-      const posAttr     = geo.attributes.position;
-      const count       = posAttr.count;
-      const origPos     = new Float32Array(posAttr.array);
-      const noiseOffset = new Float32Array(count).map(() => Math.random() * 100);
-
-      // Wireframe material
-      const mat  = new THREE.MeshBasicMaterial({
-        color: 0x6366f1,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.22,
-      });
-
-      const mesh = new THREE.Mesh(geo, mat);
-      scene.add(mesh);
-
-      // Subtle fill sphere
-      const fillGeo = new THREE.SphereGeometry(1.22, 32, 32);
-      const fillMat = new THREE.MeshBasicMaterial({
-        color: 0x1e1b4b,
-        transparent: true,
-        opacity: 0.18,
-        side: THREE.FrontSide,
-      });
-      scene.add(new THREE.Mesh(fillGeo, fillMat));
+      resize();
 
       // Mouse parallax
-      let mouseX = 0;
-      let mouseY = 0;
-      let targetX = 0;
-      let targetY = 0;
-
+      let mx = 0, my = 0;
       window.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
-        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-      });
+        mx = (e.clientX / window.innerWidth  - 0.5) * 0.3;
+        my = (e.clientY / window.innerHeight - 0.5) * 0.3;
+      }, { passive: true });
 
-      // Simple noise helper
-      function noise(t) {
-        return Math.sin(t * 1.31) * 0.5 + Math.sin(t * 2.17 + 1.3) * 0.3 + Math.sin(t * 0.73 + 2.7) * 0.2;
-      }
-
-      let time = 0;
-
+      let t = 0;
       function animate() {
         requestAnimationFrame(animate);
-        time += 0.008;
-
-        // Displace vertices
-        for (let i = 0; i < count; i++) {
-          const ox = origPos[i * 3];
-          const oy = origPos[i * 3 + 1];
-          const oz = origPos[i * 3 + 2];
-
-          const d = 1 + 0.08 * noise(time + noiseOffset[i] * 0.1);
-
-          posAttr.setXYZ(i, ox * d, oy * d, oz * d);
-        }
-        posAttr.needsUpdate = true;
-
-        // Slow auto-rotation
-        mesh.rotation.y += 0.003;
-        mesh.rotation.x += 0.001;
-
-        // Mouse parallax — smooth lerp
-        targetX += (mouseX * 0.4 - targetX) * 0.04;
-        targetY += (-mouseY * 0.4 - targetY) * 0.04;
-
-        mesh.rotation.y += targetX * 0.015;
-        mesh.rotation.x += targetY * 0.015;
-
+        t += 0.008;
+        displace(t * 3);
+        wire.rotation.y  += 0.0015;
+        wire.rotation.x  += 0.0008;
+        inner.rotation.y  = wire.rotation.y;
+        inner.rotation.x  = wire.rotation.x;
+        camera.position.x += (mx - camera.position.x) * 0.02;
+        camera.position.y += (-my - camera.position.y + 0.3) * 0.02;
+        camera.lookAt(0, wire.position.y * 0.5, 0);
         renderer.render(scene, camera);
       }
-
       animate();
     })();
   </script>
