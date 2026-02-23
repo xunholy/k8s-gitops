@@ -1,6 +1,6 @@
 <div align="center">
 
-# My Homelab
+# My Own Cloud
 
 _... managed with Flux, Renovate and GitHub Actions_
 
