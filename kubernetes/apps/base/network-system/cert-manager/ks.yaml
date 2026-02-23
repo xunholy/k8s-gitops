@@ -19,6 +19,9 @@ spec:
       kind: ClusterIssuer
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+  dependsOn:
+    - name: onepassword
+      namespace: external-secrets
   interval: 30m
   retryInterval: 1m
   timeout: 3m

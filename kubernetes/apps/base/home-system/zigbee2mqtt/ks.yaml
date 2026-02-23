@@ -23,6 +23,10 @@ spec:
       namespace: democratic-csi
     - name: mosquitto
       namespace: home-system
+    - name: onepassword
+      namespace: external-secrets
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
   targetNamespace: home-system

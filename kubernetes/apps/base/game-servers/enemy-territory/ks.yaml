@@ -13,6 +13,11 @@ spec:
   path: "./apps/base/game-servers/enemy-territory/app"
   prune: true
   wait: true
+  dependsOn:
+    - name: democratic-csi
+      namespace: democratic-csi
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   sourceRef:
     kind: OCIRepository
     name: flux-system

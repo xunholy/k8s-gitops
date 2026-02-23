@@ -9,6 +9,8 @@ spec:
   dependsOn:
     - name: external-dns
       namespace: network-system
+    - name: onepassword
+      namespace: external-secrets
   decryption:
     provider: sops
   interval: 30m

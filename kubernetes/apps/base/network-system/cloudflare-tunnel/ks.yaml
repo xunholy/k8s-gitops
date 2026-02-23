@@ -21,4 +21,6 @@ spec:
   dependsOn:
     - name: external-dns
       namespace: network-system
+    - name: onepassword
+      namespace: external-secrets
   targetNamespace: network-system
