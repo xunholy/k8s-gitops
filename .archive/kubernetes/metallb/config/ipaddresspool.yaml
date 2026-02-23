@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/metallb.io/ipaddresspool_v1beta1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/metallb.io/ipaddresspool_v1beta1.json
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
@@ -10,7 +10,7 @@ spec:
   - '${CLUSTER_LB_ADDRESSES}'
   avoidBuggyIPs: true
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.raspbernetes.com/metallb.io/l2advertisement_v1beta1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/metallb.io/l2advertisement_v1beta1.json
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:

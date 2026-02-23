@@ -10,7 +10,7 @@ Before proceeding, make sure you have the following prerequisites in place to se
 
 To configure the kubeconfig correctly, follow the steps below:
 
-1. Go to https://login.raspbernetes.com in your web browser.
+1. Go to https://login.owncloud.ai in your web browser.
 
 2. Once authenticated, the webpage will provide command prompts specific to your account. These commands need to be set up on the client machine that you will be using with kubectl to run commands.
 
@@ -35,7 +35,7 @@ Download and install cloudflared on the client machine that will connect to the 
 Run the following command to create a connection from the device to Cloudflare. Any available port can be specified.
 
 ```bash
-$ cloudflared access tcp --hostname api.raspbernetes.com --url 127.0.0.1:1234
+$ cloudflared access tcp --hostname api.owncloud.ai --url 127.0.0.1:1234
 ```
 
 With this service running, you can run a `kubectl` command and `cloudflared` will launch a browser window and prompt the user to authenticate with the Github SSO provider. Once authenticated, `cloudflared` will expose the connection to the client machine at the local URL specified in the command.

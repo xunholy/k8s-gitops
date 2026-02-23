@@ -35,7 +35,7 @@ We welcome many different types of contributions including:
 * Communications / Social Media / Blog Posts
 * Release management
 
-Not everything happens through a GitHub pull request. Please contact us and let's discuss how we can work together - Email: info@raspbernetes.com
+Not everything happens through a GitHub pull request. Please contact us and let's discuss how we can work together - Email: info@owncloud.ai
 
 ## Find an Issue
 
