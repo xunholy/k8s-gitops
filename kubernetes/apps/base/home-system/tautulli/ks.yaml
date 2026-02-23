@@ -21,6 +21,10 @@ spec:
   dependsOn:
     - name: democratic-csi
       namespace: democratic-csi
+    - name: onepassword
+      namespace: external-secrets
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
   targetNamespace: home-system

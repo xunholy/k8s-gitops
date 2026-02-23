@@ -8,6 +8,9 @@ metadata:
 spec:
   decryption:
     provider: sops
+  dependsOn:
+    - name: onepassword
+      namespace: external-secrets
   interval: 30m
   retryInterval: 1m
   timeout: 3m

@@ -19,6 +19,8 @@ spec:
     name: flux-system
     namespace: flux-system
   dependsOn:
+    - name: onepassword
+      namespace: external-secrets
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: volsync

@@ -11,6 +11,11 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
+  dependsOn:
+    - name: gha-runner-scale-set-controller
+      namespace: actions-runner-system
+    - name: onepassword
+      namespace: external-secrets
   path: "./apps/base/actions-runner-system/gha-runner-scale-set/app"
   prune: true
   wait: true
