@@ -9,4 +9,3 @@ components:
 
 resources:
   - namespace.yaml
-#  - networkpolicy.yaml

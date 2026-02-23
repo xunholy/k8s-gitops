@@ -9,5 +9,3 @@ components:
 
 resources:
   - namespace.yaml
-  # Test disabling network policy to debug node-feature-discovery connectivity issue
-  # - networkpolicy.yaml
