@@ -31,3 +31,18 @@ spec:
     jsonData:
       implementation: prometheus
     url: http://alertmanager-operated.observability.svc.cluster.local:9093
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/grafana.integreatly.org/grafanadatasource_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: loki
+spec:
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasource:
+    type: loki
+    name: Loki
+    access: proxy
+    url: http://loki-gateway.observability.svc.cluster.local

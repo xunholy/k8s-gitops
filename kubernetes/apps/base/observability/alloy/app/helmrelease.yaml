@@ -1,0 +1,111 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: alloy
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: alloy
+      version: 1.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: grafana-charts
+        namespace: flux-system
+      interval: 10m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 5m
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    alloy:
+      configMap:
+        content: |-
+          // Discover all pods in the cluster
+          discovery.kubernetes "pods" {
+            role = "pod"
+          }
+
+          // Relabel Kubernetes metadata into Loki labels
+          discovery.relabel "pods" {
+            targets = discovery.kubernetes.pods.targets
+
+            rule {
+              source_labels = ["__meta_kubernetes_namespace"]
+              target_label  = "namespace"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_name"]
+              target_label  = "pod"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_container_name"]
+              target_label  = "container"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+              target_label  = "app"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_node_name"]
+              target_label  = "node"
+            }
+          }
+
+          // Collect logs via Kubernetes API
+          loki.source.kubernetes "pods" {
+            targets    = discovery.relabel.pods.output
+            forward_to = [loki.process.pod_logs.receiver]
+          }
+
+          // Add static cluster label
+          loki.process "pod_logs" {
+            stage.static_labels {
+              values = {
+                cluster = "cluster-00",
+              }
+            }
+            forward_to = [loki.write.default.receiver]
+          }
+
+          // Ship to Loki
+          loki.write "default" {
+            endpoint {
+              url = "http://loki-gateway.observability.svc.cluster.local/loki/api/v1/push"
+            }
+          }
+    controller:
+      type: deployment
+      replicas: 1
+    serviceAccount:
+      create: true
+    crds:
+      create: false

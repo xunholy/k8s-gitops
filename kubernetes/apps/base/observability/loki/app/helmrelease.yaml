@@ -37,53 +37,62 @@ spec:
     mode: enabled
   maxHistory: 3
   values:
+    deploymentMode: SingleBinary
     singleBinary:
       replicas: 1
-      nodeSelector:
-        openebs.io/storage: "true"
-        kubernetes.io/arch: arm64
+      persistence:
+        enabled: true
+        storageClass: ceph-block
+        size: 20Gi
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          memory: 1Gi
     loki:
-      storage:
-        type: filesystem
       auth_enabled: false
       commonConfig:
         replication_factor: 1
+      storage:
+        type: filesystem
+      schemaConfig:
+        configs:
+          - from: "2024-04-01"
+            store: tsdb
+            object_store: filesystem
+            schema: v13
+            index:
+              prefix: loki_index_
+              period: 24h
       limits_config:
         retention_period: 14d
-        enforce_metric_name: false
         reject_old_samples: true
         reject_old_samples_max_age: 168h
-        max_cache_freshness_per_query: 10m
-        split_queries_by_interval: 15m
         ingestion_rate_mb: 8
         ingestion_burst_size_mb: 16
-        shard_streams:
-          enabled: true
       compactor:
-        working_directory: /var/loki/boltdb-shipper-compactor
-        shared_store: filesystem
+        working_directory: /var/loki/compactor
         compaction_interval: 10m
         retention_enabled: true
         retention_delete_delay: 2h
         retention_delete_worker_count: 150
-      ingester:
-        max_chunk_age: 1h
       analytics:
         reporting_enabled: false
+    read:
+      replicas: 0
+    write:
+      replicas: 0
+    backend:
+      replicas: 0
+    gateway:
+      replicas: 1
+    chunksCache:
+      enabled: false
+    resultsCache:
+      enabled: false
     test:
       enabled: false
-    read:
-      replicas: 1
-      # persistence:
-      #   storageClass: cstor-replica-raspberry-pi-pool
-    write:
-      replicas: 1
-      # persistence:
-      #   storageClass: cstor-replica-raspberry-pi-pool
-    backend:
-      replicas: 1
-      # persistence:
-      #   storageClass: cstor-replica-raspberry-pi-pool
     monitoring:
       dashboards:
         annotations:
@@ -94,6 +103,3 @@ spec:
           installOperator: false
       lokiCanary:
         enabled: false
-      # structuredConfig:
-      #   memberlist:
-      #     join_members: ["loki-memberlist"]

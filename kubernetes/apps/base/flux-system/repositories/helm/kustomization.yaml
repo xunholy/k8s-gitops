@@ -11,6 +11,7 @@ resources:
   - dex-chart.yaml
   - fairwinds-charts.yaml
   - gatekeeper-charts.yaml
+  - grafana-charts.yaml
   - ingress-nginx-chart.yaml
   - loft-charts.yaml
   - minecraft-server-charts.yaml
