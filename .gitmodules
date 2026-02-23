@@ -1,4 +1,0 @@
-[submodule "security-policies"]
-	path = security-policies
-	url = https://github.com/raspbernetes/k8s-security-policies
-	branch = master
