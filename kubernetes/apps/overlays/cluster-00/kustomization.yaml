@@ -53,6 +53,7 @@ resources:
   - ../../base/home-system/radarr/ks.yaml
   - ../../base/home-system/recyclarr/ks.yaml
   - ../../base/home-system/sabnzbd/ks.yaml
+  - ../../base/home-system/smtp-relay/ks.yaml
   - ../../base/home-system/sonarr/ks.yaml
   - ../../base/home-system/tautulli/ks.yaml
   # - ../../base/home-system/zigbee2mqtt/ks.yaml
