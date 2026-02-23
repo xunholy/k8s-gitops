@@ -26,6 +26,14 @@ llmBridge:
       enabled: true
       name: "kguardian-secrets"
 
+database:
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: "1"
+      memory: 256Mi
+
 mcpServer:
   enabled: true
   useKmcp: true
