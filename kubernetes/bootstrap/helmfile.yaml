@@ -30,7 +30,7 @@ releases:
   - name: cert-manager
     namespace: network-system
     chart: oci://quay.io/jetstack/charts/cert-manager
-    version: v1.19.3
+    version: v1.19.4
     wait: true
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/base/network-system/cert-manager/app/values.yaml']
 
