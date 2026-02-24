@@ -42,6 +42,8 @@ spec:
       *app :
         replicas: 2
         strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
@@ -50,14 +52,13 @@ spec:
             env:
               NO_AUTOUPDATE: true
               TUNNEL_METRICS: 0.0.0.0:8080
-              TUNNEL_ORIGIN_ENABLE_HTTP2: true
               TUNNEL_TRANSPORT_PROTOCOL: quic
               TUNNEL_POST_QUANTUM: true
-              TUNNEL_LOGLEVEL: debug
+            envFrom:
+              - secretRef:
+                  name: cloudflare-tunnel-secret
             args:
               - tunnel
-              - --config
-              - /etc/cloudflared/config.yaml
               - run
             probes:
               liveness: &probes
@@ -110,18 +111,24 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
-    persistence:
+    configMaps:
       config:
+        data:
+          config.yaml: |-
+            ingress:
+              - hostname: "*.${CLUSTER_DOMAIN}"
+                originRequest:
+                  http2Origin: true
+                  keepAliveTimeout: 3600s
+                  originServerName: external.${CLUSTER_DOMAIN}
+                  tcpKeepAlive: 7200s
+                service: https://envoy-external.network-system.svc.cluster.local:443
+              - service: http_status:404
+    persistence:
+      config-file:
         type: configMap
-        name: cloudflare-tunnel
+        identifier: config
         globalMounts:
           - path: /etc/cloudflared/config.yaml
             subPath: config.yaml
-            readOnly: true
-      creds:
-        type: secret
-        name: cloudflare-tunnel-credential
-        globalMounts:
-          - path: /etc/cloudflared/credential.json
-            subPath: credential.json
             readOnly: true
