@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: sealed-secrets
-      version: 2.18.1
+      version: 2.18.3
       sourceRef:
         kind: HelmRepository
         name: sealed-secrets-charts
