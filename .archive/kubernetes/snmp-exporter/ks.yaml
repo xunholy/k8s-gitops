@@ -11,6 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
+  targetNamespace: observability
   path: "./apps/base/observability/snmp-exporter/app"
   prune: true
   wait: true

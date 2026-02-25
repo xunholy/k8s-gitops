@@ -9,6 +9,8 @@ spec:
   decryption:
     provider: sops
   interval: 30m
+  retryInterval: 1m
+  timeout: 3m
   path: "./apps/base/litmus/litmus/app"
   prune: true
   wait: true
@@ -19,3 +21,4 @@ spec:
   dependsOn:
     - name: istiod
       namespace: istio-system
+  targetNamespace: litmus

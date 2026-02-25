@@ -9,53 +9,13 @@ spec:
   decryption:
     provider: sops
   interval: 30m
+  retryInterval: 1m
+  timeout: 3m
   path: "./apps/base/velero/velero/app"
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
-  # patches:
-  #   - patch: |-
-  #       apiVersion: helm.toolkit.fluxcd.io/v2beta2
-  #       kind: HelmRelease
-  #       metadata:
-  #         name: velero
-  #         namespace: velero
-  #       spec:
-  #         values:
-  #           schedules:
-  #             daily-backup:
-  #               schedule: '0 6 * * *'
-  #               template:
-  #                 ttl: '120h'
-  #             zigbee2mqtt-daily:
-  #               schedule: '0 6 * * *'
-  #               template:
-  #                 labelSelector:
-  #                   matchLabels:
-  #                     app.kubernetes.io/name: zigbee2mqtt
-  #                 snapshotVolumes: true
-  #                 storageLocation: default
-  #                 ttl: '120h'
-  #                 volumeSnapshotLocations:
-  #                   - default
-  #                 includedNamespaces:
-  #                   - home-system
-  #             home-assistant-daily:
-  #               schedule: '0 6 * * *'
-  #               template:
-  #                 labelSelector:
-  #                   matchLabels:
-  #                     app.kubernetes.io/name: home-assistant
-  #                 snapshotVolumes: true
-  #                 storageLocation: default
-  #                 ttl: '120h'
-  #                 volumeSnapshotLocations:
-  #                   - default
-  #                 includedNamespaces:
-  #                   - home-system
-  #     target:
-  #       kind: HelmRelease
-  #       name: velero
-  #       namespace: velero
+    namespace: flux-system
+  targetNamespace: velero

@@ -9,9 +9,13 @@ spec:
   decryption:
     provider: sops
   interval: 30m
+  retryInterval: 1m
+  timeout: 3m
   path: "./apps/base/traefik-ingress/traefik/app"
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
+    namespace: flux-system
+  targetNamespace: traefik-ingress

@@ -11,6 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
+  targetNamespace: kube-system
   path: "./apps/base/kube-system/sealed-secrets/app"
   prune: true
   wait: true

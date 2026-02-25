@@ -9,9 +9,13 @@ spec:
   decryption:
     provider: sops
   interval: 30m
+  retryInterval: 1m
+  timeout: 3m
   path: "./apps/base/network-system/k8s-gateway/app"
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
+    namespace: flux-system
+  targetNamespace: network-system

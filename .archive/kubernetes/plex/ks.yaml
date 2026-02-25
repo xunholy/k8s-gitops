@@ -11,9 +11,11 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
+  targetNamespace: home-system
   path: "./apps/base/home-system/plex/app"
   prune: true
   wait: false
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
+    namespace: flux-system

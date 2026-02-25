@@ -7,8 +7,11 @@ metadata:
   namespace: istio-ingress
 spec:
   parentRefs:
-    - name: external
-      namespace: kube-system
+    - name: envoy-external
+      namespace: network-system
+      sectionName: https
+    - name: envoy-internal
+      namespace: network-system
       sectionName: https
   hostnames:
     - '${CLUSTER_DOMAIN}'

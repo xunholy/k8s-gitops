@@ -10,6 +10,3 @@ configMapGenerator:
   - name: k8s-gateway-configmap
     files:
       - ./Corefile
-
-configurations:
-  - kustomizeconfig.yaml

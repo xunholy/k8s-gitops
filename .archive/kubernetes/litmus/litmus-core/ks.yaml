@@ -9,6 +9,8 @@ spec:
   decryption:
     provider: sops
   interval: 30m
+  retryInterval: 1m
+  timeout: 3m
   path: "./apps/base/litmus/litmus-core/app"
   prune: true
   wait: true
@@ -16,3 +18,4 @@ spec:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
+  targetNamespace: litmus

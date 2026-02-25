@@ -6,10 +6,10 @@ namespace: home-system
 
 resources:
   - helmrelease.yaml
+  - httproute.yaml
   - ocirepository.yaml
   - pvc.yaml
   - secret.enc.age.yaml
-  - virtualservice.yaml
 
 configMapGenerator:
   - name: bazarr-scripts
@@ -20,6 +20,3 @@ configMapGenerator:
 generatorOptions:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
-
-configurations:
-  - kustomizeconfig.yaml

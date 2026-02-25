@@ -11,9 +11,11 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
+  targetNamespace: kube-system
   path: "./apps/base/kube-system/secret-store-csi-driver/app"
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
+    namespace: flux-system

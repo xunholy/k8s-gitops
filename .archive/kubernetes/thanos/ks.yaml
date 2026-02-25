@@ -18,6 +18,7 @@ spec:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
+  targetNamespace: observability
   dependsOn:
     - name: istiod
       namespace: istio-system

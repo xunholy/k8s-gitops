@@ -10,6 +10,8 @@ spec:
   decryption:
     provider: sops
   interval: 30m
+  retryInterval: 1m
+  timeout: 3m
   path: "./apps/base/network-system/istio-csr/app"
   prune: true
   wait: true
@@ -20,3 +22,4 @@ spec:
   dependsOn:
     - name: cert-manager
       namespace: network-system
+  targetNamespace: network-system

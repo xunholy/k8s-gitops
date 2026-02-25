@@ -6,4 +6,3 @@ namespace: istio-ingress
 
 resources:
   - httproute.yaml
-  - plex.yaml

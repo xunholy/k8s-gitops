@@ -10,6 +10,3 @@ configMapGenerator:
   - name: blocky
     files:
       - ./configs/config.yml
-
-configurations:
-  - kustomizeconfig.yaml
