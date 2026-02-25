@@ -11,6 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
+  targetNamespace: network-system
   path: "./apps/base/network-system/node-feature-discovery/app"
   prune: true
   wait: true

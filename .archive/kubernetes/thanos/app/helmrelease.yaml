@@ -1,21 +1,16 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: thanos
   namespace: observability
 spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: thanos
-      version: 15.9.2
-      sourceRef:
-        kind: HelmRepository
-        name: bitnami-oci-charts
-        namespace: flux-system
-      interval: 10m
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: thanos
+    namespace: flux-system
   install:
     timeout: 10m
     replace: true

@@ -13,6 +13,3 @@ configMapGenerator:
     namespace: network-system
     files:
       - values.yaml=./values.yaml
-
-configurations:
-  - kustomizeconfig.yaml

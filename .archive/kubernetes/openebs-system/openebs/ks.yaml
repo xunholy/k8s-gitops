@@ -10,10 +10,12 @@ spec:
     provider: sops
   interval: 30m
   retryInterval: 1m
-  timeout: 10m
+  timeout: 3m
+  targetNamespace: openebs-system
   path: "./apps/base/openebs-system/openebs/app"
   prune: false
   wait: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
+    namespace: flux-system

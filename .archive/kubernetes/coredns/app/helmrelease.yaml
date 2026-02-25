@@ -1,27 +1,22 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app coredns
   namespace: network-system
 spec:
-  interval: 5m
-  timeout: 10m
+  interval: 1h
   releaseName: coredns
-  chart:
-    spec:
-      chart: coredns
-      version: 1.45.2
-      sourceRef:
-        kind: HelmRepository
-        name: coredns-charts
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: coredns
+    namespace: flux-system
   dependsOn:
     - name: cilium
       namespace: kube-system
   install:
+    timeout: 10m
     replace: true
     crds: CreateReplace
     createNamespace: true

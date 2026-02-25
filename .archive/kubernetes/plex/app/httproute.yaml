@@ -3,8 +3,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: jaeger
-  namespace: observability
+  name: plex
+  namespace: home-system
 spec:
   parentRefs:
     - name: envoy-external
@@ -14,9 +14,9 @@ spec:
       namespace: network-system
       sectionName: https
   hostnames:
-    - 'jaeger.${CLUSTER_DOMAIN}'
+    - 'plex.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
-        - name: jaeger-query
-          port: 16686
+        - name: plex
+          port: 32400
           weight: 100

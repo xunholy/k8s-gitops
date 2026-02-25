@@ -1,21 +1,16 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: velero
   namespace: velero
 spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: velero
-      version: 11.4.0
-      sourceRef:
-        kind: HelmRepository
-        name: vmware-charts
-        namespace: flux-system
-      interval: 10m
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: velero
+    namespace: flux-system
   install:
     timeout: 10m
     replace: true

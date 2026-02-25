@@ -18,6 +18,7 @@ spec:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
+  targetNamespace: istio-system
   dependsOn:
     - name: istio-base
       namespace: istio-system

@@ -4,7 +4,7 @@ kind: Namespace
 metadata:
   name: openfaas
   labels:
-    role: openfaas-system
-    access: openfaas-system
-    namespace: openfaas
+    goldilocks.fairwinds.com/enabled: "true"
     kustomize.toolkit.fluxcd.io/prune: disabled
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/warn: privileged
