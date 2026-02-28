@@ -1,0 +1,301 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vmangos
+  namespace: game-servers
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 5m
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    controllers:
+      database:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/mserajnik/vmangos-database
+              tag: latest
+            env:
+              TZ: Australia/Melbourne
+              MARIADB_USER: mangos
+              MARIADB_PASSWORD: mangos
+              MARIADB_ROOT_PASSWORD: password
+              VMANGOS_REALMLIST_NAME: VMaNGOS
+              VMANGOS_REALMLIST_ADDRESS: ${CLUSTER_LB_VMANGOS}
+              VMANGOS_REALMLIST_PORT: "8085"
+              VMANGOS_REALMLIST_ICON: "1"
+              VMANGOS_REALMLIST_TIMEZONE: "0"
+              VMANGOS_REALMLIST_ALLOWED_SECURITY_LEVEL: "0"
+              VMANGOS_ENABLE_AUTOMATIC_WORLD_DB_CORRECTIONS: "1"
+              VMANGOS_PROCESS_CUSTOM_SQL: "1"
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
+                  initialDelaySeconds: 600
+                  periodSeconds: 60
+                  timeoutSeconds: 3
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
+                  initialDelaySeconds: 600
+                  periodSeconds: 60
+                  timeoutSeconds: 3
+                  failureThreshold: 5
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+      realmd:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/mserajnik/vmangos-server
+              tag: "5875"
+            command: ["realmd"]
+            env:
+              TZ: Australia/Melbourne
+              WAIT_HOSTS: vmangos-database:3306
+              WAIT_TIMEOUT: "600"
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  initialDelaySeconds: 600
+                  periodSeconds: 60
+                  timeoutSeconds: 3
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  initialDelaySeconds: 600
+                  periodSeconds: 60
+                  timeoutSeconds: 3
+                  failureThreshold: 5
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+      mangosd:
+        pod:
+          terminationGracePeriodSeconds: 120
+        containers:
+          app:
+            image:
+              repository: ghcr.io/mserajnik/vmangos-server
+              tag: "5875"
+            command: ["mangosd"]
+            tty: true
+            stdin: true
+            env:
+              TZ: Australia/Melbourne
+              WAIT_HOSTS: vmangos-database:3306
+              WAIT_TIMEOUT: "600"
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8085
+                  initialDelaySeconds: 600
+                  periodSeconds: 60
+                  timeoutSeconds: 3
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8085
+                  initialDelaySeconds: 600
+                  periodSeconds: 60
+                  timeoutSeconds: 3
+                  failureThreshold: 5
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 500m
+                memory: 1Gi
+              limits:
+                memory: 4Gi
+    service:
+      database:
+        controller: database
+        ports:
+          mysql:
+            port: 3306
+      auth:
+        controller: realmd
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: ${CLUSTER_LB_VMANGOS}
+          lbipam.cilium.io/sharing-key: vmangos
+        ports:
+          auth:
+            port: 3724
+      world:
+        controller: mangosd
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: ${CLUSTER_LB_VMANGOS}
+          lbipam.cilium.io/sharing-key: vmangos
+        ports:
+          world:
+            port: 8085
+    configMaps:
+      mangosd-config:
+        data:
+          mangosd.conf: |
+            DataDir = "/opt/vmangos/storage/data"
+            LogsDir = "/opt/vmangos/storage/logs"
+            HonorDir = "/opt/vmangos/storage/honor"
+            LoginDatabase.Info = "vmangos-database;3306;mangos;mangos;realmd"
+            WorldDatabase.Info = "vmangos-database;3306;mangos;mangos;mangos"
+            CharacterDatabase.Info = "vmangos-database;3306;mangos;mangos;characters"
+            LogsDatabase.Info = "vmangos-database;3306;mangos;mangos;logs"
+            WorldServerPort = 8085
+            BindIP = "0.0.0.0"
+            WowPatch = 10
+            PlayerLimit = 100
+            MaxPlayerLevel = 60
+            CharactersPerRealm = 10
+            WorldAvailable = 1
+            Anticheat.Enable = 0
+      realmd-config:
+        data:
+          realmd.conf: |
+            [RealmdConf]
+            ConfVersion=2024091701
+            LoginDatabaseInfo = "vmangos-database;3306;mangos;mangos;realmd"
+            LogsDir = "/opt/vmangos/storage/logs"
+            PatchesDir = "./patches"
+            MaxPingTime = 30
+            RealmServerPort = 3724
+            BindIP = "0.0.0.0"
+            TrustedProxyServers = ""
+            PidFile = ""
+            LogLevel.Console = 2
+            LogLevel.File = 2
+            LogTime = 0
+            LogFile = "Realmd.log"
+            LogTimestamp = 0
+            LogFileLevel = 0
+            UseProcessors = 0
+            ProcessPriority = 1
+            WaitAtStartupError = 0
+            MinRealmListDelay = 1
+            RealmsStateUpdateDelay = 20
+            WrongPass.MaxCount = 0
+            WrongPass.BanTime = 600
+            WrongPass.BanType = 0
+            ReqEmailVerification = 0
+            ReqEmailSince = 0
+            GeoLocking = 0
+            StrictVersionCheck = 1
+            SendMail = 0
+            MailFrom = ""
+            MailCertChecks = 1
+            SendGridKey = ""
+            GeolockGUID = ""
+            MaxSessionDuration = 300
+    persistence:
+      database:
+        existingClaim: vmangos-database
+        advancedMounts:
+          database:
+            app:
+              - path: /var/lib/mysql
+      data:
+        existingClaim: vmangos-data
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/vmangos/storage/data
+                readOnly: true
+      mangosd-config:
+        type: configMap
+        name: vmangos-mangosd-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/vmangos/config/mangosd.conf
+                subPath: mangosd.conf
+      realmd-config:
+        type: configMap
+        name: vmangos-realmd-config
+        advancedMounts:
+          realmd:
+            app:
+              - path: /opt/vmangos/config/realmd.conf
+                subPath: realmd.conf
+      mangosd-logs:
+        type: emptyDir
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/vmangos/storage/logs
+      realmd-logs:
+        type: emptyDir
+        advancedMounts:
+          realmd:
+            app:
+              - path: /opt/vmangos/storage/logs
+      honor:
+        type: emptyDir
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/vmangos/storage/honor
