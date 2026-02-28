@@ -10,4 +10,4 @@ spec:
     - dnsName: "wow.${CLUSTER_DOMAIN}"
       recordType: A
       targets:
-        - "${CLUSTER_PUBLIC_IP}"
+        - "${EXTERNAL_IP}"
