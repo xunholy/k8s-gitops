@@ -210,6 +210,11 @@ spec:
         ports:
           world:
             port: 8085
+      soap:
+        controller: mangosd
+        ports:
+          soap:
+            port: 7878
     configMaps:
       mangosd-config:
         data:
@@ -230,6 +235,9 @@ spec:
             CharactersPerRealm = 10
             WorldAvailable = 1
             Anticheat.Enable = 0
+            SOAP.Enabled = 1
+            SOAP.IP = 0.0.0.0
+            SOAP.Port = 7878
       realmd-config:
         data:
           realmd.conf: |
