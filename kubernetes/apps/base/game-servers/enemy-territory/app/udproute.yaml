@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/udproute_v1alpha2.json
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: UDPRoute
+metadata:
+  name: enemy-territory
+spec:
+  parentRefs:
+    - name: envoy-external
+      namespace: network-system
+      sectionName: enemy-territory
+  rules:
+    - backendRefs:
+        - name: enemy-territory
+          port: 27960

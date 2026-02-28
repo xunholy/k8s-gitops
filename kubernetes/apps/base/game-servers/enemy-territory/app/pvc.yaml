@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  storageClassName: truenas-iscsi-csi
+  storageClassName: ceph-block

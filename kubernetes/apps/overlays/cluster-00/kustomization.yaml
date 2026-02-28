@@ -37,7 +37,7 @@ resources:
   - ../../base/flux-system/flux-instance/ks.yaml
   - ../../base/flux-system/repositories
   - ../../base/harbor/harbor/ks.yaml
-  # - ../../base/game-servers/enemy-territory/ks.yaml
+  - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/game-servers/minecraft/ks.yaml
   # - ../../base/game-servers/minecraft-ketting/ks.yaml
   - ../../base/game-servers/minecraft-bedrock/ks.yaml

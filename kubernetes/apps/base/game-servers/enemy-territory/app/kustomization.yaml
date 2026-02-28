@@ -4,9 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  # - dnsendpoint.yaml
   - helmrelease.yaml
-  # - ingress.yaml
   - secret.enc.age.yaml
   - pvc.yaml
-  - pvc-ceph.yaml
+  - udproute.yaml
