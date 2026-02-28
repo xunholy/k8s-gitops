@@ -43,18 +43,9 @@ spec:
   maxHistory: 3
   values:
     expose:
-      type: ingress
+      type: clusterIP
       tls:
-        enabled: true
-        certSource: secret
-        secret:
-          secretName: harbor-tls
-      ingress:
-        hosts:
-          core: harbor.${CLUSTER_DOMAIN}
-        className: nginx
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
+        enabled: false
     externalURL: https://harbor.${CLUSTER_DOMAIN}
     persistence:
       enabled: true
