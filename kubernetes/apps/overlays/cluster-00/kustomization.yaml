@@ -11,6 +11,7 @@ resources:
   - ../../base/development
   - ../../base/external-secrets
   - ../../base/game-servers
+  - ../../base/harbor
   - ../../base/home-system
   - ../../base/kguardian
   - ../../base/kube-system
@@ -29,10 +30,12 @@ resources:
   # - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
+  - ../../base/development/open-feature-operator/ks.yaml
   - ../../base/external-secrets/external-secrets/ks.yaml
   - ../../base/external-secrets/onepassword/ks.yaml
   - ../../base/flux-system/flux-instance/ks.yaml
   - ../../base/flux-system/repositories
+  - ../../base/harbor/harbor/ks.yaml
   # - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/game-servers/minecraft/ks.yaml
   # - ../../base/game-servers/minecraft-ketting/ks.yaml
@@ -60,6 +63,7 @@ resources:
   - ../../base/kguardian/kguardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml
   - ../../base/kube-system/descheduler/ks.yaml
+  - ../../base/kube-system/keda/ks.yaml
   - ../../base/kube-system/kubelet-csr-approver/ks.yaml
   - ../../base/kube-system/metrics-server/ks.yaml
   - ../../base/kube-system/reflector/ks.yaml
