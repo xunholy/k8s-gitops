@@ -51,7 +51,7 @@ spec:
               MARIADB_PASSWORD: mangos
               MARIADB_ROOT_PASSWORD: password
               VMANGOS_REALMLIST_NAME: VMaNGOS
-              VMANGOS_REALMLIST_ADDRESS: ${CLUSTER_LB_VMANGOS}
+              VMANGOS_REALMLIST_ADDRESS: ${CLUSTER_LB_ENVOY_EXT_GATEWAY_API}
               VMANGOS_REALMLIST_PORT: "8085"
               VMANGOS_REALMLIST_ICON: "1"
               VMANGOS_REALMLIST_TIMEZONE: "0"
@@ -179,19 +179,11 @@ spec:
             port: 3306
       auth:
         controller: realmd
-        type: LoadBalancer
-        annotations:
-          lbipam.cilium.io/ips: ${CLUSTER_LB_VMANGOS}
-          lbipam.cilium.io/sharing-key: vmangos
         ports:
           auth:
             port: 3724
       world:
         controller: mangosd
-        type: LoadBalancer
-        annotations:
-          lbipam.cilium.io/ips: ${CLUSTER_LB_VMANGOS}
-          lbipam.cilium.io/sharing-key: vmangos
         ports:
           world:
             port: 8085
