@@ -7,3 +7,4 @@ resources:
   - helmrelease.yaml
   - pvc-database.yaml
   - pvc-data.yaml
+  - tcproutes.yaml

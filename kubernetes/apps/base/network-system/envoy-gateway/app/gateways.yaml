@@ -51,6 +51,18 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: vmangos-auth
+      protocol: TCP
+      port: 3724
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: vmangos-world
+      protocol: TCP
+      port: 8085
+      allowedRoutes:
+        namespaces:
+          from: All
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1
