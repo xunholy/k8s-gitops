@@ -27,6 +27,7 @@ resources:
   - ../../base/ai-system/kgateway/ks.yaml
   - ../../base/ai-system/kmcp/ks.yaml
   - ../../base/ai-system/n8n/ks.yaml
+  - ../../base/ai-system/ollama/ks.yaml
   # - ../../base/crossplane-system/crossplane/ks.yaml
   - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
