@@ -65,22 +65,27 @@ spec:
                 spec:
                   exec:
                     command: ['healthcheck.sh', '--connect', '--innodb_initialized']
-                  initialDelaySeconds: 600
-                  periodSeconds: 60
+                  periodSeconds: 30
                   timeoutSeconds: 3
-                  failureThreshold: 5
+                  failureThreshold: 3
               readiness:
                 enabled: true
                 custom: true
                 spec:
                   exec:
                     command: ['healthcheck.sh', '--connect', '--innodb_initialized']
-                  initialDelaySeconds: 600
-                  periodSeconds: 60
+                  periodSeconds: 10
                   timeoutSeconds: 3
-                  failureThreshold: 5
+                  failureThreshold: 3
               startup:
-                enabled: false
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 30
             resources:
               requests:
                 cpu: 100m
@@ -88,6 +93,12 @@ spec:
               limits:
                 memory: 2Gi
       realmd:
+        initContainers:
+          wait-db:
+            image:
+              repository: busybox
+              tag: latest
+            command: ['sh', '-c', 'until nc -z vmangos-database 3306; do sleep 2; done']
         containers:
           app:
             image:
@@ -96,8 +107,6 @@ spec:
             command: ["realmd"]
             env:
               TZ: Australia/Melbourne
-              WAIT_HOSTS: vmangos-database:3306
-              WAIT_TIMEOUT: "600"
             probes:
               liveness:
                 enabled: true
@@ -105,22 +114,27 @@ spec:
                 spec:
                   tcpSocket:
                     port: 3724
-                  initialDelaySeconds: 600
-                  periodSeconds: 60
+                  periodSeconds: 30
                   timeoutSeconds: 3
-                  failureThreshold: 5
+                  failureThreshold: 3
               readiness:
                 enabled: true
                 custom: true
                 spec:
                   tcpSocket:
                     port: 3724
-                  initialDelaySeconds: 600
-                  periodSeconds: 60
+                  periodSeconds: 10
                   timeoutSeconds: 3
-                  failureThreshold: 5
+                  failureThreshold: 3
               startup:
-                enabled: false
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  periodSeconds: 5
+                  timeoutSeconds: 3
+                  failureThreshold: 30
             resources:
               requests:
                 cpu: 10m
@@ -130,6 +144,12 @@ spec:
       mangosd:
         pod:
           terminationGracePeriodSeconds: 120
+        initContainers:
+          wait-db:
+            image:
+              repository: busybox
+              tag: latest
+            command: ['sh', '-c', 'until nc -z vmangos-database 3306; do sleep 2; done']
         containers:
           app:
             image:
@@ -140,8 +160,6 @@ spec:
             stdin: true
             env:
               TZ: Australia/Melbourne
-              WAIT_HOSTS: vmangos-database:3306
-              WAIT_TIMEOUT: "600"
             probes:
               liveness:
                 enabled: true
@@ -149,22 +167,27 @@ spec:
                 spec:
                   tcpSocket:
                     port: 8085
-                  initialDelaySeconds: 600
-                  periodSeconds: 60
+                  periodSeconds: 30
                   timeoutSeconds: 3
-                  failureThreshold: 5
+                  failureThreshold: 3
               readiness:
                 enabled: true
                 custom: true
                 spec:
                   tcpSocket:
                     port: 8085
-                  initialDelaySeconds: 600
-                  periodSeconds: 60
+                  periodSeconds: 10
                   timeoutSeconds: 3
-                  failureThreshold: 5
+                  failureThreshold: 3
               startup:
-                enabled: false
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8085
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 30
             resources:
               requests:
                 cpu: 500m

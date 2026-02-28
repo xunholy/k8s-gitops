@@ -8,3 +8,5 @@ resources:
   - pvc-database.yaml
   - pvc-data.yaml
   - tcproutes.yaml
+  - replicationsource.yaml
+  - volsync-externalsecret.yaml
