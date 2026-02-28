@@ -45,6 +45,7 @@ resources:
   # - ../../base/game-servers/minecraft-proxy/ks.yaml
   - ../../base/game-servers/minecraft-rcon-web/ks.yaml
   # - ../../base/game-servers/minecraft-router/ks.yaml
+  - ../../base/game-servers/vmangos/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/bazarr/ks.yaml
   # - ../../base/home-system/emqx/ks.yaml
