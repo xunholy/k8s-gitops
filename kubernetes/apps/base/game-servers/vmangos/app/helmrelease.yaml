@@ -198,6 +198,7 @@ spec:
             WorldDatabase.Info = "vmangos-database;3306;mangos;mangos;mangos"
             CharacterDatabase.Info = "vmangos-database;3306;mangos;mangos;characters"
             LogsDatabase.Info = "vmangos-database;3306;mangos;mangos;logs"
+            RealmID = 1
             WorldServerPort = 8085
             BindIP = "0.0.0.0"
             WowPatch = 10
