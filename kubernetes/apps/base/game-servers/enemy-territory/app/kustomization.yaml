@@ -7,6 +7,5 @@ resources:
   - helmrelease.yaml
   - configmap.yaml
   - secret.enc.age.yaml
-  - network-secret.enc.age.yaml
   - pvc.yaml
   - udproute.yaml
