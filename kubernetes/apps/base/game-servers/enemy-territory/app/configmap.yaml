@@ -6,6 +6,10 @@ metadata:
   namespace: game-servers
 data:
   server.cfg: |
+    // server discoverability
+    set sv_advert 1
+    set net_ip "${EXTERNAL_IP}"
+
     // run etpub nodl config
     exec hs_etpub.cfg
   etconfig.cfg: |

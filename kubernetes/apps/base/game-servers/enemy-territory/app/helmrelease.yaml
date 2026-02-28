@@ -85,7 +85,6 @@ spec:
             readOnly: true
           - path: /etlegacy/legacy/etconfig.cfg
             subPath: etconfig.cfg
-            readOnly: true
           - path: /etlegacy/legacy/campaigncycle.cfg
             subPath: campaigncycle.cfg
             readOnly: true
@@ -107,4 +106,3 @@ spec:
         globalMounts:
           - path: /etlegacy/legacy/hs_etpub.cfg
             subPath: hs_etpub.cfg
-            readOnly: true
