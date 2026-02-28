@@ -40,19 +40,6 @@ spec:
   values:
     controllers:
       enemy-territory:
-        initContainers:
-          copy-config:
-            image:
-              repository: busybox
-              tag: 1.37.0
-            command: ["/bin/sh", "-c"]
-            args:
-              - cp /config/*.cfg /etlegacy/legacy/ && cp /secret-config/*.cfg /etlegacy/legacy/
-            resources:
-              requests:
-                cpu: 10m
-              limits:
-                memory: 32M
         containers:
           app:
             image:
@@ -93,11 +80,31 @@ spec:
         type: configMap
         name: enemy-territory-config
         globalMounts:
-          - path: /config
+          - path: /etlegacy/legacy/server.cfg
+            subPath: server.cfg
+            readOnly: true
+          - path: /etlegacy/legacy/etconfig.cfg
+            subPath: etconfig.cfg
+            readOnly: true
+          - path: /etlegacy/legacy/campaigncycle.cfg
+            subPath: campaigncycle.cfg
+            readOnly: true
+          - path: /etlegacy/legacy/lmscycle.cfg
+            subPath: lmscycle.cfg
+            readOnly: true
+          - path: /etlegacy/legacy/objectivecycle.cfg
+            subPath: objectivecycle.cfg
+            readOnly: true
+          - path: /etlegacy/legacy/mapvotecycle.cfg
+            subPath: mapvotecycle.cfg
+            readOnly: true
+          - path: /etlegacy/legacy/mapvoteplayerscount.cfg
+            subPath: mapvoteplayerscount.cfg
             readOnly: true
       secret-config:
         type: secret
         name: enemy-territory-server-config
         globalMounts:
-          - path: /secret-config
+          - path: /etlegacy/legacy/hs_etpub.cfg
+            subPath: hs_etpub.cfg
             readOnly: true
