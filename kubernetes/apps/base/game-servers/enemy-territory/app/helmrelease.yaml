@@ -45,8 +45,19 @@ spec:
             image:
               repository: xunholy/enemy-territory
               tag: sha-214208b
-            command: ["/bin/bash", "-c", "--"]
-            args: ["/etlegacy/start.sh"]
+            command: ["/etlegacy/etlded.x86_64"]
+            args:
+              - +set dedicated 2
+              - +set net_ip ${EXTERNAL_IP}
+              - +set net_port 27960
+              - +set sv_advert 3
+              - +set vm_game 0
+              - +set fs_basepath /etlegacy
+              - +set fs_homepath /config
+              - +set fs_game legacy
+              - +set sv_maxclients 20
+              - +set sv_punkbuster 0
+              - +exec server.cfg
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
@@ -75,34 +86,28 @@ spec:
       server-data:
         existingClaim: enemy-territory
         globalMounts:
-          - path: /etlegacy/legacy/server
+          - path: /config
       config:
         type: configMap
         name: enemy-territory-config
         globalMounts:
-          - path: /etlegacy/legacy/server.cfg
+          - path: /config/legacy/server.cfg
             subPath: server.cfg
-            readOnly: true
-          - path: /etlegacy/legacy/etconfig.cfg
+          - path: /config/legacy/etconfig.cfg
             subPath: etconfig.cfg
-          - path: /etlegacy/legacy/campaigncycle.cfg
+          - path: /config/legacy/campaigncycle.cfg
             subPath: campaigncycle.cfg
-            readOnly: true
-          - path: /etlegacy/legacy/lmscycle.cfg
+          - path: /config/legacy/lmscycle.cfg
             subPath: lmscycle.cfg
-            readOnly: true
-          - path: /etlegacy/legacy/objectivecycle.cfg
+          - path: /config/legacy/objectivecycle.cfg
             subPath: objectivecycle.cfg
-            readOnly: true
-          - path: /etlegacy/legacy/mapvotecycle.cfg
+          - path: /config/legacy/mapvotecycle.cfg
             subPath: mapvotecycle.cfg
-            readOnly: true
-          - path: /etlegacy/legacy/mapvoteplayerscount.cfg
+          - path: /config/legacy/mapvoteplayerscount.cfg
             subPath: mapvoteplayerscount.cfg
-            readOnly: true
       secret-config:
         type: secret
         name: enemy-territory-server-config
         globalMounts:
-          - path: /etlegacy/legacy/hs_etpub.cfg
+          - path: /config/legacy/hs_etpub.cfg
             subPath: hs_etpub.cfg
