@@ -5,9 +5,4 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
-  - pvc-database.yaml
-  - pvc-data.yaml
-  - tcproutes.yaml
-  - dnsendpoint.yaml
-  - replicationsource.yaml
-  - volsync-externalsecret.yaml
+  - httproute.yaml

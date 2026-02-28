@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: vmangos
+  name: vmangos-registration
   namespace: game-servers
 spec:
   decryption:
@@ -11,7 +11,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 10m
-  path: "./apps/base/game-servers/vmangos/app"
+  path: "./apps/base/game-servers/vmangos-registration/app"
   prune: true
   wait: true
   sourceRef:
@@ -19,10 +19,6 @@ spec:
     name: flux-system
     namespace: flux-system
   dependsOn:
-    - name: onepassword
-      namespace: external-secrets
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: volsync-system
+    - name: vmangos
+      namespace: game-servers
   targetNamespace: game-servers
