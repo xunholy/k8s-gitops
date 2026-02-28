@@ -1,0 +1,70 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: harbor
+      version: 1.18.2
+      sourceRef:
+        kind: HelmRepository
+        name: harbor-charts
+        namespace: flux-system
+      interval: 10m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 5m
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    expose:
+      type: clusterIP
+      tls:
+        enabled: false
+    externalURL: https://harbor.${CLUSTER_DOMAIN}
+    persistence:
+      enabled: true
+      persistentVolumeClaim:
+        registry:
+          storageClass: ceph-block
+          size: 50Gi
+        database:
+          storageClass: ceph-block
+          size: 5Gi
+        redis:
+          storageClass: ceph-block
+          size: 1Gi
+        trivy:
+          storageClass: ceph-block
+          size: 5Gi
+    trivy:
+      enabled: true
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
