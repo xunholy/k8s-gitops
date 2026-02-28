@@ -40,6 +40,21 @@ spec:
   values:
     controllers:
       enemy-territory:
+        initContainers:
+          init-permissions:
+            image:
+              repository: busybox
+              tag: latest
+            command:
+              - /bin/sh
+              - -c
+              - |
+                mkdir -p /config/legacy/log
+                chown -R 1000:1000 /config/legacy
+                chmod -R 775 /config/legacy
+            securityContext:
+              runAsUser: 0
+              runAsNonRoot: false
         containers:
           app:
             image:
