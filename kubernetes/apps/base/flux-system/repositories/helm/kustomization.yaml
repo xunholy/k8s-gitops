@@ -15,4 +15,5 @@ resources:
   - ingress-nginx-chart.yaml
   - loft-charts.yaml
   - minecraft-server-charts.yaml
+  - ollama-charts.yaml
   - openfeature-charts.yaml
