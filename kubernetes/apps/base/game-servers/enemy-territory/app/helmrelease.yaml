@@ -41,31 +41,25 @@ spec:
     controllers:
       enemy-territory:
         initContainers:
-          init-config:
+          copy-config:
             image:
-              repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.6.0@sha256:228a26d5f55ac5ae9c51635812570ba0073e0b1e0bd8fc3a653a0523b918c092
+              repository: busybox
+              tag: 1.37.0
+            command: ["/bin/sh", "-c"]
             args:
-              - --repo=https://github.com/xunholy/etlegacy-server
-              - --ref=HEAD
-              - --username=xunholy
-              - --root=/etlegacy/legacy/server
-              - --one-time=true
-            env:
-              - name: GITSYNC_PASSWORD
-                value: ${GITHUB_TOKEN}
+              - cp /config/*.cfg /etlegacy/legacy/ && cp /secret-config/*.cfg /etlegacy/legacy/
             resources:
               requests:
                 cpu: 10m
               limits:
-                memory: 128M
+                memory: 32M
         containers:
           app:
             image:
               repository: xunholy/enemy-territory
               tag: sha-214208b
             command: ["/bin/bash", "-c", "--"]
-            args: ["cp /etlegacy/legacy/server/etlegacy-server/* /etlegacy/legacy/; /etlegacy/start.sh;"]
+            args: ["/etlegacy/start.sh"]
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
@@ -91,7 +85,19 @@ spec:
             port: 27960
             protocol: UDP
     persistence:
-      server-config:
+      server-data:
         existingClaim: enemy-territory
         globalMounts:
           - path: /etlegacy/legacy/server
+      config:
+        type: configMap
+        name: enemy-territory-config
+        globalMounts:
+          - path: /config
+            readOnly: true
+      secret-config:
+        type: secret
+        name: enemy-territory-server-config
+        globalMounts:
+          - path: /secret-config
+            readOnly: true
