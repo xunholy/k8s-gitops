@@ -57,7 +57,7 @@ spec:
           app:
             image:
               repository: php
-              tag: 8.3-apache
+              tag: 8.5-apache
             env:
               TZ: Australia/Melbourne
             probes:
