@@ -51,6 +51,12 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: enemy-territory
+      protocol: UDP
+      port: 27960
+      allowedRoutes:
+        namespaces:
+          from: All
     - name: vmangos-auth
       protocol: TCP
       port: 3724
