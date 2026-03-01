@@ -66,6 +66,7 @@ spec:
                 echo "DirectoryIndex login.php" > /var/www/html/.htaccess
                 sed -i 's/session_start();/if (session_status() === PHP_SESSION_NONE) { session_start(); }/' /var/www/html/login.php
                 sed -i '/mysqli_close/d' /var/www/html/login.php
+                sed -i 's/set realmlist XXXXXXX/set realmlist wow.owncloud.ai/' /var/www/html/welcome.php
                 apache2-foreground
             env:
               TZ: Australia/Melbourne
