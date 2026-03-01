@@ -1,8 +1,6 @@
 <?php
 /**
- * @author Amin Mahmoudi (MasterkinG)
- * @copyright    Copyright (c) 2019 - 2024, MasterkinG32. (https://masterking32.com)
- * @link    https://masterking32.com
+ * VMaNGOS Registration Portal - Server Status
  **/
 
 class status

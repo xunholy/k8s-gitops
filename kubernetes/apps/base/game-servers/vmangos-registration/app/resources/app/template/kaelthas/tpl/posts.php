@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by Amin.MasterkinG
- * Website : MasterkinG32.CoM
- * Email : lichwow_masterking@yahoo.com
- * Date: 11/26/2018 - 8:36 PM
+ * VMaNGOS Registration Portal - Posts Template
  */
 ?>
 <div class="box1 post-card" style="margin-top: 16px;">
