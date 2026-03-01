@@ -615,6 +615,16 @@ nav.navbar.bootsnav {
     padding-top: 32px;
 }
 
+/* Align first card in each tab with sidebar */
+.tab-pane > .row {
+    padding-top: 0;
+}
+
+.tab-pane > .box1:first-child,
+.tab-pane > .row > [class*="col-"] > .box1:first-child {
+    margin-top: 0 !important;
+}
+
 /* ─── Glassmorphic Cards with WoW Corner Ornaments ────── */
 .box1 {
     background: var(--bg-card);
