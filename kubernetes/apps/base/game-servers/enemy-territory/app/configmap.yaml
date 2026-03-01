@@ -5,18 +5,14 @@ metadata:
   name: enemy-territory-config
   namespace: game-servers
 data:
-  server.cfg: |
-    // Load the image's base server.cfg from fs_basepath (/etlegacy/legacy/)
-    // This contains gameplay, voting, LUA/WolfAdmin, omni-bot, class/weapon
-    // limits, and all standard settings from the docker-etlegacy-server repo.
-    // We mount this file at fs_homepath which shadows the base, so we need
-    // to explicitly exec the base config by its full mod path.
-    exec default_server.cfg
+  hs_server.cfg: |
+    // Headshot Gaming deployment overrides
+    // Loaded after the image's server.cfg via +exec hs_server.cfg
 
     // Load secret/admin config
     exec hs_etpub.cfg
 
-    // MASTER SERVERS (override engine defaults to include etmaster.net)
+    // MASTER SERVERS
     set sv_master1 "etmaster.idsoftware.com"
     set sv_master2 "master.etlegacy.com"
     set sv_master3 "master0.etmaster.net"
