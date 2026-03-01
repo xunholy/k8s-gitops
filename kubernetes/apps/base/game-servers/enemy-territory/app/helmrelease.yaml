@@ -50,8 +50,8 @@ spec:
               - -c
               - |
                 mkdir -p /config/legacy/log
-                chown -R 1000:1000 /config/legacy
-                chmod -R 775 /config/legacy
+                chown 1000:1000 /config /config/legacy /config/legacy/log
+                chmod 775 /config /config/legacy /config/legacy/log
             securityContext:
               runAsUser: 0
               runAsNonRoot: false
