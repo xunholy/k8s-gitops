@@ -139,7 +139,7 @@ spec:
               - path: /var/www/html
       config:
         type: configMap
-        name: vmangos-registration-config
+        name: vmangos-registration
         advancedMounts:
           app:
             app:
