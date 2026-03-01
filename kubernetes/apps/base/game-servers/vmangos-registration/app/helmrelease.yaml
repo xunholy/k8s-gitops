@@ -62,8 +62,10 @@ spec:
               - sh
               - -c
               - |
-                apt-get update && apt-get install -y libxml2-dev && docker-php-ext-install soap
+                apt-get update && apt-get install -y libxml2-dev && docker-php-ext-install soap mysqli
                 echo "DirectoryIndex login.php" > /var/www/html/.htaccess
+                sed -i 's/session_start();/if (session_status() === PHP_SESSION_NONE) { session_start(); }/' /var/www/html/login.php
+                sed -i '/mysqli_close/d' /var/www/html/login.php
                 apache2-foreground
             env:
               TZ: Australia/Melbourne
