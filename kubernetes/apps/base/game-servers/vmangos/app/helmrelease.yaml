@@ -238,6 +238,16 @@ spec:
             Rate.XP.Kill = 3
             Rate.XP.Quest = 3
             Rate.XP.Explore = 3
+            Rate.Drop.Item.Poor = 3
+            Rate.Drop.Item.Normal = 3
+            Rate.Drop.Item.Uncommon = 3
+            Rate.Drop.Item.Rare = 2
+            Rate.Drop.Item.Epic = 1
+            Rate.Drop.Money = 3
+            Rate.Reputation.Gain = 3
+            MailDeliveryDelay = 0
+            Hardcore.Enabled = 1
+            Hardcore.Announce = 1
             SOAP.Enabled = 1
             SOAP.IP = 0.0.0.0
             SOAP.Port = 7878
