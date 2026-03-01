@@ -8,15 +8,14 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="generator" content="MasterkinG32.CoM"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="description" content="<?php echo $antiXss->xss_clean(get_config("page_title")); ?>">
     <meta name="description" content="<?php echo $antiXss->xss_clean(get_config("page_title")); ?>">
     <title><?php echo $antiXss->xss_clean(get_config("page_title")); ?></title>
+    <link rel="icon" href="<?php echo $antiXss->xss_clean(get_config("baseurl")); ?>/favicon.ico" type="image/x-icon">
     <link rel="stylesheet"
           href="<?php echo $antiXss->xss_clean(get_config("baseurl")); ?>/template/<?php echo $antiXss->xss_clean(get_config("template")); ?>/css/bootstrap.min.css">
     <link rel="stylesheet"
@@ -41,18 +40,14 @@
     <div class="container">
         <nav class="navbar navbar-default brand-center bootsnav">
             <div class="container">
-
-                <!-- Start Header Navigation -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <a class="navbar-brand" href="#brand"><img
+                    <a class="navbar-brand" href="./index.php"><img
                                 src="<?php echo $antiXss->xss_clean(get_config("baseurl")); ?>/template/<?php echo $antiXss->xss_clean(get_config("template")); ?>/images/wow-logo.png"
-                                class="logo" alt=""></a>
+                                class="logo" alt="<?php echo $antiXss->xss_clean(get_config("page_title")); ?>"></a>
                 </div>
-                <!-- End Header Navigation -->
-                <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav" data-in="fadeInDown" data-out="fadeOutUp">
                         <li><a href="./index.php"><?php elang('home'); ?></a></li>
@@ -66,6 +61,19 @@
                         <?php } ?>
                         <li><a onclick="$('#contact').trigger('click')"><?php elang('contact'); ?></a></li>
                     </ul>
-                </div><!-- /.navbar-collapse -->
+                </div>
             </div>
         </nav>
+
+        <div class="hero-banner">
+            <img class="hero-logo"
+                 src="<?php echo $antiXss->xss_clean(get_config("baseurl")); ?>/template/<?php echo $antiXss->xss_clean(get_config("template")); ?>/images/wow-logo.png"
+                 alt="">
+            <h1><?php echo $antiXss->xss_clean(get_config("page_title")); ?></h1>
+            <div class="hero-divider"></div>
+            <div class="hero-sub">Vanilla &middot; Patch <?php echo $antiXss->xss_clean(get_config("game_version")); ?></div>
+            <div class="realm-badge">
+                <i class="fa fa-globe"></i>&nbsp;
+                <?php elang('realmlist'); ?>: <span><?php echo get_config('realmlist'); ?></span>
+            </div>
+        </div>

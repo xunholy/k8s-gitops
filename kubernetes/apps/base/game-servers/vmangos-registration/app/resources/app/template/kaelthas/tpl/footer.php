@@ -5,11 +5,10 @@
  * @link    https://masterking32.com
  **/
 ?>
-<div class="row">
-    <div class="text-center box1">
-        Developed by <a href="http://masterking32.com">MasterkinG32.CoM</a>
-        - <?php echo "Load " . (new SebastianBergmann\Timer\ResourceUsageFormatter)->resourceUsageSinceStartOfRequest(); ?>
-    </div>
+<div class="site-footer">
+    <div class="ornament">For the Horde &middot; For the Alliance</div>
+    <p>Powered by <a href="https://github.com/masterking32/WoWSimpleRegistration" target="_blank">WoWSimpleRegistration</a>
+       &middot; <?php echo "Load " . (new SebastianBergmann\Timer\ResourceUsageFormatter)->resourceUsageSinceStartOfRequest(); ?></p>
 </div>
 </div>
 </div>

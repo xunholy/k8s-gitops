@@ -22,41 +22,24 @@ require_once 'header.php'; ?>
                     <li><a data-toggle="tab" href="#pills-contact" id="contact"><?php elang('contact'); ?></a></li>
                 </ul>
                 <div class="tab-content" id="nav-tabContent">
+
+                    <!-- === HOME TAB === -->
                     <div class="tab-pane fade in <?php echo((empty($error_error) && empty($success_msg)) ? 'active' : ''); ?>"
                          id="pills-main">
-                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                            <!-- Indicators -->
-                            <ol class="carousel-indicators">
-                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                                <li data-target="#myCarousel" data-slide-to="1"></li>
-                                <li data-target="#myCarousel" data-slide-to="2"></li>
-                            </ol>
-                            <!-- Wrapper for slides -->
-                            <div class="carousel-inner">
-                                <div class="item active">
-                                    <img src="<?php echo $antiXss->xss_clean(get_config("baseurl")); ?>/template/<?php echo $antiXss->xss_clean(get_config("template")); ?>/images/slide1.jpg"
-                                         alt="WoW" style="width:100%;">
-                                </div>
-                                <div class="item">
-                                    <img src="<?php echo $antiXss->xss_clean(get_config("baseurl")); ?>/template/<?php echo $antiXss->xss_clean(get_config("template")); ?>/images/slide1.jpg"
-                                         alt="WoW" style="width:100%;">
-                                </div>
-                                <div class="item">
-                                    <img src="<?php echo $antiXss->xss_clean(get_config("baseurl")); ?>/template/<?php echo $antiXss->xss_clean(get_config("template")); ?>/images/slide1.jpg"
-                                         alt="WoW" style="width:100%;">
-                                </div>
-                            </div>
-                        </div>
                         <?php require_once base_path . 'template/' . $antiXss->xss_clean(get_config("template")) . '/tpl/posts.php'; ?>
                     </div>
+
+                    <!-- === REGISTER TAB === -->
                     <div class="tab-pane fade in <?php echo(!(empty($error_error) && empty($success_msg)) ? 'active' : ''); ?>"
                          id="pills-register">
                         <div class="row">
                             <div class="col-md-6">
-                                <form action="" method="post">
-                                    <div class="box1" style="margin-top: 10px;padding: 10px;">
+                                <div class="box1" style="margin-top: 10px;">
+                                    <h4><i class="fa fa-user-plus"></i> <?php elang('register'); ?></h4>
+                                    <hr>
+                                    <form action="" method="post">
                                         <?php error_msg();
-                                        success_msg(); //Display message. ?>
+                                        success_msg(); ?>
                                         <div class="input-group">
                                             <span class="input-group"><?php elang('email'); ?></span>
                                             <input type="email" class="form-control" placeholder="<?php elang('email'); ?>" name="email">
@@ -80,34 +63,33 @@ require_once 'header.php'; ?>
                                         </div>
                                         <?php echo GetCaptchaHTML();?>
                                         <input name="submit" type="hidden" value="register">
-                                        <div class="text-center" style="margin-top: 10px;"><input type="submit"
-                                                                                                  class="btn btn-success"
-                                                                                                  value="<?php elang('register'); ?>">
+                                        <div class="text-center" style="margin-top: 16px;">
+                                            <input type="submit" class="btn btn-success" value="<?php elang('register'); ?>">
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="box1 content_box1">
+                                <div class="box1 content_box1" style="margin-top: 10px;">
                                     <?php require_once base_path . 'template/' . $antiXss->xss_clean(get_config("template")) . '/tpl/rules.php'; ?>
                                     <hr>
                                     <div class="text-center">
                                         <?php if (empty(get_config('disable_changepassword'))) { ?>
                                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                                     data-target="#changepassword-modal">
-                                                <?php elang('change_password'); ?>
+                                                <i class="fa fa-key"></i> <?php elang('change_password'); ?>
                                             </button>
                                         <?php } ?>
-                                        <button type="button" class="btn btn-info" data-toggle="modal"
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
                                                 data-target="#restorepassword-modal">
-                                            <?php elang('restore_password'); ?>
+                                            <i class="fa fa-refresh"></i> <?php elang('restore_password'); ?>
                                         </button>
                                     </div>
                                     <?php if (get_config('2fa_support')) { ?>
-                                        <div class="text-center" data-aos="fade-up" data-aos-delay="100" style="margin-top: 5px;">
+                                        <div class="text-center" style="margin-top: 8px;">
                                             <button type="button" class="btn btn-default" data-toggle="modal"
                                                     data-target="#e2fa-modal">
-                                                <?php elang('two_factor_authentication'); ?>
+                                                <i class="fa fa-lock"></i> <?php elang('two_factor_authentication'); ?>
                                             </button>
                                         </div>
                                         <div class="modal" id="e2fa-modal">
@@ -115,8 +97,7 @@ require_once 'header.php'; ?>
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"><?php elang('two_factor_authentication'); ?></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;
-                                                        </button>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <form action="<?php echo $antiXss->xss_clean(get_config("baseurl")); ?>/index.php#register"
@@ -139,10 +120,10 @@ require_once 'header.php'; ?>
                                                                 </div>
                                                             <?php } echo GetCaptchaHTML();?>
                                                             <input name="submit" type="hidden" value="etfa">
-                                                            <div class="text-center" style="margin-top: 10px;"><input
-                                                                        type="submit"
-                                                                        class="btn btn-primary"
-                                                                        value="<?php elang('two_factor_authentication_enable'); ?>"></div>
+                                                            <div class="text-center" style="margin-top: 12px;">
+                                                                <input type="submit" class="btn btn-primary"
+                                                                       value="<?php elang('two_factor_authentication_enable'); ?>">
+                                                            </div>
                                                         </form>
                                                     </div>
                                                     <div class="modal-footer">
@@ -154,10 +135,10 @@ require_once 'header.php'; ?>
                                             </div>
                                         </div>
                                     <?php } if (get_config('vote_system')) { ?>
-                                        <div class="text-center" style="margin-top: 5px;">
-                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                        <div class="text-center" style="margin-top: 8px;">
+                                            <button type="button" class="btn btn-default" data-toggle="modal"
                                                     data-target="#vote-modal">
-                                                <?php elang('vote_for_us'); ?>
+                                                <i class="fa fa-thumbs-up"></i> <?php elang('vote_for_us'); ?>
                                             </button>
                                         </div>
                                         <div class="modal" id="vote-modal">
@@ -165,8 +146,7 @@ require_once 'header.php'; ?>
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"><?php elang('vote'); ?></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;
-                                                        </button>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <form action="<?php echo $antiXss->xss_clean(get_config("baseurl")); ?>/index.php#register"
@@ -186,7 +166,7 @@ require_once 'header.php'; ?>
                                                                            name="account">
                                                                 </div>
                                                             <?php } ?>
-                                                            <div class="text-center" style="margin-top: 10px;">
+                                                            <div class="text-center" style="margin-top: 12px;">
                                                                 <?php
                                                                 $vote_sites = get_config('vote_sites');
                                                                 if (!empty($vote_sites)) {
@@ -200,8 +180,7 @@ require_once 'header.php'; ?>
                                                         </form>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger"
-                                                                data-dismiss="modal">
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">
                                                             <?php elang('close'); ?>
                                                         </button>
                                                     </div>
@@ -209,13 +188,14 @@ require_once 'header.php'; ?>
                                             </div>
                                         </div>
                                     <?php } ?>
+
+                                    <!-- Restore Password Modal -->
                                     <div class="modal" id="restorepassword-modal">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h4 class="modal-title"><?php elang('restore_password'); ?></h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;
-                                                    </button>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form action="" method="post">
@@ -236,11 +216,10 @@ require_once 'header.php'; ?>
                                                         <?php }
                                                         echo GetCaptchaHTML();?>
                                                         <input name="submit" type="hidden" value="restorepassword">
-                                                        <div class="text-center" style="margin-top: 10px;"><input
-                                                                    type="submit"
-                                                                    class="btn btn-primary"
-                                                                    value="<?php elang('restore_password'); ?>"></div>
-
+                                                        <div class="text-center" style="margin-top: 12px;">
+                                                            <input type="submit" class="btn btn-primary"
+                                                                   value="<?php elang('restore_password'); ?>">
+                                                        </div>
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
@@ -251,13 +230,14 @@ require_once 'header.php'; ?>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Change Password Modal -->
                                     <div class="modal" id="changepassword-modal">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h4 class="modal-title"><?php elang('change_password'); ?></h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;
-                                                    </button>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form action="" method="post">
@@ -296,15 +276,14 @@ require_once 'header.php'; ?>
                                                         </div>
                                                         <?php echo GetCaptchaHTML();?>
                                                         <input name="submit" type="hidden" value="changepass">
-                                                        <div class="text-center" style="margin-top: 10px;"><input
-                                                                    type="submit"
-                                                                    class="btn btn-primary"
-                                                                    value="<?php elang('change_password'); ?>"></div>
+                                                        <div class="text-center" style="margin-top: 12px;">
+                                                            <input type="submit" class="btn btn-primary"
+                                                                   value="<?php elang('change_password'); ?>">
+                                                        </div>
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger"
-                                                            data-dismiss="modal">
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
                                                         <?php elang('close'); ?>
                                                     </button>
                                                 </div>
@@ -315,26 +294,32 @@ require_once 'header.php'; ?>
                             </div>
                         </div>
                     </div>
+
+                    <!-- === HOW TO CONNECT TAB === -->
                     <div class="tab-pane fade in" id="pills-howtoconnect">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="box1" style="margin-top: 10px;padding: 10px;text-align: left">
+                                <div class="box1" style="margin-top: 10px;">
                                     <?php require_once base_path . 'template/' . $antiXss->xss_clean(get_config("template")) . '/tpl/howtoconnect.php'; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- === SERVER STATUS TAB === -->
                     <?php if (!get_config('disable_online_players')) { ?>
                         <div class="tab-pane fade in" id="pills-serverstatus">
                             <div class="box1" style="margin-top: 10px;">
+                                <h4><i class="fa fa-server"></i> <?php elang('server_status'); ?></h4>
+                                <hr>
                                 <?php
                                 foreach (get_config('realmlists') as $onerealm_key => $onerealm) {
-                                    echo "<p><span style='color: #005cbf;font-weight: bold;'>{$onerealm['realmname']}</span> <span style='font-size: 12px;'>(" . lang('online_players_msg1') . " " . user::get_online_players_count($onerealm['realmid']) . ")</span></p><hr>";
+                                    echo "<p><span style='color: var(--gold);font-weight: bold;font-family: var(--font-heading);'>{$onerealm['realmname']}</span> <span style='font-size: 12px;color:var(--text-dim);'>(" . lang('online_players_msg1') . " " . user::get_online_players_count($onerealm['realmid']) . ")</span></p><hr>";
                                     $online_chars = user::get_online_players($onerealm['realmid']);
                                     if (!is_array($online_chars)) {
-                                        echo "<span style='color: #0d99e5;'>" . lang('online_players_msg2') . "</span>";
+                                        echo "<span style='color: var(--text-dim);'>" . lang('online_players_msg2') . "</span>";
                                     } else {
-                                        echo '<table class="table table-dark"><thead><tr><th scope="col">' . lang('name') . '</th><th scope="col">' . lang('race') . '</th> <th scope="col">' . lang('class') . '</th><th scope="col">' . lang('level') . '</th></tr></thead><tbody>';
+                                        echo '<table class="table"><thead><tr><th scope="col">' . lang('name') . '</th><th scope="col">' . lang('race') . '</th> <th scope="col">' . lang('class') . '</th><th scope="col">' . lang('level') . '</th></tr></thead><tbody>';
                                         foreach ($online_chars as $one_char) {
                                             echo '<tr><th scope="row">' . $antiXss->xss_clean($one_char['name']) . '</th><td><img src=\'' . get_config("baseurl") . '/template/' . $antiXss->xss_clean(get_config("template")) . '/images/race/' . $antiXss->xss_clean($one_char["race"]) . '-' . $antiXss->xss_clean($one_char["gender"]) . '.gif\'></td><td><img src=\'' . get_config("baseurl") . '/template/' . $antiXss->xss_clean(get_config("template")) . '/images/class/' . $antiXss->xss_clean($one_char["class"]) . '.gif\'></td><td>' . $antiXss->xss_clean($one_char['level']) . '</td></tr>';
                                         }
@@ -346,19 +331,23 @@ require_once 'header.php'; ?>
                             </div>
                         </div>
                     <?php }
+
+                    // === TOP PLAYERS TAB ===
                     if (!get_config('disable_top_players')) { ?>
                         <div class="tab-pane fade in" id="pills-topplayers">
                             <div class="box1" style="margin-top: 10px;">
+                                <h4><i class="fa fa-trophy"></i> <?php elang('top_players'); ?></h4>
+                                <hr>
                                 <?php
                                 $i = 1;
                                 foreach (get_config('realmlists') as $onerealm_key => $onerealm) {
-                                    echo "<h6 style='color: #005cbf;font-weight: bold;'>{$onerealm['realmname']}</h6><hr>";
+                                    echo "<h6 style='color: var(--gold);font-weight: bold;font-family: var(--font-heading);'>{$onerealm['realmname']}</h6><hr>";
                                     $data2show = status::get_top_playtime($onerealm['realmid']);
-                                    echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\"  data-aos=\"fade-up\" data-aos-delay=\"100\"data-target=\"#modal-id$i\">" . lang('play_time') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
+                                    echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#modal-id$i\"><i class=\"fa fa-clock-o\"></i> " . lang('play_time') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
                                             <div class=\"modal-header\"><h4 class=\"modal-title\">" . lang('top_players') . " - " . lang('play_time') . "</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button></div><div class=\"modal-body\">";
 
                                     if (!is_array($data2show)) {
-                                        echo "<span style='color: #0d99e5;'>" . lang('online_players_msg2') . "</span>";
+                                        echo "<span style='color: var(--text-dim);'>" . lang('online_players_msg2') . "</span>";
                                     } else {
                                         echo '<table class="table table-striped"><thead><tr><th scope="col">' . lang('rank') . '</th><th scope="col">' . lang('name') . '</th><th scope="col">' . lang('race') . '</th> <th scope="col">' . lang('class') . '</th><th scope="col">' . lang('level') . '</th><th scope="col">' . lang('play_time') . '</th></tr></thead><tbody>';
                                         $m = 1;
@@ -370,14 +359,14 @@ require_once 'header.php'; ?>
                                         }
                                         echo '</table>';
                                     }
-                                    echo "</div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">Close</button></div></div></div></div>";
+                                    echo "</div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">" . lang('close') . "</button></div></div></div></div>";
                                     $i++;
 
                                     $data2show = status::get_top_killers($onerealm['realmid']);
-                                    echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\"  data-aos=\"fade-up\" data-aos-delay=\"100\"data-target=\"#modal-id$i\">" . lang('killers') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
+                                    echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#modal-id$i\"><i class=\"fa fa-crosshairs\"></i> " . lang('killers') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
                                             <div class=\"modal-header\"><h4 class=\"modal-title\">" . lang('top_players') . " - " . lang('killers') . "</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button></div><div class=\"modal-body\">";
                                     if (!is_array($data2show)) {
-                                        echo "<span style='color: #0d99e5;'>" . lang('online_players_msg2') . "</span>";
+                                        echo "<span style='color: var(--text-dim);'>" . lang('online_players_msg2') . "</span>";
                                     } else {
                                         echo '<table class="table table-striped"><thead><tr><th scope="col">' . lang('rank') . '</th><th scope="col">' . lang('name') . '</th><th scope="col">' . lang('race') . '</th> <th scope="col">' . lang('class') . '</th><th scope="col">' . lang('level') . '</th><th scope="col">' . lang('kills') . '</th></tr></thead><tbody>';
                                         $m = 1;
@@ -393,10 +382,10 @@ require_once 'header.php'; ?>
                                     $i++;
 
                                     $data2show = status::get_top_honorpoints($onerealm['realmid']);
-                                    echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\"  data-aos=\"fade-up\" data-aos-delay=\"100\"data-target=\"#modal-id$i\">" . lang('honor_points') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
+                                    echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#modal-id$i\"><i class=\"fa fa-star\"></i> " . lang('honor_points') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
                                             <div class=\"modal-header\"><h4 class=\"modal-title\">" . lang('top_players') . " - " . lang('honor_points') . "</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button></div><div class=\"modal-body\">";
                                     if (!is_array($data2show)) {
-                                        echo "<span style='color: #0d99e5;'>" . lang('online_players_msg2') . "</span>";
+                                        echo "<span style='color: var(--text-dim);'>" . lang('online_players_msg2') . "</span>";
                                     } else {
                                         echo '<table class="table table-striped"><thead><tr><th scope="col">' . lang('rank') . '</th><th scope="col">' . lang('name') . '</th><th scope="col">' . lang('race') . '</th> <th scope="col">' . lang('class') . '</th><th scope="col">' . lang('rank') . '</th>';
 
@@ -427,10 +416,10 @@ require_once 'header.php'; ?>
                                     $i++;
 
                                     $data2show = status::get_top_arenapoints($onerealm['realmid']);
-                                    echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\"  data-aos=\"fade-up\" data-aos-delay=\"100\"data-target=\"#modal-id$i\">" . lang('arena_points') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
-                                            <div class=\"modal-header\"><h4 class=\"modal-title\">" . lang('top_players') . " - " . lang('arena_points') . ":</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button></div><div class=\"modal-body\">";
+                                    echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#modal-id$i\"><i class=\"fa fa-shield\"></i> " . lang('arena_points') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
+                                            <div class=\"modal-header\"><h4 class=\"modal-title\">" . lang('top_players') . " - " . lang('arena_points') . "</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button></div><div class=\"modal-body\">";
                                     if (!is_array($data2show)) {
-                                        echo "<span style='color: #0d99e5;'>" . lang('online_players_msg2') . "</span>";
+                                        echo "<span style='color: var(--text-dim);'>" . lang('online_players_msg2') . "</span>";
                                     } else {
                                         echo '<table class="table table-striped"><thead><tr><th scope="col">' . lang('rank') . '</th><th scope="col">' . lang('name') . '</th><th scope="col">' . lang('race') . '</th> <th scope="col">' . lang('class') . '</th><th scope="col">' . lang('level') . '</th><th scope="col">' . lang('arena_points') . '</th></tr></thead><tbody>';
                                         $m = 1;
@@ -446,10 +435,10 @@ require_once 'header.php'; ?>
                                     $i++;
 
                                     $data2show = status::get_top_arenateams($onerealm['realmid']);
-                                    echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\"  data-aos=\"fade-up\" data-aos-delay=\"100\"data-target=\"#modal-id$i\">" . lang('arena_teams') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
+                                    echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#modal-id$i\"><i class=\"fa fa-users\"></i> " . lang('arena_teams') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
                                             <div class=\"modal-header\"><h4 class=\"modal-title\">" . lang('top_players') . " - " . lang('arena_teams') . "</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button></div><div class=\"modal-body\">";
                                     if (!is_array($data2show)) {
-                                        echo "<span style='color: #0d99e5;'>" . lang('online_players_msg2') . "</span>";
+                                        echo "<span style='color: var(--text-dim);'>" . lang('online_players_msg2') . "</span>";
                                     } else {
                                         echo '<table class="table table-striped"><thead><tr><th scope="col">' . lang('rank') . '</th><th scope="col">' . lang('name') . '</th><th scope="col">' . lang('rating') . '</th><th scope="col">' . lang('captain_name') . '</th></tr></thead><tbody>';
                                         $m = 1;
@@ -472,6 +461,8 @@ require_once 'header.php'; ?>
                             </div>
                         </div>
                     <?php } ?>
+
+                    <!-- === CONTACT TAB === -->
                     <div class="tab-pane fade in" id="pills-contact">
                         <div class="box1" style="margin-top: 10px;">
                             <?php require_once base_path . 'template/' . $antiXss->xss_clean(get_config("template")) . '/tpl/contactus.php'; ?>
@@ -480,33 +471,38 @@ require_once 'header.php'; ?>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 sidebar">
+
+        <!-- === SIDEBAR === -->
+        <div class="col-md-4 sidebar" style="margin-top: 20px;">
             <div class="box1">
-                <?php elang('server_information'); ?>
-                <hr style="border-color: #F1A40F;">
-                <p><?php elang('realmlist'); ?>: <span style="color: yellow;"><?php echo get_config('realmlist'); ?></span></p>
-                <?php echo(!empty(get_config("game_version")) ? '<p>' . lang('game_version') . ': <span style="color: yellow;">' . get_config("game_version") . '</span></p>' : ''); ?>
-                <?php echo(!empty(get_config("patch_location")) ? '<p>' . lang('server_patch') . ' : <a href="' . get_config("patch_location") . '" style="color: yellow;">' . lang('download') . '</a></p>' : ''); ?>
+                <h4><i class="fa fa-info-circle"></i> <?php elang('server_information'); ?></h4>
+                <hr>
+                <p><i class="fa fa-globe" style="color:var(--gold);width:20px;"></i> <?php elang('realmlist'); ?>: <span style="color: var(--gold-bright);"><?php echo get_config('realmlist'); ?></span></p>
+                <?php echo(!empty(get_config("game_version")) ? '<p><i class="fa fa-gamepad" style="color:var(--gold);width:20px;"></i> ' . lang('game_version') . ': <span style="color: var(--gold-bright);">' . get_config("game_version") . '</span></p>' : ''); ?>
+                <?php echo(!empty(get_config("patch_location")) ? '<p><i class="fa fa-download" style="color:var(--gold);width:20px;"></i> ' . lang('server_patch') . ': <a href="' . get_config("patch_location") . '" style="color: var(--gold-bright);">' . lang('download') . '</a></p>' : ''); ?>
             </div>
-             <?php if(!empty(get_config('supported_langs'))) { ?>
+            <?php if(!empty(get_config('supported_langs'))) { ?>
             <div class="box1">
-            <form action="" method="post">
-                <div class="form-group">
-                    <label for="lang"><?php elang('change_lang_form_head'); ?></label>
+                <h4><i class="fa fa-language"></i> <?php elang('change_lang_form_head'); ?></h4>
+                <hr>
+                <form action="" method="post">
+                    <div class="form-group">
                         <select class="form-control" id="langchange" name="langchange">
-                        <?php
+                            <?php
                             $supported_langs = get_config('supported_langs');
                             foreach($supported_langs as $val => $lang) {
                                 echo '<option value="' . $val . '">' . $lang . '</option>';
                             }
-                        ?>
+                            ?>
                         </select>
-                </div>
+                    </div>
                     <input name="langchangever" type="hidden" value="langchanger">
-                    <button type="submit" class="btn btn-primary"><?php elang('change_lang_sub'); ?></button>
-            </form>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">
+                        <i class="fa fa-check"></i> <?php elang('change_lang_sub'); ?>
+                    </button>
+                </form>
             </div>
-             <?php } ?>
+            <?php } ?>
         </div>
     </div>
 </div>
