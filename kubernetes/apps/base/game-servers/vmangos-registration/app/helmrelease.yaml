@@ -45,6 +45,7 @@ spec:
             image:
               repository: ghcr.io/xunholy/vmangos-registration
               tag: latest
+              pullPolicy: Always
             env:
               TZ: Australia/Melbourne
             probes:
