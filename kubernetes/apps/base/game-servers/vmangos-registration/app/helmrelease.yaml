@@ -54,7 +54,7 @@ spec:
                   cp -a /tmp/src/. /app/
                 fi
                 cd /app/application
-                composer install --no-dev
+                composer install --no-dev --ignore-platform-reqs
         containers:
           app:
             image:
