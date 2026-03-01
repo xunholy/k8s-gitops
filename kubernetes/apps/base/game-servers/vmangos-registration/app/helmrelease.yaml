@@ -49,7 +49,7 @@ spec:
               - sh
               - -c
               - |
-                if [ ! -f /app/index.php ]; then
+                if [ ! -f /app/login.php ]; then
                   git clone https://github.com/vmangos/WallRegistrationPage.git /tmp/repo
                   cp -r /tmp/repo/* /app/
                 fi
@@ -58,6 +58,13 @@ spec:
             image:
               repository: php
               tag: 8.3-apache
+            command:
+              - sh
+              - -c
+              - |
+                apt-get update && apt-get install -y libxml2-dev && docker-php-ext-install soap
+                echo "DirectoryIndex login.php" > /var/www/html/.htaccess
+                apache2-foreground
             env:
               TZ: Australia/Melbourne
             probes:
@@ -66,7 +73,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /
+                    path: /login.php
                     port: 80
                   periodSeconds: 30
                   timeoutSeconds: 3
@@ -76,7 +83,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /
+                    path: /login.php
                     port: 80
                   periodSeconds: 10
                   timeoutSeconds: 3
@@ -86,14 +93,11 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /
+                    path: /login.php
                     port: 80
-                  periodSeconds: 5
+                  periodSeconds: 10
                   timeoutSeconds: 3
                   failureThreshold: 30
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
@@ -102,9 +106,6 @@ spec:
                 memory: 256Mi
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 33
-        runAsGroup: 33
         fsGroup: 33
         fsGroupChangePolicy: OnRootMismatch
     service:
