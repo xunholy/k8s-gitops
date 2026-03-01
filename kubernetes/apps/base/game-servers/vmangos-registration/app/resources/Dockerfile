@@ -2,7 +2,7 @@ FROM composer:latest AS vendor
 
 WORKDIR /build
 COPY app/application/composer.json app/application/composer.lock ./
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
 
 FROM php:8.3-apache
 
