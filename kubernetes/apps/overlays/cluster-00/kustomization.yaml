@@ -90,7 +90,8 @@ resources:
   # - ../../base/observability/kiali/ks.yaml
   - ../../base/observability/kromgo/ks.yaml
   - ../../base/observability/kube-prometheus-stack/ks.yaml
-  # - ../../base/observability/loki/ks.yaml
+  - ../../base/observability/alloy/ks.yaml
+  - ../../base/observability/loki/ks.yaml
   # - ../../base/observability/otel/ks.yaml
   - ../../base/observability/silence-operator/ks.yaml
   - ../../base/observability/vpa/ks.yaml
