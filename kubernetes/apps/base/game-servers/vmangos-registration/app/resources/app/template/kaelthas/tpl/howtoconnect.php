@@ -8,9 +8,12 @@
     <hr>
     <p>1. <?php elang('create_account_tip1'); ?></p>
     <p>2. <?php elang('create_account_tip2'); ?></p>
+    <div style="margin: 12px 0 20px;">
+        <a href="https://drive.google.com/open?id=1BVYyC49HXTUsv0E5gp7gSoDpmtsKqdIM" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
+            <i class="fa fa-download"></i> Download Client
+        </a>
+    </div>
     <p>3. <?php elang('create_account_tip3'); ?></p>
     <p>4. <?php elang('create_account_tip4'); ?></p>
-    <div class="box1" style="margin-top: 16px; text-align: center;">
-        <code style="font-size: 16px; padding: 6px 16px;">set realmlist <?php echo get_config('realmlist'); ?></code>
-    </div>
+    <pre class="realmlist-block">set realmlist <?php echo get_config('realmlist') . "\n"; ?>set realmname <?php echo $antiXss->xss_clean(get_config('page_title')); ?></pre>
 </div>

@@ -4,22 +4,21 @@
  */
 ?>
 <div class="box1 post-card" style="margin-top: 16px;">
-    <h4><i class="fa fa-shield"></i> Welcome to Azeroth</h4>
+    <h4><i class="fa fa-shield"></i> Welcome to Emberstone</h4>
     <hr>
     <p style="text-align: justify">
-        Welcome to our Vanilla World of Warcraft server powered by VMaNGOS. Experience WoW as it was meant to be
-        played &mdash; the original 1.12.1 client with faithful game mechanics, class balance, and content progression.
-        Whether you are a returning veteran or discovering classic Azeroth for the first time, our server offers a
-        stable and authentic Vanilla experience.
+        Emberstone is a Classic World of Warcraft realm running the original 1.12.1 patch with faithful game
+        mechanics, class balance, and progressive content unlocks. Whether you are a returning veteran or stepping
+        into Azeroth for the first time, Emberstone offers a stable, blizzlike experience with an active community
+        and dedicated staff.
     </p>
 </div>
 <div class="box1 post-card" style="margin-top: 16px;">
     <h4><i class="fa fa-play-circle"></i> Getting Started</h4>
     <hr>
     <p style="text-align: justify">
-        Create your account above to begin your adventure. Once registered, update your <code>realmlist.wtf</code>
-        file to connect to the server. Join our community and explore the Eastern Kingdoms and Kalimdor, tackle
-        dungeons with friends, and take part in large-scale PvP battles. See the "How to Connect" page for setup
-        instructions.
+        Create your account to begin your adventure. Once registered, update your <code>realmlist.wtf</code>
+        file and log in to explore the Eastern Kingdoms and Kalimdor, run dungeons with friends, raid Molten Core
+        and Onyxia, and fight for honor in Alterac Valley. Check the "How to Connect" page for setup instructions.
     </p>
 </div>

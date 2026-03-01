@@ -16,7 +16,8 @@ require_once 'header.php'; ?>
                     if (!get_config('disable_top_players')) { ?>
                         <li><a data-toggle="tab" href="#pills-topplayers" id="topplayers"><?php elang('top_players'); ?></a></li>
                     <?php } ?>
-                    <li><a data-toggle="tab" href="#pills-contact" id="contact"><?php elang('contact'); ?></a></li>
+                    <!-- Contact tab hidden — no contact method configured -->
+                    <!-- <li><a data-toggle="tab" href="#pills-contact" id="contact"><?php elang('contact'); ?></a></li> -->
                 </ul>
                 <div class="tab-content" id="nav-tabContent">
 
@@ -459,12 +460,14 @@ require_once 'header.php'; ?>
                         </div>
                     <?php } ?>
 
-                    <!-- === CONTACT TAB === -->
+                    <!-- === CONTACT TAB (hidden — no contact method configured) === -->
+                    <!--
                     <div class="tab-pane fade in" id="pills-contact">
                         <div class="box1" style="margin-top: 10px;">
-                            <?php require_once base_path . 'template/' . $antiXss->xss_clean(get_config("template")) . '/tpl/contactus.php'; ?>
+                            <?php // require_once base_path . 'template/' . $antiXss->xss_clean(get_config("template")) . '/tpl/contactus.php'; ?>
                         </div>
                     </div>
+                    -->
                 </div>
             </div>
         </div>

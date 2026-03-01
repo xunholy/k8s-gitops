@@ -1,6 +1,6 @@
 <?php
-$config['baseurl'] = "https://wow-register.owncloud.ai";
-$config['page_title'] = "VMaNGOS Registration";
+$config['baseurl'] = "https://emberstone.owncloud.ai";
+$config['page_title'] = "Emberstone";
 $config['language'] = "english";
 $config['supported_langs'] = [
     'english' => 'English',
@@ -47,7 +47,7 @@ $config['db_auth_dbname'] = 'realmd';
 $config['realmlists'] = array(
     "1" => array(
         'realmid' => 1,
-        'realmname' => "VMaNGOS",
+        'realmname' => "Emberstone",
         'db_host' => "vmangos-database",
         'db_port' => "3306",
         'db_user' => "mangos",
