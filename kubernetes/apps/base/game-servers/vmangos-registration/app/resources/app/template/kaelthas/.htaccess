@@ -1,0 +1,116 @@
+<Files ~ "\.php$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.phtml$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.php3$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.php6$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.phps$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.cgi$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.exe$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.pl$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.asp$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.shtml$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.fcgi$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.fpl$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.jsp$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.wml$">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files ~ "\.inc$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.ini$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.conf$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.bin$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.sh$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.tpl$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.php5$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.php4$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.php.gif$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.php.jpg$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.php.png$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.php;gif$">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files ~ "\.php;jpg$">
+    Order allow,deny
+    Deny from all
+</Files>
+<files ".htaccess">
+	Order allow,deny
+	Deny from all
+</files>
+#php_flag engine 0
+RemoveHandler .phtml .php .php3 .php4 .php5 .php6 .phps .cgi .exe .pl .asp .aspx .shtml .shtm .fcgi .fpl .jsp .htm .html .wml
+AddType application/x-httpd-php-source .phtml .php .php3 .php4 .php5 .php6 .phps .cgi .exe .pl .asp .aspx .shtml .shtm .fcgi .fpl .jsp .htm .html .wml

@@ -1,0 +1,12 @@
+{
+  "require": {
+    "voku/anti-xss": "^4.1",
+    "phpunit/php-timer": "^7.0",
+    "rmccue/requests": "^2.0",
+    "phpmailer/phpmailer": "^6.9",
+    "gregwar/captcha": "^1.2",
+    "phpgangsta/googleauthenticator": "dev-master",
+    "doctrine/dbal": "^4.2",
+    "ext-gmp": "*"
+  }
+}

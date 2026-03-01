@@ -40,35 +40,11 @@ spec:
   values:
     controllers:
       app:
-        initContainers:
-          clone-app:
-            image:
-              repository: composer
-              tag: latest
-            command:
-              - sh
-              - -c
-              - |
-                if [ ! -f /app/index.php ]; then
-                  git clone https://github.com/masterking32/WoWSimpleRegistration.git /tmp/src
-                  cp -a /tmp/src/. /app/
-                fi
-                cd /app/application
-                composer install --no-dev --ignore-platform-reqs
         containers:
           app:
             image:
-              repository: php
-              tag: 8.3-apache
-            command:
-              - sh
-              - -c
-              - |
-                apt-get update && apt-get install -y libxml2-dev libgmp-dev libpng-dev libzip-dev libfreetype6-dev libjpeg62-turbo-dev
-                docker-php-ext-configure gd --with-freetype --with-jpeg
-                docker-php-ext-install soap gmp gd zip pdo pdo_mysql
-                a2enmod rewrite
-                apache2-foreground
+              repository: ghcr.io/xunholy/vmangos-registration
+              tag: latest
             env:
               TZ: Australia/Melbourne
             probes:
@@ -119,14 +95,6 @@ spec:
           http:
             port: 80
     persistence:
-      app-code:
-        type: emptyDir
-        advancedMounts:
-          app:
-            clone-app:
-              - path: /app
-            app:
-              - path: /var/www/html
       config:
         type: configMap
         name: vmangos-registration-config

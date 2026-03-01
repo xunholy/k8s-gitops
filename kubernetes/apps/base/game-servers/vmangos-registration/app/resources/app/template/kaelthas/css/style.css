@@ -1,0 +1,542 @@
+@font-face {
+    font-family: 'OpenSansWeb';
+    src: url('../fonts/OpenSans-Regular.woff2') format('woff2'), url('../fonts/OpenSans-Regular.woff') format('woff');
+}
+
+*, body {
+    font-family: OpenSansWeb;
+}
+
+html {
+    min-height: 100%;
+}
+
+.main-box {
+    width: 100%;
+    margin: 20px auto;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.content_box1{
+    padding: 10px;
+    text-align: left;
+}
+
+.box-form {
+    max-width: 80%;
+    margin: 10px auto 10px auto;
+    padding: 25px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+}
+
+.login-form img {
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.form-control {
+    margin: 5px 0px 10px 0px;
+}
+
+.input-group span {
+    padding-top: 10px;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+#myCarousel {
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid #0b2e13;
+}
+
+nav.navbar.bootsnav ul.nav > li > a {
+    color: #ffc600;
+}
+
+nav.navbar.bootsnav {
+    background-color: transparent;
+    border-bottom: none;
+    background: url(../images/headerbar_bg.png) no-repeat left 38px, url(../images/headerbar_bg2.png) no-repeat right 38px;
+}
+
+nav.navbar.bootsnav:before, nav.navbar.bootsnav:after {
+    background-image: url(../images/headerbar_bg.png);
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.box1 {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.content1 {
+    z-index: 10;
+    position: relative;
+}
+
+nav.navbar.bootsnav div.in ul.nav > li > a {
+    color: #6f6f6f;
+    background-color: rgba(0, 0, 0, 0.8);
+    outline: none;
+    margin-bottom: -2px;
+    padding-left: 10px;
+}
+
+.input-group {
+    width: 100%;
+}
+
+.modal-backdrop {
+    z-index: 2;
+}
+
+.modal-content {
+    color: #000;
+}
+
+#pills-topplayers button {
+    margin: 5px;
+}
+
+.carousel-inner > .item > a > img, .carousel-inner > .item > img {
+    line-height: 1;
+    opacity: 0.9;
+}
+
+td, th {
+    text-align: center;
+}
+
+html, body {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    position: relative;
+    font-size: 14px;
+    line-height: 24px;
+    color: #6f6f6f;
+}
+
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: 0;
+}
+
+/*
+Navbar Adjusment
+=========================== */
+/* Navbar Atribute ------*/
+.attr-nav > ul > li > a {
+    padding: 28px 15px;
+}
+
+ul.cart-list > li.total > .btn {
+    border-bottom: solid 1px #cfcfcf !important;
+    color: #fff !important;
+    padding: 10px 15px;
+}
+
+@media (min-width: 1024px) {
+    /* Navbar General ------*/
+    nav.navbar ul.nav > li > a {
+        padding: 30px 15px;
+        font-weight: 600;
+    }
+
+    nav.navbar .navbar-brand {
+        margin-top: -50px;
+    }
+
+    nav.navbar .navbar-brand img.logo {
+        width: 200px;
+    }
+
+    nav.navbar li.dropdown ul.dropdown-menu {
+        border-top: solid 5px;
+    }
+
+    /* Navbar Center ------*/
+    nav.navbar-center .navbar-brand {
+        margin: 0 !important;
+    }
+
+    /* Navbar Brand Top ------*/
+    nav.navbar-brand-top .navbar-brand {
+        margin: 10px !important;
+    }
+
+    /* Navbar Full ------*/
+    nav.navbar-full .navbar-brand {
+        position: relative;
+        top: -15px;
+    }
+
+    /* Navbar Sidebar ------*/
+    nav.navbar-sidebar ul.nav,
+    nav.navbar-sidebar .navbar-brand {
+        margin-bottom: 50px;
+    }
+
+    nav.navbar-sidebar ul.nav > li > a {
+        padding: 10px 15px;
+        font-weight: bold;
+    }
+
+    /* Navbar Transparent & Fixed ------*/
+    nav.navbar.bootsnav.navbar-transparent.white {
+        background-color: rgba(255, 255, 255, 0.3);
+        border-bottom: solid 1px #bbb;
+    }
+
+    nav.navbar.navbar-inverse.bootsnav.navbar-transparent.dark,
+    nav.navbar.bootsnav.navbar-transparent.dark {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-bottom: solid 1px #555;
+    }
+
+    nav.navbar.bootsnav.navbar-transparent.white .attr-nav {
+        border-left: solid 1px #bbb;
+    }
+
+    nav.navbar.navbar-inverse.bootsnav.navbar-transparent.dark .attr-nav,
+    nav.navbar.bootsnav.navbar-transparent.dark .attr-nav {
+        border-left: solid 1px #555;
+    }
+
+    nav.navbar.bootsnav.no-background.white .attr-nav > ul > li > a,
+    nav.navbar.bootsnav.navbar-transparent.white .attr-nav > ul > li > a,
+    nav.navbar.bootsnav.navbar-transparent.white ul.nav > li > a,
+    nav.navbar.bootsnav.no-background.white ul.nav > li > a {
+        color: #fff;
+    }
+
+    nav.navbar.bootsnav.navbar-transparent.dark .attr-nav > ul > li > a,
+    nav.navbar.bootsnav.navbar-transparent.dark ul.nav > li > a {
+        color: #eee;
+    }
+}
+
+@media (max-width: 1100px) {
+    /* Navbar General ------*/
+    nav.navbar .navbar-brand {
+        margin-top: 0;
+        position: relative;
+        top: -2px;
+    }
+
+    nav.navbar.bootsnav {
+        background-color: transparent;
+    }
+
+    nav.navbar .navbar-brand img.logo {
+        width: 100px;
+    }
+
+    .attr-nav > ul > li > a {
+        padding: 16px 15px 15px;
+    }
+
+    /* Navbar Mobile slide ------*/
+    nav.navbar.navbar-mobile ul.nav > li > a {
+        padding: 15px 15px;
+    }
+
+    nav.navbar.navbar-mobile ul.nav ul.dropdown-menu > li > a {
+        padding-right: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+    }
+
+    nav.navbar.navbar-mobile ul.nav ul.dropdown-menu .col-menu .title {
+        padding-right: 30px !important;
+        padding-top: 13px !important;
+        padding-bottom: 13px !important;
+    }
+
+    nav.navbar.navbar-mobile ul.nav ul.dropdown-menu .col-menu ul.menu-col li a {
+        padding-top: 13px !important;
+        padding-bottom: 13px !important;
+    }
+
+    /* Navbar Full ------*/
+    nav.navbar-full .navbar-brand {
+        top: 0;
+        padding-top: 10px;
+    }
+}
+
+/* Navbar Inverse
+=================================*/
+nav.navbar.navbar-inverse {
+    background-color: #222;
+    border-bottom: solid 1px #303030;
+}
+
+nav.navbar.navbar-inverse ul.cart-list > li.total > .btn {
+    border-bottom: solid 1px #222 !important;
+}
+
+nav.navbar.navbar-inverse ul.cart-list > li.total .pull-right {
+    color: #fff;
+}
+
+nav.navbar.navbar-inverse.megamenu ul.dropdown-menu.megamenu-content .content ul.menu-col li a,
+nav.navbar.navbar-inverse ul.nav > li > a {
+    color: #eee;
+}
+
+nav.navbar.navbar-inverse ul.nav > li.dropdown > a {
+    background-color: #222;
+}
+
+nav.navbar.navbar-inverse li.dropdown ul.dropdown-menu > li > a {
+    color: #999;
+}
+
+nav.navbar.navbar-inverse ul.nav .dropdown-menu h1,
+nav.navbar.navbar-inverse ul.nav .dropdown-menu h2,
+nav.navbar.navbar-inverse ul.nav .dropdown-menu h3,
+nav.navbar.navbar-inverse ul.nav .dropdown-menu h4,
+nav.navbar.navbar-inverse ul.nav .dropdown-menu h5,
+nav.navbar.navbar-inverse ul.nav .dropdown-menu h6 {
+    color: #fff;
+}
+
+nav.navbar.navbar-inverse .form-control {
+    background-color: #333;
+    border-color: #303030;
+    color: #fff;
+}
+
+nav.navbar.navbar-inverse .attr-nav > ul > li > a {
+    color: #eee;
+}
+
+nav.navbar.navbar-inverse .attr-nav > ul > li.dropdown ul.dropdown-menu {
+    background-color: #222;
+    border-left: solid 1px #303030;
+    border-bottom: solid 1px #303030;
+    border-right: solid 1px #303030;
+}
+
+nav.navbar.navbar-inverse ul.cart-list > li {
+    border-bottom: solid 1px #303030;
+    color: #eee;
+}
+
+nav.navbar.navbar-inverse ul.cart-list > li img {
+    border: solid 1px #303030;
+}
+
+nav.navbar.navbar-inverse ul.cart-list > li.total {
+    background-color: #333;
+}
+
+nav.navbar.navbar-inverse .share ul > li > a {
+    background-color: #555;
+}
+
+nav.navbar.navbar-inverse .dropdown-tabs .tab-menu {
+    border-right: solid 1px #303030;
+}
+
+nav.navbar.navbar-inverse .dropdown-tabs .tab-menu > ul > li > a {
+    border-bottom: solid 1px #303030;
+}
+
+nav.navbar.navbar-inverse .dropdown-tabs .tab-content {
+    border-left: solid 1px #303030;
+}
+
+nav.navbar.navbar-inverse .dropdown-tabs .tab-menu > ul > li > a:hover,
+nav.navbar.navbar-inverse .dropdown-tabs .tab-menu > ul > li > a:focus,
+nav.navbar.navbar-inverse .dropdown-tabs .tab-menu > ul > li.active > a {
+    background-color: #333 !important;
+}
+
+nav.navbar-inverse.navbar-full ul.nav > li > a {
+    border: none;
+}
+
+nav.navbar-inverse.navbar-full .navbar-collapse .wrap-full-menu {
+    background-color: #222;
+}
+
+nav.navbar-inverse.navbar-full .navbar-toggle {
+    background-color: #222 !important;
+    color: #6f6f6f;
+}
+
+@media (min-width: 1024px) {
+    nav.navbar.navbar-inverse ul.nav .dropdown-menu {
+        background-color: #222 !important;
+        border-left: solid 1px #303030 !important;
+        border-bottom: solid 1px #303030 !important;
+        border-right: solid 1px #303030 !important;
+    }
+
+    nav.navbar.navbar-inverse li.dropdown ul.dropdown-menu > li > a {
+        border-bottom: solid 1px #303030;
+    }
+
+    nav.navbar.navbar-inverse ul.dropdown-menu.megamenu-content .col-menu {
+        border-left: solid 1px #303030;
+        border-right: solid 1px #303030;
+    }
+
+    nav.navbar.navbar-inverse.navbar-transparent.dark {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-bottom: solid 1px #999;
+    }
+
+    nav.navbar.navbar-inverse.navbar-transparent.dark .attr-nav {
+        border-left: solid 1px #999;
+    }
+
+    nav.navbar.navbar-inverse.no-background.white .attr-nav > ul > li > a,
+    nav.navbar.navbar-inverse.navbar-transparent.dark .attr-nav > ul > li > a,
+    nav.navbar.navbar-inverse.navbar-transparent.dark ul.nav > li > a,
+    nav.navbar.navbar-inverse.no-background.white ul.nav > li > a {
+        color: #fff;
+    }
+
+    nav.navbar.navbar-inverse.no-background.dark .attr-nav > ul > li > a,
+    nav.navbar.navbar-inverse.no-background.dark .attr-nav > ul > li > a,
+    nav.navbar.navbar-inverse.no-background.dark ul.nav > li > a,
+    nav.navbar.navbar-inverse.no-background.dark ul.nav > li > a {
+        color: #3f3f3f;
+    }
+}
+
+@media (max-width: 992px) {
+    nav.navbar.navbar-inverse .navbar-toggle {
+        color: #eee;
+        background-color: #222 !important;
+    }
+
+    nav.navbar.navbar-inverse .navbar-nav > li > a {
+        border-top: solid 1px #303030;
+        border-bottom: solid 1px #303030;
+    }
+
+    nav.navbar.navbar-inverse ul.nav li.dropdown ul.dropdown-menu > li > a {
+        color: #999;
+        border-bottom: solid 1px #303030;
+    }
+
+    nav.navbar.navbar-inverse .dropdown .megamenu-content .col-menu .title {
+        border-bottom: solid 1px #303030;
+        color: #eee;
+    }
+
+    nav.navbar.navbar-inverse .dropdown .megamenu-content .col-menu ul > li > a {
+        border-bottom: solid 1px #303030;
+        color: #999 !important;
+    }
+
+    nav.navbar.navbar-inverse .dropdown .megamenu-content .col-menu.on:last-child .title {
+        border-bottom: solid 1px #303030;
+    }
+
+    nav.navbar.navbar-inverse .dropdown-tabs .tab-menu > ul {
+        border-top: solid 1px #303030;
+    }
+
+    nav.navbar.navbar-inverse.navbar-mobile .navbar-collapse {
+        background-color: #222;
+    }
+}
+
+@media (max-width: 767px) {
+    nav.navbar.navbar-inverse.navbar-mobile ul.nav {
+        border-top: solid 1px #222;
+    }
+}
+
+/*
+Color
+=========================== */
+nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li a:hover,
+.side .widget ul.link li a:hover,
+.side .widget ul.link li a:focus,
+.check-list li:before,
+ul.cart-list > li > h6 > a,
+.attr-nav > ul > li > a:hover,
+.attr-nav > ul > li > a:focus,
+nav.navbar-sidebar ul.nav li.dropdown.on > a,
+nav.navbar-sidebar .dropdown .megamenu-content .col-menu.on .title,
+nav.navbar-sidebar ul.nav li.dropdown ul.dropdown-menu li a:hover,
+nav.navbar ul.nav li.dropdown.on > a,
+nav.navbar.navbar-inverse ul.nav li.dropdown.on > a,
+nav.navbar-sidebar ul.nav li.dropdown.on ul.dropdown-menu li.dropdown.on > a,
+nav.navbar .dropdown .megamenu-content .col-menu.on .title,
+nav.navbar ul.nav > li > a:hover,
+nav.navbar ul.nav > li.active > a:hover,
+nav.navbar ul.nav li.active > a,
+nav.navbar li.dropdown ul.dropdown-menu > li a:hover {
+    color: #FFFFFF;
+    text-shadow: 0px 0px 5px #1c7430;
+    text-decoration: none;
+}
+
+nav.navbar.navbar-transparent ul.nav > li > a:hover,
+nav.navbar.no-background ul.nav > li > a:hover,
+nav.navbar ul.nav li.scroll.active > a,
+nav.navbar.navbar-dark ul.nav li.dropdown ul.dropdown-menu > li > a:hover,
+nav.navbar ul.nav li.dropdown.on > a,
+nav.navbar-dark ul.nav li.dropdown.on > a {
+    color: #FFFFFF;
+    text-shadow: 0px 0px 5px #1c7430;
+    text-decoration: none;
+}
+
+@media (max-width: 920px) {
+    nav.navbar .dropdown .megamenu-content .col-menu ul > li > a:hover,
+    nav.navbar.navbar-dark .dropdown .megamenu-content .col-menu .title:hover {
+        color: #f43438 !important;
+    }
+}
+
+/*
+Border
+=========================== */
+ul.cart-list > li.total > .btn {
+    border-color: #f43438;
+}
+
+nav.navbar li.dropdown ul.dropdown-menu {
+    border-top-color: #f43438 !important;
+}
+
+/*
+Background
+=========================== */
+ul.cart-list > li.total > .btn,
+.attr-nav > ul > li > a span.badge,
+nav.navbar .share ul > li > a:hover,
+nav.navbar .share ul > li > a:focus {
+    background-color: #f43438;
+}
+
+ul.cart-list > li.total > .btn:hover,
+ul.cart-list > li.total > .btn:focus {
+    background-color: #dc3236 !important;
+}
