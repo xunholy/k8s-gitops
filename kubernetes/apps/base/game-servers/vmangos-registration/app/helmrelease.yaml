@@ -41,17 +41,17 @@ spec:
     controllers:
       app:
         initContainers:
-          clone-repo:
+          download-wallpaper:
             image:
-              repository: alpine/git
+              repository: curlimages/curl
               tag: latest
             command:
               - sh
               - -c
               - |
-                if [ ! -f /app/login.php ]; then
-                  git clone https://github.com/vmangos/WallRegistrationPage.git /tmp/repo
-                  cp -r /tmp/repo/* /app/
+                if [ ! -f /wallpaper/paladin.jpg ]; then
+                  curl -fsSL -o /wallpaper/paladin.jpg \
+                    https://raw.githubusercontent.com/vmangos/WallRegistrationPage/master/wallpaper/paladin.jpg
                 fi
         containers:
           app:
@@ -64,9 +64,6 @@ spec:
               - |
                 apt-get update && apt-get install -y libxml2-dev && docker-php-ext-install soap mysqli
                 echo "DirectoryIndex login.php" > /var/www/html/.htaccess
-                sed -i 's/session_start();/if (session_status() === PHP_SESSION_NONE) { session_start(); }/' /var/www/html/login.php
-                sed -i '/mysqli_close/d' /var/www/html/login.php
-                sed -i 's/set realmlist XXXXXXX/set realmlist wow.owncloud.ai/' /var/www/html/welcome.php
                 apache2-foreground
             env:
               TZ: Australia/Melbourne
@@ -117,35 +114,30 @@ spec:
         ports:
           http:
             port: 80
-    configMaps:
-      config:
-        data:
-          config.php: |
-            <?php
-            $db_host = 'vmangos-database';
-            $db_port = '3306';
-            $db_user = 'mangos';
-            $db_pass = 'mangos';
-            $db_realmd = 'realmd';
-            $soap_uri = 'http://vmangos-soap:7878/';
-            $soap_user = 'soapadmin';
-            $soap_pass = 'soapadmin';
-            $expansion = 0;
-            ?>
     persistence:
-      app:
-        type: emptyDir
-        advancedMounts:
-          app:
-            clone-repo:
-              - path: /app
-            app:
-              - path: /var/www/html
       config:
         type: configMap
-        name: vmangos-registration
+        name: vmangos-registration-php
         advancedMounts:
           app:
             app:
               - path: /var/www/html/config.php
                 subPath: config.php
+              - path: /var/www/html/register.php
+                subPath: register.php
+              - path: /var/www/html/login.php
+                subPath: login.php
+              - path: /var/www/html/welcome.php
+                subPath: welcome.php
+              - path: /var/www/html/logout.php
+                subPath: logout.php
+              - path: /var/www/html/style.css
+                subPath: style.css
+      wallpaper:
+        type: emptyDir
+        advancedMounts:
+          app:
+            download-wallpaper:
+              - path: /wallpaper
+            app:
+              - path: /var/www/html/wallpaper

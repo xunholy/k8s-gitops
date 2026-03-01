@@ -6,3 +6,21 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - httproute.yaml
+
+configMapGenerator:
+  - name: vmangos-registration-php
+    namespace: game-servers
+    files:
+      - config.php=./resources/config.php
+      - register.php=./resources/register.php
+      - login.php=./resources/login.php
+      - welcome.php=./resources/welcome.php
+      - logout.php=./resources/logout.php
+      - style.css=./resources/style.css
+
+generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+
+configurations:
+  - kustomizeconfig.yaml
