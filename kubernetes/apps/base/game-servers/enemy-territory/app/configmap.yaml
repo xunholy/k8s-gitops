@@ -5,11 +5,12 @@ metadata:
   name: enemy-territory-config
   namespace: game-servers
 data:
-  hs_server.cfg: |
-    // Headshot Gaming deployment overrides
-    // Loaded after the image's server.cfg via +exec hs_server.cfg
+  server.cfg: |
+    // Headshot Gaming server configuration
+    // Loads the custom HS config (encrypted secret), then applies
+    // master server, hostname, engine, and bot settings.
 
-    // Load secret/admin config
+    // Load Headshot Gaming config
     exec hs_etpub.cfg
 
     // MASTER SERVERS
