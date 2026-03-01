@@ -49,8 +49,11 @@ spec:
               - sh
               - -c
               - |
-                git clone https://github.com/masterking32/WoWSimpleRegistration.git /app
-                cd /app
+                if [ ! -f /app/index.php ]; then
+                  git clone https://github.com/masterking32/WoWSimpleRegistration.git /tmp/src
+                  cp -a /tmp/src/. /app/
+                fi
+                cd /app/application
                 composer install --no-dev
         containers:
           app:
