@@ -17,63 +17,13 @@
 <div class="box1 post-card" style="margin-top: 16px;">
     <h4><i class="fa fa-bolt"></i> Server Rates &amp; Features</h4>
     <hr>
-    <div class="server-rates-grid">
-        <div class="rate-category">
-            <div class="rate-category-header">
-                <i class="fa fa-star"></i> Experience Rates
-            </div>
-            <div class="rate-item">
-                <span class="rate-label">Kill XP</span>
-                <span class="rate-value">3x</span>
-            </div>
-            <div class="rate-item">
-                <span class="rate-label">Quest XP</span>
-                <span class="rate-value">3x</span>
-            </div>
-            <div class="rate-item">
-                <span class="rate-label">Exploration XP</span>
-                <span class="rate-value">3x</span>
-            </div>
-        </div>
-        <div class="rate-category">
-            <div class="rate-category-header">
-                <i class="fa fa-diamond"></i> Loot &amp; Gold
-            </div>
-            <div class="rate-item">
-                <span class="rate-label">Common &amp; Uncommon Drops</span>
-                <span class="rate-value">3x</span>
-            </div>
-            <div class="rate-item">
-                <span class="rate-label">Rare Drops</span>
-                <span class="rate-value">2x</span>
-            </div>
-            <div class="rate-item">
-                <span class="rate-label">Epic Drops</span>
-                <span class="rate-value rate-blizzlike">1x</span>
-            </div>
-            <div class="rate-item">
-                <span class="rate-label">Gold Drops</span>
-                <span class="rate-value">3x</span>
-            </div>
-        </div>
-        <div class="rate-category">
-            <div class="rate-category-header">
-                <i class="fa fa-trophy"></i> Progression
-            </div>
-            <div class="rate-item">
-                <span class="rate-label">Reputation Gain</span>
-                <span class="rate-value">3x</span>
-            </div>
-            <div class="rate-item">
-                <span class="rate-label">Mail Delivery</span>
-                <span class="rate-value rate-instant">Instant</span>
-            </div>
-            <div class="rate-item">
-                <span class="rate-label">Max Level</span>
-                <span class="rate-value rate-blizzlike">60</span>
-            </div>
-        </div>
-    </div>
+    <p style="text-align: justify">
+        <strong>3x XP</strong> on kills, quests, and exploration.
+        <strong>3x loot</strong> for common and uncommon drops, <strong>2x</strong> for rare, and <strong>1x</strong> (blizzlike) for epic items.
+        <strong>3x gold</strong> and <strong>3x reputation</strong> gains across the board.
+        Mail is delivered <strong>instantly</strong> with no delay.
+        Max level is <strong>60</strong> with up to <strong>10 characters</strong> per account.
+    </p>
 </div>
 
 <div class="box1 post-card" style="margin-top: 16px;">
