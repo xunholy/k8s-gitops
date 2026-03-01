@@ -52,9 +52,6 @@ spec:
                 git clone https://github.com/masterking32/WoWSimpleRegistration.git /app
                 cd /app
                 composer install --no-dev
-            volumeMounts:
-              - name: app-code
-                mountPath: /app
         containers:
           app:
             image:
