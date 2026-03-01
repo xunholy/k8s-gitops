@@ -1048,6 +1048,80 @@ td, th {
     font-size: 1rem;
 }
 
+/* ─── Server Rates Grid ───────────────────────────────── */
+.server-rates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 8px;
+}
+
+.rate-category {
+    background: rgba(0, 0, 0, 0.20);
+    border: 1px solid rgba(201, 168, 76, 0.08);
+    border-radius: var(--radius);
+    padding: 16px;
+    transition: border-color 0.25s ease;
+}
+
+.rate-category:hover {
+    border-color: rgba(201, 168, 76, 0.18);
+}
+
+.rate-category-header {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.10);
+}
+
+.rate-category-header .fa {
+    margin-right: 6px;
+    font-size: 0.80rem;
+}
+
+.rate-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+}
+
+.rate-item + .rate-item {
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.rate-label {
+    color: var(--text);
+    font-size: 0.92rem;
+}
+
+.rate-value {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--gold-bright);
+    background: rgba(201, 168, 76, 0.08);
+    padding: 2px 10px;
+    border-radius: 4px;
+    min-width: 36px;
+    text-align: center;
+}
+
+.rate-value.rate-blizzlike {
+    color: var(--text-dim);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.rate-value.rate-instant {
+    color: var(--success);
+    background: rgba(56, 161, 105, 0.10);
+}
+
 /* ─── Rules List ───────────────────────────────────────── */
 .rules-list {
     list-style: none;
