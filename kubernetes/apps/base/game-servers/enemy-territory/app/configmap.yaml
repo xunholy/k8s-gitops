@@ -26,6 +26,9 @@ data:
     set sv_wh_bbox_horz "60"
     set sv_wh_bbox_vert "100"
 
+    // OVERRIDES - values that differ from the original hs_etpub.cfg
+    set sv_maxclients "32"
+
     // Disable built-in config preset (defaultpublic.config resets
     // respawn times, speed, and other values AFTER hs_etpub.cfg loads)
     set g_customConfig ""
