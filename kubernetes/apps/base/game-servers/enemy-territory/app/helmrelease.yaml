@@ -71,7 +71,7 @@ spec:
               - legacy
               - "+set"
               - sv_maxclients
-              - "16"
+              - "32"
               - "+set"
               - sv_punkbuster
               - "0"
