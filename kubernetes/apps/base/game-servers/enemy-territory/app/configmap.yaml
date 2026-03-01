@@ -16,6 +16,7 @@ data:
 
     // MASTER SERVERS - add ET Legacy and etmaster.net masters
     // (original only had etmaster.idsoftware.com)
+    set sv_master1 "etmaster.idsoftware.com"
     set sv_master2 "master.etlegacy.com"
     set sv_master3 "master0.etmaster.net"
 
