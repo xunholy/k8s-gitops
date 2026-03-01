@@ -6,65 +6,31 @@ metadata:
   namespace: game-servers
 data:
   server.cfg: |
-    // load secret config
+    // Load the image's base server.cfg from fs_basepath (/etlegacy/legacy/)
+    // This contains gameplay, voting, LUA/WolfAdmin, omni-bot, class/weapon
+    // limits, and all standard settings from the docker-etlegacy-server repo.
+    // We mount this file at fs_homepath which shadows the base, so we need
+    // to explicitly exec the base config by its full mod path.
+    exec default_server.cfg
+
+    // Load secret/admin config
     exec hs_etpub.cfg
 
-    // MASTER SERVERS
+    // MASTER SERVERS (override engine defaults to include etmaster.net)
     set sv_master1 "etmaster.idsoftware.com"
     set sv_master2 "master.etlegacy.com"
     set sv_master3 "master0.etmaster.net"
 
     // SERVER IDENTITY
     set sv_hostname "^2|^0HS^2| ^7New Server"
-    set sv_fullmsg "Server is full."
-
-    // NETWORK
-    set sv_allowDownload "1"
-    set sv_dl_maxRate "42000"
-    set sv_floodProtect "1"
-    set sv_maxPing "0"
-    set sv_minPing "0"
-    set sv_maxRate "13000"
-    set sv_lanForceRate "1"
-    set sv_punkbuster "0"
-
-    // GAMEPLAY
-    set g_antilag "1"
-    set g_friendlyFire "1"
-    set g_maxlives "0"
-    set g_teamforcebalance "1"
-    set g_noTeamSwitching "0"
-    set g_heavyWeaponRestriction "100"
-    set g_autofireteams "1"
-    set g_voiceChatsAllowed "4"
-    set g_disableComplaints "0"
-    set g_complaintlimit "6"
-    set g_ipcomplaintlimit "3"
-    set g_warmup "30"
-    set g_doWarmup "0"
-    set g_landminetimeout "1"
-    set g_filterBan "1"
-    set g_enforcemaxlives "1"
-
-    // LMS
-    set g_lms_followTeamOnly "1"
-    set g_lms_lockTeams "0"
-    set g_lms_matchlimit "2"
-    set g_lms_roundlimit "3"
-    set g_lms_teamForceBalance "1"
-
-    // LOGGING
-    set g_log "etserver.log"
-    set g_logsync "0"
 
     // ENGINE
     set com_watchdog_cmd "exec objectivecycle.cfg"
     set com_watchdog "60"
     set com_hunkMegs "56"
     set com_zoneMegs "24"
-    set timelimit "30"
 
-    // OMNI-BOT
+    // OMNI-BOT (maxbots triggers auto-spawning)
     bot maxbots 16
     bot balanceteams 1
     bot difficulty 4
