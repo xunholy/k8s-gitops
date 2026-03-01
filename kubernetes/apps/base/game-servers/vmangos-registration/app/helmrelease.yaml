@@ -41,18 +41,20 @@ spec:
     controllers:
       app:
         initContainers:
-          download-wallpaper:
+          clone-app:
             image:
-              repository: curlimages/curl
+              repository: composer
               tag: latest
             command:
               - sh
               - -c
               - |
-                if [ ! -f /wallpaper/paladin.jpg ]; then
-                  curl -fsSL -o /wallpaper/paladin.jpg \
-                    https://raw.githubusercontent.com/vmangos/WallRegistrationPage/master/wallpaper/paladin.jpg
-                fi
+                git clone https://github.com/masterking32/WoWSimpleRegistration.git /app
+                cd /app
+                composer install --no-dev
+            volumeMounts:
+              - name: app-code
+                mountPath: /app
         containers:
           app:
             image:
@@ -62,8 +64,9 @@ spec:
               - sh
               - -c
               - |
-                apt-get update && apt-get install -y libxml2-dev && docker-php-ext-install soap mysqli
-                echo "DirectoryIndex login.php" > /var/www/html/.htaccess
+                apt-get update && apt-get install -y libxml2-dev libgmp-dev libpng-dev libzip-dev
+                docker-php-ext-install soap gmp gd zip pdo pdo_mysql
+                a2enmod rewrite
                 apache2-foreground
             env:
               TZ: Australia/Melbourne
@@ -73,7 +76,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /login.php
+                    path: /
                     port: 80
                   periodSeconds: 30
                   timeoutSeconds: 3
@@ -83,7 +86,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /login.php
+                    path: /
                     port: 80
                   periodSeconds: 10
                   timeoutSeconds: 3
@@ -93,7 +96,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /login.php
+                    path: /
                     port: 80
                   periodSeconds: 10
                   timeoutSeconds: 3
@@ -115,29 +118,19 @@ spec:
           http:
             port: 80
     persistence:
-      config:
-        type: configMap
-        name: vmangos-registration-php
-        advancedMounts:
-          app:
-            app:
-              - path: /var/www/html/config.php
-                subPath: config.php
-              - path: /var/www/html/register.php
-                subPath: register.php
-              - path: /var/www/html/login.php
-                subPath: login.php
-              - path: /var/www/html/welcome.php
-                subPath: welcome.php
-              - path: /var/www/html/logout.php
-                subPath: logout.php
-              - path: /var/www/html/style.css
-                subPath: style.css
-      wallpaper:
+      app-code:
         type: emptyDir
         advancedMounts:
           app:
-            download-wallpaper:
-              - path: /wallpaper
+            clone-app:
+              - path: /app
             app:
-              - path: /var/www/html/wallpaper
+              - path: /var/www/html
+      config:
+        type: configMap
+        name: vmangos-registration-config
+        advancedMounts:
+          app:
+            app:
+              - path: /var/www/html/application/config/config.php
+                subPath: config.php
