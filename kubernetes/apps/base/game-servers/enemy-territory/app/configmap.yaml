@@ -14,15 +14,12 @@ data:
     // Load Headshot Gaming config
     exec hs_etpub.cfg
 
-    // MASTER SERVERS
-    set sv_master1 "etmaster.idsoftware.com"
+    // MASTER SERVERS - add ET Legacy and etmaster.net masters
+    // (original only had etmaster.idsoftware.com)
     set sv_master2 "master.etlegacy.com"
     set sv_master3 "master0.etmaster.net"
 
-    // SERVER IDENTITY
-    set sv_hostname "^2|^0HS^2| ^7New Server"
-
-    // SECURITY - override etconfig_server.cfg defaults
+    // SECURITY - ET Legacy specific overrides
     set g_guidCheck "0"
     set sv_wh_active "1"
     set sv_wh_bbox_horz "60"
@@ -31,15 +28,6 @@ data:
     // Disable built-in config preset (defaultpublic.config resets
     // respawn times, speed, and other values AFTER hs_etpub.cfg loads)
     set g_customConfig ""
-
-    // ENGINE
-    set com_watchdog_cmd "exec objectivecycle.cfg"
-    set com_watchdog "60"
-    set com_hunkMegs "56"
-    set com_zoneMegs "24"
-
-    // OMNI-BOT (bot commands here run before omni-bot loads,
-    // so population control is handled via omni-bot.cfg mount)
   campaigncycle.cfg: |
     set d1 "campaign cmpgn_northafrica ; set nextcampaign vstr d2"
     set d2 "campaign cmpgn_centraleurope ; set nextcampaign vstr d1"
