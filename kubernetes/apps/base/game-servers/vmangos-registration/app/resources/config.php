@@ -5,7 +5,7 @@ $config['language'] = "english";
 $config['supported_langs'] = [
     'english' => 'English',
 ];
-$config['debug_mode'] = false;
+$config['debug_mode'] = true;
 $config['realmlist'] = 'wow.owncloud.ai';
 $config['patch_location'] = '';
 $config['game_version'] = '1.12.1 (5875)';
