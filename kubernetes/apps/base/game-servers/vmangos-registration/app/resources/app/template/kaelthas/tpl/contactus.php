@@ -7,7 +7,5 @@
  */
 ?>
 <div class="content_box1" style="line-height: 1.5;">
-    <p><a href="" target="_blank">Discord</a></p>
-    <p><?php elang('email'); ?> : info@my.com</p>
-    <p><?php elang('edit_on'); ?> template/<?php echo $antiXss->xss_clean(get_config("template")); ?>/tpl/contactus.php</p>
+    <p>For questions or support, reach out via the in-game ticket system or contact a Game Master.</p>
 </div>

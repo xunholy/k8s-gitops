@@ -18,7 +18,8 @@ RUN apt-get update \
     && docker-php-ext-install -j"$(nproc)" soap gmp gd zip pdo pdo_mysql \
     && a2enmod rewrite \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 COPY app/ /var/www/html/
 COPY --from=vendor /build/vendor/ /var/www/html/application/vendor/
