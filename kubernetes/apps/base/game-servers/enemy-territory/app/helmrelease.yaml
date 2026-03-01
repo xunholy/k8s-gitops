@@ -52,9 +52,6 @@ spec:
               - dedicated
               - "2"
               - "+set"
-              - net_ip
-              - ${EXTERNAL_IP}
-              - "+set"
               - net_port
               - "27960"
               - "+set"
