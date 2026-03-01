@@ -112,8 +112,8 @@ spec:
         globalMounts:
           - path: /config/legacy/server.cfg
             subPath: server.cfg
-          - path: /config/legacy/etconfig.cfg
-            subPath: etconfig.cfg
+          - path: /config/legacy/etconfig_server.cfg
+            subPath: etconfig_server.cfg
           - path: /config/legacy/campaigncycle.cfg
             subPath: campaigncycle.cfg
           - path: /config/legacy/lmscycle.cfg
