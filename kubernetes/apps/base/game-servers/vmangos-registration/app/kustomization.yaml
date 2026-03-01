@@ -8,15 +8,10 @@ resources:
   - httproute.yaml
 
 configMapGenerator:
-  - name: vmangos-registration-php
+  - name: vmangos-registration-config
     namespace: game-servers
     files:
       - config.php=./resources/config.php
-      - register.php=./resources/register.php
-      - login.php=./resources/login.php
-      - welcome.php=./resources/welcome.php
-      - logout.php=./resources/logout.php
-      - style.css=./resources/style.css
 
 generatorOptions:
   annotations:

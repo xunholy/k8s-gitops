@@ -1,15 +1,44 @@
 <?php
-/* Database credentials */
-define('DB_SERVER', 'vmangos-database:3306');
-define('DB_USERNAME', 'mangos');
-define('DB_PASSWORD', 'mangos');
-define('DB_NAME', 'realmd');
-
-/* Attempt to connect to MySQL database */
-$link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
-
-// Check connection
-if($link === false){
-    die("ERROR: Could not connect. " . mysqli_connect_error());
-}
-?>
+$config['baseurl'] = "https://wow-register.owncloud.ai";
+$config['page_title'] = "VMaNGOS Registration";
+$config['language'] = "english";
+$config['debug_mode'] = false;
+$config['realmlist'] = 'wow.owncloud.ai';
+$config['patch_location'] = '';
+$config['game_version'] = '1.12.1 (5875)';
+$config['expansion'] = '0';
+$config['server_core'] = 5;
+$config['battlenet_support'] = false;
+$config['srp6_support'] = false;
+$config['template'] = 'kaelthas';
+$config['captcha_type'] = 0;
+$config['soap_for_register'] = true;
+$config['soap_host'] = 'vmangos-soap';
+$config['soap_port'] = '7878';
+$config['soap_uri'] = 'urn:MaNGOS';
+$config['soap_style'] = 'SOAP_RPC';
+$config['soap_username'] = 'soapadmin';
+$config['soap_password'] = 'soapadmin';
+$config['soap_ca_command'] = 'account create {USERNAME} {PASSWORD}';
+$config['db_auth_host'] = 'vmangos-database';
+$config['db_auth_port'] = '3306';
+$config['db_auth_user'] = 'mangos';
+$config['db_auth_pass'] = 'mangos';
+$config['db_auth_dbname'] = 'realmd';
+$config['realmlists'] = array(
+    "1" => array(
+        'realmid' => 1,
+        'realmname' => "VMaNGOS",
+        'db_host' => "vmangos-database",
+        'db_port' => "3306",
+        'db_user' => "mangos",
+        'db_pass' => "mangos",
+        'db_name' => "characters",
+    ),
+);
+$config['vote_system'] = false;
+$config['2fa_support'] = false;
+$config['disable_changepassword'] = true;
+$config['disable_top_players'] = false;
+$config['disable_online_players'] = false;
+$config['multiple_email_use'] = true;
