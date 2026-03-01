@@ -86,6 +86,8 @@ spec:
                 cpu: 100m
                 memory: 512Mi
     defaultPodOptions:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
