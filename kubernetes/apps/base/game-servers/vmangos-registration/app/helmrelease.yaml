@@ -64,7 +64,8 @@ spec:
               - sh
               - -c
               - |
-                apt-get update && apt-get install -y libxml2-dev libgmp-dev libpng-dev libzip-dev
+                apt-get update && apt-get install -y libxml2-dev libgmp-dev libpng-dev libzip-dev libfreetype6-dev libjpeg62-turbo-dev
+                docker-php-ext-configure gd --with-freetype --with-jpeg
                 docker-php-ext-install soap gmp gd zip pdo pdo_mysql
                 a2enmod rewrite
                 apache2-foreground
