@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: xunholy/enemy-territory
-              tag: sha-214208b
+              tag: sha-69be38a
             env:
               FS_HOMEPATH: /config
             args:
