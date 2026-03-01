@@ -604,16 +604,13 @@ nav.navbar.bootsnav {
 .main-box {
     width: 100%;
     margin: 0 auto;
-    text-align: center;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
 .row {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     margin: 0 -15px;
     padding-top: 32px;
 }
