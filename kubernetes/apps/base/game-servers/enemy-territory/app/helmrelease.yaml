@@ -40,41 +40,25 @@ spec:
   values:
     controllers:
       enemy-territory:
-        initContainers:
-          init-permissions:
-            image:
-              repository: busybox
-              tag: latest
-            command:
-              - /bin/sh
-              - -c
-              - |
-                mkdir -p /config/legacy/log
-                chown -R 1000:1000 /config/legacy
-                chmod -R 775 /config/legacy
-            securityContext:
-              runAsUser: 0
-              runAsNonRoot: false
         containers:
           app:
             image:
               repository: xunholy/enemy-territory
               tag: sha-214208b
-            command: ["/bin/bash", "-c", "--"]
+            env:
+              FS_HOMEPATH: /config
             args:
-              - >-
-                /etlegacy/etlded.x86_64
-                +set dedicated 2
-                +set net_ip ${EXTERNAL_IP}
-                +set net_port 27960
-                +set sv_advert 3
-                +set vm_game 0
-                +set fs_basepath /etlegacy
-                +set fs_homepath /config
-                +set fs_game legacy
-                +set sv_maxclients 20
-                +set sv_punkbuster 0
-                +exec server.cfg
+              - +set dedicated 2
+              - +set net_ip ${EXTERNAL_IP}
+              - +set net_port 27960
+              - +set sv_advert 3
+              - +set vm_game 0
+              - +set fs_basepath /etlegacy
+              - +set fs_homepath /config
+              - +set fs_game legacy
+              - +set sv_maxclients 20
+              - +set sv_punkbuster 0
+              - +exec server.cfg
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
