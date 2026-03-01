@@ -249,6 +249,11 @@ spec:
             SOAP.Enabled = 1
             SOAP.IP = 0.0.0.0
             SOAP.Port = 7878
+            PlayerBot.UpdateMs = 1000
+            PlayerBot.ShowInWhoList = 1
+            PartyBot.AutoEquip = 1
+            BattleBot.AutoJoin = 1
+            AHBot.Enable = 1
       realmd-config:
         data:
           realmd.conf: |
