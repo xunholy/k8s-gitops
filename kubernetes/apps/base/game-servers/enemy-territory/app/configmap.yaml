@@ -38,10 +38,8 @@ data:
     set com_hunkMegs "56"
     set com_zoneMegs "24"
 
-    // OMNI-BOT (maxbots triggers auto-spawning)
-    bot maxbots 16
-    bot balanceteams 1
-    bot difficulty 4
+    // OMNI-BOT (bot commands here run before omni-bot loads,
+    // so population control is handled via omni-bot.cfg mount)
   campaigncycle.cfg: |
     set d1 "campaign cmpgn_northafrica ; set nextcampaign vstr d2"
     set d2 "campaign cmpgn_centraleurope ; set nextcampaign vstr d1"
@@ -90,3 +88,44 @@ data:
             "radar"     -1  -1
             "railgun"   -1  -1
             "fueldump"  -1  -1
+  omni-bot.cfg: |
+    [Log]
+    LogInfo                        = true
+    LogWarnings                    = true
+    LogErrors                      = true
+    LogCriticalErrors              = true
+
+    [Script]
+    LiveUpdate                     = false
+
+    [ServerManager]
+    MinBots                        = -1
+    MaxBots                        = 16
+    BalanceTeams                   = 1
+    SaveConfigChanges              = 0
+    CountSpectators                = 0
+    SleepBots                      = 0
+    InitialDelayTime               = 2.1
+
+    [Versus]
+    BotTeam                        = -1
+    HumanTeam                      = -1
+    BotsPerHuman                   = 3
+
+    [CombatMovement]
+    moveskill                      = 3
+
+    [Difficulty]
+    CurrentDifficulty              = 4
+    AdjustAim                      = 1
+
+    [FireTeam]
+    enabled                        = 0
+
+    [XP]
+    Reset                          = -1
+    Max                            = 10000
+
+    [HeavyWeapons]
+    MinPlayersForMortar            = -1
+    MinPlayersForMobileMG          = -1

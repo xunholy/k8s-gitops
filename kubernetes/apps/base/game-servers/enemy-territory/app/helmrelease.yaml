@@ -122,6 +122,8 @@ spec:
             subPath: mapvotecycle.cfg
           - path: /config/legacy/mapvoteplayerscount.cfg
             subPath: mapvoteplayerscount.cfg
+          - path: /etlegacy/legacy/omni-bot/et/user/omni-bot.cfg
+            subPath: omni-bot.cfg
       secret-config:
         type: secret
         name: enemy-territory-server-config
