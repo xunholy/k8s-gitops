@@ -238,14 +238,24 @@ spec:
         data:
           aiplayerbot.conf: |
             AiPlayerbot.Enabled = 1
-            AiPlayerbot.MaxRandomBots = 200
+            AiPlayerbot.RandomBotAutoCreate = 1
+            AiPlayerbot.RandomBotAutologin = 1
+            AiPlayerbot.RandomBotLoginAtStartup = 1
+            AiPlayerbot.RandomBotAccountPrefix = rndbot
+            AiPlayerbot.RandomBotAccountCount = 200
             AiPlayerbot.MinRandomBots = 100
+            AiPlayerbot.MaxRandomBots = 200
+            AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
+            AiPlayerbot.RandomBotMaps = 0,1
+            AiPlayerbot.AutoDoQuests = 1
+            AiPlayerbot.AutoPickReward = yes
+            AiPlayerbot.AutoEquipUpgradeLoot = 1
             AiPlayerbot.AutoLearnTrainerSpells = 1
             AiPlayerbot.AutoLearnQuestSpells = 1
+            AiPlayerbot.RandomGearUpgradeEnabled = 1
             AiPlayerbot.RandomBotTeleportNearPlayer = 1
             AiPlayerbot.SyncQuestWithPlayer = 1
-            AiPlayerbot.RandomGearUpgradeEnabled = 1
             AiPlayerbot.RandomBotGuildCount = 20
     persistence:
       database:
