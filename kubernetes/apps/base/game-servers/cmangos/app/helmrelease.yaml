@@ -251,6 +251,8 @@ spec:
             SkillGain.Weapon = 3
             Rate.Drop.Item.Quest = 3
             Death.Ghost.RunSpeed.World = 1.5
+            Rate.Health = 3
+            Rate.Mana = 3
       realmd-config:
         data:
           realmd.conf: |
