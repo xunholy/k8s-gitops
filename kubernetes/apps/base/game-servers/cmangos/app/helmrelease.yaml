@@ -386,7 +386,7 @@ spec:
         advancedMounts:
           mangosd:
             app:
-              - path: /opt/mangos/conf/hardcore.conf
+              - path: /opt/mangos/etc/hardcore.conf
                 subPath: hardcore.conf
       ahbot-config:
         type: configMap
