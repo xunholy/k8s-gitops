@@ -18,15 +18,8 @@ env:
   RUNNER_IMAGE: ghcr.io/xunholy/cmangos-classic
 
 jobs:
-  build:
+  build-builder:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - target: builder
-            image_env: BUILDER_IMAGE
-          - target: runner
-            image_env: RUNNER_IMAGE
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -41,19 +34,51 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
 
-      - name: Build and push
+      - name: Build and push builder
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
           context: kubernetes/apps/base/game-servers/cmangos/app/resources
-          target: ${{ matrix.target }}
+          target: builder
           push: true
           tags: |
-            ${{ env[matrix.image_env] }}:${{ github.sha }}
-            ${{ env[matrix.image_env] }}:latest
+            ${{ env.BUILDER_IMAGE }}:${{ github.sha }}
+            ${{ env.BUILDER_IMAGE }}:latest
+          build-args: |
+            THREADS=2
+            COMMIT_SHA=${{ github.sha }}
+          cache-from: type=gha,scope=builder
+          cache-to: type=gha,mode=max,scope=builder
+
+  build-runner:
+    runs-on: ubuntu-latest
+    needs: build-builder
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Login to GHCR
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+
+      - name: Build and push runner
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: kubernetes/apps/base/game-servers/cmangos/app/resources
+          target: runner
+          push: true
+          tags: |
+            ${{ env.RUNNER_IMAGE }}:${{ github.sha }}
+            ${{ env.RUNNER_IMAGE }}:latest
           build-args: |
             THREADS=2
             COMMIT_SHA=${{ github.sha }}
           cache-from: |
             type=gha,scope=builder
             type=gha,scope=runner
-          cache-to: type=gha,mode=max,scope=${{ matrix.target }}
+          cache-to: type=gha,mode=max,scope=runner
