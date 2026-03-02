@@ -289,16 +289,35 @@ spec:
       hardcore-config:
         data:
           hardcore.conf: |
-            Hardcore.Enabled = 1
-            Hardcore.PermaDeath = 1
+            Hardcore.Enable = 1
+            Hardcore.PlayerConfig = 1
+            Hardcore.BroadcastDeathGuild = 1
+            Hardcore.BroadcastDeathWorld = 1
+            Hardcore.SpawnGrave = 1
+            Hardcore.GraveGameObjectID = 61
+            Hardcore.GraveMessage = "Shit happens. <PlayerName> | Well, this sucks. <PlayerName> | It is really dark down here. <PlayerName> | Finally some peace and quiet. <PlayerName> | Shhh! I am sleeping. <PlayerName>"
+            Hardcore.RemoveGravesOnCharacterDeleted = 1
             Hardcore.DropGear = 0
+            Hardcore.DropItems = 0
+            Hardcore.DropMoney = 0
+            Hardcore.BotDropGear = 0
+            Hardcore.BotDropItems = 0
+            Hardcore.BotDropMoney = 0
+            Hardcore.RemoveLootOnCharacterDeleted = 1
+            Hardcore.LootGameObjectID = 2850
+            Hardcore.ReviveDisabled = 1
+            Hardcore.ReviveOnGraveyard = 0
             Hardcore.LevelDown = 0
-            Hardcore.Gravestone = 1
-            Hardcore.OptIn = 1
-            Hardcore.Announce = 1
-            Hardcore.LevelUpAnnounce = 1
-            Hardcore.DeathAnnounce = 1
-            Hardcore.MaxDeathCount = 1
+            Hardcore.MaxPlayerLoot = 99
+            Hardcore.DropOnDungeons = 1
+            Hardcore.DropOnRaids = 1
+            Hardcore.LevelDownOnDungeons = 1
+            Hardcore.LevelDownOnRaids = 1
+            Hardcore.LevelDownMinLevel = 1
+            Hardcore.DropMinLevel = 1
+            Hardcore.DisablePVP = 0
+            Hardcore.SelfFound = 0
+            Hardcore.CustomXPRates = 0
       ahbot-config:
         data:
           ahbot.conf: |
