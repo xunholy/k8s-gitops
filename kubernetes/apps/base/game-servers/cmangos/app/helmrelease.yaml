@@ -97,7 +97,7 @@ spec:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
               tag: latest
-            command: ["realmd"]
+            args: ["realmd"]
             env:
               TZ: Australia/Melbourne
               MANGOS_DBHOST: cmangos-database
@@ -152,7 +152,7 @@ spec:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
               tag: latest
-            command: ["mangosd"]
+            args: ["mangosd"]
             tty: true
             stdin: true
             env:
