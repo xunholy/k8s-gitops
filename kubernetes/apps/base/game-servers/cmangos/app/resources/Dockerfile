@@ -47,19 +47,23 @@ RUN mkdir -p "${MANGOS_DIR}" \
  && cd /tmp \
  && if [ "${MANGOS_SHA1}" = "latest" ]; \
     then \
-        git clone "https://github.com/cmangos/mangos-classic.git" \
-                --branch "master" \
+        git clone "https://github.com/flekz-games/mangos-classic.git" \
+                --branch "modules" \
                 --single-branch \
                 --depth 1 \
            "${MANGOS_DIR}"; \
     else \
-        git clone "https://github.com/cmangos/mangos-classic.git" \
-                --branch "master" \
+        git clone "https://github.com/flekz-games/mangos-classic.git" \
+                --branch "modules" \
                 --single-branch \
             cmangos-mangos \
      && cd cmangos-mangos \
      && git archive "${MANGOS_SHA1}" | tar xC "${MANGOS_DIR}"; \
     fi \
+ \
+ && git clone "https://github.com/flekz-games/cmangos-hardcore.git" \
+        --depth 1 \
+        "${MANGOS_DIR}/src/modules/hardcore" \
  \
  && cd /tmp \
  && if [ "${DATABASE_SHA1}" = "latest" ]; \
@@ -94,6 +98,8 @@ RUN mkdir -p "${HOME_DIR}/build" \
         -D BUILD_METRICS=ON \
         -D BUILD_PLAYERBOTS=ON \
         -D BUILD_SCRIPTDEV=ON \
+        -D BUILD_MODULES=ON \
+        -D BUILD_MODULE_HARDCORE=ON \
  \
  && make -j "${THREADS}" \
  && make install \

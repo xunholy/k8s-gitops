@@ -150,6 +150,7 @@ function init_runner()
     compose_generic_conf_file "ahbot.conf"
     compose_generic_conf_file "aiplayerbot.conf"
     compose_generic_conf_file "anticheat.conf"
+    compose_generic_conf_file "hardcore.conf"
 }
 
 function run_mangosd()
