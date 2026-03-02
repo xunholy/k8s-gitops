@@ -47,6 +47,7 @@ resources:
   # - ../../base/game-servers/minecraft-router/ks.yaml
   - ../../base/game-servers/vmangos/ks.yaml
   - ../../base/game-servers/vmangos-registration/ks.yaml
+  - ../../base/game-servers/cmangos/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/bazarr/ks.yaml
   # - ../../base/home-system/emqx/ks.yaml

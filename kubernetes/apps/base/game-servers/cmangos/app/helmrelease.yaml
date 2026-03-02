@@ -1,0 +1,299 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cmangos
+  namespace: game-servers
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 5m
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    controllers:
+      database:
+        containers:
+          app:
+            image:
+              repository: mariadb
+              tag: "11.8"
+            env:
+              TZ: Australia/Melbourne
+              MARIADB_USER: mangos
+              MARIADB_PASSWORD: mangos
+              MARIADB_ROOT_PASSWORD: password
+              MARIADB_DATABASE: classicrealmd
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
+                  periodSeconds: 30
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+      realmd:
+        initContainers:
+          wait-db:
+            image:
+              repository: busybox
+              tag: latest
+            command: ['sh', '-c', 'until nc -z cmangos-database 3306; do sleep 2; done']
+        containers:
+          app:
+            image:
+              repository: ghcr.io/xunholy/cmangos-classic
+              tag: latest
+            command: ["realmd"]
+            env:
+              TZ: Australia/Melbourne
+              MANGOS_DBHOST: cmangos-database
+              MANGOS_DBPORT: "3306"
+              MANGOS_DBUSER: mangos
+              MANGOS_DBPASS: mangos
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  periodSeconds: 30
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  periodSeconds: 5
+                  timeoutSeconds: 3
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+      mangosd:
+        pod:
+          terminationGracePeriodSeconds: 120
+        initContainers:
+          wait-db:
+            image:
+              repository: busybox
+              tag: latest
+            command: ['sh', '-c', 'until nc -z cmangos-database 3306; do sleep 2; done']
+        containers:
+          app:
+            image:
+              repository: ghcr.io/xunholy/cmangos-classic
+              tag: latest
+            command: ["mangosd"]
+            tty: true
+            stdin: true
+            env:
+              TZ: Australia/Melbourne
+              MANGOS_DBHOST: cmangos-database
+              MANGOS_DBPORT: "3306"
+              MANGOS_DBUSER: mangos
+              MANGOS_DBPASS: mangos
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8085
+                  periodSeconds: 30
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8085
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8085
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 500m
+                memory: 1Gi
+              limits:
+                memory: 4Gi
+    service:
+      database:
+        controller: database
+        ports:
+          mysql:
+            port: 3306
+      auth:
+        controller: realmd
+        ports:
+          auth:
+            port: 3724
+      world:
+        controller: mangosd
+        ports:
+          world:
+            port: 8085
+      soap:
+        controller: mangosd
+        ports:
+          soap:
+            port: 7878
+    configMaps:
+      mangosd-config:
+        data:
+          mangosd.conf: |
+            GameType = 0
+            RealmZone = 8
+            WorldServerPort = 8085
+            BindIP = "0.0.0.0"
+            PlayerLimit = 100
+            Motd = "Welcome to Emberstone (CMaNGOS)"
+            SOAP.Enabled = 1
+            SOAP.IP = 0.0.0.0
+            SOAP.Port = 7878
+      realmd-config:
+        data:
+          realmd.conf: |
+            RealmServerPort = 3724
+            BindIP = "0.0.0.0"
+      aiplayerbot-config:
+        data:
+          aiplayerbot.conf: |
+            AiPlayerbot.Enabled = 1
+            AiPlayerbot.MaxRandomBots = 200
+            AiPlayerbot.MinRandomBots = 100
+            AiPlayerbot.RandomBotMaxLevel = 60
+            AiPlayerbot.AutoLearnTrainerSpells = 1
+            AiPlayerbot.AutoLearnQuestSpells = 1
+            AiPlayerbot.RandomBotTeleportNearPlayer = 1
+            AiPlayerbot.SyncQuestWithPlayer = 1
+            AiPlayerbot.RandomGearUpgradeEnabled = 1
+            AiPlayerbot.RandomBotGuildCount = 20
+    persistence:
+      database:
+        existingClaim: cmangos-database
+        advancedMounts:
+          database:
+            app:
+              - path: /var/lib/mysql
+      data:
+        existingClaim: cmangos-data
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /var/lib/mangos
+                readOnly: true
+      mangosd-config:
+        type: configMap
+        name: cmangos-mangosd-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/mangosd.conf
+                subPath: mangosd.conf
+      realmd-config:
+        type: configMap
+        name: cmangos-realmd-config
+        advancedMounts:
+          realmd:
+            app:
+              - path: /opt/mangos/conf/realmd.conf
+                subPath: realmd.conf
+      aiplayerbot-config:
+        type: configMap
+        name: cmangos-aiplayerbot-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/aiplayerbot.conf
+                subPath: aiplayerbot.conf
+      mangosd-logs:
+        type: emptyDir
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/logs
+      realmd-logs:
+        type: emptyDir
+        advancedMounts:
+          realmd:
+            app:
+              - path: /opt/mangos/logs

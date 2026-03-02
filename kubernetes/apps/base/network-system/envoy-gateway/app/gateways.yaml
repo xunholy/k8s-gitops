@@ -69,6 +69,18 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: cmangos-auth
+      protocol: TCP
+      port: 3725
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: cmangos-world
+      protocol: TCP
+      port: 8086
+      allowedRoutes:
+        namespaces:
+          from: All
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1
