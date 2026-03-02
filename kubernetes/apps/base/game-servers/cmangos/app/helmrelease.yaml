@@ -264,9 +264,9 @@ spec:
             AiPlayerbot.RandomBotAutologin = 1
             AiPlayerbot.RandomBotLoginAtStartup = 1
             AiPlayerbot.RandomBotAccountPrefix = rndbot
-            AiPlayerbot.RandomBotAccountCount = 200
-            AiPlayerbot.MinRandomBots = 100
-            AiPlayerbot.MaxRandomBots = 200
+            AiPlayerbot.RandomBotAccountCount = 500
+            AiPlayerbot.MinRandomBots = 300
+            AiPlayerbot.MaxRandomBots = 500
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
             AiPlayerbot.RandomBotMaps = 0,1
@@ -278,7 +278,30 @@ spec:
             AiPlayerbot.RandomGearUpgradeEnabled = 1
             AiPlayerbot.RandomBotTeleportNearPlayer = 1
             AiPlayerbot.SyncQuestWithPlayer = 1
-            AiPlayerbot.RandomBotGuildCount = 20
+            AiPlayerbot.RandomBotGuildCount = 50
+            AiPlayerbot.RandomBotJoinBG = 1
+            AiPlayerbot.RandomBotAutoJoinBG = 1
+            AiPlayerbot.RandomBotGroupNearby = 1
+            AiPlayerbot.SyncLevelWithPlayers = 1
+            AiPlayerbot.SyncLevelMaxAbove = 2
+            AiPlayerbot.AutoPickTalents = full
+            AiPlayerbot.AutoTrainSpells = free
+      ahbot-config:
+        data:
+          ahbot.conf: |
+            AuctionHouseBot.Seller.Enabled = 1
+            AuctionHouseBot.Buyer.Enabled = 1
+            AuctionHouseBot.Chance.Sell = 30
+            AuctionHouseBot.Chance.Buy = 20
+            AuctionHouseBot.Alliance.Items.Amount.Ratio = 100
+            AuctionHouseBot.Horde.Items.Amount.Ratio = 100
+            AuctionHouseBot.Neutral.Items.Amount.Ratio = 50
+            AuctionHouseBot.Buy.Value = 80
+            AuctionHouseBot.Bid.Min = 75
+            AuctionHouseBot.Bid.Max = 90
+            AuctionHouseBot.Time.Min = 2
+            AuctionHouseBot.Time.Max = 24
+            AuctionHouseBot.Items.Profession = 80, 90, 0, 50
     persistence:
       database:
         existingClaim: cmangos-database
@@ -317,6 +340,14 @@ spec:
             app:
               - path: /opt/mangos/conf/aiplayerbot.conf
                 subPath: aiplayerbot.conf
+      ahbot-config:
+        type: configMap
+        name: cmangos-ahbot-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/ahbot.conf
+                subPath: ahbot.conf
       mangosd-logs:
         type: emptyDir
         advancedMounts:

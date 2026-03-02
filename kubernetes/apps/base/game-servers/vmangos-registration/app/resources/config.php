@@ -56,7 +56,7 @@ $config['realmlists'] = array(
     ),
 );
 $config['disable_changepassword'] = true;
-$config['disable_top_players'] = true;
+$config['disable_top_players'] = false;
 $config['disable_online_players'] = false;
 $config['multiple_email_use'] = true;
 $config['script_version'] = '2.0.4';
