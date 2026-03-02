@@ -278,7 +278,7 @@ spec:
             AiPlayerbot.RandomGearUpgradeEnabled = 1
             AiPlayerbot.RandomBotTeleportNearPlayer = 1
             AiPlayerbot.SyncQuestWithPlayer = 1
-            AiPlayerbot.RandomBotGuildCount = 50
+            AiPlayerbot.RandomBotGuildCount = 25
             AiPlayerbot.RandomBotJoinBG = 1
             AiPlayerbot.RandomBotAutoJoinBG = 1
             AiPlayerbot.RandomBotGroupNearby = 1
