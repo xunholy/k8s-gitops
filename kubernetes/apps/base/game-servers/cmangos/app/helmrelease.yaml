@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: mariadb
-              tag: "11.8"
+              tag: "12.2"
             env:
               TZ: Australia/Melbourne
               MARIADB_USER: mangos
