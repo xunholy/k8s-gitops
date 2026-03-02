@@ -7,7 +7,7 @@ metadata:
     external-dns.alpha.kubernetes.io/external: "true"
 spec:
   endpoints:
-    - dnsName: "wow2.${CLUSTER_DOMAIN}"
+    - dnsName: "wow.${CLUSTER_DOMAIN}"
       recordType: A
       targets:
         - "${EXTERNAL_IP}"

@@ -57,27 +57,15 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-    - name: vmangos-auth
+    - name: cmangos-auth
       protocol: TCP
       port: 3724
       allowedRoutes:
         namespaces:
           from: All
-    - name: vmangos-world
-      protocol: TCP
-      port: 8085
-      allowedRoutes:
-        namespaces:
-          from: All
-    - name: cmangos-auth
-      protocol: TCP
-      port: 3725
-      allowedRoutes:
-        namespaces:
-          from: All
     - name: cmangos-world
       protocol: TCP
-      port: 8086
+      port: 8085
       allowedRoutes:
         namespaces:
           from: All
