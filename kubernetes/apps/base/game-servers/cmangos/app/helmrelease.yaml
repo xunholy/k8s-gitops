@@ -243,6 +243,14 @@ spec:
             AllowTwoSide.Interaction.Guild = 1
             AllowTwoSide.Interaction.Chat = 1
             AllowTwoSide.Interaction.Channel = 1
+            MailDeliveryDelay = 0
+            StartPlayerMoney = 10000
+            SkillGain.Crafting = 3
+            SkillGain.Gathering = 3
+            SkillGain.Defense = 3
+            SkillGain.Weapon = 3
+            Rate.Drop.Item.Quest = 3
+            Death.Ghost.RunSpeed.World = 1.5
       realmd-config:
         data:
           realmd.conf: |
