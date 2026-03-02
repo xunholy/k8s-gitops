@@ -225,7 +225,7 @@ spec:
             WorldServerPort = 8085
             BindIP = "0.0.0.0"
             PlayerLimit = 100
-            Motd = "Welcome to Emberstone (CMaNGOS)"
+            Motd = "Welcome to Emberstone"
             SOAP.Enabled = 1
             SOAP.IP = 0.0.0.0
             SOAP.Port = 7878
