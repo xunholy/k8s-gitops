@@ -61,10 +61,6 @@ RUN mkdir -p "${MANGOS_DIR}" \
      && git archive "${MANGOS_SHA1}" | tar xC "${MANGOS_DIR}"; \
     fi \
  \
- && git clone "https://github.com/flekz-games/cmangos-hardcore.git" \
-        --depth 1 \
-        "${MANGOS_DIR}/src/modules/hardcore" \
- \
  && cd /tmp \
  && if [ "${DATABASE_SHA1}" = "latest" ]; \
     then \
@@ -81,6 +77,12 @@ RUN mkdir -p "${MANGOS_DIR}" \
      && cd cmangos-db \
      && git archive "${DATABASE_SHA1}" | tar xC "${DATABASE_DIR}"; \
     fi \
+ \
+ && git clone "https://github.com/flekz-games/cmangos-hardcore.git" \
+        --branch "main" \
+        --single-branch \
+        --depth 1 \
+        "${MANGOS_DIR}/src/modules/hardcore" \
  \
  && rm -rf /tmp/*
 

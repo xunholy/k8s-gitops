@@ -57,7 +57,14 @@ html, body {
     width: 100%;
     margin: 0;
     padding: 0;
+}
+
+body {
     overflow-x: hidden;
+}
+
+body.modal-open {
+    overflow: hidden;
 }
 
 body {
@@ -99,7 +106,7 @@ body {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 9998;
+    z-index: 5;
     opacity: 0.022;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-repeat: repeat;
@@ -960,6 +967,18 @@ td, th {
 
 .modal {
     z-index: 1050;
+    overflow-y: auto;
+}
+
+.modal-dialog {
+    width: auto;
+    max-width: 600px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.modal-dialog.modal-lg {
+    max-width: 900px;
 }
 
 .modal-content {
@@ -986,11 +1005,13 @@ td, th {
 }
 
 .modal-header .close {
-    color: var(--text-dim);
+    color: var(--text-bright);
     text-shadow: none;
-    opacity: 0.7;
-    font-size: 24px;
+    opacity: 1;
+    font-size: 28px;
     transition: color 0.2s ease, opacity 0.2s ease;
+    padding: 8px 12px;
+    margin: -8px -8px -8px auto;
 }
 
 .modal-header .close:hover {
@@ -1000,6 +1021,8 @@ td, th {
 
 .modal-body {
     padding: 28px;
+    max-height: 70vh;
+    overflow-y: auto;
 }
 
 .modal-footer {

@@ -286,6 +286,19 @@ spec:
             AiPlayerbot.SyncLevelMaxAbove = 2
             AiPlayerbot.AutoPickTalents = full
             AiPlayerbot.AutoTrainSpells = free
+      hardcore-config:
+        data:
+          hardcore.conf: |
+            Hardcore.Enabled = 1
+            Hardcore.PermaDeath = 1
+            Hardcore.DropGear = 0
+            Hardcore.LevelDown = 0
+            Hardcore.Gravestone = 1
+            Hardcore.OptIn = 1
+            Hardcore.Announce = 1
+            Hardcore.LevelUpAnnounce = 1
+            Hardcore.DeathAnnounce = 1
+            Hardcore.MaxDeathCount = 1
       ahbot-config:
         data:
           ahbot.conf: |
@@ -310,26 +323,6 @@ spec:
             AuctionHouseBot.Loot.Fishing = 5, 10, 30, 50
             AuctionHouseBot.Loot.Gameobject = 20, 25, 7, 15
             AuctionHouseBot.Loot.Skinning = 5, 10, 50, 80
-      hardcore-config:
-        data:
-          hardcore.conf: |
-            Hardcore.Enable = 1
-            Hardcore.PlayerConfig = 1
-            Hardcore.BroadcastDeathGuild = 1
-            Hardcore.BroadcastDeathWorld = 1
-            Hardcore.SpawnGrave = 1
-            Hardcore.GraveMessage = "Here lies <PlayerName>, taken too soon.|<PlayerName> was not prepared.|RIP <PlayerName>. Gone but not forgotten.|<PlayerName> has fallen. The world grows darker."
-            Hardcore.RemoveGravesOnCharacterDeleted = 1
-            Hardcore.DropGear = 0
-            Hardcore.DropItems = 0
-            Hardcore.DropMoney = 0
-            Hardcore.BotDropGear = 0
-            Hardcore.BotDropItems = 0
-            Hardcore.BotDropMoney = 0
-            Hardcore.ReviveDisabled = 0
-            Hardcore.ReviveOnGraveyard = 0
-            Hardcore.LevelDown = 0
-            Hardcore.LevelDownMinLevel = 1
     persistence:
       database:
         existingClaim: cmangos-database
@@ -368,14 +361,6 @@ spec:
             app:
               - path: /opt/mangos/conf/aiplayerbot.conf
                 subPath: aiplayerbot.conf
-      ahbot-config:
-        type: configMap
-        name: cmangos-ahbot-config
-        advancedMounts:
-          mangosd:
-            app:
-              - path: /opt/mangos/conf/ahbot.conf
-                subPath: ahbot.conf
       hardcore-config:
         type: configMap
         name: cmangos-hardcore-config
@@ -384,6 +369,14 @@ spec:
             app:
               - path: /opt/mangos/conf/hardcore.conf
                 subPath: hardcore.conf
+      ahbot-config:
+        type: configMap
+        name: cmangos-ahbot-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/ahbot.conf
+                subPath: ahbot.conf
       mangosd-logs:
         type: emptyDir
         advancedMounts:
