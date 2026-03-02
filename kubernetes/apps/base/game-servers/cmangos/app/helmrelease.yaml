@@ -188,13 +188,13 @@ spec:
                     port: 8085
                   periodSeconds: 10
                   timeoutSeconds: 3
-                  failureThreshold: 90
+                  failureThreshold: 180
             resources:
               requests:
-                cpu: 500m
-                memory: 1Gi
-              limits:
+                cpu: "2"
                 memory: 4Gi
+              limits:
+                memory: 12Gi
     service:
       database:
         controller: database
@@ -264,9 +264,9 @@ spec:
             AiPlayerbot.RandomBotAutologin = 1
             AiPlayerbot.RandomBotLoginAtStartup = 1
             AiPlayerbot.RandomBotAccountPrefix = rndbot
-            AiPlayerbot.RandomBotAccountCount = 500
-            AiPlayerbot.MinRandomBots = 300
-            AiPlayerbot.MaxRandomBots = 500
+            AiPlayerbot.RandomBotAccountCount = 2000
+            AiPlayerbot.MinRandomBots = 1500
+            AiPlayerbot.MaxRandomBots = 2000
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
             AiPlayerbot.RandomBotMaps = 0,1
@@ -278,7 +278,7 @@ spec:
             AiPlayerbot.RandomGearUpgradeEnabled = 1
             AiPlayerbot.RandomBotTeleportNearPlayer = 1
             AiPlayerbot.SyncQuestWithPlayer = 1
-            AiPlayerbot.RandomBotGuildCount = 25
+            AiPlayerbot.RandomBotGuildCount = 0
             AiPlayerbot.RandomBotJoinBG = 1
             AiPlayerbot.RandomBotAutoJoinBG = 1
             AiPlayerbot.RandomBotGroupNearby = 1
@@ -291,17 +291,25 @@ spec:
           ahbot.conf: |
             AuctionHouseBot.Seller.Enabled = 1
             AuctionHouseBot.Buyer.Enabled = 1
-            AuctionHouseBot.Chance.Sell = 30
-            AuctionHouseBot.Chance.Buy = 20
+            AuctionHouseBot.Chance.Sell = 80
+            AuctionHouseBot.Chance.Buy = 40
             AuctionHouseBot.Alliance.Items.Amount.Ratio = 100
             AuctionHouseBot.Horde.Items.Amount.Ratio = 100
-            AuctionHouseBot.Neutral.Items.Amount.Ratio = 50
-            AuctionHouseBot.Buy.Value = 80
-            AuctionHouseBot.Bid.Min = 75
-            AuctionHouseBot.Bid.Max = 90
+            AuctionHouseBot.Neutral.Items.Amount.Ratio = 80
+            AuctionHouseBot.Buy.Value = 90
+            AuctionHouseBot.Bid.Min = 60
+            AuctionHouseBot.Bid.Max = 95
             AuctionHouseBot.Time.Min = 2
-            AuctionHouseBot.Time.Max = 24
-            AuctionHouseBot.Items.Profession = 80, 90, 0, 50
+            AuctionHouseBot.Time.Max = 48
+            AuctionHouseBot.Value.Variance = 15
+            AuctionHouseBot.Items.Profession = 90, 100, 0, 60
+            AuctionHouseBot.Loot.Creature.Normal = 40, 50, 8, 15
+            AuctionHouseBot.Loot.Creature.Elite = 35, 40, 2, 4
+            AuctionHouseBot.Loot.Creature.Rare = 5, 15, 1, 2
+            AuctionHouseBot.Loot.Disenchant = 15, 20, 1, 3
+            AuctionHouseBot.Loot.Fishing = 5, 10, 30, 50
+            AuctionHouseBot.Loot.Gameobject = 20, 25, 7, 15
+            AuctionHouseBot.Loot.Skinning = 5, 10, 50, 80
     persistence:
       database:
         existingClaim: cmangos-database
