@@ -188,7 +188,7 @@ spec:
                     port: 8085
                   periodSeconds: 10
                   timeoutSeconds: 3
-                  failureThreshold: 30
+                  failureThreshold: 90
             resources:
               requests:
                 cpu: 500m
