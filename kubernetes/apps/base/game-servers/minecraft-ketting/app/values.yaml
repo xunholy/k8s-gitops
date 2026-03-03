@@ -1,9 +1,7 @@
 extraEnv:
   TZ: "Australia/Melbourne"
-  # CurseForge mods to download (auto-downloads dependencies like GeckoLib)
-  # Using full URL format for proper resolution
-  CURSEFORGE_FILES: |
-    https://www.curseforge.com/minecraft/mc-mods/crackers-wither-storm-mod
+  # CurseForge mods to download (Wither Storm mod bundles GeckoLib in its -all.jar)
+  CURSEFORGE_FILES: "https://www.curseforge.com/minecraft/mc-mods/crackers-wither-storm-mod"
 
 # Required for Bedrock/console UDP traffic to reach Geyser via Multus
 podAnnotations:

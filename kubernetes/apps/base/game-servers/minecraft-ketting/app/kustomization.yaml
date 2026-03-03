@@ -12,7 +12,7 @@ resources:
   - volsync-externalsecret.yaml
 
 configMapGenerator:
-  - name: mincraft-ketting-values
+  - name: minecraft-ketting-values
     namespace: game-servers
     files:
       - values.yaml=./values.yaml
@@ -22,7 +22,7 @@ configMapGenerator:
       - config.yml=./config/geysermc.yaml
 
 secretGenerator:
-  - name: mincraft-ketting-secret-values
+  - name: minecraft-ketting-secret-values
     namespace: game-servers
     files:
       - values.yaml=values.enc.age.yaml

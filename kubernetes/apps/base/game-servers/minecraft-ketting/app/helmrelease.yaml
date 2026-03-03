@@ -57,9 +57,9 @@ spec:
               name: geysermc-ketting-config
   valuesFrom:
     - kind: ConfigMap
-      name: mincraft-ketting-values
+      name: minecraft-ketting-values
     - kind: Secret
-      name: mincraft-ketting-secret-values
+      name: minecraft-ketting-secret-values
   postRenderers:
     - kustomize:
         patches:

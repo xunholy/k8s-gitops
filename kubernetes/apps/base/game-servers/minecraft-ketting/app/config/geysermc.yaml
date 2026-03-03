@@ -16,7 +16,7 @@ bedrock:
   # Generally, you should only uncomment and change this if you want to limit what IPs can connect to your server.
   #address: 0.0.0.0
   # The port that will listen for connections
-  port: 19132
+  port: 19133
   # Some hosting services change your Java port everytime you start the server and require the same port to be used for Bedrock.
   # This option makes the Bedrock port the same as the Java port every time you start the server.
   # This option is for the plugin version only.
@@ -51,9 +51,9 @@ remote:
   # For plugin versions, if address has been set to "auto", the port will also follow the server's listening port.
   port: 25565
   # Authentication type. Can be offline, online, or floodgate (see https://github.com/GeyserMC/Geyser/wiki/Floodgate).
-  # Using 'online' since Floodgate has compatibility issues with Ketting.
-  # Bedrock players will need to link their Xbox account to a Java account.
-  auth-type: online
+  # Using 'offline' to match server's onlineMode=false, allowing Bedrock players without Java accounts.
+  # Floodgate has compatibility issues with Ketting.
+  auth-type: offline
   # Whether to enable PROXY protocol or not while connecting to the server.
   # This is useful only when:
   # 1) Your server supports PROXY protocol (it probably doesn't)
