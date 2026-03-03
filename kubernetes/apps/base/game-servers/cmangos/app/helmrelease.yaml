@@ -96,7 +96,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 77617e304c67d0f7f688615d230b9a2b6b453cc3 # latest with hardcore module
+              tag: 9c64dc8f6d0d85b66d4f0c1fff1443242a19def7 # latest with hardcore + twinkmaster modules
             args: ["realmd"]
             env:
               TZ: Australia/Melbourne
@@ -151,7 +151,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 77617e304c67d0f7f688615d230b9a2b6b453cc3 # latest with hardcore module
+              tag: 9c64dc8f6d0d85b66d4f0c1fff1443242a19def7 # latest with hardcore + twinkmaster modules
             args: ["mangosd"]
             tty: true
             stdin: true
