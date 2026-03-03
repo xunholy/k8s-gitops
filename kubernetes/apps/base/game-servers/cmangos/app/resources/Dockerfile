@@ -84,6 +84,12 @@ RUN mkdir -p "${MANGOS_DIR}" \
         --depth 1 \
         "${MANGOS_DIR}/src/modules/hardcore" \
  \
+ && git clone "https://github.com/xunholy/cmangos-twinkmaster.git" \
+        --branch "main" \
+        --single-branch \
+        --depth 1 \
+        "${MANGOS_DIR}/src/modules/twinkmaster" \
+ \
  && rm -rf /tmp/*
 
 ARG THREADS="1"
@@ -102,6 +108,7 @@ RUN mkdir -p "${HOME_DIR}/build" \
         -D BUILD_SCRIPTDEV=ON \
         -D BUILD_MODULES=ON \
         -D BUILD_MODULE_HARDCORE=ON \
+        -D BUILD_MODULE_TWINKMASTER=ON \
  \
  && make -j "${THREADS}" \
  && make install \

@@ -324,6 +324,11 @@ spec:
             Hardcore.DisablePVP = 0
             Hardcore.SelfFound = 0
             Hardcore.CustomXPRates = 0
+      twinkmaster-config:
+        data:
+          twinkmaster.conf: |
+            Twinkmaster.Enable = 1
+            Twinkmaster.TargetLevel = 19
       ahbot-config:
         data:
           ahbot.conf: |
@@ -394,6 +399,14 @@ spec:
             app:
               - path: /opt/mangos/etc/hardcore.conf
                 subPath: hardcore.conf
+      twinkmaster-config:
+        type: configMap
+        name: cmangos-twinkmaster-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/twinkmaster.conf
+                subPath: twinkmaster.conf
       ahbot-config:
         type: configMap
         name: cmangos-ahbot-config
