@@ -27,16 +27,6 @@
     enabled: true,
   },
   ignorePaths: ["**/*.enc.*", "**/resources/**"],
-  packageRules: [
-    {
-      // kagent 0.7.19 uses SemVer build metadata (+hash) in Kubernetes labels which is invalid
-      matchPackageNames: [
-        "ghcr.io/kagent-dev/kagent/helm/kagent",
-        "ghcr.io/kagent-dev/kagent/helm/kagent-crds",
-      ],
-      allowedVersions: "<0.7.17",
-    },
-  ],
   flux: {
     managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
   },

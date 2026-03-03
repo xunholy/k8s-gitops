@@ -36,6 +36,18 @@ spec:
   driftDetection:
     mode: enabled
   maxHistory: 3
+  # Upstream kagent charts embed version with SemVer build metadata (+hash)
+  # in labels, which Kubernetes rejects. Strip the offending labels.
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              version: v1
+            patch: |
+              - op: remove
+                path: /metadata/labels/helm.sh~1chart
+              - op: remove
+                path: /metadata/labels/app.kubernetes.io~1version
   valuesFrom:
     - kind: ConfigMap
       name: kagent-values
