@@ -37,17 +37,19 @@ spec:
     mode: enabled
   maxHistory: 3
   # Upstream kagent charts embed version with SemVer build metadata (+hash)
-  # in labels, which Kubernetes rejects. Strip the offending labels.
+  # in labels, which Kubernetes rejects. Overwrite with sanitized values.
   postRenderers:
     - kustomize:
         patches:
-          - target:
-              version: v1
-            patch: |
-              - op: remove
+          - patch: |
+              - op: add
                 path: /metadata/labels/helm.sh~1chart
-              - op: remove
+                value: kagent
+              - op: add
                 path: /metadata/labels/app.kubernetes.io~1version
+                value: "0.7.19"
+            target:
+              kind: ".*"
   valuesFrom:
     - kind: ConfigMap
       name: kagent-values
