@@ -95,8 +95,8 @@ RUN mkdir -p "${MANGOS_DIR}" \
         --single-branch \
         --depth 1 \
         "${HOME_DIR}/cmangos-modules" \
- && echo "TWINKMASTER=https://github.com/xunholy/cmangos-twinkmaster.git" \
-        >> "${HOME_DIR}/cmangos-modules/modules.conf" \
+ && sed -i '/^MODULES=/i TWINKMASTER=https://github.com/xunholy/cmangos-twinkmaster.git' \
+        "${HOME_DIR}/cmangos-modules/modules.conf" \
  \
  && rm -rf /tmp/*
 
