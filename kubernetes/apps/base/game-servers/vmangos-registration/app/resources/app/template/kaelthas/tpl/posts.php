@@ -35,3 +35,18 @@
         and Onyxia, and fight for honor in Alterac Valley. Check the "How to Connect" page for setup instructions.
     </p>
 </div>
+
+<div class="box1 post-card" style="margin-top: 16px;">
+    <h4><i class="fa fa-thumbs-up"></i> Vote for Emberstone</h4>
+    <hr>
+    <p style="text-align: justify">
+        Enjoying the server? Help us grow by voting! Every vote helps new players discover Emberstone.
+    </p>
+    <div style="text-align: center; margin-top: 12px;">
+        <!-- Begin XtremeTop100 code -->
+        <a href="https://www.xtremetop100.com/in.php?site=1132378609" target="_blank" rel="noopener noreferrer" title="Vote for Emberstone on XtremeTop100">
+            <img src="https://www.xtremeTop100.com/votenew.jpg" border="0" alt="Vote for Emberstone on XtremeTop100" style="border-radius: 4px;">
+        </a>
+        <!-- End XtremeTop100 code -->
+    </div>
+</div>

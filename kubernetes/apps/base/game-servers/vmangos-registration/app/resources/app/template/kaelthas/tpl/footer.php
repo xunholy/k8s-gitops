@@ -16,6 +16,11 @@
 </div><!-- /.content1 -->
 
 <script>
+/* ── Fix modals trapped inside .content1 stacking context (z-index:10) ── */
+$(document).on('show.bs.modal', '.modal', function() {
+    $(this).appendTo('body');
+});
+
 /* ── Custom navbar ─────────────────────────────────── */
 (function() {
     var nav = document.getElementById('site-nav');
