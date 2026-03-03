@@ -1,3 +1,11 @@
 ---
 providers:
   default: openAI
+# Override image tags - upstream chart defaults to .Chart.Version which
+# includes build metadata (+hash) that is invalid in container image tags.
+controller:
+  image:
+    tag: "0.7.19"
+ui:
+  image:
+    tag: "0.7.19"
