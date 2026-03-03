@@ -6,6 +6,10 @@ providers:
 controller:
   image:
     tag: "0.7.19"
+  agentImage:
+    tag: "0.7.19"
+  skillsInitImage:
+    tag: "0.7.19"
 ui:
   image:
     tag: "0.7.19"
