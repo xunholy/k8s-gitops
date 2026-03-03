@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/vmangos-registration
-              tag: 31ae4d60606f84e57b7beca6c7dfbf5b18b07795
+              tag: 2a848f73175b45656db3325f9e847d6749bb9146
             env:
               TZ: Australia/Melbourne
             probes:
