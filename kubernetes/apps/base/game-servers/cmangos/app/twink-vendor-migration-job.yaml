@@ -21,10 +21,10 @@ data:
 
     SET @Entry := 190012;
 
-    -- NPC Template
+    -- NPC Template (gossip + vendor)
     DELETE FROM `creature_template` WHERE `entry` = @Entry;
-    INSERT INTO `creature_template` (`entry`, `DisplayId1`, `DisplayIdProbability1`, `name`, `subname`, `GossipMenuId`, `minlevel`, `maxlevel`, `faction`, `NpcFlags`, `scale`, `rank`, `DamageSchool`, `MeleeBaseAttackTime`, `RangedBaseAttackTime`, `unitClass`, `unitFlags`, `CreatureType`, `CreatureTypeFlags`, `lootid`, `PickpocketLootId`, `SkinningLootId`, `AIName`, `MovementType`, `RacialLeader`, `RegenerateStats`, `MechanicImmuneMask`, `ExtraFlags`) VALUES
-    (@Entry, 3455, 100, 'Twink Master', 'Level 19 Specialist', 0, 19, 19, 35, 4, 1, 0, 0, 2000, 0, 1, 0, 7, 138936390, 0, 0, 0, '', 0, 0, 1, 0, 0);
+    INSERT INTO `creature_template` (`entry`, `DisplayId1`, `DisplayIdProbability1`, `name`, `subname`, `GossipMenuId`, `minlevel`, `maxlevel`, `faction`, `NpcFlags`, `scale`, `rank`, `DamageSchool`, `MeleeBaseAttackTime`, `RangedBaseAttackTime`, `unitClass`, `unitFlags`, `CreatureType`, `CreatureTypeFlags`, `ScriptName`, `lootid`, `PickpocketLootId`, `SkinningLootId`, `AIName`, `MovementType`, `RacialLeader`, `RegenerateStats`, `MechanicImmuneMask`, `ExtraFlags`) VALUES
+    (@Entry, 3455, 100, 'Twink Master', 'Level 19 Specialist', 0, 19, 19, 35, 5, 1, 0, 0, 2000, 0, 1, 0, 7, 138936390, 'npc_twinkmaster', 0, 0, 0, '', 0, 0, 1, 0, 0);
 
     -- Spawns: Stormwind Trade District + Orgrimmar Valley of Honor
     DELETE FROM `creature` WHERE `id` = @Entry;
@@ -46,8 +46,7 @@ data:
 
     -- Make all vendor items free by setting BuyPrice to 0
     -- Store original prices for potential rollback
-    DROP TABLE IF EXISTS `custom_twinkmaster_original_prices`;
-    CREATE TABLE `custom_twinkmaster_original_prices` (
+    CREATE TABLE IF NOT EXISTS `custom_twinkmaster_original_prices` (
       `entry` int(11) unsigned NOT NULL,
       `original_buy_price` int(11) unsigned NOT NULL DEFAULT 0,
       `original_sell_price` int(11) unsigned NOT NULL DEFAULT 0,
