@@ -30,7 +30,7 @@ data:
     DELETE FROM `creature` WHERE `id` = @Entry;
     INSERT INTO `creature` (`id`, `map`, `spawnMask`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecsmin`, `spawntimesecsmax`, `spawndist`, `MovementType`) VALUES
     (@Entry, 0, 1, -8830.0, 665.0, 97.9, 0.65, 25, 25, 0, 0),
-    (@Entry, 1, 1, 1917.5, -4184.8, 43.5, 3.14, 25, 25, 0, 0);
+    (@Entry, 1, 1, 1918.0, -4272.0, 31.7, 1.80, 25, 25, 0, 0);
 
     -- NPC Text (for Phase 2 gossip integration)
     SET @TEXT_ID := 50920;
@@ -56,12 +56,41 @@ data:
     INSERT IGNORE INTO `custom_twinkmaster_original_prices` (`entry`, `original_buy_price`, `original_sell_price`)
     SELECT `entry`, `BuyPrice`, `SellPrice` FROM `item_template`
     WHERE `entry` IN (
-      -- Weapons
+      -- Weapons (melee)
       1482, 5191, 6448, 6469, 7230, 890, 6472, 6504, 6505,
-      -- Armor
-      2059, 10399, 5404, 5443, 12997, 1121, 4385, 6087, 6467, 6468,
-      -- Accessories
-      4381,
+      1935, 1483, 5815, 1484, 5201, 2271,
+      -- Weapons (ranged/wand)
+      13136, 7001,
+      -- Head
+      19972,
+      -- Neck
+      20444, 20442,
+      -- Back
+      2059, 6449,
+      -- Chest
+      10399, 2041, 1486, 6473,
+      -- Shoulders
+      5404,
+      -- Wrist
+      1974, 4534,
+      -- Hands
+      6467, 10413, 12977, 892,
+      -- Waist
+      6468, 10412, 6460,
+      -- Legs
+      6087, 10410, 12987,
+      -- Feet
+      1121, 19969, 12982, 10411,
+      -- Rings
+      20431, 20426, 20439, 20429, 2933, 6414, 4998, 12054, 1156, 12996,
+      -- Trinkets
+      4381, 19024, 18854, 18834,
+      -- Shields
+      5443, 12997, 7002,
+      -- Off-hand
+      2879, 5183, 16768,
+      -- Head (engineering)
+      4385,
       -- Consumables
       2459, 3388, 2454, 2455, 929, 3390, 3389, 6373, 1478,
       -- Ammo
@@ -73,8 +102,23 @@ data:
     UPDATE `item_template` SET `BuyPrice` = 0, `SellPrice` = 0
     WHERE `entry` IN (
       1482, 5191, 6448, 6469, 7230, 890, 6472, 6504, 6505,
-      2059, 10399, 5404, 5443, 12997, 1121, 4385, 6087, 6467, 6468,
-      4381,
+      1935, 1483, 5815, 1484, 5201, 2271,
+      13136, 7001,
+      19972,
+      20444, 20442,
+      2059, 6449,
+      10399, 2041, 1486, 6473,
+      5404,
+      1974, 4534,
+      6467, 10413, 12977, 892,
+      6468, 10412, 6460,
+      6087, 10410, 12987,
+      1121, 19969, 12982, 10411,
+      20431, 20426, 20439, 20429, 2933, 6414, 4998, 12054, 1156, 12996,
+      4381, 19024, 18854, 18834,
+      5443, 12997, 7002,
+      2879, 5183, 16768,
+      4385,
       2459, 3388, 2454, 2455, 929, 3390, 3389, 6373, 1478,
       2515, 2519, 8068,
       2581, 3531
@@ -86,29 +130,86 @@ data:
     -- ============================================================
     DELETE FROM `npc_vendor` WHERE `entry` = @Entry;
     INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
-    -- === WEAPONS ===
-    (@Entry, 1482,  0, 0),  -- Shadowfang (1H Sword, BoE)
+    -- === WEAPONS (Melee) ===
+    (@Entry, 1482,  0, 0),  -- Shadowfang (1H Sword)
     (@Entry, 5191,  0, 0),  -- Cruel Barb (1H Sword)
+    (@Entry, 1935,  0, 0),  -- Assassin's Blade (Dagger)
     (@Entry, 6448,  0, 0),  -- Tail Spike (Dagger)
-    (@Entry, 6469,  0, 0),  -- Venomstrike (Bow)
-    (@Entry, 7230,  0, 0),  -- Smite's Mighty Hammer (2H Mace)
-    (@Entry, 890,   0, 0),  -- Twisted Chanter's Staff (Staff)
+    (@Entry, 1483,  0, 0),  -- Face Smasher (1H Mace)
     (@Entry, 6472,  0, 0),  -- Stinging Viper (1H Mace)
     (@Entry, 6504,  0, 0),  -- Wingblade (1H Sword)
+    (@Entry, 7230,  0, 0),  -- Smite's Mighty Hammer (2H Mace)
+    (@Entry, 5815,  0, 0),  -- Glacial Stone (2H Mace)
+    (@Entry, 890,   0, 0),  -- Twisted Chanter's Staff (Staff)
     (@Entry, 6505,  0, 0),  -- Crescent Staff (Staff)
-    -- === ARMOR ===
-    (@Entry, 2059,  0, 0),  -- Sentry Cloak (Back)
-    (@Entry, 10399, 0, 0),  -- Blackened Defias Armor (Leather Chest)
-    (@Entry, 5404,  0, 0),  -- Serpent's Shoulders (Leather Shoulders)
-    (@Entry, 5443,  0, 0),  -- Gold-plated Buckler (Shield)
-    (@Entry, 12997, 0, 0),  -- Redbeard Crest (Shield)
-    (@Entry, 1121,  0, 0),  -- Feet of the Lynx (Leather Feet)
-    (@Entry, 4385,  0, 0),  -- Green Tinted Goggles (Leather Head)
-    (@Entry, 6087,  0, 0),  -- Chausses of Westfall (Mail Legs)
-    (@Entry, 6467,  0, 0),  -- Deviate Scale Gloves (Leather Gloves)
-    (@Entry, 6468,  0, 0),  -- Deviate Scale Belt (Leather Waist)
-    -- === ACCESSORIES ===
-    (@Entry, 4381,  0, 0),  -- Minor Recombobulator (Trinket)
+    (@Entry, 1484,  0, 0),  -- Witching Stave (Staff)
+    (@Entry, 5201,  0, 0),  -- Emberstone Staff (Staff)
+    (@Entry, 2271,  0, 0),  -- Staff of the Blessed Seer (Healing Staff)
+    -- === WEAPONS (Ranged/Wand) ===
+    (@Entry, 6469,  0, 0),  -- Venomstrike (Bow)
+    (@Entry, 13136, 0, 0),  -- Lil Timmy's Peashooter (Gun)
+    (@Entry, 7001,  0, 0),  -- Gravestone Scepter (Wand)
+    -- === HEAD ===
+    (@Entry, 19972, 0, 0),  -- Lucky Fishing Hat (+15 Stam)
+    (@Entry, 4385,  0, 0),  -- Green Tinted Goggles (Engineering)
+    -- === NECK ===
+    (@Entry, 20444, 0, 0),  -- Sentinel's Medallion (Alliance WSG +10 Stam)
+    (@Entry, 20442, 0, 0),  -- Scout's Medallion (Horde WSG +10 Stam)
+    -- === SHOULDERS ===
+    (@Entry, 5404,  0, 0),  -- Serpent's Shoulders
+    -- === BACK ===
+    (@Entry, 2059,  0, 0),  -- Sentry Cloak
+    (@Entry, 6449,  0, 0),  -- Glowing Lizardscale Cloak (+8 NR)
+    -- === CHEST ===
+    (@Entry, 10399, 0, 0),  -- Blackened Defias Armor (Leather)
+    (@Entry, 2041,  0, 0),  -- Tunic of Westfall (Leather)
+    (@Entry, 1486,  0, 0),  -- Tree Bark Jacket (Cloth caster)
+    (@Entry, 6473,  0, 0),  -- Armor of the Fang (Leather)
+    -- === WRIST ===
+    (@Entry, 1974,  0, 0),  -- Mindthrust Bracers (Cloth +5 Int)
+    (@Entry, 4534,  0, 0),  -- Steel-clasped Bracers (Mail +3 Str +6 Stam)
+    -- === HANDS ===
+    (@Entry, 6467,  0, 0),  -- Deviate Scale Gloves (Leather)
+    (@Entry, 10413, 0, 0),  -- Gloves of the Fang (Leather)
+    (@Entry, 12977, 0, 0),  -- Magefist Gloves (Cloth +5 Int)
+    (@Entry, 892,   0, 0),  -- Gnoll Casting Gloves (Cloth +6 SP)
+    -- === WAIST ===
+    (@Entry, 6468,  0, 0),  -- Deviate Scale Belt (Leather)
+    (@Entry, 10412, 0, 0),  -- Belt of the Fang (Leather)
+    (@Entry, 6460,  0, 0),  -- Cobrahn's Grasp (Mail)
+    -- === LEGS ===
+    (@Entry, 6087,  0, 0),  -- Chausses of Westfall (Mail)
+    (@Entry, 10410, 0, 0),  -- Leggings of the Fang (Leather)
+    (@Entry, 12987, 0, 0),  -- Darkweave Breeches (Cloth caster)
+    -- === FEET ===
+    (@Entry, 1121,  0, 0),  -- Feet of the Lynx (Leather)
+    (@Entry, 19969, 0, 0),  -- Nat Pagle's Extreme Anglin' Boots (+15 Stam)
+    (@Entry, 12982, 0, 0),  -- Silver-linked Footguards (Mail)
+    (@Entry, 10411, 0, 0),  -- Footpads of the Fang (Leather)
+    -- === RINGS ===
+    (@Entry, 20439, 0, 0),  -- Protector's Band (Alliance WSG +7 AP)
+    (@Entry, 20429, 0, 0),  -- Legionnaire's Band (Horde WSG +7 AP)
+    (@Entry, 20431, 0, 0),  -- Lorekeeper's Ring (Alliance WSG +5 SP)
+    (@Entry, 20426, 0, 0),  -- Advisor's Ring (Horde WSG +5 SP)
+    (@Entry, 2933,  0, 0),  -- Seal of Wrynn (+4 Stam)
+    (@Entry, 6414,  0, 0),  -- Seal of Sylvanas (+4 Stam)
+    (@Entry, 4998,  0, 0),  -- Blood Ring (+5 Stam)
+    (@Entry, 12054, 0, 0),  -- Demon Band (+5 Str)
+    (@Entry, 1156,  0, 0),  -- Lavishly Jeweled Ring (+6 Int)
+    (@Entry, 12996, 0, 0),  -- Band of Purification (+healing)
+    -- === TRINKETS ===
+    (@Entry, 19024, 0, 0),  -- Arena Grand Master (+12 Stam absorb)
+    (@Entry, 4381,  0, 0),  -- Minor Recombobulator
+    (@Entry, 18854, 0, 0),  -- Insignia of the Alliance (PvP CC break)
+    (@Entry, 18834, 0, 0),  -- Insignia of the Horde (PvP CC break)
+    -- === SHIELDS ===
+    (@Entry, 5443,  0, 0),  -- Gold-plated Buckler
+    (@Entry, 12997, 0, 0),  -- Redbeard Crest
+    (@Entry, 7002,  0, 0),  -- Arctic Buckler (+7 Frost Resist +7 Stam)
+    -- === OFF-HAND ===
+    (@Entry, 2879,  0, 0),  -- Antipodean Rod (+3 Int +5 Spirit)
+    (@Entry, 5183,  0, 0),  -- Pulsating Hydra Heart (+6 SP)
+    (@Entry, 16768, 0, 0),  -- Furbolg Medicine Pouch (+10 Stam)
     -- === CONSUMABLES ===
     (@Entry, 2459,  0, 0),  -- Swiftness Potion
     (@Entry, 3388,  0, 0),  -- Strong Troll's Blood Potion
@@ -167,7 +268,7 @@ spec:
               echo "=== Verifying creature spawns ==="
               mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT COUNT(*) AS spawn_count FROM creature WHERE id = 190012;"
 
-              echo "=== Verifying vendor items (should be 34) ==="
+              echo "=== Verifying vendor items (should be 77) ==="
               mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT COUNT(*) AS vendor_item_count FROM npc_vendor WHERE entry = 190012;"
 
               echo "=== Validating all vendor item IDs exist in item_template ==="
