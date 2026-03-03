@@ -289,6 +289,9 @@ spec:
             AiPlayerbot.SyncLevelMaxAbove = 2
             AiPlayerbot.AutoPickTalents = full
             AiPlayerbot.AutoTrainSpells = free
+            # Competitive BG/WSG twink settings
+            AiPlayerbot.minEnchantingBotLevel = 10
+            AiPlayerbot.BotAcceptDuelMinimumLevel = 10
       hardcore-config:
         data:
           hardcore.conf: |
