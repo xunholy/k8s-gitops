@@ -34,7 +34,7 @@
         "ghcr.io/kagent-dev/kagent/helm/kagent",
         "ghcr.io/kagent-dev/kagent/helm/kagent-crds",
       ],
-      allowedVersions: "<0.7.19",
+      allowedVersions: "<0.7.17",
     },
   ],
   flux: {
