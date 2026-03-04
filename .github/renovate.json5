@@ -20,7 +20,6 @@
     "github>xunholy/k8s-gitops//.renovate/labels.json5",
     "github>xunholy/k8s-gitops//.renovate/semanticCommits.json5",
   ],
-  dependencyDashboardAutoclose: true,
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
   suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
   "pre-commit": {
