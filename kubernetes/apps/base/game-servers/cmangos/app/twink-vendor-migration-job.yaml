@@ -206,6 +206,30 @@ data:
     (20426, 3),  -- Advisor's Ring
     (18854, 3),  -- Insignia of the Alliance
     (18834, 3),  -- Insignia of the Horde
+    -- Class-specific insignias (Alliance)
+    (18856, 3),  -- Insignia of the Alliance (Mage)
+    (18857, 3),  -- Insignia of the Alliance (Rogue)
+    (18858, 3),  -- Insignia of the Alliance (Priest)
+    (18859, 3),  -- Insignia of the Alliance (Druid)
+    (18862, 3),  -- Insignia of the Alliance (Paladin)
+    (18863, 3),  -- Insignia of the Alliance (Hunter)
+    (18864, 3),  -- Insignia of the Alliance (Warlock)
+    -- Class-specific insignias (Horde)
+    (18845, 3),  -- Insignia of the Horde (Rogue)
+    (18846, 3),  -- Insignia of the Horde (Hunter)
+    (18849, 3),  -- Insignia of the Horde (Mage)
+    (18850, 3),  -- Insignia of the Horde (Warlock)
+    (18851, 3),  -- Insignia of the Horde (Priest)
+    (18852, 3),  -- Insignia of the Horde (Druid)
+    (18853, 3),  -- Insignia of the Horde (Shaman)
+    -- Battle Standards
+    (18606, 3),  -- Alliance Battle Standard
+    (18607, 3),  -- Horde Battle Standard
+    -- Tabards
+    (15196, 3),  -- Private's Tabard (Alliance)
+    (15197, 3),  -- Scout's Tabard (Horde)
+    (19506, 3),  -- Silverwing Battle Tabard (Alliance WSG)
+    (19505, 3),  -- Warsong Battle Tabard (Horde WSG)
     -- WSG reputation weapons and cloaks
     (20425, 3),  -- Advisor's Gnarled Staff
     (20427, 3),  -- Battle Healer's Cloak
