@@ -39,7 +39,7 @@ resources:
   - ../../base/harbor/harbor/ks.yaml
   - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/game-servers/minecraft/ks.yaml
-  # - ../../base/game-servers/minecraft-ketting/ks.yaml
+  - ../../base/game-servers/minecraft-ketting/ks.yaml
   - ../../base/game-servers/minecraft-bedrock/ks.yaml
   - ../../base/game-servers/minecraft-bedrock-broadcaster/ks.yaml
   # - ../../base/game-servers/minecraft-proxy/ks.yaml
