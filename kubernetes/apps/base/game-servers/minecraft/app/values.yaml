@@ -37,6 +37,8 @@ minecraftServer:
   onlineMode: true
   rcon:
     enabled: true
+    existingSecret: minecraft-rcon
+    secretKey: rcon-password
   motd: "Welcome to Minecraft on Kubernetes!"
   playerIdleTimeout: 10
   memory: 8192M

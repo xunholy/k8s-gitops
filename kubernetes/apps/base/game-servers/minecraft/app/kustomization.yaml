@@ -11,6 +11,7 @@ resources:
   - pvc-ceph.yaml
   - replicationsource.yaml
   - volsync-externalsecret.yaml
+  - secret.enc.age.yaml
 
 configMapGenerator:
   - name: minecraft-values
