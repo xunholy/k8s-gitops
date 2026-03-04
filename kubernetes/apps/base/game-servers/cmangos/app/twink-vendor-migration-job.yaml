@@ -290,26 +290,17 @@ data:
     (17966, 4);  -- Onyxia Hide Backpack (18 slot)
 
     -- ============================================================
-    -- Make all vendor items free
+    -- Restore original prices if previously zeroed, then drop backup
     -- ============================================================
-    CREATE TABLE IF NOT EXISTS `custom_twinkmaster_original_prices` (
-      `entry` int(11) unsigned NOT NULL,
-      `original_buy_price` int(11) unsigned NOT NULL DEFAULT 0,
-      `original_sell_price` int(11) unsigned NOT NULL DEFAULT 0,
-      PRIMARY KEY (`entry`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Backup of original item prices before Twink Master zeroed them';
-
-    INSERT IGNORE INTO `custom_twinkmaster_original_prices` (`entry`, `original_buy_price`, `original_sell_price`)
-    SELECT it.`entry`, it.`BuyPrice`, it.`SellPrice`
-    FROM `item_template` it
-    JOIN `custom_twinkmaster_vendor_categories` vc ON it.`entry` = vc.`item`;
-
     UPDATE `item_template` it
-    JOIN `custom_twinkmaster_vendor_categories` vc ON it.`entry` = vc.`item`
-    SET it.`BuyPrice` = 0, it.`SellPrice` = 0;
+    JOIN `custom_twinkmaster_original_prices` op ON it.`entry` = op.`entry`
+    SET it.`BuyPrice` = op.`original_buy_price`, it.`SellPrice` = op.`original_sell_price`
+    WHERE it.`BuyPrice` = 0 AND op.`original_buy_price` > 0;
+    DROP TABLE IF EXISTS `custom_twinkmaster_original_prices`;
 
     -- ============================================================
-    -- NPC Vendor Inventory (all categories combined)
+    -- NPC Vendor Inventory (for standard vendor fallback only;
+    -- category vendor uses custom SMSG_LIST_INVENTORY with price=0)
     -- ============================================================
     DELETE FROM `npc_vendor` WHERE `entry` IN (@AllianceEntry, @HordeEntry);
 
