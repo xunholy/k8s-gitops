@@ -96,7 +96,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 9c64dc8f6d0d85b66d4f0c1fff1443242a19def7 # latest with hardcore + twinkmaster modules
+              tag: 75deb612d711b57f5c09128413151d4a04af111c # enchants, buffs, professions, category vendor
             args: ["realmd"]
             env:
               TZ: Australia/Melbourne
@@ -151,7 +151,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 9c64dc8f6d0d85b66d4f0c1fff1443242a19def7 # latest with hardcore + twinkmaster modules
+              tag: 75deb612d711b57f5c09128413151d4a04af111c # enchants, buffs, professions, category vendor
             args: ["mangosd"]
             tty: true
             stdin: true
