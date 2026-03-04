@@ -37,6 +37,7 @@ RUN apt-get update \
 
 ARG MANGOS_SHA1="latest"
 ARG DATABASE_SHA1="latest"
+ARG CACHEBUST=1
 ENV HOME_DIR="/home/mangos"
 ENV MANGOS_DIR="${HOME_DIR}/mangos"
 ENV DATABASE_DIR="${HOME_DIR}/classic-db"

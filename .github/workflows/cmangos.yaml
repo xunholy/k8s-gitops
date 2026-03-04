@@ -46,6 +46,7 @@ jobs:
           build-args: |
             THREADS=2
             COMMIT_SHA=${{ github.sha }}
+            CACHEBUST=${{ github.run_id }}
           cache-from: type=gha,scope=builder
           cache-to: type=gha,mode=max,scope=builder
 
@@ -78,6 +79,7 @@ jobs:
           build-args: |
             THREADS=2
             COMMIT_SHA=${{ github.sha }}
+            CACHEBUST=${{ github.run_id }}
           cache-from: |
             type=gha,scope=builder
             type=gha,scope=runner
