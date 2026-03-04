@@ -1,12 +1,16 @@
 extraEnv:
   TZ: "Australia/Melbourne"
-  CURSEFORGE_FILES: "https://www.curseforge.com/minecraft/mc-mods/crackers-wither-storm-mod"
 
 minecraftServer:
   serverName: Wildfire Wither Storm Server
   eula: "TRUE"
   type: FORGE
   version: "1.20.1"
+  modrinth:
+    projects:
+      - crackers-wither-storm-mod
+    downloadDependencies: required
+    allowedVersionType: release
   maxPlayers: 10
   maxTickTime: -1
   memory: 4096M
