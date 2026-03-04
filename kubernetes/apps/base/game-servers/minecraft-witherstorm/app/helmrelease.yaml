@@ -72,6 +72,8 @@ spec:
                 value:
                   name: geyser-standalone
                   image: eclipse-temurin:21-jre
+                  securityContext:
+                    runAsUser: 0
                   command:
                     - /bin/sh
                     - -c
