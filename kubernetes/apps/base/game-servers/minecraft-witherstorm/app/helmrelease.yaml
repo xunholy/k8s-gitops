@@ -71,7 +71,7 @@ spec:
                 path: /spec/template/spec/containers/-
                 value:
                   name: geyser-standalone
-                  image: eclipse-temurin:21-jre
+                  image: eclipse-temurin:21.0.10_7-jre
                   securityContext:
                     runAsUser: 0
                     runAsNonRoot: false
