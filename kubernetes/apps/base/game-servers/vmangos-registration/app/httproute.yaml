@@ -12,7 +12,7 @@ spec:
       namespace: network-system
       sectionName: https
   hostnames:
-    - 'wow-register.${CLUSTER_DOMAIN}'
+    - 'emberstone.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: vmangos-registration

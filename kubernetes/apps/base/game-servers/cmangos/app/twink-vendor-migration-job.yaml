@@ -1,0 +1,408 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-twink-vendor-migration-sql
+  namespace: game-servers
+data:
+  characters.sql: |
+    CREATE TABLE IF NOT EXISTS `custom_twinkmaster_player_config` (
+      `guid` int(11) unsigned NOT NULL COMMENT 'Character GUID',
+      `xp_locked` boolean DEFAULT FALSE COMMENT 'Whether XP gain is blocked',
+      `level_set` boolean DEFAULT FALSE COMMENT 'Whether level was set by Twink Master',
+      `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (`guid`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Twink Master player configuration';
+  world.sql: |
+    -- ============================================================
+    -- Twink Master NPC - Level 19 Multi-Vendor
+    -- Alliance: 190012 | Horde: 190013
+    -- Categories: 1=BiS Gear, 2=Consumables, 3=Honor Gear, 4=Insane
+    -- ============================================================
+
+    SET @AllianceEntry := 190012;
+    SET @HordeEntry := 190013;
+
+    -- NPC Templates: Alliance (Stormwind faction) + Horde (Orgrimmar faction)
+    DELETE FROM `creature_template` WHERE `entry` IN (@AllianceEntry, @HordeEntry);
+    INSERT INTO `creature_template` (`entry`, `DisplayId1`, `DisplayIdProbability1`, `name`, `subname`, `GossipMenuId`, `minlevel`, `maxlevel`, `faction`, `NpcFlags`, `scale`, `rank`, `DamageSchool`, `MeleeBaseAttackTime`, `RangedBaseAttackTime`, `unitClass`, `unitFlags`, `CreatureType`, `CreatureTypeFlags`, `ScriptName`, `lootid`, `PickpocketLootId`, `SkinningLootId`, `AIName`, `MovementType`, `RacialLeader`, `RegenerateStats`, `MechanicImmuneMask`, `ExtraFlags`) VALUES
+    (@AllianceEntry, 3455, 100, 'Twink Master', 'Level 19 Specialist', 0, 19, 19, 12, 5, 1, 0, 0, 2000, 0, 1, 0, 7, 138936390, 'npc_twinkmaster', 0, 0, 0, '', 0, 0, 1, 0, 0),
+    (@HordeEntry,    1374, 100, 'Twink Master', 'Level 19 Specialist', 0, 19, 19, 85, 5, 1, 0, 0, 2000, 0, 1, 0, 7, 138936390, 'npc_twinkmaster', 0, 0, 0, '', 0, 0, 1, 0, 0);
+
+    -- Spawns: Stormwind Trade District (Alliance) + Orgrimmar WSG area (Horde)
+    DELETE FROM `creature` WHERE `id` IN (@AllianceEntry, @HordeEntry);
+    INSERT INTO `creature` (`id`, `map`, `spawnMask`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecsmin`, `spawntimesecsmax`, `spawndist`, `MovementType`) VALUES
+    (@AllianceEntry, 0, 1, -8830.0, 665.0, 97.9, 0.65, 25, 25, 0, 0),
+    (@HordeEntry,    1, 1, 1986.0, -4785.0, 55.82, 4.26, 25, 25, 0, 0);
+
+    -- NPC Text
+    SET @TEXT_ID := 50920;
+    DELETE FROM `npc_text` WHERE `ID` BETWEEN @TEXT_ID AND @TEXT_ID+2;
+    INSERT INTO `npc_text` (`ID`, `text0_0`) VALUES
+    (@TEXT_ID,   'Welcome, $N! Looking to gear up for the battleground? I have everything a level 19 champion needs. Browse my wares - everything is on the house!'),
+    (@TEXT_ID+1, 'Ready to lock in at level 19? I can set your level and lock your experience so you stay in peak form for Warsong Gulch.'),
+    (@TEXT_ID+2, 'Only the finest equipment for aspiring twinks. May your battles be glorious, $N!');
+
+    -- ============================================================
+    -- Vendor Category Table (read by C++ module)
+    -- Discrete values: 1=BiS Gear, 2=Consumables, 3=Honor Gear, 4=Insane
+    -- ============================================================
+    DROP TABLE IF EXISTS `custom_twinkmaster_vendor_categories`;
+    CREATE TABLE `custom_twinkmaster_vendor_categories` (
+      `item` int(11) unsigned NOT NULL,
+      `categories` tinyint(3) unsigned NOT NULL DEFAULT 1,
+      PRIMARY KEY (`item`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Twink Master vendor item categories';
+
+    INSERT INTO `custom_twinkmaster_vendor_categories` (`item`, `categories`) VALUES
+    -- =============================================
+    -- BiS Gear (cat=1) - Equipment only
+    -- =============================================
+    -- Weapons (melee)
+    (1482,  1),  -- Shadowfang
+    (5191,  1),  -- Cruel Barb
+    (1935,  1),  -- Assassin's Blade
+    (6448,  1),  -- Tail Spike
+    (1483,  1),  -- Face Smasher
+    (6472,  1),  -- Stinging Viper
+    (6504,  1),  -- Wingblade
+    (7230,  1),  -- Smite's Mighty Hammer
+    (5815,  1),  -- Glacial Stone
+    (890,   1),  -- Twisted Chanter's Staff
+    (6505,  1),  -- Crescent Staff
+    (1484,  1),  -- Witching Stave
+    (5201,  1),  -- Emberstone Staff
+    (2271,  1),  -- Staff of the Blessed Seer
+    (1318,  1),  -- Night Reaver (2H Axe, shadow proc)
+    (2256,  1),  -- Skeletal Club (1H Mace, shadow proc)
+    (5196,  1),  -- Evocator's Blade (caster dagger)
+    -- Weapons (ranged/wand)
+    (6469,  1),  -- Venomstrike
+    (13136, 1),  -- Lil Timmy's Peashooter
+    (7001,  1),  -- Gravestone Scepter
+    -- Head
+    (19972, 1),  -- Lucky Fishing Hat
+    (4385,  1),  -- Green Tinted Goggles
+    -- Shoulders
+    (5404,  1),  -- Serpent's Shoulders
+    (10657, 1),  -- Talbar Mantle
+    -- Back
+    (2059,  1),  -- Sentry Cloak
+    (6449,  1),  -- Glowing Lizardscale Cloak
+    -- Chest
+    (10399, 1),  -- Blackened Defias Armor
+    (2041,  1),  -- Tunic of Westfall
+    (1486,  1),  -- Tree Bark Jacket
+    (6473,  1),  -- Armor of the Fang
+    -- Wrist
+    (1974,  1),  -- Mindthrust Bracers
+    (4534,  1),  -- Steel-clasped Bracers
+    (15331, 1),  -- Wrangler's Wristbands (random enchant)
+    -- Hands
+    (6467,  1),  -- Deviate Scale Gloves
+    (10413, 1),  -- Gloves of the Fang
+    (12977, 1),  -- Magefist Gloves
+    (892,   1),  -- Gnoll Casting Gloves
+    (6586,  1),  -- Scouting Gloves (random enchant)
+    -- Waist
+    (6468,  1),  -- Deviate Scale Belt
+    (10412, 1),  -- Belt of the Fang
+    (6460,  1),  -- Cobrahn's Grasp
+    -- Legs
+    (6087,  1),  -- Chausses of Westfall
+    (10410, 1),  -- Leggings of the Fang
+    (12987, 1),  -- Darkweave Breeches
+    -- Feet
+    (1121,  1),  -- Feet of the Lynx
+    (19969, 1),  -- Nat Pagle's Extreme Anglin' Boots
+    (12982, 1),  -- Silver-linked Footguards
+    (10411, 1),  -- Footpads of the Fang
+    -- Rings
+    (2933,  1),  -- Seal of Wrynn
+    (6414,  1),  -- Seal of Sylvanas
+    (4998,  1),  -- Blood Ring
+    (12054, 1),  -- Demon Band
+    (1156,  1),  -- Lavishly Jeweled Ring
+    (12996, 1),  -- Band of Purification
+    -- Trinkets
+    (19024, 1),  -- Arena Grand Master
+    (4381,  1),  -- Minor Recombobulator
+    -- Shields
+    (5443,  1),  -- Gold-plated Buckler
+    (12997, 1),  -- Redbeard Crest
+    (7002,  1),  -- Arctic Buckler
+    -- Off-hand
+    (2879,  1),  -- Antipodean Rod
+    (5183,  1),  -- Pulsating Hydra Heart
+    (16768, 1),  -- Furbolg Medicine Pouch
+    -- =============================================
+    -- Consumables (cat=2)
+    -- =============================================
+    -- Potions / Elixirs
+    (2459,  2),  -- Swiftness Potion
+    (3388,  2),  -- Strong Troll's Blood Potion
+    (2454,  2),  -- Elixir of Lion's Strength
+    (2455,  2),  -- Minor Mana Potion
+    (929,   2),  -- Healing Potion
+    (3390,  2),  -- Elixir of Lesser Agility
+    (3389,  2),  -- Elixir of Defense
+    (6373,  2),  -- Elixir of Firepower
+    (3384,  2),  -- Minor Magic Resistance Potion
+    (6372,  2),  -- Swim Speed Potion (WSG essential)
+    (5631,  2),  -- Rage Potion (+20-40 Rage, Warriors only)
+    (6051,  2),  -- Holy Protection Potion (absorb holy)
+    (2458,  2),  -- Elixir of Minor Fortitude (+27 HP, Guardian)
+    (3383,  2),  -- Elixir of Wisdom (+6 Int, Battle)
+    -- Scrolls
+    (1478,  2),  -- Scroll of Protection II
+    (3012,  2),  -- Scroll of Agility (+5 Agi)
+    (1180,  2),  -- Scroll of Stamina (+5 Stam)
+    (954,   2),  -- Scroll of Strength (+5 Str)
+    (957,   2),  -- Scroll of Intellect (+4 Int)
+    -- Head/Leg Enchants (Lesser Arcanums - BRD)
+    (11642, 2),  -- Lesser Arcanum of Constitution (+100 HP)
+    (11622, 2),  -- Lesser Arcanum of Rumination (+150 Mana)
+    (11643, 2),  -- Lesser Arcanum of Tenacity (+125 Armor)
+    (11644, 2),  -- Lesser Arcanum of Resilience (+20 Fire Resist)
+    (11645, 2),  -- Lesser Arcanum of Voracity (+8 Str)
+    (11646, 2),  -- Lesser Arcanum of Voracity (+8 Agi)
+    (11647, 2),  -- Lesser Arcanum of Voracity (+8 Stam)
+    (11648, 2),  -- Lesser Arcanum of Voracity (+8 Int)
+    (11649, 2),  -- Lesser Arcanum of Voracity (+8 Spi)
+    -- Head/Leg Enchants (Arcanums - Dire Maul)
+    (18329, 2),  -- Arcanum of Rapidity (+1% Haste)
+    (18330, 2),  -- Arcanum of Focus (+8 Spell Power)
+    (18331, 2),  -- Arcanum of Protection (+1% Dodge)
+    -- Drinks (stamina buffs)
+    (21151, 2),  -- Rumsey Rum Black Label (+15 Stam)
+    (18269, 2),  -- Gordok Green Grog (+10 Stam)
+    -- Transformation / Fun
+    (6657,  2),  -- Savory Deviate Delight (pirate/ninja)
+    (6662,  2),  -- Elixir of Giant Growth (size increase)
+    (6522,  2),  -- Deviate Fish (random effects)
+    -- Engineering gadgets
+    (4388,  2),  -- Discombobulator Ray (transform + slow)
+    (4380,  2),  -- Big Bronze Bomb (AoE stun)
+    (4378,  2),  -- Heavy Dynamite (AoE damage)
+    (4384,  2),  -- Explosive Sheep (mobile AoE)
+    (4376,  2),  -- Flame Deflector (absorb fire)
+    (4366,  2),  -- Target Dummy (attracts mobs, no Eng req)
+    (6714,  2),  -- EZ-Thro Dynamite (AoE, no Eng req)
+    -- PvP utility
+    (2091,  2),  -- Magic Dust (sleep target)
+    (4984,  2),  -- Skull of Impending Doom (speed boost)
+    (13180, 2),  -- Stratholme Holy Water (AoE vs undead)
+    (7676,  2),  -- Thistle Tea (instant 100 energy)
+    -- Food buffs
+    (3665,  2),  -- Curiously Tasty Omelet
+    (6890,  2),  -- Smoked Bear Meat
+    -- Weapon buffs
+    (4406,  2),  -- Standard Scope (+2 damage)
+    (2871,  2),  -- Heavy Sharpening Stone (+4 weapon damage)
+    (2863,  2),  -- Coarse Sharpening Stone (+3 weapon damage)
+    (20744, 2),  -- Minor Wizard Oil (+8 Spell Damage)
+    (1322,  2),  -- Fishliver Oil (+8 melee AP)
+    -- Ammo
+    (3464,  2),  -- Feathered Arrow
+    (3465,  2),  -- Exploding Shot
+    -- Bandages
+    (6451,  2),  -- Heavy Silk Bandage (First Aid 125)
+    (8544,  2),  -- Mageweave Bandage (First Aid 150)
+    -- Utility
+    (6048,  2),  -- Shadow Protection Potion (level 17)
+    (3241,  2),  -- Heavy Weightstone (+4 blunt weapon dmg)
+    (1712,  2),  -- Scroll of Spirit II
+    -- =============================================
+    -- Honor Gear (cat=3) - PvP / WSG reputation items
+    -- =============================================
+    -- PvP accessories (rings, trinkets, medallions)
+    (20444, 3),  -- Sentinel's Medallion
+    (20442, 3),  -- Scout's Medallion
+    (20439, 3),  -- Protector's Band
+    (20429, 3),  -- Legionnaire's Band
+    (20431, 3),  -- Lorekeeper's Ring
+    (20426, 3),  -- Advisor's Ring
+    (18854, 3),  -- Insignia of the Alliance
+    (18834, 3),  -- Insignia of the Horde
+    -- Class-specific insignias (Alliance)
+    (18856, 3),  -- Insignia of the Alliance (Mage)
+    (18857, 3),  -- Insignia of the Alliance (Rogue)
+    (18858, 3),  -- Insignia of the Alliance (Priest)
+    (18859, 3),  -- Insignia of the Alliance (Druid)
+    (18862, 3),  -- Insignia of the Alliance (Paladin)
+    (18863, 3),  -- Insignia of the Alliance (Hunter)
+    (18864, 3),  -- Insignia of the Alliance (Warlock)
+    -- Class-specific insignias (Horde)
+    (18845, 3),  -- Insignia of the Horde (Rogue)
+    (18846, 3),  -- Insignia of the Horde (Hunter)
+    (18849, 3),  -- Insignia of the Horde (Mage)
+    (18850, 3),  -- Insignia of the Horde (Warlock)
+    (18851, 3),  -- Insignia of the Horde (Priest)
+    (18852, 3),  -- Insignia of the Horde (Druid)
+    (18853, 3),  -- Insignia of the Horde (Shaman)
+    -- Battle Standards
+    (18606, 3),  -- Alliance Battle Standard
+    (18607, 3),  -- Horde Battle Standard
+    -- Tabards
+    (15196, 3),  -- Private's Tabard (Alliance)
+    (15197, 3),  -- Scout's Tabard (Horde)
+    (19506, 3),  -- Silverwing Battle Tabard (Alliance WSG)
+    (19505, 3),  -- Warsong Battle Tabard (Horde WSG)
+    -- WSG reputation weapons and cloaks
+    (20425, 3),  -- Advisor's Gnarled Staff
+    (20427, 3),  -- Battle Healer's Cloak
+    (20428, 3),  -- Caretaker's Cape
+    (20430, 3),  -- Legionnaire's Sword
+    (20434, 3),  -- Lorekeeper's Staff
+    (20437, 3),  -- Outrider's Bow
+    (20438, 3),  -- Outrunner's Bow
+    (20440, 3),  -- Protector's Sword
+    (20441, 3),  -- Scout's Blade
+    (20443, 3),  -- Sentinel's Blade
+    -- =============================================
+    -- Insane (cat=4) - Raid/endgame items with no level req
+    -- =============================================
+    -- Trinkets
+    (23206, 4),  -- Mark of the Champion (melee)
+    (23207, 4),  -- Mark of the Champion (caster)
+    (18406, 4),  -- Onyxia Blood Talisman
+    (19948, 4),  -- Zandalarian Hero Badge
+    (19949, 4),  -- Zandalarian Hero Medallion
+    (19950, 4),  -- Zandalarian Hero Charm
+    (21180, 4),  -- Earthstrike
+    (21326, 4),  -- Defender of the Timbermaw
+    (22678, 4),  -- Talisman of Ascendance
+    (17904, 4),  -- Stormpike Insignia Rank 6
+    (17909, 4),  -- Frostwolf Insignia Rank 6
+    -- Rings
+    (18403, 4),  -- Dragonslayer's Signet
+    (22707, 4),  -- Ramaladni's Icy Grasp
+    (21189, 4),  -- Might of Cenarius
+    (21190, 4),  -- Wrath of Cenarius
+    -- Necklaces
+    (18404, 4),  -- Onyxia Tooth Pendant
+    (22657, 4),  -- Amulet of the Dawn
+    (22659, 4),  -- Medallion of the Dawn
+    (19577, 4),  -- Rage of Mugamba
+    (19588, 4),  -- Hero's Brand
+    (19594, 4),  -- The All-Seeing Eye of Zuldazar
+    (19601, 4),  -- Jewel of Kajaro
+    (19605, 4),  -- Kezan's Unstoppable Taint
+    (19609, 4),  -- Unmarred Vision of Voodress
+    (19613, 4),  -- Pristine Enchanted South Seas Kelp
+    (19617, 4),  -- Zandalarian Shadow Mastery Talisman
+    (19621, 4),  -- Maelstrom's Wrath
+    -- Cloth armor (no level req, raid)
+    (22968, 4),  -- Glacial Mantle
+    (22700, 4),  -- Glacial Leggings
+    (12752, 4),  -- Cap of the Scarlet Savant
+    -- Off-hand
+    (21185, 4),  -- Earthcalm Orb
+    -- Weapon
+    (22656, 4),  -- The Purifier
+    -- Shoulder Enchants (ZG, no level req)
+    (20077, 4),  -- Zandalar Signet of Might (+30 AP)
+    (20076, 4),  -- Zandalar Signet of Mojo (+18 SP)
+    (20078, 4),  -- Zandalar Signet of Serenity (+33 Healing)
+    -- Shoulder Enchants (Naxx, no level req)
+    (23545, 4),  -- Power of the Scourge (+15 SP, +1% Spell Crit)
+    (23547, 4),  -- Resilience of the Scourge (+31 Healing, +5 MP5)
+    (23548, 4),  -- Might of the Scourge (+26 AP, +1% Crit)
+    (23549, 4),  -- Fortitude of the Scourge (+16 Stam, +100 Armor)
+    -- Bags
+    (17966, 4);  -- Onyxia Hide Backpack (18 slot)
+
+    -- ============================================================
+    -- Restore original prices if previously zeroed, then drop backup
+    -- ============================================================
+    UPDATE `item_template` it
+    JOIN `custom_twinkmaster_original_prices` op ON it.`entry` = op.`entry`
+    SET it.`BuyPrice` = op.`original_buy_price`, it.`SellPrice` = op.`original_sell_price`
+    WHERE it.`BuyPrice` = 0 AND op.`original_buy_price` > 0;
+    DROP TABLE IF EXISTS `custom_twinkmaster_original_prices`;
+
+    -- ============================================================
+    -- NPC Vendor Inventory (for standard vendor fallback only;
+    -- category vendor uses custom SMSG_LIST_INVENTORY with price=0)
+    -- ============================================================
+    DELETE FROM `npc_vendor` WHERE `entry` IN (@AllianceEntry, @HordeEntry);
+
+    INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`)
+    SELECT @AllianceEntry, `item`, 0, 0 FROM `custom_twinkmaster_vendor_categories`
+    UNION ALL
+    SELECT @HordeEntry, `item`, 0, 0 FROM `custom_twinkmaster_vendor_categories`;
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-twink-vendor-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:11.8
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Applying Twink Master schema to classiccharacters ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters < /sql/characters.sql
+              echo "=== Characters schema applied successfully ==="
+
+              echo "=== Applying Twink Master data to classicmangos ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/world.sql
+              echo "=== World data applied successfully ==="
+
+              echo "=== Verifying characters table ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters -e "SHOW TABLES LIKE 'custom_twinkmaster%';"
+
+              echo "=== Verifying Twink Master NPCs ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT entry, name, subname, faction, NpcFlags FROM creature_template WHERE entry IN (190012, 190013);"
+
+              echo "=== Verifying creature spawns ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT id, map, position_x, position_y, position_z FROM creature WHERE id IN (190012, 190013);"
+
+              echo "=== Verifying vendor items per entry ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT entry, COUNT(*) AS vendor_item_count FROM npc_vendor WHERE entry IN (190012, 190013) GROUP BY entry;"
+
+              echo "=== Verifying vendor categories ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "
+                SELECT
+                  CASE categories
+                    WHEN 1 THEN 'BiS Gear'
+                    WHEN 2 THEN 'Consumables'
+                    WHEN 3 THEN 'Honor Gear'
+                    WHEN 4 THEN 'Insane'
+                  END AS category,
+                  COUNT(*) AS item_count
+                FROM custom_twinkmaster_vendor_categories
+                GROUP BY categories
+                ORDER BY categories;
+              "
+
+              echo "=== Validating all vendor item IDs exist in item_template ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "
+                SELECT nv.entry, nv.item AS missing_item_id
+                FROM npc_vendor nv
+                LEFT JOIN item_template it ON nv.item = it.entry
+                WHERE nv.entry IN (190012, 190013) AND it.entry IS NULL;
+              "
+
+              echo "=== Twink Master vendor migration complete ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-twink-vendor-migration-sql

@@ -50,7 +50,7 @@ spec:
               MARIADB_USER: mangos
               MARIADB_PASSWORD: mangos
               MARIADB_ROOT_PASSWORD: password
-              VMANGOS_REALMLIST_NAME: VMaNGOS
+              VMANGOS_REALMLIST_NAME: Emberstone
               VMANGOS_REALMLIST_ADDRESS: ${CLUSTER_LB_ENVOY_EXT_GATEWAY_API}
               VMANGOS_REALMLIST_PORT: "8085"
               VMANGOS_REALMLIST_ICON: "1"
@@ -235,9 +235,25 @@ spec:
             CharactersPerRealm = 10
             WorldAvailable = 1
             Anticheat.Enable = 0
+            Rate.XP.Kill = 3
+            Rate.XP.Quest = 3
+            Rate.XP.Explore = 3
+            Rate.Drop.Item.Poor = 3
+            Rate.Drop.Item.Normal = 3
+            Rate.Drop.Item.Uncommon = 3
+            Rate.Drop.Item.Rare = 2
+            Rate.Drop.Item.Epic = 1
+            Rate.Drop.Money = 3
+            Rate.Reputation.Gain = 3
+            MailDeliveryDelay = 0
             SOAP.Enabled = 1
             SOAP.IP = 0.0.0.0
             SOAP.Port = 7878
+            PlayerBot.UpdateMs = 1000
+            PlayerBot.ShowInWhoList = 1
+            PartyBot.AutoEquip = 1
+            BattleBot.AutoJoin = 1
+            AHBot.Enable = 1
       realmd-config:
         data:
           realmd.conf: |

@@ -1,26 +1,19 @@
 extraEnv:
   TZ: "Australia/Melbourne"
-  # CurseForge mods to download (auto-downloads dependencies like GeckoLib)
-  # Using full URL format for proper resolution
-  CURSEFORGE_FILES: |
-    https://www.curseforge.com/minecraft/mc-mods/crackers-wither-storm-mod
+  # CurseForge mods to download (Wither Storm mod bundles GeckoLib in its -all.jar)
+  CURSEFORGE_FILES: "https://www.curseforge.com/minecraft/mc-mods/crackers-wither-storm-mod"
 
 # Required for Bedrock/console UDP traffic to reach Geyser via Multus
 podAnnotations:
   k8s.v1.cni.cncf.io/networks: network-system/wifi-network
 
 minecraftServer:
-  # Configure autoCurseForge to use our secret (avoids duplicate CF_API_KEY)
-  autoCurseForge:
-    apiKey:
-      existingSecret: minecraft-ketting-secrets
-      secretKey: CF_API_KEY
   serverName: Wildfire Wither Storm Server
   eula: "TRUE"
   type: KETTING
   version: "1.20.1"
   # Plugins - KETTING supports Bukkit/Spigot plugins
-  # Note: Floodgate has compatibility issues with Ketting, using Geyser only
+  # Floodgate is incompatible with Ketting, using Geyser standalone with offline auth
   # ViaVersion plugins for protocol translation (required for Bedrock clients on newer versions)
   pluginUrls:
     - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
@@ -46,12 +39,12 @@ minecraftServer:
   serviceType: LoadBalancer
   extraPorts:
     - name: geysermc
-      containerPort: 19133
+      containerPort: 19132
       protocol: UDP
       service:
         enabled: true
         embedded: true
-        port: 19133
+        port: 19132
   overrideServerProperties: true
   removeOldMods: true
 

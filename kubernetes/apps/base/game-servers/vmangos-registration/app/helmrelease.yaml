@@ -40,24 +40,11 @@ spec:
   values:
     controllers:
       app:
-        initContainers:
-          clone-repo:
-            image:
-              repository: alpine/git
-              tag: latest
-            command:
-              - sh
-              - -c
-              - |
-                if [ ! -f /app/index.php ]; then
-                  git clone https://github.com/vmangos/WallRegistrationPage.git /tmp/repo
-                  cp -r /tmp/repo/* /app/
-                fi
         containers:
           app:
             image:
-              repository: php
-              tag: 8.5-apache
+              repository: ghcr.io/xunholy/vmangos-registration
+              tag: 2a848f73175b45656db3325f9e847d6749bb9146
             env:
               TZ: Australia/Melbourne
             probes:
@@ -88,12 +75,9 @@ spec:
                   httpGet:
                     path: /
                     port: 80
-                  periodSeconds: 5
+                  periodSeconds: 10
                   timeoutSeconds: 3
                   failureThreshold: 30
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
@@ -102,9 +86,6 @@ spec:
                 memory: 256Mi
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 33
-        runAsGroup: 33
         fsGroup: 33
         fsGroupChangePolicy: OnRootMismatch
     service:
@@ -113,35 +94,12 @@ spec:
         ports:
           http:
             port: 80
-    configMaps:
-      config:
-        data:
-          config.php: |
-            <?php
-            $db_host = 'vmangos-database';
-            $db_port = '3306';
-            $db_user = 'mangos';
-            $db_pass = 'mangos';
-            $db_realmd = 'realmd';
-            $soap_uri = 'http://vmangos-soap:7878/';
-            $soap_user = 'soapadmin';
-            $soap_pass = 'soapadmin';
-            $expansion = 0;
-            ?>
     persistence:
-      app:
-        type: emptyDir
-        advancedMounts:
-          app:
-            clone-repo:
-              - path: /app
-            app:
-              - path: /var/www/html
       config:
         type: configMap
         name: vmangos-registration-config
         advancedMounts:
           app:
             app:
-              - path: /var/www/html/config.php
+              - path: /var/www/html/application/config/config.php
                 subPath: config.php

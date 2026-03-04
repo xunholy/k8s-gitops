@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: minecraft
-      version: 5.1.1
+      version: 5.1.2
       sourceRef:
         kind: HelmRepository
         name: minecraft-server-charts
@@ -21,10 +21,8 @@ spec:
     replace: true
     crds: CreateReplace
     createNamespace: true
-    strategy:
-      name: RetryOnFailure
-      retryInterval: 5m
   upgrade:
+    timeout: 15m
     remediation:
       remediateLastFailure: true
       retries: 3
@@ -57,9 +55,9 @@ spec:
               name: geysermc-ketting-config
   valuesFrom:
     - kind: ConfigMap
-      name: mincraft-ketting-values
+      name: minecraft-ketting-values
     - kind: Secret
-      name: mincraft-ketting-secret-values
+      name: minecraft-ketting-secret-values
   postRenderers:
     - kustomize:
         patches:

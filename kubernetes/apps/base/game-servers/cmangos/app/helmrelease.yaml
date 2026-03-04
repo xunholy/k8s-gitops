@@ -1,0 +1,429 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cmangos
+  namespace: game-servers
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    strategy:
+      name: RetryOnFailure
+      retryInterval: 5m
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    controllers:
+      database:
+        containers:
+          app:
+            image:
+              repository: mariadb
+              tag: "11.8"
+            env:
+              TZ: Australia/Melbourne
+              MARIADB_USER: mangos
+              MARIADB_PASSWORD: mangos
+              MARIADB_ROOT_PASSWORD: password
+              MARIADB_DATABASE: classicrealmd
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
+                  periodSeconds: 30
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+      realmd:
+        initContainers:
+          wait-db:
+            image:
+              repository: busybox
+              tag: latest
+            command: ['sh', '-c', 'until nc -z cmangos-database 3306; do sleep 2; done']
+        containers:
+          app:
+            image:
+              repository: ghcr.io/xunholy/cmangos-classic
+              tag: 9accf30351240488b208a52afa519dbb32759c50 # spell learning fix, PvP rank, Naxx enchants, community items
+            args: ["realmd"]
+            env:
+              TZ: Australia/Melbourne
+              MANGOS_DBHOST: cmangos-database
+              MANGOS_DBPORT: "3306"
+              MANGOS_DBUSER: mangos
+              MANGOS_DBPASS: mangos
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  periodSeconds: 30
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  periodSeconds: 5
+                  timeoutSeconds: 3
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+      mangosd:
+        pod:
+          terminationGracePeriodSeconds: 120
+        initContainers:
+          wait-db:
+            image:
+              repository: busybox
+              tag: latest
+            command: ['sh', '-c', 'until nc -z cmangos-database 3306; do sleep 2; done']
+        containers:
+          app:
+            image:
+              repository: ghcr.io/xunholy/cmangos-classic
+              tag: 9accf30351240488b208a52afa519dbb32759c50 # spell learning fix, PvP rank, Naxx enchants, community items
+            args: ["mangosd"]
+            tty: true
+            stdin: true
+            env:
+              TZ: Australia/Melbourne
+              MANGOS_DBHOST: cmangos-database
+              MANGOS_DBPORT: "3306"
+              MANGOS_DBUSER: mangos
+              MANGOS_DBPASS: mangos
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8085
+                  periodSeconds: 30
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8085
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8085
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 180
+            resources:
+              requests:
+                cpu: "2"
+                memory: 4Gi
+              limits:
+                memory: 12Gi
+    service:
+      database:
+        controller: database
+        ports:
+          mysql:
+            port: 3306
+      auth:
+        controller: realmd
+        ports:
+          auth:
+            port: 3724
+      world:
+        controller: mangosd
+        ports:
+          world:
+            port: 8085
+      soap:
+        controller: mangosd
+        ports:
+          soap:
+            port: 7878
+    configMaps:
+      mangosd-config:
+        data:
+          mangosd.conf: |
+            GameType = 0
+            RealmZone = 8
+            WorldServerPort = 8085
+            BindIP = "0.0.0.0"
+            PlayerLimit = 100
+            Motd = "Welcome to Emberstone"
+            SOAP.Enabled = 1
+            SOAP.IP = 0.0.0.0
+            SOAP.Port = 7878
+            Rate.XP.Kill = 3
+            Rate.XP.Quest = 3
+            Rate.XP.Explore = 3
+            Rate.Drop.Item.Poor = 3
+            Rate.Drop.Item.Normal = 3
+            Rate.Drop.Item.Uncommon = 3
+            Rate.Drop.Item.Rare = 2
+            Rate.Drop.Item.Epic = 1
+            Rate.Drop.Money = 3
+            Rate.Reputation.Gain = 3
+            AllowTwoSide.Interaction.Group = 1
+            AllowTwoSide.Interaction.Guild = 1
+            AllowTwoSide.Interaction.Chat = 1
+            AllowTwoSide.Interaction.Channel = 1
+            MailDeliveryDelay = 0
+            StartPlayerMoney = 10000
+            SkillGain.Crafting = 3
+            SkillGain.Gathering = 3
+            SkillGain.Defense = 3
+            SkillGain.Weapon = 3
+            Rate.Drop.Item.Quest = 3
+            Death.Ghost.RunSpeed.World = 1.5
+            PlayerSaveInterval = 60000
+            Rate.Health = 3
+            Rate.Mana = 3
+      realmd-config:
+        data:
+          realmd.conf: |
+            RealmServerPort = 3724
+            BindIP = "0.0.0.0"
+      aiplayerbot-config:
+        data:
+          aiplayerbot.conf: |
+            AiPlayerbot.Enabled = 1
+            AiPlayerbot.RandomBotAutoCreate = 1
+            AiPlayerbot.RandomBotAutologin = 1
+            AiPlayerbot.RandomBotLoginAtStartup = 1
+            AiPlayerbot.RandomBotAccountPrefix = rndbot
+            AiPlayerbot.RandomBotAccountCount = 2000
+            AiPlayerbot.MinRandomBots = 1500
+            AiPlayerbot.MaxRandomBots = 2000
+            AiPlayerbot.RandomBotMinLevel = 1
+            AiPlayerbot.RandomBotMaxLevel = 60
+            AiPlayerbot.RandomBotMaps = 0,1
+            AiPlayerbot.AutoDoQuests = 1
+            AiPlayerbot.AutoPickReward = yes
+            AiPlayerbot.AutoEquipUpgradeLoot = 1
+            AiPlayerbot.AutoLearnTrainerSpells = 1
+            AiPlayerbot.AutoLearnQuestSpells = 1
+            AiPlayerbot.RandomGearUpgradeEnabled = 1
+            AiPlayerbot.RandomBotTeleportNearPlayer = 1
+            AiPlayerbot.SyncQuestWithPlayer = 1
+            AiPlayerbot.RandomBotGuildCount = 0
+            AiPlayerbot.RandomBotJoinBG = 1
+            AiPlayerbot.RandomBotAutoJoinBG = 1
+            AiPlayerbot.RandomBotGroupNearby = 1
+            AiPlayerbot.SyncLevelWithPlayers = 1
+            AiPlayerbot.SyncLevelMaxAbove = 2
+            AiPlayerbot.AutoPickTalents = full
+            AiPlayerbot.AutoTrainSpells = free
+            # Competitive BG/WSG twink settings
+            AiPlayerbot.minEnchantingBotLevel = 10
+            AiPlayerbot.BotAcceptDuelMinimumLevel = 10
+      hardcore-config:
+        data:
+          hardcore.conf: |
+            Hardcore.Enable = 1
+            Hardcore.PlayerConfig = 1
+            Hardcore.BroadcastDeathGuild = 1
+            Hardcore.BroadcastDeathWorld = 1
+            Hardcore.SpawnGrave = 1
+            Hardcore.GraveGameObjectID = 61
+            Hardcore.GraveMessage = "Shit happens. <PlayerName> | Well, this sucks. <PlayerName> | It is really dark down here. <PlayerName> | Finally some peace and quiet. <PlayerName> | Shhh! I am sleeping. <PlayerName>"
+            Hardcore.RemoveGravesOnCharacterDeleted = 1
+            Hardcore.DropGear = 0
+            Hardcore.DropItems = 0
+            Hardcore.DropMoney = 0
+            Hardcore.BotDropGear = 0
+            Hardcore.BotDropItems = 0
+            Hardcore.BotDropMoney = 0
+            Hardcore.RemoveLootOnCharacterDeleted = 1
+            Hardcore.LootGameObjectID = 2850
+            Hardcore.ReviveDisabled = 1
+            Hardcore.ReviveOnGraveyard = 0
+            Hardcore.LevelDown = 0
+            Hardcore.MaxPlayerLoot = 99
+            Hardcore.DropOnDungeons = 1
+            Hardcore.DropOnRaids = 1
+            Hardcore.LevelDownOnDungeons = 1
+            Hardcore.LevelDownOnRaids = 1
+            Hardcore.LevelDownMinLevel = 1
+            Hardcore.DropMinLevel = 1
+            Hardcore.DisablePVP = 0
+            Hardcore.SelfFound = 0
+            Hardcore.CustomXPRates = 0
+      twinkmaster-config:
+        data:
+          twinkmaster.conf: |
+            Twinkmaster.Enable = 1
+            Twinkmaster.TargetLevel = 19
+      ahbot-config:
+        data:
+          ahbot.conf: |
+            AuctionHouseBot.Seller.Enabled = 1
+            AuctionHouseBot.Buyer.Enabled = 1
+            AuctionHouseBot.Chance.Sell = 80
+            AuctionHouseBot.Chance.Buy = 40
+            AuctionHouseBot.Alliance.Items.Amount.Ratio = 100
+            AuctionHouseBot.Horde.Items.Amount.Ratio = 100
+            AuctionHouseBot.Neutral.Items.Amount.Ratio = 80
+            AuctionHouseBot.Buy.Value = 90
+            AuctionHouseBot.Bid.Min = 60
+            AuctionHouseBot.Bid.Max = 95
+            AuctionHouseBot.Time.Min = 2
+            AuctionHouseBot.Time.Max = 48
+            AuctionHouseBot.Value.Variance = 15
+            AuctionHouseBot.Items.Profession = 90, 100, 0, 60
+            AuctionHouseBot.Loot.Creature.Normal = 40, 50, 8, 15
+            AuctionHouseBot.Loot.Creature.Elite = 35, 40, 2, 4
+            AuctionHouseBot.Loot.Creature.Rare = 5, 15, 1, 2
+            AuctionHouseBot.Loot.Disenchant = 15, 20, 1, 3
+            AuctionHouseBot.Loot.Fishing = 5, 10, 30, 50
+            AuctionHouseBot.Loot.Gameobject = 20, 25, 7, 15
+            AuctionHouseBot.Loot.Skinning = 5, 10, 50, 80
+    persistence:
+      database:
+        existingClaim: cmangos-database
+        advancedMounts:
+          database:
+            app:
+              - path: /var/lib/mysql
+      data:
+        existingClaim: cmangos-data
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /var/lib/mangos
+                readOnly: true
+      mangosd-config:
+        type: configMap
+        name: cmangos-mangosd-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/mangosd.conf
+                subPath: mangosd.conf
+      realmd-config:
+        type: configMap
+        name: cmangos-realmd-config
+        advancedMounts:
+          realmd:
+            app:
+              - path: /opt/mangos/conf/realmd.conf
+                subPath: realmd.conf
+      aiplayerbot-config:
+        type: configMap
+        name: cmangos-aiplayerbot-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/aiplayerbot.conf
+                subPath: aiplayerbot.conf
+      hardcore-config:
+        type: configMap
+        name: cmangos-hardcore-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/etc/hardcore.conf
+                subPath: hardcore.conf
+      twinkmaster-config:
+        type: configMap
+        name: cmangos-twinkmaster-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/twinkmaster.conf
+                subPath: twinkmaster.conf
+      ahbot-config:
+        type: configMap
+        name: cmangos-ahbot-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/ahbot.conf
+                subPath: ahbot.conf
+      mangosd-logs:
+        type: emptyDir
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/logs
+      realmd-logs:
+        type: emptyDir
+        advancedMounts:
+          realmd:
+            app:
+              - path: /opt/mangos/logs

@@ -19,6 +19,6 @@ spec:
     name: flux-system
     namespace: flux-system
   dependsOn:
-    - name: vmangos
+    - name: cmangos
       namespace: game-servers
   targetNamespace: game-servers
