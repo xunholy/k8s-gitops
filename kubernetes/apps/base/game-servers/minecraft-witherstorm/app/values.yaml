@@ -44,6 +44,21 @@ affinity:
             - key: "node-role.kubernetes.io/control-plane"
               operator: "Exists"
 
+startupProbe:
+  enabled: true
+  failureThreshold: 60
+  periodSeconds: 10
+
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  failureThreshold: 10
+
+readinessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  failureThreshold: 10
+
 resources:
   requests:
     memory: 4Gi
