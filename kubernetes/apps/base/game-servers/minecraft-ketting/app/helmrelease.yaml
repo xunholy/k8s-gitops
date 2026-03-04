@@ -73,7 +73,7 @@ spec:
                 path: /spec/template/spec/containers/-
                 value:
                   name: geyser-standalone
-                  image: eclipse-temurin:21-jre
+                  image: eclipse-temurin:21.0.10_7-jre
                   command:
                     - /bin/sh
                     - -c
