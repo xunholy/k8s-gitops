@@ -19,6 +19,91 @@ minecraftServer:
   texturepackRequired: true
 extraEnv:
   SERVER_PORT_V6: "19137"
+podSecurityContext:
+  runAsUser: 0
+  runAsGroup: 0
+  runAsNonRoot: false
+  fsGroup: 2000
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false
+  allowPrivilegeEscalation: false
+initContainers:
+  - name: install-wither-storm
+    image: alpine:latest
+    command:
+      - /bin/sh
+      - -c
+      - |
+        set -e
+        apk add --no-cache curl unzip jq
+
+        ADDON_URL="https://edge.forgecdn.net/files/6413/077/CWSP%20Bedrock%200.4.8.4.mcaddon"
+        DATA_DIR="/data"
+        LEVEL_NAME="WitherStorm"
+
+        # Skip if already installed
+        if [ -f "$DATA_DIR/.wither-storm-addon-v0.4.8.4" ]; then
+          echo "Wither Storm addon v0.4.8.4 already installed, skipping..."
+          exit 0
+        fi
+
+        # Download the addon
+        echo "Downloading Cracker's Wither Storm Bedrock Port addon..."
+        curl -L -o /tmp/addon.mcaddon "$ADDON_URL"
+
+        # Extract (mcaddon is a renamed zip)
+        echo "Extracting addon..."
+        mkdir -p /tmp/addon
+        unzip -o /tmp/addon.mcaddon -d /tmp/addon
+
+        # Initialize pack activation arrays
+        BP_JSON="[]"
+        RP_JSON="[]"
+
+        # Process each manifest.json to find behavior and resource packs
+        for manifest in $(find /tmp/addon -name "manifest.json"); do
+          PACK_DIR=$(dirname "$manifest")
+          PACK_TYPE=$(jq -r '.modules[0].type' "$manifest")
+          PACK_UUID=$(jq -r '.header.uuid' "$manifest")
+          PACK_VERSION=$(jq -c '.header.version' "$manifest")
+          PACK_NAME=$(basename "$PACK_DIR")
+
+          echo "Found pack: $PACK_NAME (type: $PACK_TYPE, uuid: $PACK_UUID)"
+
+          if [ "$PACK_TYPE" = "data" ] || [ "$PACK_TYPE" = "script" ]; then
+            echo "Installing behavior pack: $PACK_NAME"
+            mkdir -p "$DATA_DIR/behavior_packs"
+            cp -r "$PACK_DIR" "$DATA_DIR/behavior_packs/$PACK_NAME"
+            BP_JSON=$(echo "$BP_JSON" | jq --arg uuid "$PACK_UUID" --argjson ver "$PACK_VERSION" \
+              '. + [{"pack_id": $uuid, "version": $ver}]')
+          elif [ "$PACK_TYPE" = "resources" ]; then
+            echo "Installing resource pack: $PACK_NAME"
+            mkdir -p "$DATA_DIR/resource_packs"
+            cp -r "$PACK_DIR" "$DATA_DIR/resource_packs/$PACK_NAME"
+            RP_JSON=$(echo "$RP_JSON" | jq --arg uuid "$PACK_UUID" --argjson ver "$PACK_VERSION" \
+              '. + [{"pack_id": $uuid, "version": $ver}]')
+          fi
+        done
+
+        # Activate packs for the world
+        mkdir -p "$DATA_DIR/worlds/$LEVEL_NAME"
+        echo "$BP_JSON" | jq . > "$DATA_DIR/worlds/$LEVEL_NAME/world_behavior_packs.json"
+        echo "$RP_JSON" | jq . > "$DATA_DIR/worlds/$LEVEL_NAME/world_resource_packs.json"
+
+        echo "=== Installed behavior packs ==="
+        cat "$DATA_DIR/worlds/$LEVEL_NAME/world_behavior_packs.json"
+        echo "=== Installed resource packs ==="
+        cat "$DATA_DIR/worlds/$LEVEL_NAME/world_resource_packs.json"
+
+        # Mark as installed
+        touch "$DATA_DIR/.wither-storm-addon-v0.4.8.4"
+        echo "Wither Storm addon installation complete!"
+    volumeMounts:
+      - name: datadir
+        mountPath: /data
 startupProbe:
   enabled: true
   failureThreshold: 60
