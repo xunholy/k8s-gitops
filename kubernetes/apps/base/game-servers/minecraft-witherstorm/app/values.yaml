@@ -1,0 +1,63 @@
+extraEnv:
+  TZ: "Australia/Melbourne"
+  CURSEFORGE_FILES: "https://www.curseforge.com/minecraft/mc-mods/crackers-wither-storm-mod"
+
+minecraftServer:
+  serverName: Wildfire Wither Storm Server
+  eula: "TRUE"
+  type: FORGE
+  version: "1.20.1"
+  maxPlayers: 10
+  maxTickTime: -1
+  memory: 4096M
+  gameMode: survival
+  hardcore: false
+  pvp: true
+  worldSaveName: witherstorm-world
+  onlineMode: false
+  rcon:
+    enabled: true
+  motd: "Welcome to Wither Storm on Kubernetes!"
+  playerIdleTimeout: 10
+  cheats: true
+  enableLanVisibility: true
+  defaultPermission: operator
+  serviceType: LoadBalancer
+  overrideServerProperties: true
+  removeOldMods: true
+
+tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: "node-role.kubernetes.io/control-plane"
+              operator: "Exists"
+
+resources:
+  requests:
+    memory: 4Gi
+    cpu: 2
+  limits:
+    memory: 6Gi
+
+persistence:
+  dataDir:
+    enabled: true
+    existingClaim: minecraft-witherstorm-ceph
+
+podSecurityContext:
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
