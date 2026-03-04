@@ -74,10 +74,12 @@ spec:
                   image: eclipse-temurin:21-jre
                   securityContext:
                     runAsUser: 0
+                    runAsNonRoot: false
                   command:
                     - /bin/sh
                     - -c
                     - |
+                      mkdir -p /geyser
                       apt-get update -qq && apt-get install -y -qq curl >/dev/null 2>&1
                       curl -sL -o /geyser/Geyser.jar \
                         https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/standalone
