@@ -96,7 +96,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 51fca46d24f318028ccaa6d2552d8792df643eb9 # fix compilation: CastSpell, SendPacket, resetTalents
+              tag: 24255a3dfabad726b95e1c59c80e944b633e4f3d # buffs, offhand enchants, vendor reorder, insignias/tabards
             args: ["realmd"]
             env:
               TZ: Australia/Melbourne
@@ -151,7 +151,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 51fca46d24f318028ccaa6d2552d8792df643eb9 # fix compilation: CastSpell, SendPacket, resetTalents
+              tag: 24255a3dfabad726b95e1c59c80e944b633e4f3d # buffs, offhand enchants, vendor reorder, insignias/tabards
             args: ["mangosd"]
             tty: true
             stdin: true
