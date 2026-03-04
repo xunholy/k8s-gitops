@@ -17,6 +17,16 @@ minecraftServer:
   serviceType: LoadBalancer
   onlineMode: false
   texturepackRequired: true
+extraEnv:
+  SERVER_PORT_V6: "19137"
+startupProbe:
+  enabled: true
+  failureThreshold: 60
+  periodSeconds: 10
+livenessProbe:
+  initialDelaySeconds: 60
+readinessProbe:
+  initialDelaySeconds: 60
 persistence:
   dataDir:
     enabled: true
