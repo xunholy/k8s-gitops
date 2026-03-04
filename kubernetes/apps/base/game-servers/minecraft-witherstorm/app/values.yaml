@@ -1,83 +1,23 @@
-extraEnv:
-  TZ: "Australia/Melbourne"
-  JVM_OPTS: "-Djava.net.preferIPv4Stack=true"
-
+image:
+  repository: itzg/minecraft-bedrock-server
+  tag: latest
 minecraftServer:
-  serverName: Wildfire Wither Storm Server
+  serverName: Wither Storm Bedrock Server
+  levelName: WitherStorm
+  serverPort: 19136
   eula: "TRUE"
-  type: MOHIST
-  version: "1.20.1"
-  modrinth:
-    projects:
-      - crackers-wither-storm-mod
-    downloadDependencies: required
-    allowedVersionType: release
+  version: LATEST
+  difficulty: normal
   maxPlayers: 10
-  maxTickTime: -1
-  memory: 4096M
   gameMode: survival
-  hardcore: false
-  pvp: true
-  worldSaveName: witherstorm-world
-  onlineMode: false
-  rcon:
-    enabled: true
-  motd: "Welcome to Wither Storm on Kubernetes!"
   playerIdleTimeout: 10
   cheats: true
   enableLanVisibility: true
   defaultPermission: operator
   serviceType: LoadBalancer
-  overrideServerProperties: true
-  removeOldMods: true
-
-tolerations:
-  - key: "node-role.kubernetes.io/control-plane"
-    operator: "Exists"
-    effect: "NoSchedule"
-
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: "node-role.kubernetes.io/control-plane"
-              operator: "Exists"
-
-startupProbe:
-  enabled: true
-  failureThreshold: 60
-  periodSeconds: 10
-
-livenessProbe:
-  initialDelaySeconds: 30
-  periodSeconds: 10
-  failureThreshold: 10
-
-readinessProbe:
-  initialDelaySeconds: 30
-  periodSeconds: 10
-  failureThreshold: 10
-
-resources:
-  requests:
-    memory: 4Gi
-    cpu: 2
-  limits:
-    memory: 6Gi
-
+  onlineMode: false
+  texturepackRequired: true
 persistence:
   dataDir:
     enabled: true
     existingClaim: minecraft-witherstorm-ceph
-
-podSecurityContext:
-  fsGroup: 1000
-  seccompProfile:
-    type: RuntimeDefault
-
-securityContext:
-  allowPrivilegeEscalation: false
-  capabilities:
-    drop:
-      - ALL

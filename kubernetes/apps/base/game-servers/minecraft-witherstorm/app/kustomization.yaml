@@ -6,7 +6,6 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - pvc-ceph.yaml
-  - geyser-configmap.yaml
 
 configMapGenerator:
   - name: minecraft-witherstorm-values

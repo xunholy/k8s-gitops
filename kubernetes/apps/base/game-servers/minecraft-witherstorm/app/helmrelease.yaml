@@ -9,22 +9,22 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: minecraft
-      version: 5.1.2
+      chart: minecraft-bedrock
+      version: 2.8.4
       sourceRef:
         kind: HelmRepository
         name: minecraft-server-charts
         namespace: flux-system
       interval: 5m
   install:
-    timeout: 15m
+    timeout: 10m
     replace: true
     crds: CreateReplace
     createNamespace: true
     remediation:
       retries: 3
   upgrade:
-    timeout: 15m
+    timeout: 10m
     remediation:
       remediateLastFailure: true
       retries: 3
@@ -53,61 +53,8 @@ spec:
           - target:
               version: v1
               kind: Deployment
-              name: minecraft-witherstorm
+              name: minecraft-witherstorm-minecraft-bedrock
             patch: |
               - op: add
                 path: /spec/template/spec/hostNetwork
                 value: true
-              - op: add
-                path: /spec/template/spec/dnsPolicy
-                value: ClusterFirstWithHostNet
-              - op: add
-                path: /spec/template/spec/volumes/-
-                value:
-                  name: geyser-config
-                  configMap:
-                    name: geysermc-witherstorm-config
-              - op: add
-                path: /spec/template/spec/containers/-
-                value:
-                  name: geyser-standalone
-                  image: eclipse-temurin:21.0.10_7-jre
-                  securityContext:
-                    runAsUser: 0
-                    runAsNonRoot: false
-                  command:
-                    - /bin/sh
-                    - -c
-                    - |
-                      mkdir -p /geyser
-                      cp /geyser-cfg/config.yml /geyser/config.yml
-                      apt-get update -qq && apt-get install -y -qq curl >/dev/null 2>&1
-                      curl -sL -o /geyser/Geyser.jar \
-                        https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/standalone
-                      cd /geyser && exec java -Xmx512m -jar Geyser.jar
-                  ports:
-                    - containerPort: 19132
-                      protocol: UDP
-                      name: geysermc
-                  volumeMounts:
-                    - name: geyser-config
-                      mountPath: /geyser-cfg
-                      readOnly: true
-                  resources:
-                    requests:
-                      memory: 512Mi
-                      cpu: 250m
-                    limits:
-                      memory: 768Mi
-          - target:
-              version: v1
-              kind: Service
-              name: minecraft-witherstorm
-            patch: |
-              - op: add
-                path: /spec/ports/-
-                value:
-                  name: geysermc
-                  port: 19132
-                  targetPort: 19132
-                  protocol: UDP
