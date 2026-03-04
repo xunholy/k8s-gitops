@@ -80,6 +80,7 @@ spec:
                     - -c
                     - |
                       mkdir -p /geyser
+                      cp /geyser-cfg/config.yml /geyser/config.yml
                       apt-get update -qq && apt-get install -y -qq curl >/dev/null 2>&1
                       curl -sL -o /geyser/Geyser.jar \
                         https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/standalone
@@ -90,8 +91,8 @@ spec:
                       name: geysermc
                   volumeMounts:
                     - name: geyser-config
-                      mountPath: /geyser/config.yml
-                      subPath: config.yml
+                      mountPath: /geyser-cfg
+                      readOnly: true
                   resources:
                     requests:
                       memory: 512Mi
