@@ -96,7 +96,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 75deb612d711b57f5c09128413151d4a04af111c # enchants, buffs, professions, category vendor
+              tag: 51fca46d24f318028ccaa6d2552d8792df643eb9 # fix compilation: CastSpell, SendPacket, resetTalents
             args: ["realmd"]
             env:
               TZ: Australia/Melbourne
@@ -151,7 +151,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 75deb612d711b57f5c09128413151d4a04af111c # enchants, buffs, professions, category vendor
+              tag: 51fca46d24f318028ccaa6d2552d8792df643eb9 # fix compilation: CastSpell, SendPacket, resetTalents
             args: ["mangosd"]
             tty: true
             stdin: true
