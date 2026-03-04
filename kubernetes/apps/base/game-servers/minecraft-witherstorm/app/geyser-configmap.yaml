@@ -54,7 +54,7 @@ data:
 
     metrics:
       enabled: true
-      uuid: generate
+      uuid: d52d2750-3d16-42ab-9564-43e1d03b2c03
 
     scoreboard-packet-threshold: 20
     enable-proxy-connections: false
