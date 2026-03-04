@@ -59,17 +59,17 @@ initContainers:
         mkdir -p /tmp/addon
         unzip -o /tmp/addon.mcaddon -d /tmp/addon
 
-        # Initialize pack activation arrays
-        BP_JSON="[]"
-        RP_JSON="[]"
+        # Initialize pack activation files
+        echo "[]" > /tmp/bp.json
+        echo "[]" > /tmp/rp.json
 
         # Process each manifest.json to find behavior and resource packs
-        for manifest in $(find /tmp/addon -name "manifest.json"); do
-          PACK_DIR=$(dirname "$manifest")
-          PACK_TYPE=$(jq -r '.modules[0].type' "$manifest")
-          PACK_UUID=$(jq -r '.header.uuid' "$manifest")
-          PACK_VERSION=$(jq -c '.header.version' "$manifest")
-          PACK_NAME=$(basename "$PACK_DIR")
+        find /tmp/addon -name "manifest.json" -type f | while IFS= read -r manifest; do
+          PACK_DIR="$(dirname "$manifest")"
+          PACK_TYPE="$(jq -r '.modules[0].type' "$manifest")"
+          PACK_UUID="$(jq -r '.header.uuid' "$manifest")"
+          PACK_VERSION="$(jq -c '.header.version' "$manifest")"
+          PACK_NAME="$(basename "$PACK_DIR")"
 
           echo "Found pack: $PACK_NAME (type: $PACK_TYPE, uuid: $PACK_UUID)"
 
@@ -77,21 +77,23 @@ initContainers:
             echo "Installing behavior pack: $PACK_NAME"
             mkdir -p "$DATA_DIR/behavior_packs"
             cp -r "$PACK_DIR" "$DATA_DIR/behavior_packs/$PACK_NAME"
-            BP_JSON=$(echo "$BP_JSON" | jq --arg uuid "$PACK_UUID" --argjson ver "$PACK_VERSION" \
-              '. + [{"pack_id": $uuid, "version": $ver}]')
+            jq --arg uuid "$PACK_UUID" --argjson ver "$PACK_VERSION" \
+              '. + [{"pack_id": $uuid, "version": $ver}]' /tmp/bp.json > /tmp/bp_new.json
+            mv /tmp/bp_new.json /tmp/bp.json
           elif [ "$PACK_TYPE" = "resources" ]; then
             echo "Installing resource pack: $PACK_NAME"
             mkdir -p "$DATA_DIR/resource_packs"
             cp -r "$PACK_DIR" "$DATA_DIR/resource_packs/$PACK_NAME"
-            RP_JSON=$(echo "$RP_JSON" | jq --arg uuid "$PACK_UUID" --argjson ver "$PACK_VERSION" \
-              '. + [{"pack_id": $uuid, "version": $ver}]')
+            jq --arg uuid "$PACK_UUID" --argjson ver "$PACK_VERSION" \
+              '. + [{"pack_id": $uuid, "version": $ver}]' /tmp/rp.json > /tmp/rp_new.json
+            mv /tmp/rp_new.json /tmp/rp.json
           fi
         done
 
         # Activate packs for the world
         mkdir -p "$DATA_DIR/worlds/$LEVEL_NAME"
-        echo "$BP_JSON" | jq . > "$DATA_DIR/worlds/$LEVEL_NAME/world_behavior_packs.json"
-        echo "$RP_JSON" | jq . > "$DATA_DIR/worlds/$LEVEL_NAME/world_resource_packs.json"
+        cp /tmp/bp.json "$DATA_DIR/worlds/$LEVEL_NAME/world_behavior_packs.json"
+        cp /tmp/rp.json "$DATA_DIR/worlds/$LEVEL_NAME/world_resource_packs.json"
 
         echo "=== Installed behavior packs ==="
         cat "$DATA_DIR/worlds/$LEVEL_NAME/world_behavior_packs.json"
