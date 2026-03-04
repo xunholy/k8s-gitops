@@ -44,15 +44,6 @@ spec:
     fullnameOverride: *app
     serviceAnnotations:
       lbipam.cilium.io/ips: ${CLUSTER_LB_MINECRAFT}
-    extraVolumes:
-      - volumeMounts:
-          - name: geyser-config-volume
-            mountPath: /data/plugins/Geyser-Spigot/config.yml
-            subPath: config.yml
-        volumes:
-          - name: geyser-config-volume
-            configMap:
-              name: geysermc-ketting-config
   valuesFrom:
     - kind: ConfigMap
       name: minecraft-ketting-values
@@ -72,3 +63,48 @@ spec:
               - op: add
                 path: /spec/template/spec/dnsPolicy
                 value: ClusterFirstWithHostNet
+              - op: add
+                path: /spec/template/spec/volumes/-
+                value:
+                  name: geyser-config
+                  configMap:
+                    name: geysermc-ketting-config
+              - op: add
+                path: /spec/template/spec/containers/-
+                value:
+                  name: geyser-standalone
+                  image: eclipse-temurin:21-jre
+                  command:
+                    - /bin/sh
+                    - -c
+                    - |
+                      apt-get update -qq && apt-get install -y -qq curl >/dev/null 2>&1
+                      curl -sL -o /geyser/Geyser.jar \
+                        https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/standalone
+                      cd /geyser && exec java -Xmx512m -jar Geyser.jar
+                  ports:
+                    - containerPort: 19132
+                      protocol: UDP
+                      name: geysermc
+                  volumeMounts:
+                    - name: geyser-config
+                      mountPath: /geyser/config.yml
+                      subPath: config.yml
+                  resources:
+                    requests:
+                      memory: 512Mi
+                      cpu: 250m
+                    limits:
+                      memory: 768Mi
+          - target:
+              version: v1
+              kind: Service
+              name: minecraft-ketting
+            patch: |
+              - op: add
+                path: /spec/ports/-
+                value:
+                  name: geysermc
+                  port: 19132
+                  targetPort: 19132
+                  protocol: UDP

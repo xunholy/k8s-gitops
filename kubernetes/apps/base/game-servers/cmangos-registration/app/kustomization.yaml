@@ -8,7 +8,7 @@ resources:
   - httproute.yaml
 
 configMapGenerator:
-  - name: vmangos-registration-config
+  - name: cmangos-registration-config
     namespace: game-servers
     files:
       - config.php=./resources/config.php

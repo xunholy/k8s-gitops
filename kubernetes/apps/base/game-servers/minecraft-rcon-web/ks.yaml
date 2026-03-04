@@ -6,6 +6,9 @@ metadata:
   name: minecraft-rcon-web
   namespace: game-servers
 spec:
+  dependsOn:
+    - name: minecraft
+      namespace: game-servers
   decryption:
     provider: sops
   interval: 30m

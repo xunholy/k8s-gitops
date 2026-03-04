@@ -7,6 +7,7 @@ namespace: game-servers
 resources:
   - helmrelease.yaml
   - httproute.yaml
+  - secret.enc.age.yaml
 
 configMapGenerator:
   - name: minecraft-rcon-web-values

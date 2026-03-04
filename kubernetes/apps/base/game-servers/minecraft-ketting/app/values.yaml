@@ -3,22 +3,11 @@ extraEnv:
   # CurseForge mods to download (Wither Storm mod bundles GeckoLib in its -all.jar)
   CURSEFORGE_FILES: "https://www.curseforge.com/minecraft/mc-mods/crackers-wither-storm-mod"
 
-# Required for Bedrock/console UDP traffic to reach Geyser via Multus
-podAnnotations:
-  k8s.v1.cni.cncf.io/networks: network-system/wifi-network
-
 minecraftServer:
   serverName: Wildfire Wither Storm Server
   eula: "TRUE"
-  type: KETTING
+  type: FORGE
   version: "1.20.1"
-  # Plugins - KETTING supports Bukkit/Spigot plugins
-  # Floodgate is incompatible with Ketting, using Geyser standalone with offline auth
-  # ViaVersion plugins for protocol translation (required for Bedrock clients on newer versions)
-  pluginUrls:
-    - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
-    - https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.7.1/PAPER/ViaVersion-5.7.1.jar
-    - https://hangarcdn.papermc.io/plugins/ViaVersion/ViaBackwards/versions/5.7.1/PAPER/ViaBackwards-5.7.1.jar
   maxPlayers: 10
   maxTickTime: -1
   memory: 6144M
@@ -26,7 +15,7 @@ minecraftServer:
   hardcore: false
   pvp: true
   worldSaveName: witherstorm-world
-  # Offline mode allows Bedrock players to join without Microsoft auth
+  # Offline mode allows Bedrock players to join via Geyser sidecar without extra auth
   onlineMode: false
   rcon:
     enabled: true
@@ -37,14 +26,6 @@ minecraftServer:
   defaultPermission: operator
   enableSSH: true
   serviceType: LoadBalancer
-  extraPorts:
-    - name: geysermc
-      containerPort: 19132
-      protocol: UDP
-      service:
-        enabled: true
-        embedded: true
-        port: 19132
   overrideServerProperties: true
   removeOldMods: true
 

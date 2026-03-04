@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: vmangos-registration
+  name: cmangos-registration
   namespace: game-servers
 spec:
   interval: 1h
@@ -43,7 +43,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/xunholy/vmangos-registration
+              repository: ghcr.io/xunholy/cmangos-registration
               tag: 2a848f73175b45656db3325f9e847d6749bb9146
             env:
               TZ: Australia/Melbourne
@@ -97,7 +97,7 @@ spec:
     persistence:
       config:
         type: configMap
-        name: vmangos-registration-config
+        name: cmangos-registration-config
         advancedMounts:
           app:
             app:

@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: "Build VMaNGOS Registration"
+name: "Build CMaNGOS Registration"
 
 on:
   workflow_dispatch: {}
@@ -8,13 +8,13 @@ on:
     branches:
       - main
     paths:
-      - .github/workflows/vmangos-registration.yaml
-      - kubernetes/apps/base/game-servers/vmangos-registration/app/resources/**
+      - .github/workflows/cmangos-registration.yaml
+      - kubernetes/apps/base/game-servers/cmangos-registration/app/resources/**
 
 permissions: write-all
 
 env:
-  IMAGE: ghcr.io/xunholy/vmangos-registration
+  IMAGE: ghcr.io/xunholy/cmangos-registration
 
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
-          context: kubernetes/apps/base/game-servers/vmangos-registration/app/resources
+          context: kubernetes/apps/base/game-servers/cmangos-registration/app/resources
           push: true
           tags: |
             ${{ env.IMAGE }}:${{ github.sha }}

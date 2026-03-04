@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="VMaNGOS Registration">
+    <title>VMaNGOS — Preview</title>
+    <link rel="stylesheet" href="app/template/kaelthas/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/template/kaelthas/css/bootsnav.css">
+    <link rel="stylesheet" href="app/template/kaelthas/css/animate.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="app/template/kaelthas/css/style.css">
+    <script src="app/template/kaelthas/js/jquery-3.3.1.min.js"></script>
+    <script src="app/template/kaelthas/js/bootstrap.min.js"></script>
+    <script src="app/template/kaelthas/js/bootsnav.js"></script>
+    <script src="app/template/kaelthas/js/popper.min.js"></script>
+</head>
+<body>
+<div class="content1">
+    <div class="container">
+        <nav class="navbar navbar-default brand-center bootsnav">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand" href="#"><img
+                            src="app/template/kaelthas/images/wow-logo.png"
+                            class="logo" alt="VMaNGOS"></a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <ul class="nav navbar-nav" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li><a href="#">Home</a></li>
+                        <li><a onclick="$('#register').trigger('click')">Register</a></li>
+                        <li><a onclick="$('#howtoconnect').trigger('click')">How to connect</a></li>
+                        <li><a onclick="$('#serverstatus').trigger('click')">Server Status</a></li>
+                        <li><a onclick="$('#topplayers').trigger('click')">Top Players</a></li>
+                        <li><a onclick="$('#contact').trigger('click')">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="hero-banner">
+            <img class="hero-logo" src="app/template/kaelthas/images/wow-logo.png" alt="">
+            <h1>VMaNGOS</h1>
+            <div class="hero-divider"></div>
+            <div class="hero-sub">Vanilla &middot; Patch 1.12.1 (5875)</div>
+            <div class="realm-badge">
+                <i class="fa fa-globe"></i>&nbsp;
+                Realmlist: <span>logon.example.com</span>
+            </div>
+        </div>
+
+<div class="row">
+    <div class="main-box">
+        <div class="col-md-8" style="margin-top: 20px;">
+            <div>
+                <ul class="nav nav-tabs" style="display: none;">
+                    <li><a data-toggle="tab" href="#pills-register" id="register">Register</a></li>
+                    <li><a data-toggle="tab" href="#pills-howtoconnect" id="howtoconnect">How to connect</a></li>
+                    <li><a data-toggle="tab" href="#pills-serverstatus" id="serverstatus">Server Status</a></li>
+                    <li><a data-toggle="tab" href="#pills-topplayers" id="topplayers">Top Players</a></li>
+                    <li><a data-toggle="tab" href="#pills-contact" id="contact">Contact</a></li>
+                </ul>
+                <div class="tab-content" id="nav-tabContent">
+
+                    <!-- HOME TAB -->
+                    <div class="tab-pane fade in active" id="pills-main">
+                        <div class="box1 post-card" style="margin-top: 16px;">
+                            <h4><i class="fa fa-shield"></i> Welcome to Azeroth</h4>
+                            <hr>
+                            <p style="text-align: justify">
+                                Welcome to our Vanilla World of Warcraft server powered by VMaNGOS. Experience WoW as it was meant to be
+                                played &mdash; the original 1.12.1 client with faithful game mechanics, class balance, and content progression.
+                                Whether you are a returning veteran or discovering classic Azeroth for the first time, our server offers a
+                                stable and authentic Vanilla experience.
+                            </p>
+                        </div>
+                        <div class="box1 post-card" style="margin-top: 16px;">
+                            <h4><i class="fa fa-play-circle"></i> Getting Started</h4>
+                            <hr>
+                            <p style="text-align: justify">
+                                Create your account above to begin your adventure. Once registered, update your <code>realmlist.wtf</code>
+                                file to connect to the server. Join our community and explore the Eastern Kingdoms and Kalimdor, tackle
+                                dungeons with friends, and take part in large-scale PvP battles. See the "How to Connect" page for setup
+                                instructions.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- REGISTER TAB -->
+                    <div class="tab-pane fade in" id="pills-register">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="box1" style="margin-top: 10px;">
+                                    <h4><i class="fa fa-user-plus"></i> Register</h4>
+                                    <hr>
+                                    <form action="" method="post">
+                                        <p class="alert alert-success">Your account has been created.</p>
+                                        <div class="input-group">
+                                            <span class="input-group">Email</span>
+                                            <input type="email" class="form-control" placeholder="Email" name="email">
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group">Username</span>
+                                            <input type="text" class="form-control" placeholder="Username" name="username">
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group">Password</span>
+                                            <input type="password" class="form-control" placeholder="Password" name="password">
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group">Re-Password</span>
+                                            <input type="password" class="form-control" placeholder="Re-Password" name="repassword">
+                                        </div>
+                                        <input name="submit" type="hidden" value="register">
+                                        <div class="text-center" style="margin-top: 16px;">
+                                            <input type="submit" class="btn btn-success" value="Register">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="box1 content_box1" style="margin-top: 10px;">
+                                    <h4><i class="fa fa-gavel"></i> READ BEFORE REGISTER</h4>
+                                    <hr>
+                                    <ul class="rules-list">
+                                        <li>Be respectful to other players and staff at all times.</li>
+                                        <li>No botting, hacking, or exploiting bugs. Report any bugs you find.</li>
+                                        <li>No real-money trading (RMT) of in-game items or accounts.</li>
+                                        <li>Do not share your account credentials with anyone.</li>
+                                        <li>Multiboxing is not permitted.</li>
+                                        <li>Staff decisions are final. Abuse of the ticket system may result in a mute.</li>
+                                    </ul>
+                                    <hr>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#changepassword-modal">
+                                            <i class="fa fa-key"></i> Change Password
+                                        </button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#restorepassword-modal">
+                                            <i class="fa fa-refresh"></i> Restore Password
+                                        </button>
+                                    </div>
+                                    <div class="text-center" style="margin-top: 8px;">
+                                        <button type="button" class="btn btn-default">
+                                            <i class="fa fa-lock"></i> Two-Factor Authentication
+                                        </button>
+                                    </div>
+
+                                    <!-- Restore Password Modal -->
+                                    <div class="modal" id="restorepassword-modal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Restore Password</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="" method="post">
+                                                        <div class="input-group">
+                                                            <span class="input-group">Username</span>
+                                                            <input type="text" class="form-control" placeholder="Username" name="username">
+                                                        </div>
+                                                        <input name="submit" type="hidden" value="restorepassword">
+                                                        <div class="text-center" style="margin-top: 12px;">
+                                                            <input type="submit" class="btn btn-primary" value="Restore Password">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Change Password Modal -->
+                                    <div class="modal" id="changepassword-modal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Change Password</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="" method="post">
+                                                        <div class="input-group">
+                                                            <span class="input-group">Username</span>
+                                                            <input type="text" class="form-control" placeholder="Username" name="username">
+                                                        </div>
+                                                        <div class="input-group">
+                                                            <span class="input-group">Old Password</span>
+                                                            <input type="password" class="form-control" placeholder="Old Password" name="old_password">
+                                                        </div>
+                                                        <div class="input-group">
+                                                            <span class="input-group">Password</span>
+                                                            <input type="password" class="form-control" placeholder="Password" name="password">
+                                                        </div>
+                                                        <div class="input-group">
+                                                            <span class="input-group">Re-Password</span>
+                                                            <input type="password" class="form-control" placeholder="Re-Password" name="repassword">
+                                                        </div>
+                                                        <input name="submit" type="hidden" value="changepass">
+                                                        <div class="text-center" style="margin-top: 12px;">
+                                                            <input type="submit" class="btn btn-primary" value="Change Password">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HOW TO CONNECT TAB -->
+                    <div class="tab-pane fade in" id="pills-howtoconnect">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box1" style="margin-top: 10px;">
+                                    <div class="connect-steps" style="line-height: 1.8;">
+                                        <h4><i class="fa fa-plug"></i> How to Connect</h4>
+                                        <hr>
+                                        <p>1. First of all, you must create an account. The account is used to log into both the game and our website. Click here to open the registration page</p>
+                                        <p>2. Download and install the World of Warcraft 1.12.1 (5875) client. You can download it from <a href="https://archive.org/details/World_of_Warcraft_Client_and_Installation_Archive" target="_blank">Internet Archive</a> (look for <strong>WoW-1.12.1_install.rar</strong>).</p>
+                                        <p>3. Open your World of Warcraft installation folder and find the file <strong>realmlist.wtf</strong> (located inside the root directory or <code>Data/enUS</code> / <code>Data/enGB</code> depending on your client).</p>
+                                        <p>4. Open <strong>realmlist.wtf</strong> with a text editor, erase all text, and set it to:</p>
+                                        <div class="box1" style="margin-top: 16px; text-align: center;">
+                                            <code style="font-size: 16px; padding: 6px 16px;">set realmlist logon.example.com</code>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SERVER STATUS TAB -->
+                    <div class="tab-pane fade in" id="pills-serverstatus">
+                        <div class="box1" style="margin-top: 10px;">
+                            <h4><i class="fa fa-server"></i> Server Status</h4>
+                            <hr>
+                            <p><span style="color: var(--gold);font-weight: bold;font-family: var(--font-heading);">Azeroth</span> <span style="font-size: 12px;color:var(--text-dim);">(Limited to show 49 player - Online players: 12)</span></p><hr>
+                            <table class="table"><thead><tr><th scope="col">Name</th><th scope="col">Race</th><th scope="col">Class</th><th scope="col">Level</th></tr></thead><tbody>
+                                <tr><th scope="row">Arthas</th><td>Human</td><td>Paladin</td><td>60</td></tr>
+                                <tr><th scope="row">Thrall</th><td>Orc</td><td>Shaman</td><td>60</td></tr>
+                                <tr><th scope="row">Jaina</th><td>Human</td><td>Mage</td><td>58</td></tr>
+                                <tr><th scope="row">Sylvanas</th><td>Undead</td><td>Hunter</td><td>55</td></tr>
+                            </tbody></table>
+                            <hr>
+                        </div>
+                    </div>
+
+                    <!-- TOP PLAYERS TAB -->
+                    <div class="tab-pane fade in" id="pills-topplayers">
+                        <div class="box1" style="margin-top: 10px;">
+                            <h4><i class="fa fa-trophy"></i> Top Players</h4>
+                            <hr>
+                            <h6 style="color: var(--gold);font-weight: bold;font-family: var(--font-heading);">Azeroth</h6><hr>
+                            <button type="button" class="btn btn-info"><i class="fa fa-clock-o"></i> Play Time</button>
+                            <button type="button" class="btn btn-info"><i class="fa fa-crosshairs"></i> Killers</button>
+                            <button type="button" class="btn btn-info"><i class="fa fa-star"></i> Honor Points</button>
+                            <button type="button" class="btn btn-info"><i class="fa fa-shield"></i> Arena Points</button>
+                            <button type="button" class="btn btn-info"><i class="fa fa-users"></i> Arena Teams</button>
+                        </div>
+                    </div>
+
+                    <!-- CONTACT TAB -->
+                    <div class="tab-pane fade in" id="pills-contact">
+                        <div class="box1" style="margin-top: 10px;">
+                            <div class="content_box1" style="line-height: 1.8;">
+                                <h4><i class="fa fa-envelope"></i> Contact &amp; Support</h4>
+                                <hr>
+                                <p>For questions or support, use the in-game ticket system to reach a Game Master.</p>
+                                <p>You can also reach out through the registration page if you are unable to log in.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="col-md-4 sidebar" style="margin-top: 20px;">
+            <div class="box1">
+                <h4><i class="fa fa-info-circle"></i> Server Information</h4>
+                <hr>
+                <p><i class="fa fa-globe" style="color:var(--gold);width:20px;"></i> Realmlist: <span style="color: var(--gold-bright);">logon.example.com</span></p>
+                <p><i class="fa fa-gamepad" style="color:var(--gold);width:20px;"></i> Game version: <span style="color: var(--gold-bright);">1.12.1 (5875)</span></p>
+            </div>
+            <div class="box1">
+                <h4><i class="fa fa-language"></i> Select Language</h4>
+                <hr>
+                <form action="" method="post">
+                    <div class="form-group">
+                        <select class="form-control" id="langchange" name="langchange">
+                            <option value="english">English</option>
+                        </select>
+                    </div>
+                    <input name="langchangever" type="hidden" value="langchanger">
+                    <button type="submit" class="btn btn-primary" style="width:100%;">
+                        <i class="fa fa-check"></i> Change
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-footer">
+    <div class="ornament">For the Horde &middot; For the Alliance</div>
+    <p>Load 0:00.011 (0 bytes)</p>
+</div>
+</div>
+</div>
+</body>
+</html>
