@@ -73,6 +73,9 @@ data:
     (1484,  1),  -- Witching Stave
     (5201,  1),  -- Emberstone Staff
     (2271,  1),  -- Staff of the Blessed Seer
+    (1318,  1),  -- Night Reaver (2H Axe, shadow proc)
+    (2256,  1),  -- Skeletal Club (1H Mace, shadow proc)
+    (5196,  1),  -- Evocator's Blade (caster dagger)
     -- Weapons (ranged/wand)
     (6469,  1),  -- Venomstrike
     (13136, 1),  -- Lil Timmy's Peashooter
@@ -145,10 +148,17 @@ data:
     (3389,  2),  -- Elixir of Defense
     (6373,  2),  -- Elixir of Firepower
     (3384,  2),  -- Minor Magic Resistance Potion
+    (6372,  2),  -- Swim Speed Potion (WSG essential)
+    (5631,  2),  -- Rage Potion (+20-40 Rage, Warriors only)
+    (6051,  2),  -- Holy Protection Potion (absorb holy)
+    (2458,  2),  -- Elixir of Minor Fortitude (+27 HP, Guardian)
+    (3383,  2),  -- Elixir of Wisdom (+6 Int, Battle)
     -- Scrolls
     (1478,  2),  -- Scroll of Protection II
     (3012,  2),  -- Scroll of Agility (+5 Agi)
     (1180,  2),  -- Scroll of Stamina (+5 Stam)
+    (954,   2),  -- Scroll of Strength (+5 Str)
+    (957,   2),  -- Scroll of Intellect (+4 Int)
     -- Head/Leg Enchants (Lesser Arcanums - BRD)
     (11642, 2),  -- Lesser Arcanum of Constitution (+100 HP)
     (11622, 2),  -- Lesser Arcanum of Rumination (+150 Mana)
@@ -176,6 +186,8 @@ data:
     (4378,  2),  -- Heavy Dynamite (AoE damage)
     (4384,  2),  -- Explosive Sheep (mobile AoE)
     (4376,  2),  -- Flame Deflector (absorb fire)
+    (4366,  2),  -- Target Dummy (attracts mobs, no Eng req)
+    (6714,  2),  -- EZ-Thro Dynamite (AoE, no Eng req)
     -- PvP utility
     (2091,  2),  -- Magic Dust (sleep target)
     (4984,  2),  -- Skull of Impending Doom (speed boost)
@@ -187,13 +199,19 @@ data:
     -- Weapon buffs
     (4406,  2),  -- Standard Scope (+2 damage)
     (2871,  2),  -- Heavy Sharpening Stone (+4 weapon damage)
+    (2863,  2),  -- Coarse Sharpening Stone (+3 weapon damage)
+    (20744, 2),  -- Minor Wizard Oil (+8 Spell Damage)
     (1322,  2),  -- Fishliver Oil (+8 melee AP)
     -- Ammo
     (3464,  2),  -- Feathered Arrow
     (3465,  2),  -- Exploding Shot
     -- Bandages
     (6451,  2),  -- Heavy Silk Bandage (First Aid 125)
-    (14530, 2),  -- Heavy Runecloth Bandage (First Aid 225)
+    (8544,  2),  -- Mageweave Bandage (First Aid 150)
+    -- Utility
+    (6048,  2),  -- Shadow Protection Potion (level 17)
+    (3241,  2),  -- Heavy Weightstone (+4 blunt weapon dmg)
+    (1712,  2),  -- Scroll of Spirit II
     -- =============================================
     -- Honor Gear (cat=3) - PvP / WSG reputation items
     -- =============================================
@@ -286,6 +304,11 @@ data:
     (20077, 4),  -- Zandalar Signet of Might (+30 AP)
     (20076, 4),  -- Zandalar Signet of Mojo (+18 SP)
     (20078, 4),  -- Zandalar Signet of Serenity (+33 Healing)
+    -- Shoulder Enchants (Naxx, no level req)
+    (23545, 4),  -- Power of the Scourge (+15 SP, +1% Spell Crit)
+    (23547, 4),  -- Resilience of the Scourge (+31 Healing, +5 MP5)
+    (23548, 4),  -- Might of the Scourge (+26 AP, +1% Crit)
+    (23549, 4),  -- Fortitude of the Scourge (+16 Stam, +100 Armor)
     -- Bags
     (17966, 4);  -- Onyxia Hide Backpack (18 slot)
 
