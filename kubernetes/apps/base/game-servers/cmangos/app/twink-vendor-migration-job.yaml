@@ -17,7 +17,7 @@ data:
     -- ============================================================
     -- Twink Master NPC - Level 19 Multi-Vendor
     -- Alliance: 190012 | Horde: 190013
-    -- Gossip categories: BiS=1, Honor=2, Rare=4
+    -- Categories: 1=BiS Gear, 2=Consumables, 3=Honor Gear, 4=Insane
     -- ============================================================
 
     SET @AllianceEntry := 190012;
@@ -45,17 +45,19 @@ data:
 
     -- ============================================================
     -- Vendor Category Table (read by C++ module)
-    -- Bitmask: 1=BiS, 2=Honor, 4=Rare
+    -- Discrete values: 1=BiS Gear, 2=Consumables, 3=Honor Gear, 4=Insane
     -- ============================================================
     DROP TABLE IF EXISTS `custom_twinkmaster_vendor_categories`;
     CREATE TABLE `custom_twinkmaster_vendor_categories` (
       `item` int(11) unsigned NOT NULL,
       `categories` tinyint(3) unsigned NOT NULL DEFAULT 1,
       PRIMARY KEY (`item`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Twink Master vendor item categories (bitmask)';
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Twink Master vendor item categories';
 
     INSERT INTO `custom_twinkmaster_vendor_categories` (`item`, `categories`) VALUES
-    -- === BiS only (cat=1) ===
+    -- =============================================
+    -- BiS Gear (cat=1) - Equipment only
+    -- =============================================
     -- Weapons (melee)
     (1482,  1),  -- Shadowfang
     (5191,  1),  -- Cruel Barb
@@ -112,14 +114,14 @@ data:
     (19969, 1),  -- Nat Pagle's Extreme Anglin' Boots
     (12982, 1),  -- Silver-linked Footguards
     (10411, 1),  -- Footpads of the Fang
-    -- Rings (non-PvP)
+    -- Rings
     (2933,  1),  -- Seal of Wrynn
     (6414,  1),  -- Seal of Sylvanas
     (4998,  1),  -- Blood Ring
     (12054, 1),  -- Demon Band
     (1156,  1),  -- Lavishly Jeweled Ring
     (12996, 1),  -- Band of Purification
-    -- Trinkets (non-PvP)
+    -- Trinkets
     (19024, 1),  -- Arena Grand Master
     (4381,  1),  -- Minor Recombobulator
     -- Shields
@@ -130,65 +132,72 @@ data:
     (2879,  1),  -- Antipodean Rod
     (5183,  1),  -- Pulsating Hydra Heart
     (16768, 1),  -- Furbolg Medicine Pouch
-    -- Consumables
-    (2459,  1),  -- Swiftness Potion
-    (3388,  1),  -- Strong Troll's Blood Potion
-    (2454,  1),  -- Elixir of Lion's Strength
-    (2455,  1),  -- Minor Mana Potion
-    (929,   1),  -- Healing Potion
-    (3390,  1),  -- Elixir of Lesser Agility
-    (3389,  1),  -- Elixir of Defense
-    (6373,  1),  -- Elixir of Firepower
-    (1478,  1),  -- Scroll of Protection II
-    -- Head/Leg Enchants (Lesser Arcanums - BRD)
-    (11642, 1),  -- Lesser Arcanum of Constitution (+100 HP)
-    (11622, 1),  -- Lesser Arcanum of Rumination (+150 Mana)
-    (11643, 1),  -- Lesser Arcanum of Tenacity (+125 Armor)
-    (11644, 1),  -- Lesser Arcanum of Resilience (+20 Fire Resist)
-    (11645, 1),  -- Lesser Arcanum of Voracity (+8 Str)
-    (11646, 1),  -- Lesser Arcanum of Voracity (+8 Agi)
-    (11647, 1),  -- Lesser Arcanum of Voracity (+8 Stam)
-    (11648, 1),  -- Lesser Arcanum of Voracity (+8 Int)
-    (11649, 1),  -- Lesser Arcanum of Voracity (+8 Spi)
-    -- Head/Leg Enchants (Arcanums - Dire Maul)
-    (18329, 1),  -- Arcanum of Rapidity (+1% Haste)
-    (18330, 1),  -- Arcanum of Focus (+8 Spell Power)
-    (18331, 1),  -- Arcanum of Protection (+1% Dodge)
-    -- Drinks (stamina buffs)
-    (21151, 1),  -- Rumsey Rum Black Label (+15 Stam)
-    (18269, 1),  -- Gordok Green Grog (+10 Stam)
-    -- Transformation / Fun
-    (6657,  1),  -- Savory Deviate Delight (pirate/ninja)
-    (6662,  1),  -- Elixir of Giant Growth (size increase)
-    (6522,  1),  -- Deviate Fish (random effects)
-    -- Engineering (PvP utility)
-    (4388,  1),  -- Discombobulator Ray (transform + slow)
-    (4380,  1),  -- Big Bronze Bomb (AoE stun)
-    (4378,  1),  -- Heavy Dynamite (AoE damage)
-    (4384,  1),  -- Explosive Sheep (mobile AoE)
-    (4376,  1),  -- Flame Deflector (absorb fire)
-    -- PvP utility
-    (2091,  1),  -- Magic Dust (sleep target)
-    (4984,  1),  -- Skull of Impending Doom (speed boost)
-    (13180, 1),  -- Stratholme Holy Water (AoE vs undead)
-    (7676,  1),  -- Thistle Tea (instant 100 energy)
-    -- Food buffs
-    (3665,  1),  -- Curiously Tasty Omelet
-    (6890,  1),  -- Smoked Bear Meat
+    -- =============================================
+    -- Consumables (cat=2)
+    -- =============================================
+    -- Potions / Elixirs
+    (2459,  2),  -- Swiftness Potion
+    (3388,  2),  -- Strong Troll's Blood Potion
+    (2454,  2),  -- Elixir of Lion's Strength
+    (2455,  2),  -- Minor Mana Potion
+    (929,   2),  -- Healing Potion
+    (3390,  2),  -- Elixir of Lesser Agility
+    (3389,  2),  -- Elixir of Defense
+    (6373,  2),  -- Elixir of Firepower
+    (3384,  2),  -- Minor Magic Resistance Potion
     -- Scrolls
-    (3012,  1),  -- Scroll of Agility (+5 Agi)
-    (1180,  1),  -- Scroll of Stamina (+5 Stam)
-    -- Weapon Enchant / Buff
-    (4406,  1),  -- Standard Scope (+2 damage)
-    (2871,  1),  -- Heavy Sharpening Stone (+4 weapon damage)
-    (1322,  1),  -- Fishliver Oil (+8 melee AP)
-    -- Ammo (best available, no level req)
-    (3464,  1),  -- Feathered Arrow
-    (3465,  1),  -- Exploding Shot
+    (1478,  2),  -- Scroll of Protection II
+    (3012,  2),  -- Scroll of Agility (+5 Agi)
+    (1180,  2),  -- Scroll of Stamina (+5 Stam)
+    -- Head/Leg Enchants (Lesser Arcanums - BRD)
+    (11642, 2),  -- Lesser Arcanum of Constitution (+100 HP)
+    (11622, 2),  -- Lesser Arcanum of Rumination (+150 Mana)
+    (11643, 2),  -- Lesser Arcanum of Tenacity (+125 Armor)
+    (11644, 2),  -- Lesser Arcanum of Resilience (+20 Fire Resist)
+    (11645, 2),  -- Lesser Arcanum of Voracity (+8 Str)
+    (11646, 2),  -- Lesser Arcanum of Voracity (+8 Agi)
+    (11647, 2),  -- Lesser Arcanum of Voracity (+8 Stam)
+    (11648, 2),  -- Lesser Arcanum of Voracity (+8 Int)
+    (11649, 2),  -- Lesser Arcanum of Voracity (+8 Spi)
+    -- Head/Leg Enchants (Arcanums - Dire Maul)
+    (18329, 2),  -- Arcanum of Rapidity (+1% Haste)
+    (18330, 2),  -- Arcanum of Focus (+8 Spell Power)
+    (18331, 2),  -- Arcanum of Protection (+1% Dodge)
+    -- Drinks (stamina buffs)
+    (21151, 2),  -- Rumsey Rum Black Label (+15 Stam)
+    (18269, 2),  -- Gordok Green Grog (+10 Stam)
+    -- Transformation / Fun
+    (6657,  2),  -- Savory Deviate Delight (pirate/ninja)
+    (6662,  2),  -- Elixir of Giant Growth (size increase)
+    (6522,  2),  -- Deviate Fish (random effects)
+    -- Engineering gadgets
+    (4388,  2),  -- Discombobulator Ray (transform + slow)
+    (4380,  2),  -- Big Bronze Bomb (AoE stun)
+    (4378,  2),  -- Heavy Dynamite (AoE damage)
+    (4384,  2),  -- Explosive Sheep (mobile AoE)
+    (4376,  2),  -- Flame Deflector (absorb fire)
+    -- PvP utility
+    (2091,  2),  -- Magic Dust (sleep target)
+    (4984,  2),  -- Skull of Impending Doom (speed boost)
+    (13180, 2),  -- Stratholme Holy Water (AoE vs undead)
+    (7676,  2),  -- Thistle Tea (instant 100 energy)
+    -- Food buffs
+    (3665,  2),  -- Curiously Tasty Omelet
+    (6890,  2),  -- Smoked Bear Meat
+    -- Weapon buffs
+    (4406,  2),  -- Standard Scope (+2 damage)
+    (2871,  2),  -- Heavy Sharpening Stone (+4 weapon damage)
+    (1322,  2),  -- Fishliver Oil (+8 melee AP)
+    -- Ammo
+    (3464,  2),  -- Feathered Arrow
+    (3465,  2),  -- Exploding Shot
     -- Bandages
-    (6451,  1),  -- Heavy Silk Bandage (First Aid 125)
-    (14530, 1),  -- Heavy Runecloth Bandage (First Aid 225)
-    -- === BiS + Honor (cat=3) ===
+    (6451,  2),  -- Heavy Silk Bandage (First Aid 125)
+    (14530, 2),  -- Heavy Runecloth Bandage (First Aid 225)
+    -- =============================================
+    -- Honor Gear (cat=3) - PvP / WSG reputation items
+    -- =============================================
+    -- PvP accessories (rings, trinkets, medallions)
     (20444, 3),  -- Sentinel's Medallion
     (20442, 3),  -- Scout's Medallion
     (20439, 3),  -- Protector's Band
@@ -197,19 +206,21 @@ data:
     (20426, 3),  -- Advisor's Ring
     (18854, 3),  -- Insignia of the Alliance
     (18834, 3),  -- Insignia of the Horde
-    -- === Honor only (cat=2) - WSG reputation rewards ===
-    (20425, 2),  -- Advisor's Gnarled Staff
-    (20427, 2),  -- Battle Healer's Cloak
-    (20428, 2),  -- Caretaker's Cape
-    (20430, 2),  -- Legionnaire's Sword
-    (20434, 2),  -- Lorekeeper's Staff
-    (20437, 2),  -- Outrider's Bow
-    (20438, 2),  -- Outrunner's Bow
-    (20440, 2),  -- Protector's Sword
-    (20441, 2),  -- Scout's Blade
-    (20443, 2),  -- Sentinel's Blade
-    -- === Rare / Unobtainable (cat=4) ===
-    -- Trinkets (no level req, raid/endgame)
+    -- WSG reputation weapons and cloaks
+    (20425, 3),  -- Advisor's Gnarled Staff
+    (20427, 3),  -- Battle Healer's Cloak
+    (20428, 3),  -- Caretaker's Cape
+    (20430, 3),  -- Legionnaire's Sword
+    (20434, 3),  -- Lorekeeper's Staff
+    (20437, 3),  -- Outrider's Bow
+    (20438, 3),  -- Outrunner's Bow
+    (20440, 3),  -- Protector's Sword
+    (20441, 3),  -- Scout's Blade
+    (20443, 3),  -- Sentinel's Blade
+    -- =============================================
+    -- Insane (cat=4) - Raid/endgame items with no level req
+    -- =============================================
+    -- Trinkets
     (23206, 4),  -- Mark of the Champion (melee)
     (23207, 4),  -- Mark of the Champion (caster)
     (18406, 4),  -- Onyxia Blood Talisman
@@ -221,12 +232,12 @@ data:
     (22678, 4),  -- Talisman of Ascendance
     (17904, 4),  -- Stormpike Insignia Rank 6
     (17909, 4),  -- Frostwolf Insignia Rank 6
-    -- Rings (no level req, raid/endgame)
+    -- Rings
     (18403, 4),  -- Dragonslayer's Signet
     (22707, 4),  -- Ramaladni's Icy Grasp
     (21189, 4),  -- Might of Cenarius
     (21190, 4),  -- Wrath of Cenarius
-    -- Necklaces (no level req, raid/endgame)
+    -- Necklaces
     (18404, 4),  -- Onyxia Tooth Pendant
     (22657, 4),  -- Amulet of the Dawn
     (22659, 4),  -- Medallion of the Dawn
@@ -243,15 +254,15 @@ data:
     (22968, 4),  -- Glacial Mantle
     (22700, 4),  -- Glacial Leggings
     (12752, 4),  -- Cap of the Scarlet Savant
-    -- Off-hand (no level req)
+    -- Off-hand
     (21185, 4),  -- Earthcalm Orb
-    -- Weapon (no level req, epic)
+    -- Weapon
     (22656, 4),  -- The Purifier
     -- Shoulder Enchants (ZG, no level req)
     (20077, 4),  -- Zandalar Signet of Might (+30 AP)
     (20076, 4),  -- Zandalar Signet of Mojo (+18 SP)
     (20078, 4),  -- Zandalar Signet of Serenity (+33 Healing)
-    -- Bags (no level req)
+    -- Bags
     (17966, 4);  -- Onyxia Hide Backpack (18 slot)
 
     -- ============================================================
@@ -330,10 +341,10 @@ spec:
               mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "
                 SELECT
                   CASE categories
-                    WHEN 1 THEN 'BiS'
-                    WHEN 2 THEN 'Honor'
-                    WHEN 3 THEN 'BiS+Honor'
-                    WHEN 4 THEN 'Rare'
+                    WHEN 1 THEN 'BiS Gear'
+                    WHEN 2 THEN 'Consumables'
+                    WHEN 3 THEN 'Honor Gear'
+                    WHEN 4 THEN 'Insane'
                   END AS category,
                   COUNT(*) AS item_count
                 FROM custom_twinkmaster_vendor_categories
