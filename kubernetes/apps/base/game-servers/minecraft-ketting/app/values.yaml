@@ -8,11 +8,6 @@ podAnnotations:
   k8s.v1.cni.cncf.io/networks: network-system/wifi-network
 
 minecraftServer:
-  # Configure autoCurseForge to use our secret (avoids duplicate CF_API_KEY)
-  autoCurseForge:
-    apiKey:
-      existingSecret: minecraft-ketting-secrets
-      secretKey: CF_API_KEY
   serverName: Wildfire Wither Storm Server
   eula: "TRUE"
   type: KETTING
