@@ -51,9 +51,9 @@ remote:
   # For plugin versions, if address has been set to "auto", the port will also follow the server's listening port.
   port: 25565
   # Authentication type. Can be offline, online, or floodgate (see https://github.com/GeyserMC/Geyser/wiki/Floodgate).
-  # Using 'floodgate' so Bedrock/PlayStation players authenticate automatically via Xbox Live
-  # without needing to manually link a Microsoft account.
-  auth-type: floodgate
+  # Using 'offline' to match server's onlineMode=false. Bedrock players authenticate via
+  # Xbox Live on their device automatically. Floodgate is incompatible with Ketting.
+  auth-type: offline
   # Whether to enable PROXY protocol or not while connecting to the server.
   # This is useful only when:
   # 1) Your server supports PROXY protocol (it probably doesn't)

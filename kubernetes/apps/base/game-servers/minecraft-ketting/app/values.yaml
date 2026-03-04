@@ -13,11 +13,10 @@ minecraftServer:
   type: KETTING
   version: "1.20.1"
   # Plugins - KETTING supports Bukkit/Spigot plugins
-  # Floodgate handles automatic Xbox Live auth for Bedrock/PlayStation players
+  # Floodgate is incompatible with Ketting, using Geyser standalone with offline auth
   # ViaVersion plugins for protocol translation (required for Bedrock clients on newer versions)
   pluginUrls:
     - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
-    - https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
     - https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.7.1/PAPER/ViaVersion-5.7.1.jar
     - https://hangarcdn.papermc.io/plugins/ViaVersion/ViaBackwards/versions/5.7.1/PAPER/ViaBackwards-5.7.1.jar
   maxPlayers: 10
