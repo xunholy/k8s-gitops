@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-registration
-              tag: 2a848f73175b45656db3325f9e847d6749bb9146
+              tag: fabaf205131399c08252835d2c734f2df3a40841
             env:
               TZ: Australia/Melbourne
             probes:
