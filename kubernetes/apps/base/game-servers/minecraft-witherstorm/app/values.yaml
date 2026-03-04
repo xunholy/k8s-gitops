@@ -117,4 +117,4 @@ readinessProbe:
 persistence:
   dataDir:
     enabled: true
-    existingClaim: minecraft-witherstorm-ceph
+    existingClaim: minecraft-witherstorm-data
