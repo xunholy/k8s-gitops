@@ -96,7 +96,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 24255a3dfabad726b95e1c59c80e944b633e4f3d # buffs, offhand enchants, vendor reorder, insignias/tabards
+              tag: 9accf30351240488b208a52afa519dbb32759c50 # spell learning fix, PvP rank, Naxx enchants, community items
             args: ["realmd"]
             env:
               TZ: Australia/Melbourne
@@ -151,7 +151,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 24255a3dfabad726b95e1c59c80e944b633e4f3d # buffs, offhand enchants, vendor reorder, insignias/tabards
+              tag: 9accf30351240488b208a52afa519dbb32759c50 # spell learning fix, PvP rank, Naxx enchants, community items
             args: ["mangosd"]
             tty: true
             stdin: true
