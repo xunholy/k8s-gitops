@@ -45,3 +45,17 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: minecraft-witherstorm-values
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              version: v1
+              kind: Deployment
+              name: minecraft-witherstorm
+            patch: |
+              - op: add
+                path: /spec/template/spec/hostNetwork
+                value: true
+              - op: add
+                path: /spec/template/spec/dnsPolicy
+                value: ClusterFirstWithHostNet
