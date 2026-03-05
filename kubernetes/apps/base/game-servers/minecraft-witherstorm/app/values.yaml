@@ -19,20 +19,12 @@ minecraftServer:
   texturepackRequired: true
 extraEnv:
   SERVER_PORT_V6: "19137"
-podSecurityContext:
-  runAsUser: 0
-  runAsGroup: 0
-  runAsNonRoot: false
-  fsGroup: 2000
-securityContext:
-  capabilities:
-    drop:
-      - ALL
-  readOnlyRootFilesystem: false
-  allowPrivilegeEscalation: false
 initContainers:
   - name: install-wither-storm
     image: alpine:latest
+    securityContext:
+      runAsUser: 0
+      runAsNonRoot: false
     command:
       - /bin/sh
       - -c
