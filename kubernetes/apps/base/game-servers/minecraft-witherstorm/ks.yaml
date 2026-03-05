@@ -7,8 +7,8 @@ metadata:
   namespace: game-servers
 spec:
   dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: democratic-csi
+      namespace: democratic-csi
   interval: 30m
   path: "./apps/base/game-servers/minecraft-witherstorm/app"
   prune: true
