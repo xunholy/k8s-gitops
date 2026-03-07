@@ -116,6 +116,10 @@ spec:
         data:
           config.yaml: |-
             ingress:
+              - hostname: "api.${CLUSTER_DOMAIN}"
+                service: tcp://kubernetes.default.svc.cluster.local:443
+                originRequest:
+                  proxyType: socks
               - hostname: "*.${CLUSTER_DOMAIN}"
                 originRequest:
                   http2Origin: true

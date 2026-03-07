@@ -35,7 +35,7 @@ database:
       memory: 256Mi
 
 mcpServer:
-  enabled: true
+  enabled: false
   useKmcp: true
   image:
     tag: "v1.3.2"

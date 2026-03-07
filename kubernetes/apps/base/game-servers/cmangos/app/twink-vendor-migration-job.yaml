@@ -75,7 +75,10 @@ data:
     (2271,  1),  -- Staff of the Blessed Seer
     (1318,  1),  -- Night Reaver (2H Axe, shadow proc)
     (2256,  1),  -- Skeletal Club (1H Mace, shadow proc)
-    (5196,  1),  -- Evocator's Blade (caster dagger)
+    (5196,  1),  -- Smite's Reaver (1H axe)
+    (2567,  1),  -- Evocator's Blade (caster dagger)
+    (935,   1),  -- Night Watch Shortsword (caster sword)
+    (790,   1),  -- Forester's Axe (1H axe, Paladin)
     -- Weapons (ranged/wand)
     (6469,  1),  -- Venomstrike
     (13136, 1),  -- Lil Timmy's Peashooter
@@ -86,9 +89,11 @@ data:
     -- Shoulders
     (5404,  1),  -- Serpent's Shoulders
     (10657, 1),  -- Talbar Mantle
+    (6579,  1),  -- Defender Spaulders (random enchant)
     -- Back
     (2059,  1),  -- Sentry Cloak
     (6449,  1),  -- Glowing Lizardscale Cloak
+    (6667,  1),  -- Engineer's Cloak
     -- Chest
     (10399, 1),  -- Blackened Defias Armor
     (2041,  1),  -- Tunic of Westfall
@@ -98,20 +103,32 @@ data:
     (1974,  1),  -- Mindthrust Bracers
     (4534,  1),  -- Steel-clasped Bracers
     (15331, 1),  -- Wrangler's Wristbands (random enchant)
+    (7003,  1),  -- Beetle Clasps (mail)
+    (3202,  1),  -- Forest Leather Bracers
+    (14160, 1),  -- Pagan Bands (cloth, random enchant)
     -- Hands
     (6467,  1),  -- Deviate Scale Gloves
     (10413, 1),  -- Gloves of the Fang
     (12977, 1),  -- Magefist Gloves
     (892,   1),  -- Gnoll Casting Gloves
     (6586,  1),  -- Scouting Gloves (random enchant)
+    (12994, 1),  -- Thorbia's Gauntlets (mail)
+    (6577,  1),  -- Defender Gauntlets (mail, random enchant)
     -- Waist
     (6468,  1),  -- Deviate Scale Belt
     (10412, 1),  -- Belt of the Fang
     (6460,  1),  -- Cobrahn's Grasp
+    (9814,  1),  -- Fortified Belt (mail, random enchant)
+    (2911,  1),  -- Keller's Girdle (cloth)
+    (16987, 1),  -- Screecher Belt (leather)
     -- Legs
     (6087,  1),  -- Chausses of Westfall
     (10410, 1),  -- Leggings of the Fang
     (12987, 1),  -- Darkweave Breeches
+    (15511, 1),  -- Grunt's Legguards (mail, random enchant)
+    (6587,  1),  -- Scouting Trousers (leather, random enchant)
+    (4800,  1),  -- Mighty Chain Pants (mail)
+    (10043, 1),  -- Pious Legwraps (cloth, Alliance quest)
     -- Feet
     (1121,  1),  -- Feet of the Lynx
     (19969, 1),  -- Nat Pagle's Extreme Anglin' Boots
@@ -124,6 +141,7 @@ data:
     (12054, 1),  -- Demon Band
     (1156,  1),  -- Lavishly Jeweled Ring
     (12996, 1),  -- Band of Purification
+    (12006, 1),  -- Meadow Ring (random enchant)
     -- Trinkets
     (19024, 1),  -- Arena Grand Master
     (4381,  1),  -- Minor Recombobulator
@@ -131,6 +149,7 @@ data:
     (5443,  1),  -- Gold-plated Buckler
     (12997, 1),  -- Redbeard Crest
     (7002,  1),  -- Arctic Buckler
+    (3761,  1),  -- Deadskull Shield
     -- Off-hand
     (2879,  1),  -- Antipodean Rod
     (5183,  1),  -- Pulsating Hydra Heart
@@ -158,7 +177,7 @@ data:
     (3012,  2),  -- Scroll of Agility (+5 Agi)
     (1180,  2),  -- Scroll of Stamina (+5 Stam)
     (954,   2),  -- Scroll of Strength (+5 Str)
-    (957,   2),  -- Scroll of Intellect (+4 Int)
+    (2290,  2),  -- Scroll of Intellect II
     -- Head/Leg Enchants (Lesser Arcanums - BRD)
     (11642, 2),  -- Lesser Arcanum of Constitution (+100 HP)
     (11622, 2),  -- Lesser Arcanum of Rumination (+150 Mana)
@@ -225,21 +244,21 @@ data:
     (18854, 3),  -- Insignia of the Alliance
     (18834, 3),  -- Insignia of the Horde
     -- Class-specific insignias (Alliance)
-    (18856, 3),  -- Insignia of the Alliance (Mage)
+    (18856, 3),  -- Insignia of the Alliance (Hunter)
     (18857, 3),  -- Insignia of the Alliance (Rogue)
-    (18858, 3),  -- Insignia of the Alliance (Priest)
-    (18859, 3),  -- Insignia of the Alliance (Druid)
-    (18862, 3),  -- Insignia of the Alliance (Paladin)
-    (18863, 3),  -- Insignia of the Alliance (Hunter)
-    (18864, 3),  -- Insignia of the Alliance (Warlock)
+    (18858, 3),  -- Insignia of the Alliance (Warlock)
+    (18859, 3),  -- Insignia of the Alliance (Mage)
+    (18862, 3),  -- Insignia of the Alliance (Priest)
+    (18863, 3),  -- Insignia of the Alliance (Druid)
+    (18864, 3),  -- Insignia of the Alliance (Paladin)
     -- Class-specific insignias (Horde)
-    (18845, 3),  -- Insignia of the Horde (Rogue)
+    (18845, 3),  -- Insignia of the Horde (Shaman)
     (18846, 3),  -- Insignia of the Horde (Hunter)
-    (18849, 3),  -- Insignia of the Horde (Mage)
-    (18850, 3),  -- Insignia of the Horde (Warlock)
+    (18849, 3),  -- Insignia of the Horde (Rogue)
+    (18850, 3),  -- Insignia of the Horde (Mage)
     (18851, 3),  -- Insignia of the Horde (Priest)
-    (18852, 3),  -- Insignia of the Horde (Druid)
-    (18853, 3),  -- Insignia of the Horde (Shaman)
+    (18852, 3),  -- Insignia of the Horde (Warlock)
+    (18853, 3),  -- Insignia of the Horde (Druid)
     -- Battle Standards
     (18606, 3),  -- Alliance Battle Standard
     (18607, 3),  -- Horde Battle Standard
@@ -304,7 +323,7 @@ data:
     (20077, 4),  -- Zandalar Signet of Might (+30 AP)
     (20076, 4),  -- Zandalar Signet of Mojo (+18 SP)
     (20078, 4),  -- Zandalar Signet of Serenity (+33 Healing)
-    -- Shoulder Enchants (Naxx, no level req)
+    -- Shoulder Enchants (Naxx, level req removed below)
     (23545, 4),  -- Power of the Scourge (+15 SP, +1% Spell Crit)
     (23547, 4),  -- Resilience of the Scourge (+31 Healing, +5 MP5)
     (23548, 4),  -- Might of the Scourge (+26 AP, +1% Crit)
@@ -313,12 +332,15 @@ data:
     (17966, 4);  -- Onyxia Hide Backpack (18 slot)
 
     -- ============================================================
-    -- Restore original prices if previously zeroed, then drop backup
+    -- Remove level requirements from Naxx shoulder enchants
+    -- so they are usable at level 19 (Insane category)
     -- ============================================================
-    UPDATE `item_template` it
-    JOIN `custom_twinkmaster_original_prices` op ON it.`entry` = op.`entry`
-    SET it.`BuyPrice` = op.`original_buy_price`, it.`SellPrice` = op.`original_sell_price`
-    WHERE it.`BuyPrice` = 0 AND op.`original_buy_price` > 0;
+    UPDATE `item_template` SET `RequiredLevel` = 0
+    WHERE `entry` IN (23545, 23547, 23548, 23549);
+
+    -- ============================================================
+    -- Restore original prices if backup table exists, then drop it
+    -- ============================================================
     DROP TABLE IF EXISTS `custom_twinkmaster_original_prices`;
 
     -- ============================================================
