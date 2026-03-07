@@ -96,7 +96,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 9accf30351240488b208a52afa519dbb32759c50 # spell learning fix, PvP rank, Naxx enchants, community items
+              tag: 73bdf3a97ecec68858f0d34842d58468faba47b2
             args: ["realmd"]
             env:
               TZ: Australia/Melbourne
@@ -151,7 +151,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 9accf30351240488b208a52afa519dbb32759c50 # spell learning fix, PvP rank, Naxx enchants, community items
+              tag: 73bdf3a97ecec68858f0d34842d58468faba47b2
             args: ["mangosd"]
             tty: true
             stdin: true
