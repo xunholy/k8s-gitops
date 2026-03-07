@@ -48,7 +48,7 @@ spec:
     # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
     initContainers:
       - name: velero-plugin-for-gcp
-        image: velero/velero-plugin-for-gcp:v1.13.2@sha256:78cb08a95cc2cc6bd0133028005971b47fc5283d919d3c13973d74d261df8213
+        image: velero/velero-plugin-for-gcp:v1.14.0@sha256:21391ab7b278821225f22372d3554ab4676b53f6f9748c2d441c1b62828f12b4
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
