@@ -10,6 +10,12 @@ broker:
   image:
     tag: "v1.7.0"
     sha: "sha256:26866620ba01362bdfd777c698b5385088721be899327d9e77a8c0e4322322a3"
+  resources:
+    limits:
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 512Mi
 
 frontend:
   image:
@@ -36,7 +42,6 @@ database:
 
 mcpServer:
   enabled: false
-  useKmcp: true
   image:
     tag: "v1.3.2"
     sha: "sha256:1ca186593b1948ec5a237f8f863047bea56880d73015b35576ec45a27b51a604"
