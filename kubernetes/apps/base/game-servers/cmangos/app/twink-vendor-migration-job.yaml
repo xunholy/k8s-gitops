@@ -184,8 +184,8 @@ data:
     (11643, 2),  -- Lesser Arcanum of Tenacity (+125 Armor)
     (11644, 2),  -- Lesser Arcanum of Resilience (+20 Fire Resist)
     (11645, 2),  -- Lesser Arcanum of Voracity (+8 Str)
-    (11646, 2),  -- Lesser Arcanum of Voracity (+8 Agi)
-    (11647, 2),  -- Lesser Arcanum of Voracity (+8 Stam)
+    (11646, 2),  -- Lesser Arcanum of Voracity (+8 Stam)
+    (11647, 2),  -- Lesser Arcanum of Voracity (+8 Agi)
     (11648, 2),  -- Lesser Arcanum of Voracity (+8 Int)
     (11649, 2),  -- Lesser Arcanum of Voracity (+8 Spi)
     -- Head/Leg Enchants (Arcanums - Dire Maul)
@@ -217,6 +217,7 @@ data:
     (6890,  2),  -- Smoked Bear Meat
     -- Weapon buffs
     (4406,  2),  -- Standard Scope (+2 damage)
+    (10548, 2),  -- Sniper Scope (+7 damage)
     (2871,  2),  -- Heavy Sharpening Stone (+4 weapon damage)
     (2863,  2),  -- Coarse Sharpening Stone (+3 weapon damage)
     (20744, 2),  -- Minor Wizard Oil (+8 Spell Damage)
