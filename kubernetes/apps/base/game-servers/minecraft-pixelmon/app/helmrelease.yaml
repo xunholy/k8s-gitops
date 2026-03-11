@@ -73,20 +73,20 @@ spec:
                   name: geyser-data
                   emptyDir: {}
               - op: add
-                path: /spec/template/spec/initContainers/-
+                path: /spec/template/spec/initContainers
                 value:
-                  name: download-geyser
-                  image: curlimages/curl:latest
-                  command:
-                    - /bin/sh
-                    - -c
-                    - |
-                      curl -sL -o /geyser/Geyser.jar \
-                        https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/standalone
-                      echo "Geyser downloaded successfully"
-                  volumeMounts:
-                    - name: geyser-data
-                      mountPath: /geyser
+                  - name: download-geyser
+                    image: curlimages/curl:latest
+                    command:
+                      - /bin/sh
+                      - -c
+                      - |
+                        curl -sL -o /geyser/Geyser.jar \
+                          https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/standalone
+                        echo "Geyser downloaded successfully"
+                    volumeMounts:
+                      - name: geyser-data
+                        mountPath: /geyser
               - op: add
                 path: /spec/template/spec/containers/-
                 value:
