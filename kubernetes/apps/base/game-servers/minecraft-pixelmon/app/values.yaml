@@ -51,6 +51,15 @@ initContainers:
         mkdir -p /tmp/addon
         unzip -o /tmp/addon.mcaddon -d /tmp/addon
 
+        # Extract any nested zip/mcpack files within the addon
+        find /tmp/addon -name "*.zip" -o -name "*.mcpack" | while IFS= read -r nested; do
+          echo "Extracting nested archive: $(basename "$nested")"
+          NESTED_DIR="/tmp/addon/$(basename "$nested" | sed 's/\.[^.]*$//')"
+          mkdir -p "$NESTED_DIR"
+          unzip -o "$nested" -d "$NESTED_DIR"
+          rm "$nested"
+        done
+
         # Initialize pack activation files
         echo "[]" > /tmp/bp.json
         echo "[]" > /tmp/rp.json
