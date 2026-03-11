@@ -42,8 +42,6 @@ spec:
   maxHistory: 3
   values:
     fullnameOverride: *app
-    serviceAnnotations:
-      lbipam.cilium.io/ips: ${CLUSTER_LB_MINECRAFT}
   valuesFrom:
     - kind: ConfigMap
       name: minecraft-pixelmon-values
