@@ -83,10 +83,13 @@ spec:
                       - |
                         curl -sL -o /geyser/Geyser.jar \
                           https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/standalone
-                        echo "Geyser downloaded successfully"
+                        cp /geyser-cfg/config.yml /geyser/config.yml
+                        echo "Geyser downloaded and config copied successfully"
                     volumeMounts:
                       - name: geyser-data
                         mountPath: /geyser
+                      - name: geyser-config
+                        mountPath: /geyser-cfg
               - op: add
                 path: /spec/template/spec/containers/-
                 value:
@@ -102,9 +105,6 @@ spec:
                       protocol: UDP
                       name: geysermc
                   volumeMounts:
-                    - name: geyser-config
-                      mountPath: /geyser/config.yml
-                      subPath: config.yml
                     - name: geyser-data
                       mountPath: /geyser
                   resources:
