@@ -5,9 +5,7 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
-  - pvc.yaml
   - pvc-ceph.yaml
-  - config/geysermc.yaml
 
 configMapGenerator:
   - name: minecraft-pixelmon-values

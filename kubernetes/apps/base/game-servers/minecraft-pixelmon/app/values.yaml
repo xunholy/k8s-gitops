@@ -1,66 +1,112 @@
----
-extraEnv:
-  TZ: "Australia/Melbourne"
-  MODRINTH_PROJECTS: "pixelmon"
-  MODRINTH_PROJECTS_DEFAULT_VERSION_TYPE: "beta"
-
+image:
+  repository: itzg/minecraft-bedrock-server
+  tag: latest
 minecraftServer:
   serverName: Wildfire Pixelmon Server
+  levelName: Pixelmon
+  serverPort: 19138
   eula: "TRUE"
-  type: FORGE
-  version: "1.20.2"
+  version: LATEST
+  difficulty: normal
   maxPlayers: 10
-  maxTickTime: -1
-  memory: 8192M
   gameMode: survival
-  hardcore: false
-  pvp: true
-  worldSaveName: pixelmon-world
-  onlineMode: false
-  rcon:
-    enabled: true
-  motd: "Welcome to Pixelmon on Kubernetes!"
   playerIdleTimeout: 10
   cheats: true
   enableLanVisibility: true
   defaultPermission: operator
-  enableSSH: true
   serviceType: LoadBalancer
-  overrideServerProperties: true
-  removeOldMods: true
+  onlineMode: false
+  texturepackRequired: true
+extraEnv:
+  SERVER_PORT_V6: "19139"
+initContainers:
+  - name: install-pokedrock
+    image: alpine:latest
+    securityContext:
+      runAsUser: 0
+      runAsNonRoot: false
+    command:
+      - /bin/sh
+      - -c
+      - |
+        set -e
+        apk add --no-cache curl unzip jq
 
-tolerations:
-  - key: "node-role.kubernetes.io/control-plane"
-    operator: "Exists"
-    effect: "NoSchedule"
+        ADDON_URL="https://edge.forgecdn.net/files/7358/835/SERPpokedrock.mcaddon"
+        DATA_DIR="/data"
+        LEVEL_NAME="Pixelmon"
 
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: "node-role.kubernetes.io/control-plane"
-              operator: "Exists"
+        # Skip if already installed
+        if [ -f "$DATA_DIR/.serp-pokedrock-v1.29.1" ]; then
+          echo "SERP Pokedrock v1.29.1 already installed, skipping..."
+          exit 0
+        fi
 
-resources:
-  requests:
-    memory: 8Gi
-    cpu: 2
-  limits:
-    memory: 10Gi
+        # Download the addon
+        echo "Downloading SERP Pokedrock addon..."
+        curl -L -o /tmp/addon.mcaddon "$ADDON_URL"
 
+        # Extract (mcaddon is a renamed zip)
+        echo "Extracting addon..."
+        mkdir -p /tmp/addon
+        unzip -o /tmp/addon.mcaddon -d /tmp/addon
+
+        # Initialize pack activation files
+        echo "[]" > /tmp/bp.json
+        echo "[]" > /tmp/rp.json
+
+        # Process each manifest.json to find behavior and resource packs
+        find /tmp/addon -name "manifest.json" -type f | while IFS= read -r manifest; do
+          PACK_DIR="$(dirname "$manifest")"
+          PACK_TYPE="$(jq -r '.modules[0].type' "$manifest")"
+          PACK_UUID="$(jq -r '.header.uuid' "$manifest")"
+          PACK_VERSION="$(jq -c '.header.version' "$manifest")"
+          PACK_NAME="$(basename "$PACK_DIR")"
+
+          echo "Found pack: $PACK_NAME (type: $PACK_TYPE, uuid: $PACK_UUID)"
+
+          if [ "$PACK_TYPE" = "data" ] || [ "$PACK_TYPE" = "script" ]; then
+            echo "Installing behavior pack: $PACK_NAME"
+            mkdir -p "$DATA_DIR/behavior_packs"
+            cp -r "$PACK_DIR" "$DATA_DIR/behavior_packs/$PACK_NAME"
+            jq --arg uuid "$PACK_UUID" --argjson ver "$PACK_VERSION" \
+              '. + [{"pack_id": $uuid, "version": $ver}]' /tmp/bp.json > /tmp/bp_new.json
+            mv /tmp/bp_new.json /tmp/bp.json
+          elif [ "$PACK_TYPE" = "resources" ]; then
+            echo "Installing resource pack: $PACK_NAME"
+            mkdir -p "$DATA_DIR/resource_packs"
+            cp -r "$PACK_DIR" "$DATA_DIR/resource_packs/$PACK_NAME"
+            jq --arg uuid "$PACK_UUID" --argjson ver "$PACK_VERSION" \
+              '. + [{"pack_id": $uuid, "version": $ver}]' /tmp/rp.json > /tmp/rp_new.json
+            mv /tmp/rp_new.json /tmp/rp.json
+          fi
+        done
+
+        # Activate packs for the world
+        mkdir -p "$DATA_DIR/worlds/$LEVEL_NAME"
+        cp /tmp/bp.json "$DATA_DIR/worlds/$LEVEL_NAME/world_behavior_packs.json"
+        cp /tmp/rp.json "$DATA_DIR/worlds/$LEVEL_NAME/world_resource_packs.json"
+
+        echo "=== Installed behavior packs ==="
+        cat "$DATA_DIR/worlds/$LEVEL_NAME/world_behavior_packs.json"
+        echo "=== Installed resource packs ==="
+        cat "$DATA_DIR/worlds/$LEVEL_NAME/world_resource_packs.json"
+
+        # Mark as installed
+        touch "$DATA_DIR/.serp-pokedrock-v1.29.1"
+        echo "SERP Pokedrock addon installation complete!"
+    volumeMounts:
+      - name: datadir
+        mountPath: /data
+startupProbe:
+  enabled: true
+  failureThreshold: 60
+  periodSeconds: 10
+livenessProbe:
+  initialDelaySeconds: 60
+readinessProbe:
+  initialDelaySeconds: 60
 persistence:
   dataDir:
     enabled: true
     existingClaim: minecraft-pixelmon-ceph
-
-podSecurityContext:
-  fsGroup: 1000
-  seccompProfile:
-    type: RuntimeDefault
-
-securityContext:
-  allowPrivilegeEscalation: false
-  capabilities:
-    drop:
-      - ALL

@@ -9,8 +9,8 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: minecraft
-      version: 5.1.2
+      chart: minecraft-bedrock
+      version: 2.9.0
       sourceRef:
         kind: HelmRepository
         name: minecraft-server-charts
@@ -21,8 +21,10 @@ spec:
     replace: true
     crds: CreateReplace
     createNamespace: true
+    remediation:
+      retries: 3
   upgrade:
-    timeout: 15m
+    timeout: 10m
     remediation:
       remediateLastFailure: true
       retries: 3
@@ -51,75 +53,8 @@ spec:
           - target:
               version: v1
               kind: Deployment
-              name: minecraft-pixelmon
+              name: minecraft-pixelmon-minecraft-bedrock
             patch: |
               - op: add
                 path: /spec/template/spec/hostNetwork
                 value: true
-              - op: add
-                path: /spec/template/spec/dnsPolicy
-                value: ClusterFirstWithHostNet
-              - op: add
-                path: /spec/template/spec/volumes/-
-                value:
-                  name: geyser-config
-                  configMap:
-                    name: geysermc-pixelmon-config
-              - op: add
-                path: /spec/template/spec/volumes/-
-                value:
-                  name: geyser-data
-                  emptyDir: {}
-              - op: add
-                path: /spec/template/spec/initContainers
-                value:
-                  - name: download-geyser
-                    image: curlimages/curl:latest
-                    command:
-                      - /bin/sh
-                      - -c
-                      - |
-                        curl -sL -o /geyser/Geyser.jar \
-                          https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/standalone
-                        cp /geyser-cfg/config.yml /geyser/config.yml
-                        echo "Geyser downloaded and config copied successfully"
-                    volumeMounts:
-                      - name: geyser-data
-                        mountPath: /geyser
-                      - name: geyser-config
-                        mountPath: /geyser-cfg
-              - op: add
-                path: /spec/template/spec/containers/-
-                value:
-                  name: geyser-standalone
-                  image: eclipse-temurin:21.0.10_7-jre
-                  command:
-                    - /bin/sh
-                    - -c
-                    - |
-                      cd /geyser && exec java -Xmx512m -jar Geyser.jar
-                  ports:
-                    - containerPort: 19132
-                      protocol: UDP
-                      name: geysermc
-                  volumeMounts:
-                    - name: geyser-data
-                      mountPath: /geyser
-                  resources:
-                    requests:
-                      memory: 512Mi
-                      cpu: 250m
-                    limits:
-                      memory: 768Mi
-          - target:
-              version: v1
-              kind: Service
-              name: minecraft-pixelmon
-            patch: |
-              - op: add
-                path: /spec/ports/-
-                value:
-                  name: geysermc
-                  port: 19132
-                  targetPort: 19132
-                  protocol: UDP
