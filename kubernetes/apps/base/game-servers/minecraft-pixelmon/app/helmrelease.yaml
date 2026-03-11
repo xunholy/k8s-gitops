@@ -68,6 +68,26 @@ spec:
                   configMap:
                     name: geysermc-pixelmon-config
               - op: add
+                path: /spec/template/spec/volumes/-
+                value:
+                  name: geyser-data
+                  emptyDir: {}
+              - op: add
+                path: /spec/template/spec/initContainers/-
+                value:
+                  name: download-geyser
+                  image: curlimages/curl:latest
+                  command:
+                    - /bin/sh
+                    - -c
+                    - |
+                      curl -sL -o /geyser/Geyser.jar \
+                        https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/standalone
+                      echo "Geyser downloaded successfully"
+                  volumeMounts:
+                    - name: geyser-data
+                      mountPath: /geyser
+              - op: add
                 path: /spec/template/spec/containers/-
                 value:
                   name: geyser-standalone
@@ -76,9 +96,6 @@ spec:
                     - /bin/sh
                     - -c
                     - |
-                      apt-get update -qq && apt-get install -y -qq curl >/dev/null 2>&1
-                      curl -sL -o /geyser/Geyser.jar \
-                        https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/standalone
                       cd /geyser && exec java -Xmx512m -jar Geyser.jar
                   ports:
                     - containerPort: 19132
@@ -88,6 +105,8 @@ spec:
                     - name: geyser-config
                       mountPath: /geyser/config.yml
                       subPath: config.yml
+                    - name: geyser-data
+                      mountPath: /geyser
                   resources:
                     requests:
                       memory: 512Mi
