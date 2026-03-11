@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: geysermc-pixelmon-config
+  namespace: game-servers
+data:
+  config.yml: |
+    bedrock:
+      port: 19132
+      motd1: "Pixelmon"
+      motd2: "Catch 'em all on Kubernetes!"
+      server-name: "Pixelmon Server"
+      compression-level: 6
+      enable-proxy-protocol: false
+    remote:
+      address: 127.0.0.1
+      port: 25565
+      auth-type: offline
+      use-proxy-protocol: false
+      forward-hostname: false
+    floodgate-key-file: key.pem
+    saved-user-logins:
+      - ThisExampleUsernameShouldBeLongEnoughToNeverBeAnXboxUsername
+    pending-authentication-timeout: 120
+    command-suggestions: true
+    passthrough-motd: true
+    passthrough-player-counts: true
+    legacy-ping-passthrough: false
+    ping-passthrough-interval: 3
+    forward-player-ping: false
+    max-players: 100
+    debug-mode: false
+    show-cooldown: title
+    show-coordinates: true
+    disable-bedrock-scaffolding: false
+    emote-offhand-workaround: "disabled"
+    cache-images: 0
+    allow-custom-skulls: true
+    max-visible-custom-skulls: 128
+    custom-skull-render-distance: 32
+    add-non-bedrock-items: true
+    above-bedrock-nether-building: false
+    force-resource-packs: true
+    xbox-achievements-enabled: false
+    log-player-ip-addresses: true
+    notify-on-new-bedrock-update: true
+    unusable-space-block: minecraft:barrier
+    metrics:
+      enabled: true
+      uuid: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+    scoreboard-packet-threshold: 20
+    enable-proxy-connections: false
+    mtu: 1400
+    use-direct-connection: false
+    disable-compression: false
+    config-version: 4
