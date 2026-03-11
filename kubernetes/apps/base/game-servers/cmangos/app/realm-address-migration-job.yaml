@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-realm-address-migration-sql
+  namespace: game-servers
+data:
+  realmd.sql: |
+    UPDATE realmlist
+    SET address = '${CLUSTER_LB_ENVOY_EXT_GATEWAY_API}'
+    WHERE id = 1;
+    SELECT id, name, address, port FROM realmlist WHERE id = 1;
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-realm-address-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:11.8
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Updating realm address to external gateway IP ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicrealmd < /sql/realmd.sql
+              echo "=== Realm address migration complete ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-realm-address-migration-sql

@@ -2,7 +2,7 @@
 extraEnv:
   TZ: "Australia/Melbourne"
   MODRINTH_PROJECTS: "pixelmon"
-  MODRINTH_DEFAULT_VERSION_TYPE: "beta"
+  MODRINTH_PROJECTS_DEFAULT_VERSION_TYPE: "beta"
 
 minecraftServer:
   serverName: Wildfire Pixelmon Server
