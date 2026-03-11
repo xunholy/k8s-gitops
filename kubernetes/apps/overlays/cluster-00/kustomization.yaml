@@ -39,7 +39,6 @@ resources:
   - ../../base/harbor/harbor/ks.yaml
   - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/game-servers/minecraft/ks.yaml
-  # - ../../base/game-servers/minecraft-ketting/ks.yaml
   - ../../base/game-servers/minecraft-witherstorm/ks.yaml
   - ../../base/game-servers/minecraft-bedrock/ks.yaml
   - ../../base/game-servers/minecraft-bedrock-broadcaster/ks.yaml
@@ -47,6 +46,7 @@ resources:
   - ../../base/game-servers/minecraft-rcon-web/ks.yaml
   # - ../../base/game-servers/minecraft-router/ks.yaml
   - ../../base/game-servers/cmangos-registration/ks.yaml
+  - ../../base/game-servers/minecraft-pixelmon/ks.yaml
   - ../../base/game-servers/cmangos/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/bazarr/ks.yaml

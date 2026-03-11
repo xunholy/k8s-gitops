@@ -1,0 +1,65 @@
+---
+extraEnv:
+  TZ: "Australia/Melbourne"
+  MODRINTH_PROJECTS: "pixelmon"
+
+minecraftServer:
+  serverName: Wildfire Pixelmon Server
+  eula: "TRUE"
+  type: FORGE
+  version: "1.20.2"
+  maxPlayers: 10
+  maxTickTime: -1
+  memory: 8192M
+  gameMode: survival
+  hardcore: false
+  pvp: true
+  worldSaveName: pixelmon-world
+  onlineMode: false
+  rcon:
+    enabled: true
+  motd: "Welcome to Pixelmon on Kubernetes!"
+  playerIdleTimeout: 10
+  cheats: true
+  enableLanVisibility: true
+  defaultPermission: operator
+  enableSSH: true
+  serviceType: LoadBalancer
+  overrideServerProperties: true
+  removeOldMods: true
+
+tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: "node-role.kubernetes.io/control-plane"
+              operator: "Exists"
+
+resources:
+  requests:
+    memory: 8Gi
+    cpu: 2
+  limits:
+    memory: 10Gi
+
+persistence:
+  dataDir:
+    enabled: true
+    existingClaim: minecraft-pixelmon-ceph
+
+podSecurityContext:
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
