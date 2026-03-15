@@ -9,7 +9,10 @@ data:
       "gateway": {
         "port": 18789,
         "mode": "local",
-        "bind": "lan"
+        "bind": "lan",
+        "controlUi": {
+          "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"]
+        }
       },
       "browser": {
         "enabled": true
