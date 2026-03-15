@@ -184,8 +184,8 @@ data:
     (11643, 2),  -- Lesser Arcanum of Tenacity (+125 Armor)
     (11644, 2),  -- Lesser Arcanum of Resilience (+20 Fire Resist)
     (11645, 2),  -- Lesser Arcanum of Voracity (+8 Str)
-    (11646, 2),  -- Lesser Arcanum of Voracity (+8 Stam)
-    (11647, 2),  -- Lesser Arcanum of Voracity (+8 Agi)
+    (11646, 2),  -- Lesser Arcanum of Voracity (+8 Agi)
+    (11647, 2),  -- Lesser Arcanum of Voracity (+8 Stam)
     (11648, 2),  -- Lesser Arcanum of Voracity (+8 Int)
     (11649, 2),  -- Lesser Arcanum of Voracity (+8 Spi)
     -- Head/Leg Enchants (Arcanums - Dire Maul)
@@ -340,8 +340,15 @@ data:
     WHERE `entry` IN (23545, 23547, 23548, 23549);
 
     -- ============================================================
-    -- Restore original prices if backup table exists, then drop it
+    -- Restore original prices if previously zeroed, then drop backup
     -- ============================================================
+    SET @tbl_exists = (SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = 'custom_twinkmaster_original_prices');
+    SET @restore_sql = IF(@tbl_exists > 0,
+      'UPDATE `item_template` it JOIN `custom_twinkmaster_original_prices` op ON it.`entry` = op.`entry` SET it.`BuyPrice` = op.`original_buy_price`, it.`SellPrice` = op.`original_sell_price` WHERE it.`BuyPrice` = 0 AND op.`original_buy_price` > 0',
+      'SELECT 1');
+    PREPARE stmt FROM @restore_sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
     DROP TABLE IF EXISTS `custom_twinkmaster_original_prices`;
 
     -- ============================================================

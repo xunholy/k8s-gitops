@@ -244,7 +244,7 @@ spec:
             AllowTwoSide.Interaction.Chat = 1
             AllowTwoSide.Interaction.Channel = 1
             MailDeliveryDelay = 0
-            StartPlayerMoney = 10000
+            StartPlayerMoney = 100000
             SkillGain.Crafting = 3
             SkillGain.Gathering = 3
             SkillGain.Defense = 3
