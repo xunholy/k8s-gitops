@@ -8,7 +8,8 @@ data:
     {
       "gateway": {
         "port": 18789,
-        "mode": "remote"
+        "mode": "local",
+        "bind": "lan"
       },
       "browser": {
         "enabled": true
