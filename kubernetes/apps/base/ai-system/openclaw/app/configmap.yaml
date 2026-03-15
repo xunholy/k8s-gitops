@@ -11,7 +11,8 @@ data:
         "mode": "local",
         "bind": "lan",
         "controlUi": {
-          "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"]
+          "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"],
+          "dangerouslyDisableDeviceAuth": true
         }
       },
       "browser": {
