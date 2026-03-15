@@ -11,7 +11,7 @@ data:
         "mode": "local"
       },
       "browser": {
-        "enabled": false
+        "enabled": true
       },
       "agents": {
         "defaults": {
