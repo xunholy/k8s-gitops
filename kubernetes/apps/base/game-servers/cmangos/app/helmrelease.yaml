@@ -96,7 +96,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: e2aebf66bea39f27eb75019b67efbe43987455d7
+              tag: e2f25acd6fedfe3c3e367c46392097a3e07faf69
             args: ["realmd"]
             env:
               TZ: Australia/Melbourne
@@ -151,7 +151,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: e2aebf66bea39f27eb75019b67efbe43987455d7
+              tag: e2f25acd6fedfe3c3e367c46392097a3e07faf69
             args: ["mangosd"]
             tty: true
             stdin: true
