@@ -6,8 +6,6 @@ metadata:
   name: openclaw
   namespace: ai-system
 spec:
-  decryption:
-    provider: sops
   interval: 30m
   retryInterval: 1m
   timeout: 3m
@@ -19,6 +17,8 @@ spec:
     name: flux-system
     namespace: flux-system
   dependsOn:
+    - name: external-secrets
+      namespace: external-secrets
     - name: rook-ceph-cluster
       namespace: rook-ceph
   targetNamespace: ai-system
