@@ -96,7 +96,7 @@ instance:
       - patch: |-
           - op: add
             path: /spec/template/spec/containers/0/args/-
-            value: --feature-gates=OOMWatch=true
+            value: --feature-gates=OOMWatch=true,DefaultToRetryOnFailure=true
           - op: add
             path: /spec/template/spec/containers/0/args/-
             value: --oom-watch-memory-threshold=95
