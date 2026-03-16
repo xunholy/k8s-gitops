@@ -10,9 +10,11 @@ data:
         "port": 18789,
         "mode": "local",
         "bind": "lan",
+        "auth": {
+          "mode": "token"
+        },
         "controlUi": {
-          "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"],
-          "dangerouslyDisableDeviceAuth": true
+          "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"]
         }
       },
       "browser": {
