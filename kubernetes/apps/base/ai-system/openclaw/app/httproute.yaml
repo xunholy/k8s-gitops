@@ -7,6 +7,9 @@ metadata:
   namespace: ai-system
 spec:
   parentRefs:
+    - name: envoy-external
+      namespace: network-system
+      sectionName: https
     - name: envoy-internal
       namespace: network-system
       sectionName: https
