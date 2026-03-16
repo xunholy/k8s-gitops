@@ -11,7 +11,7 @@ data:
         "mode": "local",
         "bind": "lan",
         "auth": {
-          "mode": "token"
+          "mode": "password"
         },
         "controlUi": {
           "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"]
