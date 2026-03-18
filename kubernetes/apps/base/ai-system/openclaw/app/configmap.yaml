@@ -24,7 +24,10 @@ data:
         "defaults": {
           "workspace": "/home/node/.openclaw/workspace",
           "model": {
-            "primary": "anthropic/claude-sonnet-4-20250514"
+            "primary": "openai/gpt-4o",
+            "fallbacks": [
+              "anthropic/claude-sonnet-4-20250514"
+            ]
           },
           "userTimezone": "UTC",
           "timeoutSeconds": 600,
