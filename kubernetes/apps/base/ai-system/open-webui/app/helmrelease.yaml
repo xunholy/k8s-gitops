@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: open-webui
-      version: 6.11.0
+      version: 12.10.0
       sourceRef:
         kind: HelmRepository
         name: open-webui-charts
@@ -42,6 +42,8 @@ spec:
     ollama:
       enabled: false
     pipelines:
+      enabled: false
+    websocket:
       enabled: false
     ollamaUrls:
       - "http://ollama.ai-system.svc.cluster.local:11434"

@@ -79,7 +79,7 @@
     {
       description: "kagent Group",
       groupName: "kagent",
-      matchDatasources: ["helm"],
+      matchDatasources: ["docker", "helm"],
       matchPackagePatterns: ["kagent", "kagent-crds"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
@@ -121,6 +121,16 @@
         commitMessageTopic: "{{{groupName}}} group",
       },
       minimumGroupSize: 5,
+    },
+    {
+      description: "Open WebUI Group",
+      groupName: "Open WebUI",
+      matchDatasources: ["helm"],
+      matchPackageNames: ["open-webui"],
+      separateMajorMinor: false,
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
     },
     {
       description: "1Password Connect Group",
