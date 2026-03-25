@@ -78,7 +78,7 @@ spec:
                 spec:
                   httpGet:
                     path: /healthz
-                    port: http
+                    port: 18789
                   initialDelaySeconds: 5
                   periodSeconds: 5
                   failureThreshold: 30
@@ -88,7 +88,7 @@ spec:
                 spec:
                   httpGet:
                     path: /readyz
-                    port: http
+                    port: 18789
                   periodSeconds: 10
                   failureThreshold: 3
               liveness:
@@ -97,7 +97,7 @@ spec:
                 spec:
                   httpGet:
                     path: /healthz
-                    port: http
+                    port: 18789
                   periodSeconds: 30
                   failureThreshold: 5
             resources:
@@ -128,9 +128,8 @@ spec:
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /health
-                    port: 3456
+                  exec:
+                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"]
                   initialDelaySeconds: 10
                   periodSeconds: 5
                   failureThreshold: 30
@@ -138,18 +137,16 @@ spec:
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /health
-                    port: 3456
+                  exec:
+                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"]
                   periodSeconds: 10
                   failureThreshold: 3
               liveness:
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /health
-                    port: 3456
+                  exec:
+                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"]
                   periodSeconds: 30
                   failureThreshold: 5
             resources:
