@@ -84,14 +84,17 @@ spec:
                 memory: 4Gi
           claude-max-api:
             image:
-              repository: ghcr.io/anthropics/claude-code
-              tag: latest
-            command: ["claude-max-api"]
+              repository: node
+              tag: 20-slim
+            command: ["npx"]
+            args:
+              - --yes
+              - claude-max-api-proxy@1.0.0
             env:
               HOME: /home/node
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
