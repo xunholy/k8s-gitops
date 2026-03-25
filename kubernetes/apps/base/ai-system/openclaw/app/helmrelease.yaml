@@ -74,6 +74,7 @@ spec:
             probes:
               startup:
                 enabled: true
+                custom: true
                 spec:
                   httpGet:
                     path: /healthz
@@ -83,6 +84,7 @@ spec:
                   failureThreshold: 30
               readiness:
                 enabled: true
+                custom: true
                 spec:
                   httpGet:
                     path: /readyz
@@ -91,6 +93,7 @@ spec:
                   failureThreshold: 3
               liveness:
                 enabled: true
+                custom: true
                 spec:
                   httpGet:
                     path: /healthz
@@ -123,6 +126,7 @@ spec:
             probes:
               startup:
                 enabled: true
+                custom: true
                 spec:
                   httpGet:
                     path: /health
@@ -132,6 +136,7 @@ spec:
                   failureThreshold: 30
               readiness:
                 enabled: true
+                custom: true
                 spec:
                   httpGet:
                     path: /health
@@ -140,6 +145,7 @@ spec:
                   failureThreshold: 3
               liveness:
                 enabled: true
+                custom: true
                 spec:
                   httpGet:
                     path: /health
