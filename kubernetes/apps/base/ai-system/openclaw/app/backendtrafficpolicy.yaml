@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: openclaw
+  namespace: ai-system
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: openclaw
+  timeout:
+    http:
+      requestTimeout: "0s"
+      idleTimeout: "0s"
+  tcpKeepalive:
+    probes: 3
+    idleTime: 60s
+    interval: 30s
