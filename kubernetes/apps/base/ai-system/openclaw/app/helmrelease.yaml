@@ -85,7 +85,7 @@ spec:
                 enabled: true
                 spec:
                   httpGet:
-                    path: /healthz
+                    path: /readyz
                     port: http
                   periodSeconds: 10
                   failureThreshold: 3

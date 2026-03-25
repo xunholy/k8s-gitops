@@ -13,6 +13,7 @@ data:
         "auth": {
           "mode": "password"
         },
+        "trustedProxies": ["10.244.0.0/16"],
         "controlUi": {
           "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"]
         }
@@ -35,7 +36,14 @@ data:
           },
           "userTimezone": "UTC",
           "timeoutSeconds": 600,
-          "maxConcurrent": 3
+          "maxConcurrent": 3,
+          "contextPruning": {
+            "mode": "cache-ttl",
+            "ttl": "1h",
+            "keepLastAssistants": 3,
+            "softTrimRatio": 0.3,
+            "hardClearRatio": 0.5
+          }
         },
         "list": [
           {
@@ -53,6 +61,14 @@ data:
         "reset": {
           "mode": "idle",
           "idleMinutes": 60
+        },
+        "maintenance": {
+          "mode": "enforce",
+          "pruneAfter": "30d",
+          "maxEntries": 500,
+          "rotateBytes": "10mb",
+          "maxDiskBytes": "2gb",
+          "highWaterBytes": "1.6gb"
         }
       },
       "logging": {
@@ -61,11 +77,17 @@ data:
         "consoleStyle": "compact",
         "redactSensitive": "tools"
       },
+      "cron": {
+        "enabled": true,
+        "maxConcurrentRuns": 2,
+        "sessionRetention": "24h"
+      },
       "tools": {
         "profile": "full",
         "web": {
           "search": {
-            "enabled": false
+            "enabled": true,
+            "provider": "duckduckgo"
           },
           "fetch": {
             "enabled": true
