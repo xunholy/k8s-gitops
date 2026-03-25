@@ -50,12 +50,55 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
+            probes:
+              startup:
+                enabled: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: http
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                  failureThreshold: 30
+              readiness:
+                enabled: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: http
+                  periodSeconds: 10
+                  failureThreshold: 3
+              liveness:
+                enabled: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: http
+                  periodSeconds: 30
+                  failureThreshold: 5
             resources:
               requests:
                 cpu: 200m
-                memory: 512Mi
+                memory: 1Gi
               limits:
-                memory: 2Gi
+                memory: 4Gi
+          claude-max-api:
+            image:
+              repository: ghcr.io/anthropics/claude-code
+              tag: latest
+            command: ["claude-max-api"]
+            env:
+              HOME: /home/node
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -82,6 +125,14 @@ spec:
           - path: /home/node/.openclaw/openclaw.json
             subPath: openclaw.json
             readOnly: true
+      claude-auth:
+        type: secret
+        name: openclaw-claude-auth
+        advancedMounts:
+          *app :
+            claude-max-api:
+              - path: /home/node/.claude
+                readOnly: true
       tmp:
         type: emptyDir
         globalMounts:

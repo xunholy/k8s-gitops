@@ -20,3 +20,6 @@ spec:
         - name: openclaw
           port: 18789
           weight: 100
+      timeouts:
+        request: 600s
+        backendRequest: 600s
