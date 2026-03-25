@@ -12,7 +12,8 @@ spec:
   timeout:
     http:
       requestTimeout: "0s"
-      idleTimeout: "0s"
+      connectionIdleTimeout: "0s"
+      maxStreamDuration: "0s"
   tcpKeepalive:
     probes: 3
     idleTime: 60s
