@@ -127,7 +127,10 @@ spec:
             readOnly: true
       claude-auth:
         type: secret
-        name: openclaw-claude-auth
+        name: openclaw-secret
+        items:
+          - key: .credentials.json
+            path: .credentials.json
         advancedMounts:
           *app :
             claude-max-api:
