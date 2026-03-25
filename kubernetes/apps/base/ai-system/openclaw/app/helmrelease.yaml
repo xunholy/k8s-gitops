@@ -36,6 +36,27 @@ spec:
   values:
     controllers:
       *app :
+        initContainers:
+          install-proxy:
+            image:
+              repository: node
+              tag: 22-slim
+            command: ["/bin/sh"]
+            args:
+              - "-c"
+              - |
+                export NPM_CONFIG_PREFIX=/opt/proxy
+                npm install -g claude-max-api-proxy@1.0.0 @anthropic-ai/claude-code@2.1.83
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 200m
+                memory: 512Mi
+              limits:
+                memory: 1Gi
         containers:
           app:
             image:
@@ -85,23 +106,52 @@ spec:
           claude-max-api:
             image:
               repository: node
-              tag: 20-slim
-            command: ["npx"]
+              tag: 22-slim
+            command: ["/bin/sh"]
             args:
-              - --yes
-              - claude-max-api-proxy@1.0.0
+              - "-c"
+              - |
+                export NPM_CONFIG_PREFIX=/opt/proxy
+                export PATH=/opt/proxy/bin:$PATH
+                exec node /opt/proxy/lib/node_modules/claude-max-api-proxy/dist/server/standalone.js
             env:
               HOME: /home/node
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
+              readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
+            probes:
+              startup:
+                enabled: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 3456
+                  initialDelaySeconds: 10
+                  periodSeconds: 5
+                  failureThreshold: 30
+              readiness:
+                enabled: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 3456
+                  periodSeconds: 10
+                  failureThreshold: 3
+              liveness:
+                enabled: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 3456
+                  periodSeconds: 30
+                  failureThreshold: 5
             resources:
               requests:
                 cpu: 100m
                 memory: 256Mi
               limits:
-                memory: 512Mi
+                memory: 1Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -139,6 +189,21 @@ spec:
             claude-max-api:
               - path: /home/node/.claude
                 readOnly: true
+      proxy-install:
+        type: emptyDir
+        advancedMounts:
+          *app :
+            install-proxy:
+              - path: /opt/proxy
+            claude-max-api:
+              - path: /opt/proxy
+                readOnly: true
+      npm-cache:
+        type: emptyDir
+        advancedMounts:
+          *app :
+            install-proxy:
+              - path: /home/node/.npm
       tmp:
         type: emptyDir
         globalMounts:
