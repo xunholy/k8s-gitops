@@ -11,7 +11,7 @@ data:
         "mode": "local",
         "bind": "lan",
         "auth": {
-          "mode": "none"
+          "mode": "password"
         },
         "trustedProxies": ["10.244.0.0/16"],
         "controlUi": {
