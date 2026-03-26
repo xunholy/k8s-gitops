@@ -190,33 +190,16 @@ spec:
         seccompProfile: { type: RuntimeDefault }
     service:
       app:
+        type: LoadBalancer
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: 'openclaw.${CLUSTER_DOMAIN}'
+          lbipam.cilium.io/ips: '${CLUSTER_LB_OPENCLAW}'
         controller: *app
         ports:
           http:
             port: 18789
           codeserver:
             port: 12321
-    route:
-      app:
-        hostnames:
-          - 'openclaw.${CLUSTER_DOMAIN}'
-        parentRefs:
-          - name: envoy-internal
-            namespace: network-system
-        rules:
-          - backendRefs:
-              - name: openclaw
-                port: 18789
-      codeserver:
-        hostnames:
-          - 'openclaw-code.${CLUSTER_DOMAIN}'
-        parentRefs:
-          - name: envoy-internal
-            namespace: network-system
-        rules:
-          - backendRefs:
-              - name: openclaw
-                port: 12321
     persistence:
       data:
         existingClaim: openclaw-data

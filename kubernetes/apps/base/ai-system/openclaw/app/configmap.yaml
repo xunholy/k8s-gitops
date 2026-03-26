@@ -13,9 +13,8 @@ data:
         "auth": {
           "mode": "token"
         },
-        "trustedProxies": ["10.244.0.0/16"],
         "controlUi": {
-          "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"],
+          "allowedOrigins": ["http://openclaw.${CLUSTER_DOMAIN}"],
           "dangerouslyDisableDeviceAuth": true
         }
       },
