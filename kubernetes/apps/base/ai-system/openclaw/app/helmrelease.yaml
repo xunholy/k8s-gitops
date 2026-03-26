@@ -62,6 +62,11 @@ spec:
             image:
               repository: ghcr.io/openclaw/openclaw
               tag: 2026.3.24
+            command: ["/bin/sh"]
+            args:
+              - "-c"
+              - |
+                exec node dist/index.js gateway --bind lan
             env:
               TZ: Australia/Melbourne
               OPENAI_BASE_URL: http://localhost:3456/v1
@@ -179,7 +184,7 @@ spec:
         type: configMap
         name: openclaw-config
         globalMounts:
-          - path: /home/node/.openclaw/openclaw.json
+          - path: /home/node/.openclaw/openclaw-main.json
             subPath: openclaw.json
             readOnly: true
       claude-auth:
