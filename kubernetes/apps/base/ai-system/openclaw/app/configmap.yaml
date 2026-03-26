@@ -8,17 +8,11 @@ data:
     {
       "gateway": {
         "port": 18789,
-        "mode": "local",
         "bind": "lan",
         "auth": {
           "mode": "token"
         },
-        "trustedProxies": ["10.244.0.0/16"],
-        "controlUi": {
-          "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"],
-          "allowInsecureAuth": true,
-          "dangerouslyDisableDeviceAuth": true
-        }
+        "trustedProxies": ["10.244.0.0/16"]
       },
       "browser": {
         "enabled": true
