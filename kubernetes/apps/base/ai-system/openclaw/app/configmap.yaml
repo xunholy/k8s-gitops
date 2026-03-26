@@ -11,11 +11,12 @@ data:
         "mode": "local",
         "bind": "lan",
         "auth": {
-          "mode": "password"
+          "mode": "token"
         },
         "trustedProxies": ["10.244.0.0/16"],
         "controlUi": {
-          "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"]
+          "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"],
+          "dangerouslyDisableDeviceAuth": true
         }
       },
       "browser": {
