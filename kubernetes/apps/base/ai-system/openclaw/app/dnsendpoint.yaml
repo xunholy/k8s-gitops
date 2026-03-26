@@ -12,5 +12,5 @@ spec:
       targets:
         - '${CLUSTER_LB_OPENCLAW}'
       providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+        - name: external-dns/cloudflare-proxied
           value: "false"
