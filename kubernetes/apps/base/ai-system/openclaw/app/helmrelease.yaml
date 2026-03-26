@@ -161,6 +161,25 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 1Gi
+          codeserver:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.112.0
+            args:
+              - "--auth"
+              - "none"
+              - "--user-data-dir"
+              - "/home/node/.vscode"
+              - "--extensions-dir"
+              - "/home/node/.vscode"
+              - "--port"
+              - "12321"
+              - "/home/node/.openclaw/workspace"
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 1Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -175,6 +194,8 @@ spec:
         ports:
           http:
             port: 18789
+          codeserver:
+            port: 12321
     route:
       app:
         hostnames:
@@ -186,6 +207,16 @@ spec:
           - backendRefs:
               - name: openclaw
                 port: 18789
+      codeserver:
+        hostnames:
+          - 'openclaw-code.${CLUSTER_DOMAIN}'
+        parentRefs:
+          - name: envoy-internal
+            namespace: network-system
+        rules:
+          - backendRefs:
+              - name: openclaw
+                port: 12321
     persistence:
       data:
         existingClaim: openclaw-data
