@@ -8,3 +8,4 @@ resources:
   - externalsecret.yaml
   - pvc.yaml
   - configmap.yaml
+  - backendtrafficpolicy.yaml
