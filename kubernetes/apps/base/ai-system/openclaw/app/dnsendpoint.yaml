@@ -5,10 +5,12 @@ metadata:
   name: openclaw
   annotations:
     external-dns.alpha.kubernetes.io/external: "true"
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   endpoints:
     - dnsName: 'openclaw.${CLUSTER_DOMAIN}'
       recordType: A
       targets:
         - '${CLUSTER_LB_OPENCLAW}'
+      providerSpecific:
+        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+          value: "false"
