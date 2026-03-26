@@ -170,7 +170,6 @@ spec:
         ports:
           http:
             port: 18789
-            appProtocol: kubernetes.io/ws
     persistence:
       data:
         existingClaim: openclaw-data
