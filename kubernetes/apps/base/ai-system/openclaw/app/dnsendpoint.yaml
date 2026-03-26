@@ -11,6 +11,3 @@ spec:
       recordType: A
       targets:
         - '${CLUSTER_LB_OPENCLAW}'
-      providerSpecific:
-        - name: external-dns/cloudflare-proxied
-          value: "false"
