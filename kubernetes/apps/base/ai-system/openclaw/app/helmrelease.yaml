@@ -192,7 +192,6 @@ spec:
       app:
         type: LoadBalancer
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: 'openclaw.${CLUSTER_DOMAIN}'
           lbipam.cilium.io/ips: '${CLUSTER_LB_OPENCLAW}'
         controller: *app
         ports:
