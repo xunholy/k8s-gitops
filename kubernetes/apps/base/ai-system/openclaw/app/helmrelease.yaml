@@ -40,7 +40,7 @@ spec:
           install-proxy:
             image:
               repository: node
-              tag: 22-slim
+              tag: 24-slim
             command: ["/bin/sh"]
             args:
               - "-c"
@@ -115,7 +115,7 @@ spec:
           claude-max-api:
             image:
               repository: node
-              tag: 22-slim
+              tag: 24-slim
             command: ["/bin/sh"]
             args:
               - "-c"
