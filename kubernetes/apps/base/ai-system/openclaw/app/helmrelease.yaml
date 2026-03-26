@@ -175,6 +175,17 @@ spec:
         ports:
           http:
             port: 18789
+    route:
+      app:
+        hostnames:
+          - 'openclaw.${CLUSTER_DOMAIN}'
+        parentRefs:
+          - name: envoy-internal
+            namespace: network-system
+        rules:
+          - backendRefs:
+              - name: openclaw
+                port: 18789
     persistence:
       data:
         existingClaim: openclaw-data
