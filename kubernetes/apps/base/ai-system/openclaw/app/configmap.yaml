@@ -16,7 +16,7 @@ data:
         "trustedProxies": ["10.244.0.0/16"],
         "controlUi": {
           "allowedOrigins": ["https://openclaw.${CLUSTER_DOMAIN}"],
-          "dangerouslyDisableDeviceAuth": true
+          "allowInsecureAuth": true
         }
       },
       "browser": {
