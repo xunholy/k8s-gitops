@@ -184,9 +184,8 @@ spec:
         type: configMap
         name: openclaw-config
         globalMounts:
-          - path: /home/node/.openclaw/openclaw-main.json
+          - path: /home/node/.openclaw/openclaw.json
             subPath: openclaw.json
-            readOnly: true
       claude-auth:
         type: secret
         name: openclaw-secret
