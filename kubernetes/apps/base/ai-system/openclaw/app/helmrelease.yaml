@@ -190,9 +190,6 @@ spec:
         seccompProfile: { type: RuntimeDefault }
     service:
       app:
-        type: LoadBalancer
-        annotations:
-          lbipam.cilium.io/ips: '${CLUSTER_LB_OPENCLAW}'
         controller: *app
         ports:
           http:
