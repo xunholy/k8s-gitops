@@ -1,0 +1,175 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Flux HelmRelease Rollback"
+
+on:
+  repository_dispatch:
+    types:
+      - HelmRelease/*
+
+concurrency:
+  group: flux-rollback
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  rollback:
+    name: Create Revert PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
+        id: app-token
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Parse Flux Event
+        id: event
+        env:
+          PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+        run: |
+          INVOLVED_OBJECT=$(echo "$PAYLOAD" | jq -r '.involvedObject.name // empty')
+          NAMESPACE=$(echo "$PAYLOAD" | jq -r '.involvedObject.namespace // empty')
+          SEVERITY=$(echo "$PAYLOAD" | jq -r '.severity // empty')
+          MESSAGE=$(echo "$PAYLOAD" | jq -r '.message // empty')
+          REVISION=$(echo "$PAYLOAD" | jq -r '.metadata.revision // empty')
+
+          echo "helmrelease=$INVOLVED_OBJECT" >> "$GITHUB_OUTPUT"
+          echo "namespace=$NAMESPACE" >> "$GITHUB_OUTPUT"
+          echo "severity=$SEVERITY" >> "$GITHUB_OUTPUT"
+          echo "message=$MESSAGE" >> "$GITHUB_OUTPUT"
+          echo "revision=$REVISION" >> "$GITHUB_OUTPUT"
+
+          echo "::notice::HelmRelease $NAMESPACE/$INVOLVED_OBJECT failed: $MESSAGE"
+
+      - name: Find Renovate Commit to Revert
+        id: find-commit
+        env:
+          HELMRELEASE: ${{ steps.event.outputs.helmrelease }}
+          NAMESPACE: ${{ steps.event.outputs.namespace }}
+        run: |
+          # Find the most recent Renovate auto-merge commit that touched files
+          # related to this HelmRelease
+          COMMIT_SHA=$(git log --oneline --all --author="renovate" \
+            --grep="$HELMRELEASE" -1 --format="%H" -- 'kubernetes/')
+
+          if [ -z "$COMMIT_SHA" ]; then
+            # Fallback: search by path pattern for the HelmRelease name
+            COMMIT_SHA=$(git log --oneline --all --author="renovate" \
+              -1 --format="%H" -- "kubernetes/apps/base/**/$HELMRELEASE/**")
+          fi
+
+          if [ -z "$COMMIT_SHA" ]; then
+            echo "::warning::No Renovate commit found for HelmRelease $HELMRELEASE, skipping revert"
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          COMMIT_MSG=$(git log -1 --format="%s" "$COMMIT_SHA")
+          echo "sha=$COMMIT_SHA" >> "$GITHUB_OUTPUT"
+          echo "message=$COMMIT_MSG" >> "$GITHUB_OUTPUT"
+          echo "found=true" >> "$GITHUB_OUTPUT"
+
+          # Detect grouped Renovate commits
+          FILE_COUNT=$(git diff-tree --no-commit-id --name-only -r "$COMMIT_SHA" | wc -l)
+          if [ "$FILE_COUNT" -gt 3 ]; then
+            echo "grouped=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "grouped=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          echo "::notice::Found Renovate commit $COMMIT_SHA: $COMMIT_MSG (files changed: $FILE_COUNT)"
+
+      - name: Create Revert Branch
+        if: steps.find-commit.outputs.found == 'true'
+        id: revert
+        env:
+          COMMIT_SHA: ${{ steps.find-commit.outputs.sha }}
+          HELMRELEASE: ${{ steps.event.outputs.helmrelease }}
+        run: |
+          BRANCH="revert/flux-rollback-${HELMRELEASE}-$(date +%s)"
+          git checkout -b "$BRANCH"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if ! git revert --no-edit "$COMMIT_SHA"; then
+            echo "::error::Failed to revert commit $COMMIT_SHA - may have conflicts"
+            echo "reverted=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git push origin "$BRANCH"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "reverted=true" >> "$GITHUB_OUTPUT"
+
+      - name: Build PR Body
+        if: steps.find-commit.outputs.found == 'true' && steps.revert.outputs.reverted == 'true'
+        id: pr-body
+        env:
+          HELMRELEASE: ${{ steps.event.outputs.helmrelease }}
+          NAMESPACE: ${{ steps.event.outputs.namespace }}
+          COMMIT_SHA: ${{ steps.find-commit.outputs.sha }}
+          COMMIT_MSG: ${{ steps.find-commit.outputs.message }}
+          GROUPED: ${{ steps.find-commit.outputs.grouped }}
+          FLUX_MESSAGE: ${{ steps.event.outputs.message }}
+        run: |
+          SHORT_SHA="${COMMIT_SHA:0:7}"
+
+          GROUPED_WARNING=""
+          if [ "$GROUPED" = "true" ]; then
+            GROUPED_WARNING=$(cat <<'WARN'
+
+          > [!CAUTION]
+          > This reverts a **grouped Renovate commit** that touched multiple HelmReleases.
+          > Merging this PR will revert all changes in the group, not just the failing release.
+          > Consider manual triage instead.
+          WARN
+          )
+          fi
+
+          cat <<BODY > pr-body.md
+          ## Flux Automatic Rollback
+
+          HelmRelease \`$NAMESPACE/$HELMRELEASE\` failed to upgrade after an auto-merged Renovate update.
+
+          **Flux error:** $FLUX_MESSAGE
+
+          **Reverted commit:** [\`$SHORT_SHA\`](https://github.com/xunholy/k8s-gitops/commit/$COMMIT_SHA) — $COMMIT_MSG
+          $GROUPED_WARNING
+
+          ### What happened
+          1. Renovate auto-merged a minor/patch update
+          2. Flux deployed the change via OCI artifact
+          3. HelmRelease upgrade failed after all retries
+          4. Flux rolled back the release in-cluster
+          5. This PR was created to revert the git state
+
+          ### Next steps
+          - [ ] Review the failure cause
+          - [ ] Merge this PR to align git state with cluster state
+          - [ ] Investigate the upstream chart release for breaking changes
+          BODY
+
+      - name: Create Revert PR
+        if: steps.find-commit.outputs.found == 'true' && steps.revert.outputs.reverted == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          HELMRELEASE: ${{ steps.event.outputs.helmrelease }}
+          BRANCH: ${{ steps.revert.outputs.branch }}
+        run: |
+          gh pr create \
+            --title "revert: rollback $HELMRELEASE due to upgrade failure" \
+            --draft \
+            --label "flux/rollback" \
+            --head "$BRANCH" \
+            --body-file pr-body.md
