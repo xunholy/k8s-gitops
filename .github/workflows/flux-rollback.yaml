@@ -3,12 +3,10 @@
 name: "Flux HelmRelease Rollback"
 
 on:
-  repository_dispatch:
-    types:
-      - HelmRelease/*
+  repository_dispatch: {}
 
 concurrency:
-  group: flux-rollback
+  group: flux-rollback-${{ github.event.client_payload.involvedObject.name }}
   cancel-in-progress: false
 
 permissions:
@@ -17,6 +15,7 @@ permissions:
 jobs:
   rollback:
     name: Create Revert PR
+    if: startsWith(github.event.action, 'HelmRelease')
     runs-on: ubuntu-latest
     steps:
       - name: Generate Token
@@ -41,13 +40,11 @@ jobs:
           NAMESPACE=$(echo "$PAYLOAD" | jq -r '.involvedObject.namespace // empty')
           SEVERITY=$(echo "$PAYLOAD" | jq -r '.severity // empty')
           MESSAGE=$(echo "$PAYLOAD" | jq -r '.message // empty')
-          REVISION=$(echo "$PAYLOAD" | jq -r '.metadata.revision // empty')
 
           echo "helmrelease=$INVOLVED_OBJECT" >> "$GITHUB_OUTPUT"
           echo "namespace=$NAMESPACE" >> "$GITHUB_OUTPUT"
           echo "severity=$SEVERITY" >> "$GITHUB_OUTPUT"
           echo "message=$MESSAGE" >> "$GITHUB_OUTPUT"
-          echo "revision=$REVISION" >> "$GITHUB_OUTPUT"
 
           echo "::notice::HelmRelease $NAMESPACE/$INVOLVED_OBJECT failed: $MESSAGE"
 
@@ -55,17 +52,21 @@ jobs:
         id: find-commit
         env:
           HELMRELEASE: ${{ steps.event.outputs.helmrelease }}
-          NAMESPACE: ${{ steps.event.outputs.namespace }}
         run: |
-          # Find the most recent Renovate auto-merge commit that touched files
-          # related to this HelmRelease
-          COMMIT_SHA=$(git log --oneline --all --author="renovate" \
-            --grep="$HELMRELEASE" -1 --format="%H" -- 'kubernetes/')
+          # Find the HelmRelease directory under kubernetes/apps/base
+          APP_PATH=$(find kubernetes/apps/base -type d -name "$HELMRELEASE" | head -1)
+
+          COMMIT_SHA=""
+          if [ -n "$APP_PATH" ]; then
+            # Find the most recent Renovate commit touching this HelmRelease's files
+            COMMIT_SHA=$(git log --author="renovate\[bot\]" \
+              -1 --format="%H" -- "$APP_PATH/")
+          fi
 
           if [ -z "$COMMIT_SHA" ]; then
-            # Fallback: search by path pattern for the HelmRelease name
-            COMMIT_SHA=$(git log --oneline --all --author="renovate" \
-              -1 --format="%H" -- "kubernetes/apps/base/**/$HELMRELEASE/**")
+            # Fallback: glob search across all base directories
+            COMMIT_SHA=$(git log --author="renovate\[bot\]" \
+              -1 --format="%H" -- ":(glob)kubernetes/apps/base/**/$HELMRELEASE/**")
           fi
 
           if [ -z "$COMMIT_SHA" ]; then
@@ -96,11 +97,11 @@ jobs:
           COMMIT_SHA: ${{ steps.find-commit.outputs.sha }}
           HELMRELEASE: ${{ steps.event.outputs.helmrelease }}
         run: |
-          BRANCH="revert/flux-rollback-${HELMRELEASE}-$(date +%s)"
-          git checkout -b "$BRANCH"
-
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          BRANCH="revert/flux-rollback-${HELMRELEASE}-${COMMIT_SHA:0:7}"
+          git checkout -b "$BRANCH"
 
           if ! git revert --no-edit "$COMMIT_SHA"; then
             echo "::error::Failed to revert commit $COMMIT_SHA - may have conflicts"
@@ -114,7 +115,6 @@ jobs:
 
       - name: Build PR Body
         if: steps.find-commit.outputs.found == 'true' && steps.revert.outputs.reverted == 'true'
-        id: pr-body
         env:
           HELMRELEASE: ${{ steps.event.outputs.helmrelease }}
           NAMESPACE: ${{ steps.event.outputs.namespace }}
@@ -169,7 +169,7 @@ jobs:
         run: |
           gh pr create \
             --title "revert: rollback $HELMRELEASE due to upgrade failure" \
+            --base main \
             --draft \
-            --label "flux/rollback" \
             --head "$BRANCH" \
             --body-file pr-body.md

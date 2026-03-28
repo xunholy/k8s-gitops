@@ -95,6 +95,7 @@
       groupName: "kgateway",
       matchDatasources: ["helm"],
       matchPackagePatterns: ["kgateway", "kgateway-crds"],
+      automerge: false,
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
@@ -143,6 +144,7 @@
       groupName: "1password-connect",
       matchDatasources: ["docker"],
       matchPackageNames: ["/1password/"],
+      automerge: false,
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
