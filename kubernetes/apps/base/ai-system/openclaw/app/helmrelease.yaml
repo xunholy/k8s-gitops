@@ -61,7 +61,7 @@ spec:
           app:
             image:
               repository: ghcr.io/openclaw/openclaw
-              tag: 2026.3.24
+              tag: 2026.3.28
             command: ["/bin/sh"]
             args:
               - "-c"
