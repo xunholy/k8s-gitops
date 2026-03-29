@@ -10,12 +10,11 @@
       ignoreTests: true
     },
     {
-      description: "Auto-merge Helm Release",
+      description: "Auto-merge Helm Release (minor and patch)",
       matchDatasources: ["helm", "docker"],
       automerge: true,
       automergeType: "pr",
-      matchUpdateTypes: ["patch"],
-      ignoreTests: true
+      matchUpdateTypes: ["minor", "patch"]
     }
   ]
 }

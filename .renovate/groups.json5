@@ -19,6 +19,7 @@
       groupName: "talos",
       matchDatasources: ["docker"],
       matchPackageNames: ["/installer/"],
+      automerge: false,
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
@@ -29,6 +30,7 @@
       groupName: "istio",
       matchDatasources: ["helm"],
       matchPackagePatterns: ["gateway", "istio-base", "istio-cni", "istiod"],
+      automerge: false,
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
@@ -39,6 +41,7 @@
       groupName: "Cilium",
       matchDatasources: ["docker"],
       matchPackageNames: ["/cilium/"],
+      automerge: false,
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
@@ -52,6 +55,7 @@
         "/flux-instance/",
         "/flux-operator-manifests/",
       ],
+      automerge: false,
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
@@ -91,6 +95,7 @@
       groupName: "kgateway",
       matchDatasources: ["helm"],
       matchPackagePatterns: ["kgateway", "kgateway-crds"],
+      automerge: false,
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
@@ -101,6 +106,7 @@
       groupName: "rook-ceph",
       matchDatasources: ["docker"],
       matchPackageNames: ["/rook-ceph/", "/rook-ceph-cluster/"],
+      automerge: false,
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
@@ -117,6 +123,7 @@
         "/kube-scheduler/",
         "/kubelet/",
       ],
+      automerge: false,
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
@@ -137,6 +144,7 @@
       groupName: "1password-connect",
       matchDatasources: ["docker"],
       matchPackageNames: ["/1password/"],
+      automerge: false,
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
