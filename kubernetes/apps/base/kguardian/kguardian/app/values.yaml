@@ -12,10 +12,10 @@ broker:
     sha: "sha256:26866620ba01362bdfd777c698b5385088721be899327d9e77a8c0e4322322a3"
   resources:
     limits:
-      memory: 1Gi
+      memory: 2Gi
     requests:
       cpu: 500m
-      memory: 256Mi
+      memory: 512Mi
 
 frontend:
   image:
