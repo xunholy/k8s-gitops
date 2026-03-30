@@ -1,0 +1,17 @@
+---
+# TODO: Once the chart is published use HelmRepository
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: origin-ca-issuer-chart-git
+  namespace: flux-system
+spec:
+  interval: 10m
+  url: https://github.com/cloudflare/origin-ca-issuer
+  ref:
+    branch: trunk
+  ignore: |
+    # exclude all
+    /*
+    # include charts directory
+    !/deploy/
