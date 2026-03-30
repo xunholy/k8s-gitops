@@ -38,5 +38,6 @@ spec:
   targetNamespace: rook-ceph
   dependsOn:
     - name: rook-ceph
+      namespace: rook-ceph
     # - name: volsync
     #   namespace: volsync-system
