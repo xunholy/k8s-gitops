@@ -16,7 +16,7 @@ spec:
       # Disable request timeout for long-running AI streaming responses
       requestTimeout: "0s"
       # Generous idle timeout for pauses between SSE chunks during AI processing
-      idleTimeout: 300s
+      connectionIdleTimeout: 300s
   # Disable retries - retrying a streaming AI request mid-stream causes
   # duplicate responses and wasted API usage
   retry:
