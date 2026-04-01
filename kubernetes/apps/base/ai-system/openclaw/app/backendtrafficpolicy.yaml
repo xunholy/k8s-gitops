@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.envoyproxy.io/backendtrafficpolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: openclaw
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: openclaw
+  # Disable compression to prevent buffering SSE/streaming AI responses
+  # Intentionally omitting compressor to override the global gateway-level policy
+  timeout:
+    http:
+      # Disable request timeout for long-running AI streaming responses
+      requestTimeout: "0s"
+      # Generous idle timeout for pauses between SSE chunks during AI processing
+      idleTimeout: 300s
+  # Disable retries - retrying a streaming AI request mid-stream causes
+  # duplicate responses and wasted API usage
+  retry:
+    numRetries: 0
+  tcpKeepalive:
+    probes: 3
+    idleTime: 20m
+    interval: 60s

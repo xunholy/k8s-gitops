@@ -9,3 +9,4 @@ resources:
   - pvc.yaml
   - configmap.yaml
   - httproute.yaml
+  - backendtrafficpolicy.yaml
