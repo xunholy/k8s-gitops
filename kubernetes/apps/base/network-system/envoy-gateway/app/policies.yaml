@@ -32,6 +32,10 @@ spec:
   targetSelectors:
     - group: gateway.networking.k8s.io
       kind: Gateway
+  timeout:
+    http:
+      # Increase stream idle timeout from default 5m to prevent SSE/WebSocket disconnections
+      streamIdleTimeout: "1h"
   clientIPDetection:
     xForwardedFor:
       numTrustedHops: 1
