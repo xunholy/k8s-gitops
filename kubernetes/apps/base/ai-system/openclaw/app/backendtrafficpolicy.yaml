@@ -15,9 +15,6 @@ spec:
     http:
       # Disable request timeout for long-running AI streaming responses
       requestTimeout: "0s"
-      # Disable stream idle timeout - default 5m causes Envoy to reset SSE
-      # streams during long AI processing pauses before tokens start flowing
-      streamIdleTimeout: "0s"
       # Generous idle timeout for pauses between SSE chunks during AI processing
       connectionIdleTimeout: 300s
   # Disable retries - retrying a streaming AI request mid-stream causes
