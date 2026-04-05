@@ -193,6 +193,7 @@ spec:
         controller: *app
         ports:
           http:
+            appProtocol: kubernetes.io/ws
             port: 18789
           codeserver:
             port: 12321

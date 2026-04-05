@@ -10,3 +10,4 @@ resources:
   - configmap.yaml
   - httproute.yaml
   - backendtrafficpolicy.yaml
+  - clienttrafficpolicy.yaml

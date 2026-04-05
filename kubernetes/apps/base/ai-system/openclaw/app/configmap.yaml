@@ -34,6 +34,9 @@ data:
           "userTimezone": "UTC",
           "timeoutSeconds": 600,
           "maxConcurrent": 3,
+          "llm": {
+            "idleTimeoutSeconds": 300
+          },
           "contextPruning": {
             "mode": "cache-ttl",
             "ttl": "1h",

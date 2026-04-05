@@ -9,14 +9,17 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: openclaw
-  # Disable compression to prevent buffering SSE/streaming AI responses
-  # Intentionally omitting compressor to override the global gateway-level policy
+  # Compression is intentionally omitted here. Because mergeType is unset, this
+  # route-level policy fully replaces the global gateway-level BackendTrafficPolicy,
+  # effectively disabling Zstd/Brotli/Gzip compression that would buffer SSE/WebSocket
+  # streaming AI responses. If mergeType is ever added, compression will leak back in.
   timeout:
     http:
       # Disable request timeout for long-running AI streaming responses
       requestTimeout: "0s"
-      # Generous idle timeout for pauses between SSE chunks during AI processing
-      connectionIdleTimeout: 300s
+      # Match upstream idle timeout to OpenClaw's llm.idleTimeoutSeconds (300s) and
+      # allow headroom for extended thinking phases (Opus can pause >60s between tokens)
+      connectionIdleTimeout: 3600s
   # Disable retries - retrying a streaming AI request mid-stream causes
   # duplicate responses and wasted API usage
   retry:
