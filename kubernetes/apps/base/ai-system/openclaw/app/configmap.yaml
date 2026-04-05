@@ -10,7 +10,7 @@ data:
         "port": 18789,
         "mode": "local",
         "bind": "lan",
-        "trustedProxies": ["10.244.0.0/16"],
+        "trustedProxies": ["10.244.0.0/16", "10.96.0.0/12"],
         "auth": {
           "mode": "token"
         },
