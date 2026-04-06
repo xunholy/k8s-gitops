@@ -125,6 +125,10 @@ spec:
                 exec node /opt/proxy/lib/node_modules/claude-max-api-proxy/dist/server/standalone.js
             env:
               HOME: /home/node
+              CLAUDE_CONFIG_DIR: /tmp/.claude
+            envFrom:
+              - secretRef:
+                  name: openclaw-secret
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -208,17 +212,6 @@ spec:
         globalMounts:
           - path: /home/node/.openclaw/openclaw.json
             subPath: openclaw.json
-      claude-auth:
-        type: secret
-        name: openclaw-secret
-        items:
-          - key: .credentials.json
-            path: .credentials.json
-        advancedMounts:
-          *app :
-            claude-max-api:
-              - path: /home/node/.claude
-                readOnly: true
       proxy-install:
         type: emptyDir
         advancedMounts:
