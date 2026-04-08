@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: &app backstage
   namespace: development
+  labels:
+    gitops.owncloud.ai/defaults: disabled
 spec:
   interval: 15m
   chart:
@@ -15,6 +17,20 @@ spec:
         kind: HelmRepository
         name: backstage-chart
         namespace: flux-system
+  maxHistory: 2
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
   values:
     serviceAccount:
       create: true

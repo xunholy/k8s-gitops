@@ -5,9 +5,21 @@ kind: Kustomization
 metadata:
   name: cmangos
   namespace: game-servers
+  labels:
+    gitops.owncloud.ai/defaults: disabled
 spec:
+  decryption:
+    provider: sops
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
   path: "./apps/base/game-servers/cmangos/app"
+  prune: true
   wait: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
   dependsOn:
     - name: onepassword
       namespace: external-secrets
@@ -16,7 +28,3 @@ spec:
     - name: volsync
       namespace: volsync-system
   targetNamespace: game-servers
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system

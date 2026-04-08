@@ -5,14 +5,22 @@ kind: Kustomization
 metadata:
   name: cmangos-registration
   namespace: game-servers
+  labels:
+    gitops.owncloud.ai/defaults: disabled
 spec:
+  decryption:
+    provider: sops
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
   path: "./apps/base/game-servers/cmangos-registration/app"
+  prune: true
   wait: true
-  dependsOn:
-    - name: cmangos
-      namespace: game-servers
-  targetNamespace: game-servers
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
+  dependsOn:
+    - name: cmangos
+      namespace: game-servers
+  targetNamespace: game-servers
