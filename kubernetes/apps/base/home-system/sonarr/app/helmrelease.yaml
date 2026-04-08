@@ -27,7 +27,7 @@ spec:
               SONARR__LOG__LEVEL: info
               SONARR__SERVER__PORT: &port 80
               SONARR__UPDATE__BRANCH: develop
-              TZ: ${ CLUSTER_TIMEZONE }
+              TZ: ${CLUSTER_TIMEZONE}
             envFrom:
               - secretRef:
                   name: sonarr-secret
@@ -80,7 +80,7 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: ${ CLUSTER_NFS_SERVER }
-        path: ${ CLUSTER_NFS_PATH }
+        server: ${CLUSTER_NFS_SERVER}
+        path: ${CLUSTER_NFS_PATH}
         globalMounts:
           - path: /media

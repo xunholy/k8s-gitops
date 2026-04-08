@@ -90,15 +90,15 @@ spec:
         data:
           config.yaml: |-
             ingress:
-              - hostname: "api.${ CLUSTER_DOMAIN }"
+              - hostname: "api.${CLUSTER_DOMAIN}"
                 service: tcp://kubernetes.default.svc.cluster.local:443
                 originRequest:
                   proxyType: socks
-              - hostname: "*.${ CLUSTER_DOMAIN }"
+              - hostname: "*.${CLUSTER_DOMAIN}"
                 originRequest:
                   http2Origin: true
                   keepAliveTimeout: 3600s
-                  originServerName: external.${ CLUSTER_DOMAIN }
+                  originServerName: external.${CLUSTER_DOMAIN}
                   tcpKeepAlive: 7200s
                 service: https://envoy-external.network-system.svc.cluster.local:443
               - service: http_status:404

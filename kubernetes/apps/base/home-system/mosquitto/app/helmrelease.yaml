@@ -20,7 +20,7 @@ spec:
               repository: public.ecr.aws/docker/library/eclipse-mosquitto
               tag: 2.0.22
             env:
-              TZ: ${ CLUSTER_TIMEZONE }
+              TZ: ${CLUSTER_TIMEZONE}
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -43,7 +43,7 @@ spec:
         controller: *app
         type: LoadBalancer
         annotations:
-          lbipam.cilium.io/ips: '${ CLUSTER_LB_MOSQUITTO }'
+          lbipam.cilium.io/ips: '${CLUSTER_LB_MOSQUITTO}'
         ports:
           http:
             port: 1883
