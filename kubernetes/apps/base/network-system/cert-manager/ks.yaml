@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: cert-manager
   namespace: network-system
+  labels:
+    flux-defaults: "true"
 spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2

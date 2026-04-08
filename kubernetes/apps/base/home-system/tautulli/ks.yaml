@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: tautulli
   namespace: home-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/home-system/tautulli/app"
   wait: false

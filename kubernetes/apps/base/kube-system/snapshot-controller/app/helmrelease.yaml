@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: snapshot-controller
   namespace: kube-system
+  labels:
+    flux-defaults: "true"
 spec:
   interval: 1h
   chartRef:

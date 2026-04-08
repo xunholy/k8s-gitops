@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: metrics-server
   namespace: kube-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/kube-system/metrics-server/app"
   wait: true

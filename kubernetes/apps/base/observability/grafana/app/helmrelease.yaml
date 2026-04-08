@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: grafana
   namespace: observability
+  labels:
+    flux-defaults: "true"
 spec:
   interval: 1h
   chartRef:

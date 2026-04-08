@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: &app minecraft-witherstorm
   namespace: game-servers
+  labels:
+    flux-defaults: "true"
 spec:
   interval: 5m
   chart:

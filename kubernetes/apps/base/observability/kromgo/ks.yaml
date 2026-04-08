@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: kromgo
   namespace: observability
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/observability/kromgo/app"
   wait: true

@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: open-webui
   namespace: ai-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/ai-system/open-webui/app"
   wait: true

@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: &app external-dns-unifi
   namespace: network-system
+  labels:
+    flux-defaults: "true"
 spec:
   interval: 1h
   chartRef:

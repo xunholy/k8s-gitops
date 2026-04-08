@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: &app dex-k8s-authenticator
   namespace: network-system
+  labels:
+    flux-defaults: "true"
 spec:
   interval: 5m
   timeout: 10m

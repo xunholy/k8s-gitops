@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: &app vcluster
   namespace: development
+  labels:
+    flux-defaults: "true"
 spec:
   interval: 15m
   chart:

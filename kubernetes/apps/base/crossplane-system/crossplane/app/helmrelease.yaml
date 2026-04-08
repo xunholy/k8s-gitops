@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: &app crossplane
   namespace: crossplane-system
+  labels:
+    flux-defaults: "true"
 spec:
   interval: 1h
   chartRef:

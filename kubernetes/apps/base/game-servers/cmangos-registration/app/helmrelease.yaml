@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: cmangos-registration
   namespace: game-servers
+  labels:
+    flux-defaults: "true"
 spec:
   interval: 1h
   chartRef:

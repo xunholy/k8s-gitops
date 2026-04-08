@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: kagent
   namespace: ai-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/ai-system/kagent/app"
   wait: false
@@ -19,6 +21,8 @@ kind: Kustomization
 metadata:
   name: kagent-crds
   namespace: ai-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/ai-system/kagent/crds"
   wait: false

@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: external-dns-unifi
   namespace: network-system
+  labels:
+    flux-defaults: "true"
 spec:
   dependsOn:
     - name: external-dns

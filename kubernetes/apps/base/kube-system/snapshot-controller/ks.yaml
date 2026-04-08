@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: snapshot-controller
   namespace: kube-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/kube-system/snapshot-controller/app"
   wait: true

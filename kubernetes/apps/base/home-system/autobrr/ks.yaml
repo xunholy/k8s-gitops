@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: &app autobrr
   namespace: home-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/home-system/autobrr/app"
   wait: false

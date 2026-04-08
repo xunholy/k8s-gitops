@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: enemy-territory
   namespace: game-servers
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/game-servers/enemy-territory/app"
   wait: true

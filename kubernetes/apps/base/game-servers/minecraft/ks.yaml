@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: minecraft
   namespace: game-servers
+  labels:
+    flux-defaults: "true"
 spec:
   dependsOn:
     - name: democratic-csi

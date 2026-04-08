@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: echo-server
   namespace: network-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/network-system/echo-server/app"
   wait: true

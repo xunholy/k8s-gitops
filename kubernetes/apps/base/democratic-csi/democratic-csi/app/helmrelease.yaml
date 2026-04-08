@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: &app democratic-csi
   namespace: democratic-csi
+  labels:
+    flux-defaults: "true"
 spec:
   interval: 5m
   chart:

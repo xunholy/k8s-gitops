@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: jellyseerr
   namespace: home-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/home-system/jellyseerr/app"
   wait: false

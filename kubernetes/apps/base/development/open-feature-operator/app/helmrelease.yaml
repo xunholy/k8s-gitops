@@ -4,6 +4,8 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: open-feature-operator
+  labels:
+    flux-defaults: "true"
 spec:
   interval: 1h
   chart:

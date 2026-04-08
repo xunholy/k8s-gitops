@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: dex
   namespace: network-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/network-system/dex/app"
   wait: true

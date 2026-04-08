@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: radarr
   namespace: home-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/home-system/radarr/app"
   wait: false

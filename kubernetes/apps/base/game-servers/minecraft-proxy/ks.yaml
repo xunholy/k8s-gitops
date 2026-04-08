@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: minecraft-proxy
   namespace: game-servers
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/game-servers/minecraft-proxy/app"
   wait: true

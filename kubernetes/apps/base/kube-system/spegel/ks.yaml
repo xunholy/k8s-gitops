@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: spegel
   namespace: kube-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/kube-system/spegel/app"
   wait: true

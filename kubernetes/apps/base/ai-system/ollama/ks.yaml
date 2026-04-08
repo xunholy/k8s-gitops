@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: ollama
   namespace: ai-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/ai-system/ollama/app"
   wait: true

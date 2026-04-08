@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: kubelet-csr-approver
   namespace: kube-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/kube-system/kubelet-csr-approver/app"
   wait: true

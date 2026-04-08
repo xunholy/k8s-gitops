@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: kube-prometheus-stack
   namespace: observability
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/observability/kube-prometheus-stack/app"
   wait: true

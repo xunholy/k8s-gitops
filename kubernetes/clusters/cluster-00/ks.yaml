@@ -74,6 +74,8 @@ spec:
               target:
                 group: helm.toolkit.fluxcd.io
                 kind: HelmRelease
+                labelSelector: flux-defaults=true
       target:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
+        labelSelector: flux-defaults=true

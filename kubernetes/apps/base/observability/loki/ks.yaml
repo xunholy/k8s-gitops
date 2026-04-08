@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: loki
   namespace: observability
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/observability/loki/app"
   wait: false

@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: recyclarr
   namespace: home-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/home-system/recyclarr/app"
   wait: false

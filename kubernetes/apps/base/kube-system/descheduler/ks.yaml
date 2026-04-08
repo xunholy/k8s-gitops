@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: descheduler
   namespace: kube-system
+  labels:
+    flux-defaults: "true"
 spec:
   path: "./apps/base/kube-system/descheduler/app"
   wait: true
