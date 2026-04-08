@@ -59,7 +59,7 @@ configMaps:
               "path": "/repository"
             }
           },
-          "hostname": "volsync.{ { .Release.Namespace } }.svc.cluster.local",
+          "hostname": "volsync.{{ .Release.Namespace }}.svc.cluster.local",
           "username": "volsync",
           "description": "volsync",
           "enableActions": false

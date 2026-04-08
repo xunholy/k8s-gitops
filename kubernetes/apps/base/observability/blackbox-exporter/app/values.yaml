@@ -39,4 +39,4 @@ prometheusRule:
         severity: critical
       annotations:
         summary: |-
-          The probe targeting { { $labels.instance } } is currently having connectivity issues
+          The probe targeting {{ $labels.instance }} is currently having connectivity issues
