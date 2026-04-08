@@ -6,8 +6,6 @@ metadata:
   name: minecraft-bedrock
   namespace: game-servers
 spec:
-  decryption:
-    provider: sops
   dependsOn:
     - name: democratic-csi
       namespace: democratic-csi
@@ -17,12 +15,10 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
-  interval: 30m
   path: "./apps/base/game-servers/minecraft-bedrock/app"
-  prune: true
   wait: true
+  targetNamespace: game-servers
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: game-servers

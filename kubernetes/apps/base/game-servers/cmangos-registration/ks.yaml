@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: cmangos-registration
   namespace: game-servers
+  labels:
+    gitops.owncloud.ai/defaults: disabled
 spec:
   decryption:
     provider: sops

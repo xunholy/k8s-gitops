@@ -6,13 +6,10 @@ metadata:
   name: vcluster
   namespace: flux-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
   path: "./apps/base/development/vcluster/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
   targetNamespace: development
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

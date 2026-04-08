@@ -6,22 +6,16 @@ metadata:
   name: kagent
   namespace: ai-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/ai-system/kagent/app"
-  prune: true
   wait: false
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   dependsOn:
     - name: kagent-crds
       namespace: ai-system
   targetNamespace: ai-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -30,16 +24,10 @@ metadata:
   name: kagent-crds
   namespace: ai-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/ai-system/kagent/crds"
-  prune: true
   wait: false
+  targetNamespace: ai-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: ai-system

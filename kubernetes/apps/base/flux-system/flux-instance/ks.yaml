@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: &app flux-instance-extras
   namespace: flux-system
+  labels:
+    gitops.owncloud.ai/defaults: disabled
 spec:
   decryption:
     provider: sops
@@ -20,7 +22,7 @@ spec:
   wait: false
   postBuild:
     substituteFrom:
-    - kind: ConfigMap
-      name: cluster-config
-    - kind: Secret
-      name: cluster-secrets
+      - kind: ConfigMap
+        name: cluster-config
+      - kind: Secret
+        name: cluster-secrets

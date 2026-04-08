@@ -15,7 +15,7 @@ rconWeb:
   rconPasswordKey: "rcon-password"
   serverName: "Wildfire Minecraft Server"
 extraEnv:
-  TZ: Australia/Melbourne
+  TZ: ${CLUSTER_TIMEZONE}
 
 
 # Required: Cannot install jq as part of startup script.

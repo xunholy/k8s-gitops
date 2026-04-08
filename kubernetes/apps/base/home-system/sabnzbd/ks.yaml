@@ -6,18 +6,8 @@ metadata:
   name: sabnzbd
   namespace: home-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/home-system/sabnzbd/app"
-  prune: true
   wait: false
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   dependsOn:
     - name: democratic-csi
       namespace: democratic-csi
@@ -28,3 +18,7 @@ spec:
     - name: volsync
       namespace: volsync-system
   targetNamespace: home-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

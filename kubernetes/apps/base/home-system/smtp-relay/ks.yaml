@@ -6,19 +6,13 @@ metadata:
   name: smtp-relay
   namespace: home-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/home-system/smtp-relay/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   dependsOn:
     - name: onepassword
       namespace: external-secrets
   targetNamespace: home-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

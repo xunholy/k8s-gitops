@@ -6,16 +6,10 @@ metadata:
   name: metrics-server
   namespace: kube-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/kube-system/metrics-server/app"
-  prune: true
   wait: true
+  targetNamespace: kube-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: kube-system

@@ -1,5 +1,5 @@
 extraEnv:
-  TZ: "Australia/Melbourne"
+  TZ: "${CLUSTER_TIMEZONE}"
   # Force IPv4 stack to fix RCON connectivity issues
   JVM_OPTS: "-Djava.net.preferIPv4Stack=true"
 

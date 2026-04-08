@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: kube-prometheus-stack
   namespace: observability
+  labels:
+    gitops.owncloud.ai/defaults: disabled
 spec:
   interval: 1h
   chartRef:

@@ -9,29 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: external-secrets
-  driftDetection:
-    mode: enabled
-  install:
-    timeout: 10m
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
-  upgrade:
-    remediation:
-      remediateLastFailure: true
-      retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  maxHistory: 3
   valuesFrom:
     - kind: ConfigMap
       name: external-secrets-values

@@ -6,17 +6,13 @@ metadata:
   name: enemy-territory
   namespace: game-servers
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
   path: "./apps/base/game-servers/enemy-territory/app"
-  prune: true
   wait: true
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
+  targetNamespace: game-servers
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: game-servers

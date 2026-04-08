@@ -10,29 +10,6 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
-  install:
-    timeout: 10m
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
-  upgrade:
-    remediation:
-      remediateLastFailure: true
-      retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  driftDetection:
-    mode: enabled
-  maxHistory: 3
   values:
     controllers:
       smtp-relay:
@@ -91,8 +68,8 @@ spec:
             state_dir /cache/state
             runtime_dir /cache/run
             tls off
-            hostname {env:SMTP_RELAY_HOSTNAME}
-            smtp tcp://0.0.0.0:{env:SMTP_RELAY_SMTP_PORT} {
+            hostname { env:SMTP_RELAY_HOSTNAME }
+            smtp tcp://0.0.0.0:{ env:SMTP_RELAY_SMTP_PORT } {
                 default_source {
                     deliver_to &remote_queue
                 }
@@ -102,8 +79,8 @@ spec:
             }
             target.smtp remote_smtp {
                 starttls yes
-                auth plain {env:SMTP_RELAY_USERNAME} {env:SMTP_RELAY_PASSWORD}
-                targets tcp://{env:SMTP_RELAY_SERVER}:587
+                auth plain { env:SMTP_RELAY_USERNAME } { env:SMTP_RELAY_PASSWORD }
+                targets tcp://{ env:SMTP_RELAY_SERVER }:587
             }
     persistence:
       cache:

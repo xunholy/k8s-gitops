@@ -6,16 +6,10 @@ metadata:
   name: kromgo
   namespace: observability
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/observability/kromgo/app"
-  prune: true
   wait: true
+  targetNamespace: observability
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: observability

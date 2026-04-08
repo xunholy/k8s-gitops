@@ -6,14 +6,10 @@ metadata:
   name: external-secrets
   namespace: external-secrets
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
   path: "./apps/base/external-secrets/external-secrets/app"
-  prune: true
   wait: true
+  targetNamespace: external-secrets
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: external-secrets

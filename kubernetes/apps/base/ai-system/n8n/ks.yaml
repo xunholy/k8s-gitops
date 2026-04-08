@@ -6,16 +6,10 @@ metadata:
   name: n8n
   namespace: ai-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/ai-system/n8n/app"
-  prune: true
   wait: false
+  targetNamespace: ai-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: ai-system

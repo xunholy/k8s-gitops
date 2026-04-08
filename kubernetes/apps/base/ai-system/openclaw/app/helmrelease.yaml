@@ -10,29 +10,6 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
-  install:
-    timeout: 10m
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
-  upgrade:
-    remediation:
-      remediateLastFailure: true
-      retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  driftDetection:
-    mode: enabled
-  maxHistory: 3
   values:
     controllers:
       *app :
@@ -68,7 +45,7 @@ spec:
               - |
                 exec node dist/index.js gateway --bind lan
             env:
-              TZ: Australia/Melbourne
+              TZ: ${ CLUSTER_TIMEZONE }
               OPENAI_BASE_URL: http://localhost:3456/v1
             envFrom:
               - secretRef:
@@ -139,7 +116,7 @@ spec:
                 custom: true
                 spec:
                   exec:
-                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"]
+                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{ process.exit(r.statusCode===200?0:1) }).on('error',()=>process.exit(1))"]
                   initialDelaySeconds: 10
                   periodSeconds: 5
                   failureThreshold: 30
@@ -148,7 +125,7 @@ spec:
                 custom: true
                 spec:
                   exec:
-                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"]
+                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{ process.exit(r.statusCode===200?0:1) }).on('error',()=>process.exit(1))"]
                   periodSeconds: 10
                   failureThreshold: 3
               liveness:
@@ -156,7 +133,7 @@ spec:
                 custom: true
                 spec:
                   exec:
-                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"]
+                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{ process.exit(r.statusCode===200?0:1) }).on('error',()=>process.exit(1))"]
                   periodSeconds: 30
                   failureThreshold: 5
             resources:

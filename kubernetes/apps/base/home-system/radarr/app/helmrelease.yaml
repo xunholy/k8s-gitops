@@ -10,29 +10,6 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
-  install:
-    timeout: 10m
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
-  upgrade:
-    remediation:
-      remediateLastFailure: true
-      retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  driftDetection:
-    mode: enabled
-  maxHistory: 3
   values:
     controllers:
       radarr:
@@ -52,7 +29,7 @@ spec:
               RADARR__LOG__LEVEL: info
               RADARR__SERVER__PORT: &port 80
               RADARR__UPDATE__BRANCH: develop
-              TZ: Australia/Melbourne
+              TZ: ${ CLUSTER_TIMEZONE }
             envFrom:
               - secretRef:
                   name: radarr-secret
@@ -105,7 +82,7 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: expanse.internal
-        path: /mnt/tank/media
+        server: ${ CLUSTER_NFS_SERVER }
+        path: ${ CLUSTER_NFS_PATH }
         globalMounts:
           - path: /media

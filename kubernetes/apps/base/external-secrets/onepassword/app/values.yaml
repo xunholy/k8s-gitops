@@ -49,7 +49,7 @@ controllers:
         securityContext: &securityContext
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
-          capabilities: {drop: ["ALL"]}
+          capabilities: { drop: ["ALL"] }
       sync:
         image:
           repository: ghcr.io/1password/connect-sync

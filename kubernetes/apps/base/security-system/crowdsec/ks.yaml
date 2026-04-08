@@ -6,15 +6,10 @@ metadata:
   name: crowdsec
   namespace: flux-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/security-system/crowdsec/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
   targetNamespace: security-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

@@ -6,16 +6,10 @@ metadata:
   name: kguardian
   namespace: kguardian
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/kguardian/kguardian/app"
-  prune: true
   wait: true
+  targetNamespace: kguardian
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: kguardian

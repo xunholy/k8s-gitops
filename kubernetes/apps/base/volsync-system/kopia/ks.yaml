@@ -6,14 +6,10 @@ metadata:
   name: kopia
   namespace: volsync-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
   path: "./apps/base/volsync-system/kopia/app"
-  prune: true
   wait: true
+  targetNamespace: volsync-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: volsync-system

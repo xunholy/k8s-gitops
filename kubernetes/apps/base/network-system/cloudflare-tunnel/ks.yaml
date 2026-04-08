@@ -6,21 +6,15 @@ metadata:
   name: cloudflare-tunnel
   namespace: network-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/network-system/cloudflare-tunnel/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   dependsOn:
     - name: external-dns
       namespace: network-system
     - name: onepassword
       namespace: external-secrets
   targetNamespace: network-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

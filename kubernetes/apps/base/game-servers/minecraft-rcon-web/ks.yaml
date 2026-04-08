@@ -9,14 +9,10 @@ spec:
   dependsOn:
     - name: minecraft
       namespace: game-servers
-  decryption:
-    provider: sops
-  interval: 30m
   path: "./apps/base/game-servers/minecraft-rcon-web/app"
-  prune: true
   wait: true
+  targetNamespace: game-servers
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: game-servers

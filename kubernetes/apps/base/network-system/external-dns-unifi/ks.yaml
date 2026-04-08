@@ -11,16 +11,10 @@ spec:
       namespace: network-system
     - name: onepassword
       namespace: external-secrets
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/network-system/external-dns-unifi/app"
-  prune: true
   wait: true
+  targetNamespace: network-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: network-system

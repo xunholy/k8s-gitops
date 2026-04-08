@@ -11,29 +11,6 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
-  install:
-    timeout: 10m
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
-  upgrade:
-    remediation:
-      remediateLastFailure: true
-      retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  driftDetection:
-    mode: enabled
-  maxHistory: 3
   values:
     controllers:
       database:
@@ -43,7 +20,7 @@ spec:
               repository: mariadb
               tag: "12.2"
             env:
-              TZ: Australia/Melbourne
+              TZ: ${CLUSTER_TIMEZONE}
               MARIADB_USER: mangos
               MARIADB_PASSWORD: mangos
               MARIADB_ROOT_PASSWORD: password
@@ -96,7 +73,7 @@ spec:
               tag: e2f25acd6fedfe3c3e367c46392097a3e07faf69
             args: ["realmd"]
             env:
-              TZ: Australia/Melbourne
+              TZ: ${CLUSTER_TIMEZONE}
               MANGOS_DBHOST: cmangos-database
               MANGOS_DBPORT: "3306"
               MANGOS_DBUSER: mangos
@@ -153,7 +130,7 @@ spec:
             tty: true
             stdin: true
             env:
-              TZ: Australia/Melbourne
+              TZ: ${CLUSTER_TIMEZONE}
               MANGOS_DBHOST: cmangos-database
               MANGOS_DBPORT: "3306"
               MANGOS_DBUSER: mangos

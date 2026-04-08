@@ -6,16 +6,10 @@ metadata:
   name: nginx-ingress
   namespace: nginx-ingress
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/nginx-ingress/nginx-ingress/app"
-  prune: true
   wait: true
+  targetNamespace: nginx-ingress
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: nginx-ingress

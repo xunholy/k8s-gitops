@@ -22,14 +22,10 @@ spec:
   dependsOn:
     - name: onepassword
       namespace: external-secrets
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/network-system/cert-manager/app"
-  prune: true
   wait: false
+  targetNamespace: network-system
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: network-system
