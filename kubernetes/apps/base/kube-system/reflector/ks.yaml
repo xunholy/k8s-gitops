@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: reflector
   namespace: kube-system
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/kube-system/reflector/app"
   wait: true

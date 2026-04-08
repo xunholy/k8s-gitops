@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: grafana
   namespace: observability
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/observability/grafana/app"
   wait: true
@@ -21,8 +19,6 @@ kind: Kustomization
 metadata:
   name: grafana-instance
   namespace: observability
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/observability/grafana/instance"
   wait: true

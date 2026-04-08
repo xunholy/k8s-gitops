@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: onepassword
   namespace: external-secrets
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/external-secrets/onepassword/app"
   wait: true

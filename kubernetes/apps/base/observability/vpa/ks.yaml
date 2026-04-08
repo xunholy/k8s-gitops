@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: vpa
   namespace: observability
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/observability/vpa/app"
   wait: false

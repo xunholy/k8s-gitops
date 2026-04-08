@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: open-feature-operator
   namespace: development
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/development/open-feature-operator/app"
   wait: true

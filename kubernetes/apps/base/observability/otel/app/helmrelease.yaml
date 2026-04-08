@@ -5,8 +5,6 @@ kind: HelmRelease
 metadata:
   name: otel-operator
   namespace: observability
-  labels:
-    flux-defaults: "true"
 spec:
   interval: 1h
   chartRef:

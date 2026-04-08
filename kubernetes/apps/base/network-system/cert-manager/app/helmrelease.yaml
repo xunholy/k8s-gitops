@@ -5,8 +5,6 @@ kind: HelmRelease
 metadata:
   name: &app cert-manager
   namespace: network-system
-  labels:
-    flux-defaults: "true"
 spec:
   interval: 1h
   chartRef:

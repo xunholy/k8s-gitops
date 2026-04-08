@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: openclaw
   namespace: ai-system
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/ai-system/openclaw/app"
   wait: false

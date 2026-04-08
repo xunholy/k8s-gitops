@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: dex-k8s-authenticator
   namespace: network-system
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/network-system/dex-k8s-authenticator/app"
   wait: true

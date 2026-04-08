@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: oauth2-proxy
   namespace: network-system
-  labels:
-    flux-defaults: "true"
 spec:
   dependsOn:
     - name: onepassword

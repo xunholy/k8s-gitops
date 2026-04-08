@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: falco-exporter
   namespace: flux-system
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/security-system/falco-exporter/app"
   wait: true

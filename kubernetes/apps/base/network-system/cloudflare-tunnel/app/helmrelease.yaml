@@ -5,8 +5,6 @@ kind: HelmRelease
 metadata:
   name: &app cloudflare-tunnel
   namespace: network-system
-  labels:
-    flux-defaults: "true"
 spec:
   interval: 30m
   chartRef:

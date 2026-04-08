@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: gha-runner-scale-set-controller
   namespace: actions-runner-system
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/actions-runner-system/gha-runner-scale-set-controller/app"
   wait: true

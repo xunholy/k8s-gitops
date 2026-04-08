@@ -5,8 +5,6 @@ kind: HelmRelease
 metadata:
   name: &app reflector
   namespace: kube-system
-  labels:
-    flux-defaults: "true"
 spec:
   interval: 5m
   chartRef:

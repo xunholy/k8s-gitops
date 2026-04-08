@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: blackbox-exporter
   namespace: observability
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/observability/blackbox-exporter/app"
   wait: true

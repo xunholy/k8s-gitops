@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: rook-ceph
   namespace: rook-ceph
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/rook-ceph/rook-ceph/app"
   wait: true
@@ -21,8 +19,6 @@ kind: Kustomization
 metadata:
   name: rook-ceph-cluster
   namespace: rook-ceph
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/rook-ceph/rook-ceph/cluster"
   wait: true

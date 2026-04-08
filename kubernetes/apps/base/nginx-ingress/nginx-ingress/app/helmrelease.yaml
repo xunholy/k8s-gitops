@@ -5,8 +5,6 @@ kind: HelmRelease
 metadata:
   name: &app nginx-ingress
   namespace: nginx-ingress
-  labels:
-    flux-defaults: "true"
 spec:
   interval: 1h
   releaseName: ingress-nginx

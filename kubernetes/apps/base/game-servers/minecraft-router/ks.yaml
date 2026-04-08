@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: minecraft-router
   namespace: game-servers
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/game-servers/minecraft-router/app"
   wait: true

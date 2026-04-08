@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: n8n
   namespace: ai-system
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/ai-system/n8n/app"
   wait: false

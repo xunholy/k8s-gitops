@@ -4,8 +4,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app gha-runner-scale-set-controller
-  labels:
-    flux-defaults: "true"
 spec:
   interval: 15m
   chartRef:

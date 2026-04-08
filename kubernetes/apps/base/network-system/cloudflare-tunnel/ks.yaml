@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: cloudflare-tunnel
   namespace: network-system
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/network-system/cloudflare-tunnel/app"
   wait: true

@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: qbittorrent
   namespace: home-system
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/home-system/qbittorrent/app"
   wait: false

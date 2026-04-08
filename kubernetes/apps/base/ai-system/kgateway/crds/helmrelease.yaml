@@ -5,8 +5,6 @@ kind: HelmRelease
 metadata:
   name: kgateway-crds
   namespace: ai-system
-  labels:
-    flux-defaults: "true"
 spec:
   interval: 1h
   chartRef:

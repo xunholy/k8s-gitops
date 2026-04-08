@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: crossplane
   namespace: crossplane-system
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/crossplane-system/crossplane/app"
   wait: true
@@ -18,8 +16,6 @@ kind: Kustomization
 metadata:
   name: crossplane-providers
   namespace: crossplane-system
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/crossplane-system/crossplane/providers"
   wait: true

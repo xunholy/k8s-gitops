@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: sonarr
   namespace: home-system
-  labels:
-    flux-defaults: "true"
 spec:
   path: "./apps/base/home-system/sonarr/app"
   wait: false

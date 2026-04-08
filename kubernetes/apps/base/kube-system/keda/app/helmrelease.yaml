@@ -4,8 +4,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: keda
-  labels:
-    flux-defaults: "true"
 spec:
   interval: 1h
   chartRef:

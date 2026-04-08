@@ -5,8 +5,6 @@ kind: HelmRelease
 metadata:
   name: &app gha-runner-scale-set
   namespace: actions-runner-system
-  labels:
-    flux-defaults: "true"
 spec:
   interval: 15m
   chartRef:
