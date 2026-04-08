@@ -223,6 +223,9 @@ spec:
             BindIP = "0.0.0.0"
             PlayerLimit = 100
             Motd = "Welcome to Emberstone"
+            LogLevel = 3
+            LogFile = "logs/Server.log"
+            LogFileLevel = 3
             SOAP.Enabled = 1
             SOAP.IP = 0.0.0.0
             SOAP.Port = 7878

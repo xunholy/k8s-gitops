@@ -7,7 +7,7 @@ metadata:
 data:
   realmd.sql: |
     UPDATE realmlist
-    SET address = '${CLUSTER_LB_ENVOY_EXT_GATEWAY_API}'
+    SET address = '${EXTERNAL_IP}'
     WHERE id = 1;
     SELECT id, name, address, port FROM realmlist WHERE id = 1;
 ---
