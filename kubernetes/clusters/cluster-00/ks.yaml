@@ -74,8 +74,8 @@ spec:
               target:
                 group: helm.toolkit.fluxcd.io
                 kind: HelmRelease
-                labelSelector: kustomize.toolkit.fluxcd.io/defaults!=disabled
+                labelSelector: gitops.owncloud.ai/defaults!=disabled
       target:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
-        labelSelector: kustomize.toolkit.fluxcd.io/defaults!=disabled
+        labelSelector: gitops.owncloud.ai/defaults!=disabled
