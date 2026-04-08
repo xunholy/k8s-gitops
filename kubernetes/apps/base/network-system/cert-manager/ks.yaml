@@ -25,3 +25,7 @@ spec:
   path: "./apps/base/network-system/cert-manager/app"
   wait: false
   targetNamespace: network-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

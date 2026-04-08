@@ -12,3 +12,7 @@ spec:
     - name: cmangos
       namespace: game-servers
   targetNamespace: game-servers
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

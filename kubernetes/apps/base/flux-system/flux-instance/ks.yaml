@@ -15,3 +15,7 @@ spec:
         name: cluster-config
       - kind: Secret
         name: cluster-secrets
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

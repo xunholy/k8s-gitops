@@ -18,3 +18,7 @@ spec:
   path: "./apps/base/game-servers/minecraft-bedrock-broadcaster/app"
   wait: true
   targetNamespace: game-servers
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

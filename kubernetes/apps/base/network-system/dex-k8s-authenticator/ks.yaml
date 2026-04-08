@@ -9,3 +9,7 @@ spec:
   path: "./apps/base/network-system/dex-k8s-authenticator/app"
   wait: true
   targetNamespace: network-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

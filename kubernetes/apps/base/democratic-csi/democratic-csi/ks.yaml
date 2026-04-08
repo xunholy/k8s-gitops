@@ -9,3 +9,7 @@ spec:
   path: "./apps/base/democratic-csi/democratic-csi/app"
   wait: true
   targetNamespace: democratic-csi
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

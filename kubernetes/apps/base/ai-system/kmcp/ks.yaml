@@ -12,6 +12,10 @@ spec:
     - name: kmcp-crds
       namespace: ai-system
   targetNamespace: ai-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -23,3 +27,7 @@ spec:
   path: "./apps/base/ai-system/kmcp/crds"
   wait: false
   targetNamespace: ai-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

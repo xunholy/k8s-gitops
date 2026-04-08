@@ -12,3 +12,7 @@ spec:
     - name: ollama
       namespace: ai-system
   targetNamespace: ai-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

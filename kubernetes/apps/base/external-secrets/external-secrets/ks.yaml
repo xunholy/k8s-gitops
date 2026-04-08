@@ -9,3 +9,7 @@ spec:
   path: "./apps/base/external-secrets/external-secrets/app"
   wait: true
   targetNamespace: external-secrets
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

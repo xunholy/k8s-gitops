@@ -9,3 +9,7 @@ spec:
   path: "./apps/base/ai-system/n8n/app"
   wait: false
   targetNamespace: ai-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

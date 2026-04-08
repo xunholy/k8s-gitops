@@ -12,3 +12,7 @@ spec:
   path: "./apps/base/network-system/oauth2-proxy/app"
   wait: true
   targetNamespace: network-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

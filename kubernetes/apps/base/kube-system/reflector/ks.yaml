@@ -9,3 +9,7 @@ spec:
   path: "./apps/base/kube-system/reflector/app"
   wait: true
   targetNamespace: kube-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

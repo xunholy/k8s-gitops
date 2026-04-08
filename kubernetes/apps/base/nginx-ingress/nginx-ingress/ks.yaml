@@ -9,3 +9,7 @@ spec:
   path: "./apps/base/nginx-ingress/nginx-ingress/app"
   wait: true
   targetNamespace: nginx-ingress
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

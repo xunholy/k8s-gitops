@@ -9,3 +9,7 @@ spec:
   path: "./apps/base/security-system/kyverno/app"
   wait: true
   targetNamespace: security-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

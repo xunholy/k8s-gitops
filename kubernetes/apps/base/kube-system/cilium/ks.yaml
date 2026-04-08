@@ -9,3 +9,7 @@ spec:
   path: "./apps/base/kube-system/cilium/app"
   wait: false
   targetNamespace: kube-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

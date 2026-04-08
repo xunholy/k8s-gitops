@@ -12,3 +12,7 @@ spec:
     - name: cert-manager
       namespace: network-system
   targetNamespace: development
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

@@ -12,6 +12,10 @@ spec:
     - name: snapshot-controller
       namespace: kube-system
   targetNamespace: rook-ceph
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -28,3 +32,8 @@ spec:
       namespace: rook-ceph
   # - name: volsync
   #   namespace: volsync-system
+
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

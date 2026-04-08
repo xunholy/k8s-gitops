@@ -9,3 +9,7 @@ spec:
   path: "./apps/base/observability/blackbox-exporter/app"
   wait: true
   targetNamespace: observability
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

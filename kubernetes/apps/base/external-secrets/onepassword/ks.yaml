@@ -12,3 +12,7 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

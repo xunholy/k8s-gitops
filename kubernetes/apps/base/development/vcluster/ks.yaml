@@ -9,3 +9,7 @@ spec:
   path: "./apps/base/development/vcluster/app"
   wait: true
   targetNamespace: development
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system

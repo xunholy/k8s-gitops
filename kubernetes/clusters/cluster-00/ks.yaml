@@ -37,10 +37,6 @@ spec:
           retryInterval: 1m
           timeout: 3m
           prune: true
-          sourceRef:
-            kind: OCIRepository
-            name: flux-system
-            namespace: flux-system
           patches:
             - patch: |-
                 apiVersion: helm.toolkit.fluxcd.io/v2

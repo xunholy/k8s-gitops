@@ -14,3 +14,7 @@ spec:
   path: "./apps/base/actions-runner-system/gha-runner-scale-set/app"
   wait: true
   targetNamespace: actions-runner-system
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
