@@ -10,29 +10,6 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
-  install:
-    timeout: 10m
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
-  upgrade:
-    remediation:
-      remediateLastFailure: true
-      retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  driftDetection:
-    mode: enabled
-  maxHistory: 3
   values:
     controllers:
       *app :
@@ -42,15 +19,10 @@ spec:
               repository: ghcr.io/home-operations/sabnzbd
               tag: 4.5.5@sha256:f5570c0a370596ab656db6d3baa830b90a6fd9952b71ae805d022a2dcb3db12f
             env:
-              TZ: Australia/Melbourne
+              TZ: ${CLUSTER_TIMEZONE}
               SABNZBD__PORT: &port 80
               SABNZBD__HOST_WHITELIST_ENTRIES: >-
-                sabnzbd,
-                sabnzbd.home-system,
-                sabnzbd.home-system.svc,
-                sabnzbd.home-system.svc.cluster,
-                sabnzbd.home-system.svc.cluster.local,
-                sab.${CLUSTER_DOMAIN}
+                sabnzbd, sabnzbd.home-system, sabnzbd.home-system.svc, sabnzbd.home-system.svc.cluster, sabnzbd.home-system.svc.cluster.local, sab.${CLUSTER_DOMAIN}
               XSEED_HOST: cross-seed.home-system.svc.cluster.local
               XSEED_PORT: 80
               XSEED_APIKEY:
@@ -82,7 +54,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
             resources:
               requests:
                 cpu: 100m
@@ -96,7 +68,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile: {type: RuntimeDefault}
     service:
       app:
         controller: *app
@@ -129,8 +101,8 @@ spec:
               - path: /config/scripts
       media:
         type: nfs
-        server: expanse.internal
-        path: /mnt/tank/media
+        server: ${CLUSTER_NFS_SERVER}
+        path: ${CLUSTER_NFS_PATH}
         globalMounts:
           - path: /media/Downloads/sabnzbd
             subPath: Downloads/sabnzbd

@@ -6,18 +6,8 @@ metadata:
   name: harbor
   namespace: harbor
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/harbor/harbor/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   dependsOn:
     - name: cert-manager
       namespace: network-system

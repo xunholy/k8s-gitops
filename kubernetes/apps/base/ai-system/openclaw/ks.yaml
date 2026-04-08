@@ -6,16 +6,8 @@ metadata:
   name: openclaw
   namespace: ai-system
 spec:
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/ai-system/openclaw/app"
-  prune: true
   wait: false
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   dependsOn:
     - name: external-secrets
       namespace: external-secrets

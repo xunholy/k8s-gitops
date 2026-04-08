@@ -17,29 +17,6 @@ spec:
         name: ingress-nginx-chart
         namespace: flux-system
       interval: 10m
-  install:
-    timeout: 10m
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
-  upgrade:
-    remediation:
-      remediateLastFailure: true
-      retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  driftDetection:
-    mode: enabled
-  maxHistory: 3
   values:
     tcp:
       '25565': "game-servers/minecraft:25565"
@@ -76,10 +53,13 @@ spec:
         proxy-send-timeout: 120
       extraArgs:
         default-ssl-certificate: 'network-system/owncloud-ai-le'
-      replicaCount: 1
+      replicaCount: 2
       resources:
         limits:
           memory: 512Mi
         requests:
           cpu: 25m
           memory: 256Mi
+      podDisruptionBudget:
+        enabled: true
+        minAvailable: 1

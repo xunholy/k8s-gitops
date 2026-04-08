@@ -6,18 +6,11 @@ metadata:
   name: grafana
   namespace: observability
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/observability/grafana/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
+  dependsOn:
+    - name: cert-manager
+      namespace: network-system
   targetNamespace: observability
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -27,18 +20,8 @@ metadata:
   name: grafana-instance
   namespace: observability
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/observability/grafana/instance"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   dependsOn:
     - name: grafana
       namespace: observability

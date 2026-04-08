@@ -11,29 +11,6 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
-  install:
-    timeout: 10m
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
-  upgrade:
-    remediation:
-      remediateLastFailure: true
-      retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  driftDetection:
-    mode: enabled
-  maxHistory: 3
   values:
     controllers:
       enemy-territory:
@@ -77,7 +54,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
             resources:
               requests:
                 cpu: 100m
@@ -92,7 +69,7 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups: [44]
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile: {type: RuntimeDefault}
     service:
       app:
         controller: enemy-territory

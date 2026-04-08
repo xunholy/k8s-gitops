@@ -6,16 +6,11 @@ metadata:
   name: rook-ceph
   namespace: rook-ceph
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
   path: "./apps/base/rook-ceph/rook-ceph/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
+  dependsOn:
+    - name: snapshot-controller
+      namespace: kube-system
   targetNamespace: rook-ceph
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -25,19 +20,11 @@ metadata:
   name: rook-ceph-cluster
   namespace: rook-ceph
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
   path: "./apps/base/rook-ceph/rook-ceph/cluster"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   targetNamespace: rook-ceph
   dependsOn:
     - name: rook-ceph
       namespace: rook-ceph
-    # - name: volsync
-    #   namespace: volsync-system
+  # - name: volsync
+  #   namespace: volsync-system

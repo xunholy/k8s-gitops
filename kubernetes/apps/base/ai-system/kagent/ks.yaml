@@ -6,18 +6,8 @@ metadata:
   name: kagent
   namespace: ai-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/ai-system/kagent/app"
-  prune: true
   wait: false
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   dependsOn:
     - name: kagent-crds
       namespace: ai-system
@@ -30,16 +20,6 @@ metadata:
   name: kagent-crds
   namespace: ai-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/ai-system/kagent/crds"
-  prune: true
   wait: false
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   targetNamespace: ai-system

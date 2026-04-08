@@ -11,12 +11,6 @@ spec:
       namespace: democratic-csi
     - name: rook-ceph-cluster
       namespace: rook-ceph
-  interval: 30m
   path: "./apps/base/game-servers/minecraft-pixelmon/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   targetNamespace: game-servers

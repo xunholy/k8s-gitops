@@ -6,18 +6,8 @@ metadata:
   name: multus
   namespace: network-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/network-system/multus/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   targetNamespace: network-system
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -27,18 +17,8 @@ metadata:
   name: multus-networks
   namespace: network-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/network-system/multus/networks"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   dependsOn:
     - name: multus
       namespace: network-system

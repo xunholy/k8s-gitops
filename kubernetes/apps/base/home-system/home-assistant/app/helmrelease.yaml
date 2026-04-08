@@ -11,29 +11,6 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
-  install:
-    timeout: 10m
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
-  upgrade:
-    remediation:
-      remediateLastFailure: true
-      retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  driftDetection:
-    mode: enabled
-  maxHistory: 3
   values:
     controllers:
       *app :
@@ -43,7 +20,7 @@ spec:
               repository: ghcr.io/home-operations/home-assistant
               tag: 2026.4.1@sha256:1000851ce4d5bf2f6790bfc8b9052daa2c33a84f92e0bad7d60e0a9333ff4dc2
             env:
-              TZ: Australia/Melbourne
+              TZ: ${CLUSTER_TIMEZONE}
               HASS_HTTP_TRUSTED_PROXY_1: 192.168.50.0/24
               HASS_HTTP_TRUSTED_PROXY_2: 192.168.86.0/24
               HASS_HTTP_TRUSTED_PROXY_3: 10.0.0.0/8
@@ -51,10 +28,38 @@ spec:
             # envFrom:
             #   - secretRef:
             #       name: home-assistant-secret
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/
+                    port: 8123
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/
+                    port: 8123
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
             resources:
               requests:
                 cpu: 10m
@@ -65,13 +70,7 @@ spec:
             image:
               repository: ghcr.io/coder/code-server
               tag: 4.114.1@sha256:df6e26973ab703254d6e736971906b6a1956494e8bbfd7e297afb4cf5d30ab5f
-            args: [
-              "--auth", "none",
-              "--user-data-dir", "/config/.vscode",
-              "--extensions-dir", "/config/.vscode",
-              "--port", "12321",
-              "/config"
-            ]
+            args: ["--auth", "none", "--user-data-dir", "/config/.vscode", "--extensions-dir", "/config/.vscode", "--port", "12321", "/config"]
             resources:
               requests:
                 cpu: 10m
@@ -84,7 +83,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile: {type: RuntimeDefault}
     service:
       app:
         controller: home-assistant

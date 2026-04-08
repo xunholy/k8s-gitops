@@ -6,18 +6,8 @@ metadata:
   name: zigbee2mqtt
   namespace: home-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/home-system/zigbee2mqtt/app"
-  prune: true
   wait: false
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   dependsOn:
     - name: democratic-csi
       namespace: democratic-csi

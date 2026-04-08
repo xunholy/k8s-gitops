@@ -6,16 +6,8 @@ metadata:
   name: volsync
   namespace: volsync-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
   path: "./apps/base/volsync-system/volsync/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   targetNamespace: volsync-system
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -25,16 +17,8 @@ metadata:
   name: volsync-maintenance
   namespace: volsync-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
   path: "./apps/base/volsync-system/volsync/maintenance"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   targetNamespace: volsync-system
   dependsOn:
     - name: volsync

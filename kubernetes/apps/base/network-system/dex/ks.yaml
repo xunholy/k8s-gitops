@@ -6,16 +6,11 @@ metadata:
   name: dex
   namespace: network-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/network-system/dex/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
+  dependsOn:
+    - name: onepassword
+      namespace: external-secrets
+    - name: cert-manager
+      namespace: network-system
   targetNamespace: network-system

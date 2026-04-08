@@ -6,16 +6,6 @@ metadata:
   name: cilium
   namespace: kube-system
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/kube-system/cilium/app"
-  prune: true
   wait: false
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   targetNamespace: kube-system

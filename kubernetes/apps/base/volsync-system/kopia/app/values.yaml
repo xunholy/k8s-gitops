@@ -8,7 +8,7 @@ controllers:
         env:
           KOPIA_WEB_ENABLED: true
           KOPIA_WEB_PORT: &port 80
-          TZ: Australia/Melbourne
+          TZ: ${CLUSTER_TIMEZONE}
         envFrom:
           - secretRef:
               name: kopia-secret
@@ -73,7 +73,7 @@ persistence:
         subPath: repository.config
   repository:
     type: nfs
-    server: expanse.internal
+    server: ${CLUSTER_NFS_SERVER}
     path: /mnt/tank/volsynckopia
     globalMounts:
       - path: /repository

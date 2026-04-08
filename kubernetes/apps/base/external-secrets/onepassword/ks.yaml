@@ -6,16 +6,8 @@ metadata:
   name: onepassword
   namespace: external-secrets
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
   path: "./apps/base/external-secrets/onepassword/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   targetNamespace: external-secrets
   dependsOn:
     - name: external-secrets

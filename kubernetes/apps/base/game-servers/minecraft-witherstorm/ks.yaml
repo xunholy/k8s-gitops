@@ -9,12 +9,6 @@ spec:
   dependsOn:
     - name: democratic-csi
       namespace: democratic-csi
-  interval: 30m
   path: "./apps/base/game-servers/minecraft-witherstorm/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   targetNamespace: game-servers

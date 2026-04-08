@@ -6,16 +6,6 @@ metadata:
   name: blackbox-exporter
   namespace: observability
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 3m
   path: "./apps/base/observability/blackbox-exporter/app"
-  prune: true
   wait: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
   targetNamespace: observability

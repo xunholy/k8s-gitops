@@ -14,30 +14,6 @@ spec:
     - kind: ConfigMap
       name: flux-metrics-configmap
       valuesKey: flux-metrics.yaml
-  install:
-    timeout: 1h
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
-  upgrade:
-    remediation:
-      remediateLastFailure: true
-      retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-    force: true
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
-  driftDetection:
-    mode: enabled
-  maxHistory: 3
   dependsOn:
     - name: grafana
       namespace: observability
