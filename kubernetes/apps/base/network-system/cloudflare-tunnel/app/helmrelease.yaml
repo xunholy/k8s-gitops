@@ -50,7 +50,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 5m
@@ -69,7 +69,7 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
-        seccompProfile: {type: RuntimeDefault}
+        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: *app
@@ -90,15 +90,15 @@ spec:
         data:
           config.yaml: |-
             ingress:
-              - hostname: "api.${CLUSTER_DOMAIN}"
+              - hostname: "api.${ CLUSTER_DOMAIN }"
                 service: tcp://kubernetes.default.svc.cluster.local:443
                 originRequest:
                   proxyType: socks
-              - hostname: "*.${CLUSTER_DOMAIN}"
+              - hostname: "*.${ CLUSTER_DOMAIN }"
                 originRequest:
                   http2Origin: true
                   keepAliveTimeout: 3600s
-                  originServerName: external.${CLUSTER_DOMAIN}
+                  originServerName: external.${ CLUSTER_DOMAIN }
                   tcpKeepAlive: 7200s
                 service: https://envoy-external.network-system.svc.cluster.local:443
               - service: http_status:404

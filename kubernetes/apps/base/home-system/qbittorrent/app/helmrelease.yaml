@@ -19,7 +19,7 @@ spec:
               repository: ghcr.io/home-operations/qbittorrent
               tag: 5.1.4@sha256:bb82ad6668f8eda1d0fcce6c1341498bfa879155bb1295cd9d314a2c35c07a01
             env:
-              TZ: ${CLUSTER_TIMEZONE}
+              TZ: ${ CLUSTER_TIMEZONE }
               QBT_WEBUI_PORT: &port 80
               QBT_TORRENTING_PORT: &torrentPort 50413
             probes:
@@ -43,7 +43,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 100m
@@ -58,13 +58,13 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: {type: RuntimeDefault}
+        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: *app
         type: LoadBalancer
         annotations:
-          lbipam.cilium.io/ips: ${CLUSTER_LB_QB}
+          lbipam.cilium.io/ips: ${ CLUSTER_LB_QB }
         ports:
           http:
             port: *port
@@ -79,8 +79,8 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: ${CLUSTER_NFS_SERVER}
-        path: ${CLUSTER_NFS_PATH}
+        server: ${ CLUSTER_NFS_SERVER }
+        path: ${ CLUSTER_NFS_PATH }
         globalMounts:
           - path: /media/Downloads/qbittorrent
             subPath: Downloads/qbittorrent

@@ -2,7 +2,7 @@ fullnameOverride: blackbox-exporter
 securityContext:
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
-  capabilities: {add: ["NET_RAW"]}
+  capabilities: { add: ["NET_RAW"] }
 config:
   modules:
     http_2xx:
@@ -33,10 +33,10 @@ prometheusRule:
   rules:
     - alert: LanProbeFailed
       expr: |-
-        probe_success{service="blackbox-exporter"} == 0
+        probe_success{ service="blackbox-exporter" } == 0
       for: 15m
       labels:
         severity: critical
       annotations:
         summary: |-
-          The probe targeting {{ $labels.instance }} is currently having connectivity issues
+          The probe targeting { { $labels.instance } } is currently having connectivity issues

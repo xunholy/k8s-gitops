@@ -19,12 +19,12 @@ spec:
               repository: ghcr.io/autobrr/qui
               tag: v1.16.0
             env:
-              TZ: ${CLUSTER_TIMEZONE}
+              TZ: ${ CLUSTER_TIMEZONE }
               QUI__HOST: 0.0.0.0
               QUI__PORT: &port 80
             envFrom:
               - secretRef:
-                  name: "{{ .Release.Name }}-secret"
+                  name: "{ { .Release.Name } }-secret"
             probes:
               liveness: &probes
                 enabled: true
@@ -41,7 +41,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
@@ -54,7 +54,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: {type: RuntimeDefault}
+        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         ports:
@@ -62,10 +62,10 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: "{{ .Release.Name }}"
+        existingClaim: "{ { .Release.Name } }"
       media:
         type: nfs
-        server: ${CLUSTER_NFS_SERVER}
-        path: ${CLUSTER_NFS_PATH}
+        server: ${ CLUSTER_NFS_SERVER }
+        path: ${ CLUSTER_NFS_PATH }
         globalMounts:
           - path: /media

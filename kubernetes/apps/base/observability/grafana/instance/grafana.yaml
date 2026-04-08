@@ -21,16 +21,16 @@ spec:
       enabled: "true"
       name: "GitHub SSO"
       allow_sign_up: "true"
-      client_id: ${GRAFANA_AUTH_GENERIC_CLIENT_ID}
-      client_secret: ${GRAFANA_AUTH_GENERIC_CLIENT_SECRET}
+      client_id: ${ GRAFANA_AUTH_GENERIC_CLIENT_ID }
+      client_secret: ${ GRAFANA_AUTH_GENERIC_CLIENT_SECRET }
       scopes: "openid profile email groups"
       email_attribute_path: email
       login_attribute_path: username
       name_attribute_path: full_name
       groups_attribute_path: groups
-      auth_url: "https://dex.${CLUSTER_DOMAIN}/auth"
-      token_url: "https://dex.${CLUSTER_DOMAIN}/token"
-      api_url: "https://dex.${CLUSTER_DOMAIN}/userinfo"
+      auth_url: "https://dex.${ CLUSTER_DOMAIN }/auth"
+      token_url: "https://dex.${ CLUSTER_DOMAIN }/token"
+      api_url: "https://dex.${ CLUSTER_DOMAIN }/userinfo"
       role_attribute_path: "contains(groups[*], 'raspbernetes:k8s-admins') && 'Admin' || contains(groups[*], 'people') && 'Viewer'"
     log:
       mode: console
@@ -44,7 +44,7 @@ spec:
       angular_support_enabled: "true"
     server:
       enable_gzip: "true"
-      root_url: https://grafana.${CLUSTER_DOMAIN}
+      root_url: https://grafana.${ CLUSTER_DOMAIN }
     smtp:
       enabled: "true"
       host: "smtp-relay.home-system.svc.cluster.local:25"
@@ -68,7 +68,7 @@ spec:
               securityContext:
                 allowPrivilegeEscalation: false
                 readOnlyRootFilesystem: true
-                capabilities: {drop: ["ALL"]}
+                capabilities: { drop: ["ALL"] }
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000

@@ -40,7 +40,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
@@ -54,7 +54,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: {type: RuntimeDefault}
+        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: smtp-relay
@@ -68,8 +68,8 @@ spec:
             state_dir /cache/state
             runtime_dir /cache/run
             tls off
-            hostname {env:SMTP_RELAY_HOSTNAME}
-            smtp tcp://0.0.0.0:{env:SMTP_RELAY_SMTP_PORT} {
+            hostname { env:SMTP_RELAY_HOSTNAME }
+            smtp tcp://0.0.0.0:{ env:SMTP_RELAY_SMTP_PORT } {
                 default_source {
                     deliver_to &remote_queue
                 }
@@ -79,8 +79,8 @@ spec:
             }
             target.smtp remote_smtp {
                 starttls yes
-                auth plain {env:SMTP_RELAY_USERNAME} {env:SMTP_RELAY_PASSWORD}
-                targets tcp://{env:SMTP_RELAY_SERVER}:587
+                auth plain { env:SMTP_RELAY_USERNAME } { env:SMTP_RELAY_PASSWORD }
+                targets tcp://{ env:SMTP_RELAY_SERVER }:587
             }
     persistence:
       cache:

@@ -27,7 +27,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 200m
@@ -45,7 +45,7 @@ spec:
               - |
                 exec node dist/index.js gateway --bind lan
             env:
-              TZ: ${CLUSTER_TIMEZONE}
+              TZ: ${ CLUSTER_TIMEZONE }
               OPENAI_BASE_URL: http://localhost:3456/v1
             envFrom:
               - secretRef:
@@ -53,7 +53,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
             probes:
               startup:
                 enabled: true
@@ -109,14 +109,14 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
             probes:
               startup:
                 enabled: true
                 custom: true
                 spec:
                   exec:
-                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"]
+                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{ process.exit(r.statusCode===200?0:1) }).on('error',()=>process.exit(1))"]
                   initialDelaySeconds: 10
                   periodSeconds: 5
                   failureThreshold: 30
@@ -125,7 +125,7 @@ spec:
                 custom: true
                 spec:
                   exec:
-                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"]
+                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{ process.exit(r.statusCode===200?0:1) }).on('error',()=>process.exit(1))"]
                   periodSeconds: 10
                   failureThreshold: 3
               liveness:
@@ -133,7 +133,7 @@ spec:
                 custom: true
                 spec:
                   exec:
-                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"]
+                    command: ["node", "-e", "require('http').get('http://127.0.0.1:3456/health',r=>{ process.exit(r.statusCode===200?0:1) }).on('error',()=>process.exit(1))"]
                   periodSeconds: 30
                   failureThreshold: 5
             resources:
@@ -168,7 +168,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: {type: RuntimeDefault}
+        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: *app

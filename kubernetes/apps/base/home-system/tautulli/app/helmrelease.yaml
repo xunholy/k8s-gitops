@@ -19,8 +19,8 @@ spec:
               repository: ghcr.io/home-operations/tautulli
               tag: 2.17.0@sha256:b90b30e15d1b6d12fc726fac1ef9778ad92f405ac8f8ccb30a34d7f6673c113d
             env:
-              TZ: ${CLUSTER_TIMEZONE}
-              TAUTULLI_HTTP_BASE_URL: https://tautulli.${CLUSTER_DOMAIN}
+              TZ: ${ CLUSTER_TIMEZONE }
+              TAUTULLI_HTTP_BASE_URL: https://tautulli.${ CLUSTER_DOMAIN }
               TAUTULLI_HTTP_PORT: &port 80
             envFrom:
               - secretRef:
@@ -46,7 +46,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
@@ -59,7 +59,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: {type: RuntimeDefault}
+        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: *app

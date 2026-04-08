@@ -8,7 +8,7 @@ controllers:
         env:
           KOPIA_WEB_ENABLED: true
           KOPIA_WEB_PORT: &port 80
-          TZ: ${CLUSTER_TIMEZONE}
+          TZ: ${ CLUSTER_TIMEZONE }
         envFrom:
           - secretRef:
               name: kopia-secret
@@ -30,7 +30,7 @@ controllers:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
-          capabilities: {drop: ["ALL"]}
+          capabilities: { drop: ["ALL"] }
         resources:
           requests:
             cpu: 10m
@@ -59,7 +59,7 @@ configMaps:
               "path": "/repository"
             }
           },
-          "hostname": "volsync.{{ .Release.Namespace }}.svc.cluster.local",
+          "hostname": "volsync.{ { .Release.Namespace } }.svc.cluster.local",
           "username": "volsync",
           "description": "volsync",
           "enableActions": false
@@ -73,7 +73,7 @@ persistence:
         subPath: repository.config
   repository:
     type: nfs
-    server: ${CLUSTER_NFS_SERVER}
+    server: ${ CLUSTER_NFS_SERVER }
     path: /mnt/tank/volsynckopia
     globalMounts:
       - path: /repository
