@@ -46,6 +46,31 @@ spec:
   timeout: 30m
   values:
     cleanPrometheusOperatorObjectNames: true
+    # Disable alerts that produce false positives in Talos/homelab environments
+    defaultRules:
+      disabled:
+        # False positives from short-lived SA tokens on K8s 1.24+
+        KubeClientCertificateExpiration: true
+      # Extend "for:" durations on upgrade-sensitive alerts to avoid transient noise
+      rules:
+        kubeProxy: false
+    customRules:
+      KubePodNotReady:
+        for: 30m
+      KubePodCrashLooping:
+        for: 30m
+      KubeContainerWaiting:
+        for: 1h
+      KubeDeploymentReplicasMismatch:
+        for: 30m
+      KubeStatefulSetReplicasMismatch:
+        for: 30m
+      KubeDeploymentRolloutStuck:
+        for: 30m
+      KubeDaemonSetRolloutStuck:
+        for: 30m
+      KubeStatefulSetUpdateNotRolledOut:
+        for: 30m
     alertmanager:
       alertmanagerSpec:
         alertmanagerConfiguration:

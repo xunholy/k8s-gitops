@@ -13,7 +13,6 @@ resources:
   - ocirepository.yaml
   - prometheus-replicationsource.yaml
   - prometheus-volsync-externalsecret.yaml
-  - prometheusrule-overrides.yaml
   - scrapeconfig.yaml
   - silence-watchdog.yaml
 configMapGenerator:
