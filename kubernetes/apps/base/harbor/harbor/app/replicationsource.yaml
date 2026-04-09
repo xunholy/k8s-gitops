@@ -17,9 +17,9 @@ spec:
     compression: zstd-fastest
     copyMethod: Snapshot
     moverSecurityContext:
-      runAsUser: 10000
-      runAsGroup: 10000
-      fsGroup: 10000
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
     parallelism: 2
     repository: harbor-volsync-secret
     retain:
@@ -46,9 +46,9 @@ spec:
     compression: zstd-fastest
     copyMethod: Snapshot
     moverSecurityContext:
-      runAsUser: 999
-      runAsGroup: 999
-      fsGroup: 999
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
     parallelism: 2
     repository: harbor-volsync-secret
     retain:
