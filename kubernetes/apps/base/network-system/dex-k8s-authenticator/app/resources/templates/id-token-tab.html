@@ -1,0 +1,11 @@
+{{ define "id-token-content" }}
+
+<p>The ID Token signed by dex and returned as part of the OAuth2 response - represented as a Json Web Token (JWT).</p>
+
+<div class="command">
+  <button class="btn" style="float:right" data-clipboard-snippet="">
+    <img class="clippy" width="13" src="{{ .Web_Path_Prefix }}static/clippy.svg" alt=""/>
+  </button>
+  <pre><code>{{ .IDToken }}</pre></code>
+</div>
+{{ end }}
