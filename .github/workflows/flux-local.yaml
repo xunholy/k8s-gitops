@@ -46,6 +46,7 @@ jobs:
             --all-namespaces
             --enable-helm
             --path /github/workspace/kubernetes/clusters/${{ matrix.cluster }}
+            --sources "flux-system=kubernetes/"
             --verbose
             --skip-invalid-kustomization-paths
 

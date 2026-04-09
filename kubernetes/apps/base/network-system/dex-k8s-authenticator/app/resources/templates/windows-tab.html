@@ -1,0 +1,117 @@
+{{ define "windows-tab-content" }}
+<h3>Install and Set Up kubectl</h3>
+    <div>
+    See
+    <a title="Install and setup kubectl" href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">
+      https://kubernetes.io/docs/tasks/tools/install-kubectl
+    </a>
+
+    {{ if .KubectlVersion }}
+    <p>
+    Download kubectl:
+    <a title="Download kubectl" href="https://storage.googleapis.com/kubernetes-release/release/{{.KubectlVersion}}/bin/windows/amd64/kubectl.exe">
+      https://storage.googleapis.com/kubernetes-release/release/{{.KubectlVersion}}/bin/windows/amd64/kubectl.exe
+    </a>
+    </p>
+    {{ end }}
+  </div>
+
+  {{ if .IDPCaURI }}
+    <h3>Copy IDP CA Certificate From URL</h3>
+
+    <p>Copy this CA Certificate and download it to your .kube directory</p>
+    <div class="command">
+
+      <button class="btn" style="float:right" data-clipboard-snippet="">
+        <img class="clippy" width="13" src="{{ .Web_Path_Prefix }}static/clippy.svg" alt=""/>
+      </button>
+
+      <pre><code>curl --create-dirs -s {{ .IDPCaURI }} -o ${HOME}/.kube/certs/{{ .ClusterName }}/idp-ca.crt</code></pre>
+    </div>
+  {{ end }}
+
+  {{ if .IDPCaPem }}
+    <h3>Copy IDP CA From Pem</h3>
+
+    <p>Put the CA Certificate into your .kube directory</p>
+    <div class="command">
+
+      <button class="btn" style="float:right" data-clipboard-snippet="">
+        <img class="clippy" width="13" src="{{ .Web_Path_Prefix }}static/clippy.svg" alt=""/>
+      </button>
+
+      <pre><code>mkdir -p ${HOME}/.kube/certs/{{ .ClusterName }}/ &amp;&amp; cat &lt;&lt; EOF &gt; ${HOME}/.kube/certs/{{ .ClusterName }}/idp-ca.crt
+{{ .IDPCaPem}}
+EOF</code></pre>
+    </div>
+  {{ end }}
+
+
+  {{ if .K8sCaURI }}
+    <h3>Copy Kubernetes CA Certificate From URL</h3>
+
+    <p>Copy this CA Certificate and download it to your .kube directory</p>
+    <div class="command">
+
+      <button class="btn" style="float: right" data-clipboard-snippet="">
+        <img class="clippy" width="13" src="{{ .Web_Path_Prefix }}static/clippy.svg" alt=""/>
+      </button>
+      <pre><code>curl --create-dirs -s {{ .K8sCaURI }} -o ${HOME}/.kube/certs/{{ .ClusterName }}/k8s-ca.crt</code></pre>
+    </div>
+  {{ end }}
+
+  {{ if .K8sCaPem }}
+    <h3>Copy Kubernetes CA Certificate From PEM</h3>
+
+    <p>Put the CA Certificate into your .kube directory</p>
+
+    <div class="command">
+
+      <button class="btn" style="float:right" data-clipboard-snippet="">
+        <img class="clippy" width="13" src="{{ .Web_Path_Prefix }}static/clippy.svg" alt=""/>
+      </button>
+      <pre><code>mkdir -p ${HOME}/.kube/certs/{{ .ClusterName }}/ &amp;&amp; cat &lt;&lt; EOF &gt; ${HOME}/.kube/certs/{{ .ClusterName }}/k8s-ca.crt
+{{ .K8sCaPem }}
+EOF</code></pre>
+    </div>
+  {{ end }}
+
+  <h3>Run configuration commands</h3>
+
+  <p>These commands will update <tt>~/.kube/config</tt></p>
+
+  <div class="command">
+
+    <button class="btn" style="float:right" data-clipboard-snippet="">
+      <img class="clippy" width="13" src="{{ .Web_Path_Prefix }}static/clippy.svg" alt="">
+    </button>
+  <pre><code>kubectl config set-cluster {{ .ClusterName }}
+    {{- if or .K8sCaPem .K8sCaURI }} --certificate-authority=${HOME}/.kube/certs/{{ .ClusterName}}/k8s-ca.crt
+    {{- end }} --server={{ .K8sMasterURI }}</code></pre>
+  </div>
+
+  <div class="command">
+
+    <button class="btn" style="float:right" data-clipboard-snippet="">
+      <img class="clippy" width="13" src="{{ .Web_Path_Prefix }}static/clippy.svg" alt=""/>
+    </button>
+  <pre><code>kubectl config set-credentials {{ .Username }}-{{ .ClusterName }} --auth-provider=oidc --auth-provider-arg=idp-issuer-url={{ .Issuer }} --auth-provider-arg=client-id={{ .ClientID }} --auth-provider-arg=client-secret={{ .ClientSecret }} --auth-provider-arg=refresh-token={{ .RefreshToken }} --auth-provider-arg=id-token={{ .IDToken }}
+  {{- if or (.IDPCaURI) (.IDPCaPem) }} --auth-provider-arg=idp-certificate-authority=${HOME}/.kube/certs/{{ .ClusterName }}/idp-ca.crt
+  {{- end }}</code></pre>
+  </div>
+  <div class="command">
+
+    <button class="btn" style="float:right" data-clipboard-snippet="">
+      <img class="clippy" width="13" src="{{ .Web_Path_Prefix }}static/clippy.svg" alt="">
+    </button>
+    <pre><code class="hljs">kubectl config set-context {{ if not .StaticContextName }}{{ .Username }}-{{ end }}{{ .ClusterName }} --cluster={{ .ClusterName }} --user={{ .Username}}-{{.ClusterName }}</code></pre>
+  </div>
+
+  <div class="command">
+    <button class="btn" style="float:right" data-clipboard-snippet="">
+      <img class="clippy" width="13" src="{{ .Web_Path_Prefix }}static/clippy.svg" alt=""/>
+    </button>
+    <pre><code class="hljs">kubectl config use-context {{ if not .StaticContextName }}{{ .Username }}-{{ end }}{{ .ClusterName}}</code></pre>
+  </div>
+
+{{ end }}

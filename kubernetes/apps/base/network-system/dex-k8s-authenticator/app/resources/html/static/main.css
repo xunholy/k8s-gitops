@@ -1,0 +1,101 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+h3 { font-size: 16px; }
+
+pre {
+  background-color: #eff0f1;
+  padding: 5px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.dex-container {
+  color: #333;
+  margin: 45px auto;
+  max-width: 500px;
+  min-width: 320px;
+  text-align: center;
+}
+
+.dex-kubeconfig-container {
+  color: #333;
+  margin: 45px auto;
+  max-width: 90%;
+  min-width: 320px;
+  text-align: left;
+}
+
+.dex-btn {
+  border-radius: 4px;
+  border: 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+}
+
+.dex-btn:focus {
+  outline: none;
+}
+
+.dex-btn:active {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  outline: none;
+}
+
+.dex-btn-icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 24px;
+  border-radius: 4px 0 0 4px;
+  float: left;
+  height: 36px;
+  margin-right: 5px;
+  width: 36px;
+}
+
+.dex-btn-icon--local {
+  background-color: #84B6EF;
+  background-image: url(./button.svg);
+}
+
+.dex-btn-text {
+  font-weight: 600;
+  line-height: 36px;
+  padding: 6px 12px;
+  text-align: center;
+}
+
+.dex-separator {
+  color: #999;
+}
+
+.dex-error-box {
+  background-color: #DD1327;
+  color: #fff;
+  font-size: 14px;
+  font-weight: normal;
+  max-width: 320px;
+  padding: 4px 0;
+}
+
+.dex-error-box {
+  margin: 20px auto;
+}
+
+div.groups {
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  margin-bottom: 15px;
+}
+
+div.command {
+margin-top: 15px;
+}
