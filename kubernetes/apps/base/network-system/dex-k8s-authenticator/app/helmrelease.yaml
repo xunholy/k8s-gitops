@@ -1,22 +1,94 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app dex-k8s-authenticator
   namespace: network-system
 spec:
-  interval: 5m
-  timeout: 10m
-  chart:
-    spec:
-      chart: ./charts/dex-k8s-authenticator
-      version: 1.4.0
-      sourceRef:
-        kind: GitRepository
-        name: dex-k8s-authenticator-chart-git
-        namespace: flux-system
-      interval: 10m
-  valuesFrom:
-    - kind: ConfigMap
-      name: dex-k8s-authenticator-values
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      *app :
+        replicas: 1
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/xunholy/dex-k8s-authenticator
+              tag: latest
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: &port 5555
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    configMaps:
+      config:
+        data:
+          config.yaml: |-
+            listen: http://0.0.0.0:5555
+            web_path_prefix: /
+            debug: true
+            clusters:
+              - name: kubernetes
+                short_description: "Cluster 00"
+                description: "Cluster Login"
+                client_secret: "${DEX_K8S_CLIENT_SECRET}"
+                issuer: "https://dex.${CLUSTER_DOMAIN}"
+                k8s_master_uri: https://${CLUSTER_CONTROLPLANE_VIP}:6443
+                client_id: "${DEX_K8S_CLIENT_ID}"
+                redirect_uri: https://login.${CLUSTER_DOMAIN}/callback
+                k8s_ca_pem: |
+                  -----BEGIN CERTIFICATE-----
+                  MIIBijCCATCgAwIBAgIRAKe1fimhdjgMm+tAfHtovvowCgYIKoZIzj0EAwIwFTET
+                  MBEGA1UEChMKa3ViZXJuZXRlczAeFw0yNTEwMTEwMzEzMTdaFw0zNTEwMDkwMzEz
+                  MTdaMBUxEzARBgNVBAoTCmt1YmVybmV0ZXMwWTATBgcqhkjOPQIBBggqhkjOPQMB
+                  BwNCAATlqT+4DaHxabdX4JxwKstgqPkuR/1+H7RZgOmA1n/jjQP3jjKDxqMIzpbQ
+                  i6P/BFuYMY3L04kEz7iYqWMxa9byo2EwXzAOBgNVHQ8BAf8EBAMCAoQwHQYDVR0l
+                  BBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0O
+                  BBYEFAMIRFQ/gcCC4A7dGhyWciGP0c9yMAoGCCqGSM49BAMCA0gAMEUCIGj+4ye6
+                  c2F26IJW75btkhtNGtonZxzgCahoguVKz9lPAiEApKt6F2obZ9axsIytkCtPph3R
+                  eL9OYSE6Q2PF5CvX5gI=
+                  -----END CERTIFICATE-----
+    persistence:
+      config:
+        type: configMap
+        identifier: config
+        globalMounts:
+          - path: /app/config.yaml
+            subPath: config.yaml
+            readOnly: true
