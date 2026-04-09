@@ -1,0 +1,24 @@
+---
+name: Feature Request
+description: Propose a new application or cluster enhancement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What would you like to add or change?
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why is this needed?
+    validations:
+      required: true
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation Notes
+      description: Any thoughts on how to implement this?

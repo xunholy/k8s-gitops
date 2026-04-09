@@ -25,16 +25,6 @@
       minimumGroupSize: 2,
     },
     {
-      description: "Istio Group",
-      groupName: "istio",
-      matchDatasources: ["helm"],
-      matchPackagePatterns: ["gateway", "istio-base", "istio-cni", "istiod"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 4,
-    },
-    {
       description: "Cilium Group",
       groupName: "Cilium",
       matchDatasources: ["docker"],
@@ -65,16 +55,6 @@
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-    },
-    {
-      description: "Litmus Group",
-      groupName: "Litmus",
-      matchDatasources: ["helm"],
-      matchPackagePatterns: ["litmus", "litmus-core"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 2,
     },
     {
       description: "kagent Group",

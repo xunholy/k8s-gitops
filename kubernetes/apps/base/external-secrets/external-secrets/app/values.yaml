@@ -1,3 +1,4 @@
+priorityClassName: platform-cluster-critical
 leaderElect: true
 serviceMonitor:
   enabled: true

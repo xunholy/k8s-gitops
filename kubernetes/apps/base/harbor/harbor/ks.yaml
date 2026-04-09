@@ -13,6 +13,8 @@ spec:
       namespace: network-system
     - name: rook-ceph-cluster
       namespace: rook-ceph
+    - name: volsync
+      namespace: volsync-system
   targetNamespace: harbor
   sourceRef:
     kind: OCIRepository

@@ -1,0 +1,51 @@
+---
+name: Bug Report
+description: Report a problem with the cluster or an application
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: system
+    attributes:
+      label: System
+      description: Which system is affected?
+      options:
+        - kube-system
+        - network-system
+        - observability
+        - security-system
+        - home-system
+        - game-servers
+        - ai-system
+        - rook-ceph
+        - flux-system
+        - other
+    validations:
+      required: true
+  - type: input
+    id: application
+    attributes:
+      label: Application
+      description: Which application is affected?
+      placeholder: e.g. cert-manager, home-assistant
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should have happened?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs
+      description: Paste relevant logs or Flux events
+      render: shell

@@ -1,0 +1,10 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: rook-ceph-operator
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: rook-ceph-operator

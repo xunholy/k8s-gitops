@@ -1,0 +1,58 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: harbor-registry
+spec:
+  sourcePVC: harbor-registry
+  trigger:
+    schedule: "0 * * * *"
+  kopia:
+    accessModes:
+      - ReadWriteOnce
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 5Gi
+    cacheStorageClassName: ceph-block
+    compression: zstd-fastest
+    copyMethod: Snapshot
+    moverSecurityContext:
+      runAsUser: 10000
+      runAsGroup: 10000
+      fsGroup: 10000
+    parallelism: 2
+    repository: harbor-volsync-secret
+    retain:
+      hourly: 24
+      daily: 7
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: harbor-database
+spec:
+  sourcePVC: harbor-database
+  trigger:
+    schedule: "0 * * * *"
+  kopia:
+    accessModes:
+      - ReadWriteOnce
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 2Gi
+    cacheStorageClassName: ceph-block
+    compression: zstd-fastest
+    copyMethod: Snapshot
+    moverSecurityContext:
+      runAsUser: 999
+      runAsGroup: 999
+      fsGroup: 999
+    parallelism: 2
+    repository: harbor-volsync-secret
+    retain:
+      hourly: 24
+      daily: 7
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool

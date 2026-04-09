@@ -26,29 +26,28 @@ jobs:
         uses: bjw-s-labs/action-changed-files@a9a36fb08ce06db9b02fbd8026cc2c0945eb9841 # v0.6.0
         with:
           patterns: kubernetes/**/*
-  # TODO: Re-enable tests when we can ignore invalid kustomization paths correctly
-  # test:
-  #   if: ${{ needs.filter.outputs.changed-files != '[]' }}
-  #   needs: filter
-  #   name: Flux Local - Test
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       cluster: ["cluster-00"]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+  test:
+    if: ${{ needs.filter.outputs.changed-files != '[]' }}
+    needs: filter
+    name: Flux Local - Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cluster: ["cluster-00"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-  #     - name: Run flux-local test
-  #       uses: docker://ghcr.io/allenporter/flux-local:v7.9.0
-  #       with:
-  #         args: >-
-  #           test
-  #           --all-namespaces
-  #           --enable-helm
-  #           --path /github/workspace/kubernetes/clusters/${{ matrix.cluster }}
-  #           --verbose
-  #           --skip-invalid-kustomization-paths
+      - name: Run flux-local test
+        uses: docker://ghcr.io/allenporter/flux-local:v8.2.0@sha256:9c77739d8d7c71b808311693ea52d603d1ddb5190d3d4f23e47f6f33d5254602
+        with:
+          args: >-
+            test
+            --all-namespaces
+            --enable-helm
+            --path /github/workspace/kubernetes/clusters/${{ matrix.cluster }}
+            --verbose
+            --skip-invalid-kustomization-paths
 
   diff:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
@@ -119,7 +118,7 @@ jobs:
 
   success:
     if: ${{ !cancelled() }}
-    needs: ["diff"]
+    needs: ["test", "diff"]
     name: Flux Local - Success
     runs-on: ubuntu-latest
     steps:

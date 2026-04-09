@@ -8,12 +8,12 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/terraform.yml'
+      - '.github/workflows/terraform.yaml'
       - 'terraform/**'
 
 env:
   tf_actions_working_dir: terraform/gcp
-  terraform_version: 1.4.2
+  terraform_version: 1.9.8
 
 jobs:
   plan:

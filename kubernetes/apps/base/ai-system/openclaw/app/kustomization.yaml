@@ -10,3 +10,5 @@ resources:
   - configmap.yaml
   - httproute.yaml
   - backendtrafficpolicy.yaml
+  - replicationsource.yaml
+  - volsync-externalsecret.yaml

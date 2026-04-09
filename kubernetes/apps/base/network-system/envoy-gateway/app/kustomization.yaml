@@ -13,4 +13,5 @@ resources:
   - httproutes.yaml
   - monitors.yaml
   - ocirepository.yaml
+  - pdb.yaml
   - policies.yaml

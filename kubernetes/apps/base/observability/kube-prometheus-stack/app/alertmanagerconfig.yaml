@@ -6,7 +6,7 @@ metadata:
   name: alertmanager
 spec:
   route:
-    receiver: "null"
+    receiver: email
     groupBy:
       - namespace
       - alertname
@@ -20,8 +20,24 @@ spec:
             matchType: "=~"
             value: "InfoInhibitor|Watchdog"
         continue: false
+      - receiver: email
+        matchers:
+          - name: severity
+            matchType: "=~"
+            value: "critical|warning"
+        continue: false
   receivers:
     - name: "null"
+    - name: email
+      emailConfigs:
+        - to: "${PRIVATE_EMAIL}"
+          from: "alertmanager@${CLUSTER_DOMAIN}"
+          smarthost: "smtp-relay.home-system.svc.cluster.local:25"
+          requireTLS: false
+          sendResolved: true
+          headers:
+            - key: Subject
+              value: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.SortedPairs.Values | join " " }}'
   inhibitRules:
     - sourceMatch:
         - name: severity

@@ -1,3 +1,4 @@
+priorityClassName: platform-cluster-critical
 provider:
   name: cloudflare
 domainFilters:
