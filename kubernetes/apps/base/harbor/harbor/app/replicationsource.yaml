@@ -33,7 +33,7 @@ kind: ReplicationSource
 metadata:
   name: harbor-database
 spec:
-  sourcePVC: harbor-database
+  sourcePVC: database-data-harbor-database-0
   trigger:
     schedule: "0 * * * *"
   kopia:
