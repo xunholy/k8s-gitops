@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Generate Kubernetes Token</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ .Web_Path_Prefix }}static/main.css" rel="stylesheet" type="text/css">
+    <link href="{{ .Web_Path_Prefix }}static/styles.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="{{ .Web_Path_Prefix }}static/favicon.png">
+  </head>
+
+  <body class="theme-body">
+    <div class="theme-navbar">
+      {{ if .Logo_Uri }}
+      <div class="theme-navbar__logo-wrap">
+          <img class="theme-navbar__logo" src="{{ .Logo_Uri }}"/>
+      </div>
+      {{ end }}
+    </div>
+
+    <div class="dex-container">
+
+      <div class="theme-panel">
+        <h2 class="theme-heading">Generate Kubernetes Token</h2>
+        <div>
+            <p>
+              Select which cluster you require a token for:
+            </p>
+
+            {{ range $cluster := .Clusters }}
+
+            <div class="theme-form-row">
+                <p class="theme-form-description">{{$cluster.Description}}</p>
+                <a href="{{ $.Web_Path_Prefix }}login/{{$cluster.Name}}" target="_self">
+                  <button class="dex-btn theme-btn-provider">
+                    <span class="dex-btn-icon dex-btn-icon--local"></span>
+                    <span class="dex-btn-text">{{$cluster.Short_Description}}</span>
+                  </button>
+                </a>
+              </div>
+              {{ end }}
+            </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
