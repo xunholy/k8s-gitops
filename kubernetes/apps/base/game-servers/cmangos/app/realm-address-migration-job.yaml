@@ -28,7 +28,7 @@ spec:
           command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
       containers:
         - name: migrate
-          image: mariadb:11.8
+          image: mariadb:12.2
           command:
             - /bin/bash
             - -c
