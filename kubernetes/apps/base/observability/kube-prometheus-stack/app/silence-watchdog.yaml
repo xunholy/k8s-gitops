@@ -1,0 +1,11 @@
+---
+apiVersion: observability.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
+  name: watchdog
+  namespace: observability
+spec:
+  matchers:
+    - name: alertname
+      value: Watchdog
+      matchType: "="

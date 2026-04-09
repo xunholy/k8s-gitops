@@ -10,35 +10,61 @@ spec:
     groupBy:
       - namespace
       - alertname
-    groupWait: 30s
-    groupInterval: 5m
+    groupWait: 1m
+    groupInterval: 10m
     repeatInterval: 12h
     routes:
+      # Drop Watchdog and InfoInhibitor — these are internal signals
       - receiver: "null"
         matchers:
           - name: alertname
             matchType: "=~"
             value: "InfoInhibitor|Watchdog"
         continue: false
+      # Drop etcd alerts that are noisy on Talos single-node etcd restarts
+      - receiver: "null"
+        matchers:
+          - name: alertname
+            matchType: "=~"
+            value: "etcdHighNumberOfLeaderChanges|etcdMembersDown|etcdInsufficientMembers|etcdHighNumberOfFailedGRPCRequests"
+          - name: severity
+            matchType: "!="
+            value: critical
+        continue: false
+      # Critical alerts — deliver immediately
       - receiver: email
         matchers:
           - name: severity
-            matchType: "=~"
-            value: "critical|warning"
+            matchType: "="
+            value: critical
+        groupWait: 30s
+        repeatInterval: 4h
+        continue: false
+      # Warning alerts — batch with longer wait to reduce upgrade noise
+      - receiver: email
+        matchers:
+          - name: severity
+            matchType: "="
+            value: warning
+        groupWait: 5m
+        repeatInterval: 12h
         continue: false
   receivers:
     - name: "null"
     - name: email
       emailConfigs:
         - to: "${PRIVATE_EMAIL}"
-          from: "alertmanager@${CLUSTER_DOMAIN}"
+          from: "noreply@${CLUSTER_DOMAIN}"
           smarthost: "smtp-relay.home-system.svc.cluster.local:25"
           requireTLS: false
           sendResolved: true
           headers:
+            - key: From
+              value: "Alert Manager <noreply@${CLUSTER_DOMAIN}>"
             - key: Subject
               value: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.SortedPairs.Values | join " " }}'
   inhibitRules:
+    # Critical silences warning/info for the same alert
     - sourceMatch:
         - name: severity
           matchType: "="
@@ -50,6 +76,7 @@ spec:
       equal:
         - namespace
         - alertname
+    # InfoInhibitor silences info
     - sourceMatch:
         - name: alertname
           matchType: "="
@@ -60,3 +87,26 @@ spec:
           value: info
       equal:
         - namespace
+    # KubePodCrashLooping inhibits KubePodNotReady for the same pod
+    - sourceMatch:
+        - name: alertname
+          matchType: "="
+          value: KubePodCrashLooping
+      targetMatch:
+        - name: alertname
+          matchType: "="
+          value: KubePodNotReady
+      equal:
+        - namespace
+        - pod
+    # Node-level alerts inhibit pod-level alerts on the same node
+    - sourceMatch:
+        - name: alertname
+          matchType: "=~"
+          value: "KubeNodeNotReady|KubeNodeUnreachable"
+      targetMatch:
+        - name: severity
+          matchType: "=~"
+          value: warning|info
+      equal:
+        - node

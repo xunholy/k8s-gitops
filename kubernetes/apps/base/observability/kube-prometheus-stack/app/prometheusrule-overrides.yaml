@@ -1,0 +1,170 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kube-prometheus-stack-overrides
+spec:
+  groups:
+    # Override default alert thresholds to reduce noise during upgrades.
+    # These replace the defaults from kube-prometheus-stack with longer
+    # "for:" durations so transient rollout states don't fire alerts.
+    - name: kubernetes-apps-overrides
+      rules:
+        # Pod not ready for 30m instead of 15m — gives rollouts time to complete
+        - alert: KubePodNotReady
+          expr: |-
+            sum by (namespace, pod, cluster) (
+              max by (namespace, pod, cluster) (
+                kube_pod_status_phase{job="kube-state-metrics",phase=~"Pending|Unknown|Failed"}
+              ) * on (namespace, pod, cluster) group_left(owner_kind) topk by (namespace, pod, cluster) (
+                1, max by (namespace, pod, owner_kind, cluster) (kube_pod_owner{owner_kind!="Job"})
+              )
+            ) > 0
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for longer than 30 minutes."
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubepodnotready
+            summary: Pod has been in a non-ready state for more than 30 minutes.
+
+        # Pod crash looping for 30m instead of 15m — allows restart backoff to settle
+        - alert: KubePodCrashLooping
+          expr: |-
+            max_over_time(kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff",job="kube-state-metrics"}[5m]) >= 1
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) is in waiting state (reason: \"CrashLoopBackOff\")."
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubepodcrashlooping
+            summary: Pod is crash looping.
+
+        # Deployment replica mismatch for 30m instead of 15m — rollouts cause transient mismatches
+        - alert: KubeDeploymentReplicasMismatch
+          expr: |-
+            (
+              kube_deployment_spec_replicas{job="kube-state-metrics"}
+                >
+              kube_deployment_status_ready_replicas{job="kube-state-metrics"}
+            ) and (
+              changes(kube_deployment_status_replicas_updated{job="kube-state-metrics"}[10m])
+                ==
+              0
+            )
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            description: "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has not matched the expected number of replicas for longer than 30 minutes."
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubedeploymentreplicasmismatch
+            summary: Deployment has not matched the expected number of replicas.
+
+        # StatefulSet replica mismatch for 30m instead of 15m
+        - alert: KubeStatefulSetReplicasMismatch
+          expr: |-
+            (
+              kube_statefulset_status_replicas_ready{job="kube-state-metrics"}
+                !=
+              kube_statefulset_status_replicas{job="kube-state-metrics"}
+            ) and (
+              changes(kube_statefulset_status_replicas_updated{job="kube-state-metrics"}[10m])
+                ==
+              0
+            )
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            description: "StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} has not matched the expected number of replicas for longer than 30 minutes."
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubestatefulsetreplicasmismatch
+            summary: StatefulSet has not matched the expected number of replicas.
+
+        # Deployment rollout stuck for 30m instead of 15m
+        - alert: KubeDeploymentRolloutStuck
+          expr: |-
+            kube_deployment_status_condition{condition="Progressing",status="false",job="kube-state-metrics"}
+              != 0
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            description: "Rollout of deployment {{ $labels.namespace }}/{{ $labels.deployment }} is not progressing for longer than 30 minutes."
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubedeploymentrolloutstuck
+            summary: Deployment rollout is not progressing.
+
+        # DaemonSet rollout stuck for 30m instead of 15m
+        - alert: KubeDaemonSetRolloutStuck
+          expr: |-
+            (
+              (
+                kube_daemonset_status_current_number_scheduled{job="kube-state-metrics"}
+                  !=
+                kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics"}
+              ) or (
+                kube_daemonset_status_number_misscheduled{job="kube-state-metrics"}
+                  !=
+                0
+              ) or (
+                kube_daemonset_status_updated_number_scheduled{job="kube-state-metrics"}
+                  !=
+                kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics"}
+              ) or (
+                kube_daemonset_status_number_available{job="kube-state-metrics"}
+                  !=
+                kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics"}
+              )
+            ) and (
+              changes(kube_daemonset_status_updated_number_scheduled{job="kube-state-metrics"}[5m])
+                ==
+              0
+            )
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            description: "DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset }} has not finished or progressed for at least 30 minutes."
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubedaemonsetrolloutstuck
+            summary: DaemonSet rollout is stuck.
+
+        # StatefulSet update not rolled out for 30m instead of 15m
+        - alert: KubeStatefulSetUpdateNotRolledOut
+          expr: |-
+            (
+              max without (revision) (
+                kube_statefulset_status_current_revision
+                  unless
+                kube_statefulset_status_update_revision
+              )
+                *
+              (
+                kube_statefulset_replicas
+                  !=
+                kube_statefulset_status_replicas_updated
+              )
+            ) and (
+              changes(kube_statefulset_status_replicas_updated[5m])
+                ==
+              0
+            )
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            description: "StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} update has not been rolled out."
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubestatefulsetupdatenotrolledout
+            summary: StatefulSet update has not been rolled out.
+
+    # Disable noisy etcd alerts that fire frequently on Talos homelab clusters
+    - name: etcd-overrides
+      rules:
+        - alert: etcdHighNumberOfLeaderChanges
+          expr: |-
+            increase(etcd_server_leader_changes_seen_total[15m]) >= 5
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            description: "etcd cluster {{ $labels.job }}: {{ $value }} leader changes within the last 15 minutes. Frequent elections may be a sign of insufficient resources, high network latency, or disruptions by other components and should be investigated."
+            summary: etcd cluster has high number of leader changes.
