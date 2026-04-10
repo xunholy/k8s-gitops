@@ -86,7 +86,7 @@ jobs:
             --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
             --limit-bytes 10000
             --all-namespaces
-            --sources "flux-system"
+            --sources "flux-system=kubernetes/"
             --output-file diff.patch
             --skip-invalid-kustomization-paths
 
