@@ -71,6 +71,10 @@ spec:
         for: 30m
       KubeStatefulSetUpdateNotRolledOut:
         for: 30m
+      KubeJobFailed:
+        for: 1h
+      TargetDown:
+        for: 15m
     alertmanager:
       alertmanagerSpec:
         alertmanagerConfiguration:

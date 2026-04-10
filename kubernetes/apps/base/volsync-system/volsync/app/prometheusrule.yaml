@@ -24,6 +24,6 @@ spec:
           annotations:
             summary: >-
               {{ $labels.obj_namespace }}/{{ $labels.obj_name }} volume is out of sync
-          for: 5m
+          for: 2h
           labels:
             severity: critical
