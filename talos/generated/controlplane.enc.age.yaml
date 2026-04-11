@@ -20,6 +20,23 @@ machine:
     image: ghcr.io/siderolabs/kubelet:v1.34.1
     defaultRuntimeSeccompProfileEnabled: true
     disableManifestsDirectory: true
+    extraConfig:
+      serializeImagePulls: false
+  sysctls:
+    # Inotify — required for K8s controllers/operators at scale
+    fs.inotify.max_user_instances: "8192"
+    fs.inotify.max_user_watches: "1048576"
+    # TCP/Network performance — BBR congestion control + buffer tuning
+    net.core.default_qdisc: fq
+    net.core.rmem_max: "67108864"
+    net.core.wmem_max: "67108864"
+    net.ipv4.tcp_congestion_control: bbr
+    net.ipv4.tcp_fastopen: "3"
+    net.ipv4.tcp_mtu_probing: "1"
+    net.ipv4.tcp_rmem: 4096 87380 33554432
+    net.ipv4.tcp_wmem: 4096 65536 33554432
+    net.ipv4.tcp_slow_start_after_idle: "0"
+    net.ipv4.tcp_window_scaling: ENC[AES256_GCM,data:IA==,iv:d8fVhbnF+Ue4+8dM4LPTXWhAHV4FH5BmwBS8V5KGzco=,tag:nqCJ0VYb96NDHpcH467JEg==,type:str]
   network:
     interfaces:
       - deviceSelector:
@@ -117,6 +134,7 @@ cluster:
       - talos.api.owncloud.ai
       - 192.168.50.200
     extraArgs:
+      enable-aggregator-routing: "true"
       feature-gates: MutatingAdmissionPolicy=true
       runtime-config: admissionregistration.k8s.io/v1beta1=true
       oidc-client-id: dex-k8s-authenticator
@@ -166,6 +184,8 @@ cluster:
         disabled: true
       service: {}
   etcd:
+    extraArgs:
+      listen-metrics-urls: http://0.0.0.0:2381
     ca:
       crt: ENC[AES256_GCM,data:dGNp4/kIxSZjYRsY2a1jX2F5ZkuUkAvlZ/218YeFbNb4ViUO7YMTGXCpg5/RXfk0bLXRzWJwr9fU8C6QVbQ6Kc3TdHsvDnYXgNEkdFo8O8AwqrN4smFTbeEGW+m9No0ZfejuHKgbIj52JXqFC9duRNDJ7sAe3V+rnYK77bHJsDNlty7KSZDcTAxnAohOYKryXjHG0vnfjua/RK3Kl1IJn7IVtnK0ljS38NKmV4z4dlai57D+SlaLeeqMhOPvPROegOMPLAAEPflRdJ1VzWR3eMAOK4UrnwuZxdTFJm4dD+TuVi3urYW3zsXDkns+GKVh7POOcU9E6Ra/kNljjlJRUVzN4zG7RHl88/JYraR+fBjAG2ggvkupCp7f7D53t8JFWlKEeGeb24Agw3WI2mSCLqyXuKDDrN9rTR4KkVImI9F4B0SeTa/gpkzAJN7dRw8qoeyRBu8uMIij8HEjaN4IgYXMny1t/ymIhBoaOGbW2jWulapXLcXbiJdUZoyqnl08I/G0qgB3mSMf1b1PfV14PwPVOTkPD5MBVdev+q4ajupnfFqql3HIWTW2OOh5a0cipj3PuK90P7XwN+dYBIUDEjb/nVnsYqThQ5xAfAZjeoquiW4f01mLOUIZZ43Mb/WcNaZylFmfe3JJDDv1ObcsLNlAPRL8LcmsaV6GfwtgVPfACg/msEVl1vKE/9+cOsYrfJNKpJN6FNxZre17pkH+qpXwxRtK36SLt4mhSWTk7RUDnWlrO8Z+9cuKdEmqDczQMW+HIDAPHXZ1NE0O5vSciYXAKnEqObuHvOPTk0zs8Ce9bgQYlhhr4V9PHe8w+TMCGUCeNwg/lr+3SZyi+A7gTMO2+1eyx2ORvz3DBIo+SQSx4XNbKS6m3FtRGfse6ds1cgStdimvc2zzyd7rns/iKMPOXJplo2Ywryzi/rDBB9NJpqeVIeqhf8+rTjeR8BN0Psviy9CdFMHxUpu3A9KBhvTLVAc7hIE6Y+ml233CDzdDzD/sB8Nvs9SMTdvL7zei,iv:2OGAroS1xlxrfpYeT7C2VBvFFdnTJgSbdcvADGA324c=,tag:0fO8I+04dx2xycvUSsFjWA==,type:str]
       key: ENC[AES256_GCM,data:Wrmd1Yw6031zKraKkozc10JThkzlBMPNS1QAPqjew1V/tPhz5Lgq4ATa84BFjxLL3LCtjaGppuxPlo4exeoefZm5YbVcmrr9DmvfzDLDMdN+4B/NTk0KHQGzxw6mpfqVMWqWNOiLyY9iUlsgkFlZ30MH+9sOSmMlECBADA3enZygalxoSWHP0wmEBV3ebLmaZz6lISmgLHVQjWG4DW3qlW4q08TzU9lel/mqBVvKeJIWFDNNlE7DKhRqDvNpdtCRKEXx2cOOLzZuEqhKmeFgqJdtpzxK0Bt0yKBCSQbmGU4GoWtRXR+VDk7kfsaP504LNBOKuN03eoxVnaQg6r+qa9HENQbhTDHcTUPZEC/R+Lwek9Y+3TSP2DBGuZNNCplYIRK9LmTXgdSsPIAJOJuY5A==,iv:wnPsQ23i+mbqPWwONHPgXox8yT+Kvjj7SZ40d4+Lfig=,tag:4IlavwRghMnRAfvd5cF/jA==,type:str]
@@ -190,8 +210,8 @@ sops:
         aHoxbU5sVFdFUUc0MHhMeW1oQ0Z2aG8KUtfI19ZT0BHjAdBRzIjujpJaVxwIpd3Q
         gw/91gb8ePG5QuXhUBS4Ql0lxJZQwL0eCIu/DgRqtkQOFve4bTrY0w==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-04-11T22:16:06Z"
-  mac: ENC[AES256_GCM,data:oo7qyjhNJnk/JWciOZiY450iKnspZWxmzYLdPRw4RsE6DmfpcYbiBIQ+oWkFN6eST3LjUhGLqx9HgnZp588+rcIzl/fo6cfQXS5Y5N0Kiw1vxF433MM6p10AjfvmVHAxE9PPWttcgDv6WsiBgMQgv+SmxR+O1kds9V0k2Y9dCfE=,iv:3qkIll8byV7m1Ngjpg084lG5gsTzlQyTX/gowGoQO24=,tag:LKq6/R5JrY62LyJ24VZarw==,type:str]
+  lastmodified: "2026-04-11T22:45:48Z"
+  mac: ENC[AES256_GCM,data:M2C5c3EDoye51IWwcQF75QpmjYvWqTXo7ZrNvYGQ8ku+j83nWUUVJYEuwc9MdxZtHO60SAZO6O3k3y3kXARQdeiQXeGDOwjKuJmI3c2soDUCF4jWPUn6F4ojSs7UtQ5QAsRhZJ7WtvO5BIoHWt3SPiOuYvuS1ECw2aFraztS2NU=,iv:6LqbgEiTDW1G6nARUnxyf/Oe6SYRRWBc15DOnMS4DTU=,tag:23jtN2fRUDUTCsP7bySL5A==,type:str]
   encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
   mac_only_encrypted: true
   version: 3.12.1
