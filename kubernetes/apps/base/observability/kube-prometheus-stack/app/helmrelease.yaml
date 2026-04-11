@@ -56,6 +56,9 @@ spec:
         # Expected in resource-constrained homelab; not actionable without adding hardware
         KubeMemoryOvercommit: true
         KubeCPUOvercommit: true
+        # Replaced with custom rule at 3x threshold (default 1.5x is too sensitive
+        # with auto-compaction; fragmentation between defrag cycles is normal)
+        etcdDatabaseHighFragmentationRatio: true
       # Extend "for:" durations on upgrade-sensitive alerts to avoid transient noise
       rules:
         kubeProxy: false
@@ -140,6 +143,20 @@ spec:
           limits:
             memory: 2000Mi
     additionalPrometheusRulesMap:
+      etcd-fragmentation:
+        groups:
+          - name: etcd-fragmentation
+            rules:
+              - alert: etcdDatabaseHighFragmentationRatio
+                annotations:
+                  summary: >-
+                    etcd {{ $labels.instance }} DB fragmentation is {{ $value | humanizePercentage }},
+                    indicating auto-compaction may not be working or defragmentation is overdue
+                expr: |-
+                  (last_over_time(etcd_mvcc_db_total_size_in_bytes[5m]) / last_over_time(etcd_mvcc_db_total_size_in_use_in_bytes[5m])) > 3
+                for: 30m
+                labels:
+                  severity: warning
       oom-rules:
         groups:
           - name: oom
