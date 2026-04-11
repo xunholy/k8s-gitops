@@ -10,6 +10,7 @@ spec:
     groupBy:
       - namespace
       - alertname
+      - job
     groupWait: 1m
     groupInterval: 10m
     repeatInterval: 12h
