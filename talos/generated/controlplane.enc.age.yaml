@@ -117,6 +117,8 @@ cluster:
       - talos.api.owncloud.ai
       - 192.168.50.200
     extraArgs:
+      feature-gates: MutatingAdmissionPolicy=true
+      runtime-config: admissionregistration.k8s.io/v1beta1=true
       oidc-client-id: dex-k8s-authenticator
       oidc-issuer-url: https://dex.owncloud.ai
       oidc-username-claim: email
@@ -154,6 +156,8 @@ cluster:
     image: registry.k8s.io/kube-proxy:v1.34.1
     disabled: true
   scheduler:
+    extraArgs:
+      bind-address: 0.0.0.0
     image: registry.k8s.io/kube-scheduler:v1.34.1
   discovery:
     enabled: true
@@ -186,8 +190,8 @@ sops:
         aHoxbU5sVFdFUUc0MHhMeW1oQ0Z2aG8KUtfI19ZT0BHjAdBRzIjujpJaVxwIpd3Q
         gw/91gb8ePG5QuXhUBS4Ql0lxJZQwL0eCIu/DgRqtkQOFve4bTrY0w==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-04-09T22:25:37Z"
-  mac: ENC[AES256_GCM,data:3dqse3y2bSCTpOBrcK7wXFV4yrkAvK9vAUOm0SJZefZw6k3jZTPzaMmx7y0ExlFBWSmkxGjQmQad6IbUb8LDOn7fJ6MepvO9/tFSPAr2C6kHNHYfb0Z2cq402zquHLA00UKyrLWBR3hTzujqspCGFLT1dd1vERTz4Y+/xTUgUhY=,iv:PiBWWZC5lOeumYTSAOsuYvtEHEzGVhQdf8FerN17UMw=,tag:qKjtzZ1yDpWlO6cRPaNF5Q==,type:str]
+  lastmodified: "2026-04-11T22:16:06Z"
+  mac: ENC[AES256_GCM,data:oo7qyjhNJnk/JWciOZiY450iKnspZWxmzYLdPRw4RsE6DmfpcYbiBIQ+oWkFN6eST3LjUhGLqx9HgnZp588+rcIzl/fo6cfQXS5Y5N0Kiw1vxF433MM6p10AjfvmVHAxE9PPWttcgDv6WsiBgMQgv+SmxR+O1kds9V0k2Y9dCfE=,iv:3qkIll8byV7m1Ngjpg084lG5gsTzlQyTX/gowGoQO24=,tag:LKq6/R5JrY62LyJ24VZarw==,type:str]
   encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
   mac_only_encrypted: true
   version: 3.12.1
