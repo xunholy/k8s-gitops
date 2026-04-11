@@ -14,7 +14,7 @@ spec:
           annotations:
             summary: >-
               VolSync component has disappeared from Prometheus target discovery
-          for: 5m
+          for: 15m
           labels:
             severity: critical
 

@@ -51,6 +51,11 @@ spec:
       disabled:
         # False positives from short-lived SA tokens on K8s 1.24+
         KubeClientCertificateExpiration: true
+        # Extremely noisy — fires on any container with CPU limits under throttle; not actionable in homelab
+        CPUThrottlingHigh: true
+        # Expected in resource-constrained homelab; not actionable without adding hardware
+        KubeMemoryOvercommit: true
+        KubeCPUOvercommit: true
       # Extend "for:" durations on upgrade-sensitive alerts to avoid transient noise
       rules:
         kubeProxy: false

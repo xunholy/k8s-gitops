@@ -11,7 +11,7 @@ spec:
         - alert: CertManagerAbsent
           expr: |-
             absent(up{job="cert-manager"})
-          for: 5m
+          for: 15m
           annotations:
             summary: >-
               Cert Manager has dissapeared from Prometheus service discovery
@@ -23,7 +23,7 @@ spec:
         - alert: CertManagerCertExpirySoon
           expr: |-
             avg by (exported_namespace, namespace, name) (certmanager_certificate_expiration_timestamp_seconds - time()) < (21 * 24 * 3600)
-          for: 5m
+          for: 15m
           annotations:
             summary: >-
               The cert {{ $labels.name }} is {{ $value | humanizeDuration }} from expiry, it should have renewed over a week ago
@@ -33,7 +33,7 @@ spec:
         - alert: CertManagerCertNotReady
           expr: |-
             max by (name, exported_namespace, namespace, condition) (certmanager_certificate_ready_status{condition!="True"} == 1)
-          for: 5m
+          for: 15m
           annotations:
             summary: >-
               The cert {{ $labels.name }} is not ready to serve traffic

@@ -6,7 +6,11 @@ kind: Kustomization
 resources:
   - grafanadashboard.yaml
   - helmrelease.yaml
-  - mutatingadmissionpolicy.yaml
+  # NOTE: mutatingadmissionpolicy.yaml removed — requires MutatingAdmissionPolicy
+  # feature gate + runtime-config in Talos apiServer extraArgs. Re-add after enabling:
+  #   feature-gates: MutatingAdmissionPolicy=true
+  #   runtime-config: admissionregistration.k8s.io/v1beta1=true
+  # - mutatingadmissionpolicy.yaml
   - ocirepository.yaml
   - prometheusrule.yaml
 
