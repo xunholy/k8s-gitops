@@ -32,17 +32,6 @@ spec:
             matchType: "!="
             value: critical
         continue: false
-      # Drop kube-scheduler TargetDown — Talos binds scheduler to 127.0.0.1;
-      # fix requires adding bind-address: 0.0.0.0 to Talos scheduler extraArgs
-      - receiver: "null"
-        matchers:
-          - name: alertname
-            matchType: "="
-            value: TargetDown
-          - name: job
-            matchType: "="
-            value: kube-scheduler
-        continue: false
       # Drop Ceph PG alerts that are already muted/acknowledged in Ceph itself
       - receiver: "null"
         matchers:

@@ -8,7 +8,8 @@ metadata:
 spec:
   decryption:
     provider: sops
-  interval: 10m
+  deletionPolicy: WaitForTermination
+  interval: 30m
   timeout: 30m
   path: ./apps/overlays/cluster-00
   prune: true
@@ -33,6 +34,7 @@ spec:
         spec:
           decryption:
             provider: sops
+          deletionPolicy: WaitForTermination
           interval: 30m
           retryInterval: 1m
           timeout: 3m

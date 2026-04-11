@@ -134,6 +134,26 @@ spec:
                   storage: 50Gi
         enableAdminAPI: true
         walCompression: true
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            memory: 2000Mi
+    additionalPrometheusRulesMap:
+      oom-rules:
+        groups:
+          - name: oom
+            rules:
+              - alert: OomKilled
+                annotations:
+                  summary: >-
+                    Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
+                    has been OOMKilled {{ $value }} times in the last 10 minutes
+                expr: |-
+                  (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1)
+                  and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+                labels:
+                  severity: critical
     prometheus-node-exporter:
       fullnameOverride: node-exporter
     kube-state-metrics:
@@ -144,10 +164,28 @@ spec:
         - pods=[*]
         - deployments=[*]
         - persistentvolumeclaims=[*]
+    # Talos binds scheduler and controller-manager to 0.0.0.0;
+    # use kube-apiserver selector since Talos labels differ from upstream
+    kubeScheduler:
+      service:
+        selector:
+          component: kube-apiserver
+    kubeControllerManager:
+      service:
+        selector:
+          component: kube-apiserver
     # Disable kubeProxy whilst using Cilium as it's not deployed
     kubeProxy:
       enabled: false
+    # etcd metrics exposed on http://0.0.0.0:2381 via Talos extraArgs
     kubeEtcd:
       service:
         selector:
           component: kube-apiserver
+        port: 2381
+        targetPort: 2381
+      serviceMonitor:
+        scheme: http
+        caFile: ""
+        certFile: ""
+        keyFile: ""
