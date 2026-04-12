@@ -66,12 +66,13 @@ spec:
             command: ['sh', '-c', 'until nc -z azerothcore-database 3306; do sleep 2; done']
           db-import:
             image:
-              repository: acore/ac-wotlk-db-import
-              tag: master
+              repository: ghcr.io/xunholy/azerothcore-wotlk-db-import
+              tag: latest
             env:
               AC_LOGIN_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_auth"
               AC_WORLD_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_world"
               AC_CHARACTER_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_characters"
+              AC_PLAYERBOTS_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_playerbots"
               AC_CLOSE_IDLE_CONNECTIONS: "0"
               AC_DATA_DIR: /azerothcore/env/dist/data
           client-data:
@@ -81,8 +82,8 @@ spec:
         containers:
           app:
             image:
-              repository: acore/ac-wotlk-authserver
-              tag: master
+              repository: ghcr.io/xunholy/azerothcore-wotlk-authserver
+              tag: latest
             env:
               TZ: ${CLUSTER_TIMEZONE}
               AC_LOGIN_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_auth"
@@ -133,8 +134,8 @@ spec:
         containers:
           app:
             image:
-              repository: acore/ac-wotlk-worldserver
-              tag: master
+              repository: ghcr.io/xunholy/azerothcore-wotlk-worldserver
+              tag: latest
             tty: true
             stdin: true
             env:
@@ -143,6 +144,7 @@ spec:
               AC_LOGIN_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_auth"
               AC_WORLD_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_world"
               AC_CHARACTER_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_characters"
+              AC_PLAYERBOTS_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_playerbots"
               AC_CLOSE_IDLE_CONNECTIONS: "0"
               AC_UPDATES_ENABLE_DATABASES: "0"
               AC_DATA_DIR: /azerothcore/env/dist/data
@@ -203,6 +205,58 @@ spec:
               # -- Ghost run speed for less death penalty --
               AC_GHOST_RUN_SPEED_WORLD: "1.5"
               AC_GHOST_RUN_SPEED_BG: "1.5"
+              # ==============================================
+              # Module: mod-playerbots (AI player bots)
+              # ==============================================
+              AC_AIPLAYERBOT_ENABLED: "1"
+              AC_AIPLAYERBOT_RANDOMBOTAUTOCREATE: "1"
+              AC_AIPLAYERBOT_RANDOMBOTAUTOLOGIN: "1"
+              AC_AIPLAYERBOT_LOGINATEACHPLAYERLEVELBOT: "1"
+              AC_AIPLAYERBOT_RANDOMBOTACCOUNTPREFIX: "rndbot"
+              AC_AIPLAYERBOT_RANDOMBOTACCOUNTCOUNT: "200"
+              AC_AIPLAYERBOT_MINRANDOMBOTS: "500"
+              AC_AIPLAYERBOT_MAXRANDOMBOTS: "1000"
+              AC_AIPLAYERBOT_RANDOMBOTMINLEVEL: "1"
+              AC_AIPLAYERBOT_RANDOMBOTMAXLEVEL: "80"
+              AC_AIPLAYERBOT_RANDOMBOTMAPS: "0,1,530,571"
+              AC_AIPLAYERBOT_AUTODOQUESTS: "1"
+              AC_AIPLAYERBOT_AUTOPICKREWARD: "yes"
+              AC_AIPLAYERBOT_AUTOEQUIPUPGRADELOOT: "1"
+              AC_AIPLAYERBOT_AUTOLEARNTRAINERSPELLS: "1"
+              AC_AIPLAYERBOT_AUTOLEARNQUESTSPELLS: "1"
+              AC_AIPLAYERBOT_RANDOMGEARUPGRADEENABLED: "1"
+              AC_AIPLAYERBOT_RANDOMBOTTELEPORTNEARPLAYER: "1"
+              AC_AIPLAYERBOT_SYNCQUESTWITHPLAYER: "1"
+              AC_AIPLAYERBOT_RANDOMBOTJOINBG: "1"
+              AC_AIPLAYERBOT_RANDOMBOTAUTOJOINBG: "1"
+              AC_AIPLAYERBOT_RANDOMBOTGROUPNEARBY: "1"
+              AC_AIPLAYERBOT_SYNCLEVELWITHPLAYERS: "1"
+              AC_AIPLAYERBOT_SYNCLEVELMAXABOVE: "2"
+              AC_AIPLAYERBOT_AUTOPICKTALENTS: "full"
+              AC_AIPLAYERBOT_AUTOTRAINSPELLS: "free"
+              # ==============================================
+              # Module: mod-autobalance (instance scaling)
+              # ==============================================
+              AC_AUTOBALANCE_ENABLE: "1"
+              AC_AUTOBALANCE_MINPLAYERS: "1"
+              # ==============================================
+              # Module: mod-transmog (transmogrification)
+              # ==============================================
+              AC_TRANSMOGRIFICATION_ENABLE: "1"
+              AC_TRANSMOGRIFICATION_SETNSETHINGS_ENABLE: "1"
+              # ==============================================
+              # Module: mod-ah-bot (auction house bot)
+              # ==============================================
+              AC_AUCTIONHOUSEBOT_ENABLESELLER: "1"
+              AC_AUCTIONHOUSEBOT_ENABLEBUYER: "1"
+              # ==============================================
+              # Module: mod-cfbg (cross-faction battlegrounds)
+              # ==============================================
+              AC_CFBG_ENABLE: "1"
+              # ==============================================
+              # Module: mod-solo-lfg (solo dungeon finder)
+              # ==============================================
+              AC_SOLOLFG_ENABLE: "1"
             probes:
               liveness:
                 enabled: true

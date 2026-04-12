@@ -77,3 +77,7 @@ spec:
             app:
               - path: /var/www/html/application/config/config.php
                 subPath: config.php
+              - path: /var/www/html/template/kaelthas/tpl/posts.php
+                subPath: posts.php
+              - path: /var/www/html/template/kaelthas/tpl/howtoconnect.php
+                subPath: howtoconnect.php

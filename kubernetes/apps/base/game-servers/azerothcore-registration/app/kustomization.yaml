@@ -12,6 +12,8 @@ configMapGenerator:
     namespace: game-servers
     files:
       - config.php=./resources/config.php
+      - posts.php=./resources/posts.php
+      - howtoconnect.php=./resources/howtoconnect.php
 
 generatorOptions:
   annotations:
