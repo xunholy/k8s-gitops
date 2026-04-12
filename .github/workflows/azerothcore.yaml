@@ -1,0 +1,76 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Build AzerothCore WotLK"
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/azerothcore.yaml
+      - kubernetes/apps/base/game-servers/azerothcore/app/resources/**
+
+permissions: write-all
+
+env:
+  CONTEXT: kubernetes/apps/base/game-servers/azerothcore/app/resources
+  WORLDSERVER_IMAGE: ghcr.io/xunholy/azerothcore-wotlk-worldserver
+  AUTHSERVER_IMAGE: ghcr.io/xunholy/azerothcore-wotlk-authserver
+  DB_IMPORT_IMAGE: ghcr.io/xunholy/azerothcore-wotlk-db-import
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Login to GHCR
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4
+
+      - name: Build and push worldserver
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
+        with:
+          context: ${{ env.CONTEXT }}
+          target: worldserver
+          push: true
+          tags: |
+            ${{ env.WORLDSERVER_IMAGE }}:${{ github.sha }}
+            ${{ env.WORLDSERVER_IMAGE }}:latest
+          build-args: THREADS=2
+          cache-from: type=gha,scope=azerothcore
+          cache-to: type=gha,mode=max,scope=azerothcore
+
+      - name: Build and push authserver
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
+        with:
+          context: ${{ env.CONTEXT }}
+          target: authserver
+          push: true
+          tags: |
+            ${{ env.AUTHSERVER_IMAGE }}:${{ github.sha }}
+            ${{ env.AUTHSERVER_IMAGE }}:latest
+          build-args: THREADS=2
+          cache-from: type=gha,scope=azerothcore
+          cache-to: type=gha,mode=max,scope=azerothcore
+
+      - name: Build and push db-import
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
+        with:
+          context: ${{ env.CONTEXT }}
+          target: db-import
+          push: true
+          tags: |
+            ${{ env.DB_IMPORT_IMAGE }}:${{ github.sha }}
+            ${{ env.DB_IMPORT_IMAGE }}:latest
+          build-args: THREADS=2
+          cache-from: type=gha,scope=azerothcore
+          cache-to: type=gha,mode=max,scope=azerothcore
