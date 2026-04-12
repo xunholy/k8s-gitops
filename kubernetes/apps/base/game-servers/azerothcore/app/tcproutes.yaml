@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/tcproute_v1alpha2.json
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: azerothcore-auth
+spec:
+  parentRefs:
+    - name: envoy-external
+      namespace: network-system
+      sectionName: azerothcore-auth
+  rules:
+    - backendRefs:
+        - name: azerothcore-auth
+          port: 3724
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/tcproute_v1alpha2.json
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: azerothcore-world
+spec:
+  parentRefs:
+    - name: envoy-external
+      namespace: network-system
+      sectionName: azerothcore-world
+  rules:
+    - backendRefs:
+        - name: azerothcore-world
+          port: 8085
