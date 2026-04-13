@@ -148,35 +148,26 @@ spec:
               repository: ghcr.io/xunholy/azerothcore-wotlk-db-import
               tag: latest
             command:
-              - sh
+              - /bin/bash
               - -c
               - |
-                apply_dir() {
-                  local db=$1 dir=$2
-                  [ -d "$dir" ] || return 0
-                  for f in "$dir"/*.sql; do
-                    [ -f "$f" ] || continue
-                    echo "  $(basename $f) -> $db"
-                    mysql -h azerothcore-database -u root -ppassword "$db" < "$f" 2>&1 | grep -v "^mysql: \[Warning\]" || true
+                import_sql() {
+                  local db="$1" pattern="$2"
+                  find /azerothcore/modules -path "$pattern" -name "*.sql" 2>/dev/null | sort | while read -r f; do
+                    echo "  $(basename "$f") -> $db"
+                    mysql -h azerothcore-database -u root -ppassword "$db" < "$f" 2>/dev/null || true
                   done
                 }
                 echo "=== Applying module SQL ==="
-                for mod in /azerothcore/modules/*/; do
-                  mod_name=$(basename "$mod")
-                  echo "Module: $mod_name"
-                  for dbtype in db-world db-characters db-auth; do
-                    case $dbtype in
-                      db-world) target=acore_world ;;
-                      db-characters) target=acore_characters ;;
-                      db-auth) target=acore_auth ;;
-                    esac
-                    apply_dir "$target" "${mod}data/sql/${dbtype}"
-                    apply_dir "$target" "${mod}data/sql/${dbtype}/base"
-                  done
-                  apply_dir acore_characters "${mod}data/sql/characters/base"
-                done
-                echo "=== Applying playerbots database ==="
-                apply_dir acore_playerbots "/azerothcore/modules/mod-playerbots/data/sql/playerbots/base"
+                echo "World database:"
+                import_sql acore_world "*/data/sql/db-world/*"
+                echo "Characters database:"
+                import_sql acore_characters "*/data/sql/db-characters/*"
+                import_sql acore_characters "*/data/sql/characters/base/*"
+                echo "Auth database:"
+                import_sql acore_auth "*/data/sql/db-auth/*"
+                echo "Playerbots database:"
+                import_sql acore_playerbots "*/data/sql/playerbots/base/*"
                 echo "=== Module SQL complete ==="
           03-client-data:
             image:
