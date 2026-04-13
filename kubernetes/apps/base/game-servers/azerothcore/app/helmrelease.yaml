@@ -184,7 +184,7 @@ spec:
               AC_PLAYERBOTS_DATABASE_WORKER_THREADS: "1"
               AC_PLAYERBOTS_DATABASE_SYNCH_THREADS: "1"
               AC_CLOSE_IDLE_CONNECTIONS: "0"
-              AC_UPDATES_ENABLE_DATABASES: "0"
+              AC_UPDATES_ENABLE_DATABASES: "7"
               AC_DATA_DIR: /azerothcore/env/dist/data
               AC_LOGS_DIR: /azerothcore/env/dist/logs
               # Server identity
