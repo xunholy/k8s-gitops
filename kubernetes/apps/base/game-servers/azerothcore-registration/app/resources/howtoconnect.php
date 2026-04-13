@@ -19,7 +19,7 @@
             <i class="fa fa-magnet"></i> Torrent (Mac)
         </a>
     </div>
-    <p style="font-size: 0.85em; opacity: 0.7;">MEGA limits free downloads to ~5 GB/day. The client is ~6.3 GB so you may need to resume across two days. The torrent links have no limits but require a torrent client such as <a href="https://www.qbittorrent.org/" target="_blank" rel="noopener">qBittorrent</a>.</p>
+    <p>MEGA limits free downloads to ~5 GB/day. The client is ~6.3 GB so you may need to resume across two days. The torrent links have no limits but require a torrent client such as <a href="https://www.qbittorrent.org/" target="_blank" rel="noopener">qBittorrent</a>.</p>
     <p>3. <?php elang('create_account_tip3'); ?></p>
     <p>4. <?php elang('create_account_tip4'); ?></p>
     <pre class="realmlist-block">set realmlist <?php echo get_config('realmlist') . "\n"; ?>set realmname <?php echo $antiXss->xss_clean(get_config('page_title')); ?></pre>
