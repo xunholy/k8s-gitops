@@ -59,11 +59,11 @@ spec:
                 memory: 2Gi
       authserver:
         initContainers:
-          wait-db:
+          wait-db-ready:
             image:
-              repository: busybox
-              tag: latest
-            command: ['sh', '-c', 'until nc -z azerothcore-database 3306; do sleep 2; done']
+              repository: mysql
+              tag: "8.0"
+            command: ['sh', '-c', 'until mysql -h azerothcore-database -u root -ppassword -e "SELECT 1 FROM acore_auth.realmlist LIMIT 1" 2>/dev/null; do echo "Waiting for db-import to populate databases..."; sleep 10; done']
         containers:
           app:
             image:

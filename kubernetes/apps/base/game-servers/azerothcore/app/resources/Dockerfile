@@ -59,7 +59,7 @@ ARG THREADS=2
 RUN cmake /azerothcore \
     -DCMAKE_INSTALL_PREFIX="/azerothcore/env/dist" \
     -DAPPS_BUILD="all" \
-    -DTOOLS_BUILD="none" \
+    -DTOOLS_BUILD="all" \
     -DSCRIPTS="static" \
     -DMODULES="static" \
     -DWITH_WARNINGS="OFF" \
