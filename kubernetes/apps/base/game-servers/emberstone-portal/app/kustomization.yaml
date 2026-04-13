@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - helmrelease.yaml
+  - httproute.yaml
+
+configMapGenerator:
+  - name: emberstone-portal-config
+    namespace: game-servers
+    files:
+      - config.php=./resources/config.php
+      - header.php=./resources/header.php
+      - footer.php=./resources/footer.php
+      - main.php=./resources/main.php
+      - posts.php=./resources/posts.php
+      - howtoconnect.php=./resources/howtoconnect.php
+
+generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+
+configurations:
+  - kustomizeconfig.yaml

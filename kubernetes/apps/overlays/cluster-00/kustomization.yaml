@@ -52,6 +52,7 @@ resources:
   - ../../base/game-servers/cmangos/ks.yaml
   - ../../base/game-servers/azerothcore/ks.yaml
   - ../../base/game-servers/azerothcore-registration/ks.yaml
+  - ../../base/game-servers/emberstone-portal/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/bazarr/ks.yaml
   # - ../../base/home-system/emqx/ks.yaml
