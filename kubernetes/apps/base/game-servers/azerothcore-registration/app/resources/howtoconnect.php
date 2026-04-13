@@ -10,7 +10,7 @@
     <p><strong>Step 1</strong> &mdash; <?php elang('create_account_tip1'); ?></p>
 
     <p><strong>Step 2</strong> &mdash; Download the <strong>World of Warcraft 3.3.5a</strong> client (build 12340).</p>
-    <div style="margin: 16px 0 24px; display: flex; flex-wrap: wrap; gap: 10px;">
+    <div style="margin: 16px 0 24px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
         <a href="magnet:?xt=urn:btih:322598D924EBA39CB15002928C7933E1B5C28DC6&dn=Wrath+of+the+Lich+King+3.3.5a" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
             <i class="fa fa-windows"></i> Windows Client (Torrent)
         </a>
