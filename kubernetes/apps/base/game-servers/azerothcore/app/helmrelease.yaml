@@ -143,6 +143,25 @@ spec:
               AC_PLAYERBOTS_DATABASE_WORKER_THREADS: "1"
               AC_PLAYERBOTS_DATABASE_SYNCH_THREADS: "1"
               AC_DATA_DIR: /azerothcore/env/dist/data
+          025-playerbots-import:
+            image:
+              repository: ghcr.io/xunholy/azerothcore-wotlk-db-import
+              tag: latest
+            command:
+              - sh
+              - -c
+              - |
+                if mysql -h azerothcore-database -u root -ppassword -e "SELECT 1 FROM acore_playerbots.playerbots_random_bots LIMIT 1" 2>/dev/null; then
+                  echo "Playerbots database already populated, skipping."
+                  exit 0
+                fi
+                echo "Populating playerbots database..."
+                for f in /azerothcore/modules/mod-playerbots/data/sql/playerbots/base/*.sql; do
+                  [ -f "$f" ] || continue
+                  echo "Applying $(basename $f)..."
+                  mysql -h azerothcore-database -u root -ppassword acore_playerbots < "$f"
+                done
+                echo "Playerbots database populated."
           03-client-data:
             image:
               repository: acore/ac-wotlk-client-data
