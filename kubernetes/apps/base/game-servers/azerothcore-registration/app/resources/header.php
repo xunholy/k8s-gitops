@@ -103,7 +103,7 @@
         <!-- Hero -->
         <section class="hero">
             <div class="hero-card">
-                <img class="hero-wow-logo" src="<?php echo $antiXss->xss_clean(get_config("baseurl")); ?>/template/<?php echo $antiXss->xss_clean(get_config("template")); ?>/images/wow-classic-logo.png" alt="World of Warcraft" style="filter: hue-rotate(190deg) saturate(1.3) brightness(1.1);">
+                <img class="hero-wow-logo" src="<?php echo $antiXss->xss_clean(get_config("baseurl")); ?>/template/<?php echo $antiXss->xss_clean(get_config("template")); ?>/images/wow-logo.png" alt="World of Warcraft">
                 <div class="hero-badge">
                     <span class="pulse-dot"></span>
                     Wrath of the Lich King &middot; Patch <?php echo $antiXss->xss_clean(get_config("game_version")); ?>
