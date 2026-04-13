@@ -3,6 +3,9 @@
 instance:
   distribution:
     artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.46.0
+  storage:
+    class: "ceph-block"
+    size: "10Gi"
   components:
     - source-controller
     - kustomize-controller
@@ -14,6 +17,7 @@ instance:
     fluxcd.controlplane.io/reconcileEvery: "1h"
     fluxcd.controlplane.io/reconcileTimeout: "3m"
   cluster:
+    size: medium
     multitenant: false
     networkPolicy: false
     domain: "cluster.local"
@@ -47,18 +51,7 @@ instance:
                         memory: 2Gi
         target:
           kind: Deployment
-      # Increase concurrency and requeue time for helm-controller
-      - patch: |-
-          - op: add
-            path: /spec/template/spec/containers/0/args/-
-            value: --concurrent=10
-          - op: add
-            path: /spec/template/spec/containers/0/args/-
-            value: --requeue-dependency=5s
-        target:
-          kind: Deployment
-          name: helm-controller
-      # Increase concurrency and requeue time for kustomize-controller
+      # Use tmpfs for kustomize-controller builds and disable remote bases
       - patch: |-
           - op: replace
             path: /spec/template/spec/volumes/0
@@ -69,12 +62,6 @@ instance:
           - op: add
             path: /spec/template/spec/containers/0/args/-
             value: --no-remote-bases=true
-          - op: add
-            path: /spec/template/spec/containers/0/args/-
-            value: --concurrent=10
-          - op: add
-            path: /spec/template/spec/containers/0/args/-
-            value: --requeue-dependency=5s
         target:
           kind: Deployment
           name: kustomize-controller
@@ -96,7 +83,7 @@ instance:
       - patch: |-
           - op: add
             path: /spec/template/spec/containers/0/args/-
-            value: --feature-gates=OOMWatch=true,DefaultToRetryOnFailure=true
+            value: --feature-gates=OOMWatch=true,DefaultToRetryOnFailure=true,CancelHealthCheckOnNewRevision=true
           - op: add
             path: /spec/template/spec/containers/0/args/-
             value: --oom-watch-memory-threshold=95
@@ -106,17 +93,6 @@ instance:
         target:
           kind: Deployment
           name: helm-controller
-      # Increase concurrency and requeue time for source-controller
-      - patch: |-
-          - op: add
-            path: /spec/template/spec/containers/0/args/-
-            value: --concurrent=10
-          - op: add
-            path: /spec/template/spec/containers/0/args/-
-            value: --requeue-dependency=5s
-        target:
-          kind: Deployment
-          name: source-controller
       # Add postBuild substitution and SOPS decryption to flux-system Kustomization
       - patch: |-
           apiVersion: kustomize.toolkit.fluxcd.io/v1
