@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-registration
-              tag: fabaf205131399c08252835d2c734f2df3a40841
+              tag: da24e639b3b8e8366f792423399cb8ef0ca2f4b7
             env:
               TZ: ${CLUSTER_TIMEZONE}
             probes:
