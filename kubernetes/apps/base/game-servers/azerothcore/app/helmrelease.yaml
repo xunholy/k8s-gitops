@@ -111,12 +111,12 @@ spec:
         pod:
           terminationGracePeriodSeconds: 120
         initContainers:
-          wait-db:
+          01-wait-db:
             image:
               repository: busybox
               tag: latest
             command: ['sh', '-c', 'until nc -z azerothcore-database 3306; do sleep 2; done']
-          db-import:
+          02-db-import:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-db-import
               tag: latest
@@ -126,8 +126,9 @@ spec:
               AC_CHARACTER_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_characters"
               AC_PLAYERBOTS_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_playerbots"
               AC_CLOSE_IDLE_CONNECTIONS: "0"
+              AC_UPDATES_ENABLE_DATABASES: "1"
               AC_DATA_DIR: /azerothcore/env/dist/data
-          client-data:
+          03-client-data:
             image:
               repository: acore/ac-wotlk-client-data
               tag: master
@@ -323,9 +324,9 @@ spec:
         existingClaim: azerothcore-client-data
         advancedMounts:
           worldserver:
-            db-import:
+            02-db-import:
               - path: /azerothcore/env/dist/data
-            client-data:
+            03-client-data:
               - path: /azerothcore/env/dist/data
             app:
               - path: /azerothcore/env/dist/data
