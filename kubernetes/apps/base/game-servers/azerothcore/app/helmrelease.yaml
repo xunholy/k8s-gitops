@@ -113,9 +113,21 @@ spec:
         initContainers:
           01-wait-db:
             image:
-              repository: busybox
-              tag: latest
-            command: ['sh', '-c', 'until nc -z azerothcore-database 3306; do sleep 2; done']
+              repository: mysql
+              tag: "8.0"
+            command:
+              - sh
+              - -c
+              - |
+                until mysqladmin ping -h azerothcore-database -u root -ppassword --silent; do sleep 2; done
+                echo "Creating databases..."
+                mysql -h azerothcore-database -u root -ppassword -e "
+                  CREATE DATABASE IF NOT EXISTS acore_auth;
+                  CREATE DATABASE IF NOT EXISTS acore_world;
+                  CREATE DATABASE IF NOT EXISTS acore_characters;
+                  CREATE DATABASE IF NOT EXISTS acore_playerbots;
+                "
+                echo "All databases ready."
           02-db-import:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-db-import
