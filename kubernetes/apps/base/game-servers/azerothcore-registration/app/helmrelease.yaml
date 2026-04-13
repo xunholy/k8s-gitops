@@ -81,3 +81,7 @@ spec:
                 subPath: posts.php
               - path: /var/www/html/template/kaelthas/tpl/howtoconnect.php
                 subPath: howtoconnect.php
+              - path: /var/www/html/template/kaelthas/tpl/header.php
+                subPath: header.php
+              - path: /var/www/html/template/kaelthas/tpl/footer.php
+                subPath: footer.php

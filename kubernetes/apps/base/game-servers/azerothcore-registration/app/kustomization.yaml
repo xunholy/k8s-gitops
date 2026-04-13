@@ -14,6 +14,8 @@ configMapGenerator:
       - config.php=./resources/config.php
       - posts.php=./resources/posts.php
       - howtoconnect.php=./resources/howtoconnect.php
+      - header.php=./resources/header.php
+      - footer.php=./resources/footer.php
 
 generatorOptions:
   annotations:
