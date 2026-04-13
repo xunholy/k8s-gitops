@@ -8,7 +8,7 @@
     <hr>
     <p>1. <?php elang('create_account_tip1'); ?></p>
     <p>2. <?php elang('create_account_tip2'); ?></p>
-    <div style="margin: 12px 0 20px;">
+    <div style="margin: 12px 0 20px; text-align: center;">
         <a href="https://drive.google.com/open?id=1BVYyC49HXTUsv0E5gp7gSoDpmtsKqdIM" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
             <i class="fa fa-download"></i> Download Client
         </a>
