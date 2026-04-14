@@ -12,7 +12,7 @@
 $expansions = [
     'vanilla' => [
         'label'          => 'Classic (1.12.1)',
-        'page_title'     => 'Emberstone',
+        'page_title'     => 'Froststone',
         'game_version'   => '1.12.1',
         'expansion'      => '0',
         'server_core'    => 5, // CMaNGOS: s/v fields, reversed salt in SRP6
@@ -56,7 +56,7 @@ $expansions = [
     ],
     'wotlk' => [
         'label'          => 'Wrath of the Lich King (3.3.5a)',
-        'page_title'     => 'Emberstone',
+        'page_title'     => 'Froststone',
         'game_version'   => '3.3.5a',
         'expansion'      => '2',
         'server_core'    => 1, // AzerothCore: salt/verifier fields
