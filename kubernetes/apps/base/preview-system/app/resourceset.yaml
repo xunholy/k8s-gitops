@@ -91,17 +91,15 @@ spec:
           substitute:
             CLUSTER_TIMEZONE: "Australia/Melbourne"
             CLUSTER_DOMAIN: "owncloud.ai"
-    # HTTPRoute for preview access at {id}.preview.owncloud.ai
+    # HTTPRoute for internal-only preview access at {id}.preview.owncloud.ai
     - apiVersion: gateway.networking.k8s.io/v1
       kind: HTTPRoute
       metadata:
         name: emberstone-portal-preview
         namespace: preview-pr-<< inputs.id >>
-        annotations:
-          external-dns.alpha.kubernetes.io/external: "true"
       spec:
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network-system
             sectionName: https
         hostnames:
