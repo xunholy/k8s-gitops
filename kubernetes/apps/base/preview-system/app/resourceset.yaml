@@ -1,0 +1,113 @@
+---
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: emberstone-portal-preview
+spec:
+  inputsFrom:
+    - kind: ResourceSetInputProvider
+      name: github-pr-previews
+  resources:
+    # Namespace per PR
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: preview-pr-<< inputs.id >>
+        labels:
+          pod-security.kubernetes.io/enforce: baseline
+          preview: "true"
+        annotations:
+          preview.fluxcd.io/pr: << inputs.id | quote >>
+          preview.fluxcd.io/branch: << inputs.branch | quote >>
+          preview.fluxcd.io/author: << inputs.author | quote >>
+    # ResourceQuota to limit preview resource usage
+    - apiVersion: v1
+      kind: ResourceQuota
+      metadata:
+        name: preview-quota
+        namespace: preview-pr-<< inputs.id >>
+      spec:
+        hard:
+          requests.cpu: "500m"
+          requests.memory: "512Mi"
+          limits.cpu: "1"
+          limits.memory: "1Gi"
+          pods: "10"
+    # Git source at the PR commit SHA
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      metadata:
+        name: pr-<< inputs.id >>
+        namespace: preview-pr-<< inputs.id >>
+      spec:
+        interval: 5m
+        url: https://github.com/xunholy/k8s-gitops
+        ref:
+          commit: << inputs.sha >>
+        secretRef:
+          name: github-auth
+    # Copy the GitHub auth secret into the preview namespace
+    - apiVersion: external-secrets.io/v1
+      kind: ExternalSecret
+      metadata:
+        name: github-auth
+        namespace: preview-pr-<< inputs.id >>
+      spec:
+        secretStoreRef:
+          kind: ClusterSecretStore
+          name: onepassword
+        target:
+          name: github-auth
+          template:
+            data:
+              username: xunholy
+              password: "{{ .FLUX_GITHUB_TOKEN }}"
+        dataFrom:
+          - extract:
+              key: flux
+    # Kustomization deploying emberstone-portal from the PR branch
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: emberstone-portal-pr-<< inputs.id >>
+        namespace: preview-pr-<< inputs.id >>
+        labels:
+          gitops.owncloud.ai/defaults: disabled
+        annotations:
+          event.toolkit.fluxcd.io/change_request: << inputs.id | quote >>
+          event.toolkit.fluxcd.io/commit: << inputs.sha | quote >>
+      spec:
+        interval: 5m
+        retryInterval: 1m
+        timeout: 10m
+        prune: true
+        wait: true
+        path: ./kubernetes/apps/base/game-servers/emberstone-portal/app
+        sourceRef:
+          kind: GitRepository
+          name: pr-<< inputs.id >>
+        targetNamespace: preview-pr-<< inputs.id >>
+        postBuild:
+          substitute:
+            CLUSTER_TIMEZONE: "Australia/Melbourne"
+            CLUSTER_DOMAIN: "owncloud.ai"
+    # HTTPRoute for preview access at preview-{pr-id}.emberstone.owncloud.ai
+    - apiVersion: gateway.networking.k8s.io/v1
+      kind: HTTPRoute
+      metadata:
+        name: emberstone-portal-preview
+        namespace: preview-pr-<< inputs.id >>
+        annotations:
+          external-dns.alpha.kubernetes.io/external: "true"
+      spec:
+        parentRefs:
+          - name: envoy-external
+            namespace: network-system
+            sectionName: https
+        hostnames:
+          - preview-pr-<< inputs.id >>.emberstone.owncloud.ai
+        rules:
+          - backendRefs:
+              - name: emberstone-portal
+                port: 80
+                weight: 100

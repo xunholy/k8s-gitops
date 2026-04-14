@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: preview-system
+  namespace: preview-system
+spec:
+  dependsOn:
+    - name: onepassword
+      namespace: external-secrets
+  path: "./apps/base/preview-system/app"
+  wait: true
+  targetNamespace: preview-system
+  sourceRef:
+    kind: ExternalArtifact
+    name: preview-system
+    namespace: flux-system
