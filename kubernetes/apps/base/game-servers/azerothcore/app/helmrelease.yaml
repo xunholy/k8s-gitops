@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: mysql
-              tag: "8.0"
+              tag: "9.6"
             env:
               TZ: ${CLUSTER_TIMEZONE}
               MYSQL_ROOT_PASSWORD: password
@@ -62,7 +62,7 @@ spec:
           wait-db-ready:
             image:
               repository: mysql
-              tag: "8.0"
+              tag: "9.6"
             command: ['sh', '-c', 'until mysql -h azerothcore-database -u root -ppassword -e "SELECT 1 FROM acore_auth.realmlist LIMIT 1" 2>/dev/null; do echo "Waiting for db-import to populate databases..."; sleep 10; done']
         containers:
           app:
@@ -114,7 +114,7 @@ spec:
           01-wait-db:
             image:
               repository: mysql
-              tag: "8.0"
+              tag: "9.6"
             command:
               - sh
               - -c
