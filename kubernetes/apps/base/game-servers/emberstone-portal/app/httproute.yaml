@@ -12,7 +12,7 @@ spec:
       namespace: network-system
       sectionName: https
   hostnames:
-    - 'portal.${CLUSTER_DOMAIN}'
+    - 'emberstone.${CLUSTER_DOMAIN}'
   rules:
     - backendRefs:
         - name: emberstone-portal

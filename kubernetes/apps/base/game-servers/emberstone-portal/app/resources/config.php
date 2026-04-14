@@ -115,7 +115,7 @@ if (!empty($_GET['expansion']) && isset($expansions[$_GET['expansion']])) {
 setcookie('selected_expansion', $selected_expansion, time() + 86400 * 30, '/');
 
 // ── Shared Config (same across all expansions) ──────────────────────��───────
-$config['baseurl']                = 'https://portal.owncloud.ai';
+$config['baseurl']                = 'https://emberstone.owncloud.ai';
 $config['language']               = 'english';
 $config['supported_langs']        = ['english' => 'English'];
 $config['debug_mode']             = false;
