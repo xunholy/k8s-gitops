@@ -19,7 +19,7 @@ instance:
   cluster:
     size: medium
     multitenant: false
-    networkPolicy: false
+    networkPolicy: true
     domain: "cluster.local"
   commonMetadata:
     labels:
