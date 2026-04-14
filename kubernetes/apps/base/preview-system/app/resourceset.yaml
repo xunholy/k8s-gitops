@@ -90,6 +90,37 @@ spec:
           substitute:
             CLUSTER_TIMEZONE: "Australia/Melbourne"
             CLUSTER_DOMAIN: "owncloud.ai"
+    # Post preview URL as a PR comment
+    - apiVersion: batch/v1
+      kind: Job
+      metadata:
+        name: preview-comment
+        namespace: preview-pr-<< inputs.id >>
+      spec:
+        ttlSecondsAfterFinished: 300
+        backoffLimit: 3
+        template:
+          spec:
+            restartPolicy: Never
+            containers:
+              - name: comment
+                image: ghcr.io/curl/curl-container:8.14.1
+                command: ["sh", "-c"]
+                args:
+                  - |
+                    curl -sf -X POST \
+                      -H "Authorization: token $(cat /secrets/password)" \
+                      -H "Accept: application/vnd.github+json" \
+                      "https://api.github.com/repos/xunholy/k8s-gitops/issues/<< inputs.id >>/comments" \
+                      -d "{\"body\":\"## Preview Environment\\n\\n| | |\\n|---|---|\\n| **URL** | [https://<< inputs.id >>.preview.owncloud.ai](https://<< inputs.id >>.preview.owncloud.ai) |\\n| **Branch** | \`<< inputs.branch >>\` |\\n| **Commit** | \`$(echo '<< inputs.sha >>' | cut -c1-7)\` |\\n\\n> This preview will be automatically destroyed when the PR is closed or the label is removed.\"}"
+                volumeMounts:
+                  - name: github-auth
+                    mountPath: /secrets
+                    readOnly: true
+            volumes:
+              - name: github-auth
+                secret:
+                  secretName: github-auth
     # HTTPRoute for internal-only preview access at {id}.preview.owncloud.ai
     - apiVersion: gateway.networking.k8s.io/v1
       kind: HTTPRoute

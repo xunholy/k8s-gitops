@@ -5,6 +5,5 @@ kind: Kustomization
 
 resources:
   - externalsecret.yaml
-  - notification.yaml
   - resourcesetinputprovider.yaml
   - resourceset.yaml
