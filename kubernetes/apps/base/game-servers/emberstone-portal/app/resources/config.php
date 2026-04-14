@@ -16,7 +16,7 @@ $expansions = [
         'game_version'   => '1.12.1',
         'expansion'      => '0',
         'server_core'    => 5, // CMaNGOS: s/v fields, reversed salt in SRP6
-        'realmlist'      => 'wow.owncloud.ai',
+        'realmlist'      => 'wow.owncloud.ai:3724',
         'soap_host'      => 'cmangos-soap',
         'soap_port'      => '7878',
         'soap_uri'       => 'urn:MaNGOS',
@@ -168,3 +168,57 @@ $config['_expansions']       = $expansions;
 $config['_selected']         = $selected_expansion;
 $config['_expansion_theme']  = $exp['theme'];
 $config['_expansion_meta']   = $exp;
+
+// ── Unified registration helper ─────────────────────────────────────────────
+// Computes SRP6 salt+verifier for a specific core type and returns values
+// ready for DB insertion (hex strings for CMaNGOS, binary for AzerothCore).
+function portal_compute_srp6($username, $password, $server_core) {
+    $g = gmp_init(7);
+    $N = gmp_init('894B645E89E1535BBDAD5B8B290650530801B18EBFBF5E8FAB3C82872A3E9BB7', 16);
+    $salt = random_bytes(32);
+    $h1 = sha1(strtoupper($username . ':' . $password), true);
+    if ($server_core == 5) {
+        $h2 = sha1(strrev($salt) . $h1, true);
+    } else {
+        $h2 = sha1($salt . $h1, true);
+    }
+    $h2 = gmp_import($h2, 1, GMP_LSW_FIRST);
+    $verifier = gmp_powm($g, $h2, $N);
+    $verifier = str_pad(gmp_export($verifier, 1, GMP_LSW_FIRST), 32, chr(0), STR_PAD_RIGHT);
+    if ($server_core == 5) {
+        return ['salt' => strtoupper(bin2hex($salt)), 'verifier' => strtoupper(bin2hex($verifier)), 'salt_field' => 's', 'verifier_field' => 'v'];
+    }
+    return ['salt' => $salt, 'verifier' => $verifier, 'salt_field' => 'salt', 'verifier_field' => 'verifier'];
+}
+
+// Creates account in a specific expansion's auth DB. Returns true on success.
+function portal_create_mirror_account($exp_config, $username, $password, $email) {
+    $conn = \Doctrine\DBAL\DriverManager::getConnection([
+        'dbname' => $exp_config['db_auth_dbname'],
+        'user'   => $exp_config['db_auth_user'],
+        'password' => $exp_config['db_auth_pass'],
+        'host'   => $exp_config['db_auth_host'],
+        'port'   => $exp_config['db_auth_port'],
+        'driver' => 'pdo_mysql',
+        'charset' => 'utf8',
+    ], new \Doctrine\DBAL\Configuration());
+    // Skip if account already exists
+    $existing = $conn->createQueryBuilder()
+        ->select('id')->from('account')
+        ->where('username = :u')->setParameter('u', strtoupper($username))
+        ->executeQuery()->fetchOne();
+    if ($existing) {
+        $conn->close();
+        return false;
+    }
+    $srp = portal_compute_srp6($username, $password, $exp_config['server_core']);
+    $conn->insert('account', [
+        'username'                  => strtoupper($username),
+        $srp['salt_field']          => $srp['salt'],
+        $srp['verifier_field']      => $srp['verifier'],
+        'email'                     => strtoupper($email),
+        'expansion'                 => $exp_config['expansion'],
+    ]);
+    $conn->close();
+    return true;
+}

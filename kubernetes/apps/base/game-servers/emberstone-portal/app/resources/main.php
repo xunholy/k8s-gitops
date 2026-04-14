@@ -4,6 +4,18 @@
  * Based on kaelthas main.php with hidden expansion field in all forms.
  */
 $_exp_val = htmlspecialchars(get_config('_selected'));
+
+// ── Unified registration: mirror account to all other expansions ────────────
+if (!empty($success_msg) && isset($_POST['submit']) && $_POST['submit'] === 'register'
+    && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email'])) {
+    $all_exp = get_config('_expansions');
+    $current = get_config('_selected');
+    foreach ($all_exp as $key => $exp_cfg) {
+        if ($key === $current) continue;
+        portal_create_mirror_account($exp_cfg, $_POST['username'], $_POST['password'], $_POST['email']);
+    }
+}
+
 require_once 'header.php'; ?>
 <div class="row">
     <div class="main-box">
