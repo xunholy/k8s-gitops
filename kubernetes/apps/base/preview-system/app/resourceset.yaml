@@ -105,6 +105,12 @@ spec:
             containers:
               - name: comment
                 image: ghcr.io/curl/curl-container:8.14.1
+                resources:
+                  requests:
+                    cpu: 10m
+                    memory: 32Mi
+                  limits:
+                    memory: 64Mi
                 command: ["sh", "-c"]
                 args:
                   - |
