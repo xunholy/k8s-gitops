@@ -1,7 +1,7 @@
 ---
 image:
   repository: ghcr.io/xunholy/kustomize-mutating-webhook
-replicaCount: 1
+replicas: 1
 certManager:
   enabled: true
 configMaps:
@@ -12,6 +12,8 @@ secrets:
     name: cluster-secrets
 env:
   LOG_LEVEL: debug
+  AUTO_UPDATE_KUSTOMIZATIONS: "true"
+  AUTO_UPDATE_EXCLUDE_NAMESPACES: "flux-system"
 podDisruptionBudget:
   enabled: false
 securityContext:
