@@ -365,6 +365,11 @@ spec:
       copy:
         - from: "@repo/apps/base/observability/otel/app/"
           to: "@artifact/apps/base/observability/otel/app/"
+    - name: preview-system
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/preview-system/app/"
+          to: "@artifact/apps/base/preview-system/app/"
     - name: prowlarr
       originRevision: "@repo"
       copy:

@@ -1,0 +1,16 @@
+---
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSetInputProvider
+metadata:
+  name: github-pr-previews
+  annotations:
+    fluxcd.controlplane.io/reconcileEvery: "5m"
+spec:
+  type: GitHubPullRequest
+  url: https://github.com/xunholy/k8s-gitops
+  secretRef:
+    name: github-auth
+  filter:
+    labels:
+      - "deploy/preview"
+    limit: 3

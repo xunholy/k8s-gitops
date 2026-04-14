@@ -26,3 +26,4 @@ spec:
   dnsNames:
     - ${CLUSTER_DOMAIN}
     - '*.${CLUSTER_DOMAIN}'
+    - '*.preview.${CLUSTER_DOMAIN}'
