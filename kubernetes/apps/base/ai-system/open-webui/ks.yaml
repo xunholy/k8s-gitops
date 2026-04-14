@@ -13,6 +13,6 @@ spec:
       namespace: ai-system
   targetNamespace: ai-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: open-webui
     namespace: flux-system

@@ -17,8 +17,8 @@ spec:
   prune: true
   wait: true
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cmangos-registration
     namespace: flux-system
   dependsOn:
     - name: cmangos

@@ -10,6 +10,6 @@ spec:
   wait: true
   targetNamespace: volsync-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: kopia
     namespace: flux-system

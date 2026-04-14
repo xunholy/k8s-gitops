@@ -10,6 +10,6 @@ spec:
   wait: true
   targetNamespace: kguardian
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: kguardian
     namespace: flux-system

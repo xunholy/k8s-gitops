@@ -10,6 +10,6 @@ spec:
   wait: true
   targetNamespace: actions-runner-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: gha-runner-scale-set-controller
     namespace: flux-system

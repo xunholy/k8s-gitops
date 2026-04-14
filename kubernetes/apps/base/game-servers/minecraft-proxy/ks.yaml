@@ -10,6 +10,6 @@ spec:
   wait: true
   targetNamespace: game-servers
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: minecraft-proxy
     namespace: flux-system

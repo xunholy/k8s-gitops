@@ -17,6 +17,6 @@ spec:
       namespace: volsync-system
   targetNamespace: observability
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: kube-prometheus-stack
     namespace: flux-system

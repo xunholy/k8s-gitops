@@ -26,6 +26,6 @@ spec:
   wait: false
   targetNamespace: network-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cert-manager
     namespace: flux-system

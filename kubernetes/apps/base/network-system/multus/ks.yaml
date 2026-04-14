@@ -10,8 +10,8 @@ spec:
   wait: true
   targetNamespace: network-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: multus
     namespace: flux-system
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -28,6 +28,6 @@ spec:
       namespace: network-system
   targetNamespace: network-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: multus-networks
     namespace: flux-system

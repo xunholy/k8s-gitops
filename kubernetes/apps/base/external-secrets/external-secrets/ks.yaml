@@ -10,6 +10,6 @@ spec:
   wait: true
   targetNamespace: external-secrets
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: external-secrets
     namespace: flux-system

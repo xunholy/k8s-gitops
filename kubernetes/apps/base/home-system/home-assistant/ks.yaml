@@ -19,6 +19,6 @@ spec:
       namespace: volsync-system
   targetNamespace: home-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: home-assistant
     namespace: flux-system

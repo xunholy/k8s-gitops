@@ -17,6 +17,6 @@ spec:
       namespace: volsync-system
   targetNamespace: harbor
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: harbor
     namespace: flux-system

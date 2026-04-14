@@ -13,6 +13,6 @@ spec:
   wait: true
   targetNamespace: network-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: external-dns
     namespace: flux-system

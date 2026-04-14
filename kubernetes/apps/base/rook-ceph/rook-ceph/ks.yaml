@@ -13,8 +13,8 @@ spec:
       namespace: kube-system
   targetNamespace: rook-ceph
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: rook-ceph
     namespace: flux-system
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -34,6 +34,6 @@ spec:
   #   namespace: volsync-system
 
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: rook-ceph-cluster
     namespace: flux-system
