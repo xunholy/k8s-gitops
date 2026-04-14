@@ -10,6 +10,6 @@ spec:
   wait: true
   targetNamespace: kube-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: kubelet-csr-approver
     namespace: flux-system

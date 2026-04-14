@@ -13,6 +13,6 @@ spec:
       namespace: network-system
   targetNamespace: development
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: open-feature-operator
     namespace: flux-system

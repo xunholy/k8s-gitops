@@ -10,6 +10,6 @@ spec:
   wait: false
   targetNamespace: observability
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: vpa
     namespace: flux-system

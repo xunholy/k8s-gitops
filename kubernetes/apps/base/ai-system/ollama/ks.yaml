@@ -13,6 +13,6 @@ spec:
       namespace: rook-ceph
   targetNamespace: ai-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: ollama
     namespace: flux-system

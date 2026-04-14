@@ -1,0 +1,472 @@
+---
+apiVersion: source.extensions.fluxcd.io/v1beta1
+kind: ArtifactGenerator
+metadata:
+  name: k8s-gitops
+  namespace: flux-system
+spec:
+  sources:
+    - alias: repo
+      kind: OCIRepository
+      name: flux-system
+  artifacts:
+    - name: actions-runner-scale-set
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/actions-runner-system/gha-runner-scale-set/app/"
+          to: "@artifact/apps/base/actions-runner-system/gha-runner-scale-set/app/"
+    - name: autobrr
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/autobrr/app/"
+          to: "@artifact/apps/base/home-system/autobrr/app/"
+    - name: azerothcore-registration
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/azerothcore-registration/app/"
+          to: "@artifact/apps/base/game-servers/azerothcore-registration/app/"
+    - name: azerothcore
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/azerothcore/app/"
+          to: "@artifact/apps/base/game-servers/azerothcore/app/"
+    - name: backstage
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/development/backstage/app/"
+          to: "@artifact/apps/base/development/backstage/app/"
+    - name: bazarr
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/bazarr/app/"
+          to: "@artifact/apps/base/home-system/bazarr/app/"
+    - name: blackbox-exporter
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/observability/blackbox-exporter/app/"
+          to: "@artifact/apps/base/observability/blackbox-exporter/app/"
+    - name: cert-manager
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/network-system/cert-manager/app/"
+          to: "@artifact/apps/base/network-system/cert-manager/app/"
+    - name: cilium
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/kube-system/cilium/app/"
+          to: "@artifact/apps/base/kube-system/cilium/app/"
+    - name: cloudflare-tunnel
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/network-system/cloudflare-tunnel/app/"
+          to: "@artifact/apps/base/network-system/cloudflare-tunnel/app/"
+    - name: cmangos-registration
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/cmangos-registration/app/"
+          to: "@artifact/apps/base/game-servers/cmangos-registration/app/"
+    - name: cmangos
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/cmangos/app/"
+          to: "@artifact/apps/base/game-servers/cmangos/app/"
+    - name: crossplane-providers
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/crossplane-system/crossplane/providers/"
+          to: "@artifact/apps/base/crossplane-system/crossplane/providers/"
+    - name: crossplane
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/crossplane-system/crossplane/app/"
+          to: "@artifact/apps/base/crossplane-system/crossplane/app/"
+    - name: crowdsec
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/security-system/crowdsec/app/"
+          to: "@artifact/apps/base/security-system/crowdsec/app/"
+    - name: democratic-csi
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/democratic-csi/democratic-csi/app/"
+          to: "@artifact/apps/base/democratic-csi/democratic-csi/app/"
+    - name: descheduler
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/kube-system/descheduler/app/"
+          to: "@artifact/apps/base/kube-system/descheduler/app/"
+    - name: dex-k8s-authenticator
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/network-system/dex-k8s-authenticator/app/"
+          to: "@artifact/apps/base/network-system/dex-k8s-authenticator/app/"
+    - name: dex
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/network-system/dex/app/"
+          to: "@artifact/apps/base/network-system/dex/app/"
+    - name: echo-server
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/network-system/echo-server/app/"
+          to: "@artifact/apps/base/network-system/echo-server/app/"
+    - name: emberstone-portal
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/emberstone-portal/app/"
+          to: "@artifact/apps/base/game-servers/emberstone-portal/app/"
+    - name: enemy-territory
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/enemy-territory/app/"
+          to: "@artifact/apps/base/game-servers/enemy-territory/app/"
+    - name: envoy-gateway
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/network-system/envoy-gateway/app/"
+          to: "@artifact/apps/base/network-system/envoy-gateway/app/"
+    - name: external-dns-unifi
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/network-system/external-dns-unifi/app/"
+          to: "@artifact/apps/base/network-system/external-dns-unifi/app/"
+    - name: external-dns
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/network-system/external-dns/app/"
+          to: "@artifact/apps/base/network-system/external-dns/app/"
+    - name: external-secrets
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/external-secrets/external-secrets/app/"
+          to: "@artifact/apps/base/external-secrets/external-secrets/app/"
+    - name: falco-exporter
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/security-system/falco-exporter/app/"
+          to: "@artifact/apps/base/security-system/falco-exporter/app/"
+    - name: falco
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/security-system/falco/app/"
+          to: "@artifact/apps/base/security-system/falco/app/"
+    - name: flux-instance-extras
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/flux-system/flux-instance/extras/"
+          to: "@artifact/apps/base/flux-system/flux-instance/extras/"
+    - name: gatekeeper
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/security-system/gatekeeper/app/"
+          to: "@artifact/apps/base/security-system/gatekeeper/app/"
+    - name: gha-runner-scale-set-controller
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/actions-runner-system/gha-runner-scale-set-controller/app/"
+          to: "@artifact/apps/base/actions-runner-system/gha-runner-scale-set-controller/app/"
+    - name: grafana-instance
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/observability/grafana/instance/"
+          to: "@artifact/apps/base/observability/grafana/instance/"
+    - name: grafana
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/observability/grafana/app/"
+          to: "@artifact/apps/base/observability/grafana/app/"
+    - name: harbor
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/harbor/harbor/app/"
+          to: "@artifact/apps/base/harbor/harbor/app/"
+    - name: home-assistant
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/home-assistant/app/"
+          to: "@artifact/apps/base/home-system/home-assistant/app/"
+    - name: jellyseerr
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/jellyseerr/app/"
+          to: "@artifact/apps/base/home-system/jellyseerr/app/"
+    - name: kagent-crds
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/ai-system/kagent/crds/"
+          to: "@artifact/apps/base/ai-system/kagent/crds/"
+    - name: kagent
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/ai-system/kagent/app/"
+          to: "@artifact/apps/base/ai-system/kagent/app/"
+    - name: keda
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/kube-system/keda/app/"
+          to: "@artifact/apps/base/kube-system/keda/app/"
+    - name: kgateway-crds
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/ai-system/kgateway/crds/"
+          to: "@artifact/apps/base/ai-system/kgateway/crds/"
+    - name: kgateway
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/ai-system/kgateway/app/"
+          to: "@artifact/apps/base/ai-system/kgateway/app/"
+    - name: kguardian
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/kguardian/kguardian/app/"
+          to: "@artifact/apps/base/kguardian/kguardian/app/"
+    - name: kmcp-crds
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/ai-system/kmcp/crds/"
+          to: "@artifact/apps/base/ai-system/kmcp/crds/"
+    - name: kmcp
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/ai-system/kmcp/app/"
+          to: "@artifact/apps/base/ai-system/kmcp/app/"
+    - name: kopia
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/volsync-system/kopia/app/"
+          to: "@artifact/apps/base/volsync-system/kopia/app/"
+    - name: kromgo
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/observability/kromgo/app/"
+          to: "@artifact/apps/base/observability/kromgo/app/"
+    - name: kube-prometheus-stack
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/observability/kube-prometheus-stack/app/"
+          to: "@artifact/apps/base/observability/kube-prometheus-stack/app/"
+    - name: kubelet-csr-approver
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/kube-system/kubelet-csr-approver/app/"
+          to: "@artifact/apps/base/kube-system/kubelet-csr-approver/app/"
+    - name: kyverno
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/security-system/kyverno/app/"
+          to: "@artifact/apps/base/security-system/kyverno/app/"
+    - name: loki
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/observability/loki/app/"
+          to: "@artifact/apps/base/observability/loki/app/"
+    - name: metrics-server
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/kube-system/metrics-server/app/"
+          to: "@artifact/apps/base/kube-system/metrics-server/app/"
+    - name: minecraft-bedrock-broadcaster
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/minecraft-bedrock-broadcaster/app/"
+          to: "@artifact/apps/base/game-servers/minecraft-bedrock-broadcaster/app/"
+    - name: minecraft-bedrock
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/minecraft-bedrock/app/"
+          to: "@artifact/apps/base/game-servers/minecraft-bedrock/app/"
+    - name: minecraft-pixelmon
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/minecraft-pixelmon/app/"
+          to: "@artifact/apps/base/game-servers/minecraft-pixelmon/app/"
+    - name: minecraft-proxy
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/minecraft-proxy/app/"
+          to: "@artifact/apps/base/game-servers/minecraft-proxy/app/"
+    - name: minecraft-rcon-web
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/minecraft-rcon-web/app/"
+          to: "@artifact/apps/base/game-servers/minecraft-rcon-web/app/"
+    - name: minecraft-router
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/minecraft-router/app/"
+          to: "@artifact/apps/base/game-servers/minecraft-router/app/"
+    - name: minecraft-witherstorm
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/minecraft-witherstorm/app/"
+          to: "@artifact/apps/base/game-servers/minecraft-witherstorm/app/"
+    - name: minecraft
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/minecraft/app/"
+          to: "@artifact/apps/base/game-servers/minecraft/app/"
+    - name: mosquitto
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/mosquitto/app/"
+          to: "@artifact/apps/base/home-system/mosquitto/app/"
+    - name: multus-networks
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/network-system/multus/networks/"
+          to: "@artifact/apps/base/network-system/multus/networks/"
+    - name: multus
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/network-system/multus/app/"
+          to: "@artifact/apps/base/network-system/multus/app/"
+    - name: n8n
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/ai-system/n8n/app/"
+          to: "@artifact/apps/base/ai-system/n8n/app/"
+    - name: nginx-ingress
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/nginx-ingress/nginx-ingress/app/"
+          to: "@artifact/apps/base/nginx-ingress/nginx-ingress/app/"
+    - name: oauth2-proxy
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/network-system/oauth2-proxy/app/"
+          to: "@artifact/apps/base/network-system/oauth2-proxy/app/"
+    - name: ollama
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/ai-system/ollama/app/"
+          to: "@artifact/apps/base/ai-system/ollama/app/"
+    - name: onepassword
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/external-secrets/onepassword/app/"
+          to: "@artifact/apps/base/external-secrets/onepassword/app/"
+    - name: open-feature-operator
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/development/open-feature-operator/app/"
+          to: "@artifact/apps/base/development/open-feature-operator/app/"
+    - name: open-webui
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/ai-system/open-webui/app/"
+          to: "@artifact/apps/base/ai-system/open-webui/app/"
+    - name: openclaw
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/ai-system/openclaw/app/"
+          to: "@artifact/apps/base/ai-system/openclaw/app/"
+    - name: otel
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/observability/otel/app/"
+          to: "@artifact/apps/base/observability/otel/app/"
+    - name: prowlarr
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/prowlarr/app/"
+          to: "@artifact/apps/base/home-system/prowlarr/app/"
+    - name: qbittorrent
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/qbittorrent/app/"
+          to: "@artifact/apps/base/home-system/qbittorrent/app/"
+    - name: qui
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/qui/app/"
+          to: "@artifact/apps/base/home-system/qui/app/"
+    - name: radarr
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/radarr/app/"
+          to: "@artifact/apps/base/home-system/radarr/app/"
+    - name: recyclarr
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/recyclarr/app/"
+          to: "@artifact/apps/base/home-system/recyclarr/app/"
+    - name: reflector
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/kube-system/reflector/app/"
+          to: "@artifact/apps/base/kube-system/reflector/app/"
+    - name: rook-ceph-cluster
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/rook-ceph/rook-ceph/cluster/"
+          to: "@artifact/apps/base/rook-ceph/rook-ceph/cluster/"
+    - name: rook-ceph
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/rook-ceph/rook-ceph/app/"
+          to: "@artifact/apps/base/rook-ceph/rook-ceph/app/"
+    - name: sabnzbd
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/sabnzbd/app/"
+          to: "@artifact/apps/base/home-system/sabnzbd/app/"
+    - name: silence-operator
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/observability/silence-operator/app/"
+          to: "@artifact/apps/base/observability/silence-operator/app/"
+    - name: smtp-relay
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/smtp-relay/app/"
+          to: "@artifact/apps/base/home-system/smtp-relay/app/"
+    - name: snapshot-controller
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/kube-system/snapshot-controller/app/"
+          to: "@artifact/apps/base/kube-system/snapshot-controller/app/"
+    - name: sonarr
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/sonarr/app/"
+          to: "@artifact/apps/base/home-system/sonarr/app/"
+    - name: spegel
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/kube-system/spegel/app/"
+          to: "@artifact/apps/base/kube-system/spegel/app/"
+    - name: tautulli
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/tautulli/app/"
+          to: "@artifact/apps/base/home-system/tautulli/app/"
+    - name: tetragon
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/kube-system/tetragon/app/"
+          to: "@artifact/apps/base/kube-system/tetragon/app/"
+    - name: vcluster
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/development/vcluster/app/"
+          to: "@artifact/apps/base/development/vcluster/app/"
+    - name: volsync-maintenance
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/volsync-system/volsync/maintenance/"
+          to: "@artifact/apps/base/volsync-system/volsync/maintenance/"
+    - name: volsync
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/volsync-system/volsync/app/"
+          to: "@artifact/apps/base/volsync-system/volsync/app/"
+    - name: vpa
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/observability/vpa/app/"
+          to: "@artifact/apps/base/observability/vpa/app/"
+    - name: zigbee2mqtt
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/zigbee2mqtt/app/"
+          to: "@artifact/apps/base/home-system/zigbee2mqtt/app/"

@@ -13,6 +13,6 @@ spec:
       namespace: external-secrets
   targetNamespace: home-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: smtp-relay
     namespace: flux-system

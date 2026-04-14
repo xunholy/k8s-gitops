@@ -17,6 +17,6 @@ spec:
       namespace: volsync-system
   targetNamespace: ai-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: openclaw
     namespace: flux-system

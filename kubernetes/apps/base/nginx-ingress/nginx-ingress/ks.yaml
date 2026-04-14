@@ -10,6 +10,6 @@ spec:
   wait: true
   targetNamespace: nginx-ingress
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: nginx-ingress
     namespace: flux-system

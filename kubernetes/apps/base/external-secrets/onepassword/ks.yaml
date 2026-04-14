@@ -13,6 +13,6 @@ spec:
     - name: external-secrets
       namespace: external-secrets
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: onepassword
     namespace: flux-system

@@ -14,8 +14,8 @@ spec:
   path: ./apps/base/flux-system/flux-instance/extras
   prune: false
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: flux-instance-extras
     namespace: flux-system
   targetNamespace: flux-system
   timeout: 5m

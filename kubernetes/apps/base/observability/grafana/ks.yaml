@@ -13,8 +13,8 @@ spec:
       namespace: network-system
   targetNamespace: observability
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: grafana
     namespace: flux-system
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -37,6 +37,6 @@ spec:
       namespace: volsync-system
   targetNamespace: observability
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: grafana-instance
     namespace: flux-system

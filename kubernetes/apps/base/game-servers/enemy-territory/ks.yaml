@@ -13,6 +13,6 @@ spec:
       namespace: rook-ceph
   targetNamespace: game-servers
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: enemy-territory
     namespace: flux-system

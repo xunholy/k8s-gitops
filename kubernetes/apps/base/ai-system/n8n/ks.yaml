@@ -10,6 +10,6 @@ spec:
   wait: false
   targetNamespace: ai-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: n8n
     namespace: flux-system

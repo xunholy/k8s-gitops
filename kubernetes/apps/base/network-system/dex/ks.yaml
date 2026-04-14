@@ -15,6 +15,6 @@ spec:
       namespace: network-system
   targetNamespace: network-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: dex
     namespace: flux-system

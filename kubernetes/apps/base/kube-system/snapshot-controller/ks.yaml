@@ -10,6 +10,6 @@ spec:
   wait: true
   targetNamespace: kube-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: snapshot-controller
     namespace: flux-system

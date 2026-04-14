@@ -10,6 +10,6 @@ spec:
   wait: true
   targetNamespace: development
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: backstage
     namespace: flux-system

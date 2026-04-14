@@ -36,6 +36,7 @@ resources:
   - ../../base/development/open-feature-operator/ks.yaml
   - ../../base/external-secrets/external-secrets/ks.yaml
   - ../../base/external-secrets/onepassword/ks.yaml
+  - ../../base/flux-system/artifact-generator
   - ../../base/flux-system/flux-instance/ks.yaml
   - ../../base/flux-system/repositories
   - ../../base/harbor/harbor/ks.yaml

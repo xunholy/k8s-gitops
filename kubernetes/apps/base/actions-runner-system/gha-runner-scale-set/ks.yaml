@@ -15,6 +15,6 @@ spec:
   wait: true
   targetNamespace: actions-runner-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: actions-runner-scale-set
     namespace: flux-system

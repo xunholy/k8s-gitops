@@ -10,6 +10,6 @@ spec:
   wait: true
   targetNamespace: observability
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: blackbox-exporter
     namespace: flux-system

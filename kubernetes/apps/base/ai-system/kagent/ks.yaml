@@ -13,8 +13,8 @@ spec:
       namespace: ai-system
   targetNamespace: ai-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: kagent
     namespace: flux-system
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -28,6 +28,6 @@ spec:
   wait: false
   targetNamespace: ai-system
   sourceRef:
-    kind: OCIRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: kagent-crds
     namespace: flux-system
