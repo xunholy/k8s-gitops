@@ -19,6 +19,8 @@ spec:
             image:
               repository: mysql
               tag: "9.6"
+            args:
+              - --skip-log-bin
             env:
               TZ: ${CLUSTER_TIMEZONE}
               MYSQL_ROOT_PASSWORD: password
