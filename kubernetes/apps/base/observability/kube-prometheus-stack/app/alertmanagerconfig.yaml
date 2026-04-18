@@ -11,9 +11,9 @@ spec:
       - namespace
       - alertname
       - job
-    groupWait: 1m
-    groupInterval: 10m
-    repeatInterval: 12h
+    groupWait: 24h
+    groupInterval: 1h
+    repeatInterval: 24h
     routes:
       # Drop Watchdog and InfoInhibitor — these are internal signals
       - receiver: "null"
@@ -39,23 +39,23 @@ spec:
             matchType: "=~"
             value: "CephPGsDamaged|CephOSDScrubErrors"
         continue: false
-      # Critical alerts — deliver immediately
+      # Critical alerts — only notify if sustained beyond 24h
       - receiver: email
         matchers:
           - name: severity
             matchType: "="
             value: critical
-        groupWait: 30s
-        repeatInterval: 4h
+        groupWait: 24h
+        repeatInterval: 24h
         continue: false
-      # Warning alerts — batch with longer wait to reduce upgrade noise
+      # Warning alerts — only notify if sustained beyond 24h
       - receiver: email
         matchers:
           - name: severity
             matchType: "="
             value: warning
-        groupWait: 5m
-        repeatInterval: 12h
+        groupWait: 24h
+        repeatInterval: 24h
         continue: false
   receivers:
     - name: "null"
