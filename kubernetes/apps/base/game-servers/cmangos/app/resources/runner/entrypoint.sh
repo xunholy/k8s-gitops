@@ -7,7 +7,7 @@ set -e
 #
 function echoerr()
 {
-    echo ${@} >&2
+    echo "$@" >&2
 }
 
 function success()
@@ -56,8 +56,10 @@ function merge_confs()
 
         if [[ -n "${PROPERTY}" ]]
         then
-            local SEARCH_FOR="$(echo "${PROPERTY}" | cut -d '=' -f 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
-            local REPLACE_WITH="$(echo "${PROPERTY}" | cut -d '=' -f 2- | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+            local SEARCH_FOR
+            SEARCH_FOR="$(echo "${PROPERTY}" | cut -d '=' -f 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+            local REPLACE_WITH
+            REPLACE_WITH="$(echo "${PROPERTY}" | cut -d '=' -f 2- | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
 
             replace_conf "${SEARCH_FOR}" "${REPLACE_WITH}" "${FILENAME}"
         fi
@@ -158,7 +160,19 @@ function run_mangosd()
 {
     cd "${MANGOS_DIR}/bin"
 
-    gosu mangos ./mangosd
+    # Expose mangosd's CLI via a named pipe so preStop hooks (and anything
+    # else in the container) can inject commands like `server shutdown 60`
+    # to trigger a graceful, player-notified shutdown.
+    local FIFO=/tmp/mangosd-stdin
+    rm -f "${FIFO}"
+    mkfifo "${FIFO}"
+    chmod 666 "${FIFO}"
+
+    # Keep a writer attached to the FIFO so mangosd does not see EOF when
+    # a one-shot writer (preStop's echo) closes.
+    ( sleep infinity > "${FIFO}" ) &
+
+    gosu mangos ./mangosd < "${FIFO}"
 }
 function run_realmd()
 {
@@ -176,17 +190,17 @@ case "${1}" in
         shift
 
         wait_for_database
-        run_mangosd ${@}
+        run_mangosd "$@"
         ;;
     realmd)
         shift
 
         wait_for_database
-        run_realmd ${@}
+        run_realmd "$@"
         ;;
     *)
         cd "${HOME_DIR}"
 
-        exec ${@}
+        exec "$@"
         ;;
 esac
