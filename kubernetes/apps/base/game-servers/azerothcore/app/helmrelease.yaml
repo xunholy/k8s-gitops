@@ -111,7 +111,7 @@ spec:
                 memory: 256Mi
       worldserver:
         pod:
-          terminationGracePeriodSeconds: 120
+          terminationGracePeriodSeconds: 960
         initContainers:
           01-wait-db:
             image:
@@ -184,6 +184,8 @@ spec:
             stdin: true
             env:
               TZ: ${CLUSTER_TIMEZONE}
+              # Enable interactive console so preStop can inject commands via FIFO
+              AC_DISABLE_INTERACTIVE: "0"
               # Database connections
               AC_LOGIN_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_auth"
               AC_WORLD_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_world"
@@ -304,6 +306,15 @@ spec:
               # Module: mod-solo-lfg (solo dungeon finder)
               # ==============================================
               AC_SOLOLFG_ENABLE: "1"
+            lifecycle:
+              preStop:
+                exec:
+                  command:
+                    - /bin/sh
+                    - -c
+                    - |
+                      echo "server restart 900" > /tmp/worldserver-stdin
+                      sleep 910
             probes:
               liveness:
                 enabled: true

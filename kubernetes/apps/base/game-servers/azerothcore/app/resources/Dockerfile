@@ -85,8 +85,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN groupadd -g 1000 acore \
  && useradd -m -u 1000 -g acore acore
 
-COPY --from=source /azerothcore/apps/docker/entrypoint.sh /azerothcore/entrypoint.sh
-RUN chmod +x /azerothcore/entrypoint.sh
+COPY --from=source /azerothcore/apps/docker/entrypoint.sh /azerothcore/entrypoint-upstream.sh
+COPY fifo-wrapper.sh /azerothcore/entrypoint.sh
+RUN chmod +x /azerothcore/entrypoint-upstream.sh /azerothcore/entrypoint.sh
 
 # Reference configs (entrypoint copies to dist/etc on first run if not present)
 COPY --from=build /azerothcore/env/dist/etc /azerothcore/env/ref/etc

@@ -114,7 +114,7 @@ spec:
                 memory: 256Mi
       mangosd:
         pod:
-          terminationGracePeriodSeconds: 120
+          terminationGracePeriodSeconds: 960
         initContainers:
           wait-db:
             image:
@@ -142,8 +142,8 @@ spec:
                     - /bin/sh
                     - -c
                     - |
-                      echo "server restart 60" > /tmp/mangosd-stdin
-                      sleep 70
+                      echo "server restart 900" > /tmp/mangosd-stdin
+                      sleep 910
             probes:
               liveness:
                 enabled: true
