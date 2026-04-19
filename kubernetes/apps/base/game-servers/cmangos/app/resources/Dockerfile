@@ -35,7 +35,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* \
            /tmp/*
 
-ARG MANGOS_SHA1="latest"
+ARG MANGOS_SHA1="eed033b751f6bc68d49fe9e18fc79d126a10a4e7"
 ARG DATABASE_SHA1="latest"
 ARG CACHEBUST=1
 ENV HOME_DIR="/home/mangos"
