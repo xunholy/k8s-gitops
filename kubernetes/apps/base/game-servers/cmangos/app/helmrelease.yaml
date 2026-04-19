@@ -70,7 +70,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: e2f25acd6fedfe3c3e367c46392097a3e07faf69
+              tag: 3202a4ef098d5ace02edc2455f123d4a55d2bf16
             args: ["realmd"]
             env:
               TZ: ${CLUSTER_TIMEZONE}
@@ -125,7 +125,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: e2f25acd6fedfe3c3e367c46392097a3e07faf69
+              tag: 3202a4ef098d5ace02edc2455f123d4a55d2bf16
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -135,6 +135,15 @@ spec:
               MANGOS_DBPORT: "3306"
               MANGOS_DBUSER: mangos
               MANGOS_DBPASS: mangos
+            lifecycle:
+              preStop:
+                exec:
+                  command:
+                    - /bin/sh
+                    - -c
+                    - |
+                      echo "server restart 60" > /tmp/mangosd-stdin
+                      sleep 70
             probes:
               liveness:
                 enabled: true
