@@ -70,7 +70,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-authserver
-              tag: latest
+              tag: 9f99584ce98e23037f5ababc38bc731f7db7a8f0
             env:
               TZ: ${CLUSTER_TIMEZONE}
               AC_LOGIN_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_auth"
@@ -133,7 +133,7 @@ spec:
           02-db-import:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-db-import
-              tag: latest
+              tag: 9f99584ce98e23037f5ababc38bc731f7db7a8f0
             env:
               AC_LOGIN_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_auth"
               AC_WORLD_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_world"
@@ -148,7 +148,7 @@ spec:
           025-module-sql:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-db-import
-              tag: latest
+              tag: 9f99584ce98e23037f5ababc38bc731f7db7a8f0
             command:
               - /bin/bash
               - -c
@@ -179,7 +179,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-worldserver
-              tag: latest
+              tag: 9f99584ce98e23037f5ababc38bc731f7db7a8f0
             tty: true
             stdin: true
             env:
