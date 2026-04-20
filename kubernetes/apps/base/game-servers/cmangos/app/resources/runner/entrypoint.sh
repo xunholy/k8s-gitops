@@ -158,7 +158,22 @@ function init_runner()
 
 function run_mangosd()
 {
-    cd "${MANGOS_DIR}/bin"
+    # Route core dumps to a persistent volume so post-mortem debugging
+    # survives the pod restart. Kernel writes the core to CWD with default
+    # core_pattern, so run mangosd from the cores dir and pass -c explicitly.
+    local CORES_DIR="/var/lib/mangos-cores"
+    if [[ -d "${CORES_DIR}" ]]
+    then
+        chown mangos:mangos "${CORES_DIR}" || true
+        if [[ -f "${CORES_DIR}/core" ]]
+        then
+            mv "${CORES_DIR}/core" "${CORES_DIR}/core.$(date +%Y%m%d-%H%M%S)"
+        fi
+        ulimit -c unlimited
+        cd "${CORES_DIR}"
+    else
+        cd "${MANGOS_DIR}/bin"
+    fi
 
     # Expose mangosd's CLI via a named pipe so preStop hooks (and anything
     # else in the container) can inject commands like `server shutdown 60`
@@ -172,7 +187,7 @@ function run_mangosd()
     # a one-shot writer (preStop's echo) closes.
     ( sleep infinity > "${FIFO}" ) &
 
-    gosu mangos ./mangosd < "${FIFO}"
+    gosu mangos "${MANGOS_DIR}/bin/mangosd" -c "${MANGOS_DIR}/etc/mangosd.conf" < "${FIFO}"
 }
 function run_realmd()
 {

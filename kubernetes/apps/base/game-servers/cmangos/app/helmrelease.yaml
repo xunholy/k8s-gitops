@@ -353,6 +353,12 @@ spec:
             app:
               - path: /var/lib/mangos
                 readOnly: true
+      cores:
+        existingClaim: cmangos-cores
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /var/lib/mangos-cores
       mangosd-config:
         type: configMap
         name: cmangos-mangosd-config
