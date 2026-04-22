@@ -358,7 +358,11 @@ spec:
         advancedMounts:
           mangosd:
             app:
-              - path: /var/lib/mangos-cores
+              # Mount as a sibling of /opt/mangos/etc so that mangosd's
+              # default config lookups (../etc/X.conf for aiplayerbot,
+              # ahbot, hardcore, twinkmaster) keep resolving when we
+              # chdir here for core-dump capture.
+              - path: /opt/mangos/cores
       mangosd-config:
         type: configMap
         name: cmangos-mangosd-config
