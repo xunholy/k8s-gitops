@@ -44,10 +44,11 @@ jobs:
             ${{ env.BUILDER_IMAGE }}:${{ github.sha }}
             ${{ env.BUILDER_IMAGE }}:latest
           build-args: |
-            THREADS=2
+            THREADS=4
             COMMIT_SHA=${{ github.sha }}
-            CACHEBUST=${{ github.run_id }}
-          cache-from: type=gha,scope=builder
+          cache-from: |
+            type=gha,scope=builder
+            type=registry,ref=${{ env.BUILDER_IMAGE }}:latest
           cache-to: type=gha,mode=max,scope=builder
 
   build-runner:
@@ -77,10 +78,10 @@ jobs:
             ${{ env.RUNNER_IMAGE }}:${{ github.sha }}
             ${{ env.RUNNER_IMAGE }}:latest
           build-args: |
-            THREADS=2
+            THREADS=4
             COMMIT_SHA=${{ github.sha }}
-            CACHEBUST=${{ github.run_id }}
           cache-from: |
             type=gha,scope=builder
             type=gha,scope=runner
+            type=registry,ref=${{ env.RUNNER_IMAGE }}:latest
           cache-to: type=gha,mode=max,scope=runner

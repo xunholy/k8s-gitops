@@ -36,8 +36,10 @@ RUN apt-get update \
            /tmp/*
 
 ARG MANGOS_SHA1="eed033b751f6bc68d49fe9e18fc79d126a10a4e7"
-ARG DATABASE_SHA1="latest"
-ARG CACHEBUST=1
+# Pin classic-db to a known-good SHA instead of tracking master so that
+# image layers cache correctly across builds and the image is reproducible.
+# Bump manually when you want newer world-DB content.
+ARG DATABASE_SHA1="5476595e3dedc9a1629566aea6c3c5b3c3c28e0a"
 ENV HOME_DIR="/home/mangos"
 ENV MANGOS_DIR="${HOME_DIR}/mangos"
 ENV DATABASE_DIR="${HOME_DIR}/classic-db"
