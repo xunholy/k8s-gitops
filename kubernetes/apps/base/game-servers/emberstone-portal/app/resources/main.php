@@ -16,7 +16,11 @@ if (!empty($success_msg) && isset($_POST['submit']) && $_POST['submit'] === 'reg
     }
 }
 
-require_once 'header.php'; ?>
+require_once 'header.php';
+// Real-player wrappers for server-status + top-players. Filters out
+// AI Playerbot ("rndbot*") accounts that the upstream queries include
+// by default. See bot_filter.php for the query details.
+require_once 'bot_filter.php'; ?>
 <div class="row">
     <div class="main-box">
         <div class="col-md-8" style="margin-top: 20px;">
@@ -329,8 +333,8 @@ require_once 'header.php'; ?>
                                 <hr>
                                 <?php
                                 foreach (get_config('realmlists') as $onerealm_key => $onerealm) {
-                                    echo "<p><span style='color: var(--gold);font-weight: bold;font-family: var(--font-heading);'>{$onerealm['realmname']}</span> <span style='font-size: 12px;color:var(--text-dim);'>(" . lang('online_players_msg1') . " " . user::get_online_players_count($onerealm['realmid']) . ")</span></p><hr>";
-                                    $online_chars = user::get_online_players($onerealm['realmid']);
+                                    echo "<p><span style='color: var(--gold);font-weight: bold;font-family: var(--font-heading);'>{$onerealm['realmname']}</span> <span style='font-size: 12px;color:var(--text-dim);'>(" . lang('online_players_msg1') . " " . portal_online_count($onerealm) . ")</span></p><hr>";
+                                    $online_chars = portal_online_players($onerealm);
                                     if (!is_array($online_chars)) {
                                         echo "<span style='color: var(--text-dim);'>" . lang('online_players_msg2') . "</span>";
                                     } else {
@@ -357,7 +361,7 @@ require_once 'header.php'; ?>
                                 $i = 1;
                                 foreach (get_config('realmlists') as $onerealm_key => $onerealm) {
                                     echo "<h6 style='color: var(--gold);font-weight: bold;font-family: var(--font-heading);'>{$onerealm['realmname']}</h6><hr>";
-                                    $data2show = status::get_top_playtime($onerealm['realmid']);
+                                    $data2show = portal_top_playtime($onerealm);
                                     echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#modal-id$i\"><i class=\"fa fa-clock-o\"></i> " . lang('play_time') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
                                             <div class=\"modal-header\"><h4 class=\"modal-title\">" . lang('top_players') . " - " . lang('play_time') . "</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button></div><div class=\"modal-body\">";
 
@@ -377,7 +381,7 @@ require_once 'header.php'; ?>
                                     echo "</div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">" . lang('close') . "</button></div></div></div></div>";
                                     $i++;
 
-                                    $data2show = status::get_top_killers($onerealm['realmid']);
+                                    $data2show = portal_top_killers($onerealm);
                                     echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#modal-id$i\"><i class=\"fa fa-crosshairs\"></i> " . lang('killers') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
                                             <div class=\"modal-header\"><h4 class=\"modal-title\">" . lang('top_players') . " - " . lang('killers') . "</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button></div><div class=\"modal-body\">";
                                     if (!is_array($data2show)) {
@@ -396,7 +400,7 @@ require_once 'header.php'; ?>
                                     echo "</div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">" . lang('close') . "</button></div></div></div></div>";
                                     $i++;
 
-                                    $data2show = status::get_top_honorpoints($onerealm['realmid']);
+                                    $data2show = portal_top_honorpoints($onerealm);
                                     echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#modal-id$i\"><i class=\"fa fa-star\"></i> " . lang('honor_points') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
                                             <div class=\"modal-header\"><h4 class=\"modal-title\">" . lang('top_players') . " - " . lang('honor_points') . "</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button></div><div class=\"modal-body\">";
                                     if (!is_array($data2show)) {
@@ -430,7 +434,7 @@ require_once 'header.php'; ?>
                                     echo "</div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">" . lang('close') . "</button></div></div></div></div>";
                                     $i++;
 
-                                    $data2show = status::get_top_arenapoints($onerealm['realmid']);
+                                    $data2show = portal_top_arenapoints($onerealm);
                                     echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#modal-id$i\"><i class=\"fa fa-shield\"></i> " . lang('arena_points') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
                                             <div class=\"modal-header\"><h4 class=\"modal-title\">" . lang('top_players') . " - " . lang('arena_points') . "</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button></div><div class=\"modal-body\">";
                                     if (!is_array($data2show)) {
@@ -449,7 +453,7 @@ require_once 'header.php'; ?>
                                     echo "</div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\">" . lang('close') . "</button></div></div></div></div>";
                                     $i++;
 
-                                    $data2show = status::get_top_arenateams($onerealm['realmid']);
+                                    $data2show = portal_top_arenateams($onerealm);
                                     echo "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#modal-id$i\"><i class=\"fa fa-users\"></i> " . lang('arena_teams') . "</button><div class=\"modal\" id=\"modal-id$i\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\">
                                             <div class=\"modal-header\"><h4 class=\"modal-title\">" . lang('top_players') . " - " . lang('arena_teams') . "</h4><button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button></div><div class=\"modal-body\">";
                                     if (!is_array($data2show)) {

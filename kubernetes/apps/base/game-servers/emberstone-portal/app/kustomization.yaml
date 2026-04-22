@@ -17,6 +17,7 @@ configMapGenerator:
       - main.php=./resources/main.php
       - posts.php=./resources/posts.php
       - howtoconnect.php=./resources/howtoconnect.php
+      - bot_filter.php=./resources/bot_filter.php
 
 generatorOptions:
   annotations:

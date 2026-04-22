@@ -87,3 +87,5 @@ spec:
                 subPath: posts.php
               - path: /var/www/html/template/kaelthas/tpl/howtoconnect.php
                 subPath: howtoconnect.php
+              - path: /var/www/html/template/kaelthas/tpl/bot_filter.php
+                subPath: bot_filter.php
