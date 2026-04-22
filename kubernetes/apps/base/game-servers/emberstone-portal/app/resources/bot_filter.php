@@ -74,6 +74,67 @@ function portal_online_players($realm)
     return empty($rows[0]['name']) ? false : $rows;
 }
 
+/**
+ * Real characters active in the past 48 hours (online now or logged out
+ * within the window), online-first and then most-recently-seen. Returns
+ * raw `online` flag and `logout_time` so the view can render a
+ * "Last seen" label.
+ */
+function portal_recent_activity($realm, $windowSeconds = 172800)
+{
+    $qb = database::$chars[$realm['realmid']]->createQueryBuilder()
+        ->select('name, race, class, gender, level, online, logout_time')
+        ->from('characters')
+        ->where('online = 1 OR logout_time >= :cutoff')
+        ->setParameter('cutoff', time() - $windowSeconds)
+        ->orderBy('online', 'DESC')
+        ->addOrderBy('logout_time', 'DESC')
+        ->setMaxResults(49);
+    portal_apply_bot_filter($qb);
+    $rows = $qb->executeQuery()->fetchAllAssociative();
+    return empty($rows[0]['name']) ? false : $rows;
+}
+
+/**
+ * Highest-level real character on the realm (all-time, not restricted to
+ * the 48h window — the point is bragging rights). Returns a single row
+ * or false.
+ */
+function portal_highest_level_char($realm)
+{
+    $qb = database::$chars[$realm['realmid']]->createQueryBuilder()
+        ->select('name, race, class, gender, level')
+        ->from('characters')
+        ->orderBy('level', 'DESC')
+        ->addOrderBy('totaltime', 'DESC')
+        ->setMaxResults(1);
+    portal_apply_bot_filter($qb);
+    $rows = $qb->executeQuery()->fetchAllAssociative();
+    return empty($rows[0]['name']) ? false : $rows[0];
+}
+
+/**
+ * Render a short "Last seen" label for a character row with `online`
+ * and `logout_time` fields. Pure formatter — no DB access.
+ */
+function portal_format_last_seen($row)
+{
+    if (!empty($row['online'])) {
+        return 'Online now';
+    }
+    $ago = max(0, time() - (int) ($row['logout_time'] ?? 0));
+    if ($ago < 60) {
+        return 'just now';
+    }
+    if ($ago < 3600) {
+        return floor($ago / 60) . 'm ago';
+    }
+    if ($ago < 86400) {
+        return floor($ago / 3600) . 'h ago';
+    }
+    return floor($ago / 86400) . 'd ago';
+}
+
 function portal_top_playtime($realm)
 {
     $qb = database::$chars[$realm['realmid']]->createQueryBuilder()

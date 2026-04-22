@@ -333,14 +333,25 @@ require_once 'bot_filter.php'; ?>
                                 <hr>
                                 <?php
                                 foreach (get_config('realmlists') as $onerealm_key => $onerealm) {
-                                    echo "<p><span style='color: var(--gold);font-weight: bold;font-family: var(--font-heading);'>{$onerealm['realmname']}</span> <span style='font-size: 12px;color:var(--text-dim);'>(" . lang('online_players_msg1') . " " . portal_online_count($onerealm) . ")</span></p><hr>";
-                                    $online_chars = portal_online_players($onerealm);
-                                    if (!is_array($online_chars)) {
+                                    $recent        = portal_recent_activity($onerealm);
+                                    $recent_count  = is_array($recent) ? count($recent) : 0;
+                                    $online_count  = portal_online_count($onerealm);
+                                    $highest       = portal_highest_level_char($onerealm);
+
+                                    echo "<p><span style='color: var(--gold);font-weight: bold;font-family: var(--font-heading);'>" . $antiXss->xss_clean($onerealm['realmname']) . "</span>";
+                                    if (!empty($highest)) {
+                                        echo " <span style='font-size: 12px;color:var(--text-dim);'>&middot; Highest: <span style='color:var(--gold-bright);'>" . $antiXss->xss_clean($highest['name']) . "</span> (lvl " . $antiXss->xss_clean($highest['level']) . ")</span>";
+                                    }
+                                    echo " <span style='font-size: 12px;color:var(--text-dim);'>&middot; {$online_count} online now &middot; {$recent_count} active in last 48h</span></p><hr>";
+
+                                    if (!is_array($recent)) {
                                         echo "<span style='color: var(--text-dim);'>" . lang('online_players_msg2') . "</span>";
                                     } else {
-                                        echo '<table class="table"><thead><tr><th scope="col">' . lang('name') . '</th><th scope="col">' . lang('race') . '</th> <th scope="col">' . lang('class') . '</th><th scope="col">' . lang('level') . '</th></tr></thead><tbody>';
-                                        foreach ($online_chars as $one_char) {
-                                            echo '<tr><th scope="row">' . $antiXss->xss_clean($one_char['name']) . '</th><td><img src=\'' . get_config("baseurl") . '/template/' . $antiXss->xss_clean(get_config("template")) . '/images/race/' . $antiXss->xss_clean($one_char["race"]) . '-' . $antiXss->xss_clean($one_char["gender"]) . '.gif\'></td><td><img src=\'' . get_config("baseurl") . '/template/' . $antiXss->xss_clean(get_config("template")) . '/images/class/' . $antiXss->xss_clean($one_char["class"]) . '.gif\'></td><td>' . $antiXss->xss_clean($one_char['level']) . '</td></tr>';
+                                        echo '<table class="table"><thead><tr><th scope="col">Last seen</th><th scope="col">' . lang('name') . '</th><th scope="col">' . lang('race') . '</th> <th scope="col">' . lang('class') . '</th><th scope="col">' . lang('level') . '</th></tr></thead><tbody>';
+                                        foreach ($recent as $one_char) {
+                                            $last_seen = portal_format_last_seen($one_char);
+                                            $badge_color = !empty($one_char['online']) ? 'var(--gold-bright)' : 'var(--text-dim)';
+                                            echo '<tr><td style="color:' . $badge_color . ';font-size:12px;">' . $antiXss->xss_clean($last_seen) . '</td><th scope="row">' . $antiXss->xss_clean($one_char['name']) . '</th><td><img src=\'' . get_config("baseurl") . '/template/' . $antiXss->xss_clean(get_config("template")) . '/images/race/' . $antiXss->xss_clean($one_char["race"]) . '-' . $antiXss->xss_clean($one_char["gender"]) . '.gif\'></td><td><img src=\'' . get_config("baseurl") . '/template/' . $antiXss->xss_clean(get_config("template")) . '/images/class/' . $antiXss->xss_clean($one_char["class"]) . '.gif\'></td><td>' . $antiXss->xss_clean($one_char['level']) . '</td></tr>';
                                         }
                                         echo '</table>';
                                     }
