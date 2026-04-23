@@ -75,12 +75,12 @@ function portal_online_players($realm)
 }
 
 /**
- * Real characters active in the past 48 hours (online now or logged out
+ * Real characters active in the past 30 days (online now or logged out
  * within the window), online-first and then most-recently-seen. Returns
  * raw `online` flag and `logout_time` so the view can render a
  * "Last seen" label.
  */
-function portal_recent_activity($realm, $windowSeconds = 172800)
+function portal_recent_activity($realm, $windowSeconds = 2592000)
 {
     $qb = database::$chars[$realm['realmid']]->createQueryBuilder()
         ->select('name, race, class, gender, level, online, logout_time')
@@ -97,8 +97,8 @@ function portal_recent_activity($realm, $windowSeconds = 172800)
 
 /**
  * Highest-level real character on the realm (all-time, not restricted to
- * the 48h window — the point is bragging rights). Returns a single row
- * or false.
+ * the recent-activity window — the point is bragging rights). Returns a
+ * single row or false.
  */
 function portal_highest_level_char($realm)
 {

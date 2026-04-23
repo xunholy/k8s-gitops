@@ -342,7 +342,7 @@ require_once 'bot_filter.php'; ?>
                                     if (!empty($highest)) {
                                         echo " <span style='font-size: 12px;color:var(--text-dim);'>&middot; Highest: <span style='color:var(--gold-bright);'>" . $antiXss->xss_clean($highest['name']) . "</span> (lvl " . $antiXss->xss_clean($highest['level']) . ")</span>";
                                     }
-                                    echo " <span style='font-size: 12px;color:var(--text-dim);'>&middot; {$online_count} online now &middot; {$recent_count} active in last 48h</span></p><hr>";
+                                    echo " <span style='font-size: 12px;color:var(--text-dim);'>&middot; {$online_count} online now &middot; {$recent_count} active in last 30d</span></p><hr>";
 
                                     if (!is_array($recent)) {
                                         echo "<span style='color: var(--text-dim);'>" . lang('online_players_msg2') . "</span>";
