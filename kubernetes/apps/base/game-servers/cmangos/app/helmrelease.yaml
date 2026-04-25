@@ -255,8 +255,8 @@ spec:
             AiPlayerbot.RandomBotLoginAtStartup = 1
             AiPlayerbot.RandomBotAccountPrefix = rndbot
             AiPlayerbot.RandomBotAccountCount = 2000
-            AiPlayerbot.MinRandomBots = 300
-            AiPlayerbot.MaxRandomBots = 500
+            AiPlayerbot.MinRandomBots = 100
+            AiPlayerbot.MaxRandomBots = 100
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
             AiPlayerbot.RandomBotMaps = 0,1
