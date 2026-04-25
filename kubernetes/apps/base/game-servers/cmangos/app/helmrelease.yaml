@@ -212,6 +212,7 @@ spec:
             LogLevel = 3
             LogFile = "/opt/mangos/logs/Server.log"
             LogFileLevel = 3
+            LogTimestamp = 1
             SOAP.Enabled = 1
             SOAP.IP = 0.0.0.0
             SOAP.Port = 7878
@@ -412,7 +413,7 @@ spec:
               - path: /opt/mangos/conf/ahbot.conf
                 subPath: ahbot.conf
       mangosd-logs:
-        type: emptyDir
+        existingClaim: cmangos-mangosd-logs
         advancedMounts:
           mangosd:
             app:

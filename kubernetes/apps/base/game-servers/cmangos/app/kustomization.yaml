@@ -8,6 +8,7 @@ resources:
   - pvc-database.yaml
   - pvc-data.yaml
   - pvc-cores.yaml
+  - pvc-logs.yaml
   - tcproutes.yaml
   - dnsendpoint.yaml
   - replicationsource.yaml
