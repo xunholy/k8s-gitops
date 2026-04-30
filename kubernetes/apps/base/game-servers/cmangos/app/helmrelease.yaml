@@ -319,7 +319,7 @@ spec:
       attunement-config:
         data:
           attunement.conf: |
-            Attunement.Enable = 0
+            Attunement.Enable = 1
             Attunement.DefaultRate = 1.0
             Attunement.MinRate = 0.1
             Attunement.MaxRate = 0
