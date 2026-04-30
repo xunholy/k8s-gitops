@@ -135,10 +135,10 @@ spec:
               MANGOS_DBPORT: "3306"
               MANGOS_DBUSER: mangos
               MANGOS_DBPASS: mangos
-            # Graceful shutdown via SOAP. Calls .server shutdown 60 so cmangos
-            # announces in-game, saves state, and exits before SIGTERM/SIGKILL
-            # would otherwise truncate disk writes (which previously caused
-            # duplicate auction rows after dirty shutdowns).
+            # Graceful shutdown via the existing stdin FIFO. Aligned with
+            # terminationGracePeriodSeconds=300: send 'server restart 240'
+            # (4-min in-game countdown), then sleep 260s for save + exit.
+            # SIGTERM follows at ~280s, SIGKILL at 300s if anything lingers.
             lifecycle:
               preStop:
                 exec:
@@ -146,11 +146,8 @@ spec:
                     - /bin/sh
                     - -c
                     - |
-                      curl -s --max-time 5 -u soapadmin:soapadmin \
-                        -H 'Content-Type: text/xml' \
-                        -d '<?xml version="1.0"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="urn:MaNGOS"><SOAP-ENV:Body><ns1:executeCommand><command>.server shutdown 60</command></ns1:executeCommand></SOAP-ENV:Body></SOAP-ENV:Envelope>' \
-                        http://localhost:7878/ || true
-                      sleep 80
+                      echo "server restart 240" > /tmp/mangosd-stdin
+                      sleep 260
             probes:
               liveness:
                 enabled: true
