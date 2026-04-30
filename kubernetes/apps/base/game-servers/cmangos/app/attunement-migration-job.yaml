@@ -43,12 +43,14 @@ data:
       (`id`, `map`, `spawnMask`, `position_x`, `position_y`, `position_z`, `orientation`,
        `spawntimesecsmin`, `spawntimesecsmax`, `spawndist`, `MovementType`)
     VALUES
-      (@AttunementEntry, 0, 1, -8915.0, -135.0,  82.5, 0.0, 300, 300, 0, 0),  -- Northshire (Human)
-      (@AttunementEntry, 0, 1, -6240.0,  331.0, 383.0, 0.0, 300, 300, 0, 0),  -- Coldridge Valley (Dwarf, Gnome)
-      (@AttunementEntry, 0, 1,  1814.0, 1593.0,  97.0, 0.0, 300, 300, 0, 0),  -- Deathknell (Undead)
-      (@AttunementEntry, 1, 1, 10316.0,  836.0,1326.0, 0.0, 300, 300, 0, 0),  -- Shadowglen (Night Elf)
-      (@AttunementEntry, 1, 1,  -616.0,-4264.0,  38.0, 0.0, 300, 300, 0, 0),  -- Valley of Trials (Orc, Troll)
-      (@AttunementEntry, 1, 1, -2917.0, -270.0,  53.0, 0.0, 300, 300, 0, 0);  -- Camp Narache (Tauren)
+      -- Coords anchor on the canonical race-start NPC in each zone, offset
+      -- a few units so the Attuner doesn't overlap the existing creature.
+      (@AttunementEntry, 0, 1, -8902.6, -158.6,   82.0, 3.14, 300, 300, 0, 0),  -- Northshire (near Marshal McBride)
+      (@AttunementEntry, 0, 1, -6214.9,  332.2,  383.7, 3.14, 300, 300, 0, 0),  -- Coldridge Valley (near Sten Stoutarm)
+      (@AttunementEntry, 0, 1,  1843.3, 1643.9,   97.8, 3.14, 300, 300, 0, 0),  -- Deathknell (near Shadow Priest Sarvis)
+      (@AttunementEntry, 1, 1, 10328.9,  830.1, 1326.5, 3.14, 300, 300, 0, 0),  -- Shadowglen (near Conservator Ilthalaine)
+      (@AttunementEntry, 1, 1,  -607.4,-4247.3,   39.0, 3.14, 300, 300, 0, 0),  -- Valley of Trials (near Kaltunk)
+      (@AttunementEntry, 1, 1, -2912.7, -253.5,   53.0, 3.14, 300, 300, 0, 0);  -- Camp Narache (near Grull Hawkwind)
 
     -- NPC Text
     SET @TEXT_ID := 50930;
