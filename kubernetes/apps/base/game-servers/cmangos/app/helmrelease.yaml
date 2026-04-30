@@ -324,10 +324,10 @@ spec:
             Attunement.MinRate = 0.1
             Attunement.MaxRate = 0
             Attunement.Aura.Tier1.SpellId = 0
-            Attunement.Aura.Tier2.SpellId = 26869
-            Attunement.Aura.Tier3.SpellId = 26869
-            Attunement.Aura.Tier4.SpellId = 26869
-            Attunement.Aura.Tier5.SpellId = 26869
+            Attunement.Aura.Tier2.SpellId = 0
+            Attunement.Aura.Tier3.SpellId = 0
+            Attunement.Aura.Tier4.SpellId = 0
+            Attunement.Aura.Tier5.SpellId = 0
       ahbot-config:
         data:
           ahbot.conf: |
