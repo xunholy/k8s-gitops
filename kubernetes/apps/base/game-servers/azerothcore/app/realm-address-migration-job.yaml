@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: azerothcore-realm-address-migration-sql
+  name: azerothcore-realm-rename-emberstone-sql
   namespace: game-servers
 data:
   realmlist.sql: |
     UPDATE realmlist
-    SET name = 'Froststone',
+    SET name = 'Emberstone',
         address = '${EXTERNAL_IP}',
         port = 3726,
         gamebuild = 12340
@@ -17,7 +17,7 @@ data:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: azerothcore-realm-address-migration
+  name: azerothcore-realm-rename-emberstone
   namespace: game-servers
 spec:
   ttlSecondsAfterFinished: 86400
@@ -37,13 +37,13 @@ spec:
             - -c
             - |
               set -e
-              echo "=== Updating realm address and name for Froststone ==="
+              echo "=== Updating realm address and name for Emberstone ==="
               mysql -h azerothcore-database -P 3306 -u root -ppassword acore_auth < /sql/realmlist.sql
-              echo "=== Realm address migration complete ==="
+              echo "=== Realm rename complete ==="
           volumeMounts:
             - name: sql-scripts
               mountPath: /sql
       volumes:
         - name: sql-scripts
           configMap:
-            name: azerothcore-realm-address-migration-sql
+            name: azerothcore-realm-rename-emberstone-sql

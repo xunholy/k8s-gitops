@@ -203,47 +203,44 @@ spec:
               AC_REALM_ZONE: "8"
               AC_WORLD_SERVER_PORT: "8085"
               AC_PLAYER_LIMIT: "100"
-              AC_MOTD: "Welcome to Froststone - 5x Rates | All Flight Paths | Boosted Drops | Enjoy WotLK!"
+              AC_MOTD: "Welcome to Emberstone | Progression Realm | Earn Outland and Northrend through raid clears"
               # SOAP remote admin
               AC_SOAP_ENABLED: "1"
               AC_SOAP_IP: "0.0.0.0"
               AC_SOAP_PORT: "7878"
-              # -- Fun rates: 5x XP across the board --
-              AC_RATE_XP_KILL: "5"
-              AC_RATE_XP_QUEST: "5"
-              AC_RATE_XP_EXPLORE: "5"
-              AC_RATE_XP_BG_KILL: "5"
-              AC_RATE_XP_PET: "5"
-              # -- Boosted drops: generous loot --
+              # -- 3x rates: faster than vanilla but tiers still feel earned --
+              AC_RATE_XP_KILL: "3"
+              AC_RATE_XP_QUEST: "3"
+              AC_RATE_XP_EXPLORE: "3"
+              AC_RATE_XP_BG_KILL: "3"
+              AC_RATE_XP_PET: "3"
+              # -- Drops --
               AC_RATE_DROP_ITEM_POOR: "3"
-              AC_RATE_DROP_ITEM_NORMAL: "5"
-              AC_RATE_DROP_ITEM_UNCOMMON: "5"
+              AC_RATE_DROP_ITEM_NORMAL: "3"
+              AC_RATE_DROP_ITEM_UNCOMMON: "3"
               AC_RATE_DROP_ITEM_RARE: "3"
               AC_RATE_DROP_ITEM_EPIC: "2"
               AC_RATE_DROP_ITEM_LEGENDARY: "1"
-              AC_RATE_DROP_ITEM_QUEST: "5"
-              AC_RATE_DROP_MONEY: "5"
-              # -- Reputation and honor: cut the grind --
-              AC_RATE_REPUTATION_GAIN: "5"
-              AC_RATE_HONOR: "5"
+              AC_RATE_DROP_ITEM_QUEST: "3"
+              AC_RATE_DROP_MONEY: "3"
+              # -- Reputation and honor --
+              AC_RATE_REPUTATION_GAIN: "3"
+              AC_RATE_HONOR: "3"
               AC_RATE_ARENA_POINTS: "3"
-              # -- Profession skill-ups: faster crafting --
-              AC_SKILL_GAIN_CRAFTING: "5"
-              AC_SKILL_GAIN_GATHERING: "5"
-              AC_SKILL_GAIN_WEAPON: "5"
-              AC_SKILL_GAIN_DEFENSE: "5"
-              AC_RATE_SKILL_DISCOVERY: "5"
-              # -- Quality of life --
-              AC_START_PLAYER_MONEY: "100000"
-              AC_START_HEROIC_PLAYER_MONEY: "500000"
-              AC_ALL_FLIGHT_PATHS: "1"
-              AC_INSTANT_FLIGHT_PATHS: "1"
-              AC_MAIL_DELIVERY_DELAY: "0"
+              # -- Profession skill-ups --
+              AC_SKILL_GAIN_CRAFTING: "3"
+              AC_SKILL_GAIN_GATHERING: "3"
+              AC_SKILL_GAIN_WEAPON: "3"
+              AC_SKILL_GAIN_DEFENSE: "3"
+              AC_RATE_SKILL_DISCOVERY: "3"
+              # -- Quality of life (kept; QoL that doesn't fight IP) --
               AC_RATE_REST_INGAME: "3"
               AC_RATE_REST_OFFLINE_IN_TAVERN_OR_CITY: "3"
               AC_DEATH_SICKNESS_LEVEL: "1"
               AC_SKIP_CINEMATICS: "1"
               AC_PLAYER_SAVE_INTERVAL: "60000"
+              # NOTE: removed ALL_FLIGHT_PATHS, INSTANT_FLIGHT_PATHS, MAIL_DELIVERY_DELAY=0,
+              # START_PLAYER_MONEY=100000 — these undermine IP's "the world is bigger again" design.
               # -- Health and mana regen --
               AC_RATE_HEALTH: "3"
               AC_RATE_MANA: "3"
@@ -285,9 +282,10 @@ spec:
               AC_AIPLAYERBOT_AUTOTRAINSPELLS: "free"
               # ==============================================
               # Module: mod-autobalance (instance scaling)
+              # Disabled: IP wants raids to require a raid; autobalance with MINPLAYERS=1
+              # would let you solo MC and defeat the gating experience.
               # ==============================================
-              AC_AUTOBALANCE_ENABLE: "1"
-              AC_AUTOBALANCE_MINPLAYERS: "1"
+              AC_AUTOBALANCE_ENABLE: "0"
               # ==============================================
               # Module: mod-transmog (transmogrification)
               # ==============================================
@@ -304,8 +302,17 @@ spec:
               AC_CFBG_ENABLE: "1"
               # ==============================================
               # Module: mod-solo-lfg (solo dungeon finder)
+              # Disabled: trivializes early-game dungeons that IP wants to feel earned.
+              # Playerbots fill the dungeon-group role instead.
               # ==============================================
-              AC_SOLOLFG_ENABLE: "1"
+              AC_SOLOLFG_ENABLE: "0"
+              # ==============================================
+              # Module: mod-individual-progression (per-character expansion gating)
+              # Defaults are sane (StartingProgression=0 -> achievements scanned on login,
+              # ExcludedAccountsRegex='^RNDBOT.*' -> auto-excludes our playerbots,
+              # SimpleConfigOverride=1 -> auto-sets EnablePlayerSettings + DBC.EnforceItemAttributes).
+              # ==============================================
+              AC_INDIVIDUALPROGRESSION_ENABLE: "1"
             lifecycle:
               preStop:
                 exec:

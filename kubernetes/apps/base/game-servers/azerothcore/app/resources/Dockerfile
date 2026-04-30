@@ -36,7 +36,9 @@ RUN git clone --depth 1 https://github.com/mod-playerbots/mod-playerbots.git \
  && git clone --depth 1 https://github.com/azerothcore/mod-solo-lfg.git \
         /azerothcore/modules/mod-solo-lfg \
  && git clone --depth 1 https://github.com/azerothcore/mod-cfbg.git \
-        /azerothcore/modules/mod-cfbg
+        /azerothcore/modules/mod-cfbg \
+ && git clone --depth 1 https://github.com/ZhengPeiRu21/mod-individual-progression.git \
+        /azerothcore/modules/mod-individual-progression
 
 # -----------------------------------------------------------------------------
 # Stage 2: Compile
