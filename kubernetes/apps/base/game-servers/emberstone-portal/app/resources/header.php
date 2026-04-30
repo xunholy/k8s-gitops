@@ -108,6 +108,7 @@ $allExp   = get_config('_expansions');
                 if (!get_config('disable_top_players')) { ?>
                     <li><a onclick="$('#topplayers').trigger('click'); scrollToContent();"><?php elang('top_players'); ?></a></li>
                 <?php } ?>
+                <li><a href="https://discord.gg/quUmkgb5sD" target="_blank" rel="noopener noreferrer">Discord</a></li>
             </ul>
         </div>
     </nav>
@@ -128,6 +129,7 @@ $allExp   = get_config('_expansions');
         if (!get_config('disable_top_players')) { ?>
             <a onclick="$('#topplayers').trigger('click'); closeMobileNav(); scrollToContent();"><?php elang('top_players'); ?></a>
         <?php } ?>
+        <a href="https://discord.gg/quUmkgb5sD" target="_blank" rel="noopener noreferrer">Discord</a>
     </div>
 
     <!-- Also keep a hidden bootsnav navbar so Bootstrap tab JS still works -->
