@@ -153,6 +153,9 @@ $allExp   = get_config('_expansions');
                     <a class="hero-btn hero-btn-ghost" onclick="$('#howtoconnect').trigger('click'); scrollToContent();">
                         <i class="fa fa-plug"></i> How to Connect
                     </a>
+                    <a class="hero-btn hero-btn-ghost" href="https://discord.gg/quUmkgb5sD" target="_blank" rel="noopener noreferrer">
+                        <i class="fa fa-comments"></i> Join Discord
+                    </a>
                 </div>
                 <div class="hero-realm">
                     <i class="fa fa-globe"></i>

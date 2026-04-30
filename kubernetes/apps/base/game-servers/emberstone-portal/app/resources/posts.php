@@ -58,6 +58,22 @@ if ($selected === 'wotlk') { ?>
 </div>
 
 <div class="box1 post-card" style="margin-top: 16px;">
+    <h4><i class="fa fa-comments"></i> Join Our Discord</h4>
+    <hr>
+    <p style="text-align: justify">
+        Hop into the Emberstone Discord to chat with the community, get help, find groups, and stay
+        on top of server announcements.
+    </p>
+    <div style="text-align: center; margin-top: 12px;">
+        <a href="https://discord.gg/quUmkgb5sD" target="_blank" rel="noopener noreferrer"
+           class="btn btn-primary"
+           style="display: inline-flex; align-items: center; gap: 8px;">
+            <i class="fa fa-comments"></i> discord.gg/quUmkgb5sD
+        </a>
+    </div>
+</div>
+
+<div class="box1 post-card" style="margin-top: 16px;">
     <h4><i class="fa fa-thumbs-up"></i> Vote for Emberstone</h4>
     <hr>
     <p style="text-align: justify">
@@ -103,6 +119,22 @@ if ($selected === 'wotlk') { ?>
         file and log in to explore the Eastern Kingdoms and Kalimdor, run dungeons with friends, raid Molten Core
         and Onyxia, and fight for honor in Alterac Valley. Check the "How to Connect" page for setup instructions.
     </p>
+</div>
+
+<div class="box1 post-card" style="margin-top: 16px;">
+    <h4><i class="fa fa-comments"></i> Join Our Discord</h4>
+    <hr>
+    <p style="text-align: justify">
+        Hop into the Emberstone Discord to chat with the community, get help, find groups, and stay
+        on top of server announcements.
+    </p>
+    <div style="text-align: center; margin-top: 12px;">
+        <a href="https://discord.gg/quUmkgb5sD" target="_blank" rel="noopener noreferrer"
+           class="btn btn-primary"
+           style="display: inline-flex; align-items: center; gap: 8px;">
+            <i class="fa fa-comments"></i> discord.gg/quUmkgb5sD
+        </a>
+    </div>
 </div>
 
 <div class="box1 post-card" style="margin-top: 16px;">
