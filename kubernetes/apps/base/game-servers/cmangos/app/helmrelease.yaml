@@ -316,6 +316,18 @@ spec:
           twinkmaster.conf: |
             Twinkmaster.Enable = 1
             Twinkmaster.TargetLevel = 19
+      attunement-config:
+        data:
+          attunement.conf: |
+            Attunement.Enable = 0
+            Attunement.DefaultRate = 1.0
+            Attunement.MinRate = 0.1
+            Attunement.MaxRate = 0
+            Attunement.Aura.Tier1.SpellId = 0
+            Attunement.Aura.Tier2.SpellId = 0
+            Attunement.Aura.Tier3.SpellId = 0
+            Attunement.Aura.Tier4.SpellId = 0
+            Attunement.Aura.Tier5.SpellId = 0
       ahbot-config:
         data:
           ahbot.conf: |
@@ -404,6 +416,14 @@ spec:
             app:
               - path: /opt/mangos/conf/twinkmaster.conf
                 subPath: twinkmaster.conf
+      attunement-config:
+        type: configMap
+        name: cmangos-attunement-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/attunement.conf
+                subPath: attunement.conf
       ahbot-config:
         type: configMap
         name: cmangos-ahbot-config

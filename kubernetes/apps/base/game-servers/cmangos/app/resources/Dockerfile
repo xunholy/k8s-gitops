@@ -93,12 +93,20 @@ RUN mkdir -p "${MANGOS_DIR}" \
         --depth 1 \
         "${MANGOS_DIR}/src/modules/twinkmaster" \
  \
+ && git clone "https://github.com/xunholy/cmangos-attunement.git" \
+        --branch "main" \
+        --single-branch \
+        --depth 1 \
+        "${MANGOS_DIR}/src/modules/attunement" \
+ \
  && git clone "https://github.com/davidonete/cmangos-modules.git" \
         --branch "main" \
         --single-branch \
         --depth 1 \
         "${HOME_DIR}/cmangos-modules" \
  && sed -i '/^MODULES=/i TWINKMASTER=https://github.com/xunholy/cmangos-twinkmaster.git' \
+        "${HOME_DIR}/cmangos-modules/modules.conf" \
+ && sed -i '/^MODULES=/i ATTUNEMENT=https://github.com/xunholy/cmangos-attunement.git' \
         "${HOME_DIR}/cmangos-modules/modules.conf" \
  \
  && rm -rf /tmp/*
@@ -120,6 +128,7 @@ RUN mkdir -p "${HOME_DIR}/build" \
         -D BUILD_MODULES=ON \
         -D BUILD_MODULE_HARDCORE=ON \
         -D BUILD_MODULE_TWINKMASTER=ON \
+        -D BUILD_MODULE_ATTUNEMENT=ON \
         -D FETCHCONTENT_SOURCE_DIR_MODULES="${HOME_DIR}/cmangos-modules" \
  \
  && make -j "${THREADS}" \
