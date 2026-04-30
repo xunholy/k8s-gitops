@@ -58,7 +58,6 @@ cephClusterSpec:
       - name: rook
         enabled: true
   network:
-    provider: host
     connections:
       requireMsgr2: true
   storage:
