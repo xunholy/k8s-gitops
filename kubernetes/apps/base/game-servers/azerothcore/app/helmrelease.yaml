@@ -312,7 +312,7 @@ spec:
               # ExcludedAccountsRegex='^RNDBOT.*' -> auto-excludes our playerbots,
               # SimpleConfigOverride=1 -> auto-sets EnablePlayerSettings + DBC.EnforceItemAttributes).
               # ==============================================
-              AC_INDIVIDUALPROGRESSION_ENABLE: "1"
+              AC_INDIVIDUAL_PROGRESSION_ENABLE: "1"
             lifecycle:
               preStop:
                 exec:
