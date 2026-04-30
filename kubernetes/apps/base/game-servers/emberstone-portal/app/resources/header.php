@@ -35,6 +35,82 @@ $allExp   = get_config('_expansions');
     <?php echo getCaptchaJS(); ?>
 
     <?php echo(!empty(lang('custom_css')) ? '<style>' . lang('custom_css') . '</style>' : ''); ?>
+
+    <style>
+    /* ── Mobile polish (overlay-only, no Docker rebuild) ─────────────── */
+    /* Long words / URLs break instead of forcing horizontal scroll */
+    body, .post-card p, .connect-steps p, .box1 p, .box1 li {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+    code {
+        word-break: break-word;
+        white-space: normal;
+    }
+    /* Tables get a horizontal scrollbar instead of breaking the page */
+    .box1 .table-responsive,
+    .box1 table {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Tablet (768-991): allow the 3 hero buttons to wrap onto two lines */
+    @media (max-width: 991px) {
+        .hero-actions {
+            flex-wrap: wrap;
+        }
+        pre.realmlist-block {
+            font-size: 1rem;
+            padding: 14px 18px;
+        }
+    }
+
+    /* Mobile (<768): tighten paddings + stack inline button rows */
+    @media (max-width: 767px) {
+        .connect-steps a.btn,
+        .connect-steps .btn {
+            margin: 6px 0 !important;
+            margin-left: 0 !important;
+            width: 100%;
+            justify-content: center;
+        }
+        .hero-realm {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+        .hero-realm strong {
+            display: inline-block;
+        }
+        pre.realmlist-block {
+            font-size: 0.9rem;
+            padding: 12px 14px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .modal-dialog {
+            margin: 8px;
+            max-width: calc(100% - 16px);
+        }
+        .post-card {
+            padding: 18px;
+        }
+        /* Form controls full-width on phones */
+        .input-group input,
+        .input-group select,
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+    }
+    </style>
     <!-- Dynamic expansion theme overrides -->
     <style>
     :root {
