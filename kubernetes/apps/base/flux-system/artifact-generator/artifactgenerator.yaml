@@ -355,11 +355,6 @@ spec:
       copy:
         - from: "@repo/apps/base/ai-system/open-webui/app/"
           to: "@artifact/apps/base/ai-system/open-webui/app/"
-    - name: openclaw
-      originRevision: "@repo"
-      copy:
-        - from: "@repo/apps/base/ai-system/openclaw/app/"
-          to: "@artifact/apps/base/ai-system/openclaw/app/"
     - name: otel
       originRevision: "@repo"
       copy:
