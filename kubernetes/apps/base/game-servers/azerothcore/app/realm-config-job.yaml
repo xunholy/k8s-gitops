@@ -1,0 +1,41 @@
+---
+# Applies realmlist.sql against the auth DB. ConfigMap is hash-suffixed by
+# kustomize's configMapGenerator (see kustomization.yaml), so SQL edits
+# produce a new CM name, which forces the Job's spec to change. The Flux
+# force annotation lets kustomize-controller delete-and-recreate the
+# (immutable) Job when that happens.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: azerothcore-realm-config
+  namespace: game-servers
+  annotations:
+    kustomize.toolkit.fluxcd.io/force: Enabled
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z azerothcore-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mysql:9.6
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Applying realm config ==="
+              mysql -h azerothcore-database -P 3306 -u root -ppassword acore_auth < /sql/realmlist.sql
+              echo "=== Realm config applied ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: azerothcore-realmlist-sql

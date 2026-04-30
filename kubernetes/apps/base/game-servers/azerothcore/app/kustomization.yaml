@@ -11,4 +11,15 @@ resources:
   - dnsendpoint.yaml
   - replicationsource.yaml
   - volsync-externalsecret.yaml
-  - realm-address-migration-job.yaml
+  - realm-config-job.yaml
+
+# Hash-suffixed CM. realmlist.sql edits change the suffix, which changes
+# the Job's volume reference, which (with kustomize.toolkit.fluxcd.io/force)
+# triggers a Job re-run. No more manual resource-name bumps.
+# NOTE: namespace must match the Job's namespace or kustomize won't
+# auto-rewrite references.
+configMapGenerator:
+  - name: azerothcore-realmlist-sql
+    namespace: game-servers
+    files:
+      - realmlist.sql

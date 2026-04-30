@@ -70,7 +70,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-authserver
-              tag: c39e208345757bcd979207ddcb43491434a4bc7f
+              tag: f9bcdac1895f78e50a63e8e93f09ce0d723cf938
             env:
               TZ: ${CLUSTER_TIMEZONE}
               AC_LOGIN_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_auth"
@@ -133,7 +133,7 @@ spec:
           02-db-import:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-db-import
-              tag: c39e208345757bcd979207ddcb43491434a4bc7f
+              tag: f9bcdac1895f78e50a63e8e93f09ce0d723cf938
             env:
               AC_LOGIN_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_auth"
               AC_WORLD_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_world"
@@ -148,7 +148,7 @@ spec:
           025-module-sql:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-db-import
-              tag: c39e208345757bcd979207ddcb43491434a4bc7f
+              tag: f9bcdac1895f78e50a63e8e93f09ce0d723cf938
             command:
               - /bin/bash
               - -c
@@ -163,11 +163,13 @@ spec:
                 echo "=== Applying module SQL ==="
                 echo "World database:"
                 import_sql acore_world "*/data/sql/db-world/*"
+                import_sql acore_world "*/data/sql/world/base/*"
                 echo "Characters database:"
                 import_sql acore_characters "*/data/sql/db-characters/*"
                 import_sql acore_characters "*/data/sql/characters/base/*"
                 echo "Auth database:"
                 import_sql acore_auth "*/data/sql/db-auth/*"
+                import_sql acore_auth "*/data/sql/auth/base/*"
                 echo "Playerbots database:"
                 import_sql acore_playerbots "*/data/sql/playerbots/base/*"
                 echo "=== Module SQL complete ==="
@@ -179,7 +181,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-worldserver
-              tag: c39e208345757bcd979207ddcb43491434a4bc7f
+              tag: f9bcdac1895f78e50a63e8e93f09ce0d723cf938
             tty: true
             stdin: true
             env:
@@ -307,12 +309,27 @@ spec:
               # ==============================================
               AC_SOLOLFG_ENABLE: "0"
               # ==============================================
+              # IP requires these for stat-scaling to take effect. The module's
+              # SimpleConfigOverride is supposed to force them at runtime but
+              # observation showed the on-disk worldserver.conf still has the
+              # AC defaults, so set them explicitly to be safe.
+              # ==============================================
+              AC_ENABLE_PLAYER_SETTINGS: "1"
+              AC_DBC_ENFORCE_ITEM_ATTRIBUTES: "0"
+              # ==============================================
               # Module: mod-individual-progression (per-character expansion gating)
-              # Defaults are sane (StartingProgression=0 -> achievements scanned on login,
-              # ExcludedAccountsRegex='^RNDBOT.*' -> auto-excludes our playerbots,
-              # SimpleConfigOverride=1 -> auto-sets EnablePlayerSettings + DBC.EnforceItemAttributes).
+              # Power/healing scalars at IP author's recommended values for
+              # "Vanilla feels like Vanilla, TBC feels like TBC" — without these,
+              # gating works but content does WotLK-tier damage values.
+              # Other defaults are sane (StartingProgression=0 -> achievements
+              # scanned on login, ExcludedAccountsRegex='^RNDBOT.*' -> auto-excludes
+              # our playerbots).
               # ==============================================
               AC_INDIVIDUAL_PROGRESSION_ENABLE: "1"
+              AC_INDIVIDUAL_PROGRESSION_VANILLA_POWER_ADJUSTMENT: "0.5"
+              AC_INDIVIDUAL_PROGRESSION_VANILLA_HEALING_ADJUSTMENT: "0.5"
+              AC_INDIVIDUAL_PROGRESSION_TBCPOWER_ADJUSTMENT: "0.6"
+              AC_INDIVIDUAL_PROGRESSION_TBCHEALING_ADJUSTMENT: "0.6"
             lifecycle:
               preStop:
                 exec:
