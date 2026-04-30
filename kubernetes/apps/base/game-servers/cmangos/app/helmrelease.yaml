@@ -322,7 +322,7 @@ spec:
             Attunement.Enable = 1
             Attunement.DefaultRate = 1.0
             Attunement.MinRate = 0.1
-            Attunement.MaxRate = 0
+            Attunement.MaxRate = 100
             Attunement.Aura.Tier1.SpellId = 0
             Attunement.Aura.Tier2.SpellId = 0
             Attunement.Aura.Tier3.SpellId = 0
