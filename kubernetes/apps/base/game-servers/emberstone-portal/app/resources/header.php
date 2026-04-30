@@ -38,6 +38,17 @@ $allExp   = get_config('_expansions');
 
     <style>
     /* ── Mobile polish (overlay-only, no Docker rebuild) ─────────────── */
+    /* Belt-and-braces: never let the document overflow horizontally so
+       the fixed-position nav (and its right-aligned hamburger) can't end
+       up off-screen because of a stray child element. */
+    html, body {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
     /* Long words / URLs break instead of forcing horizontal scroll */
     body, .post-card p, .connect-steps p, .box1 p, .box1 li {
         overflow-wrap: break-word;
@@ -67,6 +78,17 @@ $allExp   = get_config('_expansions');
         pre.realmlist-block {
             font-size: 1rem;
             padding: 14px 18px;
+        }
+        /* Keep the navbar fully inside the viewport so the hamburger
+           sits at the right edge instead of past it */
+        .site-nav,
+        .site-nav.scrolled {
+            padding-left: 14px;
+            padding-right: 14px;
+        }
+        .nav-inner {
+            max-width: 100%;
+            width: 100%;
         }
     }
 
