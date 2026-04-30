@@ -199,6 +199,8 @@ RUN apt-get update \
  && dpkg-reconfigure --frontend noninteractive tzdata \
  \
  && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
         gosu \
         libmariadb-dev \
         libssl3 \
