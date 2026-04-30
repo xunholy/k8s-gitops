@@ -70,7 +70,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: ae0c36f51ba7e43f5428c54745782c2a31883e4e
+              tag: 477c410495613c39cd645ce45e6c789f16317c32
             args: ["realmd"]
             env:
               TZ: ${CLUSTER_TIMEZONE}
@@ -125,7 +125,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: ae0c36f51ba7e43f5428c54745782c2a31883e4e
+              tag: 477c410495613c39cd645ce45e6c789f16317c32
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -135,6 +135,10 @@ spec:
               MANGOS_DBPORT: "3306"
               MANGOS_DBUSER: mangos
               MANGOS_DBPASS: mangos
+            # Graceful shutdown via SOAP. Calls .server shutdown 60 so cmangos
+            # announces in-game, saves state, and exits before SIGTERM/SIGKILL
+            # would otherwise truncate disk writes (which previously caused
+            # duplicate auction rows after dirty shutdowns).
             lifecycle:
               preStop:
                 exec:
@@ -142,8 +146,11 @@ spec:
                     - /bin/sh
                     - -c
                     - |
-                      echo "server restart 900" > /tmp/mangosd-stdin
-                      sleep 910
+                      curl -s --max-time 5 -u soapadmin:soapadmin \
+                        -H 'Content-Type: text/xml' \
+                        -d '<?xml version="1.0"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="urn:MaNGOS"><SOAP-ENV:Body><ns1:executeCommand><command>.server shutdown 60</command></ns1:executeCommand></SOAP-ENV:Body></SOAP-ENV:Envelope>' \
+                        http://localhost:7878/ || true
+                      sleep 80
             probes:
               liveness:
                 enabled: true
