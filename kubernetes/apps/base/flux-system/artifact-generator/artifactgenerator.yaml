@@ -295,11 +295,6 @@ spec:
       copy:
         - from: "@repo/apps/base/game-servers/minecraft-router/app/"
           to: "@artifact/apps/base/game-servers/minecraft-router/app/"
-    - name: minecraft-witherstorm
-      originRevision: "@repo"
-      copy:
-        - from: "@repo/apps/base/game-servers/minecraft-witherstorm/app/"
-          to: "@artifact/apps/base/game-servers/minecraft-witherstorm/app/"
     - name: minecraft
       originRevision: "@repo"
       copy:
