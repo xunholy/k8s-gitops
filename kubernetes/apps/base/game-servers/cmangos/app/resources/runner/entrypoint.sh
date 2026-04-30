@@ -154,6 +154,7 @@ function init_runner()
     compose_generic_conf_file "anticheat.conf"
     compose_generic_conf_file "hardcore.conf"
     compose_generic_conf_file "twinkmaster.conf"
+    compose_generic_conf_file "attunement.conf"
 }
 
 function run_mangosd()
