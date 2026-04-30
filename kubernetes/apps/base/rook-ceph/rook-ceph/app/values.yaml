@@ -2,6 +2,8 @@ priorityClassName: platform-cluster-critical
 csi:
   cephFSKernelMountOptions: ms_mode=prefer-crc
   enableLiveness: true
+  provisionerPriorityClassName: platform-cluster-critical
+  pluginPriorityClassName: platform-node-critical
   serviceMonitor:
     enabled: true
 image:

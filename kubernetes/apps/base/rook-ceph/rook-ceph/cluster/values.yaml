@@ -17,6 +17,31 @@ cephClusterSpec:
   csi:
     readAffinity:
       enabled: true
+  priorityClassNames:
+    mon: platform-node-critical
+    osd: platform-node-critical
+    mgr: platform-cluster-critical
+  resources:
+    mon:
+      requests:
+        cpu: 250m
+        memory: 1Gi
+      limits:
+        memory: 2Gi
+    mgr:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        memory: 2Gi
+    osd:
+      # Request matches default osd_memory_target (4 GiB); limit gives headroom for
+      # backfill/recovery and bootstrap, where Ceph routinely doubles working set.
+      requests:
+        cpu: 500m
+        memory: 4Gi
+      limits:
+        memory: 8Gi
   dashboard:
     enabled: true
     urlPrefix: /
