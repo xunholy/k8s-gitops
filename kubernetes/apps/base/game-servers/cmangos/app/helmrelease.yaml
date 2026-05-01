@@ -211,7 +211,7 @@ spec:
             RealmZone = 8
             WorldServerPort = 8085
             BindIP = "0.0.0.0"
-            PlayerLimit = 500
+            PlayerLimit = 750
             Motd = "Welcome to Emberstone"
             LogLevel = 3
             LogFile = "/opt/mangos/logs/Server.log"
