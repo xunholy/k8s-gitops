@@ -181,7 +181,7 @@ spec:
                 cpu: "2"
                 memory: 4Gi
               limits:
-                memory: 32Gi
+                memory: 12Gi
     service:
       database:
         controller: database
