@@ -150,6 +150,7 @@ function portal_top_playtime($realm)
 function portal_top_killers($realm)
 {
     $conn = database::$chars[$realm['realmid']];
+    // AzerothCore-style schema (totalKills column).
     try {
         $qb = $conn->createQueryBuilder()
             ->select('name, race, class, gender, level, totalKills')
@@ -158,25 +159,32 @@ function portal_top_killers($realm)
             ->setMaxResults(10);
         portal_apply_bot_filter($qb);
         $rows = $qb->executeQuery()->fetchAllAssociative();
-        if (!empty($rows[0]['totalKills'])) {
-            return $rows;
-        }
+        // Query succeeded — schema is AzerothCore. Don't fall through to
+        // the CMaNGOS-only column even if no real player has any kills,
+        // otherwise stored_honorable_kills will throw on AzerothCore.
+        return empty($rows[0]['totalKills']) ? false : $rows;
     } catch (\Exception $e) {
-        // CMaNGOS Classic: totalKills doesn't exist, fall through.
+        // CMaNGOS Classic: totalKills column doesn't exist; fall through.
     }
-    $qb = $conn->createQueryBuilder()
-        ->select('name, race, class, gender, level, stored_honorable_kills as totalKills')
-        ->from('characters')
-        ->orderBy('stored_honorable_kills', 'DESC')
-        ->setMaxResults(10);
-    portal_apply_bot_filter($qb);
-    $rows = $qb->executeQuery()->fetchAllAssociative();
-    return empty($rows[0]['totalKills']) ? false : $rows;
+    // CMaNGOS Classic schema (stored_honorable_kills column).
+    try {
+        $qb = $conn->createQueryBuilder()
+            ->select('name, race, class, gender, level, stored_honorable_kills as totalKills')
+            ->from('characters')
+            ->orderBy('stored_honorable_kills', 'DESC')
+            ->setMaxResults(10);
+        portal_apply_bot_filter($qb);
+        $rows = $qb->executeQuery()->fetchAllAssociative();
+        return empty($rows[0]['totalKills']) ? false : $rows;
+    } catch (\Exception $e) {
+        return false;
+    }
 }
 
 function portal_top_honorpoints($realm)
 {
     $conn = database::$chars[$realm['realmid']];
+    // AzerothCore / Classic-Era schema (totalHonorPoints / honorLevel+honor).
     try {
         $qb = $conn->createQueryBuilder();
         if (get_config('expansion') >= 6) {
@@ -193,20 +201,26 @@ function portal_top_honorpoints($realm)
         }
         portal_apply_bot_filter($qb);
         $rows = $qb->executeQuery()->fetchAllAssociative();
-        if (!empty($rows[0]['level'])) {
-            return $rows;
-        }
+        // Query succeeded — schema fits. Don't fall through to the
+        // CMaNGOS-only column even if no real player has honor; otherwise
+        // stored_honor_rating will throw on AzerothCore.
+        return empty($rows[0]['level']) ? false : $rows;
     } catch (\Exception $e) {
-        // CMaNGOS Classic: totalHonorPoints doesn't exist, fall through.
+        // CMaNGOS Classic: totalHonorPoints column doesn't exist; fall through.
     }
-    $qb = $conn->createQueryBuilder()
-        ->select('name, race, class, gender, level, stored_honor_rating as totalHonorPoints')
-        ->from('characters')
-        ->orderBy('stored_honor_rating', 'DESC')
-        ->setMaxResults(10);
-    portal_apply_bot_filter($qb);
-    $rows = $qb->executeQuery()->fetchAllAssociative();
-    return empty($rows[0]['level']) ? false : $rows;
+    // CMaNGOS Classic schema (stored_honor_rating column).
+    try {
+        $qb = $conn->createQueryBuilder()
+            ->select('name, race, class, gender, level, stored_honor_rating as totalHonorPoints')
+            ->from('characters')
+            ->orderBy('stored_honor_rating', 'DESC')
+            ->setMaxResults(10);
+        portal_apply_bot_filter($qb);
+        $rows = $qb->executeQuery()->fetchAllAssociative();
+        return empty($rows[0]['level']) ? false : $rows;
+    } catch (\Exception $e) {
+        return false;
+    }
 }
 
 function portal_top_arenapoints($realm)
