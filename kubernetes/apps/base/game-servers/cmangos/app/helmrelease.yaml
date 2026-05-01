@@ -181,7 +181,7 @@ spec:
                 cpu: "2"
                 memory: 4Gi
               limits:
-                memory: 12Gi
+                memory: 32Gi
     service:
       database:
         controller: database
@@ -211,7 +211,7 @@ spec:
             RealmZone = 8
             WorldServerPort = 8085
             BindIP = "0.0.0.0"
-            PlayerLimit = 100
+            PlayerLimit = 500
             Motd = "Welcome to Emberstone"
             LogLevel = 3
             LogFile = "/opt/mangos/logs/Server.log"
@@ -259,8 +259,8 @@ spec:
             AiPlayerbot.RandomBotLoginAtStartup = 1
             AiPlayerbot.RandomBotAccountPrefix = rndbot
             AiPlayerbot.RandomBotAccountCount = 2000
-            AiPlayerbot.MinRandomBots = 100
-            AiPlayerbot.MaxRandomBots = 100
+            AiPlayerbot.MinRandomBots = 250
+            AiPlayerbot.MaxRandomBots = 500
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
             AiPlayerbot.RandomBotMaps = 0,1
