@@ -39,6 +39,21 @@ spec:
             matchType: "=~"
             value: "CephPGsDamaged|CephOSDScrubErrors"
         continue: false
+      # Game-servers (WoW) — fast path: notify within 30s, repeat every hour
+      # while firing. The default critical/warning routes below have 24h
+      # group waits that are unsuitable for player-facing outages.
+      - receiver: email
+        matchers:
+          - name: namespace
+            matchType: "="
+            value: game-servers
+          - name: severity
+            matchType: "=~"
+            value: critical|warning
+        groupWait: 30s
+        groupInterval: 5m
+        repeatInterval: 1h
+        continue: false
       # Critical alerts — only notify if sustained beyond 24h
       - receiver: email
         matchers:

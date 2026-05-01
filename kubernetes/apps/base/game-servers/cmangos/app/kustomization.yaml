@@ -13,3 +13,4 @@ resources:
   - dnsendpoint.yaml
   - replicationsource.yaml
   - volsync-externalsecret.yaml
+  - prometheusrule.yaml

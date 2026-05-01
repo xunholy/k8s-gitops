@@ -1,0 +1,124 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: game-servers-rules
+  namespace: game-servers
+spec:
+  groups:
+    # ─── Availability ───────────────────────────────────────────────────────
+    - name: game-servers.availability
+      interval: 1m
+      rules:
+        - alert: GameServerDown
+          expr: |
+            kube_deployment_status_replicas_available{
+              namespace="game-servers",
+              deployment=~"cmangos-mangosd|cmangos-realmd|cmangos-database|azerothcore-worldserver|azerothcore-authserver|azerothcore-database|emberstone-portal"
+            } == 0
+          for: 2m
+          labels:
+            severity: critical
+            team: game-servers
+          annotations:
+            summary: "{{ $labels.deployment }} is down (no ready replicas)"
+            description: |
+              Deployment `{{ $labels.deployment }}` in namespace `{{ $labels.namespace }}` has had zero
+              ready replicas for at least 2 minutes. Players cannot connect.
+
+        - alert: GameServerDegraded
+          expr: |
+            (
+              kube_deployment_status_replicas{
+                namespace="game-servers",
+                deployment=~"cmangos-.*|azerothcore-.*|emberstone-portal"
+              } -
+              kube_deployment_status_replicas_available{
+                namespace="game-servers",
+                deployment=~"cmangos-.*|azerothcore-.*|emberstone-portal"
+              }
+            ) > 0
+          for: 10m
+          labels:
+            severity: warning
+            team: game-servers
+          annotations:
+            summary: "{{ $labels.deployment }} degraded ({{ $value }} replicas missing)"
+            description: |
+              Deployment `{{ $labels.deployment }}` has had fewer ready replicas than desired for
+              10+ minutes. Service may still be reachable but is in a degraded state.
+
+    # ─── Crash-loop detection (would have caught yesterday's silent outage) ─
+    - name: game-servers.crashloop
+      interval: 1m
+      rules:
+        - alert: GameServerCrashLooping
+          expr: |
+            increase(kube_pod_container_status_restarts_total{
+              namespace="game-servers"
+            }[15m]) > 5
+          for: 5m
+          labels:
+            severity: critical
+            team: game-servers
+          annotations:
+            summary: "{{ $labels.pod }} restarted {{ $value }} times in the last 15 min"
+            description: |
+              Pod `{{ $labels.pod }}` in namespace `{{ $labels.namespace }}` is crash-looping
+              ({{ $value }} restarts in 15 minutes). Likely application bug or unhealthy
+              dependency; check logs and `kubectl describe pod`.
+
+        - alert: GameServerHighLifetimeRestarts
+          expr: |
+            kube_pod_container_status_restarts_total{
+              namespace="game-servers"
+            } > 20
+          for: 10m
+          labels:
+            severity: warning
+            team: game-servers
+          annotations:
+            summary: "{{ $labels.pod }} has {{ $value }} lifetime restarts"
+            description: |
+              Pod `{{ $labels.pod }}` has accumulated {{ $value }} restarts since creation.
+              Investigate the recurring failure mode.
+
+    # ─── Storage health (the class of bug that took us down today) ──────────
+    - name: game-servers.storage
+      interval: 1m
+      rules:
+        - alert: GameServerVolumeReadOnly
+          expr: |
+            node_filesystem_readonly{
+              mountpoint=~"/var/lib/kubelet/pods/.*",
+              fstype!~"tmpfs|overlay|nsfs"
+            } == 1
+          for: 1m
+          labels:
+            severity: critical
+            team: game-servers
+          annotations:
+            summary: "A pod volume on {{ $labels.instance }} is mounted read-only"
+            description: |
+              Filesystem `{{ $labels.mountpoint }}` on `{{ $labels.instance }}` is read-only.
+              Usually triggered by `errors=remount-ro` after underlying I/O errors (Ceph RBD
+              session loss, disk failure). Pods using this volume will be unable to write —
+              **force-recreate the pod** to remap the volume after underlying storage recovers.
+
+        - alert: GameServerPVCNearFull
+          expr: |
+            (
+              kubelet_volume_stats_available_bytes{namespace="game-servers"}
+              /
+              kubelet_volume_stats_capacity_bytes{namespace="game-servers"}
+            ) < 0.10
+          for: 15m
+          labels:
+            severity: warning
+            team: game-servers
+          annotations:
+            summary: "PVC {{ $labels.persistentvolumeclaim }} is {{ $value | humanizePercentage }} free"
+            description: |
+              Game-server PVC is below 10% free space. Expand the PVC or clean up data
+              before writes start failing.
