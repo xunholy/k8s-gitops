@@ -49,7 +49,12 @@ spec:
               Deployment `{{ $labels.deployment }}` has had fewer ready replicas than desired for
               10+ minutes. Service may still be reachable but is in a degraded state.
 
-    # ─── Crash-loop detection (would have caught yesterday's silent outage) ─
+    # ─── Crash-loop detection ───────────────────────────────────────────────
+    # Multiple thresholds to catch both fast loops (every 30s) and slow
+    # loops (every few minutes). The slow-loop case is what slipped through
+    # on 2026-05-02 when mangosd was segfaulting every ~6 min on a single
+    # corrupt player record — too sparse for [15m]>5 to fire, too transient
+    # for KubePodCrashLooping to settle.
     - name: game-servers.crashloop
       interval: 1m
       rules:
@@ -57,7 +62,7 @@ spec:
           expr: |
             increase(kube_pod_container_status_restarts_total{
               namespace="game-servers"
-            }[15m]) > 5
+            }[15m]) >= 3
           for: 5m
           labels:
             severity: critical
@@ -67,22 +72,43 @@ spec:
             description: |
               Pod `{{ $labels.pod }}` in namespace `{{ $labels.namespace }}` is crash-looping
               ({{ $value }} restarts in 15 minutes). Likely application bug or unhealthy
-              dependency; check logs and `kubectl describe pod`.
+              dependency; check `kubectl logs --previous` and `kubectl describe pod`.
 
-        - alert: GameServerHighLifetimeRestarts
+        - alert: GameServerRecentRestarts
+          # Slow but persistent restart pattern — catches anything restarting
+          # >= 3 times per hour, which a 6-min crash cycle hits easily.
           expr: |
-            kube_pod_container_status_restarts_total{
+            increase(kube_pod_container_status_restarts_total{
               namespace="game-servers"
-            } > 20
+            }[1h]) >= 3
           for: 10m
           labels:
             severity: warning
             team: game-servers
           annotations:
-            summary: "{{ $labels.pod }} has {{ $value }} lifetime restarts"
+            summary: "{{ $labels.pod }} has restarted {{ $value }} times in the last hour"
             description: |
-              Pod `{{ $labels.pod }}` has accumulated {{ $value }} restarts since creation.
-              Investigate the recurring failure mode.
+              Pod `{{ $labels.pod }}` is restarting at a rate of >= 3/hour. Could be a
+              slow crash loop (e.g., one specific event triggers a segfault that takes
+              minutes to recur). Examine `kubectl logs --previous` for the exit cause.
+
+        - alert: GameServerSegfault
+          # Container exited via signal (exit code 137=SIGKILL, 139=SIGSEGV).
+          # 139 specifically means the process crashed at the binary level.
+          expr: |
+            kube_pod_container_status_last_terminated_exitcode{
+              namespace="game-servers"
+            } == 139
+          for: 1m
+          labels:
+            severity: critical
+            team: game-servers
+          annotations:
+            summary: "{{ $labels.pod }} segfaulted (exit code 139)"
+            description: |
+              Pod `{{ $labels.pod }}` in `{{ $labels.namespace }}` exited via SIGSEGV.
+              Likely indicates a binary-level bug or corrupt input data. Check
+              `kubectl logs --previous` for the stack trace and any preceding errors.
 
     # ─── Storage health (the class of bug that took us down today) ──────────
     - name: game-servers.storage
