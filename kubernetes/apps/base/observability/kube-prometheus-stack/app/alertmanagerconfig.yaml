@@ -39,9 +39,13 @@ spec:
             matchType: "=~"
             value: "CephPGsDamaged|CephOSDScrubErrors"
         continue: false
-      # Game-servers (WoW) — fast path: notify within 30s, repeat every hour
-      # while firing. The default critical/warning routes below have 24h
-      # group waits that are unsuitable for player-facing outages.
+      # Game-servers (WoW) — fast path. First email within 30s of any new
+      # alert in the namespace; subsequent alerts in the same group batched
+      # 5min apart; reminders only every 12h while still firing (and one
+      # final RESOLVED email when it clears, via sendResolved).
+      # Grouping by namespace + severity bundles related alerts into one
+      # email — e.g. all `critical game-servers` alerts arrive together
+      # rather than one email per alertname.
       - receiver: email
         matchers:
           - name: namespace
@@ -50,9 +54,12 @@ spec:
           - name: severity
             matchType: "=~"
             value: critical|warning
+        groupBy:
+          - namespace
+          - severity
         groupWait: 30s
         groupInterval: 5m
-        repeatInterval: 1h
+        repeatInterval: 12h
         continue: false
       # Critical alerts — only notify if sustained beyond 24h
       - receiver: email
@@ -122,6 +129,45 @@ spec:
       equal:
         - namespace
         - pod
+    # GameServerSegfault is the root cause — silence the downstream
+    # restart-pattern alerts for the same pod so we only get one email
+    # for one underlying problem.
+    - sourceMatch:
+        - name: alertname
+          matchType: "="
+          value: GameServerSegfault
+      targetMatch:
+        - name: alertname
+          matchType: "=~"
+          value: "GameServerCrashLooping|GameServerRecentRestarts|KubePodCrashLooping"
+      equal:
+        - namespace
+        - pod
+    # GameServerCrashLooping inhibits the slower GameServerRecentRestarts
+    # for the same pod (same signal, different windows)
+    - sourceMatch:
+        - name: alertname
+          matchType: "="
+          value: GameServerCrashLooping
+      targetMatch:
+        - name: alertname
+          matchType: "="
+          value: GameServerRecentRestarts
+      equal:
+        - namespace
+        - pod
+    # GameServerDown inhibits GameServerDegraded for the same deployment
+    - sourceMatch:
+        - name: alertname
+          matchType: "="
+          value: GameServerDown
+      targetMatch:
+        - name: alertname
+          matchType: "="
+          value: GameServerDegraded
+      equal:
+        - namespace
+        - deployment
     # Node-level alerts inhibit pod-level alerts on the same node
     - sourceMatch:
         - name: alertname
