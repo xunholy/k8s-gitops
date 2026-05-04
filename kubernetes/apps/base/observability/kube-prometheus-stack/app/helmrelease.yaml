@@ -83,6 +83,10 @@ spec:
         for: 1h
       TargetDown:
         for: 15m
+      # 15m default fires on transient memory spikes (Kopia backups on TrueNAS,
+      # ZFS scrubs, batch I/O). Real pressure outlasts 30m; backups don't.
+      NodeMemoryHighUtilization:
+        for: 30m
     alertmanager:
       alertmanagerSpec:
         alertmanagerConfiguration:
