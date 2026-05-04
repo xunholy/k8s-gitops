@@ -33,12 +33,21 @@ llmBridge:
       name: "kguardian-secrets"
 
 database:
+  # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format
+  image:
+    tag: "18.1"
+    sha: "sha256:1090bc3a8ccfb0b55f78a494d76f8d603434f7e4553543d6e807bc7bd6bbd17f"
+  # Persistent storage so the DB survives pod restarts (chart default is emptyDir → wipes on every recreate)
+  persistence:
+    enabled: true
+    existingClaim: kguardian-db
+  # Sized to observed load: postgres uses 2.0–2.8 cores under autovacuum + ingest pressure
   resources:
     limits:
-      memory: 512Mi
+      memory: 1Gi
     requests:
-      cpu: "1"
-      memory: 256Mi
+      cpu: "2"
+      memory: 512Mi
 
 mcpServer:
   enabled: false
