@@ -7,15 +7,30 @@
       automerge: true,
       automergeType: "branch",
       matchUpdateTypes: ["minor", "patch", "digest"],
-      ignoreTests: true
+      ignoreTests: true,
     },
     {
-      description: "Auto-merge Helm Release",
+      description: "Auto-merge Helm / Docker minor + patch",
       matchDatasources: ["helm", "docker"],
       automerge: true,
       automergeType: "pr",
-      matchUpdateTypes: ["patch"],
-      ignoreTests: true
-    }
-  ]
+      matchUpdateTypes: ["minor", "patch"],
+      ignoreTests: true,
+    },
+    {
+      description: "Disable auto-merge for stateful home-system + game-servers apps (manual review required)",
+      matchFileNames: [
+        "kubernetes/apps/base/home-system/**",
+        "kubernetes/apps/base/game-servers/**",
+      ],
+      automerge: false,
+    },
+    {
+      description: "Auto-merge everything under .archive (unmaintained, lifecycle-only)",
+      matchFileNames: [".archive/**"],
+      automerge: true,
+      automergeType: "branch",
+      ignoreTests: true,
+    },
+  ],
 }
