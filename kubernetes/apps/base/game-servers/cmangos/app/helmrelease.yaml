@@ -212,6 +212,11 @@ spec:
             WorldServerPort = 8085
             BindIP = "0.0.0.0"
             PlayerLimit = 750
+            # Serialize MapUpdater workers to eliminate concurrent navmesh + bot-AI races.
+            # Confirmed root cause of the BG segfaults at 250-500 bots: cores show concurrent
+            # MapUpdateWorker threads crashing in dtNavMesh::getTileAt and ai::MovementAction::UseTransport.
+            # detour is not thread-safe; UseTransport has unguarded sGOStorage::LookupEntry deref.
+            MapUpdate.Threads = 1
             Motd = "Welcome to Emberstone"
             LogLevel = 3
             LogFile = "/opt/mangos/logs/Server.log"
