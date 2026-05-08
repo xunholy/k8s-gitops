@@ -1,15 +1,15 @@
 ---
 controller:
   image:
-    tag: "v1.8.0"
-    sha: "sha256:1e6af8de980eb785b6e4397401adb1ea8e1c64fd9f802c0d810e930ac0a92bb9"
+    tag: "v1.8.1"
+    sha: "sha256:c122ee55e35cbc6df9e507d691641f5968b13cd07bec94ba87283ea431d8e358"
   excludedNamespaces:
     - kguardian
 
 broker:
   image:
-    tag: "v1.7.0"
-    sha: "sha256:26866620ba01362bdfd777c698b5385088721be899327d9e77a8c0e4322322a3"
+    tag: "v1.9.0"
+    sha: "sha256:7b44d7b6a69b28d98dd1910ba29f6630357ca56e54a742d6c021cede765374d7"
   resources:
     limits:
       memory: 2Gi
@@ -19,18 +19,27 @@ broker:
 
 frontend:
   image:
-    tag: "v1.7.1"
-    sha: "sha256:d5a679d4d83c3a2bccc970c39401cd81e9775177bb400585053713152b2e4ca2"
+    tag: "v1.9.0"
+    sha: "sha256:32bb6300f51f0bdc3040d6bfa524c8ad56ecd27feb76fb28f9e46dcda7eede83"
 
 llmBridge:
   enabled: true
   image:
-    tag: "v1.2.2"
-    sha: "sha256:aba33d013bdf273d553aa781c4b66ed8159a438206e07c829aeb6c027c1b0918"
+    tag: "v1.2.3"
+    sha: "sha256:333aa8e252dcea145975d094408a7ab1e4abaedd5ac39e617bdf1cc5894a8437"
   secrets:
     openai:
       enabled: true
       name: "kguardian-secrets"
+
+# kguardian-evaluator — audit-mode policy preview (chart 1.11.0+).
+# Watches AuditNetworkPolicy / AuditClusterNetworkPolicy CRDs and reports
+# flows that *would* be denied (and that are explicitly allowed) without
+# blocking traffic. Surfaces in the frontend's "Audit" panel.
+evaluator:
+  image:
+    tag: "v0.2.0"
+    sha: "sha256:6762118cd90e3142ba18144b281ae5dc59417d7133691a6a40eb4400dc4bdc30"
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format

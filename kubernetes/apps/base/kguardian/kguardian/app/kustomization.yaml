@@ -8,6 +8,7 @@ resources:
   - httproute.yaml
   - ocirepository.yaml
   - pvc-database.yaml
+  - auditnetworkpolicy-baseline.yaml
 
 configMapGenerator:
   - name: kguardian-values

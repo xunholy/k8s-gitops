@@ -1,0 +1,32 @@
+---
+# Cluster-wide audit-only default-deny baseline.
+#
+# Tells the kguardian-evaluator to evaluate every pod-to-pod flow in
+# the cluster against a "deny everything ingress" rule, *without
+# enforcing it*. Result: the Audit panel in the frontend (and the
+# audit_verdicts table in the broker) populate with a per-flow row
+# tagged "WouldDeny", giving you a complete picture of what cluster
+# traffic looks like before you commit to enforcement.
+#
+# kguardian itself is excluded so the evaluator + broker + frontend
+# don't drown out the signal with their own internal traffic.
+#
+# Promote per-namespace by copying the spec under kind: NetworkPolicy
+# (or use Calico GlobalNetworkPolicy / k8s AdminNetworkPolicy if your
+# CNI supports cluster-wide enforcement). See the chart's
+# UPGRADING.md / docs/concepts/audit-network-policy.mdx.
+apiVersion: kguardian.dev/v1alpha1
+kind: AuditClusterNetworkPolicy
+metadata:
+  name: cluster-baseline-audit
+spec:
+  # Empty namespaceSelector with an explicit not-in match excludes
+  # kguardian's own namespace. Everywhere else gets evaluated.
+  namespaceSelector:
+    matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: NotIn
+        values: [kguardian, kube-system, flux-system]
+  podSelector: {}
+  policyTypes: [Ingress]
+  # No ingress rules → default-deny in every matched namespace.
