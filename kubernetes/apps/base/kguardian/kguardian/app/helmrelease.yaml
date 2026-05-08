@@ -12,3 +12,20 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: kguardian-values
+  # Patch the database Deployment to use Recreate. Chart up to 1.11.0
+  # ships RollingUpdate, which deadlocks on a singleton RWO PVC during
+  # upgrade — the new pod blocks in ContainerCreating waiting for an
+  # attach the old pod still holds. Drop this once the chart >= 1.11.1
+  # is in use; the patch becomes a no-op at that point.
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              version: v1
+              kind: Deployment
+              name: kguardian-db
+            patch: |
+              - op: add
+                path: /spec/strategy
+                value:
+                  type: Recreate
