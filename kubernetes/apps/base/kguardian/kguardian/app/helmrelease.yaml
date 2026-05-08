@@ -17,6 +17,12 @@ spec:
   # upgrade — the new pod blocks in ContainerCreating waiting for an
   # attach the old pod still holds. Drop this once the chart >= 1.11.1
   # is in use; the patch becomes a no-op at that point.
+  #
+  # Strategic-merge with $patch: replace because Kubernetes rejects a
+  # Deployment carrying both strategy.type=Recreate and strategy.rollingUpdate;
+  # the cluster's existing object has rollingUpdate populated by k8s
+  # defaults, so a plain merge leaves it behind and the API server
+  # 422s. Replace forces the whole strategy block to be rewritten.
   postRenderers:
     - kustomize:
         patches:
@@ -25,7 +31,11 @@ spec:
               kind: Deployment
               name: kguardian-db
             patch: |
-              - op: add
-                path: /spec/strategy
-                value:
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: kguardian-db
+              spec:
+                strategy:
+                  $patch: replace
                   type: Recreate
