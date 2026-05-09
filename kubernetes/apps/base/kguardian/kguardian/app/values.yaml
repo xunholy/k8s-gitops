@@ -1,8 +1,11 @@
 ---
 controller:
   image:
-    tag: "v1.8.1"
-    sha: "sha256:c122ee55e35cbc6df9e507d691641f5968b13cd07bec94ba87283ea431d8e358"
+    # v1.8.2 — eBPF ring-buffer callbacks log first receiver-closed once
+    # then drop subsequent events silently, instead of flooding stderr at
+    # syscall frequency (kguardian-dev/kguardian#880).
+    tag: "v1.8.2"
+    sha: "sha256:bfb9a3b52bc6a146acf19ebec700343ae245431fb17555e8a55ed239caa37356"
   excludedNamespaces:
     - kguardian
 
@@ -40,10 +43,11 @@ llmBridge:
 # blocking traffic. Surfaces in the frontend's "Audit" panel.
 evaluator:
   image:
-    # v0.2.1 — informer-goroutine leak fix on cache-sync failure
-    # (kguardian-dev/kguardian#872).
-    tag: "v0.2.1"
-    sha: "sha256:a0f07a2f70586a9ea8e0d423f35a875af7258bb6fcd2dc690677eb35c81507df"
+    # v0.2.2 — empty results encode as `[]` not `null`, eliminating
+    # broker decode warnings on flows with no matching policies
+    # (kguardian-dev/kguardian#880).
+    tag: "v0.2.2"
+    sha: "sha256:a7c21bdb710402059df9a2709ec64b607be63de9337e47967b0bf97af3948fe4"
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format
