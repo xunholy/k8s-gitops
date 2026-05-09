@@ -8,8 +8,10 @@ controller:
 
 broker:
   image:
-    tag: "v1.9.0"
-    sha: "sha256:7b44d7b6a69b28d98dd1910ba29f6630357ca56e54a742d6c021cede765374d7"
+    # v1.9.1 — /health checks schema state so kubelet self-heals on DB wipe
+    # (kguardian-dev/kguardian#876). Validated end-to-end against this cluster.
+    tag: "v1.9.1"
+    sha: "sha256:65261cdfa672c7ad61044e4fe58d945cc5b422dd64de6341aa23c46fd555570e"
   resources:
     limits:
       memory: 2Gi
@@ -38,8 +40,10 @@ llmBridge:
 # blocking traffic. Surfaces in the frontend's "Audit" panel.
 evaluator:
   image:
-    tag: "v0.2.0"
-    sha: "sha256:6762118cd90e3142ba18144b281ae5dc59417d7133691a6a40eb4400dc4bdc30"
+    # v0.2.1 — informer-goroutine leak fix on cache-sync failure
+    # (kguardian-dev/kguardian#872).
+    tag: "v0.2.1"
+    sha: "sha256:a0f07a2f70586a9ea8e0d423f35a875af7258bb6fcd2dc690677eb35c81507df"
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format
