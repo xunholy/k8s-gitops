@@ -261,10 +261,17 @@ spec:
             AiPlayerbot.Enabled = 1
             AiPlayerbot.RandomBotAutoCreate = 1
             AiPlayerbot.RandomBotAutologin = 1
-            AiPlayerbot.RandomBotLoginAtStartup = 1
+            # Boot-time bot stampede was segfaulting mangosd at "Loading
+            # instance data for world_map_kalimdor": 250+ bots spawning
+            # into maps 0/1 raced detour navmesh + sGOStorage::LookupEntry
+            # before map state settled. MapUpdate.Threads=1 fixes the BG
+            # runtime case but not the startup case. Bots ramp up over
+            # time after boot via the random-bot tick, so we still reach
+            # MinRandomBots without the boot stampede.
+            AiPlayerbot.RandomBotLoginAtStartup = 0
             AiPlayerbot.RandomBotAccountPrefix = rndbot
             AiPlayerbot.RandomBotAccountCount = 2000
-            AiPlayerbot.MinRandomBots = 250
+            AiPlayerbot.MinRandomBots = 100
             AiPlayerbot.MaxRandomBots = 500
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
