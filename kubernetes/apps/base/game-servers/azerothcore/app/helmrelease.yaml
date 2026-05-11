@@ -225,14 +225,45 @@ spec:
                   done
                 fi
                 if [ -f "$dist/mod_ahbot.conf" ]; then
-                  # AHBot owner: account 199 = AHBOT, guid 1006 = Auctioneer
+                  # AHBot owner + volume tuning. account 199 = AHBOT,
+                  # guid 1006 = Auctioneer. Profession + vendor trade goods
+                  # turned on so the world has crafted gear, bolts of cloth,
+                  # potions etc. on top of the loot-only seed. Duplicates=3
+                  # gives popular items multiple listings; ItemsPerCycle=400
+                  # roughly doubles fill+rotation rate.
                   sed -i \
                     -e 's|^AuctionHouseBot\.EnableSeller *=.*|AuctionHouseBot.EnableSeller = 1|' \
                     -e 's|^AuctionHouseBot\.EnableBuyer *=.*|AuctionHouseBot.EnableBuyer = 1|' \
                     -e 's|^AuctionHouseBot\.Account *=.*|AuctionHouseBot.Account = 199|' \
                     -e 's|^AuctionHouseBot\.GUID *=.*|AuctionHouseBot.GUID = 1006|' \
                     -e 's|^AuctionHouseBot\.UseMarketPriceForSeller *=.*|AuctionHouseBot.UseMarketPriceForSeller = 1|' \
+                    -e 's|^AuctionHouseBot\.ItemsPerCycle *=.*|AuctionHouseBot.ItemsPerCycle = 400|' \
+                    -e 's|^AuctionHouseBot\.ProfessionItems *=.*|AuctionHouseBot.ProfessionItems = 1|' \
+                    -e 's|^AuctionHouseBot\.VendorTradeGoods *=.*|AuctionHouseBot.VendorTradeGoods = 1|' \
+                    -e 's|^AuctionHouseBot\.DuplicatesCount *=.*|AuctionHouseBot.DuplicatesCount = 3|' \
                     "$dist/mod_ahbot.conf"
+                fi
+                if [ -f "$dist/playerbots.conf" ]; then
+                  # Aliveness pass: more bots, faster RPG-state transitions,
+                  # busier world/general/trade chat, more loot/kill broadcast
+                  # spam. Explicitly NOT touched: RandomBotInvitePlayer (0),
+                  # InviteChat (0), RandomBotGuildNearby (0) — real players
+                  # should not be DM'd, group-invited, or auto-recruited into
+                  # bot guilds.
+                  sed -i \
+                    -e 's|^AiPlayerbot\.MinRandomBots *=.*|AiPlayerbot.MinRandomBots = 800|' \
+                    -e 's|^AiPlayerbot\.MaxRandomBots *=.*|AiPlayerbot.MaxRandomBots = 800|' \
+                    -e 's|^AiPlayerbot\.RpgDelay *=.*|AiPlayerbot.RpgDelay = 5000|' \
+                    -e 's|^AiPlayerbot\.BroadcastToWorldGlobalChance *=.*|AiPlayerbot.BroadcastToWorldGlobalChance = 90000|' \
+                    -e 's|^AiPlayerbot\.BroadcastToGeneralGlobalChance *=.*|AiPlayerbot.BroadcastToGeneralGlobalChance = 90000|' \
+                    -e 's|^AiPlayerbot\.BroadcastToTradeGlobalChance *=.*|AiPlayerbot.BroadcastToTradeGlobalChance = 90000|' \
+                    -e 's|^AiPlayerbot\.BroadcastToLFGGlobalChance *=.*|AiPlayerbot.BroadcastToLFGGlobalChance = 60000|' \
+                    -e 's|^AiPlayerbot\.BroadcastChanceLootingItemRare *=.*|AiPlayerbot.BroadcastChanceLootingItemRare = 40000|' \
+                    -e 's|^AiPlayerbot\.BroadcastChanceLootingItemEpic *=.*|AiPlayerbot.BroadcastChanceLootingItemEpic = 60000|' \
+                    -e 's|^AiPlayerbot\.BroadcastChanceKillRare *=.*|AiPlayerbot.BroadcastChanceKillRare = 20000|' \
+                    -e 's|^AiPlayerbot\.BroadcastChanceKillRareelite *=.*|AiPlayerbot.BroadcastChanceKillRareelite = 6000|' \
+                    -e 's|^AiPlayerbot\.BroadcastChanceKillWorldboss *=.*|AiPlayerbot.BroadcastChanceKillWorldboss = 40000|' \
+                    "$dist/playerbots.conf"
                 fi
                 exec /azerothcore/entrypoint.sh /azerothcore/env/dist/bin/worldserver
             env:
