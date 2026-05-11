@@ -7,6 +7,8 @@ resources:
   - helmrelease.yaml
   - pvc-database.yaml
   - pvc-client-data.yaml
+  - pvc-cores.yaml
+  - configmap-ahbot.yaml
   - tcproutes.yaml
   - dnsendpoint.yaml
   - replicationsource.yaml

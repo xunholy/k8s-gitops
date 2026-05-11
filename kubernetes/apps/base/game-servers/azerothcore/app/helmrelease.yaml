@@ -184,6 +184,20 @@ spec:
               tag: f9bcdac1895f78e50a63e8e93f09ce0d723cf938
             tty: true
             stdin: true
+            # Override the image ENTRYPOINT so we can enable core dumps
+            # (ulimit -c) and chdir into the cores PVC before exec. The
+            # rest of the chain matches the image's defaults: wrapper
+            # entrypoint.sh → /azerothcore/env/dist/bin/worldserver. No
+            # image rebuild required.
+            command:
+              - /bin/bash
+              - -c
+              - |
+                set -e
+                ulimit -c unlimited
+                mkdir -p /azerothcore/env/dist/cores
+                cd /azerothcore/env/dist/cores
+                exec /azerothcore/entrypoint.sh /azerothcore/env/dist/bin/worldserver
             env:
               TZ: ${CLUSTER_TIMEZONE}
               # Enable interactive console so preStop can inject commands via FIFO
@@ -373,6 +387,37 @@ spec:
                 memory: 4Gi
               limits:
                 memory: 12Gi
+          # Prune /azerothcore/env/dist/cores so a runaway crash loop can't
+          # fill the 40Gi PVC. Keeps the 2 newest non-zero cores by mtime
+          # and deletes the rest every 10 min. Mirrors the cmangos pattern.
+          cores-pruner:
+            image:
+              repository: busybox
+              tag: latest
+            command:
+              - /bin/sh
+              - -c
+              - |
+                while true; do
+                  if cd /azerothcore/env/dist/cores 2>/dev/null; then
+                    find . -maxdepth 1 -name 'core*' -size 0 -delete 2>/dev/null
+                    # shellcheck disable=SC2012
+                    ls -1t core* 2>/dev/null | tail -n +3 | xargs -r rm -f --
+                  fi
+                  sleep 600
+                done
+            resources:
+              requests:
+                cpu: 5m
+                memory: 8Mi
+              limits:
+                memory: 32Mi
+            securityContext:
+              runAsNonRoot: false
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
     service:
       database:
         controller: database
@@ -424,3 +469,21 @@ spec:
           authserver:
             app:
               - path: /azerothcore/env/dist/logs
+      cores:
+        existingClaim: azerothcore-cores
+        advancedMounts:
+          worldserver:
+            app:
+              - path: /azerothcore/env/dist/cores
+            cores-pruner:
+              - path: /azerothcore/env/dist/cores
+      ahbot-config:
+        type: configMap
+        name: azerothcore-ahbot-config
+        advancedMounts:
+          worldserver:
+            app:
+              # Bypasses the broken AC_* env-var pipeline. The fifo-wrapper
+              # is no-clobber so it leaves our mount in place.
+              - path: /azerothcore/env/dist/etc/modules/mod_ahbot.conf
+                subPath: mod_ahbot.conf
