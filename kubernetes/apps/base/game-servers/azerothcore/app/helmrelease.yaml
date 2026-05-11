@@ -206,6 +206,9 @@ spec:
             command:
               - /bin/bash
               - -c
+              # Flux post-build substitution eats `${VAR}` tokens; escape any
+              # parameter-expansion / suffix-strip below as `$${VAR}` so bash
+              # sees them at runtime. Plain `$VAR` (no braces) is fine.
               - |
                 set -euo pipefail
                 ulimit -c unlimited
@@ -217,7 +220,7 @@ spec:
                   mkdir -p "$dist"
                   for src in "$ref"/*.conf.dist; do
                     [ -f "$src" ] || continue
-                    target="$dist/$(basename "${src%.dist}")"
+                    target="$dist/$(basename "$${src%.dist}")"
                     [ -f "$target" ] || cp "$src" "$target"
                   done
                 fi
