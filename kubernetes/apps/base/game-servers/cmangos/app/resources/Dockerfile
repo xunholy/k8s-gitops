@@ -112,6 +112,21 @@ RUN mkdir -p "${MANGOS_DIR}" \
  \
  && rm -rf /tmp/*
 
+# Downstream patches applied to the pinned mangos-classic source. Each
+# *.patch is a unified diff rooted at ${MANGOS_DIR}; `git apply` is used
+# without a repo (works on a plain working tree). The --check pass fails
+# the build loudly if a patch goes stale against a newer MANGOS_SHA1, so
+# we don't silently ship an unpatched binary.
+COPY patches/ /tmp/patches/
+RUN set -eu \
+ && cd "${MANGOS_DIR}" \
+ && for p in /tmp/patches/*.patch; do \
+        echo "==> Applying $(basename "$p")"; \
+        git apply --check -p1 "$p"; \
+        git apply -p1 "$p"; \
+    done \
+ && rm -rf /tmp/patches
+
 ARG THREADS="1"
 RUN mkdir -p "${HOME_DIR}/build" \
              "${HOME_DIR}/run" \
