@@ -112,6 +112,13 @@ spec:
       worldserver:
         pod:
           terminationGracePeriodSeconds: 960
+          # fsGroup makes the mounted cores PVC group-owned by acore (gid 1000)
+          # so the worldserver process can drop core files into it on crash.
+          # Without this, kubelet creates the mount point as root:root and the
+          # acore user can't write there.
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         initContainers:
           01-wait-db:
             image:
@@ -184,19 +191,46 @@ spec:
               tag: f9bcdac1895f78e50a63e8e93f09ce0d723cf938
             tty: true
             stdin: true
-            # Override the image ENTRYPOINT so we can enable core dumps
-            # (ulimit -c) and chdir into the cores PVC before exec. The
-            # rest of the chain matches the image's defaults: wrapper
-            # entrypoint.sh → /azerothcore/env/dist/bin/worldserver. No
-            # image rebuild required.
+            # Override the image ENTRYPOINT so we can:
+            #   - enable core dumps (ulimit -c) and chdir into the cores PVC
+            #   - patch mod_ahbot.conf with our AHBot Account/GUID before the
+            #     worldserver reads it. (The AC_* env vars in this HR don't
+            #     translate to .conf — the upstream entrypoint has no env
+            #     substitution. Settings only stick when written to the conf
+            #     file directly. ConfigMap subPath at .../modules/<f> won't
+            #     work because k8s shadows the parent dir as root-owned and
+            #     hides the sibling .conf.dist files the wrapper needs.)
+            # The wrapper at /azerothcore/entrypoint.sh is no-clobber for
+            # files we wrote, so we replicate just its conf-materialization
+            # step, sed the override, then hand off.
             command:
               - /bin/bash
               - -c
               - |
-                set -e
+                set -euo pipefail
                 ulimit -c unlimited
                 mkdir -p /azerothcore/env/dist/cores
                 cd /azerothcore/env/dist/cores
+                ref=/azerothcore/env/ref/etc/modules
+                dist=/azerothcore/env/dist/etc/modules
+                if [ -d "$ref" ]; then
+                  mkdir -p "$dist"
+                  for src in "$ref"/*.conf.dist; do
+                    [ -f "$src" ] || continue
+                    target="$dist/$(basename "${src%.dist}")"
+                    [ -f "$target" ] || cp "$src" "$target"
+                  done
+                fi
+                if [ -f "$dist/mod_ahbot.conf" ]; then
+                  # AHBot owner: account 199 = AHBOT, guid 1006 = Auctioneer
+                  sed -i \
+                    -e 's|^AuctionHouseBot\.EnableSeller *=.*|AuctionHouseBot.EnableSeller = 1|' \
+                    -e 's|^AuctionHouseBot\.EnableBuyer *=.*|AuctionHouseBot.EnableBuyer = 1|' \
+                    -e 's|^AuctionHouseBot\.Account *=.*|AuctionHouseBot.Account = 199|' \
+                    -e 's|^AuctionHouseBot\.GUID *=.*|AuctionHouseBot.GUID = 1006|' \
+                    -e 's|^AuctionHouseBot\.UseMarketPriceForSeller *=.*|AuctionHouseBot.UseMarketPriceForSeller = 1|' \
+                    "$dist/mod_ahbot.conf"
+                fi
                 exec /azerothcore/entrypoint.sh /azerothcore/env/dist/bin/worldserver
             env:
               TZ: ${CLUSTER_TIMEZONE}
@@ -477,13 +511,3 @@ spec:
               - path: /azerothcore/env/dist/cores
             cores-pruner:
               - path: /azerothcore/env/dist/cores
-      ahbot-config:
-        type: configMap
-        name: azerothcore-ahbot-config
-        advancedMounts:
-          worldserver:
-            app:
-              # Bypasses the broken AC_* env-var pipeline. The fifo-wrapper
-              # is no-clobber so it leaves our mount in place.
-              - path: /azerothcore/env/dist/etc/modules/mod_ahbot.conf
-                subPath: mod_ahbot.conf
