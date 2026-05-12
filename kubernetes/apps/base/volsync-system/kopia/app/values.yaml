@@ -4,7 +4,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/home-operations/kopia
-          tag: 0.22.3@sha256:17ab64542280197a5368247deaefadc3e3bbe15714ab666c2455a06824e86efd
+          tag: 0.23.0@sha256:dc933ce31e46bfd1ac6f051c2afd37aa35585808a2334d1ccecc54d57054419a
         env:
           KOPIA_WEB_ENABLED: true
           KOPIA_WEB_PORT: &port 80
