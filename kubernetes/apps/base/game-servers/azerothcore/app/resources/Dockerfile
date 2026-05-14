@@ -12,7 +12,7 @@ FROM ubuntu:22.04 AS source
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Pinned SHAs for reproducible builds. Bump these when you want newer code;
 # leaving them on a moving branch is how silent regressions arrive.
@@ -32,12 +32,12 @@ ARG MOD_INDIVIDUALPROGRESSION_SHA1="4119ca0120e5b535b4718f6dd0a4d6030e28e1f8"
 # shellcheck disable=SC2086
 RUN set -eux; \
     fetch_sha() { \
-        local url="$1" sha="$2" dest="$3"; \
-        mkdir -p "$dest"; \
-        git -C "$dest" init -q; \
-        git -C "$dest" remote add origin "$url"; \
-        git -C "$dest" fetch --depth 1 -q origin "$sha"; \
-        git -C "$dest" checkout -q FETCH_HEAD; \
+    local url="$1" sha="$2" dest="$3"; \
+    mkdir -p "$dest"; \
+    git -C "$dest" init -q; \
+    git -C "$dest" remote add origin "$url"; \
+    git -C "$dest" fetch --depth 1 -q origin "$sha"; \
+    git -C "$dest" checkout -q FETCH_HEAD; \
     }; \
     fetch_sha https://github.com/mod-playerbots/azerothcore-wotlk.git           "${ACORE_SHA1}"                   /azerothcore; \
     fetch_sha https://github.com/mod-playerbots/mod-playerbots.git              "${MOD_PLAYERBOTS_SHA1}"          /azerothcore/modules/mod-playerbots; \
@@ -60,7 +60,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git lsb-base curl unzip default-mysql-client openssl \
     default-libmysqlclient-dev libboost-all-dev libssl-dev libmysql++-dev \
     libreadline-dev zlib1g-dev libbz2-dev libncurses5-dev \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=source /azerothcore /azerothcore
 WORKDIR /azerothcore/build
@@ -92,10 +92,10 @@ FROM ubuntu:22.04 AS runtime
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libmysqlclient21 libreadline8 gettext-base default-mysql-client \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -g 1000 acore \
- && useradd -m -u 1000 -g acore acore
+    && useradd -m -u 1000 -g acore acore
 
 COPY --from=source /azerothcore/apps/docker/entrypoint.sh /azerothcore/entrypoint-upstream.sh
 COPY fifo-wrapper.sh /azerothcore/entrypoint.sh
@@ -105,7 +105,7 @@ RUN chmod +x /azerothcore/entrypoint-upstream.sh /azerothcore/entrypoint.sh
 COPY --from=build /azerothcore/env/dist/etc /azerothcore/env/ref/etc
 
 RUN mkdir -p /azerothcore/env/dist/etc /azerothcore/env/dist/logs /azerothcore/env/dist/data \
- && chown -R acore:acore /azerothcore
+    && chown -R acore:acore /azerothcore
 
 ENV CONF_DIR=/azerothcore/env/dist/etc \
     LOGS_DIR=/azerothcore/env/dist/logs \

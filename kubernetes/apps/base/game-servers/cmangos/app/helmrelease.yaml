@@ -210,7 +210,13 @@ spec:
               limits:
                 memory: 32Mi
             securityContext:
-              runAsNonRoot: false
+              # mangosd writes cores as the mangos user (UID 1001). Without
+              # CAP_DAC_OVERRIDE (we drop ALL caps) root can't delete files
+              # owned by 1001 at mode 0600, so the pruner becomes a no-op
+              # and the cores PVC wedges at 100%. Match the worldserver UID.
+              runAsUser: 1001
+              runAsGroup: 1001
+              runAsNonRoot: true
               readOnlyRootFilesystem: true
               allowPrivilegeEscalation: false
               capabilities:
@@ -319,7 +325,12 @@ spec:
             AiPlayerbot.SyncQuestWithPlayer = 1
             AiPlayerbot.RandomBotGuildCount = 0
             AiPlayerbot.RandomBotJoinBG = 1
-            AiPlayerbot.RandomBotAutoJoinBG = 1
+            # Temporary: stop bots auto-queuing into BGs. Crashes traced to
+            # HandleMoveWorldportAckOpcode racing a fresh BG removal — bots
+            # cycling in/out of queues are what supplies the stale Worldport
+            # ACKs. Re-enable once the WorldportAck patch (0002) lands in
+            # the image. Bots still queue when invited (RandomBotJoinBG=1).
+            AiPlayerbot.RandomBotAutoJoinBG = 0
             AiPlayerbot.RandomBotGroupNearby = 1
             AiPlayerbot.SyncLevelWithPlayers = 1
             AiPlayerbot.SyncLevelMaxAbove = 2
