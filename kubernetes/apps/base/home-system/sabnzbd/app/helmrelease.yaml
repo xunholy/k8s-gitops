@@ -17,7 +17,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/sabnzbd
-              tag: 5.0.1@sha256:c22ada9eb6f6306a4e94d3372c784a5330818f2021b2fa9233ff4ae92d9f3582
+              tag: 5.0.3@sha256:53064020792b2e21305c892c11aaa1eb32af2141cbd59119b52df226d664cd05
             env:
               TZ: ${CLUSTER_TIMEZONE}
               SABNZBD__PORT: &port 80
