@@ -523,14 +523,27 @@ spec:
             Movement.BadOrderAck.TickAction = 3
             Movement.BadOrderAck.TotalCount = 5
             Movement.BadOrderAck.TotalAction= 7
+            # Teleport — instant kick on first detect. Position revert is
+            # built into the anticheat: src/game/Anticheat/module/Movement/
+            # movement.cpp:1034 calls Player::SavePositionInDB with the
+            # PREVIOUS (legitimate) position and returns false to reject
+            # the movement opcode. So a hacker teleporting to GM island
+            # gets kicked AND the DB stores their pre-cheat location, so
+            # relog doesn't keep them there.
+            # GM island has an extra CHEAT_TYPE_FORBIDDEN detector at
+            # movement.cpp:1031.
+            # No false-positive concern: engine-initiated teleports (mage
+            # portal, hearthstone, instance entry, gryphon arrivals) are
+            # excluded from this check — only client-injected movements
+            # the server didn't request trip it.
             Movement.Teleport.TickCount     = 1
-            Movement.Teleport.TickAction    = 3
-            Movement.Teleport.TotalCount    = 3
-            Movement.Teleport.TotalAction   = 7
+            Movement.Teleport.TickAction    = 7
+            Movement.Teleport.TotalCount    = 0
+            Movement.Teleport.TotalAction   = 0
             Movement.TeleportFar.TickCount  = 1
-            Movement.TeleportFar.TickAction = 3
-            Movement.TeleportFar.TotalCount = 3
-            Movement.TeleportFar.TotalAction= 7
+            Movement.TeleportFar.TickAction = 7
+            Movement.TeleportFar.TotalCount = 0
+            Movement.TeleportFar.TotalAction= 0
             # Exploration — info only, no kick
             Movement.Explore.TickCount     = 3
             Movement.Explore.TickAction    = 3
