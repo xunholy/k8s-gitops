@@ -42,7 +42,7 @@ ARG MANGOS_SHA1="eed033b751f6bc68d49fe9e18fc79d126a10a4e7"
 ARG DATABASE_SHA1="5476595e3dedc9a1629566aea6c3c5b3c3c28e0a"
 # Pin attunement module to a SHA so the layer cache busts when the module
 # changes. Bump when you push to xunholy/cmangos-attunement.
-ARG ATTUNEMENT_SHA1="d1ba0e2b23b3e17d7afc06d17b08d4d5fe6c7b2c"
+ARG ATTUNEMENT_SHA1="b47d7aa1ab3143f61f31fce4aa66bb81a34f1e1e"
 ENV HOME_DIR="/home/mangos"
 ENV MANGOS_DIR="${HOME_DIR}/mangos"
 ENV DATABASE_DIR="${HOME_DIR}/classic-db"
