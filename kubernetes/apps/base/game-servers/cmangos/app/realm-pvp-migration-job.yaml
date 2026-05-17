@@ -1,0 +1,73 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-realm-pvp-migration-sql
+  namespace: game-servers
+data:
+  realm-pvp.sql: |
+    -- Flip the realm to PvP type.
+    -- realmlist.icon: 0=Normal, 1=PvP, 4=Normal, 6=RP, 8=RPPvP. Must match
+    -- mangosd.conf GameType for the lobby badge + in-game enforcement to
+    -- agree. Single-realm setup — no WHERE filter. Idempotent.
+    --
+    -- Canonical copy: etc/emberstone/sql/realmd/realm-pvp.sql in
+    -- xunholy/cmangos-classic.
+    UPDATE `realmlist`
+       SET `icon` = 1;
+  pvp-state-reset.sql: |
+    -- Clean stale per-character PvP / BG state at the realm-type flip.
+    -- character_battleground_data tracks active BG slot + queue. After a
+    -- realm-type change, lingering rows can reference BGs that no longer
+    -- exist — same crash class as the 0002-WorldportAck patch. Honor /
+    -- kill totals are NOT touched; those are durable progression stats.
+    -- playerFlags PvP bits are derived per-tick by mangosd, no migration
+    -- needed there.
+    --
+    -- Canonical copy: etc/emberstone/sql/characters/pvp-state-reset.sql in
+    -- xunholy/cmangos-classic.
+    TRUNCATE TABLE `character_battleground_data`;
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-realm-pvp-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Setting realmlist.icon=1 on classicrealmd ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicrealmd < /sql/realm-pvp.sql
+
+              echo "=== Wiping stale BG state on classiccharacters ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters < /sql/pvp-state-reset.sql
+
+              echo "=== Verifying realm icon ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicrealmd -e "SELECT id, name, icon FROM realmlist;"
+
+              echo "=== Verifying BG state cleared ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters -e "SELECT COUNT(*) AS remaining_bg_rows FROM character_battleground_data;"
+
+              echo "=== Done. Restart mangosd+realmd to pick up the new realm type ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-realm-pvp-migration-sql

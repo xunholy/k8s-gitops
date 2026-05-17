@@ -246,7 +246,7 @@ spec:
       mangosd-config:
         data:
           mangosd.conf: |
-            GameType = 0
+            GameType = 1
             RealmZone = 8
             WorldServerPort = 8085
             BindIP = "0.0.0.0"
