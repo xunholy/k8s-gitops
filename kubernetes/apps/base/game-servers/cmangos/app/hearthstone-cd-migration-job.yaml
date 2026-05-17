@@ -1,0 +1,66 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-hearthstone-cd-migration-sql
+  namespace: game-servers
+data:
+  hearthstone-15m.sql: |
+    -- Hearthstone (item 6948) cooldown: 1h → 15m.
+    --
+    -- The cooldown lives on the spell (8690), not the item — cmangos reads
+    -- spell data from the SQL spell_template table at world load, so an
+    -- UPDATE here is the canonical override (no DBC file edit needed).
+    --
+    -- RecoveryTime is in milliseconds. 900000ms = 15 * 60s * 1000ms.
+    -- Idempotent: re-running this just rewrites the same value.
+    --
+    -- Canonical copy lives in the fork at:
+    --   etc/emberstone/sql/world/hearthstone-15m.sql
+    -- Keep this inline copy in sync with that file.
+    --
+    -- Note: spell_template is loaded at mangosd startup. The cooldown change
+    -- takes effect on the next mangosd restart, not immediately.
+
+    UPDATE `spell_template`
+       SET `RecoveryTime` = 900000
+     WHERE `id` = 8690;
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-hearthstone-cd-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Applying Hearthstone 15m cooldown override to classicmangos ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/hearthstone-15m.sql
+              echo "=== SQL applied ==="
+
+              echo "=== Verifying spell 8690 (Hearthstone) RecoveryTime ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT id, SpellName, RecoveryTime FROM spell_template WHERE id = 8690;"
+
+              echo "=== Done. Restart mangosd to pick up the new cooldown ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-hearthstone-cd-migration-sql
