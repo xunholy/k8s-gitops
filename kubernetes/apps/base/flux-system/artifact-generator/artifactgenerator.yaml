@@ -15,6 +15,11 @@ spec:
       copy:
         - from: "@repo/apps/base/actions-runner-system/gha-runner-scale-set/app/"
           to: "@artifact/apps/base/actions-runner-system/gha-runner-scale-set/app/"
+    - name: adminer
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/adminer/app/"
+          to: "@artifact/apps/base/game-servers/adminer/app/"
     - name: autobrr
       originRevision: "@repo"
       copy:

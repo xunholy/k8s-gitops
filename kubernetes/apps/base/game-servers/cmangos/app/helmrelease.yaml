@@ -182,6 +182,34 @@ spec:
                 memory: 4Gi
               limits:
                 memory: 12Gi
+          # Tail the GM audit log to stdout so commands issued by
+          # GM-tier accounts surface in kubectl logs (and the eventual
+          # Loki collector). The mangosd container writes gm.log; this
+          # sidecar shares the cmangos-mangosd-logs PVC read-only.
+          gm-log-tail:
+            image:
+              repository: busybox
+              tag: latest
+            command:
+              - /bin/sh
+              - -c
+              - |
+                while [ ! -f /opt/mangos/logs/gm.log ]; do sleep 5; done
+                exec tail -F /opt/mangos/logs/gm.log
+            resources:
+              requests:
+                cpu: 5m
+                memory: 8Mi
+              limits:
+                memory: 32Mi
+            securityContext:
+              runAsUser: 1001
+              runAsGroup: 1001
+              runAsNonRoot: true
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
           # Prune /opt/mangos/cores so a runaway crash loop can't fill
           # the 40Gi PVC again (May 2026 incident: cores went from a
           # 4-9 GB dump to zero-byte writes once the disk was full,
@@ -261,6 +289,14 @@ spec:
             LogFile = "/opt/mangos/logs/Server.log"
             LogFileLevel = 3
             LogTimestamp = 1
+            # GM command audit log. Absolute path because run_mangosd cd's
+            # into /opt/mangos/cores before exec. Tailed by the gm-log-tail
+            # sidecar so lines also reach kubectl logs / future Loki.
+            GmLogFile = "/opt/mangos/logs/gm.log"
+            GmLogTimestamp = 1
+            GmLogPerAccount = 0
+            LogGMTrade = 1
+            LogFilter_GMChat = 0
             SOAP.Enabled = 1
             SOAP.IP = 0.0.0.0
             SOAP.Port = 7878
@@ -540,6 +576,9 @@ spec:
           mangosd:
             app:
               - path: /opt/mangos/logs
+            gm-log-tail:
+              - path: /opt/mangos/logs
+                readOnly: true
       realmd-logs:
         type: emptyDir
         advancedMounts:
