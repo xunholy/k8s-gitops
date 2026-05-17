@@ -70,7 +70,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: f1e7350464cb728ac5ab236bfd277c38cca69bbb
+              tag: 356b4b3304d36c8db0a8689ed1904663506ce5fa
             args: ["realmd"]
             env:
               TZ: ${CLUSTER_TIMEZONE}
@@ -125,7 +125,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: f1e7350464cb728ac5ab236bfd277c38cca69bbb
+              tag: 356b4b3304d36c8db0a8689ed1904663506ce5fa
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -388,6 +388,30 @@ spec:
             Attunement.Aura.Tier3.SpellId = 0
             Attunement.Aura.Tier4.SpellId = 0
             Attunement.Aura.Tier5.SpellId = 0
+      vip-config:
+        data:
+          vip.conf: |
+            [VipConf]
+            ConfVersion=2
+            Vip.Enable = 1
+            Vip.MasterSpellId = 91200
+            Vip.BundledSpellIds = ""
+      autoscale-config:
+        data:
+          autoscale.conf: |
+            [AutoscaleConf]
+            ConfVersion=1
+            Autoscale.Enable = 1
+            Autoscale.RescanIntervalSeconds = 10
+            Autoscale.HpExponent = 0.85
+            Autoscale.MinScale = 0.20
+            Autoscale.MaxScale = 1.0
+            Autoscale.Baseline.Dungeon = 5
+            Autoscale.Baseline.RaidDefault = 40
+            # 309 ZG, 509 AQ20 = vanilla 20-man raids
+            Autoscale.MapBaselines = "309:20,509:20"
+            Autoscale.MapBlacklist = ""
+            Autoscale.Announce = 1
       ahbot-config:
         data:
           ahbot.conf: |
@@ -486,6 +510,22 @@ spec:
             app:
               - path: /opt/mangos/conf/attunement.conf
                 subPath: attunement.conf
+      vip-config:
+        type: configMap
+        name: cmangos-vip-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/vip.conf
+                subPath: vip.conf
+      autoscale-config:
+        type: configMap
+        name: cmangos-autoscale-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/autoscale.conf
+                subPath: autoscale.conf
       ahbot-config:
         type: configMap
         name: cmangos-ahbot-config
