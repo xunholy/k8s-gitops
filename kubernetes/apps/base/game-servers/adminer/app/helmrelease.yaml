@@ -62,6 +62,10 @@ spec:
                 drop: ["ALL"]
     defaultPodOptions:
       securityContext:
+        # adminer:5 image USER is "adminer" (UID 8 from adduser -u 8).
+        # Numeric so the kubelet can verify non-root.
+        runAsUser: 8
+        runAsGroup: 8
         runAsNonRoot: true
         seccompProfile: { type: RuntimeDefault }
     service:
