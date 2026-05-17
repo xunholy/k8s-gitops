@@ -424,6 +424,142 @@ spec:
             Attunement.Aura.Tier3.SpellId = 0
             Attunement.Aura.Tier4.SpellId = 0
             Attunement.Aura.Tier5.SpellId = 0
+      anticheat-config:
+        data:
+          # Canonical source: etc/emberstone/anticheat.conf in
+          # xunholy/cmangos-classic. Keep in sync.
+          # Action mask vocabulary (sum of bits): 1=log, 2=prompt,
+          # 4=kick, 8=ban_acct, 16=ban_ip, 32=silence. Every mask here
+          # is ≤ 7 — kick-only, never auto-ban (human decision only).
+          anticheat.conf: |
+            [AnticheatConf]
+            ConfVersion=2017102301
+            Enable = 1
+            FingerprintHistory = 30
+            FingerprintLevel = 6
+            KickDelay.Min = 30
+            KickDelay.Max = 90
+            BanDelay.Min = 30
+            BanDelay.Max = 90
+            IPBanDelay.Min = 30
+            IPBanDelay.Max = 90
+            BanWave.Day = 1
+            BanWave.Hour = 10
+            BanWave.Minute = 0
+            Movement.UseExtrapolation = 1
+            Movement.SpeedHack.Enable  = 1
+            Movement.WallClimb.TickCount   = 0
+            Movement.WallClimb.TickAction  = 0
+            Movement.WallClimb.TotalCount  = 0
+            Movement.WallClimb.TotalAction = 0
+            # High-confidence cheats — kick on first detect
+            Movement.WaterWalk.TickCount   = 1
+            Movement.WaterWalk.TickAction  = 7
+            Movement.WaterWalk.TotalCount  = 0
+            Movement.WaterWalk.TotalAction = 0
+            Movement.SlowFall.TickCount   = 1
+            Movement.SlowFall.TickAction  = 7
+            Movement.SlowFall.TotalCount  = 0
+            Movement.SlowFall.TotalAction = 0
+            Movement.FlyHack.TickCount    = 1
+            Movement.FlyHack.TickAction   = 7
+            Movement.FlyHack.TotalCount   = 0
+            Movement.FlyHack.TotalAction  = 0
+            Movement.Forbidden.TickCount  = 1
+            Movement.Forbidden.TickAction = 7
+            Movement.Forbidden.TotalCount = 0
+            Movement.Forbidden.TotalAction= 0
+            Movement.NullClientTime.TickCount  = 1
+            Movement.NullClientTime.TickAction = 7
+            Movement.NullClientTime.TotalCount = 0
+            Movement.NullClientTime.TotalAction = 0
+            Movement.RootMove.TickCount  = 1
+            Movement.RootMove.TickAction = 7
+            Movement.RootMove.TotalCount = 0
+            Movement.RootMove.TotalAction= 0
+            Movement.TimeBack.TickCount  = 1
+            Movement.TimeBack.TickAction = 7
+            Movement.TimeBack.TotalCount = 0
+            Movement.TimeBack.TotalAction= 0
+            Movement.FakeTransport.TickCount   = 1
+            Movement.FakeTransport.TickAction  = 7
+            Movement.FakeTransport.TotalCount  = 0
+            Movement.FakeTransport.TotalAction = 0
+            Movement.TeleToTransport.TickCount  = 1
+            Movement.TeleToTransport.TickAction = 7
+            Movement.TeleToTransport.TotalCount = 0
+            Movement.TeleToTransport.TotalAction= 0
+            Movement.FixedZ.TickCount  = 1
+            Movement.FixedZ.TickAction = 7
+            Movement.FixedZ.TotalCount = 0
+            Movement.FixedZ.TotalAction= 0
+            # Twitchy under lag — log+prompt, kick after 10 cumulative
+            Movement.MultiJump.TickCount    = 1
+            Movement.MultiJump.TickAction   = 3
+            Movement.MultiJump.TotalCount   = 10
+            Movement.MultiJump.TotalAction  = 7
+            Movement.FastJump.TickCount     = 1
+            Movement.FastJump.TickAction    = 3
+            Movement.FastJump.TotalCount    = 10
+            Movement.FastJump.TotalAction   = 7
+            Movement.JumpSpeedChange.TickCount  = 1
+            Movement.JumpSpeedChange.TickAction = 3
+            Movement.JumpSpeedChange.TotalCount = 10
+            Movement.JumpSpeedChange.TotalAction= 7
+            Movement.HeartbeatSkip.TickCount  = 1
+            Movement.HeartbeatSkip.TickAction = 3
+            Movement.HeartbeatSkip.TotalCount = 10
+            Movement.HeartbeatSkip.TotalAction= 7
+            Movement.ClockDesync.TickCount  = 1
+            Movement.ClockDesync.TickAction = 3
+            Movement.ClockDesync.TotalCount = 10
+            Movement.ClockDesync.TotalAction= 7
+            # Mid-confidence — kick after 3-5 cumulative
+            Movement.OverspeedZ.TickCount   = 1
+            Movement.OverspeedZ.TickAction  = 3
+            Movement.OverspeedZ.TotalCount  = 5
+            Movement.OverspeedZ.TotalAction = 7
+            Movement.BadOrderAck.TickCount  = 1
+            Movement.BadOrderAck.TickAction = 3
+            Movement.BadOrderAck.TotalCount = 5
+            Movement.BadOrderAck.TotalAction= 7
+            Movement.Teleport.TickCount     = 1
+            Movement.Teleport.TickAction    = 3
+            Movement.Teleport.TotalCount    = 3
+            Movement.Teleport.TotalAction   = 7
+            Movement.TeleportFar.TickCount  = 1
+            Movement.TeleportFar.TickAction = 3
+            Movement.TeleportFar.TotalCount = 3
+            Movement.TeleportFar.TotalAction= 7
+            # Exploration — info only, no kick
+            Movement.Explore.TickCount     = 3
+            Movement.Explore.TickAction    = 3
+            Movement.Explore.TotalCount    = 0
+            Movement.Explore.TotalAction   = 0
+            Movement.ExploreHigh.TickCount  = 1
+            Movement.ExploreHigh.TickAction = 3
+            Movement.ExploreHigh.TotalCount  = 0
+            Movement.ExploreHigh.TotalAction = 0
+            Movement.BadFallReset.Enable    = 1
+            Movement.BadFallReset.Threshold = 1
+            Movement.BadFallReset.Penalty   = 7
+            # Antispam — silence (reversible)
+            Antispam.Enable   = 1
+            Antispam.Silence  = 1
+            Antispam.MaxLevel = 25
+            # Warden — lower MinimumLevel (was 25; lvl-1 alts skated), kick on memory tamper
+            Warden.Enable                       = 1
+            Warden.ModuleDir                    = "warden_modules"
+            Warden.Timeout                      = 30
+            Warden.ScanFrequency                = 15
+            Warden.ScanCount                    = 10
+            Warden.MinimumLevel                 = 1
+            Warden.MinimumAdvancedLevel         = 1
+            Warden.SuspiciousEndSceneHookAction = 7
+            Warden.TickCount                    = 1
+            Warden.TickAction                   = 7
+            Warden.TotalCount                   = 0
+            Warden.TotalAction                  = 0
       vip-config:
         data:
           vip.conf: |
@@ -546,6 +682,14 @@ spec:
             app:
               - path: /opt/mangos/conf/attunement.conf
                 subPath: attunement.conf
+      anticheat-config:
+        type: configMap
+        name: cmangos-anticheat-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/anticheat.conf
+                subPath: anticheat.conf
       vip-config:
         type: configMap
         name: cmangos-vip-config
