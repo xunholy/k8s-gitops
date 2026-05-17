@@ -547,8 +547,12 @@ spec:
             Antispam.Enable   = 1
             Antispam.Silence  = 1
             Antispam.MaxLevel = 25
-            # Warden — lower MinimumLevel (was 25; lvl-1 alts skated), kick on memory tamper
-            Warden.Enable                       = 1
+            # Warden temporarily disabled — mangosd crashed on startup with
+            # 'Failed to locate Warden modules' even though 219 module files
+            # are present at /opt/mangos/bin/warden_modules/. Likely a path/
+            # version mismatch in the new image; investigate separately.
+            # Movement checks above stay active.
+            Warden.Enable                       = 0
             Warden.ModuleDir                    = "warden_modules"
             Warden.Timeout                      = 30
             Warden.ScanFrequency                = 15
@@ -562,17 +566,18 @@ spec:
             Warden.TotalAction                  = 0
       vip-config:
         data:
+          # merge_confs in the runner entrypoint splits each line on '=' and
+          # uses LHS as the key. Section headers ([VipConf]) and # comments
+          # don't parse as key=value, so they end up appended as garbage
+          # '[VipConf] = [VipConf]' lines in /opt/mangos/etc/vip.conf.
+          # Keep this to plain key=value only, matching attunement/hardcore.
           vip.conf: |
-            [VipConf]
-            ConfVersion=2
             Vip.Enable = 1
             Vip.MasterSpellId = 91200
             Vip.BundledSpellIds = ""
       autoscale-config:
         data:
           autoscale.conf: |
-            [AutoscaleConf]
-            ConfVersion=1
             Autoscale.Enable = 1
             Autoscale.RescanIntervalSeconds = 10
             Autoscale.HpExponent = 0.85
@@ -580,7 +585,6 @@ spec:
             Autoscale.MaxScale = 1.0
             Autoscale.Baseline.Dungeon = 5
             Autoscale.Baseline.RaidDefault = 40
-            # 309 ZG, 509 AQ20 = vanilla 20-man raids
             Autoscale.MapBaselines = "309:20,509:20"
             Autoscale.MapBlacklist = ""
             Autoscale.Announce = 1
