@@ -175,6 +175,42 @@ spec:
                   and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
                 labels:
                   severity: critical
+      # Maintenance signals — emit a low-severity alert when a node is
+      # cordoned/draining or when a Flux HelmRelease/Kustomization is
+      # mid-reconcile. These never email (routed to "null" in the
+      # AlertmanagerConfig) — their only job is to be the SOURCE side of
+      # inhibit rules so warning/info alerts sharing the same node or
+      # namespace are suppressed during planned changes. Critical alerts
+      # are intentionally NOT inhibited.
+      maintenance-signals:
+        groups:
+          - name: maintenance-signals
+            rules:
+              - alert: NodeUnderMaintenance
+                annotations:
+                  summary: >-
+                    Node {{ $labels.node }} is cordoned/unschedulable —
+                    pod and target alerts on this node are inhibited
+                expr: kube_node_spec_unschedulable == 1
+                for: 1m
+                labels:
+                  severity: info
+              # label_replace rewrites `namespace` (which is flux-system, where
+              # flux-operator runs) to the actual workload namespace, so the
+              # inhibit rule can equal on `namespace`.
+              - alert: FluxReconciliationInProgress
+                annotations:
+                  summary: >-
+                    Flux {{ $labels.kind }} {{ $labels.exported_namespace }}/{{ $labels.name }}
+                    is reconciling ({{ $labels.reason }}) — child alerts in this namespace are inhibited
+                expr: |-
+                  label_replace(
+                    flux_resource_info{kind=~"HelmRelease|Kustomization", ready="Unknown", suspended="False"} == 1,
+                    "namespace", "$1", "exported_namespace", "(.+)"
+                  )
+                for: 1m
+                labels:
+                  severity: info
     prometheus-node-exporter:
       fullnameOverride: node-exporter
     kube-state-metrics:

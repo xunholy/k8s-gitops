@@ -22,6 +22,14 @@ spec:
             matchType: "=~"
             value: "InfoInhibitor|Watchdog"
         continue: false
+      # Drop maintenance-signal alerts — their only purpose is to be the
+      # source side of inhibit rules. Never email these.
+      - receiver: "null"
+        matchers:
+          - name: alertname
+            matchType: "=~"
+            value: "NodeUnderMaintenance|FluxReconciliationInProgress"
+        continue: false
       # Drop etcd alerts that are noisy on Talos single-node etcd restarts
       - receiver: "null"
         matchers:
@@ -179,3 +187,30 @@ spec:
           value: warning|info
       equal:
         - node
+    # Planned maintenance: a cordoned/draining node suppresses
+    # warning/info alerts about pods and targets on that node.
+    # Critical alerts still fire — outages during a drain are real.
+    - sourceMatch:
+        - name: alertname
+          matchType: "="
+          value: NodeUnderMaintenance
+      targetMatch:
+        - name: severity
+          matchType: "=~"
+          value: warning|info
+      equal:
+        - node
+    # In-flight Flux HelmRelease/Kustomization reconciles suppress
+    # warning/info alerts in the same workload namespace
+    # (KubePodNotReady, KubeDeploymentReplicasMismatch, TargetDown,
+    # etc.). Critical alerts still fire.
+    - sourceMatch:
+        - name: alertname
+          matchType: "="
+          value: FluxReconciliationInProgress
+      targetMatch:
+        - name: severity
+          matchType: "=~"
+          value: warning|info
+      equal:
+        - namespace
