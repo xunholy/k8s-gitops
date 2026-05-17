@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-vip-master-spell-migration-sql
+  namespace: game-servers
+data:
+  vip-master-spell.sql: |
+    -- Wayfarer's Boon (spell 91200) — VIP master spell.
+    -- Effect1 = SPELL_EFFECT_DUMMY (3), instant self-cast.
+    -- VipModule::OnCast hook detects spell.Id=91200 and cascades into
+    -- Vip.BundledSpellIds (default: 10 world + consumable buffs).
+    --
+    -- Canonical: etc/emberstone/sql/world/vip-master-spell.sql in
+    -- xunholy/cmangos-classic. Keep in sync.
+    --
+    -- mangosd loads spell_template at world startup — restart mangosd
+    -- after applying for the spell to be castable.
+
+    DELETE FROM `spell_template` WHERE `Id` = 91200;
+
+    INSERT INTO `spell_template`
+      (`Id`, `SpellName`,
+       `Attributes`, `AttributesEx`,
+       `Targets`,
+       `CastingTimeIndex`, `RangeIndex`,
+       `Effect1`, `EffectImplicitTargetA1`,
+       `SpellVisual`, `SpellIconID`)
+    VALUES
+      (91200, "Wayfarer''s Boon",
+       0, 0,
+       0,
+       1, 13,
+       3, 1,
+       4230, 1548);
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-vip-master-spell-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Applying Wayfarer's Boon master spell to classicmangos ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/vip-master-spell.sql
+              echo "=== Verifying spell row ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT Id, SpellName, CastingTimeIndex, RangeIndex, Effect1, EffectImplicitTargetA1 FROM spell_template WHERE Id = 91200;"
+              echo "=== Done. Restart mangosd so spell_template reloads ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-vip-master-spell-migration-sql
