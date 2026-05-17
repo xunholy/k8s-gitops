@@ -22,9 +22,14 @@ data:
     -- Note: spell_template is loaded at mangosd startup. The cooldown change
     -- takes effect on the next mangosd restart, not immediately.
 
+    -- Spell 8690 has BOTH RecoveryTime and CategoryRecoveryTime; engine
+    -- uses MAX(both). Updating just RecoveryTime leaves the Category
+    -- (89 = Hearthstone) at 60min, so the effective CD stays 60min.
+    -- Update both to 900000 (15min).
     UPDATE `spell_template`
-       SET `RecoveryTime` = 900000
-     WHERE `id` = 8690;
+       SET `RecoveryTime`         = 900000,
+           `CategoryRecoveryTime` = 900000
+     WHERE `Id` = 8690;
 ---
 apiVersion: batch/v1
 kind: Job
