@@ -586,9 +586,18 @@ spec:
           # don't parse as key=value, so they end up appended as garbage
           # '[VipConf] = [VipConf]' lines in /opt/mangos/etc/vip.conf.
           # Keep this to plain key=value only, matching attunement/hardcore.
+          # MasterSpellId 22888 = Rallying Cry of the Dragonslayer.
+          # Vanilla 1.12.1 client has it in spell.dbc (renders in
+          # spellbook with that name + icon 1548). Zero references from
+          # creatures, items, or AI scripts in this server's DB, so
+          # reusing the ID does not collide with any in-game content.
+          # The vanilla effects (10% crit / 140 AP / 5% spell crit, 2h)
+          # ride along with whatever bundled spells get added below.
+          # Previous ID 91200 ("Wayfarer's Boon") is Cataclysm-range
+          # and invisible to vanilla clients without a custom patch-X.MPQ.
           vip.conf: |
             Vip.Enable = 1
-            Vip.MasterSpellId = 91200
+            Vip.MasterSpellId = 22888
             Vip.BundledSpellIds = ""
       autoscale-config:
         data:
