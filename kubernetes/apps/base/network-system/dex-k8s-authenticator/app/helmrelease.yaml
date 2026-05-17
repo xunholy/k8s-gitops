@@ -20,7 +20,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/dex-k8s-authenticator
-              tag: e4b0c02cd4211d4d8c2bd812e30f8a1f2b1f4707
+              tag: 9e61a68b98fc980275a966137927b79e0d575103
             probes:
               liveness: &probes
                 enabled: true
