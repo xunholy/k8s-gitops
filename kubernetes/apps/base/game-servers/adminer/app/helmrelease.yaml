@@ -57,7 +57,10 @@ spec:
                 memory: 128Mi
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              # adminer's entrypoint symlinks adminer.css into the
+              # working directory based on ADMINER_DESIGN, so the rootfs
+              # needs to be writable. Caps still dropped + non-root.
+              readOnlyRootFilesystem: false
               capabilities:
                 drop: ["ALL"]
     defaultPodOptions:
