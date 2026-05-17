@@ -547,13 +547,15 @@ spec:
             Antispam.Enable   = 1
             Antispam.Silence  = 1
             Antispam.MaxLevel = 25
-            # Warden temporarily disabled — mangosd crashed on startup with
-            # 'Failed to locate Warden modules' even though 219 module files
-            # are present at /opt/mangos/bin/warden_modules/. Likely a path/
-            # version mismatch in the new image; investigate separately.
-            # Movement checks above stay active.
-            Warden.Enable                       = 0
-            Warden.ModuleDir                    = "warden_modules"
+            # Warden re-enable attempt. Previous crash was 'Failed to locate
+            # Warden modules' — root cause hypothesis: relative path
+            # "warden_modules" doesn't resolve at the moment WardenModuleMgr
+            # lazy-initializes on first player auth (boost::fs::exists from
+            # a CWD that isn't /opt/mangos/bin). Switching to absolute path
+            # rules out CWD-resolution issues; data files at this path are
+            # confirmed present + readable + size-valid + non-zero header.
+            Warden.Enable                       = 1
+            Warden.ModuleDir                    = "/opt/mangos/bin/warden_modules"
             Warden.Timeout                      = 30
             Warden.ScanFrequency                = 15
             Warden.ScanCount                    = 10
