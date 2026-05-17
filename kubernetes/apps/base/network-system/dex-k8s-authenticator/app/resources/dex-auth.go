@@ -9,7 +9,7 @@ import (
 	"path"
 	"time"
 
-	oidc "github.com/coreos/go-oidc"
+	oidc "github.com/coreos/go-oidc/v3/oidc"
 	"os"
 	"github.com/spf13/cast"
 	"golang.org/x/oauth2"
