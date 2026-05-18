@@ -598,7 +598,11 @@ spec:
           vip.conf: |
             Vip.Enable = 1
             Vip.MasterSpellId = 18282
-            Vip.BundledSpellIds = ""
+            # Explicit list (rather than "" which the mangos config parser
+            # returns as a literal 2-char string, not an empty string —
+            # the module's empty-string fallback to built-in defaults
+            # never triggered).
+            Vip.BundledSpellIds = 22888,24425,23735,23736,23737,15366,16609,17626,17627,17628
       autoscale-config:
         data:
           autoscale.conf: |
