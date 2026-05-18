@@ -49,17 +49,20 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Cleanup obsolete spell 91200 + swap existing VIPs 22888 → 18282 ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos < /sql/vip-master-spell.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" < /sql/vip-master-spell.sql
               echo "=== Verify cleanup ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT COUNT(*) AS spell_91200_rows FROM spell_template WHERE Id = 91200;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT COUNT(*) AS spell_91200_rows FROM spell_template WHERE Id = 91200;"
               echo "=== Verify VIP migration ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters -e "SELECT spell, COUNT(*) AS chars FROM character_spell WHERE spell IN (22888, 18282) GROUP BY spell;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters -e "SELECT spell, COUNT(*) AS chars FROM character_spell WHERE spell IN (22888, 18282) GROUP BY spell;"
               echo "=== Done. Restart mangosd so the new Vip.MasterSpellId from the ConfigMap takes effect ==="
           volumeMounts:
             - name: sql-scripts

@@ -380,33 +380,36 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Applying Twink Master schema to classiccharacters ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters < /sql/characters.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters < /sql/characters.sql
               echo "=== Characters schema applied successfully ==="
 
               echo "=== Applying Twink Master data to classicmangos ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/world.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/world.sql
               echo "=== World data applied successfully ==="
 
               echo "=== Verifying characters table ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters -e "SHOW TABLES LIKE 'custom_twinkmaster%';"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters -e "SHOW TABLES LIKE 'custom_twinkmaster%';"
 
               echo "=== Verifying Twink Master NPCs ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT entry, name, subname, faction, NpcFlags FROM creature_template WHERE entry IN (190012, 190013);"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT entry, name, subname, faction, NpcFlags FROM creature_template WHERE entry IN (190012, 190013);"
 
               echo "=== Verifying creature spawns ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT id, map, position_x, position_y, position_z FROM creature WHERE id IN (190012, 190013);"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT id, map, position_x, position_y, position_z FROM creature WHERE id IN (190012, 190013);"
 
               echo "=== Verifying vendor items per entry ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT entry, COUNT(*) AS vendor_item_count FROM npc_vendor WHERE entry IN (190012, 190013) GROUP BY entry;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT entry, COUNT(*) AS vendor_item_count FROM npc_vendor WHERE entry IN (190012, 190013) GROUP BY entry;"
 
               echo "=== Verifying vendor categories ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "
                 SELECT
                   CASE categories
                     WHEN 1 THEN 'BiS Gear'
@@ -421,7 +424,7 @@ spec:
               "
 
               echo "=== Validating all vendor item IDs exist in item_template ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "
                 SELECT nv.entry, nv.item AS missing_item_id
                 FROM npc_vendor nv
                 LEFT JOIN item_template it ON nv.item = it.entry

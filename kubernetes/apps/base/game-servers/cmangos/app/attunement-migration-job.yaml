@@ -79,30 +79,33 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Applying Attunement schema to classiccharacters ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters < /sql/characters.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters < /sql/characters.sql
               echo "=== Characters schema applied successfully ==="
 
               echo "=== Applying Attunement NPC + spawns to classicmangos ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/world.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/world.sql
               echo "=== World data applied successfully ==="
 
               echo "=== Verifying characters table ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters -e "SHOW TABLES LIKE 'custom_attunement%';"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters -e "SHOW TABLES LIKE 'custom_attunement%';"
 
               echo "=== Verifying Attunement NPC template ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT entry, name, subname, faction, NpcFlags, ScriptName FROM creature_template WHERE entry = 190014;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT entry, name, subname, faction, NpcFlags, ScriptName FROM creature_template WHERE entry = 190014;"
 
               echo "=== Verifying spawns (expect 6 rows) ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT id, map, position_x, position_y, position_z FROM creature WHERE id = 190014;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT id, map, position_x, position_y, position_z FROM creature WHERE id = 190014;"
 
               echo "=== Verifying NPC text ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT ID, LEFT(text0_0, 60) AS text_preview FROM npc_text WHERE ID BETWEEN 50930 AND 50931;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT ID, LEFT(text0_0, 60) AS text_preview FROM npc_text WHERE ID BETWEEN 50930 AND 50931;"
 
               echo "=== Attunement migration complete ==="
           volumeMounts:

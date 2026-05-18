@@ -183,27 +183,30 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Applying hardcore module schema to classiccharacters ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters < /sql/characters.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters < /sql/characters.sql
               echo "=== Characters schema applied successfully ==="
 
               echo "=== Applying hardcore module data to classicmangos ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/world.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/world.sql
               echo "=== World data applied successfully ==="
 
               echo "=== Verifying characters tables ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters -e "SHOW TABLES LIKE 'custom_hardcore%';"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters -e "SHOW TABLES LIKE 'custom_hardcore%';"
 
               echo "=== Verifying Masochist Pete NPC ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT entry, name, subname FROM creature_template WHERE entry = 190011;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT entry, name, subname FROM creature_template WHERE entry = 190011;"
 
               echo "=== Verifying creature spawns ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT COUNT(*) AS spawn_count FROM creature WHERE id = 190011;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT COUNT(*) AS spawn_count FROM creature WHERE id = 190011;"
 
               echo "=== Hardcore module migration complete ==="
           volumeMounts:

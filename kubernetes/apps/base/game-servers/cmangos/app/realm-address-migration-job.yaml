@@ -29,13 +29,16 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Updating realm address to external gateway IP ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicrealmd < /sql/realmd.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicrealmd < /sql/realmd.sql
               echo "=== Realm address migration complete ==="
           volumeMounts:
             - name: sql-scripts

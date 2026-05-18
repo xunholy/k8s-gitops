@@ -50,15 +50,18 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Upserting Emberstone PTR realmlist row (id=2) ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicrealmd < /sql/realm-ptr.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicrealmd < /sql/realm-ptr.sql
               echo "=== Verifying ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicrealmd \
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicrealmd \
                 -e "SELECT id, name, address, port, allowedSecurityLevel FROM realmlist ORDER BY id;"
           volumeMounts:
             - name: sql-scripts

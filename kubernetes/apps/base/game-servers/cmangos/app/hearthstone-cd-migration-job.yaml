@@ -49,17 +49,20 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Applying Hearthstone 15m cooldown override to classicmangos ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/hearthstone-15m.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/hearthstone-15m.sql
               echo "=== SQL applied ==="
 
               echo "=== Verifying spell 8690 (Hearthstone) RecoveryTime ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT id, SpellName, RecoveryTime FROM spell_template WHERE id = 8690;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT id, SpellName, RecoveryTime FROM spell_template WHERE id = 8690;"
 
               echo "=== Done. Restart mangosd to pick up the new cooldown ==="
           volumeMounts:

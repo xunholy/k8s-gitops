@@ -46,22 +46,25 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Setting realmlist.icon=1 on classicrealmd ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicrealmd < /sql/realm-pvp.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicrealmd < /sql/realm-pvp.sql
 
               echo "=== Wiping stale BG state on classiccharacters ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters < /sql/pvp-state-reset.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters < /sql/pvp-state-reset.sql
 
               echo "=== Verifying realm icon ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicrealmd -e "SELECT id, name, icon FROM realmlist;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicrealmd -e "SELECT id, name, icon FROM realmlist;"
 
               echo "=== Verifying BG state cleared ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters -e "SELECT COUNT(*) AS remaining_bg_rows FROM character_battleground_data;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters -e "SELECT COUNT(*) AS remaining_bg_rows FROM character_battleground_data;"
 
               echo "=== Done. Restart mangosd+realmd to pick up the new realm type ==="
           volumeMounts:

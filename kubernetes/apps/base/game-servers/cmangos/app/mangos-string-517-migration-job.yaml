@@ -44,23 +44,26 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Repairing classicmangos.mangos_string row 517 ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/mangos-string-517.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/mangos-string-517.sql
 
               # PTR shares the schema; if it exists, apply there too so a
               # fresh PTR rebuild also lands on a sane row.
-              if mariadb -h cmangos-database -P 3306 -u mangos -pmangos -e "USE ptrmangos" 2>/dev/null; then
+              if mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" -e "USE ptrmangos" 2>/dev/null; then
                 echo "=== Repairing ptrmangos.mangos_string row 517 ==="
-                mariadb -h cmangos-database -P 3306 -u mangos -pmangos ptrmangos < /sql/mangos-string-517.sql
+                mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos < /sql/mangos-string-517.sql
               fi
 
               echo "=== Verifying ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos \
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos \
                 -e "SELECT entry, content_default FROM mangos_string WHERE entry = 517 \G"
 
               echo "=== Done. Worldserver must be restarted to reload mangos_string ==="

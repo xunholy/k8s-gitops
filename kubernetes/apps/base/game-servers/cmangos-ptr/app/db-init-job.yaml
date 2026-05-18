@@ -26,10 +26,13 @@ spec:
       containers:
         - name: init
           image: mariadb:12.2
-          # CREATE DATABASE + GRANT must be run as root (mangos@% lacks
+          # CREATE DATABASE + GRANT must be run as root (the app user lacks
           # global CREATE). Dumps + restores then run as root too, since
-          # we already have a root session here. Mangos user grants are
-          # what the runtime PTR mangosd actually needs.
+          # we already have a root session here. App-user grants are what
+          # the runtime PTR mangosd actually needs — username from secret.
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           env:
             - name: ROOT_PWD
               value: password
@@ -53,10 +56,10 @@ spec:
               $${MARIADB} -e "CREATE DATABASE IF NOT EXISTS ptrcharacters CHARACTER SET utf8 COLLATE utf8_general_ci;"
               $${MARIADB} -e "CREATE DATABASE IF NOT EXISTS ptrlogs       CHARACTER SET utf8 COLLATE utf8_general_ci;"
 
-              echo "=== Granting mangos@% access to PTR databases ==="
-              $${MARIADB} -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE ROUTINE, ALTER ROUTINE ON \`ptrmangos\`.* TO 'mangos'@'%';"
-              $${MARIADB} -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON \`ptrcharacters\`.* TO 'mangos'@'%';"
-              $${MARIADB} -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON \`ptrlogs\`.* TO 'mangos'@'%';"
+              echo "=== Granting $${MANGOS_DBUSER}@% access to PTR databases ==="
+              $${MARIADB} -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE ROUTINE, ALTER ROUTINE ON \`ptrmangos\`.* TO '$${MANGOS_DBUSER}'@'%';"
+              $${MARIADB} -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON \`ptrcharacters\`.* TO '$${MANGOS_DBUSER}'@'%';"
+              $${MARIADB} -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON \`ptrlogs\`.* TO '$${MANGOS_DBUSER}'@'%';"
               $${MARIADB} -e "FLUSH PRIVILEGES;"
 
               if already_seeded ptrmangos; then
