@@ -11,7 +11,7 @@ spec:
         - alert: FluxInstanceAbsent
           expr: |-
             absent(flux_instance_info{exported_namespace="flux-system", name="flux"})
-          for: 15m
+          for: 30m
           annotations:
             summary: >-
               Flux instance metric is missing
@@ -21,7 +21,7 @@ spec:
         - alert: FluxInstanceNotReady
           expr: |-
             flux_instance_info{exported_namespace="flux-system", name="flux", ready!="True"}
-          for: 15m
+          for: 30m
           annotations:
             summary: >-
               Flux instance {{ $labels.name }} is not ready
@@ -31,19 +31,19 @@ spec:
         - alert: HelmReleaseReconciliationFailure
           expr: |-
             gotk_resource_info{customresource_kind="HelmRelease", ready!="True"} == 1
-          for: 30m
+          for: 1h
           annotations:
             summary: >-
               HelmRelease {{ $labels.name }} in {{ $labels.exported_namespace }} is not ready
           labels:
-            severity: critical
+            severity: warning
 
         - alert: KustomizationReconciliationFailure
           expr: |-
             gotk_resource_info{customresource_kind="Kustomization", ready!="True"} == 1
-          for: 30m
+          for: 1h
           annotations:
             summary: >-
               Kustomization {{ $labels.name }} in {{ $labels.exported_namespace }} is not ready
           labels:
-            severity: critical
+            severity: warning

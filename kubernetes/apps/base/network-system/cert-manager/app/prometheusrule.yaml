@@ -11,10 +11,10 @@ spec:
         - alert: CertManagerAbsent
           expr: |-
             absent(up{job="cert-manager"})
-          for: 15m
+          for: 30m
           annotations:
             summary: >-
-              Cert Manager has dissapeared from Prometheus service discovery
+              Cert Manager has disappeared from Prometheus service discovery
           labels:
             severity: critical
 
@@ -33,17 +33,17 @@ spec:
         - alert: CertManagerCertNotReady
           expr: |-
             max by (name, exported_namespace, namespace, condition) (certmanager_certificate_ready_status{condition!="True"} == 1)
-          for: 15m
+          for: 1h
           annotations:
             summary: >-
               The cert {{ $labels.name }} is not ready to serve traffic
           labels:
-            severity: critical
+            severity: warning
 
         - alert: CertManagerHittingRateLimits
           expr: |-
             sum by (host) (rate(certmanager_http_acme_client_request_count{status="429"}[5m])) > 0
-          for: 5m
+          for: 15m
           annotations:
             summary: >-
               Cert manager hitting LetsEncrypt rate limits
