@@ -21,10 +21,16 @@ spec:
               tag: "12.2"
             env:
               TZ: ${CLUSTER_TIMEZONE}
-              MARIADB_USER: mangos
-              MARIADB_PASSWORD: mangos
+              # MARIADB_ROOT_PASSWORD is first-init-only (DB volume is
+              # persistent; ignored on subsequent starts). Rotation is
+              # tracked separately from the app user.
               MARIADB_ROOT_PASSWORD: password
               MARIADB_DATABASE: classicrealmd
+            envFrom:
+              # MARIADB_USER / MARIADB_PASSWORD come from 1Password via
+              # ExternalSecret (cmangos-database-creds). First-init only.
+              - secretRef:
+                  name: cmangos-database-creds
             probes:
               liveness:
                 enabled: true
@@ -76,8 +82,10 @@ spec:
               TZ: ${CLUSTER_TIMEZONE}
               MANGOS_DBHOST: cmangos-database
               MANGOS_DBPORT: "3306"
-              MANGOS_DBUSER: mangos
-              MANGOS_DBPASS: mangos
+            envFrom:
+              # MANGOS_DBUSER + MANGOS_DBPASS from 1Password via ESO.
+              - secretRef:
+                  name: cmangos-database-creds
             probes:
               liveness:
                 enabled: true
@@ -133,8 +141,10 @@ spec:
               TZ: ${CLUSTER_TIMEZONE}
               MANGOS_DBHOST: cmangos-database
               MANGOS_DBPORT: "3306"
-              MANGOS_DBUSER: mangos
-              MANGOS_DBPASS: mangos
+            envFrom:
+              # MANGOS_DBUSER + MANGOS_DBPASS from 1Password via ESO.
+              - secretRef:
+                  name: cmangos-database-creds
             # Graceful shutdown via the existing stdin FIFO. Aligned with
             # terminationGracePeriodSeconds=300: send 'server restart 240'
             # (4-min in-game countdown), then sleep 260s for save + exit.
@@ -330,6 +340,17 @@ spec:
           realmd.conf: |
             RealmServerPort = 3724
             BindIP = "0.0.0.0"
+            # Brute-force protection on the SRP6 auth port (internet
+            # exposed via TCPRoute → envoy-external gateway).
+            #   MaxCount=5  failures before action
+            #   BanTime=600 ten-minute ban
+            #   BanType=1   ban by IP (0 = ban the account, riskier)
+            #   Logging=1   log every failure so Crowdsec / Falco can
+            #               pick up patterns and broaden the response
+            WrongPass.MaxCount = 5
+            WrongPass.BanTime = 600
+            WrongPass.BanType = 1
+            WrongPass.Logging = 1
       aiplayerbot-config:
         data:
           aiplayerbot.conf: |
