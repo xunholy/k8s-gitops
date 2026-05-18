@@ -16,3 +16,4 @@ resources:
   - volsync-externalsecret.yaml
   - prometheusrule.yaml
   - mangos-string-517-migration-job.yaml
+  - lookup-gm-security-migration-job.yaml
