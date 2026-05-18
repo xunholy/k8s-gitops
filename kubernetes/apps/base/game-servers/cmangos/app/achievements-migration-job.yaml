@@ -1,0 +1,94 @@
+---
+# Achievements module — backports the WotLK achievement system. Imports
+# ~3MB of static achievement/criteria/locale definitions (`achievement_dbc`,
+# `achievement_criteria_dbc`, `achievement_category_dbc`, `achievement_reward`,
+# `achievement_reward_locale`, `achievement_criteria_data`) into classicmangos,
+# plus 2 progress tables (`character_achievement`, `character_achievement_progress`)
+# into classiccharacters.
+#
+# The world-data SQL totals ~3.3MB which exceeds the per-ConfigMap size limit
+# (1MiB), so the SQL is fetched at job time via shallow git clone of
+# xunholy/cmangos-classic rather than inlined. The init container pins to the
+# branch the runtime image was built from — see the cmangos image tag in
+# helmrelease.yaml; bump both in lockstep.
+#
+# Re-running is functionally safe: the upstream SQL uses DROP+CREATE+INSERT
+# on STATIC definition tables only. Player progress lives in `character_achievement*`
+# (separate DB) and is not touched. The achievement IDs are deterministic, so
+# DROP+CREATE+INSERT yields the same definitions and player progress remains
+# valid.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-achievements-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  # Higher backoffLimit + activeDeadlineSeconds — applying the 3.3MB world SQL
+  # against a cold DB can take a couple of minutes.
+  backoffLimit: 3
+  activeDeadlineSeconds: 1200
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+        - name: clone-source
+          image: alpine/git:latest
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              git clone --depth 1 --branch main \
+                https://github.com/xunholy/cmangos-classic.git /shared/src
+              echo "=== Achievements SQL files ==="
+              ls -lh /shared/src/src/modules/achievements/sql/install/world/
+              ls -lh /shared/src/src/modules/achievements/sql/install/characters/
+          volumeMounts:
+            - name: shared
+              mountPath: /shared
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              SQL_DIR="/shared/src/src/modules/achievements/sql/install"
+
+              echo "=== Applying Achievements characters schema ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters < "${SQL_DIR}/characters/characters.sql"
+
+              echo "=== Applying world_data (achievement_dbc, criteria_dbc, etc) — this is the big one (~1.9MB) ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < "${SQL_DIR}/world/01_world_data.sql"
+
+              echo "=== Applying world_update (rewards / fixups) ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < "${SQL_DIR}/world/02_world_update.sql"
+
+              echo "=== Applying world_locales (~1.2MB) ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < "${SQL_DIR}/world/03_world_locales.sql"
+
+              echo "=== Verifying characters tables ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters -e "SHOW TABLES LIKE 'character_achievement%';"
+
+              echo "=== Verifying world definition tables ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "
+                SELECT 'achievement_dbc'           AS tbl, COUNT(*) AS rows FROM achievement_dbc UNION ALL
+                SELECT 'achievement_category_dbc',           COUNT(*) FROM achievement_category_dbc UNION ALL
+                SELECT 'achievement_criteria_dbc',           COUNT(*) FROM achievement_criteria_dbc UNION ALL
+                SELECT 'achievement_criteria_data',          COUNT(*) FROM achievement_criteria_data UNION ALL
+                SELECT 'achievement_reward',                 COUNT(*) FROM achievement_reward UNION ALL
+                SELECT 'achievement_reward_locale',          COUNT(*) FROM achievement_reward_locale;"
+
+              echo "=== Achievements migration complete ==="
+          volumeMounts:
+            - name: shared
+              mountPath: /shared
+              readOnly: true
+      volumes:
+        - name: shared
+          emptyDir: {}

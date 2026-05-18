@@ -651,6 +651,49 @@ spec:
             Autoscale.MapBaselines = "309:20,509:20"
             Autoscale.MapBlacklist = ""
             Autoscale.Announce = 1
+      transmog-config:
+        data:
+          transmog.conf: |
+            Transmog.Enable = 1
+            # Per-transmog gold cost (copper). 0 = free.
+            Transmog.CostFee = 0
+            # Multiplier on item-quality-based cost (1.0 = no extra cost).
+            Transmog.CostMultiplier = 1.0
+            # Token-gated transmog (0 = disabled, no token required).
+            Transmog.TokenRequired = 0
+            Transmog.TokenEntry = 0
+            Transmog.TokenAmount = 1
+      barber-config:
+        data:
+          barber.conf: |
+            Barber.Enable = 1
+      dualspec-config:
+        data:
+          dualspec.conf: |
+            Dualspec.Enable = 1
+            # Cost to unlock second spec, in copper (100000 = 10g).
+            Dualspec.Cost = 100000
+      trainingdummies-config:
+        data:
+          trainingdummies.conf: |
+            Trainingdummies.Enable = 1
+      achievements-config:
+        data:
+          achievements.conf: |
+            Achievements.Enable = 1
+            # Chat broadcast when an achievement is earned (1 = on).
+            Achievements.SendMessage = 1
+            # Send special packets for the client-side "Achiever" addon (1 = on).
+            Achievements.SendAddon = 1
+            # Visual sparkle effect on the player when earning achievement (1 = on).
+            Achievements.SendVisual = 1
+            # Spell ID for the visual effect.
+            Achievements.EffectId = 146
+            # Award achievements to random bots (0 = off — bots clutter realm-first leaderboards).
+            Achievements.RandomBots = 0
+            Achievements.RandomBotsRealmFirst = 0
+            # Sync earned achievements across all characters of an account (0 = per-character).
+            Achievements.AccountAchievements = 0
       ahbot-config:
         data:
           ahbot.conf: |
@@ -765,6 +808,46 @@ spec:
             app:
               - path: /opt/mangos/conf/autoscale.conf
                 subPath: autoscale.conf
+      transmog-config:
+        type: configMap
+        name: cmangos-transmog-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/transmog.conf
+                subPath: transmog.conf
+      barber-config:
+        type: configMap
+        name: cmangos-barber-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/barber.conf
+                subPath: barber.conf
+      dualspec-config:
+        type: configMap
+        name: cmangos-dualspec-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/dualspec.conf
+                subPath: dualspec.conf
+      trainingdummies-config:
+        type: configMap
+        name: cmangos-trainingdummies-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/trainingdummies.conf
+                subPath: trainingdummies.conf
+      achievements-config:
+        type: configMap
+        name: cmangos-achievements-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/achievements.conf
+                subPath: achievements.conf
       ahbot-config:
         type: configMap
         name: cmangos-ahbot-config

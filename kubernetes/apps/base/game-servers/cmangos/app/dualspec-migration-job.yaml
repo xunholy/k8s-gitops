@@ -1,0 +1,191 @@
+---
+# Dualspec module — applies talent/action/character schema + NPC spawn for the
+# Dual Specialization Crystal (entry 190024). Idempotent: CREATE TABLE IF NOT
+# EXISTS for the 4 tables, INSERT IGNORE for the data-seeding inserts from
+# character_action and characters (PK collisions on re-run are harmless).
+#
+# Re-running is safe and preserves existing player dualspec state. The DROP
+# TABLE in the upstream cmangos-classic SQL is intentionally NOT replicated
+# here — that would destroy second-spec talents/action bars on re-run.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-dualspec-migration-sql
+  namespace: game-servers
+data:
+  characters.sql: |
+    CREATE TABLE IF NOT EXISTS `custom_dualspec_talent` (
+      `guid`  int(11) unsigned NOT NULL DEFAULT '0',
+      `spell` int(11) unsigned NOT NULL DEFAULT '0',
+      `spec`  tinyint(3) unsigned NOT NULL DEFAULT '0',
+      PRIMARY KEY (`guid`, `spell`, `spec`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    CREATE TABLE IF NOT EXISTS `custom_dualspec_talent_name` (
+      `guid` int(11) unsigned NOT NULL DEFAULT '0',
+      `spec` tinyint(3) unsigned NOT NULL DEFAULT '0',
+      `name` varchar(255) NOT NULL DEFAULT '',
+      PRIMARY KEY (`guid`, `spec`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    CREATE TABLE IF NOT EXISTS `custom_dualspec_action` (
+      `guid`   int(11) unsigned NOT NULL DEFAULT '0',
+      `button` tinyint(3) unsigned NOT NULL DEFAULT '0',
+      `action` int(11) unsigned NOT NULL DEFAULT '0',
+      `type`   tinyint(3) unsigned NOT NULL DEFAULT '0',
+      `spec`   tinyint(3) unsigned NOT NULL DEFAULT '0',
+      PRIMARY KEY (`guid`, `spec`, `button`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    -- Seed spec=0 from existing character_action. INSERT IGNORE so re-runs
+    -- silently skip duplicates (PK guid+spec+button collision).
+    INSERT IGNORE INTO `custom_dualspec_action` (`guid`, `spec`, `button`, `action`, `type`)
+    SELECT `guid`, 0 AS `spec`, `button`, `action`, `type` FROM `character_action`;
+
+    CREATE TABLE IF NOT EXISTS `custom_dualspec_characters` (
+      `guid`        int(11) unsigned NOT NULL DEFAULT '0',
+      `spec_count`  tinyint(3) unsigned NOT NULL DEFAULT '1',
+      `active_spec` tinyint(3) unsigned NOT NULL DEFAULT '0',
+      PRIMARY KEY (`guid`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    -- Seed one row per existing character. INSERT IGNORE handles re-runs and
+    -- also picks up any new characters created since the last run.
+    INSERT IGNORE INTO `custom_dualspec_characters` (`guid`)
+    SELECT `guid` FROM `characters`;
+  world.sql: |
+    SET @ENTRY := 190024;
+
+    -- Creature template: Dual Specialization Crystal
+    DELETE FROM `creature_template` WHERE `entry` = @ENTRY;
+    INSERT INTO `creature_template`
+      (Entry, Name, SubName, MinLevel, MaxLevel, DisplayId1, DisplayIdProbability1,
+       Faction, Scale, Family, CreatureType, InhabitType, RegenerateStats, RacialLeader,
+       NpcFlags, UnitFlags, DynamicFlags, ExtraFlags, CreatureTypeFlags, SpeedWalk, SpeedRun,
+       Detection, CallForHelp, Pursuit, Leash, Timeout, UnitClass, `Rank`,
+       HealthMultiplier, PowerMultiplier, DamageMultiplier, DamageVariance, ArmorMultiplier,
+       ExperienceMultiplier, MinLevelHealth, MaxLevelHealth, MinLevelMana, MaxLevelMana,
+       MinMeleeDmg, MaxMeleeDmg, MinRangedDmg, MaxRangedDmg, Armor, MeleeAttackPower,
+       RangedAttackPower, MeleeBaseAttackTime, RangedBaseAttackTime, DamageSchool,
+       MinLootGold, MaxLootGold, LootId, PickpocketLootId, SkinningLootId,
+       KillCredit1, KillCredit2, MechanicImmuneMask, SchoolImmuneMask,
+       ResistanceHoly, ResistanceFire, ResistanceNature, ResistanceFrost, ResistanceShadow, ResistanceArcane,
+       PetSpellDataId, MovementType, TrainerType, TrainerSpell, TrainerClass, TrainerRace,
+       TrainerTemplateId, VendorTemplateId, EquipmentTemplateId, GossipMenuId, AIName)
+    VALUES
+      (@ENTRY, 'Dual Specialization Crystal', '', 1, 1, 11659, 100,
+       35, 1, 0, 7, 3, 3, 0,
+       1, 0, 0, 0, 0, 1, 1.14286,
+       20, 0, 0, 0, 0, 1, 0,
+       1, 1, 1, 1, 1, 1,
+       42, 42, 0, 0,
+       2, 2, 0, 0, 7, 11,
+       0, 2000, 2000, 0,
+       0, 0, 0, 0, 0,
+       0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, '');
+
+    -- Spawns: Stormwind + Orgrimmar
+    DELETE FROM `creature` WHERE `id` = @ENTRY;
+    INSERT INTO `creature`
+      (`id`, `map`, `spawnMask`, `position_x`, `position_y`, `position_z`, `orientation`,
+       `spawntimesecsmin`, `spawntimesecsmax`, `spawndist`, `MovementType`)
+    VALUES
+      (@ENTRY, 0, 1, -8988.56,   849.754, 29.621, 2.27687, 25, 25, 0, 0),
+      (@ENTRY, 1, 1,  1471.63, -4216.46,  58.9942, 4.35778, 25, 25, 0, 0);
+
+    -- Localised name (Spanish)
+    DELETE FROM `locales_creature` WHERE `entry` = @ENTRY;
+    INSERT INTO `locales_creature` (`entry`, `name_loc6`)
+    VALUES (@ENTRY, 'Cristal de Doble Especialización');
+
+    -- mangos_string entries for the dualspec UI (English + Spanish loc6)
+    SET @STRING_ENTRY := 12000;
+    DELETE FROM `mangos_string` WHERE `entry` BETWEEN @STRING_ENTRY AND @STRING_ENTRY+21;
+    INSERT INTO `mangos_string` (`entry`, `content_default`, `content_loc6`) VALUES
+      (@STRING_ENTRY,    'Dual Specialization allows you to quickly switch between two different talent builds and action bars.', 'La doble especialización te permite cambiar rápidamente entre dos construcciones de talento y barras de acción diferentes.'),
+      (@STRING_ENTRY+1,  'The cost is ', 'El precio es '),
+      (@STRING_ENTRY+2,  'Change my specialization.', 'Cambiar mi especialización.'),
+      (@STRING_ENTRY+3,  'You don''t have enough money to unlock dual specialization.', 'No tienes suficiente dinero para desbloquear la doble especialización.'),
+      (@STRING_ENTRY+4,  'Are you sure you would like to activate your second specialization for ', '¿Estás seguro de que te gustaría activar tu segunda especialización por '),
+      (@STRING_ENTRY+5,  ' gold? This will allow you to quickly switch between two different talent builds and action bars.', ' de oro? Esto te permitirá cambiar rápidamente entre dos construcciones de talento y barras de acción diferentes.'),
+      (@STRING_ENTRY+6,  'You are already on that spec.', 'Ya estás en esa especialización.'),
+      (@STRING_ENTRY+7,  '[Activate] ', '[Activar] '),
+      (@STRING_ENTRY+8,  '[Rename] ', '[Renombrar] '),
+      (@STRING_ENTRY+9,  'Unnamed', 'Sin nombre'),
+      (@STRING_ENTRY+10, ' (active)', ' (activa)'),
+      (@STRING_ENTRY+11, 'You are in combat and cannot switch spec at this time.', 'Estás en combate y no puedes cambiar de especialización en este momento.'),
+      (@STRING_ENTRY+12, 'You must exit the instance to re-spec.', 'Debe salir de la estancia para cambiar la especialización.'),
+      (@STRING_ENTRY+13, 'You are mounted and cannot switch spec at this time.', 'Está montado y no puede cambiar la especialización en este momento.'),
+      (@STRING_ENTRY+14, 'You are dead and cannot switch spec at this time.', 'Estás muerto y no puedes cambiar la especialización en este momento.'),
+      (@STRING_ENTRY+15, 'You must unlock the dual talent specialization feature first.', 'Primero debe desbloquear la función de doble especialización.'),
+      (@STRING_ENTRY+16, 'Current level is less than ten - you cannot switch spec at this time.', 'El nivel actual es inferior a diez y no puedes cambiar de especialización en este momento.'),
+      (@STRING_ENTRY+17, '|cFF0041FF[Activate] ', '|cFF0041FF[Activar] '),
+      (@STRING_ENTRY+18, '|cFFCC00CC[Rename] ', '|cFFCC00CC[Renombrar] '),
+      (@STRING_ENTRY+19, 'Are you sure you wish to switch your talent specialization?', '¿Estás seguro de que deseas cambiar su especialización?'),
+      (@STRING_ENTRY+20, 'Purchase Dual Talent Specialization', 'Comprar doble especialización de talentos'),
+      (@STRING_ENTRY+21, 'Can not create dual spec item!', '¡No se puede crear un artículo de doble especialización!');
+
+    -- NPC gossip text
+    SET @TEXT_ID := 50700;
+    DELETE FROM `npc_text` WHERE `ID` BETWEEN @TEXT_ID AND @TEXT_ID+1;
+    INSERT INTO `npc_text` (`ID`, `text0_0`) VALUES
+      (@TEXT_ID,   'Dual Specialization allows you to quickly switch between two different talent builds and action bars.'),
+      (@TEXT_ID+1, 'Dual Specialization allows you to quickly switch between two different talent builds and action bars.');
+
+    DELETE FROM `locales_npc_text` WHERE `entry` BETWEEN @TEXT_ID AND @TEXT_ID+1;
+    INSERT INTO `locales_npc_text` (`entry`, `text0_0_loc6`) VALUES
+      (@TEXT_ID,   'La doble especialización te permite cambiar rápidamente entre dos ramas de talentos y barras de acción diferentes.'),
+      (@TEXT_ID+1, 'La doble especialización te permite cambiar rápidamente entre dos ramas de talentos y barras de acción diferentes.');
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-dualspec-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Applying Dualspec schema + seeding from character_action/characters ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters < /sql/characters.sql
+
+              echo "=== Applying Dualspec NPC + strings + spawns to classicmangos ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/world.sql
+
+              echo "=== Verifying characters tables ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters -e "SHOW TABLES LIKE 'custom_dualspec%';"
+
+              echo "=== Verifying NPC template (entry 190024 = Dual Specialization Crystal) ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT entry, name FROM creature_template WHERE entry = 190024;"
+
+              echo "=== Verifying spawns (expect 2 rows: Stormwind + Orgrimmar) ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT id, map, position_x, position_y FROM creature WHERE id = 190024;"
+
+              echo "=== Verifying mangos_string rows (expect 22 entries: 12000-12021) ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT COUNT(*) AS strings_loaded FROM mangos_string WHERE entry BETWEEN 12000 AND 12021;"
+
+              echo "=== Dualspec migration complete ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-dualspec-migration-sql
