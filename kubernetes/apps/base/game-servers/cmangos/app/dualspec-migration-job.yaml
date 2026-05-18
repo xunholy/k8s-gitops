@@ -158,28 +158,31 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Applying Dualspec schema + seeding from character_action/characters ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters < /sql/characters.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters < /sql/characters.sql
 
               echo "=== Applying Dualspec NPC + strings + spawns to classicmangos ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/world.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/world.sql
 
               echo "=== Verifying characters tables ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters -e "SHOW TABLES LIKE 'custom_dualspec%';"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters -e "SHOW TABLES LIKE 'custom_dualspec%';"
 
               echo "=== Verifying NPC template (entry 190024 = Dual Specialization Crystal) ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT entry, name FROM creature_template WHERE entry = 190024;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT entry, name FROM creature_template WHERE entry = 190024;"
 
               echo "=== Verifying spawns (expect 2 rows: Stormwind + Orgrimmar) ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT id, map, position_x, position_y FROM creature WHERE id = 190024;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT id, map, position_x, position_y FROM creature WHERE id = 190024;"
 
               echo "=== Verifying mangos_string rows (expect 22 entries: 12000-12021) ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT COUNT(*) AS strings_loaded FROM mangos_string WHERE entry BETWEEN 12000 AND 12021;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT COUNT(*) AS strings_loaded FROM mangos_string WHERE entry BETWEEN 12000 AND 12021;"
 
               echo "=== Dualspec migration complete ==="
           volumeMounts:

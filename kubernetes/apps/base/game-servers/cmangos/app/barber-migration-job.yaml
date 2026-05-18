@@ -104,22 +104,25 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Applying Barber NPC + equip + npc_text + spawns to classicmangos ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/world.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/world.sql
 
               echo "=== Verifying NPC template ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT entry, name, subname FROM creature_template WHERE entry = 190020;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT entry, name, subname FROM creature_template WHERE entry = 190020;"
 
               echo "=== Verifying spawns (expect 2 rows: Stormwind + Orgrimmar) ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT id, map, position_x, position_y FROM creature WHERE id = 190020;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT id, map, position_x, position_y FROM creature WHERE id = 190020;"
 
               echo "=== Verifying gossip texts (expect 20 rows: IDs 50404-50423) ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT COUNT(*) AS texts_loaded FROM npc_text WHERE ID BETWEEN 50404 AND 50423;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT COUNT(*) AS texts_loaded FROM npc_text WHERE ID BETWEEN 50404 AND 50423;"
 
               echo "=== Barber migration complete ==="
           volumeMounts:

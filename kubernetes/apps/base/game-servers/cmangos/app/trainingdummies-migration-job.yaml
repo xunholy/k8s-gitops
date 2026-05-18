@@ -86,19 +86,22 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Applying Trainingdummies NPCs + locales + spawns to classicmangos ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/world.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/world.sql
 
               echo "=== Verifying NPC templates (expect 3 rows: 190021/22/23) ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT entry, name FROM creature_template WHERE entry IN (190021, 190022, 190023);"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT entry, name FROM creature_template WHERE entry IN (190021, 190022, 190023);"
 
               echo "=== Verifying spawns (expect 18 rows: 6 locations × 3 dummies) ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT id, COUNT(*) AS spawn_count FROM creature WHERE id IN (190021, 190022, 190023) GROUP BY id;"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT id, COUNT(*) AS spawn_count FROM creature WHERE id IN (190021, 190022, 190023) GROUP BY id;"
 
               echo "=== Trainingdummies migration complete ==="
           volumeMounts:

@@ -47,23 +47,26 @@ spec:
       containers:
         - name: migrate
           image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -e
               echo "=== Lowering .lookup subcommands to GM (security=2) in classicmangos ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/lookup-gm-security.sql
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/lookup-gm-security.sql
 
               # PTR shares the schema; apply there too so a fresh PTR rebuild
               # lands on the same policy.
-              if mariadb -h cmangos-database -P 3306 -u mangos -pmangos -e "USE ptrmangos" 2>/dev/null; then
+              if mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" -e "USE ptrmangos" 2>/dev/null; then
                 echo "=== Lowering .lookup subcommands in ptrmangos ==="
-                mariadb -h cmangos-database -P 3306 -u mangos -pmangos ptrmangos < /sql/lookup-gm-security.sql
+                mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos < /sql/lookup-gm-security.sql
               fi
 
               echo "=== Verifying ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos \
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos \
                 -e "SELECT name, security FROM command WHERE name LIKE 'lookup%' ORDER BY name;"
 
               echo "=== Done. Run '.reload command' in the mangosd console (no restart needed) ==="
