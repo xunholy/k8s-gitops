@@ -6,33 +6,30 @@ metadata:
   namespace: game-servers
 data:
   vip-master-spell.sql: |
-    -- Wayfarer's Boon (spell 91200) — VIP master spell.
-    -- Effect1 = SPELL_EFFECT_DUMMY (3), instant self-cast.
-    -- VipModule::OnCast hook detects spell.Id=91200 and cascades into
-    -- Vip.BundledSpellIds (default: 10 world + consumable buffs).
+    -- VIP master spell migration: cleanup + existing-VIP swap.
     --
-    -- Canonical: etc/emberstone/sql/world/vip-master-spell.sql in
+    -- We use vanilla spell 18282 'Dummy Spell' as the master (already
+    -- Effect1=SPELL_EFFECT_DUMMY in vanilla spell_template, exists in
+    -- the client's Spell.dbc, zero references in item/trainer/chain
+    -- tables). VipModule::OnCast hooks the cast and fires the cascade.
+    -- No INSERT/UPDATE on spell_template needed.
+    --
+    -- This script:
+    --   1) DELETEs the obsolete custom spell row 91200 we tried first
+    --      (vanilla 1.12 clients couldn't display it).
+    --   2) UPDATEs character_spell to swap 22888 (the v2 hot-fix master)
+    --      with 18282 for any existing VIPs. Rallying Cry of the
+    --      Dragonslayer is not legitimately learnable in vanilla — anyone
+    --      with it as a known spell got it from `.vip grant`, so the
+    --      swap is safe.
+    --
+    -- Canonical SQL: etc/emberstone/sql/world/vip-master-spell.sql in
     -- xunholy/cmangos-classic. Keep in sync.
     --
-    -- mangosd loads spell_template at world startup — restart mangosd
-    -- after applying for the spell to be castable.
+    -- Idempotent on both statements.
 
-    DELETE FROM `spell_template` WHERE `Id` = 91200;
-
-    INSERT INTO `spell_template`
-      (`Id`, `SpellName`,
-       `Attributes`, `AttributesEx`,
-       `Targets`,
-       `CastingTimeIndex`, `RangeIndex`,
-       `Effect1`, `EffectImplicitTargetA1`,
-       `SpellVisual`, `SpellIconID`)
-    VALUES
-      (91200, "Wayfarer''s Boon",
-       0, 0,
-       0,
-       1, 13,
-       3, 1,
-       4230, 1548);
+    DELETE FROM `classicmangos`.`spell_template` WHERE `Id` = 91200;
+    UPDATE `classiccharacters`.`character_spell` SET `spell` = 18282 WHERE `spell` = 22888;
 ---
 apiVersion: batch/v1
 kind: Job
@@ -57,11 +54,13 @@ spec:
             - -c
             - |
               set -e
-              echo "=== Applying Wayfarer's Boon master spell to classicmangos ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/vip-master-spell.sql
-              echo "=== Verifying spell row ==="
-              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT Id, SpellName, CastingTimeIndex, RangeIndex, Effect1, EffectImplicitTargetA1 FROM spell_template WHERE Id = 91200;"
-              echo "=== Done. Restart mangosd so spell_template reloads ==="
+              echo "=== Cleanup obsolete spell 91200 + swap existing VIPs 22888 → 18282 ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos < /sql/vip-master-spell.sql
+              echo "=== Verify cleanup ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos -e "SELECT COUNT(*) AS spell_91200_rows FROM spell_template WHERE Id = 91200;"
+              echo "=== Verify VIP migration ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classiccharacters -e "SELECT spell, COUNT(*) AS chars FROM character_spell WHERE spell IN (22888, 18282) GROUP BY spell;"
+              echo "=== Done. Restart mangosd so the new Vip.MasterSpellId from the ConfigMap takes effect ==="
           volumeMounts:
             - name: sql-scripts
               mountPath: /sql

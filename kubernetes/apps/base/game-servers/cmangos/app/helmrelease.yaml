@@ -597,7 +597,7 @@ spec:
           # and invisible to vanilla clients without a custom patch-X.MPQ.
           vip.conf: |
             Vip.Enable = 1
-            Vip.MasterSpellId = 22888
+            Vip.MasterSpellId = 18282
             Vip.BundledSpellIds = ""
       autoscale-config:
         data:
