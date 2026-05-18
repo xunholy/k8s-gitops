@@ -69,6 +69,12 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: cmangos-world-ptr
+      protocol: TCP
+      port: 8086
+      allowedRoutes:
+        namespaces:
+          from: All
     - name: azerothcore-auth
       protocol: TCP
       port: 3725

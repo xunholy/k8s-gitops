@@ -1,0 +1,21 @@
+---
+# CoW clone of the live cmangos-data PVC at PVC-creation time so PTR
+# gets its own copy of /var/lib/mangos (DBC + maps + vmaps + mmaps)
+# without competing for the live volume's ReadWriteOnce lock. Clone is
+# point-in-time; refreshing PTR data later means deleting and recreating
+# this PVC (Flux will reclone from current live state).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cmangos-ptr-data
+  namespace: game-servers
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ceph-block
+  dataSource:
+    kind: PersistentVolumeClaim
+    name: cmangos-data

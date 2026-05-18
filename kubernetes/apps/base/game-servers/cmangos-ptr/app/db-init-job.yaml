@@ -1,0 +1,77 @@
+---
+# Seeds the PTR databases on the shared MariaDB. World DB is a full clone
+# of live so PTR has every NPC/quest/item/script the GMs would actually
+# want to test against. Characters + logs are schema-only so PTR
+# characters stay separate from live (the realm is GM-only via realmlist
+# allowedSecurityLevel=3 anyway).
+#
+# Idempotent: if ptrmangos already has a non-trivial table count, the
+# job exits 0 without touching anything. To force a fresh clone, drop
+# the ptr* databases and let Flux re-run the job.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-ptr-db-init
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: init
+          image: mariadb:12.2
+          env:
+            - name: MARIADB_PWD
+              value: mangos
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -euo pipefail
+              MARIADB="mariadb -h cmangos-database -P 3306 -u mangos -p$${MARIADB_PWD}"
+              DUMP="mariadb-dump -h cmangos-database -P 3306 -u mangos -p$${MARIADB_PWD} --single-transaction --routines --triggers"
+
+              already_seeded() {
+                local db=$1
+                local count
+                count=$($${MARIADB} -N -B -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='$${db}';")
+                [ "$${count}" -gt 0 ]
+              }
+
+              echo "=== Ensuring PTR databases exist ==="
+              $${MARIADB} -e "CREATE DATABASE IF NOT EXISTS ptrmangos     CHARACTER SET utf8 COLLATE utf8_general_ci;"
+              $${MARIADB} -e "CREATE DATABASE IF NOT EXISTS ptrcharacters CHARACTER SET utf8 COLLATE utf8_general_ci;"
+              $${MARIADB} -e "CREATE DATABASE IF NOT EXISTS ptrlogs       CHARACTER SET utf8 COLLATE utf8_general_ci;"
+
+              if already_seeded ptrmangos; then
+                echo "=== ptrmangos already populated, skipping world clone ==="
+              else
+                echo "=== Cloning classicmangos -> ptrmangos (full data) ==="
+                $${DUMP} classicmangos | $${MARIADB} ptrmangos
+              fi
+
+              if already_seeded ptrcharacters; then
+                echo "=== ptrcharacters already populated, skipping characters clone ==="
+              else
+                echo "=== Cloning classiccharacters -> ptrcharacters (schema only) ==="
+                $${DUMP} --no-data classiccharacters | $${MARIADB} ptrcharacters
+              fi
+
+              if already_seeded ptrlogs; then
+                echo "=== ptrlogs already populated, skipping logs clone ==="
+              else
+                echo "=== Cloning classiclogs -> ptrlogs (schema only) ==="
+                $${DUMP} --no-data classiclogs | $${MARIADB} ptrlogs
+              fi
+
+              echo "=== Done. Table counts: ==="
+              for db in ptrmangos ptrcharacters ptrlogs; do
+                c=$($${MARIADB} -N -B -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='$${db}';")
+                echo "  $${db}: $${c} tables"
+              done

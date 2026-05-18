@@ -1,0 +1,67 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-ptr-realm-row-sql
+  namespace: game-servers
+data:
+  # realmlist.allowedSecurityLevel=3 = admin-only login. Non-GM accounts
+  # see the realm greyed out in the launcher and the auth server rejects
+  # their connect attempt with "Server is for higher level account."
+  # icon=1 (PvP) matches the live realm so the lobby badge agrees with
+  # mangosd.conf GameType=1. gamebuild_min/max=5875 = vanilla 1.12.1.
+  # Same EXTERNAL_IP as live — clients route by port (8086 vs 8085).
+  realm-ptr.sql: |
+    INSERT INTO `realmlist`
+      (id, name, address, port, icon, realmflags, timezone,
+       allowedSecurityLevel, population, gamebuild_min, gamebuild_max)
+    VALUES
+      (2, 'Emberstone PTR', '${EXTERNAL_IP}', 8086, 1, 0, 8,
+       3, 0, 5875, 5875)
+    ON DUPLICATE KEY UPDATE
+      name                 = VALUES(name),
+      address              = VALUES(address),
+      port                 = VALUES(port),
+      icon                 = VALUES(icon),
+      realmflags           = VALUES(realmflags),
+      timezone             = VALUES(timezone),
+      allowedSecurityLevel = VALUES(allowedSecurityLevel),
+      population           = VALUES(population),
+      gamebuild_min        = VALUES(gamebuild_min),
+      gamebuild_max        = VALUES(gamebuild_max);
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-ptr-realm-row-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Upserting Emberstone PTR realmlist row (id=2) ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicrealmd < /sql/realm-ptr.sql
+              echo "=== Verifying ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicrealmd \
+                -e "SELECT id, name, address, port, allowedSecurityLevel FROM realmlist ORDER BY id;"
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-ptr-realm-row-sql
