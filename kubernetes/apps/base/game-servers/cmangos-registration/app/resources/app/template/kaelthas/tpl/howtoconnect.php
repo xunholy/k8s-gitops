@@ -16,4 +16,5 @@
     <p>3. <?php elang('create_account_tip3'); ?></p>
     <p>4. <?php elang('create_account_tip4'); ?></p>
     <pre class="realmlist-block">set realmlist <?php echo get_config('realmlist') . "\n"; ?>set realmname <?php echo $antiXss->xss_clean(get_config('page_title')); ?></pre>
+    <p>5. Launch <code>WoW.exe</code> directly. Do not use the Launcher or it will try to update the client. Log in with your username, not your email.</p>
 </div>
