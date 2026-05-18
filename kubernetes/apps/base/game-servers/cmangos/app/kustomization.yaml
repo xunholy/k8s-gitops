@@ -14,3 +14,4 @@ resources:
   - replicationsource.yaml
   - volsync-externalsecret.yaml
   - prometheusrule.yaml
+  - mangos-string-517-migration-job.yaml
