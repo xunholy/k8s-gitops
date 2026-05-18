@@ -619,9 +619,13 @@ spec:
             Autoscale.HpExponent = 0.85
             Autoscale.MinScale = 0.20
             Autoscale.MaxScale = 1.0
+            # Calibrate everything to a 5-player ceiling. Private-server
+            # reality: 40-man raids don't happen — most groups will do 5
+            # at best. Sub-5 scales naturally, 5p = full vanilla HP, 6+
+            # is "bring a real raid" territory (no further help from HP).
             Autoscale.Baseline.Dungeon = 5
-            Autoscale.Baseline.RaidDefault = 40
-            Autoscale.MapBaselines = "309:20,509:20"
+            Autoscale.Baseline.RaidDefault = 5
+            Autoscale.MapBaselines = ""
             Autoscale.MapBlacklist = ""
             Autoscale.Announce = 1
       ahbot-config:
