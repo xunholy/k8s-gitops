@@ -69,15 +69,20 @@ spec:
               if already_seeded ptrcharacters; then
                 echo "=== ptrcharacters already populated, skipping characters clone ==="
               else
-                echo "=== Cloning classiccharacters -> ptrcharacters (schema only) ==="
+                echo "=== Cloning classiccharacters -> ptrcharacters (schema + version row) ==="
                 $${DUMP} --no-data classiccharacters | $${MARIADB} ptrcharacters
+                # mangosd refuses to boot without a row in *_db_version
+                # (compatibility check). Copy the live row so PTR runs
+                # against whatever schema rev live is on.
+                $${MARIADB} -e "INSERT INTO ptrcharacters.character_db_version SELECT * FROM classiccharacters.character_db_version;"
               fi
 
               if already_seeded ptrlogs; then
                 echo "=== ptrlogs already populated, skipping logs clone ==="
               else
-                echo "=== Cloning classiclogs -> ptrlogs (schema only) ==="
+                echo "=== Cloning classiclogs -> ptrlogs (schema + version row) ==="
                 $${DUMP} --no-data classiclogs | $${MARIADB} ptrlogs
+                $${MARIADB} -e "INSERT INTO ptrlogs.logs_db_version SELECT * FROM classiclogs.logs_db_version;"
               fi
 
               echo "=== Done. Table counts: ==="
