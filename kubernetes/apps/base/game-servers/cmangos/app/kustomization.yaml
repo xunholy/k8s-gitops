@@ -5,6 +5,7 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
+  - externalsecret-database.yaml
   - pvc-database.yaml
   - pvc-data.yaml
   - pvc-cores.yaml
