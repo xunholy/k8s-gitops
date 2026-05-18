@@ -7,6 +7,7 @@ resources:
   - helmrelease.yaml
   - httproute.yaml
   - externalsecret.yaml
+  - externalsecret-soap.yaml
 
 configMapGenerator:
   - name: emberstone-portal-config

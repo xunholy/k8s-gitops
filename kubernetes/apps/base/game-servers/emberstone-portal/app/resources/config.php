@@ -130,8 +130,10 @@ $config['captcha_secret']         = getenv('CAPTCHA_SECRET') ?: '';
 $config['captcha_language']       = 'en';
 $config['soap_for_register']      = false;
 $config['soap_style']             = 'SOAP_RPC';
-$config['soap_username']          = 'soapadmin';
-$config['soap_password']          = 'soapadmin';
+// SOAP creds come from ExternalSecret cmangos-soap-creds, mounted via
+// envFrom on the portal container. See externalsecret-soap.yaml.
+$config['soap_username']          = getenv('SOAP_USER') ?: '';
+$config['soap_password']          = getenv('SOAP_PASSWORD') ?: '';
 $config['soap_ca_command']        = 'account create {USERNAME} {PASSWORD}';
 $config['smtp_host']              = '';
 $config['smtp_port']              = 587;

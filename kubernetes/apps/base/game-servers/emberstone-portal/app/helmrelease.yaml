@@ -24,6 +24,11 @@ spec:
             envFrom:
               - secretRef:
                   name: emberstone-portal-captcha
+              # SOAP creds (cmangos GM service account) from 1Password
+              # via ESO. Replaces hardcoded soapadmin:soapadmin that
+              # used to live in config.php.
+              - secretRef:
+                  name: cmangos-soap-creds
             probes:
               liveness:
                 enabled: true
