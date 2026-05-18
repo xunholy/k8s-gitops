@@ -5,9 +5,11 @@ metadata:
   name: cmangos-ptr-realm-row-sql
   namespace: game-servers
 data:
-  # realmlist.allowedSecurityLevel=3 = admin-only login. Non-GM accounts
-  # see the realm greyed out in the launcher and the auth server rejects
-  # their connect attempt with "Server is for higher level account."
+  # realmlist.allowedSecurityLevel=2 = Game Master tier and above (GM +
+  # Admin). Regular players + Moderator-tier accounts see the realm
+  # greyed out in the launcher and the auth server rejects their connect
+  # attempt with "Server is for higher level account." cmangos security
+  # tiers: 0=Player, 1=Moderator, 2=GM, 3=Admin.
   # icon=1 (PvP) matches the live realm so the lobby badge agrees with
   # mangosd.conf GameType=1. realmbuilds matches live ("5875 6005 6141 ")
   # so the same set of client builds are accepted. Same EXTERNAL_IP as
@@ -18,7 +20,7 @@ data:
        allowedSecurityLevel, population, realmbuilds)
     VALUES
       (2, 'Emberstone PTR', '${EXTERNAL_IP}', 8086, 1, 0, 8,
-       3, 0, '5875 6005 6141 ')
+       2, 0, '5875 6005 6141 ')
     ON DUPLICATE KEY UPDATE
       name                 = VALUES(name),
       address              = VALUES(address),
