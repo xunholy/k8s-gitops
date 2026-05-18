@@ -29,6 +29,13 @@ spec:
               # used to live in config.php.
               - secretRef:
                   name: cmangos-soap-creds
+              # cmangos DB creds (MANGOS_DBUSER / MANGOS_DBPASS) from
+              # 1Password via ESO. Replaces hardcoded mangos:mangos in
+              # config.php — that user was deleted in 2534bce98 and the
+              # portal's server-status / registration / change-password
+              # flows all 500'd until config.php picked these up.
+              - secretRef:
+                  name: cmangos-database-creds
             probes:
               liveness:
                 enabled: true

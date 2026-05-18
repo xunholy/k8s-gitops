@@ -22,8 +22,13 @@ $expansions = [
         'soap_uri'       => 'urn:MaNGOS',
         'db_auth_host'   => 'cmangos-database',
         'db_auth_port'   => '3306',
-        'db_auth_user'   => 'mangos',
-        'db_auth_pass'   => 'mangos',
+        // DB creds from 1Password via cmangos-database-creds ESO (envFrom
+        // in helmrelease). The previous hardcoded mangos:mangos user was
+        // deleted in commit 2534bce98; empty fallback so a missing env
+        // fails loudly (Access denied) rather than silently retrying the
+        // dead user.
+        'db_auth_user'   => getenv('MANGOS_DBUSER') ?: '',
+        'db_auth_pass'   => getenv('MANGOS_DBPASS') ?: '',
         'db_auth_dbname' => 'classicrealmd',
         'realmlists'     => [
             '1' => [
@@ -31,8 +36,8 @@ $expansions = [
                 'realmname' => 'Emberstone',
                 'db_host'   => 'cmangos-database',
                 'db_port'   => '3306',
-                'db_user'   => 'mangos',
-                'db_pass'   => 'mangos',
+                'db_user'   => getenv('MANGOS_DBUSER') ?: '',
+                'db_pass'   => getenv('MANGOS_DBPASS') ?: '',
                 'db_name'   => 'classiccharacters',
             ],
         ],
