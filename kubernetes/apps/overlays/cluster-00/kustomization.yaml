@@ -48,13 +48,11 @@ resources:
   # - ../../base/game-servers/minecraft-proxy/ks.yaml
   - ../../base/game-servers/minecraft-rcon-web/ks.yaml
   # - ../../base/game-servers/minecraft-router/ks.yaml
-  # - ../../base/game-servers/cmangos-registration/ks.yaml  # Replaced by emberstone-portal
   - ../../base/game-servers/minecraft-pixelmon/ks.yaml
   - ../../base/game-servers/cmangos/ks.yaml
   - ../../base/game-servers/cmangos-ptr/ks.yaml
   - ../../base/game-servers/adminer/ks.yaml
   - ../../base/game-servers/azerothcore/ks.yaml
-  # - ../../base/game-servers/azerothcore-registration/ks.yaml  # Replaced by emberstone-portal
   - ../../base/game-servers/emberstone-portal/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/bazarr/ks.yaml

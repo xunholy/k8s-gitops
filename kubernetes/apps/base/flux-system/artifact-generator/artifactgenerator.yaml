@@ -25,11 +25,6 @@ spec:
       copy:
         - from: "@repo/apps/base/home-system/autobrr/app/"
           to: "@artifact/apps/base/home-system/autobrr/app/"
-    - name: azerothcore-registration
-      originRevision: "@repo"
-      copy:
-        - from: "@repo/apps/base/game-servers/azerothcore-registration/app/"
-          to: "@artifact/apps/base/game-servers/azerothcore-registration/app/"
     - name: azerothcore
       originRevision: "@repo"
       copy:
@@ -65,11 +60,6 @@ spec:
       copy:
         - from: "@repo/apps/base/network-system/cloudflare-tunnel/app/"
           to: "@artifact/apps/base/network-system/cloudflare-tunnel/app/"
-    - name: cmangos-registration
-      originRevision: "@repo"
-      copy:
-        - from: "@repo/apps/base/game-servers/cmangos-registration/app/"
-          to: "@artifact/apps/base/game-servers/cmangos-registration/app/"
     - name: cmangos
       originRevision: "@repo"
       copy:

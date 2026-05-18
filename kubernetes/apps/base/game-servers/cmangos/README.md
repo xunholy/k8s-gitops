@@ -68,7 +68,7 @@ To detach from the console, press `Ctrl+P` then `Ctrl+Q`.
 
 ## Account Registration
 
-A web-based registration page is available at `https://emberstone.owncloud.ai`. Players can create accounts without needing console access. The registration page is deployed separately in `cmangos-registration/`.
+A web-based registration page is available at `https://emberstone.owncloud.ai`. Players can create accounts without needing console access. The portal is deployed by the `emberstone-portal` app and serves both cmangos and azerothcore realms.
 
 ## Connecting
 
