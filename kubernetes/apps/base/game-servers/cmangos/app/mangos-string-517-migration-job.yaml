@@ -1,0 +1,73 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-mangos-string-517-migration-sql
+  namespace: game-servers
+data:
+  # mangos_string row 517 (LANG_GO_MIXED_LIST_CHAT) drifted away from
+  # what the C++ call site at Level2.cpp expects. The drifted format
+  # had an extra "%d" in the Hgameobject:%d:%d link and put SpawnGroup
+  # outside the |h|r link tags, giving 11 placeholders against 10
+  # args. vsnprintf then walked past the supplied varargs and ran
+  # strlen on uninitialised stack bits — repeatable SIGSEGV on any
+  # .gobject near / delete / target from a GM near gameobjects.
+  #
+  # Three cores on 2026-05-18 (12:56, 12:58, 13:02) all had identical
+  # stacks: __strlen_avx2 → vfprintf → PSendSysMessage. Root-cause
+  # write-up: see patches/0003-go-mixed-list-hardcoded-format.patch.
+  #
+  # Canonical format matches upstream sql/base/mangos.sql:3865. Patch
+  # 0003 also hardcodes the format at both call sites so this row no
+  # longer matters to the worldserver — keep this migration anyway so
+  # any future DB rebuild starts from a sane row.
+  mangos-string-517.sql: |
+    UPDATE `mangos_string`
+       SET `content_default` = '%d%s, Entry %d - |cffffffff|Hgameobject:%d|h[%s X:%f Y:%f Z:%f MapId:%d]SpawnGroup:%u|h|r'
+     WHERE `entry` = 517;
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-mangos-string-517-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Repairing classicmangos.mangos_string row 517 ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos < /sql/mangos-string-517.sql
+
+              # PTR shares the schema; if it exists, apply there too so a
+              # fresh PTR rebuild also lands on a sane row.
+              if mariadb -h cmangos-database -P 3306 -u mangos -pmangos -e "USE ptrmangos" 2>/dev/null; then
+                echo "=== Repairing ptrmangos.mangos_string row 517 ==="
+                mariadb -h cmangos-database -P 3306 -u mangos -pmangos ptrmangos < /sql/mangos-string-517.sql
+              fi
+
+              echo "=== Verifying ==="
+              mariadb -h cmangos-database -P 3306 -u mangos -pmangos classicmangos \
+                -e "SELECT entry, content_default FROM mangos_string WHERE entry = 517 \G"
+
+              echo "=== Done. Worldserver must be restarted to reload mangos_string ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-mangos-string-517-migration-sql
