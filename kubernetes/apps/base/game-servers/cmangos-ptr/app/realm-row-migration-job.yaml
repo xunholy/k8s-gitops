@@ -9,15 +9,16 @@ data:
   # see the realm greyed out in the launcher and the auth server rejects
   # their connect attempt with "Server is for higher level account."
   # icon=1 (PvP) matches the live realm so the lobby badge agrees with
-  # mangosd.conf GameType=1. gamebuild_min/max=5875 = vanilla 1.12.1.
-  # Same EXTERNAL_IP as live — clients route by port (8086 vs 8085).
+  # mangosd.conf GameType=1. realmbuilds matches live ("5875 6005 6141 ")
+  # so the same set of client builds are accepted. Same EXTERNAL_IP as
+  # live — clients route by port (8086 vs 8085).
   realm-ptr.sql: |
     INSERT INTO `realmlist`
       (id, name, address, port, icon, realmflags, timezone,
-       allowedSecurityLevel, population, gamebuild_min, gamebuild_max)
+       allowedSecurityLevel, population, realmbuilds)
     VALUES
       (2, 'Emberstone PTR', '${EXTERNAL_IP}', 8086, 1, 0, 8,
-       3, 0, 5875, 5875)
+       3, 0, '5875 6005 6141 ')
     ON DUPLICATE KEY UPDATE
       name                 = VALUES(name),
       address              = VALUES(address),
@@ -27,8 +28,7 @@ data:
       timezone             = VALUES(timezone),
       allowedSecurityLevel = VALUES(allowedSecurityLevel),
       population           = VALUES(population),
-      gamebuild_min        = VALUES(gamebuild_min),
-      gamebuild_max        = VALUES(gamebuild_max);
+      realmbuilds          = VALUES(realmbuilds);
 ---
 apiVersion: batch/v1
 kind: Job

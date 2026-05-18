@@ -26,16 +26,20 @@ spec:
       containers:
         - name: init
           image: mariadb:12.2
+          # CREATE DATABASE + GRANT must be run as root (mangos@% lacks
+          # global CREATE). Dumps + restores then run as root too, since
+          # we already have a root session here. Mangos user grants are
+          # what the runtime PTR mangosd actually needs.
           env:
-            - name: MARIADB_PWD
-              value: mangos
+            - name: ROOT_PWD
+              value: password
           command:
             - /bin/bash
             - -c
             - |
               set -euo pipefail
-              MARIADB="mariadb -h cmangos-database -P 3306 -u mangos -p$${MARIADB_PWD}"
-              DUMP="mariadb-dump -h cmangos-database -P 3306 -u mangos -p$${MARIADB_PWD} --single-transaction --routines --triggers"
+              MARIADB="mariadb -h cmangos-database -P 3306 -u root -p$${ROOT_PWD}"
+              DUMP="mariadb-dump -h cmangos-database -P 3306 -u root -p$${ROOT_PWD} --single-transaction --routines --triggers"
 
               already_seeded() {
                 local db=$1
@@ -48,6 +52,12 @@ spec:
               $${MARIADB} -e "CREATE DATABASE IF NOT EXISTS ptrmangos     CHARACTER SET utf8 COLLATE utf8_general_ci;"
               $${MARIADB} -e "CREATE DATABASE IF NOT EXISTS ptrcharacters CHARACTER SET utf8 COLLATE utf8_general_ci;"
               $${MARIADB} -e "CREATE DATABASE IF NOT EXISTS ptrlogs       CHARACTER SET utf8 COLLATE utf8_general_ci;"
+
+              echo "=== Granting mangos@% access to PTR databases ==="
+              $${MARIADB} -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE ROUTINE, ALTER ROUTINE ON \`ptrmangos\`.* TO 'mangos'@'%';"
+              $${MARIADB} -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON \`ptrcharacters\`.* TO 'mangos'@'%';"
+              $${MARIADB} -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON \`ptrlogs\`.* TO 'mangos'@'%';"
+              $${MARIADB} -e "FLUSH PRIVILEGES;"
 
               if already_seeded ptrmangos; then
                 echo "=== ptrmangos already populated, skipping world clone ==="
