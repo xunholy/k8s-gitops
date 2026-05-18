@@ -64,16 +64,16 @@ spec:
               SQL_DIR="/shared/src/src/modules/achievements/sql/install"
 
               echo "=== Applying Achievements characters schema ==="
-              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters < "${SQL_DIR}/characters/characters.sql"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters < "$${SQL_DIR}/characters/characters.sql"
 
               echo "=== Applying world_data (achievement_dbc, criteria_dbc, etc) — this is the big one (~1.9MB) ==="
-              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < "${SQL_DIR}/world/01_world_data.sql"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < "$${SQL_DIR}/world/01_world_data.sql"
 
               echo "=== Applying world_update (rewards / fixups) ==="
-              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < "${SQL_DIR}/world/02_world_update.sql"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < "$${SQL_DIR}/world/02_world_update.sql"
 
               echo "=== Applying world_locales (~1.2MB) ==="
-              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < "${SQL_DIR}/world/03_world_locales.sql"
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < "$${SQL_DIR}/world/03_world_locales.sql"
 
               echo "=== Verifying characters tables ==="
               mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters -e "SHOW TABLES LIKE 'character_achievement%';"
