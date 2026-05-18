@@ -375,9 +375,28 @@ spec:
             # Competitive BG/WSG twink settings
             AiPlayerbot.minEnchantingBotLevel = 10
             AiPlayerbot.BotAcceptDuelMinimumLevel = 10
-      hardcore-config:
+      twinkmaster-config:
         data:
-          hardcore.conf: |
+          twinkmaster.conf: |
+            Twinkmaster.Enable = 1
+            Twinkmaster.TargetLevel = 19
+      attunement-config:
+        data:
+          # Hardcore was amalgamated into the Attuner of Paths gossip
+          # in xunholy/cmangos-classic@feb8ea8b7 — the merged module
+          # reads both Attunement.* and Hardcore.* keys from this single
+          # attunement.conf. (The old hardcore.conf path is no longer
+          # consulted by the binary.)
+          attunement.conf: |
+            Attunement.Enable = 1
+            Attunement.DefaultRate = 1.0
+            Attunement.MinRate = 0.1
+            Attunement.MaxRate = 100
+            Attunement.Aura.Tier1.SpellId = 0
+            Attunement.Aura.Tier2.SpellId = 0
+            Attunement.Aura.Tier3.SpellId = 0
+            Attunement.Aura.Tier4.SpellId = 0
+            Attunement.Aura.Tier5.SpellId = 0
             Hardcore.Enable = 1
             Hardcore.PlayerConfig = 1
             Hardcore.BroadcastDeathGuild = 1
@@ -406,24 +425,6 @@ spec:
             Hardcore.DropMinLevel = 1
             Hardcore.DisablePVP = 0
             Hardcore.SelfFound = 0
-            Hardcore.CustomXPRates = 0
-      twinkmaster-config:
-        data:
-          twinkmaster.conf: |
-            Twinkmaster.Enable = 1
-            Twinkmaster.TargetLevel = 19
-      attunement-config:
-        data:
-          attunement.conf: |
-            Attunement.Enable = 1
-            Attunement.DefaultRate = 1.0
-            Attunement.MinRate = 0.1
-            Attunement.MaxRate = 100
-            Attunement.Aura.Tier1.SpellId = 0
-            Attunement.Aura.Tier2.SpellId = 0
-            Attunement.Aura.Tier3.SpellId = 0
-            Attunement.Aura.Tier4.SpellId = 0
-            Attunement.Aura.Tier5.SpellId = 0
       anticheat-config:
         data:
           # Canonical source: etc/emberstone/anticheat.conf in
@@ -585,7 +586,7 @@ spec:
           # uses LHS as the key. Section headers ([VipConf]) and # comments
           # don't parse as key=value, so they end up appended as garbage
           # '[VipConf] = [VipConf]' lines in /opt/mangos/etc/vip.conf.
-          # Keep this to plain key=value only, matching attunement/hardcore.
+          # Keep this to plain key=value only, matching attunement.conf.
           # MasterSpellId 22888 = Rallying Cry of the Dragonslayer.
           # Vanilla 1.12.1 client has it in spell.dbc (renders in
           # spellbook with that name + icon 1548). Zero references from
@@ -602,7 +603,14 @@ spec:
             # returns as a literal 2-char string, not an empty string —
             # the module's empty-string fallback to built-in defaults
             # never triggered).
-            Vip.BundledSpellIds = 22888,24425,23735,23736,23737,15366,16609,17626,17627,17628
+            # Bundle (15 spells):
+            #   22888 Rallying Cry of the Dragonslayer  16609 Warchief's Blessing
+            #   24425 Spirit of Zandalar                 15366 Songflower Serenade
+            #   22817 Fengus' Ferocity   22818 Mol'dar's Moxie   22820 Slip'kik's Savvy   (DM Tribute trio)
+            #   23735 Sayge's Strength   23736 Sayge's Agility   23737 Sayge's Stamina    (Sayge Dark Fortunes)
+            #   23768 Sayge's Damage     26393 Elune's Blessing  (Lunar Festival)
+            #   17626 Flask of the Titans  17627 Distilled Wisdom  17628 Supreme Power
+            Vip.BundledSpellIds = 22888,24425,15366,16609,22817,22818,22820,23735,23736,23737,23768,26393,17626,17627,17628
       autoscale-config:
         data:
           autoscale.conf: |
@@ -661,8 +669,8 @@ spec:
             app:
               # Mount as a sibling of /opt/mangos/etc so that mangosd's
               # default config lookups (../etc/X.conf for aiplayerbot,
-              # ahbot, hardcore, twinkmaster) keep resolving when we
-              # chdir here for core-dump capture.
+              # ahbot, twinkmaster) keep resolving when we chdir here
+              # for core-dump capture.
               - path: /opt/mangos/cores
             cores-pruner:
               - path: /opt/mangos/cores
@@ -690,14 +698,6 @@ spec:
             app:
               - path: /opt/mangos/conf/aiplayerbot.conf
                 subPath: aiplayerbot.conf
-      hardcore-config:
-        type: configMap
-        name: cmangos-hardcore-config
-        advancedMounts:
-          mangosd:
-            app:
-              - path: /opt/mangos/etc/hardcore.conf
-                subPath: hardcore.conf
       twinkmaster-config:
         type: configMap
         name: cmangos-twinkmaster-config
