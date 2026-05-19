@@ -76,7 +76,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: fef11979dbf3408912fd517183a7306bc82fad56
+              tag: 2473619f4ff3431fe68bacec5b05fa52fa0e0fba
             args: ["realmd"]
             env:
               TZ: ${CLUSTER_TIMEZONE}
@@ -133,7 +133,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: fef11979dbf3408912fd517183a7306bc82fad56
+              tag: 2473619f4ff3431fe68bacec5b05fa52fa0e0fba
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -367,8 +367,8 @@ spec:
             AiPlayerbot.RandomBotLoginAtStartup = 0
             AiPlayerbot.RandomBotAccountPrefix = rndbot
             AiPlayerbot.RandomBotAccountCount = 2000
-            AiPlayerbot.MinRandomBots = 100
-            AiPlayerbot.MaxRandomBots = 500
+            AiPlayerbot.MinRandomBots = 1000
+            AiPlayerbot.MaxRandomBots = 2000
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
             AiPlayerbot.RandomBotMaps = 0,1
