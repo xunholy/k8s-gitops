@@ -45,14 +45,21 @@ spec:
               TZ: ${CLUSTER_TIMEZONE}
               MANGOS_DBHOST: cmangos-database
               MANGOS_DBPORT: "3306"
-              MANGOS_DBUSER: mangos
-              MANGOS_DBPASS: mangos
               # Auth DB is shared with live so accounts/GM flags carry over.
               MANGOS_REALMD_DBNAME: classicrealmd
               # Game state isolated from live.
               MANGOS_WORLD_DBNAME: ptrmangos
               MANGOS_CHARACTERS_DBNAME: ptrcharacters
               MANGOS_LOGS_DBNAME: ptrlogs
+            envFrom:
+              # MANGOS_DBUSER + MANGOS_DBPASS from 1Password via ESO —
+              # shared with live (same MariaDB instance, cmangos_app has
+              # grants on ptrmangos / ptrcharacters / ptrlogs and the
+              # shared classicrealmd). Hardcoded mangos:mangos was left
+              # over from before the rotation; the old PTR pod survived
+              # only because it held a pre-rotation DB connection.
+              - secretRef:
+                  name: cmangos-database-creds
             # Matches live's graceful-shutdown pattern, tightened for PTR:
             # 120s in-game countdown + 140s drain, SIGTERM at ~160s, SIGKILL
             # at 180s. PTR will rarely have anyone logged in so a shorter
