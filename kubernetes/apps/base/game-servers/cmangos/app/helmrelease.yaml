@@ -378,6 +378,15 @@ spec:
             AiPlayerbot.AutoLearnTrainerSpells = 1
             AiPlayerbot.AutoLearnQuestSpells = 1
             AiPlayerbot.RandomGearUpgradeEnabled = 1
+            # Tighten the bot-level → item-required-level window from
+            # default 9 down to 3. With 9, a L60 could be equipped with
+            # items requiring L51 (way under-leveled gear); with 3, a
+            # L60 only takes items requiring L57+. Smaller window =
+            # better-itemized bots, mainly improves their effective
+            # armor / stats in dungeons. Affects new gear assignments
+            # by the random-bot manager — existing bots re-roll on the
+            # normal RandomGearUpgrade tick.
+            AiPlayerbot.RandomGearMaxDiff = 3
             AiPlayerbot.RandomBotTeleportNearPlayer = 1
             AiPlayerbot.SyncQuestWithPlayer = 1
             AiPlayerbot.RandomBotGuildCount = 0
