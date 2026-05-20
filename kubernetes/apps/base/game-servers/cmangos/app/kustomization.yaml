@@ -25,3 +25,5 @@ resources:
   - dualspec-migration-job.yaml
   - trainingdummies-migration-job.yaml
   - achievements-migration-job.yaml
+  # AiPlayerbot data corrections.
+  - aiplayerbot-ring-enchant-fix-migration-job.yaml
