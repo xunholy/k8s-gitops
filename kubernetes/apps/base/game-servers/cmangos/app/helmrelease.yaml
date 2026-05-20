@@ -295,7 +295,13 @@ spec:
             # detour is not thread-safe; UseTransport has unguarded sGOStorage::LookupEntry deref.
             MapUpdate.Threads = 1
             Motd = "Welcome to Emberstone"
-            LogLevel = 3
+            # Stdout quiet, file rich. LogLevel governs kubectl logs;
+            # LogFileLevel governs /opt/mangos/logs/Server.log on the PVC.
+            # Playerbot Engine::LogAction emits via sLog.outDetail (lvl 2),
+            # so LogLevel=1 keeps the AI trace spam out of stdout while
+            # the file still captures full diagnostics. Pair with
+            # AiPlayerbot.LogInGroupOnly=1 so the file is also sane.
+            LogLevel = 1
             LogFile = "/opt/mangos/logs/Server.log"
             LogFileLevel = 3
             LogTimestamp = 1
@@ -405,6 +411,12 @@ spec:
             # Competitive BG/WSG twink settings
             AiPlayerbot.minEnchantingBotLevel = 10
             AiPlayerbot.BotAcceptDuelMinimumLevel = 10
+            # Engine::LogAction (Engine.cpp:782) early-returns when a bot
+            # isn't grouped with a real player. With ~1000 random bots
+            # idling in the world, that drops AI trace volume by ~95%
+            # and stops k8s container-log rotation from evicting useful
+            # lines within seconds. Grouped bots still get full traces.
+            AiPlayerbot.LogInGroupOnly = 1
       twinkmaster-config:
         data:
           twinkmaster.conf: |
