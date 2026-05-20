@@ -1,0 +1,55 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile
+
+# Chart and version values are read from the in-cluster manifests so a Renovate
+# bump (which only edits the source-of-truth helmrelease.yaml / ocirepository.yaml)
+# stays in sync with what `task flux:bootstrap` actually installs.
+{{- $rootDir := requiredEnv "ROOT_DIR" }}
+{{- $clusterId := requiredEnv "CLUSTER_ID" }}
+{{- $fluxOperator := readFile (printf "%s/kubernetes/clusters/%s/flux-system/flux-operator/app/helmrelease.yaml" $rootDir $clusterId) | fromYaml }}
+{{- $fluxInstance := readFile (printf "%s/kubernetes/clusters/%s/flux-system/flux-instance/app/helmrelease.yaml" $rootDir $clusterId) | fromYaml }}
+{{- $certManager := readFile (printf "%s/kubernetes/apps/base/network-system/cert-manager/app/ocirepository.yaml" $rootDir) | fromYaml }}
+{{- $kustomizeMutatingWebhook := readFile (printf "%s/kubernetes/clusters/%s/flux-system/kustomize-mutating-webhook/app/helmrelease.yaml" $rootDir $clusterId) | fromYaml }}
+{{- $fluxOperatorOCI := index $fluxOperator.spec.resources 0 }}
+{{- $fluxInstanceOCI := index $fluxInstance.spec.resources 0 }}
+
+helmDefaults:
+  force: true
+  timeout: 600
+  wait: true
+  waitForJobs: true
+
+repositories:
+  - name: kustomize-mutating-webhook
+    url: https://xunholy.github.io/fluxcd-kustomize-mutating-webhook
+
+releases:
+  - name: flux-operator
+    namespace: flux-system
+    chart: {{ $fluxOperatorOCI.spec.url }}
+    version: "{{ $fluxOperatorOCI.spec.ref.tag }}"
+    wait: true
+    values: ['{{ $rootDir }}/kubernetes/clusters/{{ $clusterId }}/flux-system/flux-operator/app/values.yaml']
+
+  - name: flux-instance
+    namespace: flux-system
+    chart: {{ $fluxInstanceOCI.spec.url }}
+    version: "{{ $fluxInstanceOCI.spec.ref.tag }}"
+    wait: true
+    values: ['{{ $rootDir }}/kubernetes/clusters/{{ $clusterId }}/flux-system/flux-instance/app/values.yaml']
+    needs: ['flux-system/flux-operator']
+
+  - name: cert-manager
+    namespace: network-system
+    chart: {{ $certManager.spec.url }}
+    version: {{ $certManager.spec.ref.tag }}
+    wait: true
+    values: ['{{ $rootDir }}/kubernetes/apps/base/network-system/cert-manager/app/values.yaml']
+
+  - name: kustomize-mutating-webhook
+    namespace: flux-system
+    chart: kustomize-mutating-webhook/{{ $kustomizeMutatingWebhook.spec.chart.spec.chart }}
+    version: "{{ $kustomizeMutatingWebhook.spec.chart.spec.version }}"
+    wait: false
+    values: ['{{ $rootDir }}/kubernetes/clusters/{{ $clusterId }}/flux-system/kustomize-mutating-webhook/app/values.yaml']
+    needs: ['network-system/cert-manager']
