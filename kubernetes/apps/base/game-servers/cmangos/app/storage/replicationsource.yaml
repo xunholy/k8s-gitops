@@ -3,6 +3,10 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: cmangos-database
+  annotations:
+    # See pvc-database.yaml — preserves the backup schedule across the
+    # Kustomization-ownership move into cmangos-database/.
+    kustomize.toolkit.fluxcd.io/prune: disabled
 spec:
   sourcePVC: cmangos-database
   trigger:

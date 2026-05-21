@@ -4,6 +4,13 @@ kind: PersistentVolumeClaim
 metadata:
   name: cmangos-database
   namespace: game-servers
+  annotations:
+    # Prepares this PVC for a Kustomization-ownership migration into
+    # cmangos-database/. When that move lands, the file disappears from
+    # cmangos's manifest set — this annotation tells Flux's pruner to
+    # skip deletion so the DB data on disk is preserved across the
+    # ownership transfer. Safe to leave in place after migration.
+    kustomize.toolkit.fluxcd.io/prune: disabled
 spec:
   accessModes:
     - ReadWriteOnce
