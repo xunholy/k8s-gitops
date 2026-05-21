@@ -256,16 +256,8 @@ spec:
             AiPlayerbot.RandomBotLoginAtStartup = 0
             AiPlayerbot.RandomBotAccountPrefix = rndbot
             AiPlayerbot.RandomBotAccountCount = 2000
-            # TEMPORARILY DISABLED — bot population set to 0 to despawn the
-            # existing 1000+ random bots and stop the concurrent-access load
-            # that's surfacing the heap-corruption crash. Once mangosd is
-            # stable on the rolled-back image we'll ramp bots back up in
-            # stages (e.g. 100, 250, 500, 1000) to find the crash threshold
-            # against the un-mutex'd 2473619f binary. Accounts are kept
-            # provisioned (RandomBotAccountCount=2000) so re-enabling is just
-            # a Min/Max flip.
-            AiPlayerbot.MinRandomBots = 0
-            AiPlayerbot.MaxRandomBots = 0
+            AiPlayerbot.MinRandomBots = 1500
+            AiPlayerbot.MaxRandomBots = 2000
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
             AiPlayerbot.RandomBotMaps = 0,1
