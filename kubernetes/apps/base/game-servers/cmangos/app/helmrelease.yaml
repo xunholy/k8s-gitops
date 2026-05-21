@@ -404,7 +404,17 @@ spec:
             AiPlayerbot.RandomGearMaxDiff = 3
             AiPlayerbot.RandomBotTeleportNearPlayer = 1
             AiPlayerbot.SyncQuestWithPlayer = 1
-            AiPlayerbot.RandomBotGuildCount = 0
+            # Was 0 (no random guilds). Three-agent investigation on 2026-05-21
+            # tied the deterministic ~4-min SIGSEGV crash loop to the early-
+            # return path in PlayerbotFactory::InitGuild() (upstream playerbots
+            # line ~5100). With Count=0, CreateRandomGuilds() never runs,
+            # InitGuild() always logs "No random guilds available" and returns
+            # immediately — something downstream of that return segfaults
+            # (likely a destructor or the next bot-init step assuming guild
+            # state). Setting >0 forces guild creation, takes the bot-init
+            # path through the no-bug branch. Test value; revisit upstream
+            # for a real guard once we have the core-dump backtrace.
+            AiPlayerbot.RandomBotGuildCount = 50
             AiPlayerbot.RandomBotJoinBG = 1
             # Temporary: stop bots auto-queuing into BGs. Crashes traced to
             # HandleMoveWorldportAckOpcode racing a fresh BG removal — bots
