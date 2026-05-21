@@ -34,14 +34,15 @@ spec:
               # fix) and the EnchantItem null-guard — near-identical
               # behaviour expected. Cluster currently bots=0, so the
               # rollout should be uneventful.
-              # EMERGENCY ROLLBACK from e77c5494d: replace_conf in
-              # entrypoint.sh was rewritten in commit 75dd1fc53 (last
-              # night, post-2473619f) to use `sed -i "s|..|..|"` which
-              # breaks when a substituted value (LoginDatabaseInfo
-              # connection string) contains '|'. 2473619f's entrypoint.sh
-              # used the safe `c\` form. PR #8 cherry-picks the fix back
-              # in; once that's merged + built we'll re-bump.
-              tag: 2473619f4ff3431fe68bacec5b05fa52fa0e0fba
+              # Bumped to 7c511313a — clean main HEAD after:
+              #   - PR #8 cherry-picked (replace_conf c\\ form, fixes
+              #     the '|' crash that bit us on the e77c5494d bump)
+              #   - PR #7 merged (fix(chat): audit every GM command
+              #     attempt, not only handler-true)
+              # Binary delta vs 2473619f: vendored playerbots upstream
+              # bump (#292 -> #293, quest-flow fix) + EnchantItem
+              # null-guard + the GM audit change.
+              tag: 7c511313adca42c53d9c607e5335091efef4eec7
             args: ["mangosd"]
             tty: true
             stdin: true
