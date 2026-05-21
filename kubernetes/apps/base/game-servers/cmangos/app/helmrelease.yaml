@@ -26,7 +26,14 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: fab3e801a4f1b2e60356644ae51b52f6f82e6f52
+              # Pinned to 2473619f (Tue 2026-05-19 21:44 +1000) — last image with
+              # a ~23h proven-stable run at 1000/2000 bots before the Thu 11:08
+              # +1000 crash chain. Rolling back from fab3e801 (the failed
+              # ai::Engine recursive_mutex fix). Paired in this commit with
+              # Warden.Enable=0 and Min/MaxRandomBots=0 so the worldserver
+              # boots into a known-quiet state while we plan the proper fix
+              # (ASan build on the cmangos fork).
+              tag: 2473619f4ff3431fe68bacec5b05fa52fa0e0fba
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -249,8 +256,16 @@ spec:
             AiPlayerbot.RandomBotLoginAtStartup = 0
             AiPlayerbot.RandomBotAccountPrefix = rndbot
             AiPlayerbot.RandomBotAccountCount = 2000
-            AiPlayerbot.MinRandomBots = 1000
-            AiPlayerbot.MaxRandomBots = 2000
+            # TEMPORARILY DISABLED — bot population set to 0 to despawn the
+            # existing 1000+ random bots and stop the concurrent-access load
+            # that's surfacing the heap-corruption crash. Once mangosd is
+            # stable on the rolled-back image we'll ramp bots back up in
+            # stages (e.g. 100, 250, 500, 1000) to find the crash threshold
+            # against the un-mutex'd 2473619f binary. Accounts are kept
+            # provisioned (RandomBotAccountCount=2000) so re-enabling is just
+            # a Min/Max flip.
+            AiPlayerbot.MinRandomBots = 0
+            AiPlayerbot.MaxRandomBots = 0
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
             AiPlayerbot.RandomBotMaps = 0,1
@@ -496,7 +511,12 @@ spec:
             # a CWD that isn't /opt/mangos/bin). Switching to absolute path
             # rules out CWD-resolution issues; data files at this path are
             # confirmed present + readable + size-valid + non-zero header.
-            Warden.Enable                       = 1
+            # TEMPORARILY DISABLED — removing Warden's lazy-init + per-player
+            # background scan paths from the concurrent surface while we
+            # stabilise the rolled-back worldserver. Flip back to 1 once the
+            # crash-class is understood (likely separate from Warden, but
+            # not worth ruling-in during recovery).
+            Warden.Enable                       = 0
             Warden.ModuleDir                    = "/opt/mangos/bin/warden_modules"
             Warden.Timeout                      = 30
             Warden.ScanFrequency                = 15

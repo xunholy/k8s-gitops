@@ -37,7 +37,11 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: fab3e801a4f1b2e60356644ae51b52f6f82e6f52
+              # Mirror prod cmangos rollback to 2473619f (Tue 2026-05-19 21:44 +1000).
+              # See kubernetes/apps/base/game-servers/cmangos/app/helmrelease.yaml
+              # for the incident summary. PTR isn't crashing right now but it
+              # shares the worldserver binary; keeping versions matched.
+              tag: 2473619f4ff3431fe68bacec5b05fa52fa0e0fba
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -394,7 +398,9 @@ spec:
             Antispam.Enable   = 1
             Antispam.Silence  = 1
             Antispam.MaxLevel = 25
-            Warden.Enable                       = 1
+            # Mirrored prod cmangos: Warden disabled while we stabilise
+            # the rolled-back worldserver. See cmangos/app/helmrelease.yaml.
+            Warden.Enable                       = 0
             Warden.ModuleDir                    = "/opt/mangos/bin/warden_modules"
             Warden.Timeout                      = 30
             Warden.ScanFrequency                = 15
