@@ -3,13 +3,13 @@
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: TCPRoute
 metadata:
-  name: cmangos-world
+  name: cmangos-auth
 spec:
   parentRefs:
     - name: envoy-external
       namespace: network-system
-      sectionName: cmangos-world
+      sectionName: cmangos-auth
   rules:
     - backendRefs:
-        - name: cmangos-world
-          port: 8085
+        - name: cmangos-realmd-auth
+          port: 3724

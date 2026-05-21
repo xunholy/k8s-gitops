@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cmangos-realmd
+  namespace: game-servers
+  labels:
+    gitops.owncloud.ai/defaults: disabled
+spec:
+  decryption:
+    provider: sops
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  path: "./apps/base/game-servers/cmangos-realmd/app"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: ExternalArtifact
+    name: cmangos-realmd
+    namespace: flux-system
+  # cmangos owns the MariaDB Deployment+Service and the
+  # cmangos-database-creds ExternalSecret that realmd consumes. The split
+  # is about decoupling image-bump churn between realmd and mangosd, not
+  # about untangling shared infra — keep the bootstrap ordering.
+  dependsOn:
+    - name: cmangos
+      namespace: game-servers
+  targetNamespace: game-servers
