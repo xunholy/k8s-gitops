@@ -212,10 +212,15 @@ spec:
             # population plus any human GMs / testers without rejecting
             # logins at the door.
             PlayerLimit = 750
-            # Mirror live: serialize MapUpdater workers — workaround for
-            # the concurrent-map-update SIGSEGV class on this codebase.
-            # See live mangosd.conf comment for the full incident notes.
-            MapUpdate.Threads = 1
+            # PTR stress test (2026-05-22): MapUpdate.Threads bumped
+            # 1 → 3 to exercise concurrent map updates against the
+            # patched binary (PR#9 with Engine::Reset swap-then-iterate
+            # + SqlStmtParameters canary). Live keeps =1 as the
+            # workaround; PTR is the soak-test bed for whether the
+            # fixes hold up against the original concurrency hazard.
+            # If a new crash class surfaces under N=3, revert here and
+            # capture the core.
+            MapUpdate.Threads = 3
             Motd = "Welcome to Emberstone PTR"
             # Match live: LogLevel=1 keeps kubectl logs clean, LogFile
             # captures full diagnostics on the PVC.
