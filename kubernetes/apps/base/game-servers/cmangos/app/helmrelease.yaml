@@ -76,7 +76,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 88f46de6f1d1ac306692af5913affa7ef4df306e
+              tag: 2de514e3aa2ab2530d5ad1a750a460fbc3a2c335
             args: ["realmd"]
             env:
               TZ: ${CLUSTER_TIMEZONE}
@@ -133,7 +133,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 88f46de6f1d1ac306692af5913affa7ef4df306e
+              tag: 2de514e3aa2ab2530d5ad1a750a460fbc3a2c335
             args: ["mangosd"]
             tty: true
             stdin: true
