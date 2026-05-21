@@ -12,6 +12,17 @@ spec:
     name: app-template
     namespace: flux-system
   values:
+    # `helm.sh/resource-policy: keep` on every chart-rendered resource.
+    # The cmangos HR's release history (v289..v291) still records the
+    # cmangos-database Deployment + Service as resources it once owned.
+    # On every subsequent cmangos upgrade, Helm 3-way-merges new chart
+    # vs that historical manifest and tries to DELETE these resources,
+    # wiping the DB pod even though it's owned by this release. Pinning
+    # the keep policy here makes Helm skip the deletion during cross-
+    # release pruning — the resources are tied to this HR alone going
+    # forward. Safe to leave in place permanently.
+    globalAnnotations:
+      helm.sh/resource-policy: keep
     controllers:
       database:
         containers:
