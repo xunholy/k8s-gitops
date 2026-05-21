@@ -71,6 +71,65 @@ spec:
                 memory: 64Mi
               limits:
                 memory: 256Mi
+          # Keeps realmd.realmlist.realmflags in sync with the actual
+          # liveness of each world. mangosd flips realmflags=0 on start
+          # and =2 on graceful shutdown — but it never gets there on a
+          # crash, OOM, or pod kill, so the launcher keeps showing the
+          # realm as online and clicking it gives "connection failed"
+          # instead of a grayed-out "Offline" entry.
+          # This prober TCP-probes each world every 10s and toggles the
+          # OFFLINE bit (2) only, leaving the rest of realmflags alone
+          # (RECOMMENDED=8, NEW=16, FULL=32) so mangosd's own writes
+          # still take effect.
+          # realm ids come from the live realmd log:
+          #   Added realm id 1, name 'Emberstone'      → cmangos-world:8085
+          #   Added realm id 2, name 'Emberstone PTR'  → cmangos-ptr-world:8086
+          realmflags-prober:
+            image:
+              repository: mariadb
+              tag: "12.2"
+            command:
+              - /bin/sh
+              - -c
+              - |
+                set -u
+                while true; do
+                  # Emberstone (realm id=1) ← cmangos-world:8085
+                  if nc -z -w 2 cmangos-world 8085 >/dev/null 2>&1; then
+                    op1="& ~2"
+                  else
+                    op1="| 2"
+                  fi
+                  # Emberstone PTR (realm id=2) ← cmangos-ptr-world:8086
+                  if nc -z -w 2 cmangos-ptr-world 8086 >/dev/null 2>&1; then
+                    op2="& ~2"
+                  else
+                    op2="| 2"
+                  fi
+                  mariadb -h cmangos-database -P 3306 \
+                    -u "$${MANGOS_DBUSER}" -p"$${MANGOS_DBPASS}" classicrealmd \
+                    -e "UPDATE realmlist SET realmflags = realmflags $${op1} WHERE id = 1; \
+                        UPDATE realmlist SET realmflags = realmflags $${op2} WHERE id = 2" \
+                    >/dev/null 2>&1 || true
+                  sleep 10
+                done
+            env:
+              TZ: ${CLUSTER_TIMEZONE}
+            envFrom:
+              # MANGOS_DBUSER / MANGOS_DBPASS for the UPDATE query.
+              - secretRef:
+                  name: cmangos-database-creds
+            resources:
+              requests:
+                cpu: 5m
+                memory: 16Mi
+              limits:
+                memory: 64Mi
+            securityContext:
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
     service:
       auth:
         controller: realmd
