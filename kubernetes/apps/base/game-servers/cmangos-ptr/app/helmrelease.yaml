@@ -293,7 +293,7 @@ spec:
             # path; disabling here removes them from the suspect set so
             # we can confirm whether the trigger is equipment-related.
             # Re-enable to 1 once the upstream fix lands.
-            AiPlayerbot.RandomGearUpgradeEnabled = 0
+            AiPlayerbot.RandomGearUpgradeEnabled = 1
             AiPlayerbot.RandomGearMaxDiff = 3
             AiPlayerbot.RandomBotTeleportNearPlayer = 1
             AiPlayerbot.SyncQuestWithPlayer = 1
@@ -546,7 +546,7 @@ spec:
             # Crash-class isolation — disabling bot-init paths that
             # write to ptrcharacters while we hunt the bind() SIGSEGV.
             # Re-enable when the upstream fix lands.
-            Transmog.Enable = 0
+            Transmog.Enable = 1
             Transmog.CostFee = 0
             Transmog.CostMultiplier = 1.0
             Transmog.TokenRequired = 0
@@ -562,7 +562,7 @@ spec:
             # Crash-class isolation — disabling bot-init paths that
             # write to ptrcharacters while we hunt the bind() SIGSEGV.
             # Re-enable when the upstream fix lands.
-            Dualspec.Enable = 0
+            Dualspec.Enable = 1
             Dualspec.Cost = 100000
       trainingdummies-config:
         data:
