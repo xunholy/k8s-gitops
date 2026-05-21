@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cmangos-database
+  namespace: game-servers
+  labels:
+    gitops.owncloud.ai/defaults: disabled
+spec:
+  decryption:
+    provider: sops
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  path: "./apps/base/game-servers/cmangos-database/app"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: ExternalArtifact
+    name: cmangos-database
+    namespace: flux-system
+  dependsOn:
+    - name: onepassword
+      namespace: external-secrets
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync-system
+    # Migration-time only: ensures cmangos's HR upgrade (which removes
+    # the old database controller, deleting the Deployment + Service)
+    # runs BEFORE this new HR tries to install. Remove this entry once
+    # the migration has stabilised so the DB becomes a true peer of
+    # cmangos / cmangos-realmd / cmangos-ptr rather than being gated
+    # on the world server's reconciliation state.
+    - name: cmangos
+      namespace: game-servers
+  targetNamespace: game-servers

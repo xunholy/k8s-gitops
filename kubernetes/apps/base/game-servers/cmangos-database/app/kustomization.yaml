@@ -5,7 +5,7 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
-  - prometheusrule.yaml
-  - network
-  - storage
-  - migrations
+  - externalsecret-database.yaml
+  - pvc-database.yaml
+  - replicationsource.yaml
+  - volsync-externalsecret.yaml

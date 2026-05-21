@@ -13,58 +13,6 @@ spec:
     namespace: flux-system
   values:
     controllers:
-      database:
-        containers:
-          app:
-            image:
-              repository: mariadb
-              tag: "12.2"
-            env:
-              TZ: ${CLUSTER_TIMEZONE}
-              # MARIADB_ROOT_PASSWORD is first-init-only (DB volume is
-              # persistent; ignored on subsequent starts). Rotation is
-              # tracked separately from the app user.
-              MARIADB_ROOT_PASSWORD: password
-              MARIADB_DATABASE: classicrealmd
-            envFrom:
-              # MARIADB_USER / MARIADB_PASSWORD come from 1Password via
-              # ExternalSecret (cmangos-database-creds). First-init only.
-              - secretRef:
-                  name: cmangos-database-creds
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  exec:
-                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
-                  periodSeconds: 30
-                  timeoutSeconds: 3
-                  failureThreshold: 3
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  exec:
-                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
-                  periodSeconds: 10
-                  timeoutSeconds: 3
-                  failureThreshold: 3
-              startup:
-                enabled: true
-                custom: true
-                spec:
-                  exec:
-                    command: ['healthcheck.sh', '--connect', '--innodb_initialized']
-                  periodSeconds: 10
-                  timeoutSeconds: 3
-                  failureThreshold: 30
-            resources:
-              requests:
-                cpu: "1"
-                memory: 512Mi
-              limits:
-                memory: 2Gi
       mangosd:
         pod:
           terminationGracePeriodSeconds: 300
@@ -205,11 +153,6 @@ spec:
               capabilities:
                 drop: ["ALL"]
     service:
-      database:
-        controller: database
-        ports:
-          mysql:
-            port: 3306
       world:
         controller: mangosd
         ports:
@@ -683,12 +626,6 @@ spec:
             AuctionHouseBot.Loot.Gameobject = 20, 25, 7, 15
             AuctionHouseBot.Loot.Skinning = 5, 10, 50, 80
     persistence:
-      database:
-        existingClaim: cmangos-database
-        advancedMounts:
-          database:
-            app:
-              - path: /var/lib/mysql
       data:
         existingClaim: cmangos-data
         advancedMounts:

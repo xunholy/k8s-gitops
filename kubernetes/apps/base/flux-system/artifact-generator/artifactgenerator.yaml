@@ -65,6 +65,11 @@ spec:
       copy:
         - from: "@repo/apps/base/game-servers/cmangos/app/"
           to: "@artifact/apps/base/game-servers/cmangos/app/"
+    - name: cmangos-database
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/cmangos-database/app/"
+          to: "@artifact/apps/base/game-servers/cmangos-database/app/"
     - name: cmangos-ptr
       originRevision: "@repo"
       copy:

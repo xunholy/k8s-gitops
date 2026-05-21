@@ -50,6 +50,7 @@ resources:
   # - ../../base/game-servers/minecraft-router/ks.yaml
   - ../../base/game-servers/minecraft-pixelmon/ks.yaml
   - ../../base/game-servers/cmangos/ks.yaml
+  - ../../base/game-servers/cmangos-database/ks.yaml
   - ../../base/game-servers/cmangos-ptr/ks.yaml
   - ../../base/game-servers/cmangos-realmd/ks.yaml
   - ../../base/game-servers/adminer/ks.yaml

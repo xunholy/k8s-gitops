@@ -126,6 +126,13 @@ spec:
               limits:
                 memory: 64Mi
             securityContext:
+              # mariadb:12.2 defaults to root when the entrypoint is
+              # overridden, so we have to pin a non-root UID explicitly
+              # rather than rely on the image's default. UID 999 is the
+              # mysql user baked into the image — gives the prober the
+              # filesystem access mariadb-client needs (tmp, /etc).
+              runAsUser: 999
+              runAsGroup: 999
               runAsNonRoot: true
               allowPrivilegeEscalation: false
               capabilities:
