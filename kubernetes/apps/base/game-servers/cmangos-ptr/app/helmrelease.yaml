@@ -42,11 +42,11 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              # Mirror prod cmangos rollback to 2473619f (Tue 2026-05-19 21:44 +1000).
+              # Mirror prod cmangos bump to e77c5494d (clean main HEAD).
               # See kubernetes/apps/base/game-servers/cmangos/app/helmrelease.yaml
-              # for the incident summary. PTR isn't crashing right now but it
-              # shares the worldserver binary; keeping versions matched.
-              tag: 2473619f4ff3431fe68bacec5b05fa52fa0e0fba
+              # for the binary-delta context; PTR shares the worldserver
+              # binary so we keep versions matched.
+              tag: e77c5494d7b179177ceb198e0669b514f2139199
             args: ["mangosd"]
             tty: true
             stdin: true

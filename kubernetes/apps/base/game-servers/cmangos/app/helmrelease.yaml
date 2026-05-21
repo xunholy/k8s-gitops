@@ -26,14 +26,15 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              # Pinned to 2473619f (Tue 2026-05-19 21:44 +1000) — last image with
-              # a ~23h proven-stable run at 1000/2000 bots before the Thu 11:08
-              # +1000 crash chain. Rolling back from fab3e801 (the failed
-              # ai::Engine recursive_mutex fix). Paired in this commit with
-              # Warden.Enable=0 and Min/MaxRandomBots=0 so the worldserver
-              # boots into a known-quiet state while we plan the proper fix
-              # (ASan build on the cmangos fork).
-              tag: 2473619f4ff3431fe68bacec5b05fa52fa0e0fba
+              # Bumped to e77c5494d — first image off the cleaned-up main:
+              # PR #5 mutex revert + vanilla cmangos (migration runner
+              # stripped) + ccache wired into the builder for faster
+              # future rebuilds. Binary delta vs 2473619f is just the
+              # playerbots vendoring (upstream #292 -> #293 quest-flow
+              # fix) and the EnchantItem null-guard — near-identical
+              # behaviour expected. Cluster currently bots=0, so the
+              # rollout should be uneventful.
+              tag: e77c5494d7b179177ceb198e0669b514f2139199
             args: ["mangosd"]
             tty: true
             stdin: true
