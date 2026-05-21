@@ -289,11 +289,12 @@ spec:
             WorldServerPort = 8085
             BindIP = "0.0.0.0"
             PlayerLimit = 750
-            # Serialize MapUpdater workers to eliminate concurrent navmesh + bot-AI races.
-            # Confirmed root cause of the BG segfaults at 250-500 bots: cores show concurrent
-            # MapUpdateWorker threads crashing in dtNavMesh::getTileAt and ai::MovementAction::UseTransport.
-            # detour is not thread-safe; UseTransport has unguarded sGOStorage::LookupEntry deref.
-            MapUpdate.Threads = 1
+            # Upstream cmangos default. Was previously set to 1 as a workaround
+            # for concurrent navmesh + bot-AI races (cores showed concurrent
+            # MapUpdateWorker threads crashing in dtNavMesh::getTileAt and
+            # ai::MovementAction::UseTransport). Reverted to 3 explicitly; the
+            # underlying races are tracked as separate fork patches.
+            MapUpdate.Threads = 3
             Motd = "Welcome to Emberstone"
             # Stdout quiet, file rich. LogLevel governs kubectl logs;
             # LogFileLevel governs /opt/mangos/logs/Server.log on the PVC.
