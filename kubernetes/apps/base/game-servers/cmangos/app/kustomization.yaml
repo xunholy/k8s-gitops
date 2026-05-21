@@ -17,6 +17,7 @@ resources:
   - prometheusrule.yaml
   - mangos-string-517-migration-job.yaml
   - lookup-gm-security-migration-job.yaml
+  - gm-security-migration-job.yaml
   # Vendored module migrations (cmangos-classic@main src/modules/*).
   # Comment-out individual lines for a staged rollout — all 5 modules also
   # gated by their .conf Enable= key in helmrelease.yaml.
