@@ -1,0 +1,103 @@
+---
+# Transmog module — applies schema for the appearance system and spawns the
+# Magister Stellaria NPC (entry 190010). Idempotent (CREATE TABLE IF NOT
+# EXISTS, DELETE-then-INSERT) so Flux can recreate the Job after ttl expires
+# without damage. Pattern matches attunement-migration-job.yaml.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-ptr-transmog-migration-sql
+  namespace: game-servers
+data:
+  characters.sql: |
+    CREATE TABLE IF NOT EXISTS `custom_transmog_active` (
+      `item_guid` int(11) unsigned NOT NULL,
+      `transmog_entry` int(11) unsigned NOT NULL,
+      `player` int(11) unsigned NOT NULL,
+      PRIMARY KEY (`item_guid`),
+      KEY `player` (`player`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    CREATE TABLE IF NOT EXISTS `custom_transmog_discovered` (
+      `player` int(11) unsigned NOT NULL,
+      `item_entry` int(11) unsigned NOT NULL,
+      PRIMARY KEY (`player`, `item_entry`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  world.sql: |
+    -- Transmog NPC: Magister Stellaria (entry 190010)
+    -- Spawn coords avoid overlap with attunement's Attuner of Paths (190014)
+    -- and dualspec's NPC (190024). See cmangos-classic 39b23109f.
+
+    SET @Entry := 190010;
+
+    DELETE FROM `creature_template` WHERE `entry` = @Entry;
+    INSERT INTO `creature_template`
+      (`entry`, `DisplayId1`, `DisplayIdProbability1`, `name`, `subname`, `GossipMenuId`,
+       `minlevel`, `maxlevel`, `faction`, `NpcFlags`, `scale`, `rank`,
+       `DamageSchool`, `MeleeBaseAttackTime`, `RangedBaseAttackTime`, `unitClass`, `unitFlags`,
+       `CreatureType`, `CreatureTypeFlags`, `lootid`, `PickpocketLootId`, `SkinningLootId`,
+       `AIName`, `MovementType`, `RacialLeader`, `RegenerateStats`, `MechanicImmuneMask`, `ExtraFlags`)
+    VALUES
+      (@Entry, 2240, 100, 'Magister Stellaria', 'Transmogrifier', 0,
+       60, 60, 35, 1, 1, 0,
+       0, 2000, 0, 1, 0,
+       7, 138936390, 0, 0, 0,
+       '', 0, 0, 1, 0, 0);
+
+    DELETE FROM `creature` WHERE `id` = @Entry;
+    INSERT INTO `creature`
+      (`id`, `map`, `spawnMask`, `position_x`, `position_y`, `position_z`, `orientation`,
+       `spawntimesecsmin`, `spawntimesecsmax`, `spawndist`, `MovementType`)
+    VALUES
+      (@Entry, 0, 1, -8930.96,   770.06, 100.21, 4.70, 25, 25, 0, 0),  -- Stormwind Trade District tailor area
+      (@Entry, 1, 1,  1623.00, -4419.00,  22.00, 4.00, 25, 25, 0, 0);  -- Orgrimmar Drag's tailor district
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-ptr-transmog-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Applying Transmog schema to ptrcharacters ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrcharacters < /sql/characters.sql
+
+              echo "=== Applying Transmog NPC + spawns to ptrmangos ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos < /sql/world.sql
+
+              echo "=== Verifying characters tables ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrcharacters -e "SHOW TABLES LIKE 'custom_transmog%';"
+
+              echo "=== Verifying NPC template ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos -e "SELECT entry, name, subname FROM creature_template WHERE entry = 190010;"
+
+              echo "=== Verifying spawns (expect 2 rows: Stormwind + Orgrimmar) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos -e "SELECT id, map, position_x, position_y FROM creature WHERE id = 190010;"
+
+              echo "=== Transmog migration complete ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-ptr-transmog-migration-sql

@@ -1,0 +1,81 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-ptr-aiplayerbot-ring-enchant-fix-migration-sql
+  namespace: game-servers
+data:
+  # The AiPlayerbot module's seed data for `ai_playerbot_enchants` includes
+  # 54 rows (27 class/spec combos × 2 ring slots) that label spell 13700
+  # ("Enchant Chest - Lesser Stats", +2 all stats — enchant_id 866) as
+  # "Ring +2 All Stats" and apply it to equipment slots 10 and 11 (the
+  # ring slots). The bot module's EnchantItem code path bypasses spell
+  # item-class restrictions, so bots end up with a +2 all stats enchant
+  # on each ring (+4 total) that vanilla mechanics cannot produce.
+  #
+  # Why we delete instead of substitute: our cmangos data set has no
+  # vanilla ring enchant spells at all (22536 / 22538 are missing or
+  # remapped — 22538 in our spell_template is 'Nef Trans', not Enchant
+  # Ring - Stats). So no real player can enchant a ring in this realm,
+  # and bots shouldn't get a backdoor advantage either. If ring enchants
+  # are added to the spell data later, substitute legit IDs back in then.
+  #
+  # Idempotent (DELETE with WHERE; no-op on second run). Takes effect on
+  # the next bot enchant operation — already-enchanted bots keep the
+  # fake +2 on their rings until they re-randomize gear on the next
+  # RandomGearUpgrade tick (typically minutes to hours per bot).
+  aiplayerbot-ring-enchant-fix.sql: |
+    DELETE FROM `ai_playerbot_enchants`
+     WHERE `spellid` = 13700
+       AND `slotid` IN (10, 11);
+
+    SELECT
+      (SELECT COUNT(*) FROM `ai_playerbot_enchants`
+        WHERE `spellid`=13700 AND `slotid` IN (10,11)) AS remaining_bad_rows,
+      (SELECT COUNT(*) FROM `ai_playerbot_enchants`
+        WHERE `slotid` IN (10,11))                     AS total_ring_enchant_rows;
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-ptr-aiplayerbot-ring-enchant-fix-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Removing fake ring +2 stats rows from ai_playerbot_enchants ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos < /sql/aiplayerbot-ring-enchant-fix.sql
+
+              # PTR shares the schema; apply there too so a fresh PTR rebuild
+              # lands on the same policy.
+              if mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" -e "USE ptrmangos" 2>/dev/null; then
+                echo "=== Same cleanup in ptrmangos ==="
+                mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos < /sql/aiplayerbot-ring-enchant-fix.sql
+              fi
+
+              echo "=== Done. No worldserver restart needed — table is read per-enchant-op. ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-ptr-aiplayerbot-ring-enchant-fix-migration-sql

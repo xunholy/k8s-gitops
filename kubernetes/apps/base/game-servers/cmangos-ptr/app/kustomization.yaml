@@ -11,3 +11,4 @@ resources:
   - tcproute.yaml
   - db-init-job.yaml
   - realm-row-migration-job.yaml
+  - migrations

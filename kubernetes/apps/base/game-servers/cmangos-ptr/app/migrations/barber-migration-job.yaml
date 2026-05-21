@@ -1,0 +1,134 @@
+---
+# Barber module — applies NPC + equipment + gossip text + spawns for the
+# "Shav Cutiss" barber (entry 190020). World-only (no characters-DB schema).
+# Idempotent (DELETE-then-INSERT). Pattern matches attunement-migration-job.yaml.
+#
+# Skipped vs upstream world_classic.sql: the gameobject chair migration
+# (id=164767). That migration UPDATEs original Stormwind gameobject IDs which
+# is destructive on re-run — chairs are cosmetic and can be applied manually
+# from src/modules/barber/sql/install/world/world_classic.sql lines 13-22 if
+# desired.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-ptr-barber-migration-sql
+  namespace: game-servers
+data:
+  world.sql: |
+    SET @Entry := 190020;
+
+    -- Creature template: Shav Cutiss, The Barber (faction 35 = friendly to all)
+    DELETE FROM `creature_template` WHERE `entry` = @Entry;
+    INSERT INTO `creature_template`
+      (Entry, Name, SubName, MinLevel, MaxLevel, DisplayId1, DisplayIdProbability1,
+       Faction, Scale, Family, CreatureType, InhabitType, RegenerateStats, RacialLeader,
+       NpcFlags, UnitFlags, DynamicFlags, ExtraFlags, CreatureTypeFlags, SpeedWalk, SpeedRun,
+       Detection, CallForHelp, Pursuit, Leash, Timeout, UnitClass, `Rank`,
+       HealthMultiplier, PowerMultiplier, DamageMultiplier, DamageVariance, ArmorMultiplier,
+       ExperienceMultiplier, MinLevelHealth, MaxLevelHealth, MinLevelMana, MaxLevelMana,
+       MinMeleeDmg, MaxMeleeDmg, MinRangedDmg, MaxRangedDmg, Armor, MeleeAttackPower,
+       RangedAttackPower, MeleeBaseAttackTime, RangedBaseAttackTime, DamageSchool,
+       MinLootGold, MaxLootGold, LootId, PickpocketLootId, SkinningLootId,
+       KillCredit1, KillCredit2, MechanicImmuneMask, SchoolImmuneMask,
+       ResistanceHoly, ResistanceFire, ResistanceNature, ResistanceFrost, ResistanceShadow, ResistanceArcane,
+       PetSpellDataId, MovementType, TrainerType, TrainerSpell, TrainerClass, TrainerRace,
+       TrainerTemplateId, VendorTemplateId, EquipmentTemplateId, GossipMenuId, AIName)
+    VALUES
+      (@Entry, 'Shav Cutiss', 'The Barber', 60, 60, 7167, 100,
+       35, 1, 0, 7, 3, 3, 0,
+       1, 0, 0, 0, 0, 1, 1.14286,
+       20, 0, 0, 0, 0, 1, 0,
+       1, 1, 1, 1, 1, 1,
+       42, 42, 0, 0,
+       2, 2, 0, 0, 7, 11,
+       0, 2000, 2000, 0,
+       0, 0, 0, 0, 0,
+       0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0,
+       0, 0, @Entry, 0, '');
+
+    -- Equipment: dagger (Monster - Bowie Knife)
+    DELETE FROM `creature_equip_template` WHERE `entry` = @Entry;
+    INSERT INTO `creature_equip_template` (entry, equipentry1, equipentry2, equipentry3)
+    VALUES (@Entry, 5278, 0, 0);
+
+    -- Gossip text 50404-50423 (the barber dialog options)
+    DELETE FROM `npc_text` WHERE `ID` BETWEEN 50404 AND 50423;
+    INSERT INTO `npc_text` (`ID`, `text0_0`, `prob0`) VALUES
+      (50404, 'Welcome, friend, to the barbershop! Come for a cut? A coloring? Something else, perhaps?$B$BWe can groom facial hair, perform piercings, ink night elf tattoos, and have a collection of earrings!$B$BHave a seat and we''ll get right to work. You''re only a few coins away from a new, more attractive you...', 1),
+      (50405, 'Cut my hair, barber!', 1),
+      (50406, 'You need 0 copper to pay me.', 1),
+      (50407, 'Please sit down!', 1),
+      (50408, 'Next one!', 1),
+      (50409, 'Previous one!', 1),
+      (50410, 'I''ll have this one.', 1),
+      (50411, 'I want to change my hair style.', 1),
+      (50412, 'I want to change my hair color.', 1),
+      (50413, 'I want to change my facial hair style.', 1),
+      (50414, 'I want to change my horns.', 1),
+      (50415, 'I want to change my horn color.', 1),
+      (50416, 'I want to change my piercings.', 1),
+      (50417, 'I want to change my earrings.', 1),
+      (50418, 'I want to change my markings.', 1),
+      (50419, 'I want to change my face.', 1),
+      (50420, 'I want to change my hair.', 1),
+      (50421, 'I want to change my tusks.', 1),
+      (50422, 'I want to change my tentacles.', 1),
+      (50423, 'Welcome, friend, to the barbershop! Come for a cut? A coloring? Something else, perhaps?$B$BWe can groom facial hair, perform piercings, reshape tusks and horns, and even modify undead features!$B$BHave a seat and we''ll get right to work. You''re only a few coins away from a new, more attractive you...', 1);
+
+    -- Spawns: Stormwind + Orgrimmar
+    DELETE FROM `creature` WHERE `id` = @Entry;
+    INSERT INTO `creature`
+      (`id`, `map`, `spawnMask`, `position_x`, `position_y`, `position_z`, `orientation`,
+       `spawntimesecsmin`, `spawntimesecsmax`, `spawndist`, `MovementType`)
+    VALUES
+      (@Entry, 0, 1, -8748.08,   651.95, 105.43, 1.82255, 25, 25, 0, 0),  -- Stormwind
+      (@Entry, 1, 1,  1713.69, -4207.01,  51.65, 3.97408, 25, 25, 0, 0);  -- Orgrimmar
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-ptr-barber-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Applying Barber NPC + equip + npc_text + spawns to ptrmangos ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos < /sql/world.sql
+
+              echo "=== Verifying NPC template ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos -e "SELECT entry, name, subname FROM creature_template WHERE entry = 190020;"
+
+              echo "=== Verifying spawns (expect 2 rows: Stormwind + Orgrimmar) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos -e "SELECT id, map, position_x, position_y FROM creature WHERE id = 190020;"
+
+              echo "=== Verifying gossip texts (expect 20 rows: IDs 50404-50423) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos -e "SELECT COUNT(*) AS texts_loaded FROM npc_text WHERE ID BETWEEN 50404 AND 50423;"
+
+              echo "=== Barber migration complete ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-ptr-barber-migration-sql
