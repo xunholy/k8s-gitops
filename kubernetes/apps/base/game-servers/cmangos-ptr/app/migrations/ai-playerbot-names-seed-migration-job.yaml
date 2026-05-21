@@ -46,17 +46,21 @@ spec:
             - -c
             - |
               set -euo pipefail
+              # Flux postBuild substitution eats ${VAR} — escape bash
+              # parameter expansion as $${VAR} so the runtime container
+              # sees literal ${VAR}. $VAR (no braces) is left alone by
+              # Flux and works as-is.
               MARIADB="mariadb -h cmangos-database -P 3306 -u $MANGOS_DBUSER -p$MANGOS_DBPASS"
 
               for tbl in ai_playerbot_names ai_playerbot_guild_names ai_playerbot_arena_team_names; do
-                src_count=$(${MARIADB} -N -B -e "SELECT COUNT(*) FROM classiccharacters.${tbl};")
-                pre_count=$(${MARIADB} -N -B -e "SELECT COUNT(*) FROM ptrcharacters.${tbl};")
-                echo "=== ${tbl}: classic=${src_count}, ptr=${pre_count} (pre) ==="
+                src_count=$($${MARIADB} -N -B -e "SELECT COUNT(*) FROM classiccharacters.$${tbl};")
+                pre_count=$($${MARIADB} -N -B -e "SELECT COUNT(*) FROM ptrcharacters.$${tbl};")
+                echo "=== $${tbl}: classic=$${src_count}, ptr=$${pre_count} (pre) ==="
 
-                ${MARIADB} -e "INSERT IGNORE INTO ptrcharacters.${tbl} SELECT * FROM classiccharacters.${tbl};"
+                $${MARIADB} -e "INSERT IGNORE INTO ptrcharacters.$${tbl} SELECT * FROM classiccharacters.$${tbl};"
 
-                post_count=$(${MARIADB} -N -B -e "SELECT COUNT(*) FROM ptrcharacters.${tbl};")
-                echo "=== ${tbl}: ptr=${post_count} (post), copied $((post_count - pre_count)) rows ==="
+                post_count=$($${MARIADB} -N -B -e "SELECT COUNT(*) FROM ptrcharacters.$${tbl};")
+                echo "=== $${tbl}: ptr=$${post_count} (post), copied $$((post_count - pre_count)) rows ==="
               done
 
               echo "=== seed complete ==="
