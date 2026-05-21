@@ -2,22 +2,33 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cmangos-lookup-gm-security-migration-sql
+  name: cmangos-gm-security-restore-migration-sql
   namespace: game-servers
 data:
-  # Stock CMaNGOS ships the read-only .lookup subcommands (item, creature,
-  # quest, spell, object, itemset, faction, skill, taxinode) at security
-  # level 3 (Administrator). That blocks GMs (level 2) from basic lookups
-  # like ".lookup item Hearthstone" — needed to ID NPCs/items/spells when
-  # answering player tickets. The commands are read-only (return IDs, no
-  # world mutation), so granting them to GMs is safe.
+  # Roll back the two earlier GM-permission migrations:
+  #   - gm-security-migration         (lowered six .gm * subcommands to 2)
+  #   - lookup-gm-security-migration  (lowered nine .lookup * subcommands to 2)
+  #
+  # Both ConfigMap+Job pairs were removed from the kustomization in the same
+  # commit, but Flux's prune only removes the K8s artifacts — the security
+  # rows live in the `command` table of the world DB and persist. This Job
+  # resets the 15 affected commands back to the CMaNGOS default of 3
+  # (Administrator-only).
+  #
+  # Idempotent: the UPDATE is a no-op against a fresh DB (default is already 3).
   #
   # `.reload command` in the mangosd console picks the change up without
   # a worldserver restart.
-  lookup-gm-security.sql: |
+  gm-security-restore.sql: |
     UPDATE `command`
-       SET `security` = 2
+       SET `security` = 3
      WHERE `name` IN (
+       'gm',
+       'gm chat',
+       'gm visible',
+       'gm ingame',
+       'gm setview',
+       'gm mountup',
        'lookup creature',
        'lookup faction',
        'lookup item',
@@ -32,7 +43,7 @@ data:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: cmangos-lookup-gm-security-migration
+  name: cmangos-gm-security-restore-migration
   namespace: game-servers
 spec:
   ttlSecondsAfterFinished: 86400
@@ -55,19 +66,17 @@ spec:
             - -c
             - |
               set -e
-              echo "=== Lowering .lookup subcommands to GM (security=2) in classicmangos ==="
-              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/lookup-gm-security.sql
+              echo "=== Restoring .gm + .lookup subcommands to default security=3 in classicmangos ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/gm-security-restore.sql
 
-              # PTR shares the schema; apply there too so a fresh PTR rebuild
-              # lands on the same policy.
               if mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" -e "USE ptrmangos" 2>/dev/null; then
-                echo "=== Lowering .lookup subcommands in ptrmangos ==="
-                mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos < /sql/lookup-gm-security.sql
+                echo "=== Restoring in ptrmangos ==="
+                mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos < /sql/gm-security-restore.sql
               fi
 
               echo "=== Verifying ==="
               mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos \
-                -e "SELECT name, security FROM command WHERE name LIKE 'lookup%' ORDER BY name;"
+                -e "SELECT name, security FROM command WHERE name LIKE 'gm%' OR name LIKE 'lookup%' ORDER BY name;"
 
               echo "=== Done. Run '.reload command' in the mangosd console (no restart needed) ==="
           volumeMounts:
@@ -76,4 +85,4 @@ spec:
       volumes:
         - name: sql-scripts
           configMap:
-            name: cmangos-lookup-gm-security-migration-sql
+            name: cmangos-gm-security-restore-migration-sql
