@@ -289,12 +289,20 @@ spec:
             WorldServerPort = 8085
             BindIP = "0.0.0.0"
             PlayerLimit = 750
-            # Upstream cmangos default. Was previously set to 1 as a workaround
-            # for concurrent navmesh + bot-AI races (cores showed concurrent
-            # MapUpdateWorker threads crashing in dtNavMesh::getTileAt and
-            # ai::MovementAction::UseTransport). Reverted to 3 explicitly; the
-            # underlying races are tracked as separate fork patches.
-            MapUpdate.Threads = 3
+            # Serialize MapUpdater workers (=1). The 2026-05-21 incident saw
+            # 4+ SIGSEGV/SIGABRTs in MySqlPreparedStatement::bind and
+            # SqlTransaction::Execute under a fresh DB connection + 1100-bot
+            # load. The bind() asserts only fire when holder.boundParams()
+            # doesn't match the prepared m_nParams — that is heap corruption
+            # of the params vector, not a logic bug. The SQL pipeline itself
+            # is structurally clean (validated by reading SqlPreparedStatement,
+            # SqlOperations, Database.cpp end-to-end); the corruption comes
+            # from concurrent MapUpdateWorker writes elsewhere clobbering
+            # unrelated heap blocks. Previously-confirmed crash class on this
+            # codebase: concurrent dtNavMesh::getTileAt / ai::MovementAction::
+            # UseTransport races at 250-500+ bots. Workaround only — proper
+            # resolution needs ASan on the cmangos fork.
+            MapUpdate.Threads = 1
             Motd = "Welcome to Emberstone"
             # Stdout quiet, file rich. LogLevel governs kubectl logs;
             # LogFileLevel governs /opt/mangos/logs/Server.log on the PVC.
