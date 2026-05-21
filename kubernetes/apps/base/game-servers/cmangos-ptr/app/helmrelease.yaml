@@ -3,14 +3,19 @@
 #
 # Emberstone PTR — mangosd-only worldserver.
 #
-# Auth and the MariaDB live in the cmangos HelmRelease and are shared
-# with the live realm. PTR has its own world/characters/logs databases
-# (ptrmangos/ptrcharacters/ptrlogs) on the same MariaDB instance, and
-# is gated to GM (security >= 3) accounts via realmlist.allowedSecurityLevel.
-# Realm id is 2 (live is 1).
+# Auth (realmd) and MariaDB are shared with the live realm via the
+# cmangos-realmd / cmangos-database HelmReleases. PTR has its own
+# world/characters/logs databases (ptrmangos/ptrcharacters/ptrlogs)
+# on the same MariaDB instance. Realm id is 2 (live is 1).
 #
-# Compute is sized for "a handful of GMs poking at content," not live
-# load — half the live mangosd footprint.
+# Settings mirror the live cmangos HelmRelease (modules, rates, anticheat,
+# bot density) so PTR behaves identically to live for testing — only
+# realm identity (RealmID/port/DB names/motd) and shutdown-window tuning
+# differ. Bots use the `ptrbot` account prefix so they don't collide
+# with live's `rndbot*` accounts in the shared classicrealmd.account
+# table; each prefix's characters live in its own characters DB.
+# Compute is sized to match live since PTR now carries a 500-2000 bot
+# population on top of any human GMs.
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -192,11 +197,18 @@ spec:
             RealmZone = 8
             WorldServerPort = 8086
             BindIP = "0.0.0.0"
-            # Tight cap — PTR is for GM smoke tests, not live load.
-            PlayerLimit = 50
+            # Match live PlayerLimit so PTR can hold its 500-2000 bot
+            # population plus any human GMs / testers without rejecting
+            # logins at the door.
+            PlayerLimit = 750
+            # Mirror live: serialize MapUpdater workers — workaround for
+            # the concurrent-map-update SIGSEGV class on this codebase.
+            # See live mangosd.conf comment for the full incident notes.
             MapUpdate.Threads = 1
-            Motd = "Welcome to Emberstone PTR — GM-only test realm"
-            LogLevel = 3
+            Motd = "Welcome to Emberstone PTR"
+            # Match live: LogLevel=1 keeps kubectl logs clean, LogFile
+            # captures full diagnostics on the PVC.
+            LogLevel = 1
             LogFile = "/opt/mangos/logs/Server.log"
             LogFileLevel = 3
             LogTimestamp = 1
@@ -233,19 +245,85 @@ spec:
             PlayerSaveInterval = 60000
             Rate.Health = 3
             Rate.Mana = 3
-      # All side-modules kept enabled so GMs can test the same feature
-      # surface as live. PlayerBots is the only module disabled — no
-      # aiplayerbot.conf is mounted, the module no-ops without config.
-      hardcore-config:
+      # All side-modules mirror live — same module versions in the same
+      # binary, configured identically except where PTR identity (realm
+      # id, ports, db names) forces differences.
+      aiplayerbot-config:
         data:
-          hardcore.conf: |
+          aiplayerbot.conf: |
+            AiPlayerbot.Enabled = 1
+            AiPlayerbot.RandomBotAutoCreate = 1
+            AiPlayerbot.RandomBotAutologin = 1
+            # Mirror live: don't stampede bot logins at boot. Bots ramp
+            # via the random-bot tick after startup, which keeps the
+            # MapUpdater + navmesh init out of the concurrent-crash
+            # window seen on live.
+            AiPlayerbot.RandomBotLoginAtStartup = 0
+            # PTR-specific prefix: classicrealmd.account is shared with
+            # live (where rndbot* lives). Using ptrbot* keeps the two
+            # bot populations from sharing account rows — each prefix's
+            # characters then live in its own characters DB (rndbot →
+            # classiccharacters, ptrbot → ptrcharacters).
+            AiPlayerbot.RandomBotAccountPrefix = ptrbot
+            AiPlayerbot.RandomBotAccountCount = 2000
+            AiPlayerbot.MinRandomBots = 500
+            AiPlayerbot.MaxRandomBots = 2000
+            AiPlayerbot.RandomBotMinLevel = 1
+            AiPlayerbot.RandomBotMaxLevel = 60
+            AiPlayerbot.RandomBotMaps = 0,1
+            AiPlayerbot.AutoDoQuests = 1
+            AiPlayerbot.AutoPickReward = yes
+            AiPlayerbot.AutoEquipUpgradeLoot = 1
+            AiPlayerbot.AutoLearnTrainerSpells = 1
+            AiPlayerbot.AutoLearnQuestSpells = 1
+            AiPlayerbot.RandomGearUpgradeEnabled = 1
+            AiPlayerbot.RandomGearMaxDiff = 3
+            AiPlayerbot.RandomBotTeleportNearPlayer = 1
+            AiPlayerbot.SyncQuestWithPlayer = 1
+            # Match live: forces InitGuild() onto the no-bug branch (see
+            # live aiplayerbot.conf for the 2026-05-21 SIGSEGV analysis).
+            AiPlayerbot.RandomBotGuildCount = 50
+            AiPlayerbot.RandomBotJoinBG = 1
+            # Match live: bots queue when invited but don't auto-queue;
+            # avoids the HandleMoveWorldportAckOpcode race.
+            AiPlayerbot.RandomBotAutoJoinBG = 0
+            AiPlayerbot.RandomBotGroupNearby = 1
+            AiPlayerbot.SyncLevelWithPlayers = 1
+            AiPlayerbot.SyncLevelMaxAbove = 2
+            AiPlayerbot.AutoPickTalents = full
+            AiPlayerbot.AutoTrainSpells = free
+            AiPlayerbot.minEnchantingBotLevel = 10
+            AiPlayerbot.BotAcceptDuelMinimumLevel = 10
+            AiPlayerbot.LogInGroupOnly = 1
+      twinkmaster-config:
+        data:
+          twinkmaster.conf: |
+            Twinkmaster.Enable = 1
+            Twinkmaster.TargetLevel = 19
+      attunement-config:
+        data:
+          # Mirror live: hardcore was amalgamated into the Attuner of
+          # Paths gossip in xunholy/cmangos-classic@feb8ea8b7 — the
+          # merged module reads both Attunement.* and Hardcore.* keys
+          # from this single attunement.conf. The old /opt/mangos/etc/
+          # hardcore.conf path is no longer consulted by the binary.
+          attunement.conf: |
+            Attunement.Enable = 1
+            Attunement.DefaultRate = 1.0
+            Attunement.MinRate = 0.1
+            Attunement.MaxRate = 100
+            Attunement.Aura.Tier1.SpellId = 0
+            Attunement.Aura.Tier2.SpellId = 0
+            Attunement.Aura.Tier3.SpellId = 0
+            Attunement.Aura.Tier4.SpellId = 0
+            Attunement.Aura.Tier5.SpellId = 0
             Hardcore.Enable = 1
             Hardcore.PlayerConfig = 1
             Hardcore.BroadcastDeathGuild = 1
             Hardcore.BroadcastDeathWorld = 1
             Hardcore.SpawnGrave = 1
             Hardcore.GraveGameObjectID = 61
-            Hardcore.GraveMessage = "PTR death. <PlayerName>"
+            Hardcore.GraveMessage = "Shit happens. <PlayerName> | Well, this sucks. <PlayerName> | It is really dark down here. <PlayerName> | Finally some peace and quiet. <PlayerName> | Shhh! I am sleeping. <PlayerName>"
             Hardcore.RemoveGravesOnCharacterDeleted = 1
             Hardcore.DropGear = 0
             Hardcore.DropItems = 0
@@ -267,26 +345,13 @@ spec:
             Hardcore.DropMinLevel = 1
             Hardcore.DisablePVP = 0
             Hardcore.SelfFound = 0
-            Hardcore.CustomXPRates = 0
-      twinkmaster-config:
-        data:
-          twinkmaster.conf: |
-            Twinkmaster.Enable = 1
-            Twinkmaster.TargetLevel = 19
-      attunement-config:
-        data:
-          attunement.conf: |
-            Attunement.Enable = 1
-            Attunement.DefaultRate = 1.0
-            Attunement.MinRate = 0.1
-            Attunement.MaxRate = 100
-            Attunement.Aura.Tier1.SpellId = 0
-            Attunement.Aura.Tier2.SpellId = 0
-            Attunement.Aura.Tier3.SpellId = 0
-            Attunement.Aura.Tier4.SpellId = 0
-            Attunement.Aura.Tier5.SpellId = 0
       anticheat-config:
         data:
+          # Mirror live anticheat.conf verbatim. Canonical source:
+          # etc/emberstone/anticheat.conf in xunholy/cmangos-classic.
+          # Action mask vocabulary (sum of bits): 1=log, 2=prompt,
+          # 4=kick, 8=ban_acct, 16=ban_ip, 32=silence. Every mask here
+          # is ≤ 7 — kick-only, never auto-ban.
           anticheat.conf: |
             [AnticheatConf]
             ConfVersion=2017102301
@@ -398,6 +463,8 @@ spec:
             Antispam.Enable   = 1
             Antispam.Silence  = 1
             Antispam.MaxLevel = 25
+            # Warden re-enabled to match live (commit 74862c593) — bots
+            # are now believed to be the crash variable, not Warden.
             Warden.Enable                       = 1
             Warden.ModuleDir                    = "/opt/mangos/bin/warden_modules"
             Warden.Timeout                      = 30
@@ -412,10 +479,13 @@ spec:
             Warden.TotalAction                  = 0
       vip-config:
         data:
+          # Mirror live vip.conf: MasterSpellId 18282 + the full bundle.
+          # Plain key=value only (see live config: section headers and
+          # # comments parse as garbage with the cmangos config parser).
           vip.conf: |
             Vip.Enable = 1
-            Vip.MasterSpellId = 22888
-            Vip.BundledSpellIds = ""
+            Vip.MasterSpellId = 18282
+            Vip.BundledSpellIds = 22888,24425,15366,16609,22817,22818,22820,23735,23736,23737,23768,26393,17626,17627,17628
       autoscale-config:
         data:
           autoscale.conf: |
@@ -453,6 +523,40 @@ spec:
             AuctionHouseBot.Loot.Fishing = 5, 10, 30, 50
             AuctionHouseBot.Loot.Gameobject = 20, 25, 7, 15
             AuctionHouseBot.Loot.Skinning = 5, 10, 50, 80
+      transmog-config:
+        data:
+          transmog.conf: |
+            Transmog.Enable = 1
+            Transmog.CostFee = 0
+            Transmog.CostMultiplier = 1.0
+            Transmog.TokenRequired = 0
+            Transmog.TokenEntry = 0
+            Transmog.TokenAmount = 1
+      barber-config:
+        data:
+          barber.conf: |
+            Barber.Enable = 1
+      dualspec-config:
+        data:
+          dualspec.conf: |
+            Dualspec.Enable = 1
+            Dualspec.Cost = 100000
+      trainingdummies-config:
+        data:
+          trainingdummies.conf: |
+            Trainingdummies.Enable = 1
+      achievements-config:
+        data:
+          achievements.conf: |
+            Achievements.Enable = 1
+            Achievements.SendMessage = 1
+            Achievements.SendAddon = 1
+            Achievements.SendVisual = 1
+            Achievements.EffectId = 146
+            # Match live: bots don't clutter realm-first leaderboards.
+            Achievements.RandomBots = 0
+            Achievements.RandomBotsRealmFirst = 0
+            Achievements.AccountAchievements = 0
     persistence:
       data:
         existingClaim: cmangos-ptr-data
@@ -477,14 +581,14 @@ spec:
             app:
               - path: /opt/mangos/conf/mangosd.conf
                 subPath: mangosd.conf
-      hardcore-config:
+      aiplayerbot-config:
         type: configMap
-        name: cmangos-ptr-hardcore-config
+        name: cmangos-ptr-aiplayerbot-config
         advancedMounts:
           mangosd:
             app:
-              - path: /opt/mangos/etc/hardcore.conf
-                subPath: hardcore.conf
+              - path: /opt/mangos/conf/aiplayerbot.conf
+                subPath: aiplayerbot.conf
       twinkmaster-config:
         type: configMap
         name: cmangos-ptr-twinkmaster-config
@@ -533,6 +637,46 @@ spec:
             app:
               - path: /opt/mangos/conf/ahbot.conf
                 subPath: ahbot.conf
+      transmog-config:
+        type: configMap
+        name: cmangos-ptr-transmog-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/transmog.conf
+                subPath: transmog.conf
+      barber-config:
+        type: configMap
+        name: cmangos-ptr-barber-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/barber.conf
+                subPath: barber.conf
+      dualspec-config:
+        type: configMap
+        name: cmangos-ptr-dualspec-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/dualspec.conf
+                subPath: dualspec.conf
+      trainingdummies-config:
+        type: configMap
+        name: cmangos-ptr-trainingdummies-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/trainingdummies.conf
+                subPath: trainingdummies.conf
+      achievements-config:
+        type: configMap
+        name: cmangos-ptr-achievements-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/achievements.conf
+                subPath: achievements.conf
       mangosd-logs:
         existingClaim: cmangos-ptr-mangosd-logs
         advancedMounts:
