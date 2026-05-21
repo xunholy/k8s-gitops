@@ -42,13 +42,17 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              # Mirror prod cmangos bump to e77c5494d (clean main HEAD).
-              # See kubernetes/apps/base/game-servers/cmangos/app/helmrelease.yaml
-              # for the binary-delta context; PTR shares the worldserver
-              # binary so we keep versions matched.
-              # Mirror prod bump to 7c511313a — replace_conf fix landed,
-              # GM audit fix landed. See cmangos/app/helmrelease.yaml.
-              tag: 7c511313adca42c53d9c607e5335091efef4eec7
+              # PTR-only: patched image from xunholy/cmangos-classic#9
+              # ("canary check in MySqlPreparedStatement::bind to catch
+              # UAF"). Tag is the merge-commit SHA of PR head feb172a
+              # into base 7c51131; behaviour-identical to live except
+              # the SqlStmtParameters carries a magic-number canary
+              # that bind() validates before touching the params vector
+              # — converts the deterministic SIGSEGV reproduction into
+              # a logged error naming the offending prepared statement.
+              # Live stays on 7c51131 (unpatched) until the diagnostic
+              # finds the upstream lifecycle bug and a real fix lands.
+              tag: 0c1acbe38ddaaf2fb21d2514127a7c32df221b07
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -278,7 +282,13 @@ spec:
             AiPlayerbot.AutoEquipUpgradeLoot = 1
             AiPlayerbot.AutoLearnTrainerSpells = 1
             AiPlayerbot.AutoLearnQuestSpells = 1
-            AiPlayerbot.RandomGearUpgradeEnabled = 1
+            # Crash-class isolation (2026-05-21): PTR is reproducing the
+            # MySqlPreparedStatement::bind heap-corruption SIGSEGV. Bot
+            # equipment writes are the highest-volume async-DB-write
+            # path; disabling here removes them from the suspect set so
+            # we can confirm whether the trigger is equipment-related.
+            # Re-enable to 1 once the upstream fix lands.
+            AiPlayerbot.RandomGearUpgradeEnabled = 0
             AiPlayerbot.RandomGearMaxDiff = 3
             AiPlayerbot.RandomBotTeleportNearPlayer = 1
             AiPlayerbot.SyncQuestWithPlayer = 1
@@ -528,7 +538,10 @@ spec:
       transmog-config:
         data:
           transmog.conf: |
-            Transmog.Enable = 1
+            # Crash-class isolation — disabling bot-init paths that
+            # write to ptrcharacters while we hunt the bind() SIGSEGV.
+            # Re-enable when the upstream fix lands.
+            Transmog.Enable = 0
             Transmog.CostFee = 0
             Transmog.CostMultiplier = 1.0
             Transmog.TokenRequired = 0
@@ -541,7 +554,10 @@ spec:
       dualspec-config:
         data:
           dualspec.conf: |
-            Dualspec.Enable = 1
+            # Crash-class isolation — disabling bot-init paths that
+            # write to ptrcharacters while we hunt the bind() SIGSEGV.
+            # Re-enable when the upstream fix lands.
+            Dualspec.Enable = 0
             Dualspec.Cost = 100000
       trainingdummies-config:
         data:
