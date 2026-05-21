@@ -34,7 +34,14 @@ spec:
               # fix) and the EnchantItem null-guard — near-identical
               # behaviour expected. Cluster currently bots=0, so the
               # rollout should be uneventful.
-              tag: e77c5494d7b179177ceb198e0669b514f2139199
+              # EMERGENCY ROLLBACK from e77c5494d: replace_conf in
+              # entrypoint.sh was rewritten in commit 75dd1fc53 (last
+              # night, post-2473619f) to use `sed -i "s|..|..|"` which
+              # breaks when a substituted value (LoginDatabaseInfo
+              # connection string) contains '|'. 2473619f's entrypoint.sh
+              # used the safe `c\` form. PR #8 cherry-picks the fix back
+              # in; once that's merged + built we'll re-bump.
+              tag: 2473619f4ff3431fe68bacec5b05fa52fa0e0fba
             args: ["mangosd"]
             tty: true
             stdin: true

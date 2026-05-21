@@ -46,7 +46,9 @@ spec:
               # See kubernetes/apps/base/game-servers/cmangos/app/helmrelease.yaml
               # for the binary-delta context; PTR shares the worldserver
               # binary so we keep versions matched.
-              tag: e77c5494d7b179177ceb198e0669b514f2139199
+              # Mirror prod emergency rollback to 2473619f — same
+              # entrypoint.sh sed bug. See cmangos/app/helmrelease.yaml.
+              tag: 2473619f4ff3431fe68bacec5b05fa52fa0e0fba
             args: ["mangosd"]
             tty: true
             stdin: true
