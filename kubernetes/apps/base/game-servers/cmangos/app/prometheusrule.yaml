@@ -110,6 +110,40 @@ spec:
               Likely indicates a binary-level bug or corrupt input data. Check
               `kubectl logs --previous` for the stack trace and any preceding errors.
 
+    # ─── DB resource saturation ─────────────────────────────────────────────
+    # Catches the class of incident from 2026-05-21: a single in-game
+    # `.lookup creature %X%` query pinned cmangos-database at a full core for
+    # 17 minutes, blocking the mangosd world tick while everything stayed
+    # "Running" and no other alert fired. Until mysqld-exporter is deployed
+    # this CPU proxy is the cheapest signal — fires on anything that pegs
+    # the DB (runaway query, schema migration, vacuum, etc.) regardless of
+    # cause.
+    - name: game-servers.resources
+      interval: 1m
+      rules:
+        - alert: GameServerDBCPUSaturated
+          expr: |
+            sum by (namespace, pod) (
+              rate(container_cpu_usage_seconds_total{
+                namespace="game-servers",
+                pod=~"cmangos-database-.*|azerothcore-database-.*",
+                container!="",
+                container!="POD"
+              }[5m])
+            ) > 0.9
+          for: 10m
+          labels:
+            severity: warning
+            team: game-servers
+          annotations:
+            summary: "{{ $labels.pod }} pinned at {{ $value | humanize }} CPU cores"
+            description: |
+              Database pod `{{ $labels.pod }}` has sustained > 0.9 CPU cores for
+              10+ minutes. Normal idle is ~50m. Most likely a runaway query (e.g.
+              an in-game `.lookup` against a populated world DB) blocking the
+              world tick. Check `SHOW FULL PROCESSLIST` on the pod and KILL any
+              query with `Time` > 60s, then investigate where it was issued.
+
     # ─── Storage health (the class of bug that took us down today) ──────────
     - name: game-servers.storage
       interval: 1m
