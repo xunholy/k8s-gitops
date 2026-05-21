@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - mangos-string-517-migration-job.yaml
+  - lookup-gm-security-migration-job.yaml
+  - gm-security-migration-job.yaml
+  # Vendored module migrations (cmangos-classic@main src/modules/*).
+  # Comment-out individual lines for a staged rollout — all 5 modules also
+  # gated by their .conf Enable= key in helmrelease.yaml.
+  - transmog-migration-job.yaml
+  - barber-migration-job.yaml
+  - dualspec-migration-job.yaml
+  - trainingdummies-migration-job.yaml
+  - achievements-migration-job.yaml
+  # AiPlayerbot data corrections.
+  - aiplayerbot-ring-enchant-fix-migration-job.yaml
