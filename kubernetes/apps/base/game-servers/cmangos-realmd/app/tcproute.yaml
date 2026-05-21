@@ -11,5 +11,8 @@ spec:
       sectionName: cmangos-auth
   rules:
     - backendRefs:
-        - name: cmangos-realmd-auth
+        # bjw-s app-template collapses singleton Service names to the
+        # release name (no key suffix), so the auth service ends up
+        # named just `cmangos-realmd`, not `cmangos-realmd-auth`.
+        - name: cmangos-realmd
           port: 3724

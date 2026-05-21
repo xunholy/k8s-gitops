@@ -97,7 +97,11 @@ spec:
     persistence:
       config:
         type: configMap
-        name: cmangos-realmd-config
+        # bjw-s app-template collapses singleton ConfigMap/Service/
+        # Deployment names to the release name (no key suffix) when
+        # there's only one of each kind. Verified via `helm get manifest`
+        # — chart generates a ConfigMap literally named `cmangos-realmd`.
+        name: cmangos-realmd
         advancedMounts:
           realmd:
             app:
