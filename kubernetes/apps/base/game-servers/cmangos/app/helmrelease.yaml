@@ -503,12 +503,7 @@ spec:
             # a CWD that isn't /opt/mangos/bin). Switching to absolute path
             # rules out CWD-resolution issues; data files at this path are
             # confirmed present + readable + size-valid + non-zero header.
-            # TEMPORARILY DISABLED — removing Warden's lazy-init + per-player
-            # background scan paths from the concurrent surface while we
-            # stabilise the rolled-back worldserver. Flip back to 1 once the
-            # crash-class is understood (likely separate from Warden, but
-            # not worth ruling-in during recovery).
-            Warden.Enable                       = 0
+            Warden.Enable                       = 1
             Warden.ModuleDir                    = "/opt/mangos/bin/warden_modules"
             Warden.Timeout                      = 30
             Warden.ScanFrequency                = 15

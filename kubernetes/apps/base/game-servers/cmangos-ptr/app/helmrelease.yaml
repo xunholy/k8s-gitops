@@ -398,9 +398,7 @@ spec:
             Antispam.Enable   = 1
             Antispam.Silence  = 1
             Antispam.MaxLevel = 25
-            # Mirrored prod cmangos: Warden disabled while we stabilise
-            # the rolled-back worldserver. See cmangos/app/helmrelease.yaml.
-            Warden.Enable                       = 0
+            Warden.Enable                       = 1
             Warden.ModuleDir                    = "/opt/mangos/bin/warden_modules"
             Warden.Timeout                      = 30
             Warden.ScanFrequency                = 15
