@@ -1,0 +1,111 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cmangos-realmd
+  namespace: game-servers
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      realmd:
+        initContainers:
+          wait-db:
+            image:
+              repository: busybox
+              tag: latest
+            command: ['sh', '-c', 'until nc -z cmangos-database 3306; do sleep 2; done']
+        containers:
+          app:
+            image:
+              repository: ghcr.io/xunholy/cmangos-classic
+              tag: 7bf448dda338ce51a7756e8fd4c704f580d2ae4e
+            args: ["realmd"]
+            env:
+              TZ: ${CLUSTER_TIMEZONE}
+              MANGOS_DBHOST: cmangos-database
+              MANGOS_DBPORT: "3306"
+            envFrom:
+              # MANGOS_DBUSER + MANGOS_DBPASS from 1Password via ESO.
+              # The cmangos-database-creds Secret is owned by the cmangos
+              # Kustomization (externalsecret-database.yaml). Bootstrap
+              # ordering is enforced by ks.yaml dependsOn: cmangos.
+              - secretRef:
+                  name: cmangos-database-creds
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  periodSeconds: 30
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 3724
+                  periodSeconds: 5
+                  timeoutSeconds: 3
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+    service:
+      auth:
+        controller: realmd
+        ports:
+          auth:
+            port: 3724
+    configMaps:
+      config:
+        data:
+          realmd.conf: |
+            RealmServerPort = 3724
+            BindIP = "0.0.0.0"
+            # Brute-force protection on the SRP6 auth port (internet
+            # exposed via TCPRoute → envoy-external gateway).
+            #   MaxCount=5  failures before action
+            #   BanTime=600 ten-minute ban
+            #   BanType=1   ban by IP (0 = ban the account, riskier)
+            #   Logging=1   log every failure so Crowdsec / Falco can
+            #               pick up patterns and broaden the response
+            WrongPass.MaxCount = 5
+            WrongPass.BanTime = 600
+            WrongPass.BanType = 1
+            WrongPass.Logging = 1
+    persistence:
+      config:
+        type: configMap
+        name: cmangos-realmd-config
+        advancedMounts:
+          realmd:
+            app:
+              - path: /opt/mangos/conf/realmd.conf
+                subPath: realmd.conf
+      logs:
+        type: emptyDir
+        advancedMounts:
+          realmd:
+            app:
+              - path: /opt/mangos/logs

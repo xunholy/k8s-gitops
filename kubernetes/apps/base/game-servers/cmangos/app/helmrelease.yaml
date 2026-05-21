@@ -65,61 +65,6 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 2Gi
-      realmd:
-        initContainers:
-          wait-db:
-            image:
-              repository: busybox
-              tag: latest
-            command: ['sh', '-c', 'until nc -z cmangos-database 3306; do sleep 2; done']
-        containers:
-          app:
-            image:
-              repository: ghcr.io/xunholy/cmangos-classic
-              tag: 88f46de6dda338ce51a7756e8fd4c704f580d2ae4e
-            args: ["realmd"]
-            env:
-              TZ: ${CLUSTER_TIMEZONE}
-              MANGOS_DBHOST: cmangos-database
-              MANGOS_DBPORT: "3306"
-            envFrom:
-              # MANGOS_DBUSER + MANGOS_DBPASS from 1Password via ESO.
-              - secretRef:
-                  name: cmangos-database-creds
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  tcpSocket:
-                    port: 3724
-                  periodSeconds: 30
-                  timeoutSeconds: 3
-                  failureThreshold: 3
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  tcpSocket:
-                    port: 3724
-                  periodSeconds: 10
-                  timeoutSeconds: 3
-                  failureThreshold: 3
-              startup:
-                enabled: true
-                custom: true
-                spec:
-                  tcpSocket:
-                    port: 3724
-                  periodSeconds: 5
-                  timeoutSeconds: 3
-                  failureThreshold: 30
-            resources:
-              requests:
-                cpu: 10m
-                memory: 64Mi
-              limits:
-                memory: 256Mi
       mangosd:
         pod:
           terminationGracePeriodSeconds: 300
@@ -133,7 +78,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 88f46de6dda338ce51a7756e8fd4c704f580d2ae4e
+              tag: 7bf448dda338ce51a7756e8fd4c704f580d2ae4e
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -265,11 +210,6 @@ spec:
         ports:
           mysql:
             port: 3306
-      auth:
-        controller: realmd
-        ports:
-          auth:
-            port: 3724
       world:
         controller: mangosd
         ports:
@@ -350,22 +290,6 @@ spec:
             PlayerSaveInterval = 60000
             Rate.Health = 3
             Rate.Mana = 3
-      realmd-config:
-        data:
-          realmd.conf: |
-            RealmServerPort = 3724
-            BindIP = "0.0.0.0"
-            # Brute-force protection on the SRP6 auth port (internet
-            # exposed via TCPRoute → envoy-external gateway).
-            #   MaxCount=5  failures before action
-            #   BanTime=600 ten-minute ban
-            #   BanType=1   ban by IP (0 = ban the account, riskier)
-            #   Logging=1   log every failure so Crowdsec / Falco can
-            #               pick up patterns and broaden the response
-            WrongPass.MaxCount = 5
-            WrongPass.BanTime = 600
-            WrongPass.BanType = 1
-            WrongPass.Logging = 1
       aiplayerbot-config:
         data:
           aiplayerbot.conf: |
@@ -792,14 +716,6 @@ spec:
             app:
               - path: /opt/mangos/conf/mangosd.conf
                 subPath: mangosd.conf
-      realmd-config:
-        type: configMap
-        name: cmangos-realmd-config
-        advancedMounts:
-          realmd:
-            app:
-              - path: /opt/mangos/conf/realmd.conf
-                subPath: realmd.conf
       aiplayerbot-config:
         type: configMap
         name: cmangos-aiplayerbot-config
@@ -905,9 +821,3 @@ spec:
             gm-log-tail:
               - path: /opt/mangos/logs
                 readOnly: true
-      realmd-logs:
-        type: emptyDir
-        advancedMounts:
-          realmd:
-            app:
-              - path: /opt/mangos/logs

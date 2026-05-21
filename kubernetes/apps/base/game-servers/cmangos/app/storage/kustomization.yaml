@@ -4,9 +4,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - helmrelease.yaml
-  - externalsecret-database.yaml
-  - prometheusrule.yaml
-  - network
-  - storage
-  - migrations
+  - pvc-database.yaml
+  - pvc-data.yaml
+  - pvc-cores.yaml
+  - pvc-logs.yaml
+  - replicationsource.yaml
+  - volsync-externalsecret.yaml

@@ -5,8 +5,4 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
-  - externalsecret-database.yaml
-  - prometheusrule.yaml
-  - network
-  - storage
-  - migrations
+  - tcproute.yaml

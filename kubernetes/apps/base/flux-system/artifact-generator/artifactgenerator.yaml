@@ -70,6 +70,11 @@ spec:
       copy:
         - from: "@repo/apps/base/game-servers/cmangos-ptr/app/"
           to: "@artifact/apps/base/game-servers/cmangos-ptr/app/"
+    - name: cmangos-realmd
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/cmangos-realmd/app/"
+          to: "@artifact/apps/base/game-servers/cmangos-realmd/app/"
     - name: crossplane-providers
       originRevision: "@repo"
       copy:
