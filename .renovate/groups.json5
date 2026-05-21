@@ -27,7 +27,7 @@
     {
       description: "Cilium Group",
       groupName: "Cilium",
-      matchDatasources: ["docker"],
+      matchDatasources: ["docker", "helm"],
       matchPackageNames: ["/cilium/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
@@ -69,7 +69,7 @@
     {
       description: "kgateway Group",
       groupName: "kgateway",
-      matchDatasources: ["helm"],
+      matchDatasources: ["docker", "helm"],
       matchPackagePatterns: ["kgateway", "kgateway-crds"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",

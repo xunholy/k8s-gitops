@@ -1,38 +1,25 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    "config:recommended",
-    // TODO: Consider using best-practices once OCI sha256 digests are supported
-    // "config:best-practices",
-    "docker:enableMajor",
+    "github>home-operations/renovate-presets#1.3.0",
     "security:openssf-scorecard",
-    ":automergeBranch",
     ":automergeDigest",
-    ":disableRateLimiting",
-    ":dependencyDashboard",
     ":semanticCommits",
     ":timezone(Australia/Melbourne)",
     "github>xunholy/k8s-gitops//.renovate/autoMerge.json5",
-    "github>xunholy/k8s-gitops//.renovate/changelogs.json5",
-    "github>xunholy/k8s-gitops//.renovate/customManagers.json5",
-    "github>xunholy/k8s-gitops//.renovate/grafanaDashboards.json5",
     "github>xunholy/k8s-gitops//.renovate/groups.json5",
     "github>xunholy/k8s-gitops//.renovate/labels.json5",
-    "github>xunholy/k8s-gitops//.renovate/semanticCommits.json5",
   ],
-  dependencyDashboardTitle: "Renovate Dashboard 🤖",
   suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
+  packageRules: [
+    {
+      description: "Hold patch/minor updates for 3 days to squash chain bumps into a single PR",
+      matchUpdateTypes: ["patch", "minor"],
+      minimumReleaseAge: "3 days",
+    },
+  ],
   "pre-commit": {
     enabled: true,
   },
   ignorePaths: ["**/*.enc.*", "**/resources/**"],
-  flux: {
-    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
-  },
-  "helm-values": {
-    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
-  },
-  kubernetes: {
-    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
-  },
 }

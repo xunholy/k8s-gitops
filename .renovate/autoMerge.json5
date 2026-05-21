@@ -10,11 +10,17 @@
       ignoreTests: true,
     },
     {
-      description: "Auto-merge Helm / Docker minor + patch",
+      description: "Auto-merge Helm / Docker minor + patch (gated by flux-local CI)",
       matchDatasources: ["helm", "docker"],
       automerge: true,
       automergeType: "pr",
       matchUpdateTypes: ["minor", "patch"],
+    },
+    {
+      description: "Auto-merge Grafana dashboard revisions",
+      matchDatasources: ["custom.grafana-dashboards"],
+      automerge: true,
+      automergeType: "branch",
       ignoreTests: true,
     },
     {

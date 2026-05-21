@@ -33,5 +33,9 @@
       matchDatasources: ["github-releases"],
       addLabels: ["renovate/github-release"],
     },
+    {
+      matchDatasources: ["custom.grafana-dashboards"],
+      addLabels: ["renovate/grafana-dashboard"],
+    },
   ],
 }
