@@ -20,11 +20,8 @@ spec:
     kind: ExternalArtifact
     name: cmangos-realmd
     namespace: flux-system
-  # cmangos owns the MariaDB Deployment+Service and the
-  # cmangos-database-creds ExternalSecret that realmd consumes. The split
-  # is about decoupling image-bump churn between realmd and mangosd, not
-  # about untangling shared infra — keep the bootstrap ordering.
-  dependsOn:
-    - name: cmangos
-      namespace: game-servers
+  # No dependsOn on cmangos — DB is now in cmangos-database, and the
+  # realmd pod's own wait-db init container handles runtime ordering.
+  # Realmd must stay reconcilable when the world server is broken so
+  # players can still authenticate and pick PTR / any healthy realm.
   targetNamespace: game-servers

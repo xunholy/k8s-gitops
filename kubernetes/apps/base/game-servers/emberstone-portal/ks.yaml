@@ -20,9 +20,8 @@ spec:
     kind: ExternalArtifact
     name: emberstone-portal
     namespace: flux-system
-  dependsOn:
-    - name: cmangos
-      namespace: game-servers
-    - name: azerothcore
-      namespace: game-servers
+  # No dependsOn on cmangos — DB is now in cmangos-database, and the
+  # portal is a stateless web client over the DBs. Keeping it
+  # reconcilable when either world server is broken so account signups
+  # / login keeps working against the healthy realm.
   targetNamespace: game-servers

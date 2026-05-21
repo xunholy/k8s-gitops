@@ -27,12 +27,4 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
-    # Migration-time only: ensures cmangos's HR upgrade (which removes
-    # the old database controller, deleting the Deployment + Service)
-    # runs BEFORE this new HR tries to install. Remove this entry once
-    # the migration has stabilised so the DB becomes a true peer of
-    # cmangos / cmangos-realmd / cmangos-ptr rather than being gated
-    # on the world server's reconciliation state.
-    - name: cmangos
-      namespace: game-servers
   targetNamespace: game-servers

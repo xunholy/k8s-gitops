@@ -20,7 +20,7 @@ spec:
     kind: ExternalArtifact
     name: cmangos-ptr
     namespace: flux-system
-  dependsOn:
-    - name: cmangos
-      namespace: game-servers
+  # No dependsOn on cmangos — DB is now in cmangos-database, and the
+  # PTR pod's own wait-db init container handles runtime ordering.
+  # Keeps PTR reconcilable when the main world server is in a bad state.
   targetNamespace: game-servers

@@ -20,7 +20,7 @@ spec:
     kind: ExternalArtifact
     name: adminer
     namespace: flux-system
-  dependsOn:
-    - name: cmangos
-      namespace: game-servers
+  # No dependsOn on cmangos — DB is now in cmangos-database, and
+  # adminer is a stateless DB client that retries connections on its
+  # own. Keeping it reconcilable when the world server is broken.
   targetNamespace: game-servers
