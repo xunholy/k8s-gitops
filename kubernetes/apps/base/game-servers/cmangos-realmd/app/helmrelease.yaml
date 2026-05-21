@@ -89,23 +89,23 @@ spec:
               repository: mariadb
               tag: "12.2"
             command:
-              - /bin/sh
+              - /bin/bash
               - -c
               - |
                 set -u
+                # /bin/bash because the mariadb:12.2 image is Ubuntu-
+                # based with no `nc` and /bin/sh = dash (no /dev/tcp).
+                # bash's pseudo-device probes the TCP port with no
+                # external tools — small, fast, and survives image
+                # rebuilds without extra packages.
+                probe() {
+                  timeout 2 bash -c "</dev/tcp/$$1/$$2" >/dev/null 2>&1
+                }
                 while true; do
                   # Emberstone (realm id=1) ← cmangos-world:8085
-                  if nc -z -w 2 cmangos-world 8085 >/dev/null 2>&1; then
-                    op1="& ~2"
-                  else
-                    op1="| 2"
-                  fi
+                  if probe cmangos-world 8085; then op1="& ~2"; else op1="| 2"; fi
                   # Emberstone PTR (realm id=2) ← cmangos-ptr-world:8086
-                  if nc -z -w 2 cmangos-ptr-world 8086 >/dev/null 2>&1; then
-                    op2="& ~2"
-                  else
-                    op2="| 2"
-                  fi
+                  if probe cmangos-ptr-world 8086; then op2="& ~2"; else op2="| 2"; fi
                   mariadb -h cmangos-database -P 3306 \
                     -u "$${MANGOS_DBUSER}" -p"$${MANGOS_DBPASS}" classicrealmd \
                     -e "UPDATE realmlist SET realmflags = realmflags $${op1} WHERE id = 1; \
