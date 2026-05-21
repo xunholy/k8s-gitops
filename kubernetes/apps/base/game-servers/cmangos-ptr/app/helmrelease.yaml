@@ -43,16 +43,21 @@ spec:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
               # PTR-only: patched image from xunholy/cmangos-classic#9
-              # ("canary check in MySqlPreparedStatement::bind to catch
-              # UAF"). Tag is the merge-commit SHA of PR head feb172a
-              # into base 7c51131; behaviour-identical to live except
-              # the SqlStmtParameters carries a magic-number canary
-              # that bind() validates before touching the params vector
-              # — converts the deterministic SIGSEGV reproduction into
-              # a logged error naming the offending prepared statement.
-              # Live stays on 7c51131 (unpatched) until the diagnostic
-              # finds the upstream lifecycle bug and a real fix lands.
-              tag: 0c1acbe38ddaaf2fb21d2514127a7c32df221b07
+              # (now contains TWO fixes — bump from 0c1acbe to 473aa4c
+              # picks up the second one):
+              #   1. SqlStmtParameters canary check in
+              #      MySqlPreparedStatement::bind (diagnostic — converts
+              #      a bind-time UAF into a logged error instead of
+              #      SIGSEGV)
+              #   2. Engine::Reset swap-then-iterate (root cause fix —
+              #      addresses the recurring ai::Engine::Reset SIGSEGV
+              #      reproduced on PTR with 500 bots, traced to a UAF
+              #      on a TriggerNode in the triggers list with classic
+              #      glibc tcache fingerprint).
+              # Tag is the merge-commit SHA of PR head c6a5b9b into
+              # base 7c51131. Live stays on 7c51131 until this PR is
+              # validated under sustained PTR load and merged upstream.
+              tag: 473aa4c7562612f2fe30af3cfa6731086bab58ad
             args: ["mangosd"]
             tty: true
             stdin: true
