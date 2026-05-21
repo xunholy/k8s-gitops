@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 2de514e3aa2ab2530d5ad1a750a460fbc3a2c335
+              tag: fab3e801a4f1b2e60356644ae51b52f6f82e6f52
             args: ["mangosd"]
             tty: true
             stdin: true
