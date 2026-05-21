@@ -1,0 +1,62 @@
+---
+# Seeds the three ai_playerbot_* reference tables in ptrcharacters from
+# their classiccharacters counterparts. The PTR db-init job clones
+# classiccharacters --no-data (intentional, so PTR doesn't inherit live
+# player characters), which strands these tables empty even though they
+# carry reference data the playerbots module needs at runtime:
+#
+#   ai_playerbot_names              ~100K rows  random-bot character names
+#   ai_playerbot_guild_names        ~400  rows  random guild names (RandomBotGuildCount)
+#   ai_playerbot_arena_team_names   ~300  rows  arena team names (no-op on vanilla, kept for parity)
+#
+# Symptom without this: RandomPlayerbotFactory::EnsureNamesInitialized()
+# loads zero free names from ai_playerbot_names, CreateRandomBots() runs
+# out of names assigning characters to fresh bot accounts, and
+# RandomPlayerbotMgr::AddRandomBots() spams "Not enough random bot
+# accounts available. Need N more!!" every tick forever — bots never
+# spawn characters.
+#
+# Idempotent: INSERT IGNORE on PK collision so re-runs are no-ops.
+# Source schema must already exist (cmangos-ptr-db-init clones it),
+# so this Job must run after the schema migrations — handled implicitly
+# by the wait-db init container + Job backoffLimit retry.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-ptr-ai-playerbot-names-seed-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -euo pipefail
+              MARIADB="mariadb -h cmangos-database -P 3306 -u $MANGOS_DBUSER -p$MANGOS_DBPASS"
+
+              for tbl in ai_playerbot_names ai_playerbot_guild_names ai_playerbot_arena_team_names; do
+                src_count=$(${MARIADB} -N -B -e "SELECT COUNT(*) FROM classiccharacters.${tbl};")
+                pre_count=$(${MARIADB} -N -B -e "SELECT COUNT(*) FROM ptrcharacters.${tbl};")
+                echo "=== ${tbl}: classic=${src_count}, ptr=${pre_count} (pre) ==="
+
+                ${MARIADB} -e "INSERT IGNORE INTO ptrcharacters.${tbl} SELECT * FROM classiccharacters.${tbl};"
+
+                post_count=$(${MARIADB} -N -B -e "SELECT COUNT(*) FROM ptrcharacters.${tbl};")
+                echo "=== ${tbl}: ptr=${post_count} (post), copied $((post_count - pre_count)) rows ==="
+              done
+
+              echo "=== seed complete ==="

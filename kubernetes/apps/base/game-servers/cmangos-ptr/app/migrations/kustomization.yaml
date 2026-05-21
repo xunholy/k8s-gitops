@@ -21,3 +21,8 @@ resources:
   - achievements-migration-job.yaml
   # AiPlayerbot data corrections.
   - aiplayerbot-ring-enchant-fix-migration-job.yaml
+  # Reference data the playerbots module needs in the characters DB —
+  # stranded by db-init's --no-data clone. Without this, mangosd boots
+  # but the random-bot manager can never allocate character names and
+  # spams "Not enough random bot accounts available" indefinitely.
+  - ai-playerbot-names-seed-migration-job.yaml
