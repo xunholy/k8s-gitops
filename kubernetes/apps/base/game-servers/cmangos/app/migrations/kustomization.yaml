@@ -19,3 +19,10 @@ resources:
   - achievements-migration-job.yaml
   # AiPlayerbot data corrections.
   - aiplayerbot-ring-enchant-fix-migration-job.yaml
+  # One-off cleanup of classiccharacters orphan rows that don't exist on
+  # PTR — leading hypothesis for the live-only SIGSEGV crash class.
+  # Idempotent (backup tables + LEFT JOIN ... IS NULL DELETEs); safe to
+  # re-run. Backup tables prefixed `_orphan_backup_*_20260523` retained
+  # for at least 7 days for rollback. See job body for verify-count
+  # output and ptrcharacters comparison.
+  - db-orphan-cleanup-migration-job.yaml

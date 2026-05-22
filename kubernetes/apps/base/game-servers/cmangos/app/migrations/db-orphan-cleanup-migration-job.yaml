@@ -1,0 +1,208 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-db-orphan-cleanup-migration-sql
+  namespace: game-servers
+data:
+  # Forensics on 2026-05-23 found these on LIVE (classiccharacters)
+  # but NOT on PTR (ptrcharacters):
+  #
+  #   character_inventory orphans    : 69    (items pointing to deleted item_instance)
+  #                                          ★ All owning chars are RNDBOT* accounts.
+  #                                          ★ Orphan guids 24.9M < max item_instance 36.5M
+  #                                            => rows were DELETEd from item_instance
+  #                                            while inventory pointers survived.
+  #   pet_aura orphans               : 1396  (auras for deleted character_pet rows)
+  #   pet_spell orphans              : 18646 (spells for deleted character_pet rows)
+  #   ai_playerbot_random_bots orphan: 1     (bot guid not in characters)
+  #
+  # Live SIGSEGV under "real-player joins, interacts with bots" PERFECTLY matches a
+  # downstream symptom: bot logs in or gets inspected → Player::_LoadInventory reads
+  # orphan row → tries to materialise nonexistent Item* → crash.
+  #
+  # Safety: orphans are dumped to _orphan_backup_<table>_20260523 tables BEFORE
+  # being deleted. Idempotent — INSERT IGNORE means re-running won't re-stash
+  # already-backed-up rows, and the DELETE removes by-not-exists so completed
+  # cleanups are no-ops on re-run.
+  #
+  # Reversal (if needed):
+  #   INSERT INTO character_inventory SELECT * FROM _orphan_backup_character_inventory_20260523;
+  #   INSERT INTO pet_aura            SELECT * FROM _orphan_backup_pet_aura_20260523;
+  #   INSERT INTO pet_spell           SELECT * FROM _orphan_backup_pet_spell_20260523;
+  #   INSERT INTO ai_playerbot_random_bots SELECT * FROM _orphan_backup_ai_playerbot_random_bots_20260523;
+  cleanup.sql: |
+    -- ─── Backup tables (created once; INSERT IGNORE re-runs safely) ─────────
+    CREATE TABLE IF NOT EXISTS `_orphan_backup_character_inventory_20260523`
+      LIKE `character_inventory`;
+    CREATE TABLE IF NOT EXISTS `_orphan_backup_pet_aura_20260523`
+      LIKE `pet_aura`;
+    CREATE TABLE IF NOT EXISTS `_orphan_backup_pet_spell_20260523`
+      LIKE `pet_spell`;
+    CREATE TABLE IF NOT EXISTS `_orphan_backup_ai_playerbot_random_bots_20260523`
+      LIKE `ai_playerbot_random_bots`;
+
+    -- ─── Stash orphan rows into backup tables ──────────────────────────────
+    INSERT IGNORE INTO `_orphan_backup_character_inventory_20260523`
+      SELECT ci.*
+        FROM `character_inventory` ci
+        LEFT JOIN `item_instance` ii
+          ON ci.`item` = ii.`guid`
+       WHERE ii.`guid` IS NULL;
+
+    INSERT IGNORE INTO `_orphan_backup_pet_aura_20260523`
+      SELECT pa.*
+        FROM `pet_aura` pa
+        LEFT JOIN `character_pet` cp
+          ON pa.`guid` = cp.`id`
+       WHERE cp.`id` IS NULL;
+
+    INSERT IGNORE INTO `_orphan_backup_pet_spell_20260523`
+      SELECT ps.*
+        FROM `pet_spell` ps
+        LEFT JOIN `character_pet` cp
+          ON ps.`guid` = cp.`id`
+       WHERE cp.`id` IS NULL;
+
+    INSERT IGNORE INTO `_orphan_backup_ai_playerbot_random_bots_20260523`
+      SELECT apr.*
+        FROM `ai_playerbot_random_bots` apr
+        LEFT JOIN `characters` c
+          ON apr.`bot` = c.`guid`
+       WHERE c.`guid` IS NULL;
+
+    -- ─── Delete orphans ────────────────────────────────────────────────────
+    DELETE ci FROM `character_inventory` ci
+      LEFT JOIN `item_instance` ii ON ci.`item` = ii.`guid`
+     WHERE ii.`guid` IS NULL;
+
+    DELETE pa FROM `pet_aura` pa
+      LEFT JOIN `character_pet` cp ON pa.`guid` = cp.`id`
+     WHERE cp.`id` IS NULL;
+
+    DELETE ps FROM `pet_spell` ps
+      LEFT JOIN `character_pet` cp ON ps.`guid` = cp.`id`
+     WHERE cp.`id` IS NULL;
+
+    DELETE apr FROM `ai_playerbot_random_bots` apr
+      LEFT JOIN `characters` c ON apr.`bot` = c.`guid`
+     WHERE c.`guid` IS NULL;
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-db-orphan-cleanup-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Pre-cleanup orphan counts (LIVE: classiccharacters) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters -e "
+                SELECT 'character_inventory'         AS tbl, COUNT(*) AS orphans
+                  FROM character_inventory ci
+                  LEFT JOIN item_instance ii ON ci.item = ii.guid
+                 WHERE ii.guid IS NULL
+                UNION ALL
+                SELECT 'pet_aura',                          COUNT(*)
+                  FROM pet_aura pa
+                  LEFT JOIN character_pet cp ON pa.guid = cp.id
+                 WHERE cp.id IS NULL
+                UNION ALL
+                SELECT 'pet_spell',                         COUNT(*)
+                  FROM pet_spell ps
+                  LEFT JOIN character_pet cp ON ps.guid = cp.id
+                 WHERE cp.id IS NULL
+                UNION ALL
+                SELECT 'ai_playerbot_random_bots',          COUNT(*)
+                  FROM ai_playerbot_random_bots apr
+                  LEFT JOIN characters c ON apr.bot = c.guid
+                 WHERE c.guid IS NULL;
+              "
+
+              echo "=== Applying orphan cleanup to classiccharacters ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters < /sql/cleanup.sql
+
+              # Same scan on ptrcharacters — we expect zero orphans there;
+              # report if any have crept in.
+              if mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" -e "USE ptrcharacters" 2>/dev/null; then
+                echo "=== ptrcharacters orphan scan (informational; expecting 0 across the board) ==="
+                mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrcharacters -e "
+                  SELECT 'character_inventory'         AS tbl, COUNT(*) AS orphans
+                    FROM character_inventory ci
+                    LEFT JOIN item_instance ii ON ci.item = ii.guid
+                   WHERE ii.guid IS NULL
+                  UNION ALL
+                  SELECT 'pet_aura',                          COUNT(*)
+                    FROM pet_aura pa
+                    LEFT JOIN character_pet cp ON pa.guid = cp.id
+                   WHERE cp.id IS NULL
+                  UNION ALL
+                  SELECT 'pet_spell',                         COUNT(*)
+                    FROM pet_spell ps
+                    LEFT JOIN character_pet cp ON ps.guid = cp.id
+                   WHERE cp.id IS NULL
+                  UNION ALL
+                  SELECT 'ai_playerbot_random_bots',          COUNT(*)
+                    FROM ai_playerbot_random_bots apr
+                    LEFT JOIN characters c ON apr.bot = c.guid
+                   WHERE c.guid IS NULL;
+                "
+              fi
+
+              echo "=== Post-cleanup verification (LIVE) — should all be 0 ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters -e "
+                SELECT 'character_inventory'         AS tbl, COUNT(*) AS orphans
+                  FROM character_inventory ci
+                  LEFT JOIN item_instance ii ON ci.item = ii.guid
+                 WHERE ii.guid IS NULL
+                UNION ALL
+                SELECT 'pet_aura',                          COUNT(*)
+                  FROM pet_aura pa
+                  LEFT JOIN character_pet cp ON pa.guid = cp.id
+                 WHERE cp.id IS NULL
+                UNION ALL
+                SELECT 'pet_spell',                         COUNT(*)
+                  FROM pet_spell ps
+                  LEFT JOIN character_pet cp ON ps.guid = cp.id
+                 WHERE cp.id IS NULL
+                UNION ALL
+                SELECT 'ai_playerbot_random_bots',          COUNT(*)
+                  FROM ai_playerbot_random_bots apr
+                  LEFT JOIN characters c ON apr.bot = c.guid
+                 WHERE c.guid IS NULL;
+              "
+
+              echo "=== Backup-table row counts (stashed rows; rollback source if needed) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters -e "
+                SELECT table_name, table_rows
+                  FROM information_schema.tables
+                 WHERE table_schema='classiccharacters'
+                   AND table_name LIKE '_orphan_backup_%_20260523';
+              "
+
+              echo "=== Done. Bots may now be re-enabled and ramped to test the hypothesis. ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-db-orphan-cleanup-migration-sql
