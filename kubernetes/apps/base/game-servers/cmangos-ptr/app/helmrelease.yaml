@@ -112,11 +112,16 @@ spec:
                   timeoutSeconds: 3
                   failureThreshold: 180
             resources:
+              # Matched to live cmangos for true parity. The 6Gi cap was
+              # masking a playerbots memory-leak (PR #293 quest-handler
+              # change) as a "PTR crashes when a player joins" symptom;
+              # at 12Gi PTR can soak the leak long enough to either
+              # observe steady growth or reach a stable plateau.
               requests:
-                cpu: "1"
-                memory: 2Gi
+                cpu: "2"
+                memory: 4Gi
               limits:
-                memory: 6Gi
+                memory: 12Gi
           # Tail GM audit log to stdout — same pattern as live so GM
           # actions on PTR are visible in kubectl logs and any future
           # log collector.
