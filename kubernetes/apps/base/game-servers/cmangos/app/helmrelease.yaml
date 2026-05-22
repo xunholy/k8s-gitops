@@ -42,7 +42,20 @@ spec:
               # Binary delta vs 2473619f: vendored playerbots upstream
               # bump (#292 -> #293, quest-flow fix) + EnchantItem
               # null-guard + the GM audit change.
-              tag: 7c511313adca42c53d9c607e5335091efef4eec7
+              # Bumped to f24f277e — main HEAD after PR #9 merged:
+              #   - Engine::Reset swap-then-iterate (fixes the UAF on
+              #     TriggerNodes that crashed mangosd at ~24min uptime
+              #     with bots; root-cause for the recurring ai::Engine::
+              #     Reset SIGSEGV)
+              #   - SqlStmtParameters canary check in
+              #     MySqlPreparedStatement::bind (diagnostic — catches
+              #     the bind-time UAF and logs the offending SQL
+              #     statement instead of segfaulting silently)
+              # PTR validated this image under full equipment paths +
+              # MapUpdate.Threads=3 + 500+ active bots for 8h+ uptime
+              # before hitting only the (expected) memory limit, no
+              # SIGSEGV. Bots back to 500/2000 on this bump.
+              tag: f24f277e9a08757e55d5d7c8e1af59ebfd919184
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -265,8 +278,16 @@ spec:
             AiPlayerbot.RandomBotLoginAtStartup = 0
             AiPlayerbot.RandomBotAccountPrefix = rndbot
             AiPlayerbot.RandomBotAccountCount = 2000
-            AiPlayerbot.MinRandomBots = 0
-            AiPlayerbot.MaxRandomBots = 0
+            # Re-enabled to 500/2000 (previous settings) after PR#9 merged
+            # — Engine::Reset swap-then-iterate + SqlStmtParameters canary.
+            # PTR validated under: full equipment paths enabled + 500+
+            # active bots + MapUpdate.Threads=3 for 8h+ uptime with 0
+            # restarts and 0 core dumps, against the same load profile
+            # that previously crashed in 9-80s. Live keeps
+            # MapUpdate.Threads=1 (cautious) while we monitor real-world
+            # uptime; flip to 3 later if PTR remains stable.
+            AiPlayerbot.MinRandomBots = 500
+            AiPlayerbot.MaxRandomBots = 2000
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
             AiPlayerbot.RandomBotMaps = 0,1
