@@ -7,7 +7,6 @@ namespace: flux-system
 resources:
   - backstage-charts.yaml
   - crowdsec-charts.yaml
-  - harbor-charts.yaml
   - democratic-csi-charts.yaml
   - dex-chart.yaml
   - fairwinds-charts.yaml

@@ -11,7 +11,6 @@ resources:
   - ../../base/development
   - ../../base/external-secrets
   - ../../base/game-servers
-  - ../../base/harbor
   - ../../base/home-system
   - ../../base/kguardian
   - ../../base/kube-system
@@ -39,7 +38,6 @@ resources:
   - ../../base/flux-system/artifact-generator
   - ../../base/flux-system/flux-instance/ks.yaml
   - ../../base/flux-system/repositories
-  - ../../base/harbor/harbor/ks.yaml
   - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/game-servers/minecraft/ks.yaml
   # - ../../base/game-servers/minecraft-witherstorm/ks.yaml  # Disabled: corrupted EXT4 on TrueNAS iSCSI PVC; needs fsck or PVC recreate before re-enabling
