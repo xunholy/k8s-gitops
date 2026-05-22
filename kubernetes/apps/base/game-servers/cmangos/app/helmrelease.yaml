@@ -275,8 +275,8 @@ spec:
             # ROLLBACK 2026-05-22: bots back to 0 alongside the image
             # revert from f24f277e to 7c511313a. The PR#9 attempt
             # crashed live with SIGABRT.
-            AiPlayerbot.MinRandomBots = 0
-            AiPlayerbot.MaxRandomBots = 0
+            AiPlayerbot.MinRandomBots = 100
+            AiPlayerbot.MaxRandomBots = 2000
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
             AiPlayerbot.RandomBotMaps = 0,1
