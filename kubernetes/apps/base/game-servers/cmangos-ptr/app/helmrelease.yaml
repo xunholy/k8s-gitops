@@ -16,6 +16,19 @@
 # table; each prefix's characters live in its own characters DB.
 # Compute is sized to match live since PTR now carries a 500-2000 bot
 # population on top of any human GMs.
+#
+# ───────────────────────────────────────────────────────────────────────
+# CRASH-CLASS ISOLATION EXPERIMENT (2026-05-23)
+# PTR is reproducing the same `bind(): false` MANGOS_ASSERT crash as live
+# at MinRandomBots=500 on image f24f277e (fires ~80s into bot ramp,
+# before any human session joins). To determine whether the trigger is
+# intrinsic to AiPlayerbot or an interaction with another module, every
+# gameplay module on PTR is temporarily disabled (set to 0) — only
+# AiPlayerbot.Enabled=1 remains. SOAP stays enabled (admin socket, not
+# a gameplay module). If PTR still crashes → playerbots are the sole
+# trigger. If it stays up → re-enable modules one at a time to find the
+# interaction. Re-mirror live once the crash is bisected.
+# ───────────────────────────────────────────────────────────────────────
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -47,7 +60,15 @@ spec:
               # SqlStmtParameters canary diagnostic). PTR proved both
               # patches across an 8h+ run with full equipment paths
               # and MapUpdate.Threads=3.
-              tag: f24f277e9a08757e55d5d7c8e1af59ebfd919184
+              # DIAGNOSTIC 2026-05-23: switched to the AddressSanitizer
+              # build (1ec86f0ee + ASan build target from e1846fb4d).
+              # Combined with the module-disable isolation above, this
+              # gives the deepest possible signal on the bind() crash:
+              # ASan will stack-trace the first heap violation, and
+              # with all gameplay modules off any trace points squarely
+              # at AiPlayerbot. ~2× runtime / ~3× memory overhead;
+              # limit raised 12Gi -> 20Gi to absorb it.
+              tag: asan-1ec86f0ee194fdcb83354536e418ced66cba00c4
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -117,11 +138,14 @@ spec:
               # change) as a "PTR crashes when a player joins" symptom;
               # at 12Gi PTR can soak the leak long enough to either
               # observe steady growth or reach a stable plateau.
+              # Bumped 12Gi -> 20Gi to absorb the ASan ~3× memory
+              # overhead on the diagnostic image. Revert with the image
+              # swap once the crash class is bisected.
               requests:
                 cpu: "2"
                 memory: 4Gi
               limits:
-                memory: 12Gi
+                memory: 20Gi
           # Tail GM audit log to stdout — same pattern as live so GM
           # actions on PTR are visible in kubectl logs and any future
           # log collector.
@@ -315,7 +339,12 @@ spec:
       twinkmaster-config:
         data:
           twinkmaster.conf: |
-            Twinkmaster.Enable = 1
+            # Crash-class isolation (2026-05-23): every gameplay module
+            # disabled except AiPlayerbot to confirm whether the
+            # bind(): false MANGOS_ASSERT crash is purely a playerbot
+            # trigger or an interaction with a side-module. Re-enable
+            # in lockstep with live once the crash is bisected.
+            Twinkmaster.Enable = 0
             Twinkmaster.TargetLevel = 19
       attunement-config:
         data:
@@ -325,7 +354,9 @@ spec:
           # from this single attunement.conf. The old /opt/mangos/etc/
           # hardcore.conf path is no longer consulted by the binary.
           attunement.conf: |
-            Attunement.Enable = 1
+            # Crash-class isolation (2026-05-23): module disabled to
+            # isolate AiPlayerbot as the sole crash trigger.
+            Attunement.Enable = 0
             Attunement.DefaultRate = 1.0
             Attunement.MinRate = 0.1
             Attunement.MaxRate = 100
@@ -334,7 +365,8 @@ spec:
             Attunement.Aura.Tier3.SpellId = 0
             Attunement.Aura.Tier4.SpellId = 0
             Attunement.Aura.Tier5.SpellId = 0
-            Hardcore.Enable = 1
+            # Crash-class isolation (2026-05-23): see note above.
+            Hardcore.Enable = 0
             Hardcore.PlayerConfig = 1
             Hardcore.BroadcastDeathGuild = 1
             Hardcore.BroadcastDeathWorld = 1
@@ -372,7 +404,11 @@ spec:
           anticheat.conf: |
             [AnticheatConf]
             ConfVersion=2017102301
-            Enable = 1
+            # Crash-class isolation (2026-05-23): full anticheat module
+            # (movement checks, Warden, Antispam) disabled to leave only
+            # AiPlayerbot active and identify whether the bind() crash
+            # is intrinsic to playerbots.
+            Enable = 0
             FingerprintHistory = 30
             FingerprintLevel = 6
             KickDelay.Min = 30
@@ -474,15 +510,16 @@ spec:
             Movement.ExploreHigh.TickAction = 3
             Movement.ExploreHigh.TotalCount  = 0
             Movement.ExploreHigh.TotalAction = 0
-            Movement.BadFallReset.Enable    = 1
+            Movement.BadFallReset.Enable    = 0
             Movement.BadFallReset.Threshold = 1
             Movement.BadFallReset.Penalty   = 7
-            Antispam.Enable   = 1
+            Antispam.Enable   = 0
             Antispam.Silence  = 1
             Antispam.MaxLevel = 25
             # Warden re-enabled to match live (commit 74862c593) — bots
             # are now believed to be the crash variable, not Warden.
-            Warden.Enable                       = 1
+            # Temporarily disabled for crash-class isolation 2026-05-23.
+            Warden.Enable                       = 0
             Warden.ModuleDir                    = "/opt/mangos/bin/warden_modules"
             Warden.Timeout                      = 30
             Warden.ScanFrequency                = 15
@@ -500,13 +537,17 @@ spec:
           # Plain key=value only (see live config: section headers and
           # # comments parse as garbage with the cmangos config parser).
           vip.conf: |
-            Vip.Enable = 1
+            # Crash-class isolation (2026-05-23): module disabled to
+            # isolate AiPlayerbot as the sole crash trigger.
+            Vip.Enable = 0
             Vip.MasterSpellId = 18282
             Vip.BundledSpellIds = 22888,24425,15366,16609,22817,22818,22820,23735,23736,23737,23768,26393,17626,17627,17628
       autoscale-config:
         data:
           autoscale.conf: |
-            Autoscale.Enable = 1
+            # Crash-class isolation (2026-05-23): module disabled to
+            # isolate AiPlayerbot as the sole crash trigger.
+            Autoscale.Enable = 0
             Autoscale.RescanIntervalSeconds = 10
             Autoscale.HpExponent = 0.85
             Autoscale.MinScale = 0.20
@@ -519,8 +560,10 @@ spec:
       ahbot-config:
         data:
           ahbot.conf: |
-            AuctionHouseBot.Seller.Enabled = 1
-            AuctionHouseBot.Buyer.Enabled = 1
+            # Crash-class isolation (2026-05-23): module disabled to
+            # isolate AiPlayerbot as the sole crash trigger.
+            AuctionHouseBot.Seller.Enabled = 0
+            AuctionHouseBot.Buyer.Enabled = 0
             AuctionHouseBot.Chance.Sell = 80
             AuctionHouseBot.Chance.Buy = 40
             AuctionHouseBot.Alliance.Items.Amount.Ratio = 100
@@ -543,10 +586,9 @@ spec:
       transmog-config:
         data:
           transmog.conf: |
-            # Crash-class isolation — disabling bot-init paths that
-            # write to ptrcharacters while we hunt the bind() SIGSEGV.
-            # Re-enable when the upstream fix lands.
-            Transmog.Enable = 1
+            # Crash-class isolation (2026-05-23): module disabled to
+            # isolate AiPlayerbot as the sole crash trigger.
+            Transmog.Enable = 0
             Transmog.CostFee = 0
             Transmog.CostMultiplier = 1.0
             Transmog.TokenRequired = 0
@@ -555,23 +597,28 @@ spec:
       barber-config:
         data:
           barber.conf: |
-            Barber.Enable = 1
+            # Crash-class isolation (2026-05-23): module disabled to
+            # isolate AiPlayerbot as the sole crash trigger.
+            Barber.Enable = 0
       dualspec-config:
         data:
           dualspec.conf: |
-            # Crash-class isolation — disabling bot-init paths that
-            # write to ptrcharacters while we hunt the bind() SIGSEGV.
-            # Re-enable when the upstream fix lands.
-            Dualspec.Enable = 1
+            # Crash-class isolation (2026-05-23): module disabled to
+            # isolate AiPlayerbot as the sole crash trigger.
+            Dualspec.Enable = 0
             Dualspec.Cost = 100000
       trainingdummies-config:
         data:
           trainingdummies.conf: |
-            Trainingdummies.Enable = 1
+            # Crash-class isolation (2026-05-23): module disabled to
+            # isolate AiPlayerbot as the sole crash trigger.
+            Trainingdummies.Enable = 0
       achievements-config:
         data:
           achievements.conf: |
-            Achievements.Enable = 1
+            # Crash-class isolation (2026-05-23): module disabled to
+            # isolate AiPlayerbot as the sole crash trigger.
+            Achievements.Enable = 0
             Achievements.SendMessage = 1
             Achievements.SendAddon = 1
             Achievements.SendVisual = 1

@@ -49,7 +49,17 @@ spec:
               # to 7c511313a (pre-PR#9) + bots back to 0/0 to stabilise.
               # Need to investigate the SIGABRT cause separately before
               # re-attempting this image on live.
-              tag: 7c511313adca42c53d9c607e5335091efef4eec7
+              # DIAGNOSTIC 2026-05-23: switched to the AddressSanitizer
+              # build (xunholy/cmangos-classic@1ec86f0ee + ASan build
+              # target from commit e1846fb4d). Intended to catch UAF /
+              # heap-corruption in the playerbots SQL pathway with a
+              # stack trace on first violation. Live currently runs
+              # bots=0/0 so this is defensive monitoring rather than
+              # active reproduction. ~2× runtime cost and ~3× memory
+              # overhead; limit raised 12Gi -> 20Gi to absorb it.
+              # Revert to a Release build once the crash class is
+              # bisected.
+              tag: asan-1ec86f0ee194fdcb83354536e418ced66cba00c4
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -106,8 +116,11 @@ spec:
               requests:
                 cpu: "2"
                 memory: 4Gi
+              # Bumped 12Gi -> 20Gi to absorb the ASan ~3× memory
+              # overhead on the diagnostic image. Revert with the image
+              # swap once the crash class is bisected.
               limits:
-                memory: 12Gi
+                memory: 20Gi
           # Tail the GM audit log to stdout so commands issued by
           # GM-tier accounts surface in kubectl logs (and the eventual
           # Loki collector). The mangosd container writes gm.log; this
