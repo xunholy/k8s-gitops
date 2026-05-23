@@ -18,16 +18,22 @@
 # population on top of any human GMs.
 #
 # ───────────────────────────────────────────────────────────────────────
-# CRASH-CLASS ISOLATION EXPERIMENT (2026-05-23)
-# PTR is reproducing the same `bind(): false` MANGOS_ASSERT crash as live
-# at MinRandomBots=500 on image f24f277e (fires ~80s into bot ramp,
-# before any human session joins). To determine whether the trigger is
-# intrinsic to AiPlayerbot or an interaction with another module, every
-# gameplay module on PTR is temporarily disabled (set to 0) — only
-# AiPlayerbot.Enabled=1 remains. SOAP stays enabled (admin socket, not
-# a gameplay module). If PTR still crashes → playerbots are the sole
-# trigger. If it stays up → re-enable modules one at a time to find the
-# interaction. Re-mirror live once the crash is bisected.
+# OPEN BUG: PlayerbotFactory::Randomize heap-use-after-free (2026-05-23)
+# An ASan run on this PTR (image asan-1ec86f0ee, bots=500/2000) caught
+# a deterministic heap-use-after-free in the playerbot login flow:
+#   FREE: PlayerbotFactory::Randomize -> Player::SaveToDB ->
+#         Item::SaveToDB -> Item::~Item  (WorldRunnable thread)
+#   READ: SpellEvent::~SpellEvent -> Spell::~Spell ->
+#         Item::SetUsedInSpell  (MapUpdater worker thread, ms later)
+# Bot login deletes inventory items while a queued SpellEvent on a
+# map-update worker still references them. The earlier `bind(): false`
+# MANGOS_ASSERT was almost certainly a downstream symptom of the same
+# UAF (freed slots reused as prepared-statement parameters).
+#
+# The module-disable settings further down in this file were originally
+# an isolation experiment for that bug. ASan made them unnecessary;
+# they're kept in place so PTR stays a clean A/B reference until an
+# upstream fix lands and we re-mirror live config.
 # ───────────────────────────────────────────────────────────────────────
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -60,15 +66,23 @@ spec:
               # SqlStmtParameters canary diagnostic). PTR proved both
               # patches across an 8h+ run with full equipment paths
               # and MapUpdate.Threads=3.
-              # DIAGNOSTIC 2026-05-23: switched to the AddressSanitizer
-              # build (1ec86f0ee + ASan build target from e1846fb4d).
-              # Combined with the module-disable isolation above, this
-              # gives the deepest possible signal on the bind() crash:
-              # ASan will stack-trace the first heap violation, and
-              # with all gameplay modules off any trace points squarely
-              # at AiPlayerbot. ~2× runtime / ~3× memory overhead;
-              # limit raised 12Gi -> 20Gi to absorb it.
-              tag: asan-1ec86f0ee194fdcb83354536e418ced66cba00c4
+              # DIAGNOSTIC 2026-05-23: ran the AddressSanitizer build
+              # (1ec86f0ee) with bots=500/2000 and gameplay modules
+              # disabled. Within minutes ASan stack-traced the
+              # heap-use-after-free in PlayerbotFactory::Randomize:
+              # bot login loads inventory -> randomizes gear ->
+              # Player::SaveToDB() -> Item::~Item(), while a pending
+              # SpellEvent on a MapUpdater worker still references one
+              # of those items via Item::SetUsedInSpell. That bug is
+              # still open (no upstream fix yet).
+              # Now matching live on Release 8192c48fea (includes the
+              # GameObject SPELLCASTER fix from xunholy/cmangos-classic#10)
+              # so PTR mirrors live for general debugging. PTR will
+              # still CrashLoopBackOff while bots=500/2000 because the
+              # playerbot UAF is unfixed — but the crash is now silent
+              # (no ASan trace). Switch back to asan-<sha> when actively
+              # bisecting the playerbot bug.
+              tag: 8192c48fea52d8dd603debd00593a95fb24cd186
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -138,14 +152,11 @@ spec:
               # change) as a "PTR crashes when a player joins" symptom;
               # at 12Gi PTR can soak the leak long enough to either
               # observe steady growth or reach a stable plateau.
-              # Bumped 12Gi -> 20Gi to absorb the ASan ~3× memory
-              # overhead on the diagnostic image. Revert with the image
-              # swap once the crash class is bisected.
               requests:
                 cpu: "2"
                 memory: 4Gi
               limits:
-                memory: 20Gi
+                memory: 12Gi
           # Tail GM audit log to stdout — same pattern as live so GM
           # actions on PTR are visible in kubectl logs and any future
           # log collector.
