@@ -320,7 +320,7 @@ spec:
             # classiccharacters, ptrbot → ptrcharacters).
             AiPlayerbot.RandomBotAccountPrefix = ptrbot
             AiPlayerbot.RandomBotAccountCount = 2000
-            AiPlayerbot.MinRandomBots = 500
+            AiPlayerbot.MinRandomBots = 1500
             AiPlayerbot.MaxRandomBots = 2000
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
