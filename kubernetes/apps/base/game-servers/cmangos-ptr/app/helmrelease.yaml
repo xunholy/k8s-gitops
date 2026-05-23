@@ -66,23 +66,17 @@ spec:
               # SqlStmtParameters canary diagnostic). PTR proved both
               # patches across an 8h+ run with full equipment paths
               # and MapUpdate.Threads=3.
-              # DIAGNOSTIC 2026-05-23: ran the AddressSanitizer build
-              # (1ec86f0ee) with bots=500/2000 and gameplay modules
-              # disabled. Within minutes ASan stack-traced the
-              # heap-use-after-free in PlayerbotFactory::Randomize:
-              # bot login loads inventory -> randomizes gear ->
-              # Player::SaveToDB() -> Item::~Item(), while a pending
-              # SpellEvent on a MapUpdater worker still references one
-              # of those items via Item::SetUsedInSpell. That bug is
-              # still open (no upstream fix yet).
-              # Now matching live on Release 8192c48fea (includes the
-              # GameObject SPELLCASTER fix from xunholy/cmangos-classic#10)
-              # so PTR mirrors live for general debugging. PTR will
-              # still CrashLoopBackOff while bots=500/2000 because the
-              # playerbot UAF is unfixed — but the crash is now silent
-              # (no ASan trace). Switch back to asan-<sha> when actively
-              # bisecting the playerbot bug.
-              tag: 8192c48fea52d8dd603debd00593a95fb24cd186
+              # DIAGNOSTIC 2026-05-23: PTR stays on the ASan build
+              # (1ec86f0ee) for active debugging of the open playerbot
+              # heap-use-after-free (see file header). The newer ASan
+              # build for live's SHA (asan-8192c48fea) only differs by
+              # the GameObject SPELLCASTER fix, which is unreachable on
+              # PTR (no humans, no GO clicks) — so this image gives
+              # identical debug signal for the playerbot bug. Swap to
+              # asan-8192c48fea later once it finishes building (~66min
+              # runner-asan stage) if exact SHA parity with live is
+              # wanted; until then, ~2× runtime / ~3× memory overhead.
+              tag: asan-1ec86f0ee194fdcb83354536e418ced66cba00c4
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -152,11 +146,14 @@ spec:
               # change) as a "PTR crashes when a player joins" symptom;
               # at 12Gi PTR can soak the leak long enough to either
               # observe steady growth or reach a stable plateau.
+              # Raised 12Gi -> 20Gi to absorb the ASan ~3× shadow
+              # memory overhead while on the diagnostic image. Revert
+              # together with the image swap.
               requests:
                 cpu: "2"
                 memory: 4Gi
               limits:
-                memory: 12Gi
+                memory: 20Gi
           # Tail GM audit log to stdout — same pattern as live so GM
           # actions on PTR are visible in kubectl logs and any future
           # log collector.
