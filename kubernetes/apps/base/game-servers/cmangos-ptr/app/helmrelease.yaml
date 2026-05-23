@@ -66,17 +66,22 @@ spec:
               # SqlStmtParameters canary diagnostic). PTR proved both
               # patches across an 8h+ run with full equipment paths
               # and MapUpdate.Threads=3.
-              # DIAGNOSTIC 2026-05-23: PTR stays on the ASan build
-              # (1ec86f0ee) for active debugging of the open playerbot
-              # heap-use-after-free (see file header). The newer ASan
-              # build for live's SHA (asan-8192c48fea) only differs by
-              # the GameObject SPELLCASTER fix, which is unreachable on
-              # PTR (no humans, no GO clicks) — so this image gives
-              # identical debug signal for the playerbot bug. Swap to
-              # asan-8192c48fea later once it finishes building (~66min
-              # runner-asan stage) if exact SHA parity with live is
-              # wanted; until then, ~2× runtime / ~3× memory overhead.
-              tag: asan-1ec86f0ee194fdcb83354536e418ced66cba00c4
+              # DIAGNOSTIC 2026-05-23: ASan build off the PR #11 merge
+              # SHA (xunholy/cmangos-classic#11, ec7e2825a4...). That PR
+              # carries the three-part playerbot UAF fix:
+              #   1. Item: defer destruction when m_usedInSpellCount > 0
+              #      (closes the SaveToDB -> delete-this UAF that fired
+              #       on every random-bot login)
+              #   2. Item: make m_usedInSpellCount atomic (closes the
+              #      data race on the refcount itself)
+              #   3. PlayerBots: drop redundant SetUsedInSpell(true)
+              #      after SetCastItem (refcount leak cleanup)
+              # PTR runs on ASan to validate: with bots=500/2000 + the
+              # fix, the previously deterministic UAF should no longer
+              # fire. If ASan stays quiet for 30+ min under bot load,
+              # the fix is good and live can re-enable bots.
+              # ~2× runtime / ~3× memory overhead; limit stays at 20Gi.
+              tag: asan-ec7e2825a41f3615f334f7c2da3f4d873c3021d2
             args: ["mangosd"]
             tty: true
             stdin: true
