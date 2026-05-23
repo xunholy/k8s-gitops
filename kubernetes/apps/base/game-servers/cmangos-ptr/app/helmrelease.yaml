@@ -66,22 +66,28 @@ spec:
               # SqlStmtParameters canary diagnostic). PTR proved both
               # patches across an 8h+ run with full equipment paths
               # and MapUpdate.Threads=3.
-              # DIAGNOSTIC 2026-05-23: ASan build off the PR #11 merge
-              # SHA (xunholy/cmangos-classic#11, ec7e2825a4...). That PR
-              # carries the three-part playerbot UAF fix:
-              #   1. Item: defer destruction when m_usedInSpellCount > 0
-              #      (closes the SaveToDB -> delete-this UAF that fired
-              #       on every random-bot login)
-              #   2. Item: make m_usedInSpellCount atomic (closes the
-              #      data race on the refcount itself)
-              #   3. PlayerBots: drop redundant SetUsedInSpell(true)
-              #      after SetCastItem (refcount leak cleanup)
-              # PTR runs on ASan to validate: with bots=500/2000 + the
-              # fix, the previously deterministic UAF should no longer
-              # fire. If ASan stays quiet for 30+ min under bot load,
-              # the fix is good and live can re-enable bots.
-              # ~2× runtime / ~3× memory overhead; limit stays at 20Gi.
-              tag: asan-ec7e2825a41f3615f334f7c2da3f4d873c3021d2
+              # DIAGNOSTIC 2026-05-24: ASan build off the PR #12 merge
+              # SHA (xunholy/cmangos-classic#12, 190c046713...). That PR
+              # adds the Loot shutdown-UAF fix on top of PR #11's
+              # playerbot fixes. Combined fix set carried by this image:
+              #   PR #11 (ec7e2825):
+              #     1. Item: defer destruction when m_usedInSpellCount > 0
+              #        (closes the SaveToDB -> delete-this UAF on bot login)
+              #     2. Item: make m_usedInSpellCount atomic
+              #     3. PlayerBots: drop redundant SetUsedInSpell(true)
+              #        after SetCastItem (refcount leak cleanup)
+              #   PR #12 (190c0467):
+              #     4. Loot: clear m_roll before deleting LootItems
+              #        in both ~Loot and Clear() — closes the
+              #        GroupLootRoll::SendAllPassed UAF that fires from
+              #        World::CleanupsBeforeStop on shutdown
+              # PR #11 confirmed on PTR (0 restarts in 29 min). PR #12
+              # validation is the next k8s rollout: rollout restart of
+              # this deploy triggers preStop drain which runs
+              # CleanupsBeforeStop — that's exactly where the shutdown
+              # UAF fired pre-fix. ~2× runtime / ~3× memory overhead;
+              # limit stays at 20Gi.
+              tag: asan-190c0467137c2fc0bc8c23fdd2cf9af0d63bdbe5
             args: ["mangosd"]
             tty: true
             stdin: true
