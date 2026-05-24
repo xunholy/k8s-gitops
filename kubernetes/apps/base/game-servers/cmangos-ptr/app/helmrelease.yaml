@@ -89,7 +89,17 @@ spec:
               # CleanupsBeforeStop — that's exactly where the shutdown
               # UAF fired pre-fix. ~2× runtime / ~3× memory overhead;
               # limit stays at 20Gi.
-              tag: asan-190c0467137c2fc0bc8c23fdd2cf9af0d63bdbe5
+              # DIAGNOSTIC 2026-05-24: rolled to PR #13 branch image
+              # (fix/llm-regex-resilience, head 4194d578). Wraps the
+              # four std::regex(...) sites in PlayerbotLLMInterface.cpp
+              # in try/catch so an invalid response-parsing pattern
+              # logs + degrades gracefully instead of crashing mangosd
+              # via uncaught std::regex_error. With LLM re-enabled
+              # below, a whisper to a bot should now produce a log
+              # line identifying the offending pattern instead of
+              # crash-looping the pod. Built via workflow_dispatch on
+              # the PR branch (run 26350277404); PR #13 not yet merged.
+              tag: asan-4194d578c0797ed87cc8864a1497131b367f8c24
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -370,22 +380,18 @@ spec:
             # - RPG-AI chat ON (full chance during RPG interactions)
             # Response patterns are for the OpenAI-compat
             # /v1/chat/completions schema that Ollama exposes.
-            # TEMPORARILY DISABLED 2026-05-24: enabling LLM (mode 2)
-            # caused a std::regex_error("Mismatched '(' and ')' in
-            # regular expression") + uncaught terminate() + SIGABRT
-            # when bots received their first chat-completion response
-            # from Ollama. The four LLMResponse* regex patterns below
-            # mirror the upstream code defaults verbatim, and the
-            # defaults themselves are what fail — meaning the LLM
-            # feature has likely never been exercised against the
-            # current PlayerbotLLMInterface in this fork. Reverting to
-            # LLMEnabled=0 to keep PTR stable while we diagnose which
-            # of the four patterns std::regex chokes on (and whether
-            # the playerbot's <sender name> token substitution leaves
-            # an unbalanced expression). Ollama connectivity itself
-            # was confirmed working — only one chat completion fired
-            # (7.6s response) before the regex blew up.
-            AiPlayerbot.LLMEnabled = 0
+            # RE-ENABLED 2026-05-24 on the PR #13 image (asan-4194d578).
+            # The previous LLMEnabled=2 attempt crashed mangosd with
+            # std::regex_error -> SIGABRT on the first chat-completion
+            # response. PR #13 wraps every std::regex(...) in
+            # PlayerbotLLMInterface.cpp with try/catch so an invalid
+            # response-parsing pattern logs sLog.outError and degrades
+            # gracefully (no extraction / unchanged content / single
+            # chunk / skip delete) instead of taking down the server.
+            # A whisper-to-bot test under this image should now
+            # produce a log line identifying the offending regex
+            # rather than a crash.
+            AiPlayerbot.LLMEnabled = 2
             AiPlayerbot.LLMApiEndpoint = http://ollama.ai-system.svc.cluster.local:11434/v1/chat/completions
             AiPlayerbot.LLMApiKey =
             AiPlayerbot.LLMApiJson = {"model": "qwen2.5:3b", "messages": [{"role": "system", "content": "<pre prompt> <context>"},{"role": "user", "content": "<prompt>"}],"max_tokens": 60}
