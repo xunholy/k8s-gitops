@@ -49,17 +49,21 @@ spec:
               # to 7c511313a (pre-PR#9) + bots back to 0/0 to stabilise.
               # Need to investigate the SIGABRT cause separately before
               # re-attempting this image on live.
-              # DIAGNOSTIC 2026-05-23: ran on the AddressSanitizer
-              # build (1ec86f0ee) just long enough for a human GM to
-              # trigger the SIGABRT that crashed live on 2026-05-22.
-              # ASan caught it cleanly: stack-use-after-scope in
-              # GameObject::Use's SPELLCASTER onSuccess lambda (the
-              # captured-by-reference `info` outlives its case scope).
-              # Fix shipped as xunholy/cmangos-classic#10, merged as
-              # 8192c48fea52d8dd603debd00593a95fb24cd186. Now back on
-              # a Release build off that merge SHA — same code as
-              # 1ec86f0ee plus the GameObject fix, no ASan overhead.
-              tag: 8192c48fea52d8dd603debd00593a95fb24cd186
+              # Bumped to 190c0467 (Release) — main HEAD with the
+              # full set of fixes validated on PTR under bots=1500/2000
+              # + ASan + all modules enabled (no crashes for 30+ min):
+              #   PR #10 (GameObject SPELLCASTER stack-use-after-scope)
+              #   PR #11 (playerbot Item UAF — m_usedInSpellCount
+              #          guards in Item::SaveToDB / Item::SetState,
+              #          atomic refcount, PlayerBots double-bump fix)
+              #   PR #12 (Loot::~Loot GroupLootRoll UAF — clear m_roll
+              #          before deleting m_lootItems)
+              # Re-enabling bots on live with this image (bot config
+              # below: Min=1500, Max=2000). Two minor playerbot bugs
+              # remain open (SpellIdValue UAR, TravelMgr exit-time
+              # type-mismatch) — both pre-existing, only fire under
+              # ASan; Release silently tolerates.
+              tag: 190c0467137c2fc0bc8c23fdd2cf9af0d63bdbe5
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -282,11 +286,14 @@ spec:
             AiPlayerbot.RandomBotLoginAtStartup = 0
             AiPlayerbot.RandomBotAccountPrefix = rndbot
             AiPlayerbot.RandomBotAccountCount = 2000
-            # ROLLBACK 2026-05-22: bots back to 0 alongside the image
-            # revert from f24f277e to 7c511313a. The PR#9 attempt
-            # crashed live with SIGABRT.
-            AiPlayerbot.MinRandomBots = 0
-            AiPlayerbot.MaxRandomBots = 0
+            # Bots re-enabled at 1500/2000 on 2026-05-24 after PTR
+            # validated the full fix set (PRs #10/#11/#12) under the
+            # same density for 30+ min with no UAF / crash markers.
+            # RandomBotLoginAtStartup=0 above keeps the boot stampede
+            # from racing detour/grid init; bots ramp via the periodic
+            # random-bot tick over the first ~10 min.
+            AiPlayerbot.MinRandomBots = 1500
+            AiPlayerbot.MaxRandomBots = 2000
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
             AiPlayerbot.RandomBotMaps = 0,1
