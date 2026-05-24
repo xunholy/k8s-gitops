@@ -402,10 +402,21 @@ spec:
             AiPlayerbot.LLMPrompt = <receiver name>:<initial message>
             AiPlayerbot.LLMPostPrompt = <bot name>:
             AiPlayerbot.LLMRpgPrompt = In World of Warcraft Classic in <bot zone> <bot subzone> stands <bot type> <bot name> a level <bot level> <bot gender> <bot race> <bot class>. Standing nearby is <unit type> <unit name> <unit subname> a level <unit level> <unit gender> <unit race> <unit faction> <unit class>. Answer as a roleplaying character. Limit responses to 100 characters.
-            AiPlayerbot.LLMResponseStartPattern = ("content":\s*")
-            AiPlayerbot.LLMResponseEndPattern = ("|\b(?!<sender name>\b)(\w+):)
-            AiPlayerbot.LLMResponseDeletePattern = (\\n|<sender name>:|\\[^ ]+)
-            AiPlayerbot.LLMResponseSplitPattern = (\*.*?\*)|(\[.*?\])|(\'.*\')|([^\*\[\] ][^\*\[\]]+?[.?!])
+            # Only the StartPattern is overridden, and it deliberately
+            # contains NO backslashes. Reason: the cmangos config
+            # parser strips backslashes when loading .conf values
+            # (verified empirically — PR #13 try/catch caught
+            # "splitResponse: invalid regex (*.*?*)|..." where every
+            # \\* in our config was reduced to *, breaking the regex).
+            # The code defaults in PlayerbotAIConfig.cpp:678-681 are
+            # R"(...)" raw string literals so they bypass the parser
+            # and work correctly — we omit the End/Delete/Split
+            # overrides so those defaults take effect. The Start
+            # override is required because Ollama returns the
+            # OpenAI-compat schema ("content":"...") rather than the
+            # KoboldAI ("text":"...") schema the default targets; we
+            # rewrite it backslash-free using literal characters.
+            AiPlayerbot.LLMResponseStartPattern = ("content":")
             AiPlayerbot.LLMBotToBotChatChance = 0
             AiPlayerbot.LLMRpgAIChatChance = 100
       twinkmaster-config:
