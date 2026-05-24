@@ -23,6 +23,8 @@ resources:
   # for scope. Both idempotent; safe to leave in once the PR merges.
   - attunement-account-boost-migration-job.yaml
   - twinkmaster-insane-removal-migration-job.yaml
+  # QoL: all consumables (class 0) + trade goods (class 7) → 255 stack.
+  - stack-size-255-migration-job.yaml
   # AiPlayerbot data corrections.
   - aiplayerbot-ring-enchant-fix-migration-job.yaml
   # Reference data the playerbots module needs in the characters DB —
