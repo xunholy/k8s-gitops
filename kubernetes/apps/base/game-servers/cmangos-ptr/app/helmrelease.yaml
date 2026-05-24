@@ -89,27 +89,20 @@ spec:
               # CleanupsBeforeStop — that's exactly where the shutdown
               # UAF fired pre-fix. ~2× runtime / ~3× memory overhead;
               # limit stays at 20Gi.
-              # DIAGNOSTIC 2026-05-24: rolled forward to PR #14 branch
-              # image (feat/twinkmaster-rework, head 8fd9c3fb8). Built via
-              # workflow_dispatch run 26356314929; this is the second roll
-              # attempt — the first jumped the gun before the asan-runner
-              # finished publishing (PTR sat in ImagePullBackOff for 36min
-              # until rolled back to asan-4194d578). The two migration
-              # Jobs (attunement-account-boost, twinkmaster-insane-removal)
-              # already applied during the earlier reconcile. Scope of
-              # the PR:
-              #   1. Twinkmaster: close 250g re-grant abuse, remove Insane
-              #      vendor category, canonical enchant names, gate options
-              #      on level + twink status, items truly free via new
-              #      OnPreBuyItem framework hook.
-              #   2. Attunement: one boost per account (new
-              #      custom_attunement_account_boost ledger), two-step
-              #      confirmation gossip, level-1 gate on hardcore opt-ins,
-              #      hardcore submenu split, UX cleanup.
-              #   3. New OnPreBuyItem hook in cmangos-modules framework
-              #      (Module.h / ModuleMgr.{h,cpp} / Player.cpp). Non-
-              #      breaking; existing modules unaffected.
-              tag: asan-8fd9c3fb8c1383bdfe43b1ff42caa967d5a0caab
+              # DIAGNOSTIC 2026-05-25: PR #14 head cc5706c2d. Fixes on
+              # top of the earlier 8fd9c3fb8 image:
+              #   - LearnClassSpells: UNION npc_trainer + npc_trainer_template
+              #     (88 Hunter / 29 Priest / 13 Mage spells were only in
+              #     per-NPC entries, not templates). Dropped reqlevel > 0
+              #     filter (pet training abilities have reqlevel=0).
+              #   - LearnClassSpells: PascalCase creature_template columns
+              #     (TrainerClass / TrainerTemplateId / Entry). The PTR DB
+              #     has case-sensitive column names — lowercase silently
+              #     errored, so NO class spells were learned for ANY class.
+              #   - Unlock XP now clears twink status (opt-out flow).
+              #   - Boost 'No, take me back' icon → GOSSIP_ICON_CHAT.
+              # Built via workflow_dispatch run 26373013975.
+              tag: asan-cc5706c2d9b139c036cafecf6cc5a234ae63b5af
             args: ["mangosd"]
             tty: true
             stdin: true
