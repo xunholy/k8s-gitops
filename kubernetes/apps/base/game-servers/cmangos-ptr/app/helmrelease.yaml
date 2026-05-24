@@ -357,6 +357,36 @@ spec:
             AiPlayerbot.minEnchantingBotLevel = 10
             AiPlayerbot.BotAcceptDuelMinimumLevel = 10
             AiPlayerbot.LogInGroupOnly = 1
+            # LLM-driven chat — points at the in-cluster Ollama
+            # (ai-system ns, qwen2.5:3b ~1.9GB). PlayerbotLLMInterface
+            # is async by design and drops requests above the
+            # MaxSimultaniousGenerations cap, so this can't block bot
+            # tick threads even at 1500+ bots. Starting conservative:
+            # - Mode 2 = LLM default for all bots (no per-bot strategy)
+            # - max 25 concurrent generations (qwen2.5:3b on CPU does
+            #   ~5-10 gens/s; 25 caps sustainable backpressure)
+            # - 30s timeout drops slow gens rather than holding state
+            # - Bot-to-bot chat OFF initially (avoid LLM-vs-LLM loops)
+            # - RPG-AI chat ON (full chance during RPG interactions)
+            # Response patterns are for the OpenAI-compat
+            # /v1/chat/completions schema that Ollama exposes.
+            AiPlayerbot.LLMEnabled = 2
+            AiPlayerbot.LLMApiEndpoint = http://ollama.ai-system.svc.cluster.local:11434/v1/chat/completions
+            AiPlayerbot.LLMApiKey =
+            AiPlayerbot.LLMApiJson = {"model": "qwen2.5:3b", "messages": [{"role": "system", "content": "<pre prompt> <context>"},{"role": "user", "content": "<prompt>"}],"max_tokens": 60}
+            AiPlayerbot.LLMContextLength = 4096
+            AiPlayerbot.LLMGenerationTimeout = 30
+            AiPlayerbot.LLMMaxSimultaniousGenerations = 25
+            AiPlayerbot.LLMPrePrompt = You are a roleplaying character in World of Warcraft Classic. Your name is <bot name>. The <other type> <other name> is speaking to you <channel name> and is an <other gender> <other race> <other class> of level <other level>. You are level <bot level> and play as a <bot gender> <bot race> <bot class> that is currently in <bot subzone> <bot zone>. Answer as a roleplaying character. Limit responses to 100 characters.
+            AiPlayerbot.LLMPrompt = <receiver name>:<initial message>
+            AiPlayerbot.LLMPostPrompt = <bot name>:
+            AiPlayerbot.LLMRpgPrompt = In World of Warcraft Classic in <bot zone> <bot subzone> stands <bot type> <bot name> a level <bot level> <bot gender> <bot race> <bot class>. Standing nearby is <unit type> <unit name> <unit subname> a level <unit level> <unit gender> <unit race> <unit faction> <unit class>. Answer as a roleplaying character. Limit responses to 100 characters.
+            AiPlayerbot.LLMResponseStartPattern = ("content":\s*")
+            AiPlayerbot.LLMResponseEndPattern = ("|\b(?!<sender name>\b)(\w+):)
+            AiPlayerbot.LLMResponseDeletePattern = (\\n|<sender name>:|\\[^ ]+)
+            AiPlayerbot.LLMResponseSplitPattern = (\*.*?\*)|(\[.*?\])|(\'.*\')|([^\*\[\] ][^\*\[\]]+?[.?!])
+            AiPlayerbot.LLMBotToBotChatChance = 0
+            AiPlayerbot.LLMRpgAIChatChance = 100
       twinkmaster-config:
         data:
           twinkmaster.conf: |
