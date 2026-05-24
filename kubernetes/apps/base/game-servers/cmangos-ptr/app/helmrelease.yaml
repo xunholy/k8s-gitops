@@ -89,17 +89,26 @@ spec:
               # CleanupsBeforeStop — that's exactly where the shutdown
               # UAF fired pre-fix. ~2× runtime / ~3× memory overhead;
               # limit stays at 20Gi.
-              # DIAGNOSTIC 2026-05-24: rolled to PR #13 branch image
-              # (fix/llm-regex-resilience, head 4194d578). Wraps the
-              # four std::regex(...) sites in PlayerbotLLMInterface.cpp
-              # in try/catch so an invalid response-parsing pattern
-              # logs + degrades gracefully instead of crashing mangosd
-              # via uncaught std::regex_error. With LLM re-enabled
-              # below, a whisper to a bot should now produce a log
-              # line identifying the offending pattern instead of
-              # crash-looping the pod. Built via workflow_dispatch on
-              # the PR branch (run 26350277404); PR #13 not yet merged.
-              tag: asan-4194d578c0797ed87cc8864a1497131b367f8c24
+              # DIAGNOSTIC 2026-05-24: rolled to PR #14 branch image
+              # (feat/twinkmaster-rework, head 8fd9c3fb8). 13-commit
+              # rework of the twinkmaster + attunement modules. Scope:
+              #   1. Twinkmaster: close 250g re-grant abuse, remove
+              #      Insane vendor category, canonical enchant names,
+              #      gate options on level + twink status, items
+              #      truly free via new OnPreBuyItem framework hook.
+              #   2. Attunement: one boost per account (new
+              #      custom_attunement_account_boost ledger), two-step
+              #      confirmation gossip, gate hardcore opt-ins on
+              #      level 1, hardcore submenu split, UX cleanup.
+              #   3. New OnPreBuyItem hook in cmangos-modules framework
+              #      (Module.h / ModuleMgr.{h,cpp} / Player.cpp). Non-
+              #      breaking; existing modules unaffected (default
+              #      return false).
+              # Two new migration Jobs in app/migrations/ apply the
+              # schema/data deltas (account-boost table, npc_text 50932,
+              # twinkmaster Insane row purge). Built via workflow_dispatch
+              # on the PR branch (run 26356314929); PR #14 not yet merged.
+              tag: asan-8fd9c3fb8c1383bdfe43b1ff42caa967d5a0caab
             args: ["mangosd"]
             tty: true
             stdin: true

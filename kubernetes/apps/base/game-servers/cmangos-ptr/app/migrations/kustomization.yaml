@@ -19,6 +19,10 @@ resources:
   - dualspec-migration-job.yaml
   - trainingdummies-migration-job.yaml
   - achievements-migration-job.yaml
+  # PR #14 (feat/twinkmaster-rework) schema/data deltas — see Job comment
+  # for scope. Both idempotent; safe to leave in once the PR merges.
+  - attunement-account-boost-migration-job.yaml
+  - twinkmaster-insane-removal-migration-job.yaml
   # AiPlayerbot data corrections.
   - aiplayerbot-ring-enchant-fix-migration-job.yaml
   # Reference data the playerbots module needs in the characters DB —

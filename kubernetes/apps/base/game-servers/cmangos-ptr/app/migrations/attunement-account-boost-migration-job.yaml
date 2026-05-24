@@ -1,0 +1,95 @@
+---
+# Attunement schema/data delta for cmangos-classic PR #14
+# (feat/twinkmaster-rework). Two unrelated changes shipped together so
+# PTR doesn't need two near-empty Jobs:
+#
+#  1. New `custom_attunement_account_boost` table (ptrcharacters) — the
+#     account-level ledger backing the level-60 boost gossip's one-per-
+#     account gate. Without this the HasAccountBoosted PQuery silently
+#     returns false on every check, defeating the gate the PR introduces.
+#
+#  2. Refresh of npc_text rows 50930..50932 (ptrmangos) — adds the new
+#     50932 row used for the boost confirmation submenu, and rewrites
+#     50930+50931 to match current install SQL (no behaviour change for
+#     those two; they're refreshed wholesale to keep this Job aligned
+#     with the install SQL's DELETE-then-INSERT block).
+#
+# Both pieces are idempotent: CREATE TABLE IF NOT EXISTS and DELETE-then-
+# INSERT. Flux can recreate the Job after ttl expires without damage.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-ptr-attunement-account-boost-migration-sql
+  namespace: game-servers
+data:
+  characters.sql: |
+    CREATE TABLE IF NOT EXISTS `custom_attunement_account_boost` (
+      `account_id` int(11) unsigned NOT NULL COMMENT 'Account identifier (one boost per account)',
+      `boosted_guid` int(11) unsigned NOT NULL COMMENT 'GUID of the character that consumed the boost',
+      `boosted_name` varchar(12) NOT NULL DEFAULT '' COMMENT 'Character name at boost time (audit only - may go stale on rename/delete)',
+      `boosted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the boost was used',
+      PRIMARY KEY (`account_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Attunement one-boost-per-account ledger';
+  world.sql: |
+    -- NPC text refresh: 50930 greeting, 50931 custom-rate prompt, 50932 boost-confirm (new).
+    DELETE FROM `npc_text` WHERE `ID` BETWEEN 50930 AND 50932;
+    INSERT INTO `npc_text` (`ID`, `text0_0`) VALUES
+      (50930,
+       'Some walk this world swiftly, others savor every step. I can attune the pace at which experience flows to you, $N. Pick a path - or whisper your own.'),
+      (50931,
+       'Whisper the rate you desire, $N. A number such as 1.5 or 7.'),
+      (50932,
+       'This is a one-time gift, $N — once any character on your account uses it, no other character on the same account may use it again.\n\nIf you accept, you will receive:\n  - Level 60\n  - 500 gold\n  - Full Tier 0 dungeon set\n  - Class-appropriate accessories and weapons\n  - All flight paths unlocked\n  - Full world map revealed\n  - Every class spell learned (no trainer needed)\n\nDo you accept this passage?');
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-ptr-attunement-account-boost-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Applying attunement account-boost schema to ptrcharacters ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrcharacters < /sql/characters.sql
+
+              echo "=== Applying attunement npc_text refresh to ptrmangos ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos < /sql/world.sql
+
+              echo "=== Verifying account-boost table exists ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrcharacters -e "SHOW TABLES LIKE 'custom_attunement_account_boost';"
+
+              echo "=== Schema check ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrcharacters -e "DESCRIBE custom_attunement_account_boost;"
+
+              echo "=== Existing ledger rows (expect empty on first deploy) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrcharacters -e "SELECT COUNT(*) AS account_boost_count FROM custom_attunement_account_boost;"
+
+              echo "=== Verifying npc_text 50930..50932 (expect 3 rows) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos -e "SELECT ID, LEFT(text0_0, 60) AS preview FROM npc_text WHERE ID BETWEEN 50930 AND 50932;"
+
+              echo "=== Attunement migration complete ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-ptr-attunement-account-boost-migration-sql
