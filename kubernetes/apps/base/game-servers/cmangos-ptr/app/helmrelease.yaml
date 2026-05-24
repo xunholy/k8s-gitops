@@ -89,17 +89,27 @@ spec:
               # CleanupsBeforeStop — that's exactly where the shutdown
               # UAF fired pre-fix. ~2× runtime / ~3× memory overhead;
               # limit stays at 20Gi.
-              # TEMPORARY REVERT 2026-05-24: rolled back to PR #13 image
-              # (asan-4194d578) because PR #14's image (8fd9c3fb8) was
-              # still building when the previous swap landed, leaving PTR
-              # in ImagePullBackOff for 35+ min. The PR #14 helmrelease
-              # tag will be re-applied once GH Actions run 26356314929
-              # completes and publishes the asan-runner image. The two
-              # migration Jobs (attunement-account-boost +
-              # twinkmaster-insane-removal) stay applied — their schema/
-              # data is forward-compatible with PR #13 (the new table
-              # just isn't read, the Insane category just isn't surfaced).
-              tag: asan-4194d578c0797ed87cc8864a1497131b367f8c24
+              # DIAGNOSTIC 2026-05-24: rolled forward to PR #14 branch
+              # image (feat/twinkmaster-rework, head 8fd9c3fb8). Built via
+              # workflow_dispatch run 26356314929; this is the second roll
+              # attempt — the first jumped the gun before the asan-runner
+              # finished publishing (PTR sat in ImagePullBackOff for 36min
+              # until rolled back to asan-4194d578). The two migration
+              # Jobs (attunement-account-boost, twinkmaster-insane-removal)
+              # already applied during the earlier reconcile. Scope of
+              # the PR:
+              #   1. Twinkmaster: close 250g re-grant abuse, remove Insane
+              #      vendor category, canonical enchant names, gate options
+              #      on level + twink status, items truly free via new
+              #      OnPreBuyItem framework hook.
+              #   2. Attunement: one boost per account (new
+              #      custom_attunement_account_boost ledger), two-step
+              #      confirmation gossip, level-1 gate on hardcore opt-ins,
+              #      hardcore submenu split, UX cleanup.
+              #   3. New OnPreBuyItem hook in cmangos-modules framework
+              #      (Module.h / ModuleMgr.{h,cpp} / Player.cpp). Non-
+              #      breaking; existing modules unaffected.
+              tag: asan-8fd9c3fb8c1383bdfe43b1ff42caa967d5a0caab
             args: ["mangosd"]
             tty: true
             stdin: true
