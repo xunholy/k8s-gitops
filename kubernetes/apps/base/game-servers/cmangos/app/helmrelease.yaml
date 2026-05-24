@@ -63,7 +63,18 @@ spec:
               # remain open (SpellIdValue UAR, TravelMgr exit-time
               # type-mismatch) — both pre-existing, only fire under
               # ASan; Release silently tolerates.
-              tag: 190c0467137c2fc0bc8c23fdd2cf9af0d63bdbe5
+              # Bumped to 97851d0e (Release) — adds PR #13 to the
+              # set above. PR #13 wraps every std::regex
+              # construction in PlayerbotLLMInterface.cpp with
+              # try/catch so an invalid LLM response-parsing pattern
+              # logs sLog.outError and degrades gracefully instead
+              # of taking down the world server. Live's helmrelease
+              # has no AiPlayerbot.LLM* keys so the path is dormant —
+              # this is pure binary defense-in-depth for the future
+              # LLM rollout (currently being soaked on PTR with
+              # qwen2.5:3b via the in-cluster Ollama). Promoted on
+              # 2026-05-24 during a 0-human window on live.
+              tag: 97851d0ee39432df5bac8dc6d225a50bb24f1833
             args: ["mangosd"]
             tty: true
             stdin: true
