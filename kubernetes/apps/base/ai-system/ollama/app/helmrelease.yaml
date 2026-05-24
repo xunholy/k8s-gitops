@@ -23,12 +23,32 @@ spec:
       models:
         pull:
           - qwen2.5:3b
+    # OLLAMA_NUM_PARALLEL controls how many requests Ollama processes
+    # in parallel against a single loaded model. Default auto-selects
+    # 4 if the model fits in RAM 4x over, otherwise 1. Setting it
+    # explicitly removes the guesswork and survives memory-limit
+    # tuning. OLLAMA_KEEP_ALIVE keeps the model resident across idle
+    # gaps (default 5m); the cmangos playerbot integration hits the
+    # endpoint in unpredictable bursts (whisper-driven), so 24h keeps
+    # qwen2.5:3b hot and avoids the first-request reload penalty.
+    extraEnv:
+      - name: OLLAMA_NUM_PARALLEL
+        value: "4"
+      - name: OLLAMA_KEEP_ALIVE
+        value: "24h"
     resources:
+      # CPU request bumped 500m -> 4 so the scheduler actually reserves
+      # the cores qwen2.5:3b needs to run 4 parallel inferences. With
+      # 500m we were vulnerable to neighbour-pod contention dropping
+      # generation rate from ~10 tok/s to ~2 tok/s.
+      # Memory bumped 4Gi -> 6Gi request / 8Gi -> 10Gi limit to fit
+      # 4x ~1.9GB model copies (one per parallel slot) plus working
+      # memory + KV cache.
       requests:
-        cpu: 500m
-        memory: 4Gi
+        cpu: "4"
+        memory: 6Gi
       limits:
-        memory: 8Gi
+        memory: 10Gi
     persistentVolume:
       enabled: true
       storageClass: ceph-block
