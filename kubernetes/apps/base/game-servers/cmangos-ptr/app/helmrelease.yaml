@@ -89,15 +89,20 @@ spec:
               # CleanupsBeforeStop — that's exactly where the shutdown
               # UAF fired pre-fix. ~2× runtime / ~3× memory overhead;
               # limit stays at 20Gi.
-              # DIAGNOSTIC 2026-05-25: PR #14 head 472fafd38. On top of
-              # 31a2112c4 (spell fix + gear audit):
-              #   - Faction-filtered trainer spells: query now returns
-              #     trainer Faction, checked against DBC factionGroupMask
-              #     at runtime. Alliance mages no longer learn Teleport:
-              #     Orgrimmar; Horde paladins no longer get Alliance-only
-              #     blessing ranks; etc. Neutral trainers pass through.
-              # Built via workflow_dispatch run 26379675514.
-              tag: asan-472fafd3847a6318d4bd1597105eeec52483cf08
+              # PTR validation 2026-05-25: PR #19 (xunholy/cmangos-classic#19)
+              # branch image — attunement module amalgamates dualspec
+              # (previously a standalone module). The standalone Dual
+              # Specialization Crystal NPC (entry 190024) is despawned;
+              # the Attuner of Paths now exposes the spec-switch gossip.
+              # Existing custom_dualspec_* characters-DB tables are
+              # preserved (live carries ~18k characters of spec/action-bar
+              # state). This is a Release build (no ASan) — the
+              # dualspec refactor is unrelated to UAF classes, and the
+              # Jaz/Windsor PR #20 fix is also expected to bake on PTR
+              # under hands-on test, not ASan instrumentation.
+              # Tag is the GH-generated PR test-merge SHA, not PR head
+              # (PR builds tag with `github.sha` on `pull_request`).
+              tag: 2c9c648d57660c6437f5c14efae9c5c9eb452773
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -426,11 +431,15 @@ spec:
             Twinkmaster.TargetLevel = 19
       attunement-config:
         data:
-          # Mirror live: hardcore was amalgamated into the Attuner of
-          # Paths gossip in xunholy/cmangos-classic@feb8ea8b7 — the
-          # merged module reads both Attunement.* and Hardcore.* keys
-          # from this single attunement.conf. The old /opt/mangos/etc/
-          # hardcore.conf path is no longer consulted by the binary.
+          # Hardcore was amalgamated into the Attuner of Paths gossip
+          # in xunholy/cmangos-classic@feb8ea8b7. Dualspec was
+          # amalgamated in PR #19 (this PTR image) — the standalone
+          # Dual Specialization Crystal NPC (entry 190024) is despawned
+          # and the spec-switch gossip lives on the Attuner. The merged
+          # module reads Attunement.*, Hardcore.*, AND Dualspec.* keys
+          # from this single attunement.conf. The old standalone
+          # /opt/mangos/conf/hardcore.conf and /opt/mangos/conf/
+          # dualspec.conf are no longer consulted by the binary.
           attunement.conf: |
             Attunement.Enable = 1
             Attunement.DefaultRate = 1.0
@@ -441,6 +450,8 @@ spec:
             Attunement.Aura.Tier3.SpellId = 0
             Attunement.Aura.Tier4.SpellId = 0
             Attunement.Aura.Tier5.SpellId = 0
+            Dualspec.Enable = 1
+            Dualspec.Cost = 100000
             Hardcore.Enable = 1
             Hardcore.PlayerConfig = 1
             Hardcore.BroadcastDeathGuild = 1
@@ -660,11 +671,6 @@ spec:
         data:
           barber.conf: |
             Barber.Enable = 1
-      dualspec-config:
-        data:
-          dualspec.conf: |
-            Dualspec.Enable = 1
-            Dualspec.Cost = 100000
       trainingdummies-config:
         data:
           trainingdummies.conf: |
@@ -777,14 +783,6 @@ spec:
             app:
               - path: /opt/mangos/conf/barber.conf
                 subPath: barber.conf
-      dualspec-config:
-        type: configMap
-        name: cmangos-ptr-dualspec-config
-        advancedMounts:
-          mangosd:
-            app:
-              - path: /opt/mangos/conf/dualspec.conf
-                subPath: dualspec.conf
       trainingdummies-config:
         type: configMap
         name: cmangos-ptr-trainingdummies-config
