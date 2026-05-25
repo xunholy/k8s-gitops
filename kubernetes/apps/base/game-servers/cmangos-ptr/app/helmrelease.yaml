@@ -89,20 +89,22 @@ spec:
               # CleanupsBeforeStop — that's exactly where the shutdown
               # UAF fired pre-fix. ~2× runtime / ~3× memory overhead;
               # limit stays at 20Gi.
-              # DIAGNOSTIC 2026-05-25: PR #14 head cc5706c2d. Fixes on
-              # top of the earlier 8fd9c3fb8 image:
-              #   - LearnClassSpells: UNION npc_trainer + npc_trainer_template
-              #     (88 Hunter / 29 Priest / 13 Mage spells were only in
-              #     per-NPC entries, not templates). Dropped reqlevel > 0
-              #     filter (pet training abilities have reqlevel=0).
-              #   - LearnClassSpells: PascalCase creature_template columns
-              #     (TrainerClass / TrainerTemplateId / Entry). The PTR DB
-              #     has case-sensitive column names — lowercase silently
-              #     errored, so NO class spells were learned for ANY class.
-              #   - Unlock XP now clears twink status (opt-out flow).
-              #   - Boost 'No, take me back' icon → GOSSIP_ICON_CHAT.
-              # Built via workflow_dispatch run 26373013975.
-              tag: asan-cc5706c2d9b139c036cafecf6cc5a234ae63b5af
+              # DIAGNOSTIC 2026-05-25: PR #14 head 31a2112c4. On top of
+              # cc5706c2d:
+              #   - LearnClassSpells: resolve teaching spells (Effect =
+              #     SPELL_EFFECT_LEARN_SPELL) to actual combat spells via
+              #     EffectTriggerSpell. Fixes 145+ useless General-tab
+              #     entries per class.
+              #   - Gear audit: all accessories realigned to T0 dungeon
+              #     tier (iLvl 58-63 blue). Fixed wrong item IDs (12846
+              #     was Argent Dawn Commission not Mark of Fordring, etc),
+              #     replaced ZG/MC/Onyxia items with dungeon blues, added
+              #     per-class cloaks (STR/STA for warrior, AGI for rogue/
+              #     hunter, INT/SPI for casters), proper caster neck.
+              #   - Warrior gets 1H+shield (Skullforge Reaver + Draconian
+              #     Deflector) alongside 2H for tank option.
+              # Built via workflow_dispatch run 26376274516.
+              tag: asan-31a2112c475378c5dbaae3809ecdc1efdc482283
             args: ["mangosd"]
             tty: true
             stdin: true
