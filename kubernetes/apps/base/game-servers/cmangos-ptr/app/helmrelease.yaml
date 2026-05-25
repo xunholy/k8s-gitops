@@ -100,15 +100,20 @@ spec:
               # dualspec refactor is unrelated to UAF classes, and the
               # Jaz/Windsor PR #20 fix is also expected to bake on PTR
               # under hands-on test, not ASan instrumentation.
-              # 2026-05-25 bump: PR #19 rebased onto main + dualspec UX
-              # rework (fixed Main Spec / Secondary Spec names, no rename
-              # UI, single-confirm purchase row with "No, take me back"
-              # tail) + free-unlock UX (Dualspec.Cost=0 drops the gold
-              # suffix and confirm popup entirely).
-              # Subsequent bump: re-render gossip after activate so the
-              # (active) marker is live without close/reopen. PR head
-              # 604bd07, GH-generated PR test-merge SHA below.
-              tag: ac8d01414d69442e92aa738c103cbdd9393fa5f7
+              # 2026-05-25 PTR validation image:
+              #   - PR #19 (merged at 4cc55d5) on main: attunement
+              #     amalgamates dualspec (fixed Main/Secondary names,
+              #     no rename, single-confirm purchase, free-unlock UX,
+              #     live re-render after activate).
+              #   - PR #20 branch (head aeb0551) on top of new main:
+              #     BRD Jail Break! escort can no longer freeze at the
+              #     Jaz cell — the IN_PROGRESS-guarded SPECIAL signal
+              #     is replaced with drain-on-empty GuidSets so AoE /
+              #     simultaneous / out-of-order kills all advance
+              #     Windsor correctly.
+              # Tag below is the GH-generated PR test-merge SHA, not
+              # PR head (PR builds tag with `github.sha` on PR events).
+              tag: 81830a4db309f9462d53c4c0b8a4128c045139c4
             args: ["mangosd"]
             tty: true
             stdin: true
