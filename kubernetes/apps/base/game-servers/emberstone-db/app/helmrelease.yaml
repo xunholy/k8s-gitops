@@ -44,7 +44,7 @@ spec:
               # the pod template changes, and the template didn't change
               # between the failed nginx-alpine build and the nginx-
               # unprivileged fix; the pod stayed on the cached digest.
-              tag: 4614255ec6cde7fb623eb6e53b0ffca69fca62e8
+              tag: 9eb6e5fe85437be06cc9adbe7915987a61a93e91
               pullPolicy: IfNotPresent
             probes:
               liveness:
@@ -52,7 +52,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /healthz
+                    path: /db/healthz
                     port: 8080
                   periodSeconds: 30
                   timeoutSeconds: 3
@@ -62,7 +62,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /healthz
+                    path: /db/healthz
                     port: 8080
                   periodSeconds: 10
                   timeoutSeconds: 3
@@ -72,7 +72,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /healthz
+                    path: /db/healthz
                     port: 8080
                   periodSeconds: 5
                   timeoutSeconds: 3
