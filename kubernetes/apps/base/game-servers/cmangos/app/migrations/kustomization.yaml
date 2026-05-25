@@ -17,6 +17,11 @@ resources:
   - dualspec-migration-job.yaml
   - trainingdummies-migration-job.yaml
   - achievements-migration-job.yaml
+  # PR #14 merged: twinkmaster rework + attunement one-boost-per-account.
+  - attunement-account-boost-migration-job.yaml
+  - twinkmaster-insane-removal-migration-job.yaml
+  # QoL: all consumables (class 0) + trade goods (class 7) → 255 stack.
+  - stack-size-255-migration-job.yaml
   # AiPlayerbot data corrections.
   - aiplayerbot-ring-enchant-fix-migration-job.yaml
   # One-off cleanup of classiccharacters orphan rows that don't exist on

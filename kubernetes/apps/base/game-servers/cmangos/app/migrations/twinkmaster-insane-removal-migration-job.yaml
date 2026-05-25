@@ -1,0 +1,75 @@
+---
+# Twinkmaster: drop the "Insane" vendor category rows
+# (custom_twinkmaster_vendor_categories.categories = 4).
+#
+# PR #14 removes the Insane category from the C++ gossip menu, but
+# pre-existing PTR DB rows for that category persist until something
+# clears them. The C++ side won't surface them anymore (no
+# CATEGORY_INSANE in the menu, no ACTION_BROWSE_INSANE handler), so
+# this is just data hygiene — without it the vendor_categories table
+# carries 40 dead rows. Idempotent: DELETE-WHERE.
+#
+# Pairs with cmangos-classic PR #14 (feat/twinkmaster-rework).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-live-twinkmaster-insane-removal-migration-sql
+  namespace: game-servers
+data:
+  world.sql: |
+    DELETE FROM `custom_twinkmaster_vendor_categories` WHERE `categories` = 4;
+    -- Also re-sync the npc_vendor rows for the twink master NPCs so the
+    -- Insane items don't appear if a player ever bypasses the gossip
+    -- and opens the standard vendor packet directly.
+    DELETE FROM `npc_vendor` WHERE `entry` IN (190012, 190013);
+    INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`)
+    SELECT 190012, `item`, 0, 0 FROM `custom_twinkmaster_vendor_categories`
+    UNION ALL
+    SELECT 190013, `item`, 0, 0 FROM `custom_twinkmaster_vendor_categories`;
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-live-twinkmaster-insane-removal-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Counting Insane rows before delete (expect <= 40) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT COUNT(*) AS insane_rows_before FROM custom_twinkmaster_vendor_categories WHERE categories = 4;"
+
+              echo "=== Applying twinkmaster Insane-removal SQL to classicmangos ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/world.sql
+
+              echo "=== Counting Insane rows after delete (expect 0) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT COUNT(*) AS insane_rows_after FROM custom_twinkmaster_vendor_categories WHERE categories = 4;"
+
+              echo "=== npc_vendor row count per twink master (expect equal, no Insane items) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT entry, COUNT(*) AS items FROM npc_vendor WHERE entry IN (190012, 190013) GROUP BY entry;"
+
+              echo "=== Twinkmaster Insane-removal migration complete ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-live-twinkmaster-insane-removal-migration-sql

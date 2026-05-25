@@ -1,0 +1,64 @@
+---
+# QoL: raise max stack size of all consumables (class 0) and trade
+# goods (class 7) from their vanilla defaults (5/10/20) to 255 (the
+# tinyint unsigned max the client supports). Server-wide — affects all
+# vendors and loot, not just module NPCs. Idempotent: re-running is a
+# no-op (WHERE Stackable < 255).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-live-stack-size-255-migration-sql
+  namespace: game-servers
+data:
+  world.sql: |
+    -- Consumables: potions, elixirs, food, drink, bandages, scrolls, etc.
+    UPDATE item_template SET Stackable = 255 WHERE class = 0 AND Stackable > 0 AND Stackable < 255;
+    -- Trade goods: reagents, cloth, leather, herbs, ore, gems, etc.
+    UPDATE item_template SET Stackable = 255 WHERE class = 7 AND Stackable > 0 AND Stackable < 255;
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-live-stack-size-255-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Before: items with Stackable < 255 ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT class, COUNT(*) AS items FROM item_template WHERE class IN (0,7) AND Stackable > 0 AND Stackable < 255 GROUP BY class;"
+
+              echo "=== Applying stack-size-255 to classicmangos ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/world.sql
+
+              echo "=== After: items with Stackable < 255 (expect 0) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT class, COUNT(*) AS items FROM item_template WHERE class IN (0,7) AND Stackable > 0 AND Stackable < 255 GROUP BY class;"
+
+              echo "=== Spot check: Healing Potion (929), Major Mana Potion (13444), Linen Cloth (2589) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT entry, name, Stackable FROM item_template WHERE entry IN (929, 13444, 2589);"
+
+              echo "=== Stack-size-255 migration complete ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-live-stack-size-255-migration-sql
