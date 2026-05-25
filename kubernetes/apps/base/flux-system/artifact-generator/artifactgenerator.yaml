@@ -125,6 +125,11 @@ spec:
       copy:
         - from: "@repo/apps/base/game-servers/emberstone-portal/app/"
           to: "@artifact/apps/base/game-servers/emberstone-portal/app/"
+    - name: emberstone-db
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/emberstone-db/app/"
+          to: "@artifact/apps/base/game-servers/emberstone-db/app/"
     - name: enemy-territory
       originRevision: "@repo"
       copy:
