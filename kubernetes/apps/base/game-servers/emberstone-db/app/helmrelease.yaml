@@ -44,7 +44,7 @@ spec:
               # the pod template changes, and the template didn't change
               # between the failed nginx-alpine build and the nginx-
               # unprivileged fix; the pod stayed on the cached digest.
-              tag: c8060fd9792c7f5c8f1643ac90e0baf2581fe37d
+              tag: 76c0b6801f62f258a295a3f542027dabf30e452d
               pullPolicy: IfNotPresent
             probes:
               liveness:
