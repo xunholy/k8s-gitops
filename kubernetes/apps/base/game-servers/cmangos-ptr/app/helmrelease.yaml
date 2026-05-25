@@ -89,22 +89,15 @@ spec:
               # CleanupsBeforeStop — that's exactly where the shutdown
               # UAF fired pre-fix. ~2× runtime / ~3× memory overhead;
               # limit stays at 20Gi.
-              # DIAGNOSTIC 2026-05-25: PR #14 head 31a2112c4. On top of
-              # cc5706c2d:
-              #   - LearnClassSpells: resolve teaching spells (Effect =
-              #     SPELL_EFFECT_LEARN_SPELL) to actual combat spells via
-              #     EffectTriggerSpell. Fixes 145+ useless General-tab
-              #     entries per class.
-              #   - Gear audit: all accessories realigned to T0 dungeon
-              #     tier (iLvl 58-63 blue). Fixed wrong item IDs (12846
-              #     was Argent Dawn Commission not Mark of Fordring, etc),
-              #     replaced ZG/MC/Onyxia items with dungeon blues, added
-              #     per-class cloaks (STR/STA for warrior, AGI for rogue/
-              #     hunter, INT/SPI for casters), proper caster neck.
-              #   - Warrior gets 1H+shield (Skullforge Reaver + Draconian
-              #     Deflector) alongside 2H for tank option.
-              # Built via workflow_dispatch run 26376274516.
-              tag: asan-31a2112c475378c5dbaae3809ecdc1efdc482283
+              # DIAGNOSTIC 2026-05-25: PR #14 head 472fafd38. On top of
+              # 31a2112c4 (spell fix + gear audit):
+              #   - Faction-filtered trainer spells: query now returns
+              #     trainer Faction, checked against DBC factionGroupMask
+              #     at runtime. Alliance mages no longer learn Teleport:
+              #     Orgrimmar; Horde paladins no longer get Alliance-only
+              #     blessing ranks; etc. Neutral trainers pass through.
+              # Built via workflow_dispatch run 26379675514.
+              tag: asan-472fafd3847a6318d4bd1597105eeec52483cf08
             args: ["mangosd"]
             tty: true
             stdin: true
