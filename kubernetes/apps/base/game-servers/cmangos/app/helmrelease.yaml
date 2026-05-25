@@ -63,27 +63,18 @@ spec:
               # remain open (SpellIdValue UAR, TravelMgr exit-time
               # type-mismatch) — both pre-existing, only fire under
               # ASan; Release silently tolerates.
-              # Bumped to ed0081c2c (Release) — PR #14 merge
-              # (xunholy/cmangos-classic#14, 20 commits). Scope:
-              #   Twinkmaster: close 250g abuse, remove Insane vendor
-              #     category, canonical enchant names, gate on level +
-              #     twink status, items free via OnPreBuyItem hook,
-              #     unlock-XP opts out of twink mode.
-              #   Attunement: one boost per account (persistent across
-              #     character deletion), two-step confirmation gossip,
-              #     level-1 gate on hardcore opt-ins, hardcore submenu,
-              #     UX cleanup, dropped 'Reset to default'.
-              #   Framework: new OnPreBuyItem hook (Module.h /
-              #     ModuleMgr / Player.cpp). Non-breaking.
-              #   LearnClassSpells: UNION npc_trainer + templates,
-              #     PascalCase columns, resolve teaching spells to
-              #     actual combat spells, faction-filtered trainers.
-              #   Gear audit: T0 dungeon tier, per-class cloaks/necks,
-              #     warrior 1H+shield tank option.
-              #   Stack size 255 for consumables + trade goods (via
-              #     migration Job, not binary — same SQL as PTR).
-              # Soaked on PTR across 5 image rolls + in-game testing.
-              tag: ed0081c2c47ac31ad07da8d4623807fd6fcd0218
+              # Bumped to 4cc55d58b (Release) — PR #19 merge
+              # (xunholy/cmangos-classic#19). Amalgamates the standalone
+              # dualspec module into the Attuner of Paths NPC. The
+              # standalone Dual Specialization Crystal (entry 190024) is
+              # despawned; the Attuner now exposes the spec-switch gossip.
+              # Existing custom_dualspec_* tables are preserved (no
+              # migration needed — the schema is unchanged, only the
+              # module that reads it moved). Soaked on PTR.
+              # Carries all of PR #14 (twinkmaster rework, attunement
+              # one-boost-per-account, OnPreBuyItem hook, spell fixes,
+              # T0 gear audit, stack-255).
+              tag: 4cc55d58b147e51a8fe87c4d8e1959f78737e508
             args: ["mangosd"]
             tty: true
             stdin: true
