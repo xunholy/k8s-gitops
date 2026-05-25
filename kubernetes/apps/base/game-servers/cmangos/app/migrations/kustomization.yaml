@@ -31,3 +31,10 @@ resources:
   # for at least 7 days for rollback. See job body for verify-count
   # output and ptrcharacters comparison.
   - db-orphan-cleanup-migration-job.yaml
+  # BRD Detention Block cell wardens (9677/9678/9680/9681) ship with
+  # Faction=35 (friendly) in the cmangos community DB but should be
+  # 54 (Dark Iron) per retail behaviour. Without this fix, Marshal
+  # Windsor's escort (Jail Break! quest 4322) freezes at the Jaz cell
+  # because the player can't attack the prisoners to drain the GuidSet
+  # PR #20 added on the Windsor script. Idempotent (WHERE Faction=35).
+  - brd-cell-warden-faction-migration-job.yaml

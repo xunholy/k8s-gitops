@@ -1,0 +1,105 @@
+---
+# ─── Migration: BRD Detention Block cell wardens hostile ────────────
+# The cmangos "Melting Pot v2" 1.12.1 community DB ships Ograbisi
+# (9677), Shill Dinger (9678), Crest Killer (9680), and Jaz (9681)
+# with Faction = 35 (Friendly to all). In retail Classic, every
+# Dark Iron warden in BRD is hostile (Dark Iron faction = 54).
+#
+# Marshal Windsor's escort (quest 4322 — Jail Break!, Onyxia attune
+# prereq) drains a per-cell GuidSet on these mobs' deaths to advance
+# Windsor past the Jaz cell waypoint (see PR #20 in xunholy/
+# cmangos-classic). With the mobs friendly-faction'd, the player
+# can't attack them — the GuidSet never drains and Windsor freezes.
+# Same wedge occurred under the upstream pre-fix logic (any second
+# SPECIAL trigger), just less visibly.
+#
+# Fix: set Faction = 54 (Dark Iron) so they spawn hostile to all
+# players, matching retail behavior.
+#
+# Idempotency: the WHERE clause includes `AND Faction = 35` so
+# re-running on an already-corrected DB is a no-op (zero rows
+# affected). Safe to leave in the migrations folder forever.
+#
+# Reversal (if a future upstream patch decides these should be a
+# different faction): UPDATE ... SET Faction = 35 ... WHERE Entry IN
+# (9677, 9678, 9680, 9681) AND Faction = 54.
+#
+# Runtime: creature_template is cached at worldserver startup. After
+# applying this migration the corresponding mangosd pod (live or
+# PTR) needs a `.reload creature_template` GM command or a rolling
+# restart for live instances to spawn with the new faction. Newly-
+# created BRD instances always pick up the current DB state.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmangos-brd-cell-warden-faction-migration-sql
+  namespace: game-servers
+data:
+  fix.sql: |
+    -- Set BRD Detention Block cell wardens to Dark Iron faction.
+    UPDATE `creature_template`
+       SET `Faction` = 54
+     WHERE `Entry` IN (9677, 9678, 9680, 9681)
+       AND `Faction` = 35;
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmangos-brd-cell-warden-faction-migration
+  namespace: game-servers
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-db
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+      containers:
+        - name: migrate
+          image: mariadb:12.2
+          envFrom:
+            - secretRef:
+                name: cmangos-database-creds
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "=== Pre-fix faction for cell wardens (LIVE: classicmangos) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "
+                SELECT Entry, Name, Faction
+                  FROM creature_template
+                 WHERE Entry IN (9677, 9678, 9680, 9681)
+                 ORDER BY Entry;
+              "
+
+              echo "=== Apply to classicmangos ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/fix.sql
+
+              # Same fix on ptrmangos so PTR validation matches live.
+              if mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" -e "USE ptrmangos" 2>/dev/null; then
+                echo "=== Apply to ptrmangos ==="
+                mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" ptrmangos < /sql/fix.sql
+              fi
+
+              echo "=== Post-fix verification — expect Faction = 54 ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "
+                SELECT Entry, Name, Faction
+                  FROM creature_template
+                 WHERE Entry IN (9677, 9678, 9680, 9681)
+                 ORDER BY Entry;
+              "
+
+              echo "=== Done. mangosd pods need a rolling restart OR a"
+              echo "    .reload creature_template GM command for the new"
+              echo "    faction to apply to running BRD instances. ==="
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /sql
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: cmangos-brd-cell-warden-faction-migration-sql
