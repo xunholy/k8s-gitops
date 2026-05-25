@@ -77,7 +77,10 @@ spec:
               # Re-promoted after fixing config: dualspec keys moved into
               # attunement.conf, standalone dualspec ConfigMap + mount
               # removed (the binary no longer ships dualspec.conf.dist).
-              tag: 4cc55d58b147e51a8fe87c4d8e1959f78737e508
+              # Bumped to 7205c38f7 — auto-unlock dualspec on first
+              # visit (removed "Purchase Dual Talent Specialization"
+              # gossip step; players go straight to spec-switch menu).
+              tag: 7205c38f7097b1044f1c2ff28a74b0e6a12fc546
             args: ["mangosd"]
             tty: true
             stdin: true
