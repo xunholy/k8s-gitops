@@ -263,10 +263,12 @@ spec:
             RealmZone = 8
             WorldServerPort = 8086
             BindIP = "0.0.0.0"
-            # Match live PlayerLimit so PTR can hold its 500-2000 bot
-            # population plus any human GMs / testers without rejecting
-            # logins at the door.
-            PlayerLimit = 750
+            # Negative PlayerLimit gates login on minimum security level
+            # (-1 Moderator, -2 GM, -3 Admin). PTR is currently locked to
+            # GM+ so only staff/testers can log in while features bake;
+            # bots are spawned server-side and bypass this gate, so the
+            # 500-2000 bot population stays up for load testing.
+            PlayerLimit = -2
             # PTR stress test (2026-05-22): MapUpdate.Threads bumped
             # 1 → 3 to exercise concurrent map updates against the
             # patched binary (PR#9 with Engine::Reset swap-then-iterate
