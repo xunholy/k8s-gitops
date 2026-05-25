@@ -451,7 +451,12 @@ spec:
             Attunement.Aura.Tier4.SpellId = 0
             Attunement.Aura.Tier5.SpellId = 0
             Dualspec.Enable = 1
-            Dualspec.Cost = 100000
+            # Free unlock — Dualspec.Cost is in copper. 0 means the
+            # Attuner offers a single-click "Unlock Dual Talent
+            # Specialization" with no cost-confirm popup (the code
+            # branches on cost > 0 to drop the "(Xg)" suffix and the
+            # are-you-sure dialog for the free path).
+            Dualspec.Cost = 0
             Hardcore.Enable = 1
             Hardcore.PlayerConfig = 1
             Hardcore.BroadcastDeathGuild = 1
