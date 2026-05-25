@@ -136,9 +136,8 @@ spec:
               # only because it held a pre-rotation DB connection.
               - secretRef:
                   name: cmangos-database-creds
-            # PTR: shorter countdown (2 min) since rarely anyone is on,
-            # but same saveall-first pattern as live to prevent data loss.
-            # SIGTERM at ~160s, SIGKILL at 210s.
+            # PTR: shorter countdown (2 min), same double-save pattern
+            # as live. SIGTERM at ~160s, SIGKILL at 210s.
             lifecycle:
               preStop:
                 exec:
@@ -146,10 +145,12 @@ spec:
                     - /bin/sh
                     - -c
                     - |
-                      echo "saveall" > /tmp/mangosd-stdin
-                      sleep 2
                       echo "server restart 120" > /tmp/mangosd-stdin
-                      sleep 140
+                      sleep 2
+                      echo "saveall" > /tmp/mangosd-stdin
+                      sleep 88
+                      echo "saveall" > /tmp/mangosd-stdin
+                      sleep 50
             probes:
               liveness:
                 enabled: true

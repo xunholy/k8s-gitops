@@ -92,14 +92,16 @@ spec:
               # MANGOS_DBUSER + MANGOS_DBPASS from 1Password via ESO.
               - secretRef:
                   name: cmangos-database-creds
-            # Graceful shutdown:
-            #   1. 'saveall' flushes every online character to DB so no
-            #      progress is lost even if the shutdown itself is unclean.
-            #   2. 'server restart 300' starts a 5-minute in-game countdown
-            #      visible to players.
-            #   3. sleep 320 keeps the preStop hook alive until mangosd has
-            #      finished its own shutdown sequence.
-            #   4. SIGTERM at ~340s, SIGKILL at 390s (terminationGracePeriod).
+            # Graceful shutdown (belt-and-suspenders save):
+            #   1. Start 5-min in-game countdown immediately so players
+            #      see the warning right away.
+            #   2. saveall 2s later — safety-net flush in case anything
+            #      goes wrong later in the window.
+            #   3. Sleep until ~30s before shutdown, then saveall again
+            #      to capture final progress (trades, quest hand-ins,
+            #      last-second looting during the countdown).
+            #   4. sleep out the remaining window for mangosd to exit.
+            #   5. SIGTERM at ~340s, SIGKILL at 390s.
             lifecycle:
               preStop:
                 exec:
@@ -107,10 +109,12 @@ spec:
                     - /bin/sh
                     - -c
                     - |
-                      echo "saveall" > /tmp/mangosd-stdin
-                      sleep 2
                       echo "server restart 300" > /tmp/mangosd-stdin
-                      sleep 320
+                      sleep 2
+                      echo "saveall" > /tmp/mangosd-stdin
+                      sleep 268
+                      echo "saveall" > /tmp/mangosd-stdin
+                      sleep 50
             probes:
               liveness:
                 enabled: true
