@@ -38,8 +38,14 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/emberstone-db
-              tag: latest
-              pullPolicy: Always
+              # Pin to the per-commit SHA tag rather than :latest so the
+              # kubelet re-resolves on every helmrelease change. :latest
+              # was sticky — `imagePullPolicy: Always` only re-pulls when
+              # the pod template changes, and the template didn't change
+              # between the failed nginx-alpine build and the nginx-
+              # unprivileged fix; the pod stayed on the cached digest.
+              tag: 73216da94fac9ca19581466b511d95e2cb04797a
+              pullPolicy: IfNotPresent
             probes:
               liveness:
                 enabled: true
