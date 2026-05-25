@@ -74,7 +74,11 @@ spec:
               # Carries all of PR #14 (twinkmaster rework, attunement
               # one-boost-per-account, OnPreBuyItem hook, spell fixes,
               # T0 gear audit, stack-255).
-              tag: 4cc55d58b147e51a8fe87c4d8e1959f78737e508
+              # ROLLBACK: 4cc55d58b crashed — dualspec.conf.dist missing
+              # after PR #19 amalgamated dualspec into attunement. The
+              # config compose step requires the file to exist. Reverted
+              # to PR #14 merge while fixing the config issue.
+              tag: ed0081c2c47ac31ad07da8d4623807fd6fcd0218
             args: ["mangosd"]
             tty: true
             stdin: true
