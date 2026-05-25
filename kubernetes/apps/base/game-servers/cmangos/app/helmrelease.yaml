@@ -74,11 +74,10 @@ spec:
               # Carries all of PR #14 (twinkmaster rework, attunement
               # one-boost-per-account, OnPreBuyItem hook, spell fixes,
               # T0 gear audit, stack-255).
-              # ROLLBACK: 4cc55d58b crashed — dualspec.conf.dist missing
-              # after PR #19 amalgamated dualspec into attunement. The
-              # config compose step requires the file to exist. Reverted
-              # to PR #14 merge while fixing the config issue.
-              tag: ed0081c2c47ac31ad07da8d4623807fd6fcd0218
+              # Re-promoted after fixing config: dualspec keys moved into
+              # attunement.conf, standalone dualspec ConfigMap + mount
+              # removed (the binary no longer ships dualspec.conf.dist).
+              tag: 4cc55d58b147e51a8fe87c4d8e1959f78737e508
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -452,6 +451,10 @@ spec:
             Hardcore.LevelDownOnRaids = 1
             Hardcore.LevelDownMinLevel = 1
             Hardcore.DropMinLevel = 1
+            # Dualspec (amalgamated into attunement by PR #19 — keys
+            # previously lived in dualspec.conf, now read from here).
+            Dualspec.Enable = 1
+            Dualspec.Cost = 100000
             Hardcore.DisablePVP = 0
             Hardcore.SelfFound = 0
       anticheat-config:
@@ -675,12 +678,6 @@ spec:
         data:
           barber.conf: |
             Barber.Enable = 1
-      dualspec-config:
-        data:
-          dualspec.conf: |
-            Dualspec.Enable = 1
-            # Cost to unlock second spec, in copper (100000 = 10g).
-            Dualspec.Cost = 100000
       trainingdummies-config:
         data:
           trainingdummies.conf: |
@@ -818,14 +815,6 @@ spec:
             app:
               - path: /opt/mangos/conf/barber.conf
                 subPath: barber.conf
-      dualspec-config:
-        type: configMap
-        name: cmangos-dualspec-config
-        advancedMounts:
-          mangosd:
-            app:
-              - path: /opt/mangos/conf/dualspec.conf
-                subPath: dualspec.conf
       trainingdummies-config:
         type: configMap
         name: cmangos-trainingdummies-config
