@@ -63,18 +63,27 @@ spec:
               # remain open (SpellIdValue UAR, TravelMgr exit-time
               # type-mismatch) — both pre-existing, only fire under
               # ASan; Release silently tolerates.
-              # Bumped to 97851d0e (Release) — adds PR #13 to the
-              # set above. PR #13 wraps every std::regex
-              # construction in PlayerbotLLMInterface.cpp with
-              # try/catch so an invalid LLM response-parsing pattern
-              # logs sLog.outError and degrades gracefully instead
-              # of taking down the world server. Live's helmrelease
-              # has no AiPlayerbot.LLM* keys so the path is dormant —
-              # this is pure binary defense-in-depth for the future
-              # LLM rollout (currently being soaked on PTR with
-              # qwen2.5:3b via the in-cluster Ollama). Promoted on
-              # 2026-05-24 during a 0-human window on live.
-              tag: 97851d0ee39432df5bac8dc6d225a50bb24f1833
+              # Bumped to ed0081c2c (Release) — PR #14 merge
+              # (xunholy/cmangos-classic#14, 20 commits). Scope:
+              #   Twinkmaster: close 250g abuse, remove Insane vendor
+              #     category, canonical enchant names, gate on level +
+              #     twink status, items free via OnPreBuyItem hook,
+              #     unlock-XP opts out of twink mode.
+              #   Attunement: one boost per account (persistent across
+              #     character deletion), two-step confirmation gossip,
+              #     level-1 gate on hardcore opt-ins, hardcore submenu,
+              #     UX cleanup, dropped 'Reset to default'.
+              #   Framework: new OnPreBuyItem hook (Module.h /
+              #     ModuleMgr / Player.cpp). Non-breaking.
+              #   LearnClassSpells: UNION npc_trainer + templates,
+              #     PascalCase columns, resolve teaching spells to
+              #     actual combat spells, faction-filtered trainers.
+              #   Gear audit: T0 dungeon tier, per-class cloaks/necks,
+              #     warrior 1H+shield tank option.
+              #   Stack size 255 for consumables + trade goods (via
+              #     migration Job, not binary — same SQL as PTR).
+              # Soaked on PTR across 5 image rolls + in-game testing.
+              tag: ed0081c2c47ac31ad07da8d4623807fd6fcd0218
             args: ["mangosd"]
             tty: true
             stdin: true
