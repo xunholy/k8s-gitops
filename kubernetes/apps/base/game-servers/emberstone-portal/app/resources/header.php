@@ -200,6 +200,7 @@ $allExp   = get_config('_expansions');
                 <li><a href="./index.php">Home</a></li>
                 <li><a onclick="$('#register').trigger('click'); scrollToContent();">Register</a></li>
                 <li><a onclick="$('#howtoconnect').trigger('click'); scrollToContent();">Connect</a></li>
+                <li><a href="/db/">Database</a></li>
                 <?php if (!get_config('disable_online_players')) { ?>
                     <li><a onclick="$('#serverstatus').trigger('click'); scrollToContent();"><?php elang('server_status'); ?></a></li>
                 <?php }
@@ -221,6 +222,7 @@ $allExp   = get_config('_expansions');
         <a href="./index.php">Home</a>
         <a onclick="$('#register').trigger('click'); closeMobileNav(); scrollToContent();">Register</a>
         <a onclick="$('#howtoconnect').trigger('click'); closeMobileNav(); scrollToContent();">Connect</a>
+        <a href="/db/">Database</a>
         <?php if (!get_config('disable_online_players')) { ?>
             <a onclick="$('#serverstatus').trigger('click'); closeMobileNav(); scrollToContent();"><?php elang('server_status'); ?></a>
         <?php }
