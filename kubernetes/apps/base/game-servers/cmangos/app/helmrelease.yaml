@@ -15,7 +15,7 @@ spec:
     controllers:
       mangosd:
         pod:
-          terminationGracePeriodSeconds: 300
+          terminationGracePeriodSeconds: 390
         initContainers:
           wait-db:
             image:
@@ -92,10 +92,14 @@ spec:
               # MANGOS_DBUSER + MANGOS_DBPASS from 1Password via ESO.
               - secretRef:
                   name: cmangos-database-creds
-            # Graceful shutdown via the existing stdin FIFO. Aligned with
-            # terminationGracePeriodSeconds=300: send 'server restart 240'
-            # (4-min in-game countdown), then sleep 260s for save + exit.
-            # SIGTERM follows at ~280s, SIGKILL at 300s if anything lingers.
+            # Graceful shutdown:
+            #   1. 'saveall' flushes every online character to DB so no
+            #      progress is lost even if the shutdown itself is unclean.
+            #   2. 'server restart 300' starts a 5-minute in-game countdown
+            #      visible to players.
+            #   3. sleep 320 keeps the preStop hook alive until mangosd has
+            #      finished its own shutdown sequence.
+            #   4. SIGTERM at ~340s, SIGKILL at 390s (terminationGracePeriod).
             lifecycle:
               preStop:
                 exec:
@@ -103,8 +107,10 @@ spec:
                     - /bin/sh
                     - -c
                     - |
-                      echo "server restart 240" > /tmp/mangosd-stdin
-                      sleep 260
+                      echo "saveall" > /tmp/mangosd-stdin
+                      sleep 2
+                      echo "server restart 300" > /tmp/mangosd-stdin
+                      sleep 320
             probes:
               liveness:
                 enabled: true

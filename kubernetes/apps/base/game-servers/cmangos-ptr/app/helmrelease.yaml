@@ -52,7 +52,7 @@ spec:
     controllers:
       mangosd:
         pod:
-          terminationGracePeriodSeconds: 180
+          terminationGracePeriodSeconds: 210
         initContainers:
           wait-db:
             image:
@@ -136,10 +136,9 @@ spec:
               # only because it held a pre-rotation DB connection.
               - secretRef:
                   name: cmangos-database-creds
-            # Matches live's graceful-shutdown pattern, tightened for PTR:
-            # 120s in-game countdown + 140s drain, SIGTERM at ~160s, SIGKILL
-            # at 180s. PTR will rarely have anyone logged in so a shorter
-            # window keeps rollouts snappy.
+            # PTR: shorter countdown (2 min) since rarely anyone is on,
+            # but same saveall-first pattern as live to prevent data loss.
+            # SIGTERM at ~160s, SIGKILL at 210s.
             lifecycle:
               preStop:
                 exec:
@@ -147,6 +146,8 @@ spec:
                     - /bin/sh
                     - -c
                     - |
+                      echo "saveall" > /tmp/mangosd-stdin
+                      sleep 2
                       echo "server restart 120" > /tmp/mangosd-stdin
                       sleep 140
             probes:
