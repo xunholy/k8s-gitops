@@ -104,9 +104,11 @@ spec:
               # rework (fixed Main Spec / Secondary Spec names, no rename
               # UI, single-confirm purchase row with "No, take me back"
               # tail) + free-unlock UX (Dualspec.Cost=0 drops the gold
-              # suffix and confirm popup entirely). PR head e67ba9c,
-              # GH-generated PR test-merge SHA below.
-              tag: e048ff2c05b8276f79cb66b005ff81db97e420b9
+              # suffix and confirm popup entirely).
+              # Subsequent bump: re-render gossip after activate so the
+              # (active) marker is live without close/reopen. PR head
+              # 604bd07, GH-generated PR test-merge SHA below.
+              tag: ac8d01414d69442e92aa738c103cbdd9393fa5f7
             args: ["mangosd"]
             tty: true
             stdin: true
