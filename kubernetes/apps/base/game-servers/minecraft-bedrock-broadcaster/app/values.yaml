@@ -19,6 +19,8 @@ minecraftServer:
   # Check accounts against Minecraft account service.
   onlineMode: false
   texturepackRequired: true
+extraEnv:
+  MC_PACK: /data/bb_test_pack.mcpack
 podAnnotations:
   k8s.v1.cni.cncf.io/networks: network-system/wifi-network
 persistence:
