@@ -111,9 +111,14 @@ spec:
               #     is replaced with drain-on-empty GuidSets so AoE /
               #     simultaneous / out-of-order kills all advance
               #     Windsor correctly.
-              # Tag below is the GH-generated PR test-merge SHA, not
-              # PR head (PR builds tag with `github.sha` on PR events).
-              tag: 81830a4db309f9462d53c4c0b8a4128c045139c4
+              # 2026-05-26 bump: PR #20 extended with two belt-and-braces
+              # commits — defensive faction flip (d11feac) so the wardens
+              # are guaranteed hostile regardless of DB seed state, and
+              # pre-kill race close (a34da74) so a player running ahead
+              # of Windsor and AoEing the wardens during phase 1 can't
+              # wedge the escort. Full validation report in PR body.
+              # Tag below is the GH-generated PR test-merge SHA.
+              tag: 15d6e014a5f3450ee75e2747d7d0e12ea941649f
             args: ["mangosd"]
             tty: true
             stdin: true
