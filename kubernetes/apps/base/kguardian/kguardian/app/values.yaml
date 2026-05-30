@@ -9,6 +9,14 @@ controller:
     - kguardian
 
 broker:
+  # PR #888 validation finding: the chart's new default-on broker
+  # NetworkPolicy used a podSelector to admit the controller, but the
+  # controller is a hostNetwork eBPF DaemonSet — Cilium sees its traffic
+  # as node identity, not the pod label, so the policy blocked it and
+  # stalled the controller rollout (HelmRelease UpgradeFailed). Disabled
+  # here until the chart's hostNetwork-aware fix (allowedNodeCIDRs) lands.
+  networkPolicy:
+    enabled: false
   image:
     # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
     # released v1.9.1 + its digest after validating.
