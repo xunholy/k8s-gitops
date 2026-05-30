@@ -190,11 +190,6 @@ spec:
       copy:
         - from: "@repo/apps/base/observability/grafana/app/"
           to: "@artifact/apps/base/observability/grafana/app/"
-    - name: harbor
-      originRevision: "@repo"
-      copy:
-        - from: "@repo/apps/base/harbor/harbor/app/"
-          to: "@artifact/apps/base/harbor/harbor/app/"
     - name: home-assistant
       originRevision: "@repo"
       copy:
