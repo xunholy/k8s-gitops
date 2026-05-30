@@ -1,20 +1,19 @@
 ---
 controller:
   image:
-    # v1.8.2 — eBPF ring-buffer callbacks log first receiver-closed once
-    # then drop subsequent events silently, instead of flooding stderr at
-    # syscall frequency (kguardian-dev/kguardian#880).
-    tag: "v1.8.2"
-    sha: "sha256:bfb9a3b52bc6a146acf19ebec700343ae245431fb17555e8a55ed239caa37356"
+    # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
+    # released v1.8.2 + its digest after validating.
+    tag: "pr-888"
+    sha: "sha256:6adce012c0fd1fea936a7e89aa6dc25200895da3b468780233050caf7f63fefe"
   excludedNamespaces:
     - kguardian
 
 broker:
   image:
-    # v1.9.1 — /health checks schema state so kubelet self-heals on DB wipe
-    # (kguardian-dev/kguardian#876). Validated end-to-end against this cluster.
-    tag: "v1.9.1"
-    sha: "sha256:65261cdfa672c7ad61044e4fe58d945cc5b422dd64de6341aa23c46fd555570e"
+    # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
+    # released v1.9.1 + its digest after validating.
+    tag: "pr-888"
+    sha: "sha256:29b29a99e751a666933dd251992a35b8df9174eb5428aea6aaf49e50ff32c27a"
   resources:
     limits:
       memory: 2Gi
@@ -24,14 +23,16 @@ broker:
 
 frontend:
   image:
-    tag: "v1.9.0"
-    sha: "sha256:32bb6300f51f0bdc3040d6bfa524c8ad56ecd27feb76fb28f9e46dcda7eede83"
+    # TEMP pr-888 validation pin (PR #888). Revert to v1.9.0 + digest after.
+    tag: "pr-888"
+    sha: "sha256:b5e5dc75f27908fb46af8ecee6226b003b76e2a976a895f7dfcf49ec9276194f"
 
 llmBridge:
   enabled: true
   image:
-    tag: "v1.2.3"
-    sha: "sha256:333aa8e252dcea145975d094408a7ab1e4abaedd5ac39e617bdf1cc5894a8437"
+    # TEMP pr-888 validation pin (PR #888). Revert to v1.2.3 + digest after.
+    tag: "pr-888"
+    sha: "sha256:2e52c462f602549f24a155523eb0b4fe5eebea5832f8686151c08f1032646cab"
   secrets:
     openai:
       enabled: true
@@ -43,11 +44,10 @@ llmBridge:
 # blocking traffic. Surfaces in the frontend's "Audit" panel.
 evaluator:
   image:
-    # v0.2.2 — empty results encode as `[]` not `null`, eliminating
-    # broker decode warnings on flows with no matching policies
-    # (kguardian-dev/kguardian#880).
-    tag: "v0.2.2"
-    sha: "sha256:a7c21bdb710402059df9a2709ec64b607be63de9337e47967b0bf97af3948fe4"
+    # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
+    # released v0.2.2 + its digest after validating.
+    tag: "pr-888"
+    sha: "sha256:13d37e59ddc30ae29d0b89175157c57d2364c193ec09866409b3ff7280c25b5f"
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format
