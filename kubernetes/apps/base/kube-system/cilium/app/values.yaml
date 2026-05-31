@@ -119,4 +119,7 @@ securityContext:
       - SYS_RESOURCE
 socketLB:
   enabled: true
-  hostNamespaceOnly: true
+  # Translate pod->Service VIP (incl. LoadBalancer/ExternalIP) at the socket so
+  # pods on the L2-announcer node can reach VIPs that node announces. hostns-only
+  # is only needed for sidecar meshes (Istio) / Kata / gVisor / KubeVirt — none here.
+  hostNamespaceOnly: false
