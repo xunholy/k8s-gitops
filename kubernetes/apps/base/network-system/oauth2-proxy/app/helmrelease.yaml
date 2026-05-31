@@ -15,6 +15,27 @@ spec:
     - name: cert-manager
       namespace: network-system
   values:
+    # Resilience: 2 stateless replicas (cookie session store), spread one-per-node
+    # and guarded by a PDB so a node drain/failure can't drop SSO entirely.
+    replicaCount: 2
+    podDisruptionBudget:
+      enabled: true
+      minAvailable: 1
+      maxUnavailable: null
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: oauth2-proxy
+            app.kubernetes.io/instance: oauth2-proxy
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 128Mi
     metrics:
       servicemonitor:
         enabled: true
