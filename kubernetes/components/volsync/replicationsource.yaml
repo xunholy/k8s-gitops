@@ -24,7 +24,6 @@ spec:
     parallelism: 2
     repository: ${APP}-volsync-secret
     retain:
-      hourly: 24
-      daily: 7
+      daily: 3
     storageClassName: ${VOLSYNC_STORAGECLASS:=ceph-block}
     volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}

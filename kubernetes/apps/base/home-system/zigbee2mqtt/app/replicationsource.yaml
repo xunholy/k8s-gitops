@@ -23,7 +23,6 @@ spec:
     parallelism: 2
     repository: zigbee2mqtt-volsync-secret
     retain:
-      hourly: 24
-      daily: 7
+      daily: 3
     storageClassName: ceph-block
     volumeSnapshotClassName: csi-ceph-blockpool
