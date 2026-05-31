@@ -23,7 +23,7 @@ broker:
     # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
     # released v1.9.1 + its digest after validating.
     tag: "pr-888"
-    sha: "sha256:9b4d570eb0c092c4b20f7959a4ad02fb28a49587eb5778259c1cc4ac36fda90d"
+    sha: "sha256:38174b8b237c2f6f7b7ee700443b46ad23ec2cfe28e506b8b6026cd002733520"
   resources:
     limits:
       memory: 4Gi
