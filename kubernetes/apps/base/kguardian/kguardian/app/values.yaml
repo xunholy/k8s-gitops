@@ -9,6 +9,8 @@ controller:
     - kguardian
 
 broker:
+  # Pool > audit.inflightPermits (16) so audit evals can't starve /health + inserts (prevents liveness-probe flapping under audit backlog).
+  dbPoolMaxSize: 32
   # PR #888 validation finding: the chart's new default-on broker
   # NetworkPolicy used a podSelector to admit the controller, but the
   # controller is a hostNetwork eBPF DaemonSet — Cilium sees its traffic
