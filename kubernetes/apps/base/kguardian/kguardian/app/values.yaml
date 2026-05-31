@@ -4,7 +4,7 @@ controller:
     # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
     # released v1.8.2 + its digest after validating.
     tag: "pr-888"
-    sha: "sha256:6adce012c0fd1fea936a7e89aa6dc25200895da3b468780233050caf7f63fefe"
+    sha: "sha256:4ec06dd95d32e4391d35e3e07dd5dfa39ff50ec43bd9cf2443e23352b25d2ff9"
   excludedNamespaces:
     - kguardian
 
@@ -21,7 +21,7 @@ broker:
     # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
     # released v1.9.1 + its digest after validating.
     tag: "pr-888"
-    sha: "sha256:29b29a99e751a666933dd251992a35b8df9174eb5428aea6aaf49e50ff32c27a"
+    sha: "sha256:9b4d570eb0c092c4b20f7959a4ad02fb28a49587eb5778259c1cc4ac36fda90d"
   resources:
     limits:
       memory: 2Gi
@@ -33,14 +33,14 @@ frontend:
   image:
     # TEMP pr-888 validation pin (PR #888). Revert to v1.9.0 + digest after.
     tag: "pr-888"
-    sha: "sha256:b5e5dc75f27908fb46af8ecee6226b003b76e2a976a895f7dfcf49ec9276194f"
+    sha: "sha256:5c140a124ac78c74190fd18721fac83891f7a3630286239e570fc54cfc74d157"
 
 llmBridge:
   enabled: true
   image:
     # TEMP pr-888 validation pin (PR #888). Revert to v1.2.3 + digest after.
     tag: "pr-888"
-    sha: "sha256:2e52c462f602549f24a155523eb0b4fe5eebea5832f8686151c08f1032646cab"
+    sha: "sha256:e9fcf59e2edeec3d4c0d1feea95fd5953748541acfebee58255fc242399530d7"
   secrets:
     openai:
       enabled: true
@@ -55,7 +55,7 @@ evaluator:
     # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
     # released v0.2.2 + its digest after validating.
     tag: "pr-888"
-    sha: "sha256:13d37e59ddc30ae29d0b89175157c57d2364c193ec09866409b3ff7280c25b5f"
+    sha: "sha256:9f90c0fa2d9fddb5d29f43912615ccbfc00a82dc191732e8c6ed1d267715fb56"
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format
