@@ -4,7 +4,7 @@ controller:
     # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
     # released v1.8.2 + its digest after validating.
     tag: "pr-888"
-    sha: "sha256:4ec06dd95d32e4391d35e3e07dd5dfa39ff50ec43bd9cf2443e23352b25d2ff9"
+    sha: "sha256:301faaf15d161f5ea4ddfe860714c56169228f3293800a09245dc807aeac28d0"
   excludedNamespaces:
     - kguardian
 
