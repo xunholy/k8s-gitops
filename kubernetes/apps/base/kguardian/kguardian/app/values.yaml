@@ -1,29 +1,28 @@
 ---
 controller:
   image:
-    # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
-    # released v1.8.2 + its digest after validating.
-    tag: "pr-888"
-    sha: "sha256:c9399d6481ec9b0d9ddb25d6a6ecfd9e2ea4b41f7232e26a82c89beb9e905768"
+    # Released pin: controller v1.9.0 (massive-uplift release, PR #888).
+    tag: "v1.9.0"
+    sha: "sha256:9bbe80ad6c97a37fcee4b914c34c8570185c0c8f2b5d0000f23387d0c55f6526"
   excludedNamespaces:
     - kguardian
 
 broker:
-  # Pool > audit.inflightPermits (16) so audit evals can't starve /health + inserts (prevents liveness-probe flapping under audit backlog).
+  # Both of the next two now MATCH the chart 1.12.0 defaults (kept explicit
+  # for clarity, not because an override is required):
+  # - dbPoolMaxSize 32 keeps headroom over audit.inflightPermits (16) so
+  #   audit evals can't starve /health + inserts (liveness-flap guard).
   dbPoolMaxSize: 32
-  # PR #888 validation finding: the chart's new default-on broker
-  # NetworkPolicy used a podSelector to admit the controller, but the
-  # controller is a hostNetwork eBPF DaemonSet — Cilium sees its traffic
-  # as node identity, not the pod label, so the policy blocked it and
-  # stalled the controller rollout (HelmRelease UpgradeFailed). Disabled
-  # here until the chart's hostNetwork-aware fix (allowedNodeCIDRs) lands.
+  # - NetworkPolicy left disabled: this cluster's controller is a
+  #   hostNetwork eBPF DaemonSet, so Cilium sees its traffic as node
+  #   identity. Enabling the (now hostNetwork-aware) NP would require
+  #   listing the node CIDRs via broker.networkPolicy.allowedNodeCIDRs.
   networkPolicy:
     enabled: false
   image:
-    # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
-    # released v1.9.1 + its digest after validating.
-    tag: "pr-888"
-    sha: "sha256:f0d883607faa4357bc50bc90fc9b7e06a7f83cb64aa488e3ce8908050c1f4a44"
+    # Released pin: broker v1.10.0 (massive-uplift release, PR #888).
+    tag: "v1.10.0"
+    sha: "sha256:fe0f13267a34c9b173cc3160c561cf75c61591486525cfcb18f1e8f7b53db927"
   resources:
     limits:
       memory: 4Gi
@@ -33,16 +32,16 @@ broker:
 
 frontend:
   image:
-    # TEMP pr-888 validation pin (PR #888). Revert to v1.9.0 + digest after.
-    tag: "pr-888"
-    sha: "sha256:5c140a124ac78c74190fd18721fac83891f7a3630286239e570fc54cfc74d157"
+    # Released pin: frontend v1.10.0 (massive-uplift release, PR #888).
+    tag: "v1.10.0"
+    sha: "sha256:af44cd471c6260e8b34a01b11a23a773028c69041769ed1067ca37b5cc3ecd64"
 
 llmBridge:
   enabled: true
   image:
-    # TEMP pr-888 validation pin (PR #888). Revert to v1.2.3 + digest after.
-    tag: "pr-888"
-    sha: "sha256:e9fcf59e2edeec3d4c0d1feea95fd5953748541acfebee58255fc242399530d7"
+    # Released pin: llm-bridge v1.3.0 (massive-uplift release, PR #888).
+    tag: "v1.3.0"
+    sha: "sha256:d6387861404240a791fe537baca8397083104732c2427bd1e961bfbfbd9c813a"
   secrets:
     openai:
       enabled: true
@@ -54,10 +53,9 @@ llmBridge:
 # blocking traffic. Surfaces in the frontend's "Audit" panel.
 evaluator:
   image:
-    # TEMP pr-888 validation pin (PR #888 / massive-uplift). Revert to the
-    # released v0.2.2 + its digest after validating.
-    tag: "pr-888"
-    sha: "sha256:9f90c0fa2d9fddb5d29f43912615ccbfc00a82dc191732e8c6ed1d267715fb56"
+    # Released pin: evaluator v0.3.0 (massive-uplift release, PR #888).
+    tag: "v0.3.0"
+    sha: "sha256:ba79dc7b3b4018e17f18d0fb49984bdca77a6522412c98ab14f2656d3b00015f"
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format

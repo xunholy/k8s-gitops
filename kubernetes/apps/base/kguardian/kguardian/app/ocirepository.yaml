@@ -10,7 +10,8 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    # TEMP pr-888 chart (PR #888 / massive-uplift) — includes the default-on
-    # broker NetworkPolicy + audit_verdicts index migration. Revert to 1.11.1.
-    tag: 1.11.1-pr888
+    # Released chart: kguardian 1.12.0 (massive-uplift release, PR #888) —
+    # ships the broker pool/retention/index hardening, hostNetwork-aware
+    # opt-in NetworkPolicy, and load-tolerant probes.
+    tag: 1.12.0
   url: oci://ghcr.io/kguardian-dev/charts/kguardian
