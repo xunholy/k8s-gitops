@@ -383,7 +383,14 @@ spec:
             # avoids the HandleMoveWorldportAckOpcode race.
             AiPlayerbot.RandomBotAutoJoinBG = 0
             AiPlayerbot.RandomBotGroupNearby = 1
-            AiPlayerbot.SyncLevelWithPlayers = 1
+            # Spread bots across the full 1-60 range instead of pinning them to
+            # the (low) online-player level. With sync on, a quiet/low-level
+            # server collapsed the bot cap to ~player+2, dragging the whole pool
+            # to level 1-7 and swarming starter zones. Off: bots distribute 1-60
+            # and the periodic randomize re-rolls any bot <= startingLevel(5)
+            # upward, so low-level bots continuously level up and move on.
+            # (SyncLevelMaxAbove is inert while sync is disabled.)
+            AiPlayerbot.SyncLevelWithPlayers = 0
             AiPlayerbot.SyncLevelMaxAbove = 2
             AiPlayerbot.AutoPickTalents = full
             AiPlayerbot.AutoTrainSpells = free
