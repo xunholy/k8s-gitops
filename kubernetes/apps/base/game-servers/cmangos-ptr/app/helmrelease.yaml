@@ -373,7 +373,11 @@ spec:
             # Re-enable to 1 once the upstream fix lands.
             AiPlayerbot.RandomGearUpgradeEnabled = 1
             AiPlayerbot.RandomGearMaxDiff = 3
-            AiPlayerbot.RandomBotTeleportNearPlayer = 1
+            # Off: bots teleport to random level-appropriate spots instead of
+            # onto real players. Spreads them across the world, cuts teleport
+            # churn, and stops the city/quest-hub dogpiling that amplified the
+            # emote/LLM chatter. (Community/celguar vanilla default is 0.)
+            AiPlayerbot.RandomBotTeleportNearPlayer = 0
             AiPlayerbot.SyncQuestWithPlayer = 1
             # Match live: forces InitGuild() onto the no-bug branch (see
             # live aiplayerbot.conf for the 2026-05-21 SIGSEGV analysis).
