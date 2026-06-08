@@ -118,7 +118,11 @@ spec:
               # of Windsor and AoEing the wardens during phase 1 can't
               # wedge the escort. Full validation report in PR body.
               # Tag below is the GH-generated PR test-merge SHA.
-              tag: 15d6e014a5f3450ee75e2747d7d0e12ea941649f
+              # 2026-06-08: bumped to 8fc4bbbc for the paladinpower module
+              # (Classic paladin Crusader Strike) — vendored + build-wired in
+              # xunholy/cmangos-classic@8fc4bbbc. PTR-only; live cmangos stays
+              # pinned to 7205c38f. Enabled via the paladinpower-config mount.
+              tag: 8fc4bbbc06d703cc67f1d54ed155023f266f084d
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -357,6 +361,12 @@ spec:
             AiPlayerbot.RandomBotAccountCount = 2000
             AiPlayerbot.MinRandomBots = 1500
             AiPlayerbot.MaxRandomBots = 2000
+            # Force random bots to learn Crusader Strike (paladinpower module).
+            # PlayerbotFactory::ClearSpells() wipes module-granted spells on each
+            # re-randomize, so the module's level-up hook isn't enough for bots;
+            # RandomBotSpellIds is re-applied after ClearSpells. 54197 is the
+            # stock default; appended CS ranks (all ranks, level-gating bypassed).
+            AiPlayerbot.RandomBotSpellIds = 54197,2537,8823,8824,10336,10337
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
             AiPlayerbot.RandomBotMaps = 0,1
@@ -721,6 +731,16 @@ spec:
             Achievements.RandomBots = 0
             Achievements.RandomBotsRealmFirst = 0
             Achievements.AccountAchievements = 0
+      # paladinpower module (Classic paladin Crusader Strike). PTR-only test.
+      # Enable=1 + EnableCrusaderStrike=1 grants CS ranks 2537/8823/8824/10336/
+      # 10337 (L10-58). Plain key=value only — the cmangos parser treats inline
+      # section headers/comments inside the .conf body as garbage.
+      paladinpower-config:
+        data:
+          paladinpower.conf: |
+            Paladinpower.Enable = 1
+            Paladinpower.EnableCrusaderStrike = 1
+            Paladinpower.EnableOldHolyStrike = 0
     persistence:
       data:
         existingClaim: cmangos-ptr-data
@@ -833,6 +853,14 @@ spec:
             app:
               - path: /opt/mangos/conf/achievements.conf
                 subPath: achievements.conf
+      paladinpower-config:
+        type: configMap
+        name: cmangos-ptr-paladinpower-config
+        advancedMounts:
+          mangosd:
+            app:
+              - path: /opt/mangos/conf/paladinpower.conf
+                subPath: paladinpower.conf
       mangosd-logs:
         existingClaim: cmangos-ptr-mangosd-logs
         advancedMounts:
