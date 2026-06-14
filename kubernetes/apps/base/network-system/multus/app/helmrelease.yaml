@@ -55,6 +55,9 @@ spec:
     serviceAccount:
       multus: {}
     defaultPodOptions:
+      # app-template v5 defaults automountServiceAccountToken to false; multus
+      # needs its SA token to read NetworkAttachmentDefinitions/pods/events.
+      automountServiceAccountToken: true
       tolerations:
         - key: "node-role.kubernetes.io/control-plane"
           operator: "Exists"
