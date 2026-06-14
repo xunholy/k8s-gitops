@@ -29,7 +29,7 @@ spec:
           app:
             image:
               repository: mariadb
-              tag: "12.2"
+              tag: "12.3"
             env:
               TZ: ${CLUSTER_TIMEZONE}
               # MARIADB_ROOT_PASSWORD is first-init-only (DB volume is

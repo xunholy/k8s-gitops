@@ -25,7 +25,7 @@ spec:
           command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
       containers:
         - name: init
-          image: mariadb:12.2
+          image: mariadb:12.3
           # CREATE DATABASE + GRANT must be run as root (the app user lacks
           # global CREATE). Dumps + restores then run as root too, since
           # we already have a root session here. App-user grants are what
