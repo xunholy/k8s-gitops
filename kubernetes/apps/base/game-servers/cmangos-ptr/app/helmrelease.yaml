@@ -122,7 +122,18 @@ spec:
               # (Classic paladin Crusader Strike) — vendored + build-wired in
               # xunholy/cmangos-classic@8fc4bbbc. PTR-only; live cmangos stays
               # pinned to 7205c38f. Enabled via the paladinpower-config mount.
-              tag: 8fc4bbbc06d703cc67f1d54ed155023f266f084d
+              # 2026-06-14: bumped to fa0a3d9c for PR #21
+              # (xunholy/cmangos-classic#21) — "The Missing Diplomat" / Dashel
+              # Stonefist (quest 1447) fixes. Two server-side defects:
+              #   1. HandleEndEvent no longer gates the whole RP/credit switch
+              #      on m_thugsAlive, so the quest can complete when both Old
+              #      Town Thugs die before Dashel yields (stage 5 now runs
+              #      AreaExploredOrEventHappens(1447)).
+              #   2. SetDeathPrevention(false) in Reset() — Dashel is no longer
+              #      left permanently unkillable after the encounter.
+              # Additive on top of 8fc4bbbc (same modules + paladinpower mount);
+              # no SQL, so no new migration. GH PR test-merge SHA. PTR-only.
+              tag: fa0a3d9c700d81317ebdda30556ddc3279c826ba
             args: ["mangosd"]
             tty: true
             stdin: true
