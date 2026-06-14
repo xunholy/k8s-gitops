@@ -16,7 +16,7 @@ spec:
       - ReadWriteOnce
     cacheAccessModes:
       - ReadWriteOnce
-    cacheCapacity: 5Gi
+    cacheCapacity: 10Gi
     cacheStorageClassName: ceph-block
     compression: zstd-fastest
     copyMethod: Snapshot
