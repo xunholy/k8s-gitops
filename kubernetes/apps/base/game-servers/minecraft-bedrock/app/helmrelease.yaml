@@ -18,6 +18,8 @@ spec:
       interval: 5m
   values:
     fullnameOverride: *app
+    serviceAnnotations:
+      lbipam.cilium.io/ips: ${CLUSTER_LB_MINECRAFT_BEDROCK}
   valuesFrom:
     - kind: ConfigMap
       name: mincraft-bedrock-values
