@@ -378,6 +378,12 @@ spec:
             # Competitive BG/WSG twink settings
             AiPlayerbot.minEnchantingBotLevel = 10
             AiPlayerbot.BotAcceptDuelMinimumLevel = 10
+            # Chance a bot actually drinks a potion when its potion action
+            # fires. NB (verified in UseItemAction.h:111-113): this roll is
+            # ONLY consulted while a bot is PvP-flagged / in a BG/arena — in
+            # PvE the !IsInPvp() short-circuit makes bots always potion, so
+            # this does NOT throttle PvE consumable use. 0.2 = 20% in PvP.
+            AiPlayerbot.UsePotionChance = 0.2
             # Engine::LogAction (Engine.cpp:782) early-returns when a bot
             # isn't grouped with a real player. With ~1000 random bots
             # idling in the world, that drops AI trace volume by ~95%
