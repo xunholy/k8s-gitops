@@ -681,7 +681,7 @@ data:
   enable-bbr-hostns-only: "false"
   enable-bpf-clock-probe: "false"
   enable-bpf-masquerade: "true"
-  enable-bpf-tproxy: "true"
+  enable-bpf-tproxy: "false"
   enable-endpoint-health-checking: "true"
   enable-endpoint-lockdown-on-policy-overflow: "false"
   enable-endpoint-routes: "true"
