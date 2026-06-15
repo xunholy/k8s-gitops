@@ -80,11 +80,13 @@ spec:
             srtAddress: :8890
             hls: false
             webrtc: false
+            moq: false
             api: false
             metrics: false
             pprof: false
             playback: false
-            record: false
+            pathDefaults:
+              record: false
 
             # No anonymous access. Passwords come from env (mediamtx-secret).
             authMethod: internal
