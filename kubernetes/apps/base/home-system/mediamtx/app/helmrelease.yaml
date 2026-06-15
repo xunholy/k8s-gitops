@@ -1,0 +1,121 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app mediamtx
+  namespace: home-system
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      *app :
+        containers:
+          app:
+            image:
+              repository: docker.io/bluenviron/mediamtx
+              tag: 1.19.1@sha256:61ebddaa43a6da78d4c6e98b9f9c12066856ffd85893656f5c000d870b88bbe4
+            env:
+              TZ: ${CLUSTER_TIMEZONE}
+            envFrom:
+              # Per-user stream passwords, injected as MTX_AUTHINTERNALUSERS_<n>_PASS.
+              # These override the empty `pass:` fields defined in the mediamtx.yml ConfigMap.
+              - secretRef:
+                  name: mediamtx-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 25m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: *app
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: '${CLUSTER_LB_MEDIAMTX}'
+        ports:
+          rtmp:
+            port: 1935
+            protocol: TCP
+          rtsp:
+            port: 8554
+            protocol: TCP
+          srt:
+            port: 8890
+            protocol: UDP
+    configMaps:
+      config:
+        data:
+          mediamtx.yml: |
+            logLevel: info
+            logDestinations: [stdout]
+
+            # Ingest + relay only — no recording, no transcoding.
+            # RTMP  (1935/tcp)  friends publish from OBS
+            # RTSP  (8554/tcp)  director pulls into OBS (low latency)
+            # SRT   (8890/udp)  encrypted/low-latency ingest alternative
+            rtsp: true
+            rtspTransports: [tcp]
+            rtspAddress: :8554
+            rtmp: true
+            rtmpAddress: :1935
+            srt: true
+            srtAddress: :8890
+            hls: false
+            webrtc: false
+            api: false
+            metrics: false
+            pprof: false
+            playback: false
+            record: false
+
+            # No anonymous access. Passwords come from env (mediamtx-secret).
+            authMethod: internal
+            authInternalUsers:
+              - user: friend1
+                pass: ""
+                ips: []
+                permissions:
+                  - action: publish
+                    path: cam1
+              - user: friend2
+                pass: ""
+                ips: []
+                permissions:
+                  - action: publish
+                    path: cam2
+              - user: director
+                pass: ""
+                ips: []
+                permissions:
+                  - action: read
+
+            paths:
+              all_others:
+    persistence:
+      config:
+        type: configMap
+        name: mediamtx
+        advancedMounts:
+          mediamtx:
+            app:
+              # Override the config bundled at the image's default search path.
+              - path: /mediamtx.yml
+                subPath: mediamtx.yml
