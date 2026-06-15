@@ -22,7 +22,7 @@ metadata:
   name: cmangos-ptr-stack-size-255-migration
   namespace: game-servers
 spec:
-  ttlSecondsAfterFinished: 86400
+  ttlSecondsAfterFinished: 600
   backoffLimit: 3
   template:
     spec:

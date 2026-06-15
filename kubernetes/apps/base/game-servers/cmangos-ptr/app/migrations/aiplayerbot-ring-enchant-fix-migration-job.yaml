@@ -41,7 +41,7 @@ metadata:
   name: cmangos-ptr-aiplayerbot-ring-enchant-fix-migration
   namespace: game-servers
 spec:
-  ttlSecondsAfterFinished: 86400
+  ttlSecondsAfterFinished: 600
   backoffLimit: 3
   template:
     spec:

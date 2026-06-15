@@ -26,7 +26,7 @@ metadata:
   name: cmangos-ptr-ai-playerbot-names-seed-migration
   namespace: game-servers
 spec:
-  ttlSecondsAfterFinished: 86400
+  ttlSecondsAfterFinished: 600
   backoffLimit: 3
   template:
     spec:

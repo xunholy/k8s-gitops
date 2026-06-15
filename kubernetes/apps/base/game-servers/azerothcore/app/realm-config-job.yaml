@@ -12,7 +12,7 @@ metadata:
   annotations:
     kustomize.toolkit.fluxcd.io/force: Enabled
 spec:
-  ttlSecondsAfterFinished: 86400
+  ttlSecondsAfterFinished: 600
   backoffLimit: 3
   template:
     spec:

@@ -14,7 +14,7 @@ metadata:
   name: cmangos-ptr-db-init
   namespace: game-servers
 spec:
-  ttlSecondsAfterFinished: 86400
+  ttlSecondsAfterFinished: 600
   backoffLimit: 3
   template:
     spec:

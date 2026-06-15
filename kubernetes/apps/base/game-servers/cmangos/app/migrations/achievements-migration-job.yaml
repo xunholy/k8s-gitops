@@ -23,7 +23,7 @@ metadata:
   name: cmangos-achievements-migration
   namespace: game-servers
 spec:
-  ttlSecondsAfterFinished: 86400
+  ttlSecondsAfterFinished: 600
   # Higher backoffLimit + activeDeadlineSeconds — applying the 3.3MB world SQL
   # against a cold DB can take a couple of minutes.
   backoffLimit: 3

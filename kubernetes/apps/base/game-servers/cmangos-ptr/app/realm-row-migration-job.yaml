@@ -38,7 +38,7 @@ metadata:
   name: cmangos-ptr-realm-row-migration
   namespace: game-servers
 spec:
-  ttlSecondsAfterFinished: 86400
+  ttlSecondsAfterFinished: 600
   backoffLimit: 3
   template:
     spec:
