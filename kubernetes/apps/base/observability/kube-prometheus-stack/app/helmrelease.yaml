@@ -59,6 +59,10 @@ spec:
         # Replaced with custom rule at 3x threshold (default 1.5x is too sensitive
         # with auto-compaction; fragmentation between defrag cycles is normal)
         etcdDatabaseHighFragmentationRatio: true
+        # Replaced with custom rule (prometheusrule.yaml): the bulk media NFS share
+        # (/mnt/tank/media) runs ~96% full normally and only alerts at 99%; all
+        # other filesystems keep the standard 5%/3% thresholds.
+        NodeFilesystemAlmostOutOfSpace: true
       # Extend "for:" durations on upgrade-sensitive alerts to avoid transient noise
       rules:
         kubeProxy: false

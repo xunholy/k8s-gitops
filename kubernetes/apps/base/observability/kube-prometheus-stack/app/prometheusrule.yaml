@@ -1,0 +1,58 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: node-exporter-filesystem-custom
+spec:
+  groups:
+    # Replaces the upstream NodeFilesystemAlmostOutOfSpace (disabled in the
+    # kube-prometheus-stack HelmRelease defaultRules). The bulk media NFS share
+    # (/mnt/tank/media on expanse) runs ~96% full as normal operation, so it
+    # only alerts at 99% full (<1% free). All other filesystems keep the
+    # standard 5% (warning) / 3% (critical) thresholds.
+    - name: node-exporter-filesystem.rules
+      rules:
+        - alert: NodeFilesystemAlmostOutOfSpace
+          expr: |-
+            (
+              node_filesystem_avail_bytes{job="node-exporter",fstype!="",mountpoint!="",mountpoint!="/mnt/tank/media"} / node_filesystem_size_bytes{job="node-exporter",fstype!="",mountpoint!="",mountpoint!="/mnt/tank/media"} * 100 < 5
+            and
+              node_filesystem_readonly{job="node-exporter",fstype!="",mountpoint!="",mountpoint!="/mnt/tank/media"} == 0
+            )
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: Filesystem has less than 5% space left.
+            description: Filesystem on {{ $labels.device }}, mounted on {{ $labels.mountpoint }}, at {{ $labels.instance }} has only {{ printf "%.2f" $value }}% available space left.
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/node/nodefilesystemalmostoutofspace
+        - alert: NodeFilesystemAlmostOutOfSpace
+          expr: |-
+            (
+              node_filesystem_avail_bytes{job="node-exporter",fstype!="",mountpoint!="",mountpoint!="/mnt/tank/media"} / node_filesystem_size_bytes{job="node-exporter",fstype!="",mountpoint!="",mountpoint!="/mnt/tank/media"} * 100 < 3
+            and
+              node_filesystem_readonly{job="node-exporter",fstype!="",mountpoint!="",mountpoint!="/mnt/tank/media"} == 0
+            )
+          for: 30m
+          labels:
+            severity: critical
+          annotations:
+            summary: Filesystem has less than 3% space left.
+            description: Filesystem on {{ $labels.device }}, mounted on {{ $labels.mountpoint }}, at {{ $labels.instance }} has only {{ printf "%.2f" $value }}% available space left.
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/node/nodefilesystemalmostoutofspace
+        # Bulk media share: expected to run near-full, only alert at 99% (<1% free)
+        - alert: NodeFilesystemAlmostOutOfSpace
+          expr: |-
+            (
+              node_filesystem_avail_bytes{job="node-exporter",fstype!="",mountpoint="/mnt/tank/media"} / node_filesystem_size_bytes{job="node-exporter",fstype!="",mountpoint="/mnt/tank/media"} * 100 < 1
+            and
+              node_filesystem_readonly{job="node-exporter",fstype!="",mountpoint="/mnt/tank/media"} == 0
+            )
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: Filesystem has less than 1% space left.
+            description: Filesystem on {{ $labels.device }}, mounted on {{ $labels.mountpoint }}, at {{ $labels.instance }} has only {{ printf "%.2f" $value }}% available space left.
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/node/nodefilesystemalmostoutofspace
