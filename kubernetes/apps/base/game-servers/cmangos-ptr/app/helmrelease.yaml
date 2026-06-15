@@ -133,7 +133,17 @@ spec:
               #      left permanently unkillable after the encounter.
               # Additive on top of 8fc4bbbc (same modules + paladinpower mount);
               # no SQL, so no new migration. GH PR test-merge SHA. PTR-only.
-              tag: fa0a3d9c700d81317ebdda30556ddc3279c826ba
+              # 2026-06-15: bumped to f086a251 for PR #22
+              # (xunholy/cmangos-classic#22) — bounds-check the grid index in
+              # TerrainInfo::GetGrid so an off-map coordinate (broken movement
+              # spline) no longer reads m_GridMaps[64][64] out of bounds and
+              # SIGSEGVs in GetAreaFlag on a map-update worker thread. This is
+              # the soak-test image to validate that MapUpdate.Threads=3 is
+              # stable, so we can drop the Threads=1 workaround. NOTE: this is
+              # branched off main (8fc4bbbc), so it does NOT carry the PR #21
+              # Dashel/Missing-Diplomat fix — intentionally, to isolate the
+              # crash fix under multi-threaded map update. GH PR test-merge SHA.
+              tag: f086a251beb33e76c515e41ab1c4a9c7b8e091df
             args: ["mangosd"]
             tty: true
             stdin: true
