@@ -80,7 +80,22 @@ spec:
               # Bumped to 7205c38f7 — auto-unlock dualspec on first
               # visit (removed "Purchase Dual Talent Specialization"
               # gossip step; players go straight to spec-switch menu).
-              tag: 7205c38f7097b1044f1c2ff28a74b0e6a12fc546
+              # 2026-06-17: SURGICAL HOTFIX to 5616d6dff — stops the ~2x/day
+              # SIGSEGV in TerrainInfo::GetAreaFlag/GetGrid where an off-map
+              # bot (x~-18133, gx=66 > 63) indexed m_GridMaps[64][64] out of
+              # bounds (Player::Update -> GetZoneAndAreaId). Adds an isfinite +
+              # grid-index bounds guard returning nullptr off-map (callers all
+              # treat null as "no data"; GetAreaFlag falls back to
+              # GetAreaFlagByMapId). Pure fail-safe, no behaviour change for
+              # valid coords. Image = live's own 7205c38f + ONLY this guard,
+              # built via workflow_dispatch on branch hotfix/live-gridmap-guard
+              # (deliberately NOT a PR-to-main build, which would drag in the
+              # paladinpower module). PTR-soak-validated; reviewed by a design
+              # panel + an implementation-verification gate (both GO, no code
+              # defects, surgical scope confirmed). Root-cause source fix
+              # (bots reaching off-map via WorldObject::Relocate/FleeManager)
+              # and off-map-bot DB cleanup are tracked as separate follow-ups.
+              tag: 5616d6dff7726035f7fee0d3a70bdd3340db8e86
             args: ["mangosd"]
             tty: true
             stdin: true
