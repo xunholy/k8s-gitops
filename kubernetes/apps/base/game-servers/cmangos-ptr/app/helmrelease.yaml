@@ -143,7 +143,16 @@ spec:
               # branched off main (8fc4bbbc), so it does NOT carry the PR #21
               # Dashel/Missing-Diplomat fix — intentionally, to isolate the
               # crash fix under multi-threaded map update. GH PR test-merge SHA.
-              tag: f086a251beb33e76c515e41ab1c4a9c7b8e091df
+              # 2026-06-18: bumped to 709056456 (branch ptr/guardrails-attuner =
+              # harden/ptr-guardrails + Feature 1 cherry-pick). f086a251 still
+              # SIGSEGV'd ~1x/8-12h under bot load (playerbot movement / UAF) and
+              # spammed 40k+ "MySQL server has gone away". This image adds the
+              # upstream-sync playerbot fixes + GetStmt fail-soft hardening (so a
+              # failed prepared stmt no longer aborts the realm) AND the periodic
+              # Attuner-of-Paths announcement, to soak both at once. workflow_dispatch
+              # SHA (branch tip, NOT a PR merge SHA — keeps paladinpower build state
+              # identical to the prior image).
+              tag: 7090564565a86bcd4f41987e5c0f75d55b659047
             args: ["mangosd"]
             tty: true
             stdin: true
