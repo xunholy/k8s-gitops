@@ -19,7 +19,7 @@ data:
     -- Grey (poor quality, Quality=0) junk that already stacks (e.g. 5) -> 255,
     -- mirroring the consumable/reagent logic. Stackable > 1 keeps non-stackable
     -- grey gear (weapons/armour) un-stackable.
-    UPDATE item_template SET Stackable = 255 WHERE Quality = 0 AND Stackable > 1 AND Stackable < 255;
+    UPDATE item_template SET Stackable = 255 WHERE Quality = 0 AND Stackable > 1 AND Stackable < 255 AND ContainerSlots = 0 AND BagFamily = 0;
 ---
 apiVersion: batch/v1
 kind: Job
