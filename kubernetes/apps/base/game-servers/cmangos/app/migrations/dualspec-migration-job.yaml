@@ -1,8 +1,15 @@
 ---
-# Dualspec module — applies talent/action/character schema + NPC spawn for the
-# Dual Specialization Crystal (entry 190024). Idempotent: CREATE TABLE IF NOT
-# EXISTS for the 4 tables, INSERT IGNORE for the data-seeding inserts from
-# character_action and characters (PK collisions on re-run are harmless).
+# Dualspec module — applies talent/action/character schema + dualspec UI strings.
+# Idempotent: CREATE TABLE IF NOT EXISTS for the 4 tables, INSERT IGNORE for the
+# data-seeding inserts from character_action and characters (PK collisions on
+# re-run are harmless).
+#
+# The old Dual Specialization Crystal NPC (entry 190024) is now PERMANENTLY
+# REMOVED — the dualspec service moved onto the Attuner of Paths NPC. The
+# creature_template / creature(spawns) / locales_creature rows for 190024 are
+# DELETEd (no re-INSERT) so the crystal stays despawned across every reconcile.
+# The dualspec UI strings (mangos_string 12000-12021, npc_text 50700) are kept
+# because the Attuner's dualspec gossip still uses them.
 #
 # Re-running is safe and preserves existing player dualspec state. The DROP
 # TABLE in the upstream cmangos-classic SQL is intentionally NOT replicated
@@ -56,50 +63,12 @@ data:
   world.sql: |
     SET @ENTRY := 190024;
 
-    -- Creature template: Dual Specialization Crystal
+    -- REMOVE the old Dual Specialization Crystal NPC permanently. The dualspec
+    -- service is now offered by the Attuner of Paths; the crystal must not be
+    -- re-created on reconcile. DELETE only, no re-INSERT.
+    DELETE FROM `creature` WHERE `id` = @ENTRY;          -- despawn Stormwind + Orgrimmar
     DELETE FROM `creature_template` WHERE `entry` = @ENTRY;
-    INSERT INTO `creature_template`
-      (Entry, Name, SubName, MinLevel, MaxLevel, DisplayId1, DisplayIdProbability1,
-       Faction, Scale, Family, CreatureType, InhabitType, RegenerateStats, RacialLeader,
-       NpcFlags, UnitFlags, DynamicFlags, ExtraFlags, CreatureTypeFlags, SpeedWalk, SpeedRun,
-       Detection, CallForHelp, Pursuit, Leash, Timeout, UnitClass, `Rank`,
-       HealthMultiplier, PowerMultiplier, DamageMultiplier, DamageVariance, ArmorMultiplier,
-       ExperienceMultiplier, MinLevelHealth, MaxLevelHealth, MinLevelMana, MaxLevelMana,
-       MinMeleeDmg, MaxMeleeDmg, MinRangedDmg, MaxRangedDmg, Armor, MeleeAttackPower,
-       RangedAttackPower, MeleeBaseAttackTime, RangedBaseAttackTime, DamageSchool,
-       MinLootGold, MaxLootGold, LootId, PickpocketLootId, SkinningLootId,
-       KillCredit1, KillCredit2, MechanicImmuneMask, SchoolImmuneMask,
-       ResistanceHoly, ResistanceFire, ResistanceNature, ResistanceFrost, ResistanceShadow, ResistanceArcane,
-       PetSpellDataId, MovementType, TrainerType, TrainerSpell, TrainerClass, TrainerRace,
-       TrainerTemplateId, VendorTemplateId, EquipmentTemplateId, GossipMenuId, AIName)
-    VALUES
-      (@ENTRY, 'Dual Specialization Crystal', '', 1, 1, 11659, 100,
-       35, 1, 0, 7, 3, 3, 0,
-       1, 0, 0, 0, 0, 1, 1.14286,
-       20, 0, 0, 0, 0, 1, 0,
-       1, 1, 1, 1, 1, 1,
-       42, 42, 0, 0,
-       2, 2, 0, 0, 7, 11,
-       0, 2000, 2000, 0,
-       0, 0, 0, 0, 0,
-       0, 0, 0, 0,
-       0, 0, 0, 0, 0, 0,
-       0, 0, 0, 0, 0, 0,
-       0, 0, 0, 0, '');
-
-    -- Spawns: Stormwind + Orgrimmar
-    DELETE FROM `creature` WHERE `id` = @ENTRY;
-    INSERT INTO `creature`
-      (`id`, `map`, `spawnMask`, `position_x`, `position_y`, `position_z`, `orientation`,
-       `spawntimesecsmin`, `spawntimesecsmax`, `spawndist`, `MovementType`)
-    VALUES
-      (@ENTRY, 0, 1, -8988.56,   849.754, 29.621, 2.27687, 25, 25, 0, 0),
-      (@ENTRY, 1, 1,  1471.63, -4216.46,  58.9942, 4.35778, 25, 25, 0, 0);
-
-    -- Localised name (Spanish)
     DELETE FROM `locales_creature` WHERE `entry` = @ENTRY;
-    INSERT INTO `locales_creature` (`entry`, `name_loc6`)
-    VALUES (@ENTRY, 'Cristal de Doble Especialización');
 
     -- mangos_string entries for the dualspec UI (English + Spanish loc6)
     SET @STRING_ENTRY := 12000;
@@ -169,17 +138,17 @@ spec:
               echo "=== Applying Dualspec schema + seeding from character_action/characters ==="
               mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters < /sql/characters.sql
 
-              echo "=== Applying Dualspec NPC + strings + spawns to classicmangos ==="
+              echo "=== Applying Dualspec UI strings + removing old crystal NPC from classicmangos ==="
               mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos < /sql/world.sql
 
               echo "=== Verifying characters tables ==="
               mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classiccharacters -e "SHOW TABLES LIKE 'custom_dualspec%';"
 
-              echo "=== Verifying NPC template (entry 190024 = Dual Specialization Crystal) ==="
-              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT entry, name FROM creature_template WHERE entry = 190024;"
+              echo "=== Verifying NPC template REMOVED (entry 190024, expect 0 rows) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT COUNT(*) AS crystal_template_rows FROM creature_template WHERE entry = 190024;"
 
-              echo "=== Verifying spawns (expect 2 rows: Stormwind + Orgrimmar) ==="
-              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT id, map, position_x, position_y FROM creature WHERE id = 190024;"
+              echo "=== Verifying spawns REMOVED (entry 190024, expect 0 rows) ==="
+              mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT COUNT(*) AS crystal_spawn_rows FROM creature WHERE id = 190024;"
 
               echo "=== Verifying mangos_string rows (expect 22 entries: 12000-12021) ==="
               mariadb -h cmangos-database -P 3306 -u "$MANGOS_DBUSER" -p"$MANGOS_DBPASS" classicmangos -e "SELECT COUNT(*) AS strings_loaded FROM mangos_string WHERE entry BETWEEN 12000 AND 12021;"
