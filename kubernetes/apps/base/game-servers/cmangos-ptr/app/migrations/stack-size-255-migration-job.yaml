@@ -1,6 +1,7 @@
 ---
-# QoL: raise max stack size of all consumables (class 0) and trade
-# goods (class 7) from their vanilla defaults (5/10/20) to 255 (the
+# QoL: raise max stack size of all consumables (class 0), trade
+# goods (class 7), and stackable grey/poor-quality junk (Quality=0) from
+# their vanilla defaults (5/10/20) to 255 (the
 # tinyint unsigned max the client supports). Server-wide — affects all
 # vendors and loot, not just module NPCs. Idempotent: re-running is a
 # no-op (WHERE Stackable < 255).
@@ -15,6 +16,10 @@ data:
     UPDATE item_template SET Stackable = 255 WHERE class = 0 AND Stackable > 0 AND Stackable < 255;
     -- Trade goods: reagents, cloth, leather, herbs, ore, gems, etc.
     UPDATE item_template SET Stackable = 255 WHERE class = 7 AND Stackable > 0 AND Stackable < 255;
+    -- Grey (poor quality, Quality=0) junk that already stacks (e.g. 5) -> 255,
+    -- mirroring the consumable/reagent logic. Stackable > 1 keeps non-stackable
+    -- grey gear (weapons/armour) un-stackable.
+    UPDATE item_template SET Stackable = 255 WHERE Quality = 0 AND Stackable > 1 AND Stackable < 255 AND ContainerSlots = 0 AND BagFamily = 0;
 ---
 apiVersion: batch/v1
 kind: Job
