@@ -327,7 +327,19 @@ spec:
             # fixes hold up against the original concurrency hazard.
             # If a new crash class surfaces under N=3, revert here and
             # capture the core.
-            MapUpdate.Threads = 3
+            #
+            # 2026-06-18: REVERTED 3 → 1. Soak of image 709056456
+            # (guard-rails + Attuner announce) under N=3 SIGSEGV'd within
+            # ~2.5h. Clean 7.3G core backtrace pinned a SECOND, distinct
+            # multi-thread crash vector (separate from the GridMap OOB
+            # already fixed): a transport passenger use-after-free —
+            # GenericTransport::UpdatePassengerPosition deref'd a garbage
+            # passenger ptr (rsi=0x1) because Transport::Update iterates
+            # _passengers while another map-worker mutates it. N=1
+            # serializes transport updates and avoids it (which is why
+            # live on N=1 is unaffected). Re-bump to test only after the
+            # _passengers iteration is made thread-safe.
+            MapUpdate.Threads = 1
             Motd = "Welcome to Emberstone PTR"
             # Match live: LogLevel=1 keeps kubectl logs clean, LogFile
             # captures full diagnostics on the PVC.
