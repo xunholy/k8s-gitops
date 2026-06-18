@@ -73,9 +73,16 @@ spec:
             resources:
               requests:
                 cpu: "1"
-                memory: 512Mi
+                # 2026-06-18: bumped 512Mi -> 1Gi. The 2Gi limit was OOMKilled
+                # (exit 137) during a PTR rollover when both realms' bots
+                # reconnected at once (max_connections=151 x per-connection
+                # buffers spiking past 2Gi). The OOM severed realmd's DB
+                # connection and realmd did NOT auto-reconnect, breaking all
+                # logins for ~40min until realmd was restarted. More headroom
+                # prevents the OOM that triggers that cascade.
+                memory: 1Gi
               limits:
-                memory: 2Gi
+                memory: 4Gi
     # bjw-s app-template singleton-collapse: with one controller + one
     # service + zero ConfigMaps, the Deployment and Service both render
     # as just `cmangos-database` (not `cmangos-database-database` /
