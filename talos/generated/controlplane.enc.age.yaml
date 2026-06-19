@@ -17,7 +17,7 @@ machine:
     - talos.api.owncloud.ai
     - 192.168.50.200
   kubelet:
-    image: ghcr.io/siderolabs/kubelet:v1.34.1
+    image: ghcr.io/siderolabs/kubelet:v1.35.6
     defaultRuntimeSeccompProfileEnabled: true
     disableManifestsDirectory: true
     extraConfig:
@@ -49,7 +49,7 @@ machine:
     diskSelector:
       size: '>= 1TB'
       model: CT1000BX500SSD1
-    image: factory.talos.dev/installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.11.3
+    image: factory.talos.dev/installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.13.4
     wipe: true
   registries: {}
   features:
@@ -127,7 +127,7 @@ cluster:
   # API server specific configuration options.
   apiServer:
     # The container image used in the API server manifest.
-    image: registry.k8s.io/kube-apiserver:v1.34.1
+    image: registry.k8s.io/kube-apiserver:v1.35.6
     # Extra certificate subject alternative names for the API server's certificate.
     certSANs:
       - api.owncloud.ai
@@ -169,14 +169,14 @@ cluster:
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-controller-manager:v1.34.1
+    image: registry.k8s.io/kube-controller-manager:v1.35.6
   proxy:
-    image: registry.k8s.io/kube-proxy:v1.34.1
+    image: registry.k8s.io/kube-proxy:v1.35.6
     disabled: true
   scheduler:
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-scheduler:v1.34.1
+    image: registry.k8s.io/kube-scheduler:v1.35.6
   discovery:
     enabled: true
     registries:
@@ -201,9 +201,9 @@ cluster:
   extraManifests:
     - https://raw.githubusercontent.com/xUnholy/k8s-gitops/main/talos/integrations/cert-approver/cert-approver.yaml
     # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
-    - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.1/experimental-install.yaml
+    - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.5.1/experimental-install.yaml
     # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
-    - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.86.0/stripped-down-crds.yaml
+    - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.91.0/stripped-down-crds.yaml
     # renovate: datasource=github-releases depName=k8snetworkplumbingwg/network-attachment-definition-client
     - https://github.com/k8snetworkplumbingwg/network-attachment-definition-client/raw/refs/tags/v1.7.7/artifacts/networks-crd.yaml
   inlineManifests: []
@@ -219,8 +219,8 @@ sops:
         aHoxbU5sVFdFUUc0MHhMeW1oQ0Z2aG8KUtfI19ZT0BHjAdBRzIjujpJaVxwIpd3Q
         gw/91gb8ePG5QuXhUBS4Ql0lxJZQwL0eCIu/DgRqtkQOFve4bTrY0w==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-04-11T23:16:34Z"
-  mac: ENC[AES256_GCM,data:qVE87d+yefvr02seo5/PSllpHFabU/6FGodae6Fq7Dti+IH+nDWNk3oNjgMtQ9LiCfjHbClaNc5RuyUVukGSE2SSJ3eXVDL/2gWlv/6cZ2UWmVKg2cqr2WO5K7I3Hv14S2c6eDvEfVXCwTAjG22lwQ8/bYOiW5c/gRG4Nm9JXwk=,iv:Z/U6wgdgzsxpxQZExZuXqi9liLOdt7XSw9i8cOUl8Bw=,tag:R+X66Dn8WQUC10yps1I2tg==,type:str]
+  lastmodified: "2026-06-19T00:56:19Z"
+  mac: ENC[AES256_GCM,data:li2KhNrDg5iSStHudIo8aqviSMvfJR4hl8uQR8tcXawhsHKEJaUe0VvtTUx3vBY52/k6HbXet5ltxBJl+mNe7S828UzG+1B/IDtIys5p7nzFyN/TS6KVJ6yS3OFhdGqY83EL0Fq3rvnl1DMhQCvYLbSUKo3yTxE90HDIaGDT5wk=,iv:yD5m4gMwsT1YmW25ohg20Qday4UjOhJUMpDnh6NyzdQ=,tag:xLJttz583Iil3J+C+0B30w==,type:str]
   encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
   mac_only_encrypted: true
   version: 3.12.1
