@@ -306,15 +306,33 @@ spec:
               - /bin/sh
               - -c
               - |
-                # Keep the newest Server_*.log files up to CAP_KB total; never
-                # touch the active (newest) file. Drop failed zero-byte logs.
+                # Bound the mangosd log volume two ways so a long full-debug run
+                # (PTR) cannot fill the PVC even though the pruner cannot delete a
+                # file mangosd is actively writing:
+                #  1. copytruncate the ACTIVE file past ACTIVE_CAP_KB. mangosd
+                #     holds it O_APPEND, so truncating in place is safe - it keeps
+                #     writing from offset 0, no orphaned handle, no restart.
+                #  2. keep rotated copies + prior-run logs within CAP_KB total.
+                ACTIVE_CAP_KB=$((2 * 1024 * 1024))   # rotate active past 2 GiB
+                CAP_KB=$((12 * 1024 * 1024))         # keep ~12 GiB of history
                 while true; do
                   if cd /opt/mangos/logs 2>/dev/null; then
+                    # active = newest by mangosd's startup-timestamp filename
+                    # shellcheck disable=SC2012
+                    active=$(ls -1 Server_*.log 2>/dev/null | sort | tail -1)
+                    if [ -n "$active" ]; then
+                      sz=$(du -k "$active" 2>/dev/null | cut -f1)
+                      if [ -n "$sz" ] && [ "$sz" -gt "$ACTIVE_CAP_KB" ]; then
+                        secs=$(date -u +%s 2>/dev/null || echo rot)
+                        cp "$active" "${active}.${secs}" 2>/dev/null && : > "$active"
+                      fi
+                    fi
+                    # drop failed zero-byte logs (spare anything written recently)
                     find . -maxdepth 1 -name '*.log' -size 0 -mmin +5 -delete 2>/dev/null
-                    CAP_KB=$((12 * 1024 * 1024))
+                    # budget rotated + prior-run logs (never the active) to CAP_KB
                     total=0
                     # shellcheck disable=SC2012
-                    ls -1t Server_*.log 2>/dev/null | tail -n +2 | while read -r f; do
+                    ls -1t Server_*.log* 2>/dev/null | grep -vxF "$active" | while read -r f; do
                       sz=$(du -k "$f" 2>/dev/null | cut -f1)
                       [ -n "$sz" ] || continue
                       total=$((total + sz))
