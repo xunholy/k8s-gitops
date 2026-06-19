@@ -231,6 +231,49 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop: ["ALL"]
+          # Logs-pruner: keep a generous rolling window of mangosd logs within
+          # a size budget so the 20Gi PVC never wedges at 100% (the cores
+          # volume got the same treatment, see cores-pruner above). Runs as the
+          # mangos UID (1001) so it can delete 0600 files the worldserver owns.
+          logs-pruner:
+            image:
+              repository: busybox
+              tag: latest
+            command:
+              - /bin/sh
+              - -c
+              - |
+                # Keep the newest Server_*.log files up to CAP_KB total; never
+                # touch the active (newest) file. Drop failed zero-byte logs.
+                while true; do
+                  if cd /opt/mangos/logs 2>/dev/null; then
+                    find . -maxdepth 1 -name '*.log' -size 0 -mmin +5 -delete 2>/dev/null
+                    CAP_KB=$((12 * 1024 * 1024))
+                    total=0
+                    # shellcheck disable=SC2012
+                    ls -1t Server_*.log 2>/dev/null | tail -n +2 | while read -r f; do
+                      sz=$(du -k "$f" 2>/dev/null | cut -f1)
+                      [ -n "$sz" ] || continue
+                      total=$((total + sz))
+                      [ "$total" -gt "$CAP_KB" ] && rm -f -- "$f"
+                    done
+                  fi
+                  sleep 600
+                done
+            resources:
+              requests:
+                cpu: 5m
+                memory: 8Mi
+              limits:
+                memory: 32Mi
+            securityContext:
+              runAsUser: 1001
+              runAsGroup: 1001
+              runAsNonRoot: true
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
     service:
       world:
         controller: mangosd
@@ -274,7 +317,10 @@ spec:
             # AiPlayerbot.LogInGroupOnly=1 so the file is also sane.
             LogLevel = 1
             LogFile = "/opt/mangos/logs/Server.log"
-            LogFileLevel = 3
+            # Live runs minimal: file captures errors only (level 1). The
+            # debug firehose (level 3) + unrotated logs filled the 5Gi PVC
+            # (Jun 2026). PTR keeps level 3 for full diagnostics.
+            LogFileLevel = 1
             LogTimestamp = 1
             # GM command audit log. Absolute path because run_mangosd cd's
             # into /opt/mangos/cores before exec. Tailed by the gm-log-tail
@@ -893,3 +939,5 @@ spec:
             gm-log-tail:
               - path: /opt/mangos/logs
                 readOnly: true
+            logs-pruner:
+              - path: /opt/mangos/logs
