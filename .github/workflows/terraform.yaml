@@ -45,7 +45,7 @@ jobs:
         continue-on-error: false
 
       - name: Terraform Lint
-        uses: reviewdog/action-tflint@7cff9b5f006cb99fdd5552e1f26abb7b35d4887a # master
+        uses: reviewdog/action-tflint@56a2e747f37d2a97e6d2661ab35061eaa6324ee5 # master
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
