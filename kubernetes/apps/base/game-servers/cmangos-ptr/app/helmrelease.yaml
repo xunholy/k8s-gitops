@@ -58,7 +58,9 @@ spec:
             image:
               repository: busybox
               tag: latest
-            command: ['sh', '-c', 'until nc -z cmangos-database 3306; do sleep 2; done']
+            # PTR now spans two instances: its own DB (world/chars/logs) and
+            # the shared DB (classicrealmd auth). Wait for both before boot.
+            command: ['sh', '-c', 'until nc -z cmangos-ptr-database 3306 && nc -z cmangos-database 3306; do sleep 2; done']
         containers:
           app:
             image:
@@ -161,11 +163,19 @@ spec:
             stdin: true
             env:
               TZ: ${CLUSTER_TIMEZONE}
-              MANGOS_DBHOST: cmangos-database
+              # World / characters / logs live on the dedicated PTR instance.
+              MANGOS_DBHOST: cmangos-ptr-database
               MANGOS_DBPORT: "3306"
-              # Auth DB is shared with live so accounts/GM flags carry over.
+              # Auth DB stays on the shared instance — realmlist, accounts,
+              # session keys. Shared with live so accounts/GM flags carry over.
+              # REQUIRES image entrypoint support for a separate login-DB host
+              # (MANGOS_REALMD_DBHOST). Without it the login lookup wrongly
+              # targets cmangos-ptr-database (no classicrealmd there) and all
+              # PTR logins fail. See the PR description for the fork image
+              # prerequisite — DO NOT MERGE until that image is shipped + pinned.
+              MANGOS_REALMD_DBHOST: cmangos-database
               MANGOS_REALMD_DBNAME: classicrealmd
-              # Game state isolated from live.
+              # Game state isolated from live (on MANGOS_DBHOST above).
               MANGOS_WORLD_DBNAME: ptrmangos
               MANGOS_CHARACTERS_DBNAME: ptrcharacters
               MANGOS_LOGS_DBNAME: ptrlogs

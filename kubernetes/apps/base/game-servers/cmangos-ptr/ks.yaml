@@ -20,7 +20,12 @@ spec:
     kind: ExternalArtifact
     name: cmangos-ptr
     namespace: flux-system
-  # No dependsOn on cmangos — DB is now in cmangos-database, and the
-  # PTR pod's own wait-db init container handles runtime ordering.
-  # Keeps PTR reconcilable when the main world server is in a bad state.
+  # No dependsOn on cmangos — keeps PTR reconcilable when the main world
+  # server is in a bad state. But PTR now has its own dedicated DB
+  # (cmangos-ptr-database) which owns the cmangos-ptr-database-creds secret
+  # the db-init Job envFroms, so gate on that so the secret exists before
+  # the Job runs. Auth (classicrealmd) still lives on the shared instance.
+  dependsOn:
+    - name: cmangos-ptr-database
+      namespace: game-servers
   targetNamespace: game-servers

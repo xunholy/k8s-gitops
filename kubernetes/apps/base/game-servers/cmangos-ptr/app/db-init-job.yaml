@@ -22,27 +22,35 @@ spec:
       initContainers:
         - name: wait-db
           image: busybox:latest
-          command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
+          command: ['sh', '-c', 'until nc -z cmangos-ptr-database 3306 && nc -z cmangos-database 3306; do echo "Waiting for databases..."; sleep 2; done']
       containers:
         - name: init
           image: mariadb:12.2
-          # CREATE DATABASE + GRANT must be run as root (the app user lacks
-          # global CREATE). Dumps + restores then run as root too, since
-          # we already have a root session here. App-user grants are what
-          # the runtime PTR mangosd actually needs — username from secret.
+          # Uses the dedicated PTR-DB secret: MARIADB_ROOT_PASSWORD to admin
+          # the new instance (CREATE DATABASE + GRANT — the app user lacks
+          # global CREATE) and MANGOS_DBUSER/MANGOS_DBPASS to read the clone
+          # source from the live shared instance. Same 1Password item as the
+          # shared creds, so the app-user identity matches live.
           envFrom:
             - secretRef:
-                name: cmangos-database-creds
-          env:
-            - name: ROOT_PWD
-              value: password
+                name: cmangos-ptr-database-creds
           command:
             - /bin/bash
             - -c
             - |
               set -euo pipefail
-              MARIADB="mariadb -h cmangos-database -P 3306 -u root -p$${ROOT_PWD}"
-              DUMP="mariadb-dump -h cmangos-database -P 3306 -u root -p$${ROOT_PWD} --single-transaction --routines --triggers"
+              # Admin on the NEW PTR instance (CREATE DATABASE + GRANT + the
+              # restore target). Root password from the secret, not a literal
+              # — this is the fresh instance's first-init root (DB_ROOT_PASSWORD).
+              MARIADB="mariadb -h cmangos-ptr-database -P 3306 -u root -p$${MARIADB_ROOT_PASSWORD}"
+              # Read the clone source from the LIVE shared instance as the
+              # least-privilege app user (already has SELECT on the classic*
+              # DBs) — no live root needed. --single-transaction = consistent
+              # snapshot without locking live. --routines dropped: the app user
+              # may lack routine-read on the source, and cmangos world content
+              # doesn't rely on stored routines; re-add (and grant) if a clone
+              # ever needs them.
+              DUMP="mariadb-dump -h cmangos-database -P 3306 -u $${MANGOS_DBUSER} -p$${MANGOS_DBPASS} --single-transaction --triggers"
 
               already_seeded() {
                 local db=$1
@@ -75,9 +83,11 @@ spec:
                 echo "=== Cloning classiccharacters -> ptrcharacters (schema + version row) ==="
                 $${DUMP} --no-data classiccharacters | $${MARIADB} ptrcharacters
                 # mangosd refuses to boot without a row in *_db_version
-                # (compatibility check). Copy the live row so PTR runs
-                # against whatever schema rev live is on.
-                $${MARIADB} -e "INSERT INTO ptrcharacters.character_db_version SELECT * FROM classiccharacters.character_db_version;"
+                # (compatibility check). The source table now lives on a
+                # DIFFERENT instance, so copy it with a single-table dump
+                # (drop+create+insert) instead of a cross-instance
+                # INSERT...SELECT, which can't see classiccharacters from here.
+                $${DUMP} classiccharacters character_db_version | $${MARIADB} ptrcharacters
               fi
 
               if already_seeded ptrlogs; then
@@ -85,7 +95,8 @@ spec:
               else
                 echo "=== Cloning classiclogs -> ptrlogs (schema + version row) ==="
                 $${DUMP} --no-data classiclogs | $${MARIADB} ptrlogs
-                $${MARIADB} -e "INSERT INTO ptrlogs.logs_db_version SELECT * FROM classiclogs.logs_db_version;"
+                # Single-table dump across instances (see character_db_version above).
+                $${DUMP} classiclogs logs_db_version | $${MARIADB} ptrlogs
               fi
 
               echo "=== Done. Table counts: ==="
