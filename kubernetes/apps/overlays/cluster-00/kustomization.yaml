@@ -53,7 +53,6 @@ resources:
   - ../../base/game-servers/adminer/ks.yaml
   - ../../base/game-servers/azerothcore/ks.yaml
   - ../../base/game-servers/emberstone-portal/ks.yaml
-  - ../../base/game-servers/emberstone-db/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/bazarr/ks.yaml
   # - ../../base/home-system/emqx/ks.yaml
