@@ -9,7 +9,6 @@ resources:
   - pvc-client-data.yaml
   - pvc-cores.yaml
   - tcproutes.yaml
-  - dnsendpoint.yaml
   - replicationsource.yaml
   - volsync-externalsecret.yaml
   - realm-config-job.yaml
