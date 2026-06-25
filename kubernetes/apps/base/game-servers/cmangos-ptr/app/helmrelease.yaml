@@ -436,6 +436,12 @@ spec:
             AllowTwoSide.Interaction.Guild = 1
             AllowTwoSide.Interaction.Chat = 1
             AllowTwoSide.Interaction.Channel = 1
+            # Mirror live: full cross-faction interaction (all default 0).
+            AllowTwoSide.Interaction.Trade = 1
+            AllowTwoSide.Interaction.Auction = 1
+            AllowTwoSide.Interaction.Mail = 1
+            AllowTwoSide.WhoList = 1
+            AllowTwoSide.AddFriend = 1
             MailDeliveryDelay = 0
             StartPlayerMoney = 100000
             SkillGain.Crafting = 3
