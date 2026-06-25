@@ -429,6 +429,9 @@ spec:
             Rate.Drop.Item.Epic = 1
             Rate.Drop.Money = 3
             Rate.Reputation.Gain = 3
+            # Mirror live: let one account hold both Horde and Alliance
+            # characters on the realm (default 0/blocked if unset).
+            AllowTwoSide.Accounts = 1
             AllowTwoSide.Interaction.Group = 1
             AllowTwoSide.Interaction.Guild = 1
             AllowTwoSide.Interaction.Chat = 1
