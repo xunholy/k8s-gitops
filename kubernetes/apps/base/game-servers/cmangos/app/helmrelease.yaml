@@ -361,6 +361,11 @@ spec:
             Rate.Drop.Item.Epic = 1
             Rate.Drop.Money = 3
             Rate.Reputation.Gain = 3
+            # Let a single account create/hold both Horde and Alliance
+            # characters on the realm. Default is 0 (blocked) and falls back to
+            # that if unset — which is why two-faction accounts were impossible
+            # despite the cross-faction interaction settings below.
+            AllowTwoSide.Accounts = 1
             AllowTwoSide.Interaction.Group = 1
             AllowTwoSide.Interaction.Guild = 1
             AllowTwoSide.Interaction.Chat = 1
