@@ -5,15 +5,19 @@ metadata:
   name: cmangos-wow
   annotations:
     external-dns.alpha.kubernetes.io/external: "true"
-    # MUST be DNS-only (grey-cloud). The WoW client speaks a raw TCP protocol
-    # on 3724 (auth) / 8085 (world); Cloudflare's proxy only carries HTTP(S),
-    # so a proxied record silently breaks all connections. external-dns runs
-    # with a global --cloudflare-proxied default, so without this override it
-    # re-proxies the record on every sync. (2026-06-25 outage root cause.)
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   endpoints:
     - dnsName: "wow.${CLUSTER_DOMAIN}"
       recordType: A
       targets:
         - "${EXTERNAL_IP}"
+      # MUST be DNS-only (grey-cloud). The WoW client speaks a raw TCP protocol
+      # on 3724 (auth) / 8085 (world); Cloudflare's proxy only carries HTTP(S),
+      # so a proxied record silently breaks all connections. external-dns runs
+      # with a global --cloudflare-proxied default, and for a DNSEndpoint (CRD
+      # source) the override MUST be providerSpecific on the endpoint — the
+      # metadata annotation form is ignored for this source, so external-dns
+      # re-proxied the record every sync. (2026-06-25 outage root cause.)
+      providerSpecific:
+        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+          value: "false"
