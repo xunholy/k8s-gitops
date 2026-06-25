@@ -1,0 +1,91 @@
+---
+# Nightly logical backup of the irreplaceable game DBs (accounts + characters).
+# Complements the hourly crash-consistent RBD snapshot (replicationsource.yaml)
+# with restorable, engine-independent SQL dumps — the MyISAM tables in these
+# DBs aren't safe to restore from a raw volume snapshot mid-write.
+#
+# classicmangos (world) is intentionally NOT dumped: it's reconstructible via
+# init-db + the in-repo migration Jobs. classiclogs is disposable.
+#
+# $$ escapes are for Flux post-build substitution (only ${CLUSTER_TIMEZONE} is
+# a Flux var; everything else is runtime bash).
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cmangos-db-logical-backup
+  namespace: game-servers
+spec:
+  schedule: "0 3 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: dump
+              image: mariadb:12.2
+              envFrom:
+                # MANGOS_DBUSER / MANGOS_DBPASS — SELECT is enough for the
+                # --single-transaction dump below.
+                - secretRef:
+                    name: cmangos-database-creds
+              env:
+                - name: TZ
+                  value: ${CLUSTER_TIMEZONE}
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  set -euo pipefail
+                  BACKUP_DIR=/backup
+                  DBS="classicrealmd classiccharacters"
+                  RETAIN=7
+                  TS=$$(date +%Y%m%d-%H%M%S)
+
+                  for db in $$DBS; do
+                    out="$${BACKUP_DIR}/$${db}-$${TS}.sql.gz"
+                    echo "Dumping $${db} -> $${out}"
+                    # --single-transaction: consistent snapshot of the InnoDB
+                    # bulk (all player rows) with no write-blocking. The few
+                    # small MyISAM tables are best-effort. --no-tablespaces
+                    # avoids needing the PROCESS privilege, so SELECT suffices.
+                    mariadb-dump -h cmangos-database -P 3306 \
+                      -u "$${MANGOS_DBUSER}" -p"$${MANGOS_DBPASS}" \
+                      --single-transaction --quick --no-tablespaces \
+                      "$${db}" | gzip -c > "$${out}"
+                  done
+
+                  echo "Pruning to newest $${RETAIN} per DB"
+                  for db in $$DBS; do
+                    # shellcheck disable=SC2012
+                    ls -1t "$${BACKUP_DIR}/$${db}-"*.sql.gz 2>/dev/null \
+                      | tail -n +$$((RETAIN + 1)) | xargs -r rm -f --
+                  done
+
+                  echo "Backups on volume:"
+                  ls -lh "$${BACKUP_DIR}"
+              volumeMounts:
+                - name: dumps
+                  mountPath: /backup
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 512Mi
+          volumes:
+            - name: dumps
+              persistentVolumeClaim:
+                claimName: cmangos-db-dumps

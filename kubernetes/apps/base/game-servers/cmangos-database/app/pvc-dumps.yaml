@@ -1,0 +1,16 @@
+---
+# Holds logical (mysqldump) backups of the irreplaceable game DBs. Separate
+# from the data PVC so VolSync can ship these dumps to Kopia independently of
+# the crash-consistent RBD snapshot of /var/lib/mysql.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cmangos-db-dumps
+  namespace: game-servers
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ceph-block
