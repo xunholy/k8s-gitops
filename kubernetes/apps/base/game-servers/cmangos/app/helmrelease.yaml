@@ -385,7 +385,12 @@ spec:
             SkillGain.Weapon = 3
             Rate.Drop.Item.Quest = 3
             Death.Ghost.RunSpeed.World = 1.5
-            PlayerSaveInterval = 60000
+            # Periodic save of all online players — the only crash safety net
+            # (a SIGSEGV skips the preStop saveall). The key is PlayerSave.Interval
+            # WITH the dot; the old PlayerSaveInterval was silently ignored, so the
+            # server used the 15-minute default and players rolled back up to ~15m
+            # on a crash. 60000ms = 60s.
+            PlayerSave.Interval = 60000
             Rate.Health = 3
             Rate.Mana = 3
       aiplayerbot-config:

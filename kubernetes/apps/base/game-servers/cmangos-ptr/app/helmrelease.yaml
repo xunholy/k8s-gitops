@@ -450,7 +450,9 @@ spec:
             SkillGain.Weapon = 3
             Rate.Drop.Item.Quest = 3
             Death.Ghost.RunSpeed.World = 1.5
-            PlayerSaveInterval = 60000
+            # Correct key is PlayerSave.Interval (with dot); the old
+            # PlayerSaveInterval was silently ignored -> 15-min default. 60s.
+            PlayerSave.Interval = 60000
             Rate.Health = 3
             Rate.Mana = 3
       # All side-modules mirror live — same module versions in the same
