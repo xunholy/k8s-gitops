@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# No VolSync ReplicationSource here by design: PTR data is reconstructible.
+# ptrmangos is a clone of live's classicmangos, ptrcharacters/ptrlogs are
+# schema-only and GM-only. The cmangos-ptr db-init Job IS the recovery path,
+# so a backup repo would be redundant maintenance. Add one later only if PTR
+# ever holds something worth keeping.
+resources:
+  - helmrelease.yaml
+  - externalsecret.yaml
+  - pvc-database.yaml
