@@ -104,7 +104,7 @@ spec:
             restartPolicy: Never
             containers:
               - name: comment
-                image: curlimages/curl:8.20.0
+                image: curlimages/curl:8.21.0
                 resources:
                   requests:
                     cpu: 10m
