@@ -10,8 +10,8 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    # Released chart: kguardian 1.12.0 (massive-uplift release, PR #888) —
-    # ships the broker pool/retention/index hardening, hostNetwork-aware
-    # opt-in NetworkPolicy, and load-tolerant probes.
-    tag: 1.12.0
+    # Released chart: kguardian 1.13.0 (MCP/LLM integration uplift, PR #996) —
+    # adds the advisor serve deployment (opt-in), mcp-server data-coverage +
+    # generation tools, llm-bridge streaming, and write-time manifest compaction.
+    tag: 1.13.0
   url: oci://ghcr.io/kguardian-dev/charts/kguardian

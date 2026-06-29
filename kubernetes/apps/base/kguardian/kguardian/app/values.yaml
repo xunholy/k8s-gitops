@@ -1,9 +1,9 @@
 ---
 controller:
   image:
-    # Released pin: controller v1.9.0 (massive-uplift release, PR #888).
-    tag: "v1.9.0"
-    sha: "sha256:9bbe80ad6c97a37fcee4b914c34c8570185c0c8f2b5d0000f23387d0c55f6526"
+    # Released pin: controller v1.9.1.
+    tag: "v1.9.1"
+    sha: "sha256:e3c0c9864c2f98757caecda6aee5b12a50a468b8c48c1e571104fdc1481b0c32"
   excludedNamespaces:
     - kguardian
 
@@ -20,7 +20,10 @@ broker:
   networkPolicy:
     enabled: false
   image:
-    # Released pin: broker v1.10.0 (massive-uplift release, PR #888).
+    # HELD at v1.10.0: the broker v1.11.0 image build (broker/v1.11.0 tag) is
+    # still in progress / stuck, so v1.11.0 is not yet in GHCR. Bump tag+sha to
+    # v1.11.0 once `crane digest .../broker:v1.11.0` resolves. Chart 1.13.0
+    # default is v1.11.0; this override keeps the known-good image meanwhile.
     tag: "v1.10.0"
     sha: "sha256:fe0f13267a34c9b173cc3160c561cf75c61591486525cfcb18f1e8f7b53db927"
   resources:
@@ -32,16 +35,16 @@ broker:
 
 frontend:
   image:
-    # Released pin: frontend v1.10.0 (massive-uplift release, PR #888).
-    tag: "v1.10.0"
-    sha: "sha256:af44cd471c6260e8b34a01b11a23a773028c69041769ed1067ca37b5cc3ecd64"
+    # Released pin: frontend v1.11.0 (streaming AI assistant, PR #996).
+    tag: "v1.11.0"
+    sha: "sha256:3f4322529e56d7131361c93767967d334ff8b3ef988a48773b2af6eef6d9548a"
 
 llmBridge:
   enabled: true
   image:
-    # Released pin: llm-bridge v1.3.0 (massive-uplift release, PR #888).
-    tag: "v1.3.0"
-    sha: "sha256:d6387861404240a791fe537baca8397083104732c2427bd1e961bfbfbd9c813a"
+    # Released pin: llm-bridge v1.4.0 (Anthropic SDK + streaming + MCP, PR #996).
+    tag: "v1.4.0"
+    sha: "sha256:490a8bfd9a20cb915267ddea15852fa1a1324a06d86dd274f017cf19b9429918"
   secrets:
     openai:
       enabled: true
@@ -53,9 +56,9 @@ llmBridge:
 # blocking traffic. Surfaces in the frontend's "Audit" panel.
 evaluator:
   image:
-    # Released pin: evaluator v0.3.0 (massive-uplift release, PR #888).
-    tag: "v0.3.0"
-    sha: "sha256:ba79dc7b3b4018e17f18d0fb49984bdca77a6522412c98ab14f2656d3b00015f"
+    # Released pin: evaluator v0.3.2.
+    tag: "v0.3.2"
+    sha: "sha256:a499ed57a50e45f78fdfa600be62bfbe9536055a3ab250bb11bd0abafb312350"
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format
@@ -78,5 +81,7 @@ mcpServer:
   enabled: false
   useKmcp: false
   image:
-    tag: "v1.3.2"
-    sha: "sha256:1ca186593b1948ec5a237f8f863047bea56880d73015b35576ec45a27b51a604"
+    # Released pin: mcp-server v1.5.0 (data-coverage + generation tools, PR #996).
+    # Still disabled in this cluster; tag kept current for when it's enabled.
+    tag: "v1.5.0"
+    sha: "sha256:056a0853acb2e81cefb0d1596ae3095969a2f9d42a4f5e3bdb5863b400be2e6f"
