@@ -476,7 +476,11 @@ spec:
             # classiccharacters, ptrbot → ptrcharacters).
             AiPlayerbot.RandomBotAccountPrefix = ptrbot
             AiPlayerbot.RandomBotAccountCount = 2000
-            AiPlayerbot.MinRandomBots = 1500
+            # Mirror live: Min == Max pins the population + kills the OnBotLogin
+            # churn (xunholy/k8s-gitops#4120). NB: an ASan crash-repro run will
+            # want this back at a RANGE (e.g. 1500/2000) to MAXIMISE login churn
+            # — set that deliberately for the repro, then restore parity.
+            AiPlayerbot.MinRandomBots = 2000
             AiPlayerbot.MaxRandomBots = 2000
             # Force random bots to learn Crusader Strike (paladinpower module).
             # PlayerbotFactory::ClearSpells() wipes module-granted spells on each
@@ -527,6 +531,8 @@ spec:
             AiPlayerbot.AutoTrainSpells = free
             AiPlayerbot.minEnchantingBotLevel = 10
             AiPlayerbot.BotAcceptDuelMinimumLevel = 10
+            # Mirror live bot behaviour.
+            AiPlayerbot.UsePotionChance = 0.2
             AiPlayerbot.LogInGroupOnly = 1
             # LLM-driven chat — points at the in-cluster Ollama
             # (ai-system ns, qwen2.5:3b ~1.9GB). PlayerbotLLMInterface
@@ -607,12 +613,10 @@ spec:
             Attunement.Aura.Tier4.SpellId = 0
             Attunement.Aura.Tier5.SpellId = 0
             Dualspec.Enable = 1
-            # Free unlock — Dualspec.Cost is in copper. 0 means the
-            # Attuner offers a single-click "Unlock Dual Talent
-            # Specialization" with no cost-confirm popup (the code
-            # branches on cost > 0 to drop the "(Xg)" suffix and the
-            # are-you-sure dialog for the free path).
-            Dualspec.Cost = 0
+            # Mirror live (100000 copper = 10g). Was 0 (free) while the
+            # dual-spec free-unlock UX was under test; that's shipped, so
+            # match live to keep PTR a faithful mirror.
+            Dualspec.Cost = 100000
             Hardcore.Enable = 1
             Hardcore.PlayerConfig = 1
             Hardcore.BroadcastDeathGuild = 1
