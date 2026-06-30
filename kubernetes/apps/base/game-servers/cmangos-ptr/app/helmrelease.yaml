@@ -613,10 +613,9 @@ spec:
             Attunement.Aura.Tier4.SpellId = 0
             Attunement.Aura.Tier5.SpellId = 0
             Dualspec.Enable = 1
-            # Mirror live (100000 copper = 10g). Was 0 (free) while the
-            # dual-spec free-unlock UX was under test; that's shipped, so
-            # match live to keep PTR a faithful mirror.
-            Dualspec.Cost = 100000
+            # Free dual-spec, mirroring live (live moves 100000 -> 0 in the
+            # companion change). 0 = single-click unlock, no cost-confirm popup.
+            Dualspec.Cost = 0
             Hardcore.Enable = 1
             Hardcore.PlayerConfig = 1
             Hardcore.BroadcastDeathGuild = 1
