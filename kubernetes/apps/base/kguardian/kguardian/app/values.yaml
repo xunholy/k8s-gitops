@@ -20,12 +20,10 @@ broker:
   networkPolicy:
     enabled: false
   image:
-    # HELD at v1.10.0: the broker v1.11.0 image build (broker/v1.11.0 tag) is
-    # still in progress / stuck, so v1.11.0 is not yet in GHCR. Bump tag+sha to
-    # v1.11.0 once `crane digest .../broker:v1.11.0` resolves. Chart 1.13.0
-    # default is v1.11.0; this override keeps the known-good image meanwhile.
-    tag: "v1.10.0"
-    sha: "sha256:fe0f13267a34c9b173cc3160c561cf75c61591486525cfcb18f1e8f7b53db927"
+    # Released pin: broker v1.11.0 (bounded audit queue with load-shedding +
+    # write-time manifest compaction, PR #996).
+    tag: "v1.11.0"
+    sha: "sha256:359f0b12299eebdce5abfcafb80389fb334b14ed4839d33d8f1560e9cdc52f50"
   resources:
     limits:
       memory: 4Gi
