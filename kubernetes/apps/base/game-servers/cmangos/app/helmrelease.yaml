@@ -409,13 +409,18 @@ spec:
             AiPlayerbot.RandomBotLoginAtStartup = 0
             AiPlayerbot.RandomBotAccountPrefix = rndbot
             AiPlayerbot.RandomBotAccountCount = 2000
-            # Bots re-enabled at 1500/2000 on 2026-05-24 after PTR
-            # validated the full fix set (PRs #10/#11/#12) under the
-            # same density for 30+ min with no UAF / crash markers.
-            # RandomBotLoginAtStartup=0 above keeps the boot stampede
-            # from racing detour/grid init; bots ramp via the periodic
-            # random-bot tick over the first ~10 min.
-            AiPlayerbot.MinRandomBots = 1500
+            # Min == Max to PIN the population and kill login churn. With a
+            # range (was 1500-2000), RandomPlayerbotMgr re-rolls a random
+            # target via urand(Min,Max) every 30min-2h and logs bots in/out
+            # to chase it — and every one of those logins is an OnBotLogin
+            # call, the exact path of the validated use-after-free crash
+            # (gdb-confirmed on the 2026-06 cores). Pinning at 2000 keeps the
+            # world fully populated (more so — no dips to 1500) while the
+            # target never changes (urand(2000,2000)=2000), so no add/remove
+            # churn and far fewer OnBotLogin crash windows. Reduces the
+            # dominant crash class; the GuardianAI/pet crashes are activity-
+            # driven and still need the upstream guard patch.
+            AiPlayerbot.MinRandomBots = 2000
             AiPlayerbot.MaxRandomBots = 2000
             AiPlayerbot.RandomBotMinLevel = 1
             AiPlayerbot.RandomBotMaxLevel = 60
