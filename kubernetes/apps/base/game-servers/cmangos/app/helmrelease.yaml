@@ -585,7 +585,10 @@ spec:
             # Dualspec (amalgamated into attunement by PR #19 — keys
             # previously lived in dualspec.conf, now read from here).
             Dualspec.Enable = 1
-            Dualspec.Cost = 100000
+            # Free dual-spec. 0 = single-click "Unlock Dual Talent
+            # Specialization" with no gold cost / cost-confirm popup.
+            # (PTR mirrors this — also 0.)
+            Dualspec.Cost = 0
             Hardcore.DisablePVP = 0
             Hardcore.SelfFound = 0
       anticheat-config:
