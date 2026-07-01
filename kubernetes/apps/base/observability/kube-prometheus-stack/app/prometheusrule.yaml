@@ -56,3 +56,32 @@ spec:
             summary: Filesystem has less than 1% space left.
             description: Filesystem on {{ $labels.device }}, mounted on {{ $labels.mountpoint }}, at {{ $labels.instance }} has only {{ printf "%.2f" $value }}% available space left.
             runbook_url: https://runbooks.prometheus-operator.dev/runbooks/node/nodefilesystemalmostoutofspace
+    # Detects PVC volumes remounted read-only (errors=remount-ro after I/O
+    # errors — Ceph RBD session loss etc.). REQUIRES the node-exporter
+    # mount-points-exclude override (see the HelmRelease) that scrapes
+    # /var/lib/kubelet/pods/ — without it node_filesystem_readonly has no series
+    # for PVC mounts and this can never fire. Extracts the pod-UID from the
+    # mountpoint and joins kube_pod_info to name the affected pod. Replaces the
+    # dead, mislabelled game-servers GameServerVolumeReadOnly rule that queried
+    # the same (empty) metric. This is what makes read-only remounts page in
+    # minutes instead of surfacing days later as "my app broke".
+    - name: node-exporter-storage.rules
+      rules:
+        - alert: KubeVolumeReadOnly
+          expr: |-
+            label_replace(
+              node_filesystem_readonly{job="node-exporter",mountpoint=~"/var/lib/kubelet/pods/.+",fstype!~"tmpfs|overlay|nsfs"} == 1,
+              "uid", "$1", "mountpoint", "^/var/lib/kubelet/pods/([^/]+)/.*$"
+            ) * on (uid) group_left (namespace, pod) kube_pod_info
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: Read-only volume on pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.instance }})
+            description: |
+              A volume mounted by pod `{{ $labels.namespace }}/{{ $labels.pod }}` (node `{{ $labels.instance }}`)
+              is mounted READ-ONLY — device `{{ $labels.device }}`, mountpoint `{{ $labels.mountpoint }}`.
+              Usually errors=remount-ro after underlying I/O errors (Ceph RBD session loss, disk failure).
+              The app cannot write and may be silently broken while still "Running".
+              Remediation: once the underlying storage is healthy, force-recreate the pod
+              (kubectl delete pod -n {{ $labels.namespace }} {{ $labels.pod }}) to remap the volume read-write.

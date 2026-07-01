@@ -217,6 +217,20 @@ spec:
                   severity: info
     prometheus-node-exporter:
       fullnameOverride: node-exporter
+      # Override the chart's default filesystem mount-points-exclude so CSI PVC
+      # mounts under /var/lib/kubelet/pods/ ARE scraped. The upstream default
+      # excludes ALL of /var/lib/kubelet, which left node_filesystem_readonly
+      # with zero series for PVC mounts — so read-only RBD remounts were
+      # invisible and apps (sonarr/grafana/prowlarr) sat silently broken for
+      # days (2026-06/07) with no alert able to fire. We still exclude
+      # /var/lib/kubelet/plugins (the CSI globalmount just duplicates the
+      # per-pod bind-mount) plus the usual pseudo-filesystems. This admits some
+      # extra pod bind-mount series (etc-hosts etc.) — a modest, bounded
+      # cardinality cost that buys read-only visibility. Args copied verbatim
+      # from the chart default, changing only var/lib/kubelet/.+ -> plugins/.+.
+      extraArgs:
+        - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|run/containerd/.+|var/lib/docker/.+|var/lib/kubelet/plugins/.+)($|/)
+        - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs|erofs)$
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       verticalPodAutoscaler:
