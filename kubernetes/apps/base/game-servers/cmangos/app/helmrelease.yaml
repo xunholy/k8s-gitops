@@ -210,6 +210,21 @@ spec:
                     find . -maxdepth 1 -name 'core.*' -size 0 -delete 2>/dev/null
                     # shellcheck disable=SC2012
                     ls -1t core.* 2>/dev/null | tail -n +3 | xargs -r rm -f --
+                    # Bound the non-core logs that also land in this dir: mangosd
+                    # cd's here for core capture, so its relative-path logs
+                    # (DBErrors.log, Char.log, EventAIErrors.log, SD2Errors.log)
+                    # get written here and NOTHING else prunes them — DBErrors.log
+                    # reached 11G on live and filled PTR's PVC (2026-06). Truncate
+                    # in place past CAP: mangosd holds them O_APPEND so it keeps
+                    # writing from offset 0 (no orphaned handle, no restart). Plain
+                    # truncate, not copytruncate, so it can never wedge on a full
+                    # disk the way a cp would.
+                    LOG_CAP_KB=$((1024 * 1024))   # 1 GiB per file
+                    for lf in DBErrors.log Char.log EventAIErrors.log SD2Errors.log; do
+                      [ -f "$lf" ] || continue
+                      sz=$(du -k "$lf" 2>/dev/null | cut -f1)
+                      [ -n "$sz" ] && [ "$sz" -gt "$LOG_CAP_KB" ] && : > "$lf"
+                    done
                   fi
                   sleep 600
                 done
