@@ -235,10 +235,13 @@ spec:
                 memory: 4Gi
               limits:
                 memory: 20Gi
-          # Tail GM audit log to stdout — same pattern as live so GM
-          # actions on PTR are visible in kubectl logs and any future
-          # log collector.
-          gm-log-tail:
+          # Single housekeeping sidecar — consolidates the former cores-pruner,
+          # logs-pruner and gm-log-tail. A background 10-min loop bounds the
+          # cores + logs PVCs (the May/Jun 2026 disk-fill incidents); the
+          # foreground `tail -F gm.log` streams GM-command audits to stdout
+          # (kubectl logs / Loki). Runs as the mangos UID (1001) so it can
+          # truncate/delete the 0600 files the worldserver owns. Mirrors live.
+          housekeeping:
             image:
               repository: busybox
               tag: latest
@@ -246,122 +249,65 @@ spec:
               - /bin/sh
               - -c
               - |
+                # In-place truncate is safe throughout: mangosd holds these logs
+                # O_APPEND, so it keeps writing from offset 0 (no orphaned handle,
+                # no restart). Plain truncate (not cp) on the cores-dir logs so it
+                # can never wedge on a full disk the way a cp would.
+                ACTIVE_CAP_KB=$((2 * 1024 * 1024))   # rotate active Server log past 2 GiB
+                CAP_KB=$((12 * 1024 * 1024))         # keep ~12 GiB of Server-log history
+                LOG_CAP_KB=$((1024 * 1024))          # 1 GiB per cores-dir log
+                prune() {
+                  while true; do
+                    # /opt/mangos/cores: keep 2 newest non-zero core dumps, and
+                    # cap the relative-path logs mangosd writes here (it cd's here
+                    # for core capture): DBErrors.log, Char.log, EventAIErrors.log,
+                    # SD2Errors.log — DBErrors.log hit 11G on live / filled PTR.
+                    if cd /opt/mangos/cores 2>/dev/null; then
+                      find . -maxdepth 1 -name 'core.*' -size 0 -delete 2>/dev/null
+                      # shellcheck disable=SC2012
+                      ls -1t core.* 2>/dev/null | tail -n +3 | xargs -r rm -f --
+                      for lf in DBErrors.log Char.log EventAIErrors.log SD2Errors.log; do
+                        [ -f "$lf" ] || continue
+                        sz=$(du -k "$lf" 2>/dev/null | cut -f1)
+                        [ -n "$sz" ] && [ "$sz" -gt "$LOG_CAP_KB" ] && : > "$lf"
+                      done
+                    fi
+                    # /opt/mangos/logs: copytruncate the active Server log past
+                    # ACTIVE_CAP_KB, drop stale 0-byte logs, budget rotated to CAP_KB.
+                    if cd /opt/mangos/logs 2>/dev/null; then
+                      # shellcheck disable=SC2012
+                      active=$(ls -1 Server_*.log 2>/dev/null | sort | tail -1)
+                      if [ -n "$active" ]; then
+                        sz=$(du -k "$active" 2>/dev/null | cut -f1)
+                        if [ -n "$sz" ] && [ "$sz" -gt "$ACTIVE_CAP_KB" ]; then
+                          secs=$(date -u +%s 2>/dev/null || echo rot)
+                          cp "$active" "${active}.${secs}" 2>/dev/null && : > "$active"
+                        fi
+                      fi
+                      find . -maxdepth 1 -name '*.log' -size 0 -mmin +5 -delete 2>/dev/null
+                      total=0
+                      # shellcheck disable=SC2012
+                      ls -1t Server_*.log* 2>/dev/null | grep -vxF "$active" | while read -r f; do
+                        sz=$(du -k "$f" 2>/dev/null | cut -f1)
+                        [ -n "$sz" ] || continue
+                        total=$((total + sz))
+                        [ "$total" -gt "$CAP_KB" ] && rm -f -- "$f"
+                      done
+                    fi
+                    sleep 600
+                  done
+                }
+                prune &
+                # Foreground: stream the GM audit log to stdout. tail -F follows
+                # across the copytruncate/rotation above and keeps the container alive.
                 while [ ! -f /opt/mangos/logs/gm.log ]; do sleep 5; done
                 exec tail -F /opt/mangos/logs/gm.log
             resources:
               requests:
-                cpu: 5m
-                memory: 8Mi
+                cpu: 10m
+                memory: 16Mi
               limits:
-                memory: 32Mi
-            securityContext:
-              runAsUser: 1001
-              runAsGroup: 1001
-              runAsNonRoot: true
-              readOnlyRootFilesystem: true
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop: ["ALL"]
-          # Cores-pruner — same UID + cap reasoning as live. Keeps the
-          # 20Gi PTR cores PVC from wedging if PTR ever enters a crash loop.
-          cores-pruner:
-            image:
-              repository: busybox
-              tag: latest
-            command:
-              - /bin/sh
-              - -c
-              - |
-                while true; do
-                  if cd /opt/mangos/cores 2>/dev/null; then
-                    find . -maxdepth 1 -name 'core.*' -size 0 -delete 2>/dev/null
-                    # shellcheck disable=SC2012
-                    ls -1t core.* 2>/dev/null | tail -n +3 | xargs -r rm -f --
-                    # Bound the non-core logs that also land in this dir: mangosd
-                    # cd's here for core capture, so its relative-path logs
-                    # (DBErrors.log, Char.log, EventAIErrors.log, SD2Errors.log)
-                    # get written here and NOTHING else prunes them — DBErrors.log
-                    # reached 11G on live and filled PTR's PVC (2026-06). Truncate
-                    # in place past CAP: mangosd holds them O_APPEND so it keeps
-                    # writing from offset 0 (no orphaned handle, no restart). Plain
-                    # truncate, not copytruncate, so it can never wedge on a full
-                    # disk the way a cp would.
-                    LOG_CAP_KB=$((1024 * 1024))   # 1 GiB per file
-                    for lf in DBErrors.log Char.log EventAIErrors.log SD2Errors.log; do
-                      [ -f "$lf" ] || continue
-                      sz=$(du -k "$lf" 2>/dev/null | cut -f1)
-                      [ -n "$sz" ] && [ "$sz" -gt "$LOG_CAP_KB" ] && : > "$lf"
-                    done
-                  fi
-                  sleep 600
-                done
-            resources:
-              requests:
-                cpu: 5m
-                memory: 8Mi
-              limits:
-                memory: 32Mi
-            securityContext:
-              runAsUser: 1001
-              runAsGroup: 1001
-              runAsNonRoot: true
-              readOnlyRootFilesystem: true
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop: ["ALL"]
-          # Logs-pruner: keep a generous rolling window of mangosd logs within
-          # a size budget so the 20Gi PVC never wedges at 100%. PTR logs at
-          # full debug (level 3), so this is the primary guard against the
-          # log volume filling. Runs as the mangos UID (1001) to delete 0600s.
-          logs-pruner:
-            image:
-              repository: busybox
-              tag: latest
-            command:
-              - /bin/sh
-              - -c
-              - |
-                # Bound the mangosd log volume two ways so a long full-debug run
-                # (PTR) cannot fill the PVC even though the pruner cannot delete a
-                # file mangosd is actively writing:
-                #  1. copytruncate the ACTIVE file past ACTIVE_CAP_KB. mangosd
-                #     holds it O_APPEND, so truncating in place is safe - it keeps
-                #     writing from offset 0, no orphaned handle, no restart.
-                #  2. keep rotated copies + prior-run logs within CAP_KB total.
-                ACTIVE_CAP_KB=$((2 * 1024 * 1024))   # rotate active past 2 GiB
-                CAP_KB=$((12 * 1024 * 1024))         # keep ~12 GiB of history
-                while true; do
-                  if cd /opt/mangos/logs 2>/dev/null; then
-                    # active = newest by mangosd's startup-timestamp filename
-                    # shellcheck disable=SC2012
-                    active=$(ls -1 Server_*.log 2>/dev/null | sort | tail -1)
-                    if [ -n "$active" ]; then
-                      sz=$(du -k "$active" 2>/dev/null | cut -f1)
-                      if [ -n "$sz" ] && [ "$sz" -gt "$ACTIVE_CAP_KB" ]; then
-                        secs=$(date -u +%s 2>/dev/null || echo rot)
-                        cp "$active" "${active}.${secs}" 2>/dev/null && : > "$active"
-                      fi
-                    fi
-                    # drop failed zero-byte logs (spare anything written recently)
-                    find . -maxdepth 1 -name '*.log' -size 0 -mmin +5 -delete 2>/dev/null
-                    # budget rotated + prior-run logs (never the active) to CAP_KB
-                    total=0
-                    # shellcheck disable=SC2012
-                    ls -1t Server_*.log* 2>/dev/null | grep -vxF "$active" | while read -r f; do
-                      sz=$(du -k "$f" 2>/dev/null | cut -f1)
-                      [ -n "$sz" ] || continue
-                      total=$((total + sz))
-                      [ "$total" -gt "$CAP_KB" ] && rm -f -- "$f"
-                    done
-                  fi
-                  sleep 600
-                done
-            resources:
-              requests:
-                cpu: 5m
-                memory: 8Mi
-              limits:
-                memory: 32Mi
+                memory: 64Mi
             securityContext:
               runAsUser: 1001
               runAsGroup: 1001
@@ -890,7 +836,7 @@ spec:
           mangosd:
             app:
               - path: /opt/mangos/cores
-            cores-pruner:
+            housekeeping:
               - path: /opt/mangos/cores
       mangosd-config:
         type: configMap
@@ -1002,8 +948,5 @@ spec:
           mangosd:
             app:
               - path: /opt/mangos/logs
-            gm-log-tail:
-              - path: /opt/mangos/logs
-                readOnly: true
-            logs-pruner:
+            housekeeping:
               - path: /opt/mangos/logs
