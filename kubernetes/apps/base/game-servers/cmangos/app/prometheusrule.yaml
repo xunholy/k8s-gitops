@@ -148,24 +148,12 @@ spec:
     - name: game-servers.storage
       interval: 1m
       rules:
-        - alert: GameServerVolumeReadOnly
-          expr: |
-            node_filesystem_readonly{
-              mountpoint=~"/var/lib/kubelet/pods/.*",
-              fstype!~"tmpfs|overlay|nsfs"
-            } == 1
-          for: 1m
-          labels:
-            severity: critical
-            team: game-servers
-          annotations:
-            summary: "A pod volume on {{ $labels.instance }} is mounted read-only"
-            description: |
-              Filesystem `{{ $labels.mountpoint }}` on `{{ $labels.instance }}` is read-only.
-              Usually triggered by `errors=remount-ro` after underlying I/O errors (Ceph RBD
-              session loss, disk failure). Pods using this volume will be unable to write —
-              **force-recreate the pod** to remap the volume after underlying storage recovers.
-
+        # NB: read-only-volume detection moved to a cluster-wide KubeVolumeReadOnly
+        # alert in the kube-prometheus-stack PrometheusRule. The old rule here
+        # queried node_filesystem_readonly{mountpoint=~/var/lib/kubelet/pods/.*}
+        # which node-exporter never scraped (all of var/lib/kubelet was excluded),
+        # so it could never fire — and its scope was cluster-wide anyway despite
+        # the team=game-servers label. See fix/detect-readonly-volumes.
         - alert: GameServerPVCNearFull
           expr: |
             (
