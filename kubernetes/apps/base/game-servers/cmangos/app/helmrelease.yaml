@@ -87,15 +87,21 @@ spec:
               # grid-index bounds guard returning nullptr off-map (callers all
               # treat null as "no data"; GetAreaFlag falls back to
               # GetAreaFlagByMapId). Pure fail-safe, no behaviour change for
-              # valid coords. Image = live's own 7205c38f + ONLY this guard,
-              # built via workflow_dispatch on branch hotfix/live-gridmap-guard
-              # (deliberately NOT a PR-to-main build, which would drag in the
-              # paladinpower module). PTR-soak-validated; reviewed by a design
-              # panel + an implementation-verification gate (both GO, no code
-              # defects, surgical scope confirmed). Root-cause source fix
-              # (bots reaching off-map via WorldObject::Relocate/FleeManager)
-              # and off-map-bot DB cleanup are tracked as separate follow-ups.
-              tag: 5616d6dff7726035f7fee0d3a70bdd3340db8e86
+              # valid coords. Base 5616d6dff = live's own 7205c38f + that guard.
+              #
+              # 2026-07-03: promoted 6ccbf882 = base 5616d6dff + the playerbot
+              # owner-UAF fix, built via workflow_dispatch on branch
+              # hotfix/playerbot-owner-uaf. Fixes the ~daily SIGSEGV / heap-
+              # corruption crash family: a raw Player* owner was retained across
+              # Map::Update ticks in ai::Event / ChatCommandHolder and dereferenced
+              # after the player logged out (Player::isRealPlayer via TellPlayer;
+              # and "free(): invalid next size" via WorldObject::RemoveClientIAmAt).
+              # Now stored as ObjectGuid and re-resolved via ObjectAccessor::
+              # FindPlayer at point of use. gdb-root-caused on 2 production cores;
+              # multi-agent adversarial review returned GO with 0 blockers and 0
+              # successful break attempts; ASan build soaked clean on PTR.
+              # ROLLBACK: revert tag to 5616d6dff7726035f7fee0d3a70bdd3340db8e86.
+              tag: 6ccbf882074ac7f492e2ee5418535e45304205da
             args: ["mangosd"]
             tty: true
             stdin: true
