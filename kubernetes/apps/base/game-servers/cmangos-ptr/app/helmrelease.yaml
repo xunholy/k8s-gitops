@@ -155,12 +155,22 @@ spec:
               # 2026-06-19: bumped to 932e0d72d — the Attuner announcement used
               # MonsterSay (~25yd local), so it was invisible beyond the NPC.
               # Switched to MonsterYell so it carries across the capital-city hub.
-              tag: 932e0d72d9e80c015d803f602dae0c875beb016a
+              # 2026-07-03 TEMPORARY (ASan crash-repro): running the AddressSanitizer
+              # build of the playerbot owner-UAF hotfix (base 5616d6dff + fix, commit
+              # 6ccbf882) to prove the dangling-Player* use-after-free is gone before
+              # promoting to live. RESTORE tag to 932e0d72d9e80c015d803f602dae0c875beb016a
+              # (and bots back to 2000) once the fix is validated and promoted.
+              tag: asan-6ccbf882074ac7f492e2ee5418535e45304205da
             args: ["mangosd"]
             tty: true
             stdin: true
             env:
               TZ: ${CLUSTER_TIMEZONE}
+              # 2026-07-03 TEMPORARY (ASan repro): disable leak detection (noisy on a
+              # long-running server) and print full stack traces. halt_on_error=0 so an
+              # unrelated latent bug can't abort the realm mid-test — any use-after-free
+              # still prints to stderr (pod logs). Remove with the ASan image.
+              ASAN_OPTIONS: "detect_leaks=0:halt_on_error=0:print_stacktrace=1"
               MANGOS_DBHOST: cmangos-database
               MANGOS_DBPORT: "3306"
               # Auth DB is shared with live so accounts/GM flags carry over.
@@ -441,8 +451,10 @@ spec:
             # churn (xunholy/k8s-gitops#4120). NB: an ASan crash-repro run will
             # want this back at a RANGE (e.g. 1500/2000) to MAXIMISE login churn
             # — set that deliberately for the repro, then restore parity.
-            AiPlayerbot.MinRandomBots = 2000
-            AiPlayerbot.MaxRandomBots = 2000
+            # 2026-07-03 TEMPORARY (ASan repro): reduced from 2000 to 500 for ASan
+            # memory/CPU headroom (~2x overhead). Restore to 2000 with the non-ASan image.
+            AiPlayerbot.MinRandomBots = 500
+            AiPlayerbot.MaxRandomBots = 500
             # Force random bots to learn Crusader Strike (paladinpower module).
             # PlayerbotFactory::ClearSpells() wipes module-granted spells on each
             # re-randomize, so the module's level-up hook isn't enough for bots;
