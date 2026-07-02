@@ -43,7 +43,7 @@ spec:
           command: ['sh', '-c', 'until nc -z cmangos-database 3306; do echo "Waiting for database..."; sleep 2; done']
       containers:
         - name: migrate
-          image: mariadb:12.2
+          image: mariadb:12.3
           envFrom:
             - secretRef:
                 name: cmangos-database-creds
