@@ -24,7 +24,10 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/cmangos-classic
-              tag: 7bf448dda338ce51a7756e8fd4c704f580d2ae4e
+              # 74d11f1d = 7bf448dd (realmd's own build, binary UNCHANGED) + only the
+              # run_realmd core-dump enablement, so the intermittent startup SIGSEGV
+              # (~every 3 days) now leaves a core in the cores emptyDir to gdb.
+              tag: 74d11f1d6590e409a7e9b2d42a0c28eb4127c726
             args: ["realmd"]
             env:
               TZ: ${CLUSTER_TIMEZONE}
@@ -207,3 +210,13 @@ spec:
           realmd:
             app:
               - path: /opt/mangos/logs
+      # Cores emptyDir — sibling of /opt/mangos/etc so realmd's relative config
+      # load (../etc/realmd.conf) still resolves after run_realmd chdirs here.
+      # Captures realmd's intermittent startup SIGSEGV: emptyDir survives the
+      # container restart within the pod, so the core is there to gdb.
+      cores:
+        type: emptyDir
+        advancedMounts:
+          realmd:
+            app:
+              - path: /opt/mangos/cores
