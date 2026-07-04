@@ -216,7 +216,11 @@ spec:
                         sz=$(du -k "$active" 2>/dev/null | cut -f1)
                         if [ -n "$sz" ] && [ "$sz" -gt "$ACTIVE_CAP_KB" ]; then
                           secs=$(date -u +%s 2>/dev/null || echo rot)
-                          cp "$active" "${active}.${secs}" 2>/dev/null && : > "$active"
+                          # NB: destination uses the no-brace var form on purpose. The
+                          # brace form is eaten by Flux post-build substitution (undefined
+                          # vars become empty, collapsing the path to a bare dot -> cp
+                          # fails same-file), which silently broke this copytruncate.
+                          cp "$active" "$active.$secs" 2>/dev/null && : > "$active"
                         fi
                       fi
                       find . -maxdepth 1 -name '*.log' -size 0 -mmin +5 -delete 2>/dev/null
