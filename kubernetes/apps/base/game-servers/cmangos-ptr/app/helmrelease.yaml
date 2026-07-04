@@ -321,12 +321,7 @@ spec:
                 cpu: 10m
                 memory: 16Mi
               limits:
-                # 512Mi (vs live's 64Mi): PTR runs LogFileLevel=3 (full debug) +
-                # 2000 bots, so the active Server log hits the 2 GiB copytruncate cap
-                # fast, and the cp's page-cache/dirty pages blew past 64Mi -> OOMKill
-                # loop. A PTR-only bump tied to the LogFileLevel=3 deviation. (If the
-                # debug level is dropped now the UAF is fixed, this can revert to 64Mi.)
-                memory: 512Mi
+                memory: 64Mi
             securityContext:
               runAsUser: 1001
               runAsGroup: 1001
@@ -385,11 +380,14 @@ spec:
             # _passengers iteration is made thread-safe.
             MapUpdate.Threads = 1
             Motd = "Welcome to Emberstone PTR"
-            # Match live: LogLevel=1 keeps kubectl logs clean, LogFile
-            # captures full diagnostics on the PVC.
+            # Match live: LogLevel=1 keeps kubectl logs clean. LogFileLevel=1
+            # (parity with live) since the playerbot UAF is fixed — full-debug
+            # LogFileLevel=3 flooded the 20Gi PVC (~2 GiB/hr) and OOM-looped the
+            # log-copytruncate sidecar. Set back to 3 only for a specific PTR
+            # debug session, then restore to 1.
             LogLevel = 1
             LogFile = "/opt/mangos/logs/Server.log"
-            LogFileLevel = 3
+            LogFileLevel = 1
             LogTimestamp = 1
             GmLogFile = "/opt/mangos/logs/gm.log"
             GmLogTimestamp = 1
