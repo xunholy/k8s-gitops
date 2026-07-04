@@ -155,7 +155,17 @@ spec:
               # 2026-06-19: bumped to 932e0d72d — the Attuner announcement used
               # MonsterSay (~25yd local), so it was invisible beyond the NPC.
               # Switched to MonsterYell so it carries across the capital-city hub.
-              tag: 932e0d72d9e80c015d803f602dae0c875beb016a
+              #
+              # 2026-07-04: RESTORED TO PARITY — pinned to live's 6ccbf882 (the
+              # playerbot owner-UAF fix). PTR now TRACKS live's image; test changes
+              # ride on top via PRs (config overlays here, or a PR-built image tag)
+              # instead of a long-lived divergent build. Bonus: PTR gets the UAF fix,
+              # ending its own ~daily crashes. NB: the paladinpower + Attuner modules
+              # are NOT compiled into 6ccbf882, so the Paladinpower.* config +
+              # AiPlayerbot.RandomBotSpellIds below are now INERT (unknown keys are
+              # silently ignored) — clean them up, or re-base paladinpower on 6ccbf882
+              # via a PR-built image to resume that test.
+              tag: 6ccbf882074ac7f492e2ee5418535e45304205da
             args: ["mangosd"]
             tty: true
             stdin: true
