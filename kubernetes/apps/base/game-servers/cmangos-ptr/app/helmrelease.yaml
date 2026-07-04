@@ -321,7 +321,12 @@ spec:
                 cpu: 10m
                 memory: 16Mi
               limits:
-                memory: 64Mi
+                # 512Mi (vs live's 64Mi): PTR runs LogFileLevel=3 (full debug) +
+                # 2000 bots, so the active Server log hits the 2 GiB copytruncate cap
+                # fast, and the cp's page-cache/dirty pages blew past 64Mi -> OOMKill
+                # loop. A PTR-only bump tied to the LogFileLevel=3 deviation. (If the
+                # debug level is dropped now the UAF is fixed, this can revert to 64Mi.)
+                memory: 512Mi
             securityContext:
               runAsUser: 1001
               runAsGroup: 1001
