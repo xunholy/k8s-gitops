@@ -16,16 +16,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Pinned SHAs for reproducible builds. Bump these when you want newer code;
 # leaving them on a moving branch is how silent regressions arrive.
-ARG ACORE_SHA1="d115eb658606567de6892aa48950281117767130"           # mod-playerbots/azerothcore-wotlk Playerbot branch
-ARG MOD_PLAYERBOTS_SHA1="a4d2c83d85572a7c4f5bd4b4104187624c8337e3"
+# 2026-07-06: bumped AC core + mod-playerbots from 2026-04-24 to 2026-07-03
+# (~501 core commits, +114 playerbot) to pull the mod-playerbots "Fix/TellMaster
+# crash" (#2434) that was SIGSEGV'ing worldserver, plus ~2 months of stability
+# fixes. transmog/cfbg/individual-progression bumped to their latest for core
+# compatibility; autobalance/ah-bot/aoe-loot/learnspells/solo-lfg were already
+# at their latest (unchanged). Prior: ACORE=d115eb65, PLAYERBOTS=a4d2c83.
+ARG ACORE_SHA1="c62dc737741fc24dd0e7d2c9cfa7a1eb7377f312"           # mod-playerbots/azerothcore-wotlk Playerbot branch (2026-07-03)
+ARG MOD_PLAYERBOTS_SHA1="a119a6de69d2730d9f40fd89d89de2a05aeace19"   # incl. Fix/TellMaster crash #2434 (2026-07-03)
 ARG MOD_AUTOBALANCE_SHA1="73d4ad3c379fbfc35c63b5b9b44fba1f7d9e213d"
-ARG MOD_TRANSMOG_SHA1="f07686bf6a86412ba31502522bdc141266b8647d"
+ARG MOD_TRANSMOG_SHA1="33ac64b2c305eb1b6fbc97310a7ecbc30c2ba4ef"
 ARG MOD_AHBOT_SHA1="a680cc1c98290713e9b3d3289544af78e5186dc1"
 ARG MOD_AOELOOT_SHA1="2ddf6ff75bdbfee3c81f2c149a07126f1d0bf200"
 ARG MOD_LEARNSPELLS_SHA1="016b92d520f343d074ffd5d46016a94f4a3a6ebd"
 ARG MOD_SOLOLFG_SHA1="3821fe1d108ade8d2b7ad6611e41154e05864c65"
-ARG MOD_CFBG_SHA1="d63ba2b844e0c3cd421d07aa8b009927425b21cd"
-ARG MOD_INDIVIDUALPROGRESSION_SHA1="4119ca0120e5b535b4718f6dd0a4d6030e28e1f8"
+ARG MOD_CFBG_SHA1="8a29b6af79211ad0d579423369c4834588e65e1e"
+ARG MOD_INDIVIDUALPROGRESSION_SHA1="b7b6869fe114d037f0e815aaff33b61897ac9cf2"
 
 # Shallow-fetch a specific SHA: init -> remote add -> fetch --depth 1 <sha> -> checkout.
 # Avoids cloning full history while still giving us reproducible pins.
