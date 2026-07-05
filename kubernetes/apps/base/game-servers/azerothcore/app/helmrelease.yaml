@@ -168,17 +168,27 @@ spec:
                   done
                 }
                 echo "=== Applying module SQL ==="
+                # NB: apply base AND updates. Omitting updates meant new module tables
+                # (e.g. playerbots_bis_gear from playerbots/updates, added 2026-04-28)
+                # were never created, so worldserver aborted "database structure not up
+                # to date" after a module bump (the 9c359f85 roll, 2026-07-06). Files are
+                # sorted; import_sql suppresses re-run "already exists" errors.
                 echo "World database:"
                 import_sql acore_world "*/data/sql/db-world/*"
                 import_sql acore_world "*/data/sql/world/base/*"
+                import_sql acore_world "*/data/sql/world/updates/*"
                 echo "Characters database:"
                 import_sql acore_characters "*/data/sql/db-characters/*"
                 import_sql acore_characters "*/data/sql/characters/base/*"
+                import_sql acore_characters "*/data/sql/characters/updates/*"
                 echo "Auth database:"
                 import_sql acore_auth "*/data/sql/db-auth/*"
                 import_sql acore_auth "*/data/sql/auth/base/*"
+                import_sql acore_auth "*/data/sql/auth/updates/*"
                 echo "Playerbots database:"
                 import_sql acore_playerbots "*/data/sql/playerbots/base/*"
+                import_sql acore_playerbots "*/data/sql/playerbots/create/*"
+                import_sql acore_playerbots "*/data/sql/playerbots/updates/*"
                 echo "=== Module SQL complete ==="
           03-client-data:
             image:
