@@ -70,7 +70,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-authserver
-              tag: f9bcdac1895f78e50a63e8e93f09ce0d723cf938
+              tag: 7ff4b7aed3513d7f0d89a9c33ccf654189ac64a1
             env:
               TZ: ${CLUSTER_TIMEZONE}
               AC_LOGIN_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_auth"
@@ -140,7 +140,7 @@ spec:
           02-db-import:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-db-import
-              tag: f9bcdac1895f78e50a63e8e93f09ce0d723cf938
+              tag: 7ff4b7aed3513d7f0d89a9c33ccf654189ac64a1
             env:
               AC_LOGIN_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_auth"
               AC_WORLD_DATABASE_INFO: "azerothcore-database;3306;root;password;acore_world"
@@ -155,7 +155,7 @@ spec:
           025-module-sql:
             image:
               repository: ghcr.io/xunholy/azerothcore-wotlk-db-import
-              tag: f9bcdac1895f78e50a63e8e93f09ce0d723cf938
+              tag: 7ff4b7aed3513d7f0d89a9c33ccf654189ac64a1
             command:
               - /bin/bash
               - -c
@@ -187,8 +187,17 @@ spec:
         containers:
           app:
             image:
+              # 2026-07-06: updated f9bcdac1 (2026-04-30) -> 7ff4b7ae (2026-07-05),
+              # ~2 months of AzerothCore + mod-playerbots updates. Includes the
+              # mod-playerbots "Fix/TellMaster crash" (#2434) addressing the playerbot
+              # use-after-free that was SIGSEGV'ing worldserver (the AC analog of the
+              # cmangos owner-UAF). The db-import init containers (02-db-import +
+              # 025-module-sql, bumped to the same tag) apply pending core + module SQL
+              # migrations BEFORE this boots. Pre-migration backups: VolSync (hourly
+              # Kopia->TrueNAS) + an immediate mysqldump in the DB pod's /tmp. Rollback:
+              # revert all 4 tags to f9bcdac1, restore the dump if migrations misbehaved.
               repository: ghcr.io/xunholy/azerothcore-wotlk-worldserver
-              tag: f9bcdac1895f78e50a63e8e93f09ce0d723cf938
+              tag: 7ff4b7aed3513d7f0d89a9c33ccf654189ac64a1
             tty: true
             stdin: true
             # Override the image ENTRYPOINT so we can:
