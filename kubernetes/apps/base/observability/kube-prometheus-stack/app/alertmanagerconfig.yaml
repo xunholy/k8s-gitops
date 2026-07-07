@@ -47,6 +47,25 @@ spec:
             matchType: "=~"
             value: "CephPGsDamaged|CephOSDScrubErrors"
         continue: false
+      # Storage / disk degradation — FAST PATH. A read-only volume (Ceph RBD
+      # remount-ro or ext4 emergency_ro) or a filling/erroring PV means an app is
+      # SILENTLY failing writes while still "Running". You must hear about this in
+      # seconds, not the 24h the generic critical route below used to impose —
+      # that delay (plus the emergency_ro detection gap, now fixed in #4143) is why
+      # a critical service sat read-only for ~7 days unnoticed (2026-07). First
+      # email in 30s, reminders every 1h while firing, RESOLVED email on clear.
+      - receiver: email
+        matchers:
+          - name: alertname
+            matchType: "=~"
+            value: "KubeVolumeReadOnly|KubeVolumeEmergencyReadOnly|KubeVolumeEmergencyReadOnlyCollectorStale|KubePersistentVolumeFillingUp|KubePersistentVolumeInodesFillingUp|KubePersistentVolumeErrors|CephOSDDown|CephOSDNearFull|CephOSDCriticallyFull|CephClusterNearFull|CephClusterCriticallyFull|CephClusterErrorState|CephMonQuorumLost|CephMonQuorumAtRisk|CephMgrIsAbsent|CephFilesystemReadOnly"
+        groupBy:
+          - alertname
+          - namespace
+        groupWait: 30s
+        groupInterval: 5m
+        repeatInterval: 1h
+        continue: false
       # Game-servers (WoW) — fast path. First email within 30s of any new
       # alert in the namespace; subsequent alerts in the same group batched
       # 5min apart; reminders only every 12h while still firing (and one
@@ -69,14 +88,17 @@ spec:
         groupInterval: 5m
         repeatInterval: 12h
         continue: false
-      # Critical alerts — only notify if sustained beyond 24h
+      # Critical alerts — notify FAST. "critical" means something is broken NOW;
+      # the old 24h groupWait meant real outages went unnoticed for a full day.
+      # First email in 60s, batched 5m, reminders every 4h while still firing.
       - receiver: email
         matchers:
           - name: severity
             matchType: "="
             value: critical
-        groupWait: 24h
-        repeatInterval: 24h
+        groupWait: 60s
+        groupInterval: 5m
+        repeatInterval: 4h
         continue: false
       # Warning alerts — only notify if sustained beyond 24h
       - receiver: email
