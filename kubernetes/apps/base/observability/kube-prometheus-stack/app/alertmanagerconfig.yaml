@@ -47,6 +47,17 @@ spec:
             matchType: "=~"
             value: "CephPGsDamaged|CephOSDScrubErrors"
         continue: false
+      # POC / work-in-progress — do NOT alert. cell-a/cell-b are a WebSocket mesh
+      # proof-of-concept under active development (edge/router/nats/redis/redpanda).
+      # Their WebsockTargetDown/TargetDown churn is expected build-out noise, not a
+      # household-service outage. Drop ALL alerts from these namespaces until the POC
+      # graduates to a real service. To re-enable alerting, delete this route.
+      - receiver: "null"
+        matchers:
+          - name: namespace
+            matchType: "=~"
+            value: "cell-a|cell-b"
+        continue: false
       # Storage / disk degradation — FAST PATH. A read-only volume (Ceph RBD
       # remount-ro or ext4 emergency_ro) or a filling/erroring PV means an app is
       # SILENTLY failing writes while still "Running". You must hear about this in
