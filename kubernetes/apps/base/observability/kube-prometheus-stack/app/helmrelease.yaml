@@ -229,8 +229,59 @@ spec:
       # cardinality cost that buys read-only visibility. Args copied verbatim
       # from the chart default, changing only var/lib/kubelet/.+ -> plugins/.+.
       extraArgs:
+        # Serve the emergency_ro textfile metric written by the sidecar below.
+        - --collector.textfile.directory=/run/textfile
         - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|run/containerd/.+|var/lib/docker/.+|var/lib/kubelet/plugins/.+)($|/)
         - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs|erofs)$
+      # ext4 `emergency_ro` (fs set read-only after an I/O error) LEAVES the mount
+      # flag as `rw`, so node_filesystem_readonly / KubeVolumeReadOnly (#4127) cannot
+      # see it — that is how qui + 5 apps sat silently read-only for ~7 days (2026-07).
+      # This sidecar scans the host mount table (PID 1 mount ns, readable via hostPID
+      # + the chart's `proc` hostPath) for `emergency_ro` and writes the textfile
+      # metric `node_filesystem_emergency_ro`, which node-exporter serves so
+      # KubeVolumeEmergencyReadOnly can fire. See project_ceph_rbd_readonly_remount.
+      sidecarVolumeMount:
+        # Chart mounts this emptyDir on node-exporter AND every sidecar.
+        - name: emergency-ro-textfile
+          mountPath: /run/textfile
+          readOnly: false
+      sidecars:
+        - name: emergency-ro-collector
+          image: busybox:1.37.0@sha256:026ed7273270ec08f6902b4ae8334c23b473e5394bec3bbbdbfe580c710d50bc
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              while true; do
+                f=/run/textfile/emergency_ro.prom
+                {
+                  echo '# HELP node_filesystem_emergency_ro ext4 filesystem in emergency read-only state after an I/O error (mount flag stays rw). 1 = emergency_ro.'
+                  echo '# TYPE node_filesystem_emergency_ro gauge'
+                  awk '$4 ~ /emergency_ro/ { print "node_filesystem_emergency_ro{device=\"" $1 "\",mountpoint=\"" $2 "\"} 1" }' /host/proc/1/mounts
+                  echo '# HELP node_filesystem_emergency_ro_last_scan_timestamp_seconds Unix time of the last scan (collector liveness).'
+                  echo '# TYPE node_filesystem_emergency_ro_last_scan_timestamp_seconds gauge'
+                  echo "node_filesystem_emergency_ro_last_scan_timestamp_seconds $(date +%s)"
+                } > "$f.tmp" && mv "$f.tmp" "$f"
+                sleep 30
+              done
+          securityContext:
+            runAsUser: 65534
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: proc
+              mountPath: /host/proc
+              readOnly: true
+          resources:
+            requests:
+              cpu: 5m
+              memory: 16Mi
+            limits:
+              memory: 32Mi
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       verticalPodAutoscaler:

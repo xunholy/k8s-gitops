@@ -85,3 +85,38 @@ spec:
               The app cannot write and may be silently broken while still "Running".
               Remediation: once the underlying storage is healthy, force-recreate the pod
               (kubectl delete pod -n {{ $labels.namespace }} {{ $labels.pod }}) to remap the volume read-write.
+        # ext4 `emergency_ro` sets the fs read-only after an I/O error but LEAVES the
+        # mount flag `rw`, so node_filesystem_readonly (KubeVolumeReadOnly above) is
+        # blind to it — this is the variant that hid qui + 5 apps read-only for ~7
+        # days (2026-07). The node-exporter emergency-ro sidecar (see the HelmRelease)
+        # emits node_filesystem_emergency_ro from the host mount table so this fires.
+        - alert: KubeVolumeEmergencyReadOnly
+          expr: |-
+            label_replace(
+              node_filesystem_emergency_ro{mountpoint=~"/var/lib/kubelet/pods/.+"} == 1,
+              "uid", "$1", "mountpoint", "^/var/lib/kubelet/pods/([^/]+)/.*$"
+            ) * on (uid) group_left (namespace, pod) kube_pod_info
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: Emergency read-only volume on pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.instance }})
+            description: |
+              A volume mounted by pod `{{ $labels.namespace }}/{{ $labels.pod }}` (node `{{ $labels.instance }}`)
+              has entered ext4 `emergency_ro` — device `{{ $labels.device }}`, mountpoint `{{ $labels.mountpoint }}`.
+              The fs went read-only after an I/O error (Ceph RBD watch loss) but the mount flag is still `rw`,
+              so KubeVolumeReadOnly cannot see it. The app is silently failing writes while still "Running".
+              Remediation: scale the workload to 0 then 1 to remap the RBD read-write
+              (a plain pod delete may not clear the cached RO). See project_ceph_rbd_readonly_remount.
+        # Guard the detector itself — the whole point is to never be blind again.
+        - alert: KubeVolumeEmergencyReadOnlyCollectorStale
+          expr: time() - node_filesystem_emergency_ro_last_scan_timestamp_seconds > 300
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: emergency_ro collector stale on {{ $labels.instance }}
+            description: |
+              The node-exporter emergency-ro sidecar on `{{ $labels.instance }}` has not refreshed
+              node_filesystem_emergency_ro for >5m — emergency read-only detection is blind on this node.
+              Check the emergency-ro-collector sidecar in the node-exporter pod.
