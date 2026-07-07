@@ -2,7 +2,7 @@
 ---
 instance:
   distribution:
-    artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.50.0
+    artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.53.0
   storage:
     class: "ceph-block"
     size: "10Gi"
