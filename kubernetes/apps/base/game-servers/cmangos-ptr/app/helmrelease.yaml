@@ -165,7 +165,18 @@ spec:
               # AiPlayerbot.RandomBotSpellIds below are now INERT (unknown keys are
               # silently ignored) — clean them up, or re-base paladinpower on 6ccbf882
               # via a PR-built image to resume that test.
-              tag: 6ccbf882074ac7f492e2ee5418535e45304205da
+              #
+              # 2026-07-08: bumped to 81d6139f5 (branch hotfix/guardian-home-null-owner
+              # = live's 6ccbf882 + exactly one commit). Fixes a null-owner SIGSEGV in
+              # Unit::TriggerHomeEvents: a guardian whose owner already left the world
+              # (logout/despawn) reaches its home point and dereferences a null owner via
+              # owner->IsAlive(). Root-caused from a live core dump (crash at
+              # TriggerHomeEvents+108, `mov 0x5e0(%rax),%eax` with rax=0 = the pointer
+              # returned by the immediately-preceding GetOwner call). Amplified by bot
+              # churn orphaning guardians. Isolated on top of live's hotfix line so PTR
+              # carries ONLY this fix. workflow_dispatch SHA (branch tip — keeps build
+              # state identical to 6ccbf882). PTR first; live promotion follows a soak.
+              tag: 81d6139f5c1c58f67b22567ce73b9b4f42e6108a
             args: ["mangosd"]
             tty: true
             stdin: true
