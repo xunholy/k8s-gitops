@@ -101,7 +101,18 @@ spec:
               # multi-agent adversarial review returned GO with 0 blockers and 0
               # successful break attempts; ASan build soaked clean on PTR.
               # ROLLBACK: revert tag to 5616d6dff7726035f7fee0d3a70bdd3340db8e86.
-              tag: 6ccbf882074ac7f492e2ee5418535e45304205da
+              #
+              # 2026-07-08: promoted 81d6139f5 = 6ccbf882 + exactly one commit
+              # (branch hotfix/guardian-home-null-owner, workflow_dispatch build).
+              # Fixes a null-owner SIGSEGV in Unit::TriggerHomeEvents: a guardian
+              # whose owner already left the world (logout/despawn) reaches its home
+              # point and dereferences a null owner via owner->IsAlive(). Root-caused
+              # from a live core dump (crash at TriggerHomeEvents+108,
+              # `mov 0x5e0(%rax),%eax` with rax=0 = the pointer returned by the
+              # immediately-preceding GetOwner call). Amplified by bot churn orphaning
+              # guardians. Soaked clean on PTR (0 restarts) before this promotion.
+              # ROLLBACK: revert tag to 6ccbf882074ac7f492e2ee5418535e45304205da.
+              tag: 81d6139f5c1c58f67b22567ce73b9b4f42e6108a
             args: ["mangosd"]
             tty: true
             stdin: true
