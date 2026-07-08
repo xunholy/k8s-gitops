@@ -79,10 +79,15 @@ database:
       memory: 512Mi
 
 mcpServer:
-  enabled: false
+  # Enabled 2026-07-08: the llm-bridge is hard-wired to MCP_SERVER_URL=
+  # kguardian-mcp-server:8081 with no static tool fallback, so the AI
+  # assistant's entire tool path was non-functional while this was false.
+  # Service name matches the llm-bridge target; BROKER_URL is auto-derived.
+  # (advisor.enabled=false, so the 3 generate_* tools have no backend yet;
+  # the 8 broker-backed tools incl. get_cluster_traffic work.)
+  enabled: true
   useKmcp: false
   image:
     # Released pin: mcp-server v1.5.0 (data-coverage + generation tools, PR #996).
-    # Still disabled in this cluster; tag kept current for when it's enabled.
     tag: "v1.5.0"
     sha: "sha256:056a0853acb2e81cefb0d1596ae3095969a2f9d42a4f5e3bdb5863b400be2e6f"
