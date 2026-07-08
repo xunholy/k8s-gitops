@@ -10,3 +10,4 @@ components:
 resources:
   - namespace.yaml
   - priorityclass.yaml
+  - coredns-pdb.yaml
