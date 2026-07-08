@@ -20,10 +20,13 @@ broker:
   networkPolicy:
     enabled: false
   image:
-    # Released pin: broker v1.11.0 (bounded audit queue with load-shedding +
-    # write-time manifest compaction, PR #996).
-    tag: "v1.11.0"
-    sha: "sha256:359f0b12299eebdce5abfcafb80389fb334b14ed4839d33d8f1560e9cdc52f50"
+    # TEMPORARY PR test-deploy: broker PR #1034 (bound /pod/traffic + add the
+    # time_stamp index — fixes the unbounded whole-table read that broke the
+    # mcp-server get_cluster_traffic tool with "unexpected EOF"). No chart
+    # change in that PR; the migration ships in the broker binary and runs on
+    # startup. Revert to a released broker pin once #1034 is merged + released.
+    tag: "pr-1034"
+    sha: "sha256:2e029cfc0b22d1b1b5ccf9167a8f02b962beef50a4e6eb9982d6252460f7f40c"
   resources:
     limits:
       memory: 4Gi
