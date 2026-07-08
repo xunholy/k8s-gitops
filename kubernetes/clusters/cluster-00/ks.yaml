@@ -51,6 +51,11 @@ spec:
                     replace: true
                     crds: CreateReplace
                     createNamespace: true
+                    remediation:
+                      # Retry a failed FIRST install (upgrade.remediation only
+                      # kicks in after a successful install). Without this a
+                      # transient first-install failure leaves the HR stuck.
+                      retries: 3
                   upgrade:
                     remediation:
                       remediateLastFailure: true
