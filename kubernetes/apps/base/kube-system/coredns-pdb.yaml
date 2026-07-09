@@ -1,0 +1,15 @@
+---
+# CoreDNS is deployed and managed by Talos (not Flux), so it ships without a
+# PodDisruptionBudget. With only 2 replicas, a rolling node drain / Talos upgrade
+# could evict both at once and take out cluster-wide DNS. minAvailable: 1 lets a
+# drain take one replica at a time while always keeping one CoreDNS serving.
+# Selector matches Talos' CoreDNS Deployment (k8s-app: kube-dns).
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: coredns
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      k8s-app: kube-dns
