@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Setup Homebrew
-        uses: Homebrew/actions/setup-homebrew@d74d1431a0ee36e645aa62ebebeec16da878e7e0 # master
+        uses: Homebrew/actions/setup-homebrew@1f8e202ffddf94def7f42f6fa3a482e821489f9c # master
 
       - name: Setup Tools
         run: |
