@@ -30,9 +30,17 @@ function portal_bot_account_ids()
         // that prefix, this filter stops working and bots reappear in the
         // lists — make that the failure mode, not silent matching of the
         // wrong accounts.
-        $ids = database::$auth->fetchFirstColumn(
-            "SELECT id FROM account WHERE UPPER(username) LIKE 'RNDBOT%'"
-        );
+        try {
+            $ids = database::$auth->fetchFirstColumn(
+                "SELECT id FROM account WHERE UPPER(username) LIKE 'RNDBOT%'"
+            );
+        } catch (\Throwable $e) {
+            // Auth DB unreachable/corrupt (e.g. a crashed MyISAM account
+            // table). Degrade to an empty filter — bots may briefly reappear
+            // in the lists, but the whole page must not 500 over it. Do NOT
+            // cache the failure: leave $ids null so a later request retries.
+            return [];
+        }
     }
     return $ids;
 }
@@ -53,25 +61,33 @@ function portal_apply_bot_filter($qb)
 
 function portal_online_count($realm)
 {
-    $qb = database::$chars[$realm['realmid']]->createQueryBuilder()
-        ->select('COUNT(*)')
-        ->from('characters')
-        ->where('online = 1');
-    portal_apply_bot_filter($qb);
-    return (int) $qb->executeQuery()->fetchOne();
+    try {
+        $qb = database::$chars[$realm['realmid']]->createQueryBuilder()
+            ->select('COUNT(*)')
+            ->from('characters')
+            ->where('online = 1');
+        portal_apply_bot_filter($qb);
+        return (int) $qb->executeQuery()->fetchOne();
+    } catch (\Throwable $e) {
+        return 0;
+    }
 }
 
 function portal_online_players($realm)
 {
-    $qb = database::$chars[$realm['realmid']]->createQueryBuilder()
-        ->select('name, race, class, gender, level')
-        ->from('characters')
-        ->where('online = 1')
-        ->orderBy('level', 'DESC')
-        ->setMaxResults(49);
-    portal_apply_bot_filter($qb);
-    $rows = $qb->executeQuery()->fetchAllAssociative();
-    return empty($rows[0]['name']) ? false : $rows;
+    try {
+        $qb = database::$chars[$realm['realmid']]->createQueryBuilder()
+            ->select('name, race, class, gender, level')
+            ->from('characters')
+            ->where('online = 1')
+            ->orderBy('level', 'DESC')
+            ->setMaxResults(49);
+        portal_apply_bot_filter($qb);
+        $rows = $qb->executeQuery()->fetchAllAssociative();
+        return empty($rows[0]['name']) ? false : $rows;
+    } catch (\Throwable $e) {
+        return false;
+    }
 }
 
 /**
@@ -82,17 +98,21 @@ function portal_online_players($realm)
  */
 function portal_recent_activity($realm, $windowSeconds = 2592000)
 {
-    $qb = database::$chars[$realm['realmid']]->createQueryBuilder()
-        ->select('name, race, class, gender, level, online, logout_time')
-        ->from('characters')
-        ->where('online = 1 OR logout_time >= :cutoff')
-        ->setParameter('cutoff', time() - $windowSeconds)
-        ->orderBy('online', 'DESC')
-        ->addOrderBy('logout_time', 'DESC')
-        ->setMaxResults(49);
-    portal_apply_bot_filter($qb);
-    $rows = $qb->executeQuery()->fetchAllAssociative();
-    return empty($rows[0]['name']) ? false : $rows;
+    try {
+        $qb = database::$chars[$realm['realmid']]->createQueryBuilder()
+            ->select('name, race, class, gender, level, online, logout_time')
+            ->from('characters')
+            ->where('online = 1 OR logout_time >= :cutoff')
+            ->setParameter('cutoff', time() - $windowSeconds)
+            ->orderBy('online', 'DESC')
+            ->addOrderBy('logout_time', 'DESC')
+            ->setMaxResults(49);
+        portal_apply_bot_filter($qb);
+        $rows = $qb->executeQuery()->fetchAllAssociative();
+        return empty($rows[0]['name']) ? false : $rows;
+    } catch (\Throwable $e) {
+        return false;
+    }
 }
 
 /**
@@ -102,15 +122,19 @@ function portal_recent_activity($realm, $windowSeconds = 2592000)
  */
 function portal_highest_level_char($realm)
 {
-    $qb = database::$chars[$realm['realmid']]->createQueryBuilder()
-        ->select('name, race, class, gender, level')
-        ->from('characters')
-        ->orderBy('level', 'DESC')
-        ->addOrderBy('totaltime', 'DESC')
-        ->setMaxResults(1);
-    portal_apply_bot_filter($qb);
-    $rows = $qb->executeQuery()->fetchAllAssociative();
-    return empty($rows[0]['name']) ? false : $rows[0];
+    try {
+        $qb = database::$chars[$realm['realmid']]->createQueryBuilder()
+            ->select('name, race, class, gender, level')
+            ->from('characters')
+            ->orderBy('level', 'DESC')
+            ->addOrderBy('totaltime', 'DESC')
+            ->setMaxResults(1);
+        portal_apply_bot_filter($qb);
+        $rows = $qb->executeQuery()->fetchAllAssociative();
+        return empty($rows[0]['name']) ? false : $rows[0];
+    } catch (\Throwable $e) {
+        return false;
+    }
 }
 
 /**
