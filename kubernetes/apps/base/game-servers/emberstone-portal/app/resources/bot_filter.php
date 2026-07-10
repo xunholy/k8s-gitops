@@ -46,16 +46,54 @@ function portal_bot_account_ids()
 }
 
 /**
- * Attach the bot-exclusion clause to a QueryBuilder that selects from
- * characters. No-op when there are no bot accounts.
+ * Account ids of REAL player accounts — accounts that exist AND are not AI
+ * Playerbot accounts. Cached per request.
+ *
+ * Filtering merely by "not a known rndbot id" is not enough to show only
+ * real players: a character whose account row no longer exists (a deleted
+ * account whose characters were left orphaned — and which the live
+ * RandomPlayerbotMgr keeps re-flagging characters.online=1) has an account
+ * id that is NOT a rndbot id, so a NOT-IN-bots filter lets it through and it
+ * shows as a phantom "online player" even though mangosd reports 0 online.
+ * Requiring the account to be an existing, non-bot account excludes bots AND
+ * orphaned characters in a single clause, and is durable regardless of how
+ * often the server re-sets the stale online flag.
+ * @return int[]|null  null = auth DB unreadable (caller should fail safe)
+ */
+function portal_real_player_account_ids()
+{
+    static $ids = null;
+    if ($ids === null) {
+        try {
+            $ids = database::$auth->fetchFirstColumn(
+                "SELECT id FROM account WHERE UPPER(username) NOT LIKE 'RNDBOT%'"
+            );
+        } catch (\Throwable $e) {
+            // Auth DB unreadable — signal "unknown" so callers show an empty
+            // list rather than risk leaking bots/orphans. Don't cache the
+            // failure: leave $ids null so a later request retries.
+            return null;
+        }
+    }
+    return $ids;
+}
+
+/**
+ * Restrict a characters QueryBuilder to REAL players: their account must be
+ * an existing, non-bot account. Excludes both AI Playerbots and orphaned
+ * characters whose account row is gone.
  */
 function portal_apply_bot_filter($qb)
 {
-    $bots = portal_bot_account_ids();
-    if (!empty($bots)) {
-        $qb->andWhere('account NOT IN (:portalBotIds)')
-           ->setParameter('portalBotIds', $bots, \Doctrine\DBAL\ArrayParameterType::INTEGER);
+    $real = portal_real_player_account_ids();
+    if ($real === null || empty($real)) {
+        // Can't determine the real-account set (auth DB error, or none) —
+        // show nothing rather than leak bots/orphans into the listing.
+        $qb->andWhere('1 = 0');
+        return $qb;
     }
+    $qb->andWhere('account IN (:portalRealIds)')
+       ->setParameter('portalRealIds', $real, \Doctrine\DBAL\ArrayParameterType::INTEGER);
     return $qb;
 }
 
