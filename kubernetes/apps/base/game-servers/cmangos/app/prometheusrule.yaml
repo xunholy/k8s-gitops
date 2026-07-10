@@ -110,6 +110,54 @@ spec:
               Likely indicates a binary-level bug or corrupt input data. Check
               `kubectl logs --previous` for the stack trace and any preceding errors.
 
+    # ─── Stale DB connection after a database restart (2026-07-10 incident) ──
+    # realmd and mangosd open PERSISTENT connections to cmangos-database and do
+    # NOT auto-reconnect when that pod restarts or reschedules (node reboot, or
+    # the Ceph-RBD read-only incident that moved the DB pod to another node).
+    # Every query then fails with "Server has gone away": realmd auth and
+    # mangosd world entry break SILENTLY — the pod stays Running, the port stays
+    # open, so GameServerDown / crash-loop / port-probe alerts never fire and
+    # users just report "can't log in". It has bitten us twice (mangosd, then
+    # realmd 12h later). The reliable signal: a dependent pod is OLDER than the
+    # current database pod, i.e. it still holds a connection to a DB instance
+    # that no longer exists.
+    - name: game-servers.db-connectivity
+      interval: 1m
+      rules:
+        - alert: GameServerStaleDBConnection
+          # Fires when a cmangos game-server pod started BEFORE the current
+          # database pod. Pod-name shapes are fully-anchored in PromQL:
+          #   live world = cmangos-<hash>-<sfx>        (3 dash-segments)
+          #   realmd     = cmangos-realmd-<hash>-<sfx> (4 segments)
+          #   ptr world  = cmangos-ptr-<hash>-<sfx>    (4 segments)
+          # This deliberately EXCLUDES cmangos-database itself and the
+          # *-migration / *-db-init Job pods (which have extra name segments).
+          expr: |
+            max by (pod) (
+              kube_pod_start_time{
+                namespace="game-servers",
+                pod=~"cmangos-[^-]+-[^-]+|cmangos-realmd-[^-]+-[^-]+|cmangos-ptr-[^-]+-[^-]+"
+              }
+            )
+            < scalar(
+              max(kube_pod_start_time{namespace="game-servers", pod=~"cmangos-database-[^-]+-[^-]+"})
+            )
+          for: 10m
+          labels:
+            severity: critical
+            team: game-servers
+          annotations:
+            summary: "{{ $labels.pod }} predates the database pod — stale DB connection, login likely broken"
+            description: |
+              Pod `{{ $labels.pod }}` started before the current `cmangos-database`
+              pod, so its persistent DB connection is dead. realmd/mangosd do NOT
+              auto-reconnect — queries fail with "Server has gone away" and auth /
+              world entry break while the pod stays Running and the port stays open
+              (no other alert fires). Users cannot log in.
+              Fix: `kubectl -n game-servers rollout restart deploy/cmangos-realmd deploy/cmangos`
+              (add `deploy/cmangos-ptr` if the PTR realm is affected). The alert
+              clears automatically once the restarted pod is newer than the DB pod.
+
     # ─── DB resource saturation ─────────────────────────────────────────────
     # Catches the class of incident from 2026-05-21: a single in-game
     # `.lookup creature %X%` query pinned cmangos-database at a full core for
