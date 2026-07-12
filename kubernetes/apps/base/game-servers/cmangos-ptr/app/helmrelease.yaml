@@ -176,7 +176,17 @@ spec:
               # churn orphaning guardians. Isolated on top of live's hotfix line so PTR
               # carries ONLY this fix. workflow_dispatch SHA (branch tip — keeps build
               # state identical to 6ccbf882). PTR first; live promotion follows a soak.
-              tag: 81d6139f5c1c58f67b22567ce73b9b4f42e6108a
+              #
+              # 2026-07-13: bumped to d36ab3554 (branch hotfix/mail-item-uaf =
+              # 81d6139f5 + one commit). Fixes a use-after-free SIGSEGV that
+              # crashed the live world ~daily: Player::MoveItemToInventory passed
+              # the freed pItem to the achievements OnMoveItemToInventory hook when
+              # StoreItem stack-merged a mail item (StoreItem deletes pItem on
+              # merge). Proven from a live core (AchievementsModule::
+              # OnMoveItemToInventory <- HandleMailTakeItem). Bots take mail
+              # (MailAction -> HandleMailTakeItem) so the whole fleet triggered it.
+              # Fix passes pLastItem (the surviving item). See xunholy/cmangos-classic#35.
+              tag: d36ab355487fb15e28320f890772499519b36e91
             args: ["mangosd"]
             tty: true
             stdin: true
@@ -547,7 +557,16 @@ spec:
             # A whisper-to-bot test under this image should now
             # produce a log line identifying the offending regex
             # rather than a crash.
-            AiPlayerbot.LLMEnabled = 2
+            # 2026-07-13: TEMPORARILY DISABLED (was 2 = LLM for all bots).
+            # PlayerbotAI::SendDelayedPacket (the LLM chat delivery path) spawns
+            # a DETACHED std::thread holding a raw WorldSession*, sleeps, then
+            # QueuePacket()s it — a use-after-free when the session is freed
+            # mid-delay. Proven from a live core (SendDelayedPacket lambda ->
+            # WorldSession::QueuePacket -> deque emplace_back). Upstream
+            # cmangos/playerbots has the identical bug. Disabling LLM chat stops
+            # the crash with zero code risk while the proper world-thread-delivery
+            # fix is written + soaked. Re-enable (2) once that ships.
+            AiPlayerbot.LLMEnabled = 0
             AiPlayerbot.LLMApiEndpoint = http://ollama.ai-system.svc.cluster.local:11434/v1/chat/completions
             AiPlayerbot.LLMApiKey =
             AiPlayerbot.LLMApiJson = {"model": "qwen2.5:3b", "messages": [{"role": "system", "content": "<pre prompt> <context>"},{"role": "user", "content": "<prompt>"}],"max_tokens": 60}
