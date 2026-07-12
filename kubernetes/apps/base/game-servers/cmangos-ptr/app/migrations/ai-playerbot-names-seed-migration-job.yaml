@@ -46,10 +46,13 @@ spec:
             - -c
             - |
               set -euo pipefail
-              # Flux postBuild substitution eats ${VAR} — escape bash
+              # Flux postBuild substitution eats $${VAR} — escape bash
               # parameter expansion as $${VAR} so the runtime container
-              # sees literal ${VAR}. $VAR (no braces) is left alone by
-              # Flux and works as-is.
+              # sees literal $${VAR}. $VAR (no braces) is left alone by
+              # Flux and works as-is. NOTE: escape braces in COMMENTS too —
+              # Flux envsubst runs over the whole manifest text, comments
+              # included, so an unescaped brace reference here fails strict
+              # mode and blocks the entire cmangos-ptr kustomization.
               MARIADB="mariadb -h cmangos-database -P 3306 -u $MANGOS_DBUSER -p$MANGOS_DBPASS"
 
               for tbl in ai_playerbot_names ai_playerbot_guild_names ai_playerbot_arena_team_names; do
