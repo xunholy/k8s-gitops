@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: mysql
-              tag: "9.6"
+              tag: "9.7"
             args:
               - --skip-log-bin
             env:
@@ -64,7 +64,7 @@ spec:
           wait-db-ready:
             image:
               repository: mysql
-              tag: "9.6"
+              tag: "9.7"
             command: ['sh', '-c', 'until mysql -h azerothcore-database -u root -ppassword -e "SELECT 1 FROM acore_auth.realmlist LIMIT 1" 2>/dev/null; do echo "Waiting for db-import to populate databases..."; sleep 10; done']
         containers:
           app:
@@ -123,7 +123,7 @@ spec:
           01-wait-db:
             image:
               repository: mysql
-              tag: "9.6"
+              tag: "9.7"
             command:
               - sh
               - -c
