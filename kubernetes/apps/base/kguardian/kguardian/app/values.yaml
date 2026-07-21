@@ -20,13 +20,11 @@ broker:
   networkPolicy:
     enabled: false
   image:
-    # TEMPORARY PR test-deploy: broker PR #1034 (bound /pod/traffic + add the
-    # time_stamp index — fixes the unbounded whole-table read that broke the
-    # mcp-server get_cluster_traffic tool with "unexpected EOF"). No chart
-    # change in that PR; the migration ships in the broker binary and runs on
-    # startup. Revert to a released broker pin once #1034 is merged + released.
-    tag: "pr-1034"
-    sha: "sha256:2e029cfc0b22d1b1b5ccf9167a8f02b962beef50a4e6eb9982d6252460f7f40c"
+    # Released pin: broker v1.12.0 — includes the #1034 /pod/traffic bound
+    # (previously deployed here as pr-1034), statement_timeout backstop
+    # (#1036), and the daily anonymous version check-in (#1098).
+    tag: "v1.12.0"
+    sha: "sha256:5d5bbed5d07b27efeff3bdb96f8864e814885fb286238bea7d11985b346e5282"
   resources:
     limits:
       memory: 4Gi
@@ -36,16 +34,17 @@ broker:
 
 frontend:
   image:
-    # Released pin: frontend v1.11.0 (streaming AI assistant, PR #996).
-    tag: "v1.11.0"
-    sha: "sha256:3f4322529e56d7131361c93767967d334ff8b3ef988a48773b2af6eef6d9548a"
+    # Released pin: frontend v1.11.1 (connection resilience fixes).
+    tag: "v1.11.1"
+    sha: "sha256:7fc8ad596421b922b39c8bc25edf8fe9adb638f0ab2fbda7ef5d39280cdfd147"
 
 llmBridge:
   enabled: true
   image:
-    # Released pin: llm-bridge v1.4.0 (Anthropic SDK + streaming + MCP, PR #996).
-    tag: "v1.4.0"
-    sha: "sha256:490a8bfd9a20cb915267ddea15852fa1a1324a06d86dd274f017cf19b9429918"
+    # Released pin: llm-bridge v1.4.1 (streaming hardening #1039: SSE
+    # keepalive, abort-aware tool rounds, 429/529 mapping).
+    tag: "v1.4.1"
+    sha: "sha256:f8c5ba1e3f8dd786428f24773275a66d8757a056e44f2632473df589a0b72069"
   secrets:
     openai:
       enabled: true
@@ -86,7 +85,6 @@ mcpServer:
   # (advisor.enabled=false, so the 3 generate_* tools have no backend yet;
   # the 8 broker-backed tools incl. get_cluster_traffic work.)
   enabled: true
-  useKmcp: false
   image:
     # Released pin: mcp-server v1.5.0 (data-coverage + generation tools, PR #996).
     tag: "v1.5.0"
