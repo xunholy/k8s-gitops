@@ -20,11 +20,11 @@ broker:
   networkPolicy:
     enabled: false
   image:
-    # Released pin: broker v1.12.0 — includes the #1034 /pod/traffic bound
-    # (previously deployed here as pr-1034), statement_timeout backstop
-    # (#1036), and the daily anonymous version check-in (#1098).
-    tag: "v1.12.0"
-    sha: "sha256:5d5bbed5d07b27efeff3bdb96f8864e814885fb286238bea7d11985b346e5282"
+    # Released pin: broker v1.12.1 — v1.12.0 could not start (glibc mismatch,
+    # fixed by pinning the builder to rust:1-bookworm, #1120). Includes the
+    # /pod/traffic bound, statement_timeout backstop, and version check-in.
+    tag: "v1.12.1"
+    sha: "sha256:0acd0c30a660038b83df6b867963ffcdd78a876ff9c7bbff49694751eadaae9f"
   resources:
     limits:
       memory: 4Gi
