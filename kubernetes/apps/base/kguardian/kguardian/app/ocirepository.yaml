@@ -14,5 +14,5 @@ spec:
     # (broker daily phone-home to version.kguardian.dev + GET /version,
     # telemetry.enabled default true), broker statement_timeout backstop,
     # bounded /pod/traffic, llm-bridge streaming hardening, no appVersion.
-    tag: 1.14.1
+    tag: 1.14.2
   url: oci://ghcr.io/kguardian-dev/charts/kguardian
