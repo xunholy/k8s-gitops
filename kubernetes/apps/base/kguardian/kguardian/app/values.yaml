@@ -20,11 +20,11 @@ broker:
   networkPolicy:
     enabled: false
   image:
-    # Released pin: broker v1.12.1 — v1.12.0 could not start (glibc mismatch,
-    # fixed by pinning the builder to rust:1-bookworm, #1120). Includes the
-    # /pod/traffic bound, statement_timeout backstop, and version check-in.
-    tag: "v1.12.1"
-    sha: "sha256:0acd0c30a660038b83df6b867963ffcdd78a876ff9c7bbff49694751eadaae9f"
+    # Released pin: broker v1.12.2 — semver build-metadata fix (#1126: Flux's
+    # "+sha" chart revision no longer false-positives update_available or
+    # fragments telemetry version grouping).
+    tag: "v1.12.2"
+    sha: "sha256:cac7af0367629961eb50a718e5205efc030ecb0123306a8fc8d644a37a803907"
   resources:
     limits:
       memory: 4Gi
@@ -43,8 +43,8 @@ llmBridge:
   image:
     # Released pin: llm-bridge v1.4.1 (streaming hardening #1039: SSE
     # keepalive, abort-aware tool rounds, 429/529 mapping).
-    tag: "v1.4.1"
-    sha: "sha256:f8c5ba1e3f8dd786428f24773275a66d8757a056e44f2632473df589a0b72069"
+    tag: "v1.4.2"
+    sha: "sha256:b7b2f94881a9d096f989b69b7f3754766a1d9ed3080b5a8bec3b7ebd407157ea"
   secrets:
     openai:
       enabled: true
@@ -87,5 +87,5 @@ mcpServer:
   enabled: true
   image:
     # Released pin: mcp-server v1.5.0 (data-coverage + generation tools, PR #996).
-    tag: "v1.5.0"
-    sha: "sha256:056a0853acb2e81cefb0d1596ae3095969a2f9d42a4f5e3bdb5863b400be2e6f"
+    tag: "v1.5.1"
+    sha: "sha256:6ef5b184ce724e901e4710861ff03865204c948ad353e4db59145c6a1345b419"
