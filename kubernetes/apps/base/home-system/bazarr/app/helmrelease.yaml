@@ -13,8 +13,6 @@ spec:
   values:
     controllers:
       bazarr:
-        annotations:
-          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
