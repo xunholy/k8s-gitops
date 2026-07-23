@@ -4,7 +4,7 @@ kind: ReplicationSource
 metadata:
   name: zigbee2mqtt
 spec:
-  sourcePVC: zigbee2mqtt-cache
+  sourcePVC: zigbee2mqtt-cache-ceph
   trigger:
     schedule: "0 * * * *"
   kopia:

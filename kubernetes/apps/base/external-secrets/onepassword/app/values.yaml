@@ -1,8 +1,6 @@
 controllers:
   onepassword:
     strategy: RollingUpdate
-    annotations:
-      reloader.stakater.com/auto: "true"
     containers:
       api:
         image:

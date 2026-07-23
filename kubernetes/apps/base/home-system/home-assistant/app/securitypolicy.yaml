@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+# Gates the code-server route behind SSO (oauth2-proxy -> dex). code-server
+# itself runs with --auth none, so without this policy anyone reaching the
+# route gets full read/write access to the whole HA /config directory.
+# Anonymous requests receive 401; sign in once at auth.${CLUSTER_DOMAIN}
+# (or any SSO-gated app) and the .${CLUSTER_DOMAIN} cookie admits you here.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: home-assistant-code
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: home-assistant-code
+  extAuth:
+    headersToExtAuth:
+      - cookie
+      - authorization
+    http:
+      backendRefs:
+        - name: oauth2-proxy
+          namespace: network-system
+          port: 80
+      path: /oauth2/auth
+      headersToBackend:
+        - x-auth-request-user
+        - x-auth-request-email
