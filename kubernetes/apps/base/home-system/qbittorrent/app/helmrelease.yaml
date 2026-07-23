@@ -32,7 +32,9 @@ spec:
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 1
+                  # 1s timed out routinely under heavy seeding I/O, turning
+                  # load into liveness kills mid-transfer.
+                  timeoutSeconds: 5
                   failureThreshold: 3
               readiness: *probes
               startup:
