@@ -44,3 +44,35 @@ spec:
         - name: home-assistant
           port: 12321
           weight: 100
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+# Separate route (NOT covered by the home-assistant-code SecurityPolicy) so
+# the OIDC callback and sign-in paths reach oauth2-proxy instead of being
+# intercepted by ext-auth — without this the login flow can never complete.
+# Longest-path-prefix precedence sends /oauth2/* here, everything else to the
+# guarded code-server route above.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: home-assistant-code-oauth
+  namespace: home-system
+spec:
+  parentRefs:
+    - name: envoy-external
+      namespace: network-system
+      sectionName: https
+    - name: envoy-internal
+      namespace: network-system
+      sectionName: https
+  hostnames:
+    - 'hass-code.${CLUSTER_DOMAIN}'
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /oauth2/
+      backendRefs:
+        - name: oauth2-proxy
+          namespace: network-system
+          port: 80
+          weight: 100

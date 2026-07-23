@@ -52,6 +52,7 @@ config:
       redirectURIs:
         - 'https://alert-manager.${CLUSTER_DOMAIN}/oauth2/callback'
         - 'https://hass.${CLUSTER_DOMAIN}/oauth2/callback'
+        - 'https://hass-code.${CLUSTER_DOMAIN}/oauth2/callback'
         - 'https://kiali.${CLUSTER_DOMAIN}/oauth2/callback'
         - 'https://prometheus.${CLUSTER_DOMAIN}/oauth2/callback'
         - 'https://sealed-secrets.${CLUSTER_DOMAIN}/oauth2/callback'
