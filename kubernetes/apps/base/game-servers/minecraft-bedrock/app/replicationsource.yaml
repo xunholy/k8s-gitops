@@ -20,6 +20,7 @@ spec:
       runAsUser: 1000
       runAsGroup: 2000
       fsGroup: 2000
+      fsGroupChangePolicy: OnRootMismatch
     parallelism: 2
     repository: minecraft-bedrock-volsync-secret
     retain:
