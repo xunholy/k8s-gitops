@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@c5902410cf258f55a66235fb4689e375ff3f8f59 # main
+        uses: fluxcd/flux2/action@bc924b03a648dfd96866b0e52003f22dae3f46cf # main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
