@@ -10,9 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    # Released chart: kguardian 1.14.0 — anonymous version check-in telemetry
-    # (broker daily phone-home to version.kguardian.dev + GET /version,
-    # telemetry.enabled default true), broker statement_timeout backstop,
-    # bounded /pod/traffic, llm-bridge streaming hardening, no appVersion.
-    tag: 1.14.2
+    # Released chart: kguardian 1.14.3 — image defaults bumped to
+    # llm-bridge v1.4.3, advisor v1.6.2, evaluator v0.3.3.
+    tag: 1.14.3
   url: oci://ghcr.io/kguardian-dev/charts/kguardian

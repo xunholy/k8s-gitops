@@ -41,10 +41,9 @@ frontend:
 llmBridge:
   enabled: true
   image:
-    # Released pin: llm-bridge v1.4.1 (streaming hardening #1039: SSE
-    # keepalive, abort-aware tool rounds, 429/529 mapping).
-    tag: "v1.4.2"
-    sha: "sha256:b7b2f94881a9d096f989b69b7f3754766a1d9ed3080b5a8bec3b7ebd407157ea"
+    # Released pin: llm-bridge v1.4.3.
+    tag: "v1.4.3"
+    sha: "sha256:5d2e6921d9127bf4533319fbd7e02de84ab329c4cd9d995e13370bf834d6c508"
   secrets:
     openai:
       enabled: true
@@ -56,9 +55,9 @@ llmBridge:
 # blocking traffic. Surfaces in the frontend's "Audit" panel.
 evaluator:
   image:
-    # Released pin: evaluator v0.3.2.
-    tag: "v0.3.2"
-    sha: "sha256:a499ed57a50e45f78fdfa600be62bfbe9536055a3ab250bb11bd0abafb312350"
+    # Released pin: evaluator v0.3.3.
+    tag: "v0.3.3"
+    sha: "sha256:edf5de4a007ab8ea2a668dbf30edd2bc26a25e5137fee279cf26e226f772df2a"
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format
