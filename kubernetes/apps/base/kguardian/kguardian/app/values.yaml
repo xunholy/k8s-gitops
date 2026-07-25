@@ -41,9 +41,9 @@ frontend:
 llmBridge:
   enabled: true
   image:
-    # Released pin: llm-bridge v1.4.3.
-    tag: "v1.4.3"
-    sha: "sha256:5d2e6921d9127bf4533319fbd7e02de84ab329c4cd9d995e13370bf834d6c508"
+    # Released pin: llm-bridge v1.4.4.
+    tag: "v1.4.4"
+    sha: "sha256:86ccfc089ae36d1b28c2bac913a316b82da4189f87303f5b3406d64f65e56287"
   secrets:
     openai:
       enabled: true
