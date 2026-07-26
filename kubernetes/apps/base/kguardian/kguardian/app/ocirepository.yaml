@@ -10,7 +10,9 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    # Released chart: kguardian 1.15.0 — ai.enabled umbrella toggle for the
-    # assistant path (cluster keeps explicit per-component flags for now).
-    tag: 1.15.0
+    # Released chart: kguardian 1.16.0 — WS-B canary: the assistant (llm-bridge)
+    # runs the 12 tools in-process, reaching the broker directly (no mcp-server
+    # hop). Template now wires BROKER_URL/ADVISOR_URL. mcp-server left deployed
+    # for rollback during the 7-day canary window.
+    tag: 1.16.0
   url: oci://ghcr.io/kguardian-dev/charts/kguardian

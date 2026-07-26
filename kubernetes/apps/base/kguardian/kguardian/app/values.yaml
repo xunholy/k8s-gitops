@@ -41,9 +41,9 @@ frontend:
 llmBridge:
   enabled: true
   image:
-    # Released pin: llm-bridge v1.4.4.
-    tag: "v1.4.4"
-    sha: "sha256:86ccfc089ae36d1b28c2bac913a316b82da4189f87303f5b3406d64f65e56287"
+    # Released pin: llm-bridge v1.5.0 (WS-B: in-process tools, no mcp-server hop).
+    tag: "v1.5.0"
+    sha: "sha256:c02f1c4de1beeb44b6e5d90175a8e11a7100a9a7857373bad033746df7c7b32a"
   secrets:
     openai:
       enabled: true
