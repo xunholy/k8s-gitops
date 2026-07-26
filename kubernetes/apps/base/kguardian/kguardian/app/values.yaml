@@ -41,9 +41,12 @@ frontend:
 llmBridge:
   enabled: true
   image:
-    # Released pin: llm-bridge v1.5.0 (WS-B: in-process tools, no mcp-server hop).
-    tag: "v1.5.0"
-    sha: "sha256:c02f1c4de1beeb44b6e5d90175a8e11a7100a9a7857373bad033746df7c7b32a"
+    # CANARY pin: llm-bridge pr-1190 — WS-C: policy+seccomp generated in-process,
+    # assistant fully advisor-independent. Validating the complete advisor-free
+    # assistant before removing mcp-server + advisor. Pre-release pr-artifact per
+    # the restructure release freeze (SIMPLIFICATION-GOAL.md §6).
+    tag: "pr-1190"
+    sha: "sha256:6718baf28a13abe82b55810ce959614739d5e20696dc5ba1d9bc3d4b65b4daf6"
   secrets:
     openai:
       enabled: true
