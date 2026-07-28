@@ -41,12 +41,12 @@ frontend:
 llmBridge:
   enabled: true
   image:
-    # CANARY pin: llm-bridge pr-1190 — WS-C: policy+seccomp generated in-process,
-    # assistant fully advisor-independent. Validating the complete advisor-free
-    # assistant before removing mcp-server + advisor. Pre-release pr-artifact per
-    # the restructure release freeze (SIMPLIFICATION-GOAL.md §6).
-    tag: "pr-1190"
-    sha: "sha256:6718baf28a13abe82b55810ce959614739d5e20696dc5ba1d9bc3d4b65b4daf6"
+    # Released pin: llm-bridge v1.6.0 — WS-C: policy+seccomp generation runs
+    # in-process, so the assistant is fully advisor-independent. This is the
+    # canary (pr-1190) promoted to its released tag; the restructure freeze is
+    # lifted and mcp-server + advisor-serve are retired in chart 1.17.0.
+    tag: "v1.6.0"
+    sha: "sha256:abf332e004548212085a162907376f857555f41a4b5b33c3c151c5b8790ea50a"
   secrets:
     openai:
       enabled: true
@@ -78,16 +78,3 @@ database:
     requests:
       cpu: "2"
       memory: 512Mi
-
-mcpServer:
-  # Enabled 2026-07-08: the llm-bridge is hard-wired to MCP_SERVER_URL=
-  # kguardian-mcp-server:8081 with no static tool fallback, so the AI
-  # assistant's entire tool path was non-functional while this was false.
-  # Service name matches the llm-bridge target; BROKER_URL is auto-derived.
-  # (advisor.enabled=false, so the 3 generate_* tools have no backend yet;
-  # the 8 broker-backed tools incl. get_cluster_traffic work.)
-  enabled: true
-  image:
-    # Released pin: mcp-server v1.5.0 (data-coverage + generation tools, PR #996).
-    tag: "v1.5.1"
-    sha: "sha256:6ef5b184ce724e901e4710861ff03865204c948ad353e4db59145c6a1345b419"
