@@ -49,12 +49,16 @@ llmBridge:
     tag: "v1.6.1"
     sha: "sha256:36f5c0e56ed45de8216af9b4dc1fba4c371518733108fc87138e2b510d8f2f7e"
   secrets:
+    # OpenAI DISABLED 2026-07-29: its billing quota is exhausted, and llm-bridge
+    # picks the first available provider as the default (index.ts resolveProvider
+    # → availableProviders[0], OpenAI is first). With OpenAI wired, every
+    # frontend request (which sends no explicit provider) defaulted to the dead
+    # OpenAI key and errored. Disabling it makes Anthropic the sole — and thus
+    # default — provider. Re-enable once the OpenAI account is topped up.
     openai:
-      enabled: true
+      enabled: false
       name: "kguardian-secrets"
-    # Claude/Anthropic added as a second provider (2026-07-29): the OpenAI
-    # account hit its billing quota, taking the assistant down. Anthropic gives
-    # a working provider (and fits the Claude stack). Key lives in the
+    # Claude/Anthropic (2026-07-29): the working provider. Key lives in the
     # out-of-band Secret kguardian-anthropic (key: api-key), created imperatively
     # like kguardian-secrets — never committed here.
     anthropic:
