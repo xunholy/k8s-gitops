@@ -10,10 +10,10 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    # Released chart: kguardian 1.17.0 — SIMPLIFICATION complete: the assistant
+    # Released chart: kguardian 1.17.1 — SIMPLIFICATION complete: the assistant
     # is a single workload (llm-bridge) that runs the 12 tools AND policy/seccomp
-    # generation in-process. The mcp-server and advisor-serve components are
-    # retired; this chart no longer renders them, so Flux/Helm prunes the
-    # kguardian-mcp-server Deployment on reconcile.
-    tag: 1.17.0
+    # generation in-process. mcp-server and advisor-serve are retired (this chart
+    # no longer renders them). Image versions are pinned in app/values.yaml
+    # (llm-bridge v1.6.1, frontend v1.11.3), which override the chart defaults.
+    tag: 1.17.1
   url: oci://ghcr.io/kguardian-dev/charts/kguardian
