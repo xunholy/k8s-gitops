@@ -34,19 +34,20 @@ broker:
 
 frontend:
   image:
-    # Released pin: frontend v1.11.1 (connection resilience fixes).
-    tag: "v1.11.1"
-    sha: "sha256:7fc8ad596421b922b39c8bc25edf8fe9adb638f0ab2fbda7ef5d39280cdfd147"
+    # Released pin: frontend v1.11.3 — seccomp arch-guard parity (warns instead
+    # of a silently-unusable profile) + assistant tool-label fix.
+    tag: "v1.11.3"
+    sha: "sha256:fd9b869baf90b0cd54eb98a61b239bbfafd29cf785bf1b850408f26975b46196"
 
 llmBridge:
   enabled: true
   image:
-    # Released pin: llm-bridge v1.6.0 — WS-C: policy+seccomp generation runs
-    # in-process, so the assistant is fully advisor-independent. This is the
-    # canary (pr-1190) promoted to its released tag; the restructure freeze is
-    # lifted and mcp-server + advisor-serve are retired in chart 1.17.0.
-    tag: "v1.6.0"
-    sha: "sha256:abf332e004548212085a162907376f857555f41a4b5b33c3c151c5b8790ea50a"
+    # Released pin: llm-bridge v1.6.1 — in-process assistant (WS-C, advisor-free)
+    # + seccomp arch-validation guard (unknown arch now errors instead of
+    # silently returning an unusable profile). mcp-server + advisor-serve retired
+    # in chart 1.17.0.
+    tag: "v1.6.1"
+    sha: "sha256:36f5c0e56ed45de8216af9b4dc1fba4c371518733108fc87138e2b510d8f2f7e"
   secrets:
     openai:
       enabled: true
