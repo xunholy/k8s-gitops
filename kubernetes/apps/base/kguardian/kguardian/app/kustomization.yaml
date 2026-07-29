@@ -6,6 +6,8 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - httproute.yaml
+  - httproute-oauth.yaml
+  - securitypolicy.yaml
   - ocirepository.yaml
   - pvc-database.yaml
   - auditnetworkpolicy-baseline.yaml

@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+# Sends /oauth2/* on the kguardian host to oauth2-proxy so the OIDC callback,
+# sign-in, and /oauth2/userinfo are served same-origin (the frontend reads the
+# signed-in user from /oauth2/userinfo). Longest-path-prefix precedence keeps
+# /oauth2/* here; everything else falls through to the kguardian route (which
+# the SecurityPolicy gates). Not itself gated — this IS the auth flow.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kguardian-oauth
+  namespace: kguardian
+spec:
+  parentRefs:
+    - name: envoy-external
+      namespace: network-system
+      sectionName: https
+    - name: envoy-internal
+      namespace: network-system
+      sectionName: https
+  hostnames:
+    - 'kguardian.${CLUSTER_DOMAIN}'
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /oauth2/
+      backendRefs:
+        - name: oauth2-proxy
+          namespace: network-system
+          port: 80
+          weight: 100

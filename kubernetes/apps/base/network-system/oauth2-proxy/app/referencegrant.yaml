@@ -1,8 +1,7 @@
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/referencegrant_v1beta1.json
-# Allows SecurityPolicies in home-system (home-assistant-code ext-auth) and
-# HTTPRoutes in home-system (the /oauth2/* callback route) to reference the
-# oauth2-proxy Service as their backend.
+# Allows SecurityPolicies and /oauth2/* HTTPRoutes in the app namespaces below
+# to reference the oauth2-proxy Service as their ext-auth / auth-flow backend.
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
@@ -15,6 +14,12 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       namespace: home-system
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: kguardian
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: kguardian
   to:
     - group: ''
       kind: Service

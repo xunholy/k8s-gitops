@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+# Gates the kguardian UI + API behind SSO (oauth2-proxy -> dex). The broker HTTP
+# API and the frontend are otherwise unauthenticated; without this policy anyone
+# reaching kguardian.${CLUSTER_DOMAIN} sees the whole cluster's traffic/syscall
+# telemetry and can drive the AI assistant. Anonymous requests get 401 and are
+# sent to sign in; the shared .${CLUSTER_DOMAIN} cookie admits an existing SSO
+# session. The authenticated identity is forwarded to the app as
+# x-auth-request-user / -email, which the frontend reads via /oauth2/userinfo.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: kguardian
+  namespace: kguardian
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: kguardian
+  extAuth:
+    headersToExtAuth:
+      - cookie
+      - authorization
+    http:
+      backendRefs:
+        - name: oauth2-proxy
+          namespace: network-system
+          port: 80
+      path: /oauth2/auth
+      headersToBackend:
+        - x-auth-request-user
+        - x-auth-request-email
