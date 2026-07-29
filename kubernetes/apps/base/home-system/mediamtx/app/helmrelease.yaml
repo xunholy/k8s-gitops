@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: docker.io/bluenviron/mediamtx
-              tag: 1.19.2@sha256:f37aaaf1a707c42b0aff49a3ab5d4fa57a3504ebc3f27657434a820e3b16d730
+              tag: 1.19.3@sha256:7797ed3df88df21e8c04ecd0aff08ce49a5232d1db453e51f5480ef36bc80865
             env:
               TZ: ${CLUSTER_TIMEZONE}
             envFrom:
