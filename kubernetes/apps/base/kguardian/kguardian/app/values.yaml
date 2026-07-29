@@ -51,6 +51,14 @@ llmBridge:
     openai:
       enabled: true
       name: "kguardian-secrets"
+    # Claude/Anthropic added as a second provider (2026-07-29): the OpenAI
+    # account hit its billing quota, taking the assistant down. Anthropic gives
+    # a working provider (and fits the Claude stack). Key lives in the
+    # out-of-band Secret kguardian-anthropic (key: api-key), created imperatively
+    # like kguardian-secrets — never committed here.
+    anthropic:
+      enabled: true
+      name: "kguardian-anthropic"
 
 # kguardian-evaluator — audit-mode policy preview (chart 1.11.0+).
 # Watches AuditNetworkPolicy / AuditClusterNetworkPolicy CRDs and reports
