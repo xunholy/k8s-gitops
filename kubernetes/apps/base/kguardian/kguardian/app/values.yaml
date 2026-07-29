@@ -34,10 +34,11 @@ broker:
 
 frontend:
   image:
-    # Released pin: frontend v1.11.3 — seccomp arch-guard parity (warns instead
-    # of a silently-unusable profile) + assistant tool-label fix.
-    tag: "v1.11.3"
-    sha: "sha256:fd9b869baf90b0cd54eb98a61b239bbfafd29cf785bf1b850408f26975b46196"
+    # PREVIEW pin: UI polish WIP (PR #1216) — enterprise shell, brand-indigo
+    # tokens, Button primitive. Pre-release pr-artifact for visual iteration on
+    # cluster-00; revert to the released v1.11.3 tag once the redesign lands.
+    tag: "pr-1216"
+    sha: "sha256:c8bb4d9ea5018c725afd1b08f62e486b66affe7f3755753e838b04f302cf9083"
 
 llmBridge:
   enabled: true
