@@ -38,9 +38,10 @@ frontend:
     # tokens, Button/Modal/EmptyState primitives, trust-map graph, Findings
     # triage home + hash routing. Pre-release pr-artifact for visual iteration on
     # cluster-00; revert to the released v1.11.x tag once the redesign lands.
-    # Digest crane-verified to contain the Findings/empty-state bundle.
+    # Digest crane-verified: app bundle carries Findings/empty-state UI + the
+    # equal-sized graph toolbar toggles (Layout icon fix).
     tag: "pr-1216"
-    sha: "sha256:7fa05910ed952790d267b448e24917b1e6eeb973a4144a72aacba369c8be684f"
+    sha: "sha256:2a0202bb7b61f35a9aaacecd517053ddaa0f85b07e03b34db410f7362a47d200"
 
 llmBridge:
   enabled: true
