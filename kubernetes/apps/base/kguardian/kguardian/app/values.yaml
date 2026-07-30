@@ -38,7 +38,7 @@ frontend:
     # tokens, Button primitive. Pre-release pr-artifact for visual iteration on
     # cluster-00; revert to the released v1.11.3 tag once the redesign lands.
     tag: "pr-1216"
-    sha: "sha256:3c4c5a1bdeedb5adfe55cff2f9d36d94ece847f66f7f8269ce9be29e8cab9a73"
+    sha: "sha256:073389c2a988c76b8236c9ab2d415b9f05a8ed739e7ad644fe0f54e8fe1a4f4a"
 
 llmBridge:
   enabled: true
