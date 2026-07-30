@@ -35,10 +35,12 @@ broker:
 frontend:
   image:
     # PREVIEW pin: UI polish WIP (PR #1216) — enterprise shell, brand-indigo
-    # tokens, Button primitive. Pre-release pr-artifact for visual iteration on
-    # cluster-00; revert to the released v1.11.3 tag once the redesign lands.
+    # tokens, Button/Modal/EmptyState primitives, trust-map graph, Findings
+    # triage home + hash routing. Pre-release pr-artifact for visual iteration on
+    # cluster-00; revert to the released v1.11.x tag once the redesign lands.
+    # Digest crane-verified to contain the Findings/empty-state bundle.
     tag: "pr-1216"
-    sha: "sha256:4886a04923212155e0af99d77c333151748ab4e5064b5875fe10c196d27bef20"
+    sha: "sha256:7fa05910ed952790d267b448e24917b1e6eeb973a4144a72aacba369c8be684f"
 
 llmBridge:
   enabled: true
