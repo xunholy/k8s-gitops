@@ -7,6 +7,9 @@ metadata:
   namespace: volsync
 spec:
   enabled: true
+  # Full maintenance runs have grown to ~3h due to index blob buildup; the 10800s
+  # default deadline kills them just before completion, compounding the problem.
+  activeDeadlineSeconds: 21600
   trigger:
     schedule: 0 */8 * * *
   repository:

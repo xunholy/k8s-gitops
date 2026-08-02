@@ -4,6 +4,7 @@ image:
 replicaCount: 1
 certManager:
   enabled: true
+  certificateRenewBefore: "720h" # 30d, keeps renewal ahead of the 21d CertManagerCertExpirySoon alert threshold
 configMaps:
   - create: false
     name: cluster-config
