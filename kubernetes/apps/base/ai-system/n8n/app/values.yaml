@@ -6,6 +6,10 @@ strategy:
 webhook:
   url: "https://webhook.${CLUSTER_DOMAIN}"
 main:
+  # Allow workflows to read/write the IG token file on the data PVC
+  # (used by the token-refresh workflow; n8n blocks ~/.n8n access by default)
+  extraEnvVars:
+    N8N_BLOCK_FILE_ACCESS_TO_N8N_FILES: "false"
   persistence:
     enabled: true
     storageClass: ceph-block
