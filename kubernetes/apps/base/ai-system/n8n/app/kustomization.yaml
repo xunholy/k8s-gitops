@@ -8,6 +8,8 @@ resources:
   - helmrelease.yaml
   - helmrepository.yaml
   - httproute.yaml
+  - replicationsource.yaml
+  - volsync-externalsecret.yaml
 
 configMapGenerator:
   - name: n8n-values

@@ -1,3 +1,12 @@
 ---
+# Recreate avoids RWO Multi-Attach errors on upgrades now that data persists
+strategy:
+  type: Recreate
+  rollingUpdate:
 webhook:
   url: "https://webhook.${CLUSTER_DOMAIN}"
+main:
+  persistence:
+    enabled: true
+    storageClass: ceph-block
+    size: 5Gi
