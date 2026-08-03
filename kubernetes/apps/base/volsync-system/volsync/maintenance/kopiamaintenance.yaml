@@ -11,6 +11,6 @@ spec:
   # default deadline kills them just before completion, compounding the problem.
   activeDeadlineSeconds: 21600
   trigger:
-    schedule: 0 */8 * * *
+    schedule: 45 3,11,19 * * *
   repository:
     repository: volsync-maintenance-secret

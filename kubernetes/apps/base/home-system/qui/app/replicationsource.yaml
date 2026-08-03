@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: qui
   trigger:
-    schedule: "0 * * * *"
+    schedule: "37 * * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

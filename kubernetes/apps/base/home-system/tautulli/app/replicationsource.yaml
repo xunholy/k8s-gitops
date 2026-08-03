@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: tautulli-ceph
   trigger:
-    schedule: "0 * * * *"
+    schedule: "48 * * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

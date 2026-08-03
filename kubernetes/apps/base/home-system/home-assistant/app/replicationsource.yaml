@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: home-assistant-ceph
   trigger:
-    schedule: "0 * * * *"
+    schedule: "24 * * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

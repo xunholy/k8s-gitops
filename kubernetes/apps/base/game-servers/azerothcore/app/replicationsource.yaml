@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: azerothcore-database
   trigger:
-    schedule: "0 * * * *"
+    schedule: "4 * * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

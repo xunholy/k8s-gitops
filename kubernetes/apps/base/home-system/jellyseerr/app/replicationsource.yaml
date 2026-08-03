@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: jellyseerr-ceph
   trigger:
-    schedule: "0 * * * *"
+    schedule: "27 * * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: prometheus-kube-prometheus-stack-db-prometheus-kube-prometheus-stack-0
   trigger:
-    schedule: "0 * * * *"
+    schedule: "57 * * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

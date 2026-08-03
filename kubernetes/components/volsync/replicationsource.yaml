@@ -7,7 +7,9 @@ metadata:
 spec:
   sourcePVC: ${APP}
   trigger:
-    schedule: 0 * * * *
+    # Stagger per app — 23 sources firing at :00 simultaneously caused an
+    # OSD watch-timeout crash and mass RBD read-only remounts (2026-08-03)
+    schedule: "15 * * * *"
   kopia:
     accessModes:
       - ${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}

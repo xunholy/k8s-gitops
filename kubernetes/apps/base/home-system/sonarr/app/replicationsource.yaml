@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: sonarr-ceph
   trigger:
-    schedule: "0 * * * *"
+    schedule: "46 * * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

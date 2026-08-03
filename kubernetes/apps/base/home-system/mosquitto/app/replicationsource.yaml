@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: mosquitto-cache-ceph
   trigger:
-    schedule: "0 * * * *"
+    schedule: "29 * * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

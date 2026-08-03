@@ -7,7 +7,7 @@ metadata:
 spec:
   sourcePVC: n8n-main-persistence
   trigger:
-    schedule: "0 * * * *"
+    schedule: "2 * * * *"
   kopia:
     accessModes:
       - ReadWriteOnce
