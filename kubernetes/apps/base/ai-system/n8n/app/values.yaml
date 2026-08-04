@@ -10,6 +10,13 @@ main:
   # (used by the token-refresh workflow; n8n blocks ~/.n8n access by default)
   extraEnvVars:
     N8N_BLOCK_FILE_ACCESS_TO_N8N_FILES: "false"
+  # Meta (Instagram + Facebook) publishing credentials, synced from 1Password via
+  # the bedrock-broadcaster-meta ExternalSecret. Exposes META_APP_ID/META_APP_SECRET/
+  # META_PAGE_TOKEN/IG_ACCOUNT_ID/FB_PAGE_ID as env for the social-publisher workflow
+  # (referenced as {{ $env.* }}). NOTE: create the 1Password item BEFORE merging so the
+  # secret exists — envFrom on a missing secret blocks the pod from starting.
+  extraSecretNamesForEnvFrom:
+    - bedrock-broadcaster-meta
   persistence:
     enabled: true
     storageClass: ceph-block
