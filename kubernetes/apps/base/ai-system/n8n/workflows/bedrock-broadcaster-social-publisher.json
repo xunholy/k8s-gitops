@@ -1,0 +1,136 @@
+{
+  "name": "Bedrock Broadcaster — Social Publisher (IG + FB)",
+  "meta": {
+    "description": "Publishes one image + caption to Instagram (2-step container→publish) and the Facebook Page. Credentials come from env (synced by the bedrock-broadcaster-meta ExternalSecret): META_PAGE_TOKEN, IG_ACCOUNT_ID, FB_PAGE_ID. Replace the 'Post Input' Set node with a content-DB lookup (NocoDB/Baserow/Sheets) to drive it from your reusable library. Image URL MUST be publicly reachable (host on your site/Cloudflare/R2) — Meta fetches it server-side."
+  },
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "b1a10000-0000-4000-8000-000000000001",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-360, 200]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "hours", "hoursInterval": 12 }
+          ]
+        }
+      },
+      "id": "b1a10000-0000-4000-8000-000000000002",
+      "name": "Schedule (every 12h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-360, 380]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "image_url",
+              "value": "https://REPLACE-WITH-PUBLIC-HOST/assets/launch_post_1080.png",
+              "type": "string"
+            },
+            {
+              "id": "a2",
+              "name": "caption",
+              "value": "Play Bedrock on your console the easy way. 🎮\\n\\nConnect PS4 / PS5 / Xbox / Switch / Windows to any Bedrock server — free resource packs, no in-game sign-in headaches.\\n\\n#minecraft #minecraftbedrock #bedrockserver #minecraftconsole #ps4minecraft #xbox #nintendoswitch #bedrockbroadcaster",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b1a10000-0000-4000-8000-000000000003",
+      "name": "Post Input",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-120, 290]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v23.0/{{ $env.IG_ACCOUNT_ID }}/media",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            { "name": "image_url", "value": "={{ $json.image_url }}" },
+            { "name": "caption", "value": "={{ $json.caption }}" },
+            { "name": "access_token", "value": "={{ $env.META_PAGE_TOKEN }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b1a10000-0000-4000-8000-000000000004",
+      "name": "IG · Create Container",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [140, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v23.0/{{ $env.IG_ACCOUNT_ID }}/media_publish",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            { "name": "creation_id", "value": "={{ $json.id }}" },
+            { "name": "access_token", "value": "={{ $env.META_PAGE_TOKEN }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b1a10000-0000-4000-8000-000000000005",
+      "name": "IG · Publish",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [380, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v23.0/{{ $env.FB_PAGE_ID }}/photos",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            { "name": "url", "value": "={{ $('Post Input').item.json.image_url }}" },
+            { "name": "caption", "value": "={{ $('Post Input').item.json.caption }}" },
+            { "name": "access_token", "value": "={{ $env.META_PAGE_TOKEN }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b1a10000-0000-4000-8000-000000000006",
+      "name": "FB · Post Photo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [140, 400]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [[{ "node": "Post Input", "type": "main", "index": 0 }]]
+    },
+    "Schedule (every 12h)": {
+      "main": [[{ "node": "Post Input", "type": "main", "index": 0 }]]
+    },
+    "Post Input": {
+      "main": [[
+        { "node": "IG · Create Container", "type": "main", "index": 0 },
+        { "node": "FB · Post Photo", "type": "main", "index": 0 }
+      ]]
+    },
+    "IG · Create Container": {
+      "main": [[{ "node": "IG · Publish", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" }
+}

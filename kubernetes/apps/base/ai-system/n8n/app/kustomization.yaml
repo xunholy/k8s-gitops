@@ -10,6 +10,7 @@ resources:
   - httproute.yaml
   - replicationsource.yaml
   - volsync-externalsecret.yaml
+  - meta-externalsecret.yaml
 
 configMapGenerator:
   - name: n8n-values
