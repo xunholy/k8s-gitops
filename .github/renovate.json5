@@ -1,7 +1,7 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    "github>home-operations/renovate-presets#3.0.0",
+    "github>home-operations/renovate-presets#4.0.0",
     "security:openssf-scorecard",
     ":automergeDigest",
     ":semanticCommits",
