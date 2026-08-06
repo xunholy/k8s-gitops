@@ -101,6 +101,10 @@ spec:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: ${CLUSTER_LB_ENVOY_INT_GATEWAY_API}
+    parametersRef:
+      group: gateway.envoyproxy.io
+      kind: EnvoyProxy
+      name: envoy-internal
   addresses:
     - type: IPAddress
       value: ${CLUSTER_LB_ENVOY_INT_GATEWAY_API}
