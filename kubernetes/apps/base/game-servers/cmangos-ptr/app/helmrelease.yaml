@@ -186,7 +186,18 @@ spec:
               # OnMoveItemToInventory <- HandleMailTakeItem). Bots take mail
               # (MailAction -> HandleMailTakeItem) so the whole fleet triggered it.
               # Fix passes pLastItem (the surviving item). See xunholy/cmangos-classic#35.
-              tag: d36ab355487fb15e28320f890772499519b36e91
+              #
+              # 2026-08-10: bumped to 26f32faca (PR xunholy/cmangos-classic#39). Fixes a
+              # use-after-free SIGSEGV in the far-teleport-onto-transport completion
+              # lambda: it deferred through map->GetMessager().AddMessage() capturing the
+              # raw WorldSession*, which a bot logout mid-teleport freed before the map
+              # worker ran it (crash in Map::Update, live core.20260809-135821). Fix
+              # captures the player guid and re-resolves at execution. Bundles 6 upstream
+              # crash picks (WorldportAck entry guard #820, MoveSpline validate-log crash,
+              # session-reuse crash, trigger-aggro linking crash, castspell #819,
+              # MassMailMgr leak). PTR soak before live promotion.
+              # ROLLBACK: revert tag to d36ab355487fb15e28320f890772499519b36e91.
+              tag: 26f32facad32a8995f5938fe67044d4780fc6f38
             args: ["mangosd"]
             tty: true
             stdin: true
