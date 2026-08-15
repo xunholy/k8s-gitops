@@ -134,8 +134,17 @@ spec:
               # session-reuse crash, trigger-aggro linking crash, castspell #819,
               # MassMailMgr leak). Soaked on PTR ~11h (0 restarts, clean startup, bot
               # teleport/transport traffic exercised) before this promotion.
-              # ROLLBACK: revert tag to d36ab355487fb15e28320f890772499519b36e91.
-              tag: 26f32facad32a8995f5938fe67044d4780fc6f38
+              #
+              # 2026-08-15: promoted 5f488ee6 (PR xunholy/cmangos-classic#41). Adds the
+              # LootObjectStack::OrderByDistance null-guard (real latent null-deref). NOTE:
+              # this is safe hardening, NOT a fix for the recurring world-server SIGSEGVs —
+              # gdb on live cores shows the crash site MOVES (AddAllLootAction loot on
+              # 2026-08-15 00:48, GenericTransport::UpdatePassengerPosition on 09:38), the
+              # signature of one underlying heap-corrupting UAF surfacing wherever memory is
+              # next touched. Real fix pending the ASan soak on PTR (catches the corrupting
+              # free). Guard shipped meanwhile.
+              # ROLLBACK: revert tag to 26f32facad32a8995f5938fe67044d4780fc6f38.
+              tag: 5f488ee659c8c854f464a5ccf72e4c2c339d09bb
             args: ["mangosd"]
             tty: true
             stdin: true
