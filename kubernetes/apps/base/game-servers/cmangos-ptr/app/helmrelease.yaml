@@ -196,8 +196,19 @@ spec:
               # crash picks (WorldportAck entry guard #820, MoveSpline validate-log crash,
               # session-reuse crash, trigger-aggro linking crash, castspell #819,
               # MassMailMgr leak). PTR soak before live promotion.
-              # ROLLBACK: revert tag to d36ab355487fb15e28320f890772499519b36e91.
-              tag: 26f32facad32a8995f5938fe67044d4780fc6f38
+              #
+              # 2026-08-15: DIAGNOSTIC — swapped to the ASan build (asan-0d80e191) to
+              # root-cause the rare live SIGSEGV in playerbot ai::AddAllLootAction::Execute
+              # (2026-08-15 core). A 4-analyst/skeptic review could NOT confirm the exact
+              # deref from the stripped release binary (30% confidence; both leading
+              # theories refuted — OrderByDistance:369 is wrong frame under no-LTO,
+              # requester-null is guarded by ServerFacade). ASan (~3× shadow mem, hence the
+              # 20Gi limit above) prints the exact freed object + stack to /opt/mangos/cores
+              # when a bot triggers the loot UAF. Soak until it faults, then fix the
+              # CONFIRMED cause and roll to prod. TEMPORARY — revert to 26f32faca (and 20Gi
+              # -> 12Gi) once the trace is captured.
+              # ROLLBACK: revert tag to 26f32facad32a8995f5938fe67044d4780fc6f38.
+              tag: asan-0d80e191a742604ce1d94b9c46dd9764c793f3fd
             args: ["mangosd"]
             tty: true
             stdin: true
