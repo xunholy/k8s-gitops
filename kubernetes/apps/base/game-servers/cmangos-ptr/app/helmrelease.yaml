@@ -207,8 +207,13 @@ spec:
               # when a bot triggers the loot UAF. Soak until it faults, then fix the
               # CONFIRMED cause and roll to prod. TEMPORARY — revert to 26f32faca (and 20Gi
               # -> 12Gi) once the trace is captured.
+              # 2026-08-15: rolled ASan diagnostic forward to asan-5f488ee6 (PR #41),
+              # which adds the safe LootObjectStack::OrderByDistance null-guard. PTR now
+              # both soaks that guard for regressions AND keeps hunting the loot UAF (the
+              # guard is a different frame, so it does not blind the ASan trace). Normal
+              # image 5f488ee6 promotes to live after this soak is clean.
               # ROLLBACK: revert tag to 26f32facad32a8995f5938fe67044d4780fc6f38.
-              tag: asan-0d80e191a742604ce1d94b9c46dd9764c793f3fd
+              tag: asan-5f488ee659c8c854f464a5ccf72e4c2c339d09bb
             args: ["mangosd"]
             tty: true
             stdin: true
