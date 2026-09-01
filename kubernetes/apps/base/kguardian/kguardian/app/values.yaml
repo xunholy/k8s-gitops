@@ -35,11 +35,11 @@ broker:
 
 frontend:
   image:
-    # Released pin: frontend v1.13.0 — the redesign has landed in releases
-    # (enterprise shell + Findings triage), plus /128 emission for IPv6 peers
-    # in generated policies. Replaces the pr-1216 preview pin.
-    tag: "v1.13.0"
-    sha: "sha256:2bde0d909d5e490398f20a9569070c62eafa6345790cd510150ce7a45a3a041a"
+    # Released pin: frontend v1.13.1 — graph focus-mode fixes: focus exits
+    # when the focused node disappears (namespace switch), and the focus
+    # button stays on the card for long pod/service names.
+    tag: "v1.13.1"
+    sha: "sha256:dcf1ba3a0fe560cf61b5c6dd2690f668e45509b3ac03de208490e1a44aaabb0b"
 
 llmBridge:
   enabled: true
