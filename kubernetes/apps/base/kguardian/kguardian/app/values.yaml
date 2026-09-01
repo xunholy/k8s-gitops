@@ -1,11 +1,13 @@
 ---
 controller:
   image:
-    # Released pin: controller v1.10.0 — IPv6/dual-stack capture (16-byte wire
-    # addresses, udpv6_sendmsg probes with module-BTF autoload gate, dual-stack
-    # daemonset ignore list).
-    tag: "v1.10.0"
-    sha: "sha256:944d4d40419c085b8ed079c8bbec2ef22cdb8be4ced614afa1492d206fc7b991"
+    # TEMPORARY preview pin: PR #1386 — TCP direction classified from the
+    # socket's pre-transition state instead of the port>1024 heuristic that
+    # flipped accepted connections into per-ephemeral-port egress rows.
+    # Validating the fix live; revert to the released tag once #1386 ships.
+    # Was: v1.10.0 sha256:944d4d40419c085b8ed079c8bbec2ef22cdb8be4ced614afa1492d206fc7b991
+    tag: "pr-1386"
+    sha: "sha256:d974826d32c5ab473c62816752185de396cbd7c28ee57d86158c5350d870c455"
   excludedNamespaces:
     - kguardian
 
