@@ -10,11 +10,11 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    # Released chart: kguardian 1.19.0 — IPv6/dual-stack support: controller
+    # Released chart: kguardian 1.19.1 — IPv6/dual-stack support: controller
     # captures both address families (v1.10.0), broker resolves pods by any of
     # their addresses (v1.13.0), and all generators emit /128 for IPv6 peers.
     # Image versions are pinned in app/values.yaml (controller v1.10.0, broker
     # v1.13.0, frontend v1.13.0, llm-bridge v1.8.0, evaluator v0.4.0), which
     # override the chart defaults.
-    tag: 1.19.0
+    tag: 1.19.1
   url: oci://ghcr.io/kguardian-dev/charts/kguardian

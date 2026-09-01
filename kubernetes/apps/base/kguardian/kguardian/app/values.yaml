@@ -1,13 +1,11 @@
 ---
 controller:
   image:
-    # TEMPORARY preview pin: PR #1386 — TCP direction classified from the
-    # socket's pre-transition state instead of the port>1024 heuristic that
-    # flipped accepted connections into per-ephemeral-port egress rows.
-    # Validating the fix live; revert to the released tag once #1386 ships.
-    # Was: v1.10.0 sha256:944d4d40419c085b8ed079c8bbec2ef22cdb8be4ced614afa1492d206fc7b991
-    tag: "pr-1386"
-    sha: "sha256:d974826d32c5ab473c62816752185de396cbd7c28ee57d86158c5350d870c455"
+    # Released pin: controller v1.10.1 — TCP direction classified from the
+    # socket's pre-transition state (replaces the port>1024 heuristic that
+    # flipped accepted connections into per-ephemeral-port egress rows).
+    tag: "v1.10.1"
+    sha: "sha256:965acfe23fd7b6136145b1cde6be0e5b4b31d05bec0be5006a8945f98bbde9d9"
   excludedNamespaces:
     - kguardian
 
@@ -24,10 +22,10 @@ broker:
   networkPolicy:
     enabled: false
   image:
-    # Released pin: broker v1.13.0 — dual-stack pod resolution (pod_ips column
-    # + backfill migration on pod_details, canonicalised IPv6 spellings).
-    tag: "v1.13.0"
-    sha: "sha256:1f5398b0c7e518021bfc3304b9777e8ea91c31abf150e52612ff35bb539877b2"
+    # Released pin: broker v1.13.1 — /pod/traffic/{name} bounded (20k clamp,
+    # newest first), guarding generators against pathological pods.
+    tag: "v1.13.1"
+    sha: "sha256:5e9f1f0bf5558f7a205f221132742f62f2cbc82aba0c25627cbcd48b5028fc8b"
   resources:
     limits:
       memory: 4Gi
