@@ -1,9 +1,11 @@
 ---
 controller:
   image:
-    # Released pin: controller v1.9.1.
-    tag: "v1.9.1"
-    sha: "sha256:e3c0c9864c2f98757caecda6aee5b12a50a468b8c48c1e571104fdc1481b0c32"
+    # Released pin: controller v1.10.0 — IPv6/dual-stack capture (16-byte wire
+    # addresses, udpv6_sendmsg probes with module-BTF autoload gate, dual-stack
+    # daemonset ignore list).
+    tag: "v1.10.0"
+    sha: "sha256:944d4d40419c085b8ed079c8bbec2ef22cdb8be4ced614afa1492d206fc7b991"
   excludedNamespaces:
     - kguardian
 
@@ -20,11 +22,10 @@ broker:
   networkPolicy:
     enabled: false
   image:
-    # Released pin: broker v1.12.2 — semver build-metadata fix (#1126: Flux's
-    # "+sha" chart revision no longer false-positives update_available or
-    # fragments telemetry version grouping).
-    tag: "v1.12.2"
-    sha: "sha256:cac7af0367629961eb50a718e5205efc030ecb0123306a8fc8d644a37a803907"
+    # Released pin: broker v1.13.0 — dual-stack pod resolution (pod_ips column
+    # + backfill migration on pod_details, canonicalised IPv6 spellings).
+    tag: "v1.13.0"
+    sha: "sha256:1f5398b0c7e518021bfc3304b9777e8ea91c31abf150e52612ff35bb539877b2"
   resources:
     limits:
       memory: 4Gi
@@ -34,15 +35,11 @@ broker:
 
 frontend:
   image:
-    # PREVIEW pin: UI polish WIP (PR #1216) — enterprise shell, brand-indigo
-    # tokens, Button/Modal/EmptyState primitives, trust-map graph, Findings
-    # triage home + hash routing. Pre-release pr-artifact for visual iteration on
-    # cluster-00; revert to the released v1.11.x tag once the redesign lands.
-    # Digest crane-verified: app bundle carries the navigation embellishments —
-    # Policy Builder rail + workload picker, deep-linkable selection (ns/pod in
-    # URL), and the ⌘K command palette — atop the Findings/empty-state UI.
-    tag: "pr-1216"
-    sha: "sha256:bf09835c9530b3932c4df412075963897830bdd0f6581eebf7a53d89f855678e"
+    # Released pin: frontend v1.13.0 — the redesign has landed in releases
+    # (enterprise shell + Findings triage), plus /128 emission for IPv6 peers
+    # in generated policies. Replaces the pr-1216 preview pin.
+    tag: "v1.13.0"
+    sha: "sha256:2bde0d909d5e490398f20a9569070c62eafa6345790cd510150ce7a45a3a041a"
 
 llmBridge:
   enabled: true
@@ -51,8 +48,8 @@ llmBridge:
     # + seccomp arch-validation guard (unknown arch now errors instead of
     # silently returning an unusable profile). mcp-server + advisor-serve retired
     # in chart 1.17.0.
-    tag: "v1.6.1"
-    sha: "sha256:36f5c0e56ed45de8216af9b4dc1fba4c371518733108fc87138e2b510d8f2f7e"
+    tag: "v1.8.0"
+    sha: "sha256:54caa09cfc57f55e07115b32fc077c4b705780e0182dabd8de91b3bfa820705d"
   secrets:
     # OpenAI DISABLED 2026-07-29: its billing quota is exhausted, and llm-bridge
     # picks the first available provider as the default (index.ts resolveProvider
@@ -76,9 +73,9 @@ llmBridge:
 # blocking traffic. Surfaces in the frontend's "Audit" panel.
 evaluator:
   image:
-    # Released pin: evaluator v0.3.3.
-    tag: "v0.3.3"
-    sha: "sha256:edf5de4a007ab8ea2a668dbf30edd2bc26a25e5137fee279cf26e226f772df2a"
+    # Released pin: evaluator v0.4.0 — IPv6 CIDR matching covered end to end.
+    tag: "v0.4.0"
+    sha: "sha256:6ca5efe02c2bf0a56e76c710ccb8e17da263f64c6d3079d576441e63dc2aea06"
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format
