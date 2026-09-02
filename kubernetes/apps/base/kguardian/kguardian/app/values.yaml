@@ -4,8 +4,8 @@ controller:
     # Released pin: controller v1.10.1 — TCP direction classified from the
     # socket's pre-transition state (replaces the port>1024 heuristic that
     # flipped accepted connections into per-ephemeral-port egress rows).
-    tag: "v1.10.1"
-    sha: "sha256:965acfe23fd7b6136145b1cde6be0e5b4b31d05bec0be5006a8945f98bbde9d9"
+    tag: "v1.11.0"
+    sha: "sha256:8f5de774293ac0a9fb9d108e84ab28b8068d97289846bfc41a5ee9a91df94cf1"
   excludedNamespaces:
     - kguardian
 
@@ -24,8 +24,8 @@ broker:
   image:
     # Released pin: broker v1.13.1 — /pod/traffic/{name} bounded (20k clamp,
     # newest first), guarding generators against pathological pods.
-    tag: "v1.13.1"
-    sha: "sha256:5e9f1f0bf5558f7a205f221132742f62f2cbc82aba0c25627cbcd48b5028fc8b"
+    tag: "v1.14.0"
+    sha: "sha256:d7439a4767b313f5ccff97e031cd43c3c344ae92e3085a1f034ee086064ec9f6"
   resources:
     limits:
       memory: 4Gi
@@ -38,8 +38,8 @@ frontend:
     # Released pin: frontend v1.13.1 — graph focus-mode fixes: focus exits
     # when the focused node disappears (namespace switch), and the focus
     # button stays on the card for long pod/service names.
-    tag: "v1.13.1"
-    sha: "sha256:dcf1ba3a0fe560cf61b5c6dd2690f668e45509b3ac03de208490e1a44aaabb0b"
+    tag: "v1.13.2"
+    sha: "sha256:7e048be8f522f83bd931d3be337762b11bb530f163235a7e2d7b2a372653be88"
 
 llmBridge:
   enabled: true
@@ -48,8 +48,8 @@ llmBridge:
     # + seccomp arch-validation guard (unknown arch now errors instead of
     # silently returning an unusable profile). mcp-server + advisor-serve retired
     # in chart 1.17.0.
-    tag: "v1.8.0"
-    sha: "sha256:54caa09cfc57f55e07115b32fc077c4b705780e0182dabd8de91b3bfa820705d"
+    tag: "v1.8.1"
+    sha: "sha256:373634181f0c100607c552fe9e512d556bca093538145b601d764c6301fbcb7a"
   secrets:
     # OpenAI DISABLED 2026-07-29: its billing quota is exhausted, and llm-bridge
     # picks the first available provider as the default (index.ts resolveProvider

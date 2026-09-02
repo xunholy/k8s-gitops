@@ -16,5 +16,5 @@ spec:
     # Image versions are pinned in app/values.yaml (controller v1.10.0, broker
     # v1.13.0, frontend v1.13.0, llm-bridge v1.8.0, evaluator v0.4.0), which
     # override the chart defaults.
-    tag: 1.19.2
+    tag: 1.20.0
   url: oci://ghcr.io/kguardian-dev/charts/kguardian
