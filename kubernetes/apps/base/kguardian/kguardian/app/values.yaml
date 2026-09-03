@@ -4,12 +4,13 @@ controller:
     # Released pin: controller v1.10.1 — TCP direction classified from the
     # socket's pre-transition state (replaces the port>1024 heuristic that
     # flipped accepted connections into per-ephemeral-port egress rows).
-    # PREVIEW pin 2026-09-03: controller pr-1427 (merged main 2f0b5133e) —
-    # tiered syscall capture + CR-driven SeccompProfile distribution. Live
-    # validation before the controller 1.12.0 release. Previous: v1.11.0
+    # PREVIEW pin 2026-09-03: controller pr-1431 (PR #1431 on top of #1427) —
+    # host-network pods no longer put node IPs in the eBPF ignore map, so
+    # pod→node traffic (node-exporter, kubelet, etcd) is recorded; plus
+    # tiered syscall capture + CR-driven SeccompProfile distribution. Previous: v1.11.0
     # sha256:8f5de774293ac0a9fb9d108e84ab28b8068d97289846bfc41a5ee9a91df94cf1
-    tag: "pr-1427"
-    sha: "sha256:ad6d1d80f344eda18c0c7690b9b7dc28c1dc522e5c8fa497a5ac3402672cbd00"
+    tag: "pr-1431"
+    sha: "sha256:3b7ebcd7f4911a6605cd23a1187f9849444800f9d8ab42f0cfca62a37829152d"
   excludedNamespaces:
     - kguardian
 
@@ -28,11 +29,11 @@ broker:
   image:
     # Released pin: broker v1.13.1 — /pod/traffic/{name} bounded (20k clamp,
     # newest first), guarding generators against pathological pods.
-    # PREVIEW pin 2026-09-03: broker pr-1427 — seccomp_crs mirror, /export,
-    # capture completeness. Previous: v1.14.0
+    # PREVIEW pin 2026-09-03: broker pr-1431 — pod_details.host_network,
+    # seccomp_crs mirror, /export, capture completeness. Previous: v1.14.0
     # sha256:d7439a4767b313f5ccff97e031cd43c3c344ae92e3085a1f034ee086064ec9f6
-    tag: "pr-1427"
-    sha: "sha256:c1698f96d0cd6da9ea756b2b2a5c5867ac76665acf1ed0cb2a73d8ea99efe1f3"
+    tag: "pr-1431"
+    sha: "sha256:f7219f6a5cbe7bb4c3004e68d3a5ccc1a13bf480515d481e2f2b791348c34dbb"
   resources:
     limits:
       memory: 4Gi
@@ -45,11 +46,11 @@ frontend:
     # Released pin: frontend v1.13.1 — graph focus-mode fixes: focus exits
     # when the focused node disappears (namespace switch), and the focus
     # button stays on the card for long pod/service names.
-    # PREVIEW pin 2026-09-03: frontend pr-1427 — Seccomp Profiles view
-    # (export-only). Previous: v1.13.2
+    # PREVIEW pin 2026-09-03: frontend pr-1431 — host-network peers render as
+    # ipBlock / Cilium entities; Seccomp Profiles view (export-only). Previous: v1.13.2
     # sha256:7e048be8f522f83bd931d3be337762b11bb530f163235a7e2d7b2a372653be88
-    tag: "pr-1427"
-    sha: "sha256:645235993d86c8ca0e6b2d15bd09534db4a39848640dbd756e272009f7f84b88"
+    tag: "pr-1431"
+    sha: "sha256:a3bd703366c14d057ca58c34013793f68dab8566f08d358a045031558f1e6307"
 
 # CR-driven seccomp distribution (chart 1.21 / PR #1427). The controller
 # watches SeccompProfile CRs and writes one file per CR under
@@ -68,8 +69,12 @@ llmBridge:
     # + seccomp arch-validation guard (unknown arch now errors instead of
     # silently returning an unusable profile). mcp-server + advisor-serve retired
     # in chart 1.17.0.
-    tag: "v1.8.1"
-    sha: "sha256:373634181f0c100607c552fe9e512d556bca093538145b601d764c6301fbcb7a"
+    # PREVIEW pin 2026-09-03: llm-bridge pr-1431 — generator renders host-network
+    # peers as ipBlock / Cilium entities (parity with advisor + frontend).
+    # Previous: v1.8.1
+    # sha256:373634181f0c100607c552fe9e512d556bca093538145b601d764c6301fbcb7a
+    tag: "pr-1431"
+    sha: "sha256:0ef839303cc3d84f1455b818e31bd89ba41f8d2eb65808c351585a5092436cd7"
   secrets:
     # OpenAI DISABLED 2026-07-29: its billing quota is exhausted, and llm-bridge
     # picks the first available provider as the default (index.ts resolveProvider
