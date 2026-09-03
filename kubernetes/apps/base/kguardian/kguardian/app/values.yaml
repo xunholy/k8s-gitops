@@ -9,7 +9,7 @@ controller:
     # Previous: v1.12.0
     # sha256:e1e598da792d1e730b5eafb51d7c3256ead8d8a98203811a9940ad2e8670c2c1
     tag: "pr-1447"
-    sha: "sha256:404ecb71f7b6e669353dd76feacd547a96627751652223576142710d6470c9ab"
+    sha: "sha256:eecd5913e9f78a416701970f220d21eb9fa38e947516449afb1943a7a64f3107"
   excludedNamespaces:
     - kguardian
 
@@ -32,7 +32,7 @@ broker:
     # ingest + start-time guard (kguardian-dev/kguardian#1447). Previous: v1.15.0
     # sha256:d62fcc1efc87b2e366e3730f7e10b3045e3179ac15ffba058a2949958177be41
     tag: "pr-1447"
-    sha: "sha256:18ab79fd9c48de6d1878204d9e1166eacf765ab7b571b92cd80a90d8bb14409a"
+    sha: "sha256:2906df3ff17395acdb089bf5f6f27d70e073c8b3984013ac33e8c9131781427d"
   resources:
     limits:
       memory: 4Gi
@@ -49,7 +49,7 @@ frontend:
     # identity with the start-time guard. Previous: v1.14.0
     # sha256:bc14e32a2037e606d18078499f16499b72a71c1a8978f14391d47afde41bc643
     tag: "pr-1447"
-    sha: "sha256:1a827418001d4d8c35e9ed6fd8dfa0d1160dc9f34465aecb7f95cb993248742d"
+    sha: "sha256:6cf673889bddfb7f9e5ba589f2a6f48bbff22648ed519e1be84769292710b0d9"
 
 # CR-driven seccomp distribution (chart 1.21 / PR #1427). The controller
 # watches SeccompProfile CRs and writes one file per CR under
@@ -72,7 +72,7 @@ llmBridge:
     # generator. Previous: v1.9.0
     # sha256:0876086b4254d2f24be4f3ed1c13ff043ee150285afe8e6d8e326523abc03d61
     tag: "pr-1447"
-    sha: "sha256:b36253bb5ed4e462acf6c513f7bd645c84a001f9c5899277734421f34491a90b"
+    sha: "sha256:bf71d6c556c5772e568fab8f376d7dff515a042ce025922c23b04775302a11f8"
   secrets:
     # OpenAI DISABLED 2026-07-29: its billing quota is exhausted, and llm-bridge
     # picks the first available provider as the default (index.ts resolveProvider
