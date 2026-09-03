@@ -19,5 +19,5 @@ spec:
     # Released chart: kguardian 1.21.0 — SeccompProfile CRD (kguardian.dev/v1alpha1)
     # rendered from files/ with resource-policy keep, syscalls.captureLevel,
     # seccomp.distribute RBAC. Image versions pinned in app/values.yaml.
-    tag: 1.21.0
+    tag: 1.21.0-pr1447  # PREVIEW (PR #1447 build of chart 1.21.0: broker.peerResolution values)
   url: oci://ghcr.io/kguardian-dev/charts/kguardian
