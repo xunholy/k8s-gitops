@@ -16,7 +16,8 @@ spec:
     # Image versions are pinned in app/values.yaml (controller v1.10.0, broker
     # v1.13.0, frontend v1.13.0, llm-bridge v1.8.0, evaluator v0.4.0), which
     # override the chart defaults.
-    # PREVIEW 2026-09-03: chart 1.20.0-pr1431 (PR #1431 build, includes #1427) — ships the
-    # SeccompProfile CRD + seccomp.distribute RBAC. Previous released: 1.20.0
-    tag: 1.20.0-pr1431
+    # Released chart: kguardian 1.21.0 — SeccompProfile CRD (kguardian.dev/v1alpha1)
+    # rendered from files/ with resource-policy keep, syscalls.captureLevel,
+    # seccomp.distribute RBAC. Image versions pinned in app/values.yaml.
+    tag: 1.21.0
   url: oci://ghcr.io/kguardian-dev/charts/kguardian

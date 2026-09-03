@@ -4,13 +4,12 @@ controller:
     # Released pin: controller v1.10.1 — TCP direction classified from the
     # socket's pre-transition state (replaces the port>1024 heuristic that
     # flipped accepted connections into per-ephemeral-port egress rows).
-    # PREVIEW pin 2026-09-03: controller pr-1431 (PR #1431 on top of #1427) —
-    # host-network pods no longer put node IPs in the eBPF ignore map, so
-    # pod→node traffic (node-exporter, kubelet, etcd) is recorded; plus
-    # tiered syscall capture + CR-driven SeccompProfile distribution. Previous: v1.11.0
-    # sha256:8f5de774293ac0a9fb9d108e84ab28b8068d97289846bfc41a5ee9a91df94cf1
-    tag: "pr-1431"
-    sha: "sha256:40ae55a4cb82f6e1ee91fabaaa9c7a49fc35de0a444d9a838e460d5b908dce46"
+    # Released pin: controller v1.12.0 — tiered syscall capture (full by
+    # default, in-BPF dedup), CR-driven SeccompProfile distribution, and
+    # host-network DaemonSet pod IPs no longer put node IPs in the eBPF
+    # ignore map (pod→node traffic such as node-exporter/kubelet is recorded).
+    tag: "v1.12.0"
+    sha: "sha256:e1e598da792d1e730b5eafb51d7c3256ead8d8a98203811a9940ad2e8670c2c1"
   excludedNamespaces:
     - kguardian
 
@@ -29,11 +28,10 @@ broker:
   image:
     # Released pin: broker v1.13.1 — /pod/traffic/{name} bounded (20k clamp,
     # newest first), guarding generators against pathological pods.
-    # PREVIEW pin 2026-09-03: broker pr-1431 — pod_details.host_network,
-    # seccomp_crs mirror, /export, capture completeness. Previous: v1.14.0
-    # sha256:d7439a4767b313f5ccff97e031cd43c3c344ae92e3085a1f034ee086064ec9f6
-    tag: "pr-1431"
-    sha: "sha256:3daea85d6c1d35a41bc36738f54ba3fd4b9448975f413a0d6bf8ca75fa5b83ac"
+    # Released pin: broker v1.15.0 — capture completeness, SeccompProfile CR
+    # mirror + /export, pod_details.host_network (backfilled from manifests).
+    tag: "v1.15.0"
+    sha: "sha256:d62fcc1efc87b2e366e3730f7e10b3045e3179ac15ffba058a2949958177be41"
   resources:
     limits:
       memory: 4Gi
@@ -46,12 +44,12 @@ frontend:
     # Released pin: frontend v1.13.1 — graph focus-mode fixes: focus exits
     # when the focused node disappears (namespace switch), and the focus
     # button stays on the card for long pod/service names.
-    # PREVIEW pin 2026-09-03: frontend pr-1431 (2nd build) — host-network peers render as
-    # ipBlock / Cilium entities, cross-namespace Cilium peers carry the
-    # namespace label; Seccomp Profiles view (export-only). Previous: v1.13.2
-    # sha256:7e048be8f522f83bd931d3be337762b11bb530f163235a7e2d7b2a372653be88
-    tag: "pr-1431"
-    sha: "sha256:895cc8b67e7089aeaa0a65d5f5b5ce78797851f67d55bf27e8f45ada906e45d5"
+    # Released pin: frontend v1.14.0 — Seccomp Profiles view (export-only),
+    # host-network peers as ipBlock / Cilium entities, cross-namespace Cilium
+    # peers carry the namespace label, findings open the relevant policy tab,
+    # graph focus is shareable via ?focus=.
+    tag: "v1.14.0"
+    sha: "sha256:bc14e32a2037e606d18078499f16499b72a71c1a8978f14391d47afde41bc643"
 
 # CR-driven seccomp distribution (chart 1.21 / PR #1427). The controller
 # watches SeccompProfile CRs and writes one file per CR under
@@ -70,12 +68,10 @@ llmBridge:
     # + seccomp arch-validation guard (unknown arch now errors instead of
     # silently returning an unusable profile). mcp-server + advisor-serve retired
     # in chart 1.17.0.
-    # PREVIEW pin 2026-09-03: llm-bridge pr-1431 (2nd build) — host-network peers as ipBlock /
-    # Cilium entities; cross-namespace Cilium peers carry the namespace label.
-    # Previous: v1.8.1
-    # sha256:373634181f0c100607c552fe9e512d556bca093538145b601d764c6301fbcb7a
-    tag: "pr-1431"
-    sha: "sha256:cc37e4722ff5cd4facfc2b7343be0ba45c7d8a605e517a1603688f549b8eeb56"
+    # Released pin: llm-bridge v1.9.0 — generator parity with advisor/frontend
+    # for host-network and cross-namespace Cilium peers.
+    tag: "v1.9.0"
+    sha: "sha256:0876086b4254d2f24be4f3ed1c13ff043ee150285afe8e6d8e326523abc03d61"
   secrets:
     # OpenAI DISABLED 2026-07-29: its billing quota is exhausted, and llm-bridge
     # picks the first available provider as the default (index.ts resolveProvider
