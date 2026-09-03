@@ -4,12 +4,12 @@ controller:
     # Released pin: controller v1.10.1 — TCP direction classified from the
     # socket's pre-transition state (replaces the port>1024 heuristic that
     # flipped accepted connections into per-ephemeral-port egress rows).
-    # Released pin: controller v1.12.0 — tiered syscall capture (full by
-    # default, in-BPF dedup), CR-driven SeccompProfile distribution, and
-    # host-network DaemonSet pod IPs no longer put node IPs in the eBPF
-    # ignore map (pod→node traffic such as node-exporter/kubelet is recorded).
-    tag: "v1.12.0"
-    sha: "sha256:e1e598da792d1e730b5eafb51d7c3256ead8d8a98203811a9940ad2e8670c2c1"
+    # PREVIEW pin 2026-09-03: controller pr-1447 — reconciler no longer counts
+    # Succeeded/Failed/deleting pods as running (kguardian-dev/kguardian#1447).
+    # Previous: v1.12.0
+    # sha256:e1e598da792d1e730b5eafb51d7c3256ead8d8a98203811a9940ad2e8670c2c1
+    tag: "pr-1447"
+    sha: "sha256:a02ef376ed92c3ba08d3634300eb2a2597b113b84dd09242b30667ad23714517"
   excludedNamespaces:
     - kguardian
 
@@ -32,7 +32,7 @@ broker:
     # ingest + start-time guard (kguardian-dev/kguardian#1447). Previous: v1.15.0
     # sha256:d62fcc1efc87b2e366e3730f7e10b3045e3179ac15ffba058a2949958177be41
     tag: "pr-1447"
-    sha: "sha256:901a0b17c569f98dbb3827308e8e77395942bffa5387f20f5ca65d9e701d3c43"
+    sha: "sha256:98510bf319f4d9b00ddace44d7ebed61bbd3d357419a41a2b8db25f3f3934287"
   resources:
     limits:
       memory: 4Gi
@@ -49,7 +49,7 @@ frontend:
     # identity with the start-time guard. Previous: v1.14.0
     # sha256:bc14e32a2037e606d18078499f16499b72a71c1a8978f14391d47afde41bc643
     tag: "pr-1447"
-    sha: "sha256:0a8c99d96c87e3d378cda88756f36b7dff267c26931f1edfed08cf5bc4a38574"
+    sha: "sha256:8f22eed4a969752dc4d61ce67ffe781296fa607969558e329ad4f76dabe6b709"
 
 # CR-driven seccomp distribution (chart 1.21 / PR #1427). The controller
 # watches SeccompProfile CRs and writes one file per CR under
@@ -72,7 +72,7 @@ llmBridge:
     # generator. Previous: v1.9.0
     # sha256:0876086b4254d2f24be4f3ed1c13ff043ee150285afe8e6d8e326523abc03d61
     tag: "pr-1447"
-    sha: "sha256:10552b3590304888f740ae00d79108311cbdcbe51bb9f2dc209a6128c6ed7b95"
+    sha: "sha256:aecf7a97ce09b6f51b3f6ff8d38b9e2d18011d1aed293cd25fb6ceb2c30c9c3f"
   secrets:
     # OpenAI DISABLED 2026-07-29: its billing quota is exhausted, and llm-bridge
     # picks the first available provider as the default (index.ts resolveProvider
