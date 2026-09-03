@@ -16,5 +16,7 @@ spec:
     # Image versions are pinned in app/values.yaml (controller v1.10.0, broker
     # v1.13.0, frontend v1.13.0, llm-bridge v1.8.0, evaluator v0.4.0), which
     # override the chart defaults.
-    tag: 1.20.0
+    # PREVIEW 2026-09-03: chart 1.20.0-pr1427 (PR #1427 build) — ships the
+    # SeccompProfile CRD + seccomp.distribute RBAC. Previous released: 1.20.0
+    tag: 1.20.0-pr1427
   url: oci://ghcr.io/kguardian-dev/charts/kguardian
