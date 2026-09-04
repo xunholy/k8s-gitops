@@ -57,6 +57,34 @@ seccomp:
 syscalls:
   captureLevel: full
 
+# OpenRouter via the OpenAI-compatible path (chart 1.18.0+ / llm-bridge 1.7.0+).
+# ai.provider selects which env vars the chart writes; "openai" is correct here
+# because OpenRouter speaks the OpenAI /chat/completions wire protocol, not
+# because the model is OpenAI's.
+#
+# The /v1 is REQUIRED. kguardian appends the request path to this base
+# verbatim and never inserts or strips a version segment, so
+# ".../api" would call ".../api/chat/completions" and 404.
+#
+# The model must support tool calling: the assistant always sends its 12 tools,
+# so a model without tool support answers uselessly or errors. Verified against
+# OpenRouter's model API that this slug advertises tools.
+#
+# NOTE this changes which provider answers by default. llm-bridge resolves the
+# default as the first available provider and OPENAI is checked before
+# ANTHROPIC (index.ts availableProvidersFromEnv), so with both keys present
+# OpenRouter serves every request the UI makes (the frontend sends no explicit
+# provider). Anthropic below stays wired as a fallback that only answers when a
+# caller names it. To go back to Anthropic-by-default, comment this block out.
+ai:
+  provider: openai
+  secret: kguardian-openrouter
+  baseUrl: https://openrouter.ai/api/v1
+  # Cheapest current Sonnet on OpenRouter with tool support
+  # ($2/$10 per Mtok vs $3/$15 for 4.5), and keeps the assistant on the same
+  # model family this cluster was already using.
+  model: anthropic/claude-sonnet-5
+
 llmBridge:
   enabled: true
   image:
