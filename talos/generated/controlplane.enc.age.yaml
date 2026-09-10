@@ -141,7 +141,6 @@ cluster:
       oidc-issuer-url: https://dex.owncloud.ai
       oidc-username-claim: email
       oidc-groups-claim: groups
-      oidc-required-claim: email_verified=true
     disablePodSecurityPolicy: true
     admissionControl:
       - name: PodSecurity
@@ -219,8 +218,8 @@ sops:
         aHoxbU5sVFdFUUc0MHhMeW1oQ0Z2aG8KUtfI19ZT0BHjAdBRzIjujpJaVxwIpd3Q
         gw/91gb8ePG5QuXhUBS4Ql0lxJZQwL0eCIu/DgRqtkQOFve4bTrY0w==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-06-19T00:56:19Z"
-  mac: ENC[AES256_GCM,data:li2KhNrDg5iSStHudIo8aqviSMvfJR4hl8uQR8tcXawhsHKEJaUe0VvtTUx3vBY52/k6HbXet5ltxBJl+mNe7S828UzG+1B/IDtIys5p7nzFyN/TS6KVJ6yS3OFhdGqY83EL0Fq3rvnl1DMhQCvYLbSUKo3yTxE90HDIaGDT5wk=,iv:yD5m4gMwsT1YmW25ohg20Qday4UjOhJUMpDnh6NyzdQ=,tag:xLJttz583Iil3J+C+0B30w==,type:str]
+  lastmodified: "2026-09-10T09:49:23Z"
+  mac: ENC[AES256_GCM,data:sG3d6fdEp7aqzySoihCPxoyBdiNlNx3A6jBYZKPSZThYc7fUhbD9dFrfkuWj4msdSd9FTm+ymSM3mzEYPd9pSXIISueDknysNTt8S0sG58ZFT+A/Maiuh0nI9Q9JHXkLS+i9bXv4IqyxVRlc7u2uKViuVy6yUNxg5eJLP+xAdcM=,iv:oPLtapc5S07Ap+QUglLBi/62OapT2XJ1sKuLmFdJZHU=,tag:V+Edw4x/GAGRWOx3jfHVNQ==,type:str]
   encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
   mac_only_encrypted: true
   version: 3.12.1
