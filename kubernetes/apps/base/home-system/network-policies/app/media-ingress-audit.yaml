@@ -1,0 +1,54 @@
+---
+# AUDIT ONLY — does not enforce.
+#
+# Intent: the media web UIs published through the Cloudflare tunnel ->
+# envoy-external gateway should only receive ingress from that gateway, from
+# Prometheus scrape, and from each other within home-system (prowlarr feeds
+# the *arr apps, jellyseerr queries them, tautulli reads Plex, etc.). Anything
+# else is reported as WouldDeny.
+#
+# Deliberately excluded: qbittorrent (direct LoadBalancer P2P :50413 from
+# world) and mediamtx (LoadBalancer streaming) — their inbound "world"
+# traffic is expected and would only add noise here. Give qbittorrent its own
+# ingress policy allowing :50413 from world when you graduate to enforcement.
+apiVersion: kguardian.dev/v1alpha1
+kind: AuditNetworkPolicy
+metadata:
+  name: media-ingress-audit
+  namespace: home-system
+spec:
+  podSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values:
+          - sonarr
+          - radarr
+          - prowlarr
+          - bazarr
+          - sabnzbd
+          - autobrr
+          - jellyseerr
+          - recyclarr
+          - qui
+          - tautulli
+  policyTypes: [Ingress]
+  ingress:
+    # Envoy Gateway data-plane pods in network-system.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: network-system
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: envoy
+    # Prometheus scrape.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: observability
+    # Intra-namespace east-west between the media apps.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: home-system

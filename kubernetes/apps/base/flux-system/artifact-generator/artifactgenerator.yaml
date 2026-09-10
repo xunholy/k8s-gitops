@@ -20,6 +20,16 @@ spec:
       copy:
         - from: "@repo/apps/base/game-servers/adminer/app/"
           to: "@artifact/apps/base/game-servers/adminer/app/"
+    - name: network-policies-game-servers
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/network-policies/app/"
+          to: "@artifact/apps/base/game-servers/network-policies/app/"
+    - name: network-policies-home-system
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/home-system/network-policies/app/"
+          to: "@artifact/apps/base/home-system/network-policies/app/"
     - name: autobrr
       originRevision: "@repo"
       copy:

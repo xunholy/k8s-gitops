@@ -1,0 +1,38 @@
+---
+# AUDIT ONLY — does not enforce.
+#
+# Intent: the HTTP frontends that are published to the internet through the
+# Cloudflare tunnel -> envoy-external gateway (emberstone-portal, the RCON
+# web admin) should only receive ingress from that gateway, plus Prometheus
+# scrape. Anything else reaching them (pod-to-pod from another namespace,
+# direct) is reported as WouldDeny.
+#
+# Note: the LoadBalancer game listeners (Minecraft 25565/19132, CMaNGOS
+# world/realm) legitimately take player traffic from "world" and are left
+# out of this policy on purpose.
+apiVersion: kguardian.dev/v1alpha1
+kind: AuditNetworkPolicy
+metadata:
+  name: http-ingress-audit
+  namespace: game-servers
+spec:
+  podSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values: [emberstone-portal, rcon-web-admin]
+  policyTypes: [Ingress]
+  ingress:
+    # The Envoy Gateway data-plane pods in network-system.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: network-system
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: envoy
+    # Prometheus scrape from the observability namespace.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: observability

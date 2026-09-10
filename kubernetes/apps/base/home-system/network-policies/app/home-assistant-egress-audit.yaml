@@ -1,0 +1,43 @@
+---
+# AUDIT ONLY — does not enforce.
+#
+# Home Assistant is special: unlike the media apps it legitimately needs to
+# reach IoT devices on the LAN (192.168.50.0/24) and the MQTT broker /
+# SMTP relay in its own namespace. So the node/LAN subnet is ALLOWED here and
+# only the cluster API/other-namespaces and cloud metadata are flagged.
+#
+# WouldDeny = egress to the Kubernetes API server, pods in other namespaces,
+# or cloud metadata — none of which HA should need.
+apiVersion: kguardian.dev/v1alpha1
+kind: AuditNetworkPolicy
+metadata:
+  name: home-assistant-egress-audit
+  namespace: home-system
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: home-assistant
+  policyTypes: [Egress]
+  egress:
+    # DNS to kube-dns.
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - { protocol: UDP, port: 53 }
+        - { protocol: TCP, port: 53 }
+    # Same-namespace east-west (mosquitto MQTT, smtp-relay).
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: home-system
+    # Internet + LAN/IoT (node subnet allowed). Cluster pods/services and
+    # cloud metadata excluded so egress to them is reported.
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 10.244.0.0/16      # pod CIDR
+              - 10.96.0.0/12       # service CIDR (includes API server 10.96.0.1)
+              - 169.254.169.254/32 # cloud metadata

@@ -1,0 +1,32 @@
+---
+# AUDIT ONLY — does not enforce. Reports (via kguardian-evaluator) every
+# flow that WOULD be denied if this were a real NetworkPolicy.
+#
+# Intent: the game databases (MySQL/MariaDB :3306) should only be reached
+# by workloads inside the game-servers namespace (the realmd/world servers,
+# adminer). The cluster-baseline-audit already flagged ~650 ingress flows to
+# :3306 attributed to "world" — this policy quantifies exactly who they are.
+#
+# Promote to enforcement by copying this spec under `kind: NetworkPolicy`
+# once status.evaluation.topOffenders shows only traffic you intend to block.
+apiVersion: kguardian.dev/v1alpha1
+kind: AuditNetworkPolicy
+metadata:
+  name: db-ingress-audit
+  namespace: game-servers
+spec:
+  podSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values: [cmangos-database, azerothcore-database]
+  policyTypes: [Ingress]
+  ingress:
+    # Allow only same-namespace sources (realmd, worldservers, adminer).
+    # Anything else reaching :3306 shows up as WouldDeny.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: game-servers
+      ports:
+        - { protocol: TCP, port: 3306 }
