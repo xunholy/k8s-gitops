@@ -1,0 +1,18 @@
+# Native Talos NIC tuning for the Intel I226-V (igc) on the NUCs.
+#
+# The igc RX/TX rings ship at the driver default of 256 while the hardware
+# supports 4096 (`talosctl get ethernetstatus enp86s0` -> rings.rx-max 4096).
+# That undersized ring is the direct cause of the ~425k RX-FIFO overruns that
+# periodically sever the kernel RBD/Ceph sessions and remount volumes
+# read-only. Raising both rings to the hardware maximum is applied live by the
+# Talos ethernet controller (no reboot). Supported since Talos v1.11; verified
+# compatible through v1.14.
+#
+# Applied as an additional config document (kind: EthernetConfig), which is why
+# it lives as its own patch rather than under the v1alpha1 machine: tree.
+apiVersion: v1alpha1
+kind: EthernetConfig
+name: enp86s0
+rings:
+  rx: 4096
+  tx: 4096
