@@ -1,0 +1,61 @@
+---
+# AUDIT ONLY — does not enforce.
+#
+# Highest-value guard in this set. The *arr stack, the download clients and
+# the request UIs run community images that process untrusted input (torrents,
+# NZBs, indexer results, webhooks). If one is compromised, the damage is
+# lateral movement and exfiltration. This egress audit shows every path these
+# pods take toward cluster internals so you can confirm none is needed before
+# enforcing "internet + own namespace + DNS, nothing else".
+#
+# WouldDeny = egress to the API server, another namespace, the node/LAN
+# subnet, or cloud metadata. qbittorrent is included so its (legitimate) P2P
+# egress to the internet is allowed while any pivot inward is flagged.
+apiVersion: kguardian.dev/v1alpha1
+kind: AuditNetworkPolicy
+metadata:
+  name: media-egress-audit
+  namespace: home-system
+spec:
+  podSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values:
+          - sonarr
+          - radarr
+          - prowlarr
+          - bazarr
+          - sabnzbd
+          - qbittorrent
+          - autobrr
+          - jellyseerr
+          - recyclarr
+          - qui
+          - tautulli
+  policyTypes: [Egress]
+  egress:
+    # DNS to kube-dns.
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - { protocol: UDP, port: 53 }
+        - { protocol: TCP, port: 53 }
+    # Same-namespace east-west (prowlarr<->arr, jellyseerr<->arr, download
+    # clients, tautulli, the shared SMTP relay).
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: home-system
+    # Public internet only. Cluster pods/services, the node/LAN subnet and
+    # cloud metadata are excluded so egress to them is reported.
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 10.244.0.0/16      # pod CIDR
+              - 10.96.0.0/12       # service CIDR (includes API server 10.96.0.1)
+              - 192.168.50.0/24    # node / LAN subnet
+              - 169.254.169.254/32 # cloud metadata

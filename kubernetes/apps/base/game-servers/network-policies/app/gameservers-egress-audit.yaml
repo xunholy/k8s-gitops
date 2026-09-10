@@ -1,0 +1,48 @@
+---
+# AUDIT ONLY — does not enforce.
+#
+# Intent: the game/world servers should reach DNS, other pods in their own
+# namespace (their database, realmd), and the public internet (image/data
+# pulls, the AI-playerbot system) — but they have no business reaching the
+# Kubernetes API server, other namespaces, the node/LAN subnet, or cloud
+# metadata. This egress audit surfaces any such lateral/exfil path.
+#
+# WouldDeny here = egress toward one of the "except" ranges below that isn't
+# covered by the DNS or same-namespace allows: i.e. API server (10.96.0.1),
+# other namespaces, nodes (192.168.50.0/24), or metadata (169.254.169.254).
+apiVersion: kguardian.dev/v1alpha1
+kind: AuditNetworkPolicy
+metadata:
+  name: gameservers-egress-audit
+  namespace: game-servers
+spec:
+  podSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values: [cmangos, cmangos-ptr, cmangos-realmd, azerothcore, emberstone-portal]
+  policyTypes: [Egress]
+  egress:
+    # DNS to kube-dns.
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - { protocol: UDP, port: 53 }
+        - { protocol: TCP, port: 53 }
+    # Same-namespace east-west (database, realmd, soap).
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: game-servers
+    # Public internet only — cluster pods/services, the node/LAN subnet and
+    # cloud metadata are excluded so any egress to them is reported.
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 10.244.0.0/16      # pod CIDR
+              - 10.96.0.0/12       # service CIDR (includes API server 10.96.0.1)
+              - 192.168.50.0/24    # node / LAN subnet
+              - 169.254.169.254/32 # cloud metadata
