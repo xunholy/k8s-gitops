@@ -1,0 +1,16 @@
+# Disable PCIe ASPM on the Intel I226-V (igc) NICs.
+#
+# Root cause of the recurring read-only cascades: ASPM L1 was throttling the
+# PCIe link to the NIC, starving its DMA engine. Under load the RX FIFO
+# overflowed (rx_missed_errors climbing into the 100000s), dropping enough
+# Ceph traffic to sever the kernel RBD sessions and remount volumes read-only.
+#
+# Verified live: writing `performance` to /sys/module/pcie_aspm/parameters/policy
+# (ASPM off) stopped rx_missed_errors dead (delta 0 over 40s) on all three nodes.
+# This kernel arg makes it permanent. NOTE: install.extraKernelArgs only takes
+# effect after a boot-asset rewrite (a `talosctl upgrade` cycle), so pair this
+# with the next Talos upgrade; the runtime sysfs setting protects until then.
+machine:
+  install:
+    extraKernelArgs:
+      - pcie_aspm=off
