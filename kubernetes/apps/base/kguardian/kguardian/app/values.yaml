@@ -122,7 +122,7 @@ database:
       cpu: "2"
       memory: 512Mi
 
-# Chart 2.0.0: compute gauges default on (cgroup files only). The scheduler
+# Chart 1.23.0: compute gauges default on (cgroup files only). The scheduler
 # contention probe (blame) is opt-in; enabled here after measuring 5-23m CPU
 # per controller at 40-70k context switches/s on this cluster (2026-09-10).
 compute:
