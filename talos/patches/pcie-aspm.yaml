@@ -1,16 +1,24 @@
 # Disable PCIe ASPM on the Intel I226-V (igc) NICs.
 #
-# Root cause of the recurring read-only cascades: ASPM L1 was throttling the
-# PCIe link to the NIC, starving its DMA engine. Under load the RX FIFO
-# overflowed (rx_missed_errors climbing into the 100000s), dropping enough
-# Ceph traffic to sever the kernel RBD sessions and remount volumes read-only.
+# Root cause of the constant rx FIFO drops (RCA 2026-09-10): ASPM L1 was
+# throttling the PCIe link to the NIC, starving its DMA engine.
 #
-# Verified live: writing `performance` to /sys/module/pcie_aspm/parameters/policy
-# (ASPM off) stopped rx_missed_errors dead (delta 0 over 40s) on all three nodes.
-# This kernel arg makes it permanent. NOTE: install.extraKernelArgs only takes
-# effect after a boot-asset rewrite (a `talosctl upgrade` cycle), so pair this
-# with the next Talos upgrade; the runtime sysfs setting protects until then.
+# NOTE: machine.install.extraKernelArgs is IGNORED on this cluster's boot path
+# (Image Factory install; verified 2026-09-11: the arg never reached
+# /proc/cmdline after an upgrade). Kernel args must be baked into the Image
+# Factory schematic instead. The schematic below is what every node runs:
+#
+#   customization:
+#     extraKernelArgs: [pcie_aspm=off]
+#     systemExtensions:
+#       officialExtensions: [siderolabs/iscsi-tools]
+#
+#   id: b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14
+#
+# machine.install.image in the generated config points at it; keep it that
+# way when bumping Talos versions (factory.talos.dev/installer/<id>:vX.Y.Z).
+# Talos 1.13.10 (kernel 6.18.48) additionally keeps L1 off for igc on its own:
+# 0 drops/min at the default policy was measured before the arg was present.
 machine:
   install:
-    extraKernelArgs:
-      - pcie_aspm=off
+    image: factory.talos.dev/installer/b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14:v1.13.10
