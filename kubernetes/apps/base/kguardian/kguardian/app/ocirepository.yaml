@@ -19,5 +19,9 @@ spec:
     # Released chart: kguardian 1.21.0 — SeccompProfile CRD (kguardian.dev/v1alpha1)
     # rendered from files/ with resource-policy keep, syscalls.captureLevel,
     # seccomp.distribute RBAC. Image versions pinned in app/values.yaml.
-    tag: 1.21.2
+    # Released chart: kguardian 2.0.0 — live compute gauges + noisy-neighbour
+    # detection (compute.* values, read-only /sys/fs/cgroup mount, broker
+    # thresholds/retention); BREAKING: autoscaling.enabled is refused at
+    # template time (not set here). Image versions pinned in app/values.yaml.
+    tag: 2.0.0
   url: oci://ghcr.io/kguardian-dev/charts/kguardian
