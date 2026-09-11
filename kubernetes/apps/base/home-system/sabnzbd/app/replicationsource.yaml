@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: sabnzbd-ceph
   trigger:
-    schedule: "43 * * * *"
+    schedule: "43 */6 * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

@@ -14,6 +14,7 @@ resources:
   - prometheus-replicationsource.yaml
   - prometheus-volsync-externalsecret.yaml
   - prometheusrule.yaml
+  - rbd-fence-prometheusrule.yaml
   - scrapeconfig.yaml
   - silence-watchdog.yaml
 configMapGenerator:

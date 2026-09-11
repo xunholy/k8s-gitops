@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: bazarr-ceph
   trigger:
-    schedule: "21 * * * *"
+    schedule: "21 */6 * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

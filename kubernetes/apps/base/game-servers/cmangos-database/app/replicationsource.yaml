@@ -10,7 +10,7 @@ metadata:
 spec:
   sourcePVC: cmangos-database
   trigger:
-    schedule: "7 * * * *"
+    schedule: "7 */6 * * *"
   kopia:
     accessModes:
       - ReadWriteOnce
