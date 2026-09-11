@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ceph-client-fence
+spec:
+  groups:
+    # RCA 2026-09-10: read-only RBD volumes come from a node's kernel client
+    # being blocklisted after an exclusive-lock break. Catch the fence itself
+    # (a new blocklist entry) and the usual precursor (mon elections from a
+    # node dropping off the network), not just the read-only fallout.
+    - name: ceph-client-fence.rules
+      rules:
+        - alert: CephClientFenced
+          expr: increase(ceph_cluster_osd_blocklist_count[10m]) > 0
+          for: 0m
+          labels:
+            severity: warning
+          annotations:
+            summary: A Ceph client was blocklisted (exclusive-lock break).
+            description: >-
+              ceph osd blocklist ls gained an entry in the last 10 minutes. If it is a node
+              address (192.168.50.x:0/nonce) every RBD volume mapped on that node will go
+              read-only on its next write and stay deaf to lock requests. Recover by fully
+              unmapping every image on that node (scale its RBD workloads to 0 and back) or
+              rebooting it; do not delete VolumeAttachments or force-delete pods.
+        - alert: CephMonElectionStorm
+          expr: sum(increase(ceph_mon_num_elections[15m])) > 2
+          for: 0m
+          labels:
+            severity: warning
+          annotations:
+            summary: Ceph monitors are re-electing repeatedly.
+            description: >-
+              {{ $value }} mon elections in 15 minutes. A node is dropping off the network or
+              stalling (thermal, NIC reset, cordon-eviction); its RBD watches expire after 30s
+              and the next VolSync snapshot will fence it.

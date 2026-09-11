@@ -11,3 +11,76 @@ leaderElection:
   resourceLock: "leases"
   resourceName: "descheduler"
   resourceNamescape: "kube-system"
+# Policy overrides (RCA 2026-09-10, cluster-00 read-only cascades):
+# the chart default evicted Ceph OSD/mon/mgr and the CSI controllers from
+# every cordoned node within one 5-minute cycle (RemovePodsViolatingNodeTaints
+# treats the cordon taint like any other), and LowNodeUtilization then bounced
+# 38 pods including the Ceph control plane. A cordon must never evict storage.
+deschedulerPolicyAPIVersion: descheduler/v1alpha2
+deschedulerPolicy:
+  profiles:
+    - name: default
+      pluginConfig:
+        - name: DefaultEvictor
+          args:
+            nodeFit: true
+            podProtections:
+              defaultDisabled:
+                - PodsWithLocalStorage
+              extraEnabled:
+                - PodsWithPVC
+        - name: RemoveDuplicates
+          args:
+            namespaces:
+              exclude: [rook-ceph, kube-system]
+        - name: RemovePodsHavingTooManyRestarts
+          args:
+            includingInitContainers: true
+            podRestartThreshold: 100
+            namespaces:
+              exclude: [rook-ceph]
+        - name: RemovePodsViolatingNodeAffinity
+          args:
+            nodeAffinityType:
+              - requiredDuringSchedulingIgnoredDuringExecution
+            namespaces:
+              exclude: [rook-ceph]
+        - name: RemovePodsViolatingNodeTaints
+          args:
+            # cordon = node.kubernetes.io/unschedulable:NoSchedule; never
+            # treat it as a reason to evict
+            excludedTaints:
+              - node.kubernetes.io/unschedulable
+            namespaces:
+              exclude: [rook-ceph, kube-system]
+        - name: RemovePodsViolatingInterPodAntiAffinity
+          args:
+            namespaces:
+              exclude: [rook-ceph]
+        - name: RemovePodsViolatingTopologySpreadConstraint
+          args:
+            namespaces:
+              exclude: [rook-ceph]
+        - name: LowNodeUtilization
+          args:
+            thresholds:
+              cpu: 20
+              memory: 20
+              pods: 20
+            targetThresholds:
+              cpu: 50
+              memory: 50
+              pods: 50
+            evictableNamespaces:
+              exclude: [rook-ceph, kube-system]
+      plugins:
+        balance:
+          enabled:
+            - RemoveDuplicates
+            - RemovePodsViolatingTopologySpreadConstraint
+            - LowNodeUtilization
+        deschedule:
+          enabled:
+            - RemovePodsHavingTooManyRestarts
+            - RemovePodsViolatingNodeTaints
+            - RemovePodsViolatingNodeAffinity

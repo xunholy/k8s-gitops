@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: radarr-ceph
   trigger:
-    schedule: "39 * * * *"
+    schedule: "39 */6 * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: minecraft-bedrock-broadcaster-ceph
   trigger:
-    schedule: "16 * * * *"
+    schedule: "16 */6 * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

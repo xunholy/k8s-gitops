@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: grafana-pvc
   trigger:
-    schedule: "55 * * * *"
+    schedule: "55 */6 * * *"
   kopia:
     accessModes:
       - ReadWriteOnce
