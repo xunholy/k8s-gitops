@@ -53,6 +53,7 @@ resources:
   - ../../base/game-servers/adminer/ks.yaml
   - ../../base/game-servers/azerothcore/ks.yaml
   - ../../base/game-servers/emberstone-portal/ks.yaml
+  - ../../base/game-servers/network-policies/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/bazarr/ks.yaml
   # - ../../base/home-system/emqx/ks.yaml
@@ -69,6 +70,7 @@ resources:
   - ../../base/home-system/smtp-relay/ks.yaml
   - ../../base/home-system/sonarr/ks.yaml
   - ../../base/home-system/tautulli/ks.yaml
+  - ../../base/home-system/network-policies/ks.yaml
   # - ../../base/home-system/zigbee2mqtt/ks.yaml
   - ../../base/kguardian/kguardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml

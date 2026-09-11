@@ -10,6 +10,9 @@ cephClusterSpec:
       bdev_async_discard_threads: "1" # quote
       osd_class_update_on_start: "false" # quote
       device_failure_prediction_mode: local # requires mgr module
+      # Persist the audit channel (osd blocklist add etc.) in mon pod logs;
+      # it is otherwise written nowhere (RCA 2026-09-10).
+      mon_cluster_log_to_stderr: "true" # quote
   cleanupPolicy:
     wipeDevicesFromOtherClusters: true
   crashCollector:
@@ -86,6 +89,11 @@ cephBlockPools:
         compression_algorithm: zstd
         imageFormat: "2"
         imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
+        # One kernel client per image instead of one shared client per node:
+        # an exclusive-lock break blocklists only that image's client, not
+        # every RBD volume on the node (RCA 2026-09-10). Applies to PVs
+        # provisioned after this change (mapOptions live in PV volumeAttributes).
+        mapOptions: "krbd:noshare"
         csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
         csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
         csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner

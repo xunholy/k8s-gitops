@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: recyclarr-ceph
   trigger:
-    schedule: "41 * * * *"
+    schedule: "41 */6 * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

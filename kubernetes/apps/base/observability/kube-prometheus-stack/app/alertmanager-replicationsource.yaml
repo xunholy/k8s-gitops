@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: alertmanager-kube-prometheus-stack-db-alertmanager-kube-prometheus-stack-0
   trigger:
-    schedule: "53 * * * *"
+    schedule: "53 */6 * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

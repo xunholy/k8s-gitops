@@ -1,0 +1,22 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: network-policies-home-system
+  namespace: home-system
+  labels:
+    gitops.owncloud.ai/defaults: disabled
+spec:
+  decryption:
+    provider: sops
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  path: "./apps/base/home-system/network-policies/app"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: ExternalArtifact
+    name: network-policies-home-system
+    namespace: flux-system
+  targetNamespace: home-system

@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: zigbee2mqtt-cache-ceph
   trigger:
-    schedule: "51 * * * *"
+    schedule: "51 */6 * * *"
   kopia:
     accessModes:
       - ReadWriteOnce

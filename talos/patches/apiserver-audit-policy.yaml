@@ -1,0 +1,23 @@
+cluster:
+  apiServer:
+    auditPolicy:
+      apiVersion: audit.k8s.io/v1
+      kind: Policy
+      omitStages:
+        - RequestReceived
+      rules:
+        # Reads are ~90% of volume and never needed for forensics here.
+        - level: None
+          verbs: ["get", "list", "watch"]
+        # Leader-election and endpoint churn from controllers.
+        - level: None
+          resources:
+            - group: coordination.k8s.io
+              resources: ["leases"]
+            - group: ""
+              resources: ["endpoints", "events"]
+            - group: discovery.k8s.io
+              resources: ["endpointslices"]
+        - level: None
+          users: ["system:kube-proxy", "system:apiserver", "system:kube-scheduler", "system:kube-controller-manager"]
+        - level: Metadata

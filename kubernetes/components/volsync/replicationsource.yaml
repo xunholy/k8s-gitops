@@ -8,8 +8,11 @@ spec:
   sourcePVC: ${APP}
   trigger:
     # Stagger per app — 23 sources firing at :00 simultaneously caused an
-    # OSD watch-timeout crash and mass RBD read-only remounts (2026-08-03)
-    schedule: "15 * * * *"
+    # OSD watch-timeout crash and mass RBD read-only remounts (2026-08-03).
+    # Every 6h, not hourly: each snapshot is an exclusive-lock handoff on a
+    # live image, and with 22 sources hourly there was one every 2-3 minutes,
+    # which turned every node blip into a client fence (RCA 2026-09-10).
+    schedule: "15 */6 * * *"
   kopia:
     accessModes:
       - ${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}

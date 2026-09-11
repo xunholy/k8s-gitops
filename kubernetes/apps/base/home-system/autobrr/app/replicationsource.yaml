@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: autobrr-ceph
   trigger:
-    schedule: "19 * * * *"
+    schedule: "19 */6 * * *"
   kopia:
     accessModes:
       - ReadWriteOnce
