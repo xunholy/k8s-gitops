@@ -53,8 +53,8 @@ frontend:
     # Released pin: frontend v1.17.0 — live compute gauges, contention edges,
     # compute findings; docked assistant, viewport kept on expand, Policy
     # Builder network format switch (audit / NetworkPolicy / Cilium).
-    tag: "v1.17.0"
-    sha: "sha256:51391952167b8a33644efa8d28c1d95ba374ff41d295cb1d827e75c2e4816810"
+    tag: "v1.17.1"
+    sha: "sha256:229694782d2413ac38712005c2228891a395c6a97c7bb92933d3c7a32385232c"
 
 # CR-driven seccomp distribution (chart 1.21 / PR #1427). The controller
 # watches SeccompProfile CRs and writes one file per CR under
