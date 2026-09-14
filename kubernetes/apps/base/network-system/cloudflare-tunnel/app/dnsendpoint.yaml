@@ -7,7 +7,9 @@ metadata:
   namespace: networking
   annotations:
     external-dns.alpha.kubernetes.io/target: "external.${CLUSTER_DOMAIN}"
+    external-dns.kubernetes.io/target: "external.${CLUSTER_DOMAIN}"
     external-dns.alpha.kubernetes.io/external: 'true'
+    external-dns.kubernetes.io/external: 'true'
 spec:
   endpoints:
     - dnsName: "external.${CLUSTER_DOMAIN}"
@@ -24,7 +26,9 @@ metadata:
   namespace: networking
   annotations:
     external-dns.alpha.kubernetes.io/target: "api.${CLUSTER_DOMAIN}"
+    external-dns.kubernetes.io/target: "api.${CLUSTER_DOMAIN}"
     external-dns.alpha.kubernetes.io/external: 'true'
+    external-dns.kubernetes.io/external: 'true'
 spec:
   endpoints:
     - dnsName: "api.${CLUSTER_DOMAIN}"
