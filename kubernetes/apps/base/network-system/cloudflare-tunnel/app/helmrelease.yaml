@@ -33,18 +33,35 @@ spec:
               - tunnel
               - run
             probes:
-              liveness: &probes
+              # /ready answers 503 until cloudflared has an edge connection.
+              # That is the right readiness signal, but as a liveness signal it
+              # turned every upstream DNS hiccup into a restart loop (52+
+              # restarts per pod on 2026-09-14 while the gateway's DNS was
+              # failing; cloudflared reconnects on its own and a restart only
+              # resets its backoff). Liveness now fires only after ~10 minutes
+              # without any edge connection.
+              liveness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /ready
                     port: &port 8080
+                  initialDelaySeconds: 60
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 20
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ready
+                    port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 1
+                  timeoutSeconds: 3
                   failureThreshold: 3
-              readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
