@@ -1,7 +1,10 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    "github>home-operations/renovate-presets#5.0.0",
+    "github>home-operations/renovate-presets#8.1.0",
+    // apps/ presets are opt-in since 6.0.0 and need their own tag (nested presets do not inherit the parent pin)
+    "github>home-operations/renovate-presets//apps/grafanaDashboards.json5#8.1.0",
+    "github>home-operations/renovate-presets//apps/talosFactory.json5#8.1.0",
     "security:openssf-scorecard",
     ":automergeDigest",
     ":semanticCommits",
@@ -16,10 +19,18 @@
       description: "Hold patch/minor updates for 3 days to squash chain bumps into a single PR",
       matchUpdateTypes: ["patch", "minor"],
       minimumReleaseAge: "3 days",
+      // Default is timestamp-required, which marks releases with no timestamp as pending forever.
+      // quay.io returns no release timestamps, so cilium and cert-manager never left "pending" (no updates since 2026-05-21).
+      minimumReleaseAgeBehaviour: "timestamp-optional",
     },
   ],
   "pre-commit": {
     enabled: true,
   },
-  ignorePaths: ["**/*.enc.*", "**/resources/**"],
+  ignorePaths: [
+    "**/*.enc.*",
+    "**/resources/**",
+    // Rendered from the chart pinned in talos/integrations/cilium/kustomization.yaml; regenerate it, never bump images in place
+    "talos/integrations/cilium/cilium.yaml",
+  ],
 }
