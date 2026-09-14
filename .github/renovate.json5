@@ -23,6 +23,16 @@
       // quay.io returns no release timestamps, so cilium and cert-manager never left "pending" (no updates since 2026-05-21).
       minimumReleaseAgeBehaviour: "timestamp-optional",
     },
+    {
+      // Minor bumps of these carry breaking changes that need sequencing (external-dns 1.22 drops the alpha
+      // annotation prefix with no fallback; cilium 1.20 removes v2alpha1 CiliumLoadBalancerIPPool and must move in
+      // lockstep with talos/integrations/cilium; rook-ceph 1.20 splits out ceph-csi-drivers). Patch stays automerged.
+      description: "Never automerge minor updates of cluster-critical charts",
+      matchDatasources: ["docker", "helm"],
+      matchPackageNames: ["/cilium/", "/external-dns/", "/rook-ceph/", "/cert-manager/"],
+      matchUpdateTypes: ["minor"],
+      automerge: false,
+    },
   ],
   "pre-commit": {
     enabled: true,
