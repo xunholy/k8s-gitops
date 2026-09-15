@@ -3,14 +3,16 @@ monitoring:
   createPrometheusRules: true
 toolbox:
   enabled: true
+# Pin the Ceph image via the chart's dedicated cephImage value (NOT cephClusterSpec.cephVersion,
+# which the chart forbids and which double-renders cephVersion -> post-render failure). The chart's
+# default cephImage.tag drove an unintended squid v19.2.3 -> tentacle v20.2.4 major on the 1.19->1.20
+# hop (2026-09-15); require_osd_release is now tentacle, so downgrade is impossible. Pin so future
+# chart bumps never drift the Ceph major again -- Ceph upgrades must be deliberate, one major at a time.
+cephImage:
+  repository: quay.io/ceph/ceph
+  tag: v20.2.4
+  allowUnsupported: false
 cephClusterSpec:
-  cephVersion:
-    # Pin the Ceph image. The rook-ceph-cluster chart default carried Ceph from
-    # squid v19.2.3 to tentacle v20.2.4 on the 1.19->1.20 chart hop (2026-09-15);
-    # the OSDs set require_osd_release tentacle, so downgrade is impossible. Pin
-    # to the running release so future chart bumps never drift the Ceph major
-    # again -- Ceph upgrades must be deliberate, one major at a time.
-    image: quay.io/ceph/ceph:v20.2.4
   security:
     cephx:
       # Ceph tentacle flags the aes cephx keys (created under squid) as insecure
