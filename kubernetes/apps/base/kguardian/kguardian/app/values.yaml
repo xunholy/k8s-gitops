@@ -9,8 +9,11 @@ controller:
     # Released pin: controller v1.14.0 — per-container compute registry +
     # cgroup sampler (CPU/memory/PSI/throttling), sched_contention eBPF probe
     # (run-queue latency + noisy-neighbour blame), compute for excluded namespaces.
-    tag: "v1.14.0"
-    sha: "sha256:f2d641a5775b5b173e6079cfaaf75b6745799ee52fb0cdc6c0c679495d17463c"
+    # Released pin: controller v1.15.0 — kernel seccomp verdicts captured and
+    # surfaced as denials (#1574). Replaces the pr-1574 canary run by hand on
+    # 2026-09-14 while the HelmRelease was suspended.
+    tag: "v1.15.0"
+    sha: "sha256:c8931912a8ce7de6a7a55c289b668632ad17a90546578a4c5bb1b1852c43a9ca"
   excludedNamespaces:
     - kguardian
 
@@ -34,8 +37,10 @@ broker:
     # Released pin: broker v1.17.0 — compute ingest/history/findings engine
     # (noisy-neighbor, cpu-contended, cpu-throttled, memory-pressure,
     # memory-limit-thrash), 7-day retention with 5-min downsampling.
-    tag: "v1.17.0"
-    sha: "sha256:06998a9269037c8b4fec916a3b8e48ac5c2054c69d272498283ee2aacbb5d666"
+    # Released pin: broker v1.18.0 — seccomp verdict ingest + denial surfacing
+    # (#1574). Replaces the pr-1574 canary.
+    tag: "v1.18.0"
+    sha: "sha256:7d5d2a12e1177277036a55a5f844997212381e79fc9b52a82b55ad773efb4e3a"
   resources:
     limits:
       memory: 4Gi
@@ -53,8 +58,10 @@ frontend:
     # Released pin: frontend v1.17.0 — live compute gauges, contention edges,
     # compute findings; docked assistant, viewport kept on expand, Policy
     # Builder network format switch (audit / NetworkPolicy / Cilium).
-    tag: "v1.17.1"
-    sha: "sha256:229694782d2413ac38712005c2228891a395c6a97c7bb92933d3c7a32385232c"
+    # Released pin: frontend v1.18.0 — seccomp denials in the UI (#1574);
+    # selecting a card on the map opens it (#1575).
+    tag: "v1.18.0"
+    sha: "sha256:f83b49140923b93f57967a0f49da27ffb2329ceeb6d1f3fc05678b38378d61a8"
 
 # CR-driven seccomp distribution (chart 1.21 / PR #1427). The controller
 # watches SeccompProfile CRs and writes one file per CR under
@@ -102,8 +109,10 @@ llmBridge:
 evaluator:
   image:
     # Released pin: evaluator v0.4.0 — IPv6 CIDR matching covered end to end.
-    tag: "v0.4.0"
-    sha: "sha256:6ca5efe02c2bf0a56e76c710ccb8e17da263f64c6d3079d576441e63dc2aea06"
+    # Released pin: evaluator v0.4.2 — dependency-only rebuild, no behaviour change;
+    # matches the chart 1.24.0 default.
+    tag: "v0.4.2"
+    sha: "sha256:9b95d1fc9076563bb78b60721bfe8d559fc0fb394574a9380b7d2e6c9c573cc7"
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format
