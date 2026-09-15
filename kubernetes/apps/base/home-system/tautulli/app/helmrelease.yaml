@@ -17,7 +17,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/tautulli
-              tag: 2.17.1@sha256:2183820d45a1413b4b8868fc18ad5eb9259630ea0151348cdc9cfb4017a0dd33
+              tag: 2.18.1@sha256:2cc92abed174f89d4fa75ab98e39af0114f37829e9c675718b264cc80931c4f5
             env:
               TZ: ${CLUSTER_TIMEZONE}
               TAUTULLI_HTTP_BASE_URL: https://tautulli.${CLUSTER_DOMAIN}
