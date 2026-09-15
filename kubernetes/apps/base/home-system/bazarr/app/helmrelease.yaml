@@ -17,7 +17,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/bazarr
-              tag: 1.5.6@sha256:80cb090162b47ea1bfb499d742b45a460b282f17ffefa4c01d518a5c8d52a5a4
+              tag: 1.6.1@sha256:e5d192a6f62a4f2336b40e1021fb3e31acfeb125ba970b65bcf6d607e29146cf
             env:
               TZ: ${CLUSTER_TIMEZONE}
             envFrom:
