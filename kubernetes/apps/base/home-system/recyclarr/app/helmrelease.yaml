@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: ghcr.io/recyclarr/recyclarr
-              tag: 8.6.0@sha256:3c38ceeb54438dd8327e4e65c9b48ba601a6d20fff833342d93c9b0bc4b1930b
+              tag: 8.7.2@sha256:6e69e009e1cd7493ff6093e8e187b5d3788c75b4a2c0c5127b6a1beda1c19728
             env:
               RECYCLARR_DATA_DIR: /tmp
             envFrom:
