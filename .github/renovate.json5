@@ -29,7 +29,7 @@
       // lockstep with talos/integrations/cilium; rook-ceph 1.20 splits out ceph-csi-drivers). Patch stays automerged.
       description: "Never automerge minor updates of cluster-critical charts",
       matchDatasources: ["docker", "helm"],
-      matchPackageNames: ["/cilium/", "/external-dns/", "/rook-ceph/", "/cert-manager/"],
+      matchPackageNames: ["/cilium/", "/external-dns/", "/rook-ceph/", "/cert-manager/", "quay.io/ceph/ceph"],
       matchUpdateTypes: ["minor"],
       automerge: false,
     },
