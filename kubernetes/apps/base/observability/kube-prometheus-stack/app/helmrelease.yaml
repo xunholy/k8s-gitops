@@ -312,6 +312,7 @@ spec:
         targetPort: 2381
       serviceMonitor:
         scheme: http
-        caFile: ""
-        certFile: ""
-        keyFile: ""
+        # etcd metrics on :2381 are plain HTTP with no auth; chart 90.x removed
+        # caFile/certFile/keyFile and now injects a default Bearer authorization.
+        # Null it out so Prometheus keeps scraping without sending a token in cleartext.
+        authorization: null
