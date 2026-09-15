@@ -153,7 +153,7 @@ spec:
             runAsUser: 65532
             seccompProfile:
               type: RuntimeDefault
-          image: "ghcr.io/postfinance/kubelet-csr-approver:v1.2.13"
+          image: "ghcr.io/postfinance/kubelet-csr-approver:v1.2.15"
           imagePullPolicy: IfNotPresent
           args:
             - -metrics-bind-address
