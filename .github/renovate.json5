@@ -51,6 +51,21 @@
       matchPackageNames: ["mysql", "docker.io/library/mysql"],
       allowedVersions: "/^8\\.4\\./",
     },
+    {
+      // tetragon is disabled on this cluster (needs debugfs/tracefs on Talos) and every anonymous OCI
+      // registry for its chart returns 403/401. Stop Renovate trying to look it up; re-enable with a
+      // working source (helm.cilium.io) if tetragon is ever deployed.
+      description: "Disable lookup for the dead tetragon OCI chart",
+      matchPackageNames: ["ghcr.io/cilium/charts/tetragon"],
+      enabled: false,
+    },
+    {
+      // Homebrew/actions has no releases/tags (master-only), so github-digest cannot resolve a new digest.
+      // It is pinned to a commit SHA in a manual-only workflow; nothing to update.
+      description: "Disable lookup for the unversioned Homebrew/actions action",
+      matchDepNames: ["Homebrew/actions"],
+      enabled: false,
+    },
   ],
   "pre-commit": {
     enabled: true,
@@ -58,6 +73,8 @@
   ignorePaths: [
     "**/*.enc.*",
     "**/resources/**",
+    // Archived/unmaintained manifests (e.g. k8s-gateway); their sources are often dead
+    ".archive/**",
     // Rendered from the chart pinned in talos/integrations/cilium/kustomization.yaml; regenerate it, never bump images in place
     "talos/integrations/cilium/cilium.yaml",
   ],

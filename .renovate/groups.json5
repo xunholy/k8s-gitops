@@ -95,7 +95,8 @@
         "/kube-controller-manager/",
         "/kube-proxy/",
         "/kube-scheduler/",
-        "/kubelet/",
+        // NOTE: intentionally no /kubelet/ -- it caught kubelet-csr-approver (a separate app) and held it
+        // below the group-size floor forever; the real kubelet image lives in the SOPS talos config Renovate ignores.
       ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
