@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: adminer
-              tag: "5"
+              tag: "6"
             env:
               TZ: ${CLUSTER_TIMEZONE}
               # Default server pre-filled in the login form so an admin
