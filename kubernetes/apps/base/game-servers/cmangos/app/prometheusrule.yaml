@@ -125,8 +125,15 @@ spec:
       interval: 1m
       rules:
         - alert: GameServerStaleDBConnection
-          # Fires when a cmangos game-server pod started BEFORE the current
-          # database pod. Pod-name shapes are fully-anchored in PromQL:
+          # Fires when a cmangos game-server's `app` CONTAINER started BEFORE the
+          # current database `app` container. Container start time, not pod start
+          # time: mangosd/realmd open their DB connection when the process starts,
+          # so a container restart after the DB came back is a fresh, healthy
+          # connection even though the pod object is older (2026-09-15: two false
+          # criticals — cmangos-ptr's container restarted 27 min after the DB, and
+          # the live world's pod was created 2 s before the DB pod but its
+          # container started 4 min after the DB's). Pod-name shapes are
+          # fully-anchored in PromQL:
           #   live world = cmangos-<hash>-<sfx>        (3 dash-segments)
           #   realmd     = cmangos-realmd-<hash>-<sfx> (4 segments)
           #   ptr world  = cmangos-ptr-<hash>-<sfx>    (4 segments)
@@ -134,13 +141,14 @@ spec:
           # *-migration / *-db-init Job pods (which have extra name segments).
           expr: |
             max by (pod) (
-              kube_pod_start_time{
+              kube_pod_container_state_started{
                 namespace="game-servers",
+                container="app",
                 pod=~"cmangos-[^-]+-[^-]+|cmangos-realmd-[^-]+-[^-]+|cmangos-ptr-[^-]+-[^-]+"
               }
             )
             < scalar(
-              max(kube_pod_start_time{namespace="game-servers", pod=~"cmangos-database-[^-]+-[^-]+"})
+              max(kube_pod_container_state_started{namespace="game-servers", container="app", pod=~"cmangos-database-[^-]+-[^-]+"})
             )
           for: 10m
           labels:
@@ -149,8 +157,8 @@ spec:
           annotations:
             summary: "{{ $labels.pod }} predates the database pod — stale DB connection, login likely broken"
             description: |
-              Pod `{{ $labels.pod }}` started before the current `cmangos-database`
-              pod, so its persistent DB connection is dead. realmd/mangosd do NOT
+              The `app` container of `{{ $labels.pod }}` started before the current
+              `cmangos-database` container, so its persistent DB connection is dead. realmd/mangosd do NOT
               auto-reconnect — queries fail with "Server has gone away" and auth /
               world entry break while the pod stays Running and the port stays open
               (no other alert fires). Users cannot log in.
