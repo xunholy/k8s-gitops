@@ -20,5 +20,5 @@ spec:
       # metadata annotation form is ignored for this source, so external-dns
       # re-proxied the record every sync. (2026-06-25 outage root cause.)
       providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+        - name: external-dns.kubernetes.io/cloudflare-proxied
           value: "false"
