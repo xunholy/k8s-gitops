@@ -49,7 +49,7 @@ machine:
     diskSelector:
       size: '>= 1TB'
       model: CT1000BX500SSD1
-    image: factory.talos.dev/installer/b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14:v1.13.10
+    image: factory.talos.dev/installer/b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14:v1.14.0
     wipe: true
   registries: {}
   features:
@@ -247,8 +247,8 @@ sops:
         dFBVTU9qM3c5RVdPTHlkVWNJaFFobE0Ke4BxgKHyPi9Iuhjd3BNgtk/bZFoJMnuN
         uaCVrMIf5RvkiqvFFC6t0O8Baci/GkuqWiiigPxGm0iT1XWNV/EH6Q==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-09-15T00:39:41Z"
-  mac: ENC[AES256_GCM,data:DVZ0WcnQ1vTVTOWsVBG7HmRGHFfFed8gdz9VEjpA2B8aWrJnbfvaF4YLe8yslYTrrEJn2r/+M0ieIFSU7hawotajrWeEyyceYPnGcB355nkhoaUdhN5GPm7gQTweym9fwQLsbOoPQER8nt195rgKhRHiJHVVT7VlHkue+ZrC06g=,iv:L8YfCUKNytXt6da4uCoqCJZoYYMf6sPjB39B1op9V2U=,tag:ZtxriLu8dXqhcCj1DN6yKQ==,type:str]
+  lastmodified: "2026-09-15T00:41:05Z"
+  mac: ENC[AES256_GCM,data:1y9NFiVVkddZLmRJZOl10HBec5ExGJoRw77W0BiuhEvik8EvNoCP194AtY4P9ddXzUIR0LEAyprOlLbygQ/MDCagmRpeX5t4irtpaw3Ib1EnrI+kePmfkfBleldtH2x6As3n/Me0O/GGpYCeTCfzipDuaCdtGY5v5HAc+ODBOAQ=,iv:0G+Fsze9IAUccXFryhg9XlWVwfHHehcAnjZ+brch2FY=,tag:E4M9ji4/PB9jXBcFTpRYRw==,type:str]
   encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
   mac_only_encrypted: true
   version: 3.12.1
@@ -271,8 +271,8 @@ sops:
         dFBVTU9qM3c5RVdPTHlkVWNJaFFobE0Ke4BxgKHyPi9Iuhjd3BNgtk/bZFoJMnuN
         uaCVrMIf5RvkiqvFFC6t0O8Baci/GkuqWiiigPxGm0iT1XWNV/EH6Q==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-09-15T00:39:41Z"
-  mac: ENC[AES256_GCM,data:DVZ0WcnQ1vTVTOWsVBG7HmRGHFfFed8gdz9VEjpA2B8aWrJnbfvaF4YLe8yslYTrrEJn2r/+M0ieIFSU7hawotajrWeEyyceYPnGcB355nkhoaUdhN5GPm7gQTweym9fwQLsbOoPQER8nt195rgKhRHiJHVVT7VlHkue+ZrC06g=,iv:L8YfCUKNytXt6da4uCoqCJZoYYMf6sPjB39B1op9V2U=,tag:ZtxriLu8dXqhcCj1DN6yKQ==,type:str]
+  lastmodified: "2026-09-15T00:41:05Z"
+  mac: ENC[AES256_GCM,data:1y9NFiVVkddZLmRJZOl10HBec5ExGJoRw77W0BiuhEvik8EvNoCP194AtY4P9ddXzUIR0LEAyprOlLbygQ/MDCagmRpeX5t4irtpaw3Ib1EnrI+kePmfkfBleldtH2x6As3n/Me0O/GGpYCeTCfzipDuaCdtGY5v5HAc+ODBOAQ=,iv:0G+Fsze9IAUccXFryhg9XlWVwfHHehcAnjZ+brch2FY=,tag:E4M9ji4/PB9jXBcFTpRYRw==,type:str]
   encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
   mac_only_encrypted: true
   version: 3.12.1
