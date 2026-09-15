@@ -1,0 +1,193 @@
+# Rook >= 1.20 no longer deploys the CSI drivers itself: the rook-ceph chart only
+# ships the ceph-csi-operator, and this chart (new hard requirement in 1.20) owns
+# the driver ServiceAccounts, RBAC, Driver and OperatorConfig CRs. Without it the
+# operator renders DaemonSets/Deployments that reference ServiceAccounts nobody
+# creates, so no controller plugin runs and node plugins cannot be (re)scheduled
+# (2026-09-15: hit exactly this after the 1.19.5 -> 1.20.7 bump; provisioning,
+# snapshots and VolSync backups stopped).
+#
+# The settings below reproduce the Driver / OperatorConfig specs that Rook 1.19
+# migrated from the old operator ConfigMap (priority classes, hostNetwork
+# controller, resources, kernel CephFS client, volume-group snapshots for CephFS),
+# so adopting the existing CRs is a no-op for the running drivers apart from the
+# explicit serviceAccountName fields. Log rotation is disabled to match (Rook
+# never enabled the log-rotator sidecar here).
+operatorConfig:
+  namespace: rook-ceph
+  driverSpecDefaults:
+    clusterName: rook-ceph
+    imageSet:
+      name: rook-csi-operator-image-set-configmap
+    enableMetadata: false
+    generateOMapInfo: false
+    fsGroupPolicy: File
+    deployCsiAddons: false
+    cephFsClientType: kernel
+    log:
+      verbosity: 0
+      rotation:
+        enabled: false
+    nodePlugin:
+      priorityClassName: platform-node-critical
+      kubeletDirPath: /var/lib/kubelet
+      enableSeLinuxHostMount: false
+      imagePullPolicy: IfNotPresent
+    controllerPlugin:
+      hostNetwork: true
+      replicas: 2
+      deploymentStrategy:
+        type: Recreate
+      priorityClassName: platform-cluster-critical
+      imagePullPolicy: IfNotPresent
+
+drivers:
+  rbd:
+    enabled: true
+    name: rook-ceph.rbd.csi.ceph.com # csi-provisioner-name
+    clusterName: rook-ceph
+    imageSet:
+      name: rook-csi-operator-image-set-configmap
+    enableMetadata: false
+    generateOMapInfo: false
+    fsGroupPolicy: File
+    deployCsiAddons: false
+    cephFsClientType: kernel
+    log:
+      verbosity: 0
+      rotation:
+        enabled: false
+    nodePlugin:
+      priorityClassName: platform-node-critical
+      kubeletDirPath: /var/lib/kubelet
+      enableSeLinuxHostMount: false
+      updateStrategy:
+        type: RollingUpdate
+      resources:
+        plugin:
+          limits:
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 512Mi
+        registrar:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+    controllerPlugin:
+      hostNetwork: true
+      replicas: 2
+      priorityClassName: platform-cluster-critical
+      resources:
+        attacher:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        omapGenerator:
+          limits:
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 512Mi
+        plugin:
+          limits:
+            memory: 1Gi
+          requests:
+            memory: 512Mi
+        provisioner:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        resizer:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        snapshotter:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+  cephfs:
+    enabled: true
+    name: rook-ceph.cephfs.csi.ceph.com # csi-provisioner-name
+    clusterName: rook-ceph
+    imageSet:
+      name: rook-csi-operator-image-set-configmap
+    enableMetadata: false
+    generateOMapInfo: false
+    fsGroupPolicy: File
+    deployCsiAddons: false
+    cephFsClientType: kernel
+    snapshotPolicy: volumeGroupSnapshot
+    log:
+      verbosity: 0
+      rotation:
+        enabled: false
+    nodePlugin:
+      priorityClassName: platform-node-critical
+      kubeletDirPath: /var/lib/kubelet
+      enableSeLinuxHostMount: false
+      updateStrategy:
+        type: RollingUpdate
+      resources:
+        plugin:
+          limits:
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 512Mi
+        registrar:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+    controllerPlugin:
+      hostNetwork: true
+      replicas: 2
+      priorityClassName: platform-cluster-critical
+      resources:
+        attacher:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        plugin:
+          limits:
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 512Mi
+        provisioner:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        resizer:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        snapshotter:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+  nfs:
+    enabled: false
+    name: rook-ceph.nfs.csi.ceph.com # csi-provisioner-name
+  nvmeof:
+    enabled: false
+    name: rook-ceph.nvmeof.csi.ceph.com # csi-provisioner-name

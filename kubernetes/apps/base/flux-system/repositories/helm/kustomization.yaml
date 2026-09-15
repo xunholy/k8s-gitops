@@ -6,6 +6,7 @@ namespace: flux-system
 
 resources:
   - backstage-charts.yaml
+  - ceph-csi-operator-charts.yaml
   - crowdsec-charts.yaml
   - democratic-csi-charts.yaml
   - dex-chart.yaml
