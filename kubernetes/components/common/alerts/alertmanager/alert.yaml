@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/notification.toolkit.fluxcd.io/alert_v1beta3.json
+# Route Flux reconcile failures into Alertmanager. Until now Flux errors only
+# surfaced via the flux-metrics PrometheusRule and GitHub commit status; a
+# failing HelmRelease/Kustomization generated no alert. Applied per namespace
+# alongside the github-status pair, so each Alert watches its own namespace.
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: alertmanager
+spec:
+  providerRef:
+    name: alertmanager
+  eventSeverity: error
+  eventSources:
+    - kind: HelmRelease
+      name: "*"
+    - kind: Kustomization
+      name: "*"
+    - kind: OCIRepository
+      name: "*"
+  # Transient network blips are not actionable; keep them out of Alertmanager.
+  exclusionList:
+    - error.*lookup.*github
+    - dial.*tcp.*timeout
+    - dial.*tcp.*unreachable
+    - waiting.*socket

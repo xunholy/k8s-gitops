@@ -4,7 +4,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  # - ../../base/actions-runner-system
   - ../../base/ai-system
   - ../../base/crossplane-system
   - ../../base/democratic-csi
@@ -21,8 +20,6 @@ resources:
   - ../../base/rook-ceph
   - ../../base/security-system
   - ../../base/volsync-system
-  # - ../../base/actions-runner-system/gha-runner-scale-set/ks.yaml
-  # - ../../base/actions-runner-system/gha-runner-scale-set-controller/ks.yaml
   # - ../../base/ai-system/kagent/ks.yaml
   # - ../../base/ai-system/kgateway/ks.yaml
   # - ../../base/ai-system/kmcp/ks.yaml

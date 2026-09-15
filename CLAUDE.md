@@ -11,11 +11,10 @@ This is a Kubernetes GitOps repository for a personal homelab cluster managed wi
 - **Operating System**: Talos Linux (minimal, immutable Kubernetes OS)
 - **GitOps**: FluxCD with Flux Operator for declarative cluster management
 - **Container Runtime**: containerd
-- **Networking**: Cilium CNI with Istio service mesh
-- **Storage**: Rook-Ceph, OpenEBS, democratic-csi for container-attached storage
+- **Networking**: Cilium CNI (kube-proxy replacement, L2 LoadBalancer IPAM) with Envoy Gateway and kgateway for Gateway API
+- **Storage**: Rook-Ceph, democratic-csi for container-attached storage
 - **Monitoring**: Prometheus, Grafana, Loki, Jaeger, Thanos for observability
-- **Security**: Kyverno, OPA Gatekeeper for policy management, Falco & Tetragon for runtime security
-- **Load Balancing**: MetalLB for bare metal load balancing
+- **Security**: Kyverno, OPA Gatekeeper for policy management, Crowdsec
 - **Chaos Engineering**: Litmus for chaos testing
 
 ## Directory Structure
