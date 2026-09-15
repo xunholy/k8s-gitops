@@ -26,9 +26,14 @@ spec:
     # The chart's postgres image runs as uid/gid 999 and the data dir is
     # 0700, so the mover must read as the same identity.
     moverSecurityContext:
-      runAsUser: 999
-      runAsGroup: 999
-      fsGroup: 999
+      # Mover must run as the shared kopia repo owner (uid 1000, the component
+      # default), NOT the app's uid. As 999 it got "open /repository/.shards:
+      # permission denied", then refused to create over existing data, so this
+      # source never synced. fsGroupChangePolicy handles the uid-999 data
+      # snapshot -- same pattern azerothcore-database / cmangos-database use.
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
       fsGroupChangePolicy: OnRootMismatch
     parallelism: 2
     repository: kguardian-db-volsync-secret
