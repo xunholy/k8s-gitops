@@ -17,7 +17,7 @@ machine:
     - talos.api.owncloud.ai
     - 192.168.50.200
   kubelet:
-    image: ghcr.io/siderolabs/kubelet:v1.35.8
+    image: ghcr.io/siderolabs/kubelet:v1.36.4
     defaultRuntimeSeccompProfileEnabled: true
     disableManifestsDirectory: true
     extraConfig:
@@ -127,7 +127,7 @@ cluster:
   # API server specific configuration options.
   apiServer:
     # The container image used in the API server manifest.
-    image: registry.k8s.io/kube-apiserver:v1.35.8
+    image: registry.k8s.io/kube-apiserver:v1.36.4
     # Extra certificate subject alternative names for the API server's certificate.
     certSANs:
       - api.owncloud.ai
@@ -197,14 +197,14 @@ cluster:
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-controller-manager:v1.35.8
+    image: registry.k8s.io/kube-controller-manager:v1.36.4
   proxy:
-    image: registry.k8s.io/kube-proxy:v1.35.8
+    image: registry.k8s.io/kube-proxy:v1.36.4
     disabled: true
   scheduler:
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-scheduler:v1.35.8
+    image: registry.k8s.io/kube-scheduler:v1.36.4
   discovery:
     enabled: true
     registries:
@@ -247,8 +247,8 @@ sops:
         dFBVTU9qM3c5RVdPTHlkVWNJaFFobE0Ke4BxgKHyPi9Iuhjd3BNgtk/bZFoJMnuN
         uaCVrMIf5RvkiqvFFC6t0O8Baci/GkuqWiiigPxGm0iT1XWNV/EH6Q==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-09-11T05:18:05Z"
-  mac: ENC[AES256_GCM,data:v5RfhZMYpONzXj5KU8RJXIJniUVTZ4/R8kmIEWIji7tf3QBHtGAMvvEP8qg4P2dAQNjlbF8BeFX8NxsKVWxAALkvCM02ap2zvsppDK6NMTQU4+nI/XOcVSXWzYAd8TXIq1zuyW7aKzUDowCU1tim9hYOTeInO3hu5X56o3kPs4g=,iv:ceb36WyZEbQFGZrrxTrhImWN+DCRJnRZ9Qpxg4gIeow=,tag:A73/hhHOpVS8taHJ1tuMnA==,type:str]
+  lastmodified: "2026-09-15T00:39:41Z"
+  mac: ENC[AES256_GCM,data:DVZ0WcnQ1vTVTOWsVBG7HmRGHFfFed8gdz9VEjpA2B8aWrJnbfvaF4YLe8yslYTrrEJn2r/+M0ieIFSU7hawotajrWeEyyceYPnGcB355nkhoaUdhN5GPm7gQTweym9fwQLsbOoPQER8nt195rgKhRHiJHVVT7VlHkue+ZrC06g=,iv:L8YfCUKNytXt6da4uCoqCJZoYYMf6sPjB39B1op9V2U=,tag:ZtxriLu8dXqhcCj1DN6yKQ==,type:str]
   encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
   mac_only_encrypted: true
   version: 3.12.1
@@ -271,8 +271,8 @@ sops:
         dFBVTU9qM3c5RVdPTHlkVWNJaFFobE0Ke4BxgKHyPi9Iuhjd3BNgtk/bZFoJMnuN
         uaCVrMIf5RvkiqvFFC6t0O8Baci/GkuqWiiigPxGm0iT1XWNV/EH6Q==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-09-11T05:18:05Z"
-  mac: ENC[AES256_GCM,data:v5RfhZMYpONzXj5KU8RJXIJniUVTZ4/R8kmIEWIji7tf3QBHtGAMvvEP8qg4P2dAQNjlbF8BeFX8NxsKVWxAALkvCM02ap2zvsppDK6NMTQU4+nI/XOcVSXWzYAd8TXIq1zuyW7aKzUDowCU1tim9hYOTeInO3hu5X56o3kPs4g=,iv:ceb36WyZEbQFGZrrxTrhImWN+DCRJnRZ9Qpxg4gIeow=,tag:A73/hhHOpVS8taHJ1tuMnA==,type:str]
+  lastmodified: "2026-09-15T00:39:41Z"
+  mac: ENC[AES256_GCM,data:DVZ0WcnQ1vTVTOWsVBG7HmRGHFfFed8gdz9VEjpA2B8aWrJnbfvaF4YLe8yslYTrrEJn2r/+M0ieIFSU7hawotajrWeEyyceYPnGcB355nkhoaUdhN5GPm7gQTweym9fwQLsbOoPQER8nt195rgKhRHiJHVVT7VlHkue+ZrC06g=,iv:L8YfCUKNytXt6da4uCoqCJZoYYMf6sPjB39B1op9V2U=,tag:ZtxriLu8dXqhcCj1DN6yKQ==,type:str]
   encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
   mac_only_encrypted: true
   version: 3.12.1
