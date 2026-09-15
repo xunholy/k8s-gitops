@@ -4,7 +4,6 @@ kind: DNSEndpoint
 metadata:
   name: cmangos-wow
   annotations:
-    external-dns.alpha.kubernetes.io/external: "true"
     external-dns.kubernetes.io/external: "true"
 spec:
   endpoints:

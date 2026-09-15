@@ -5,13 +5,11 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname "external.${CLUSTER_DOMAIN}"
-    external-dns.kubernetes.io/target: *hostname
+    external-dns.kubernetes.io/target: &hostname "external.${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
       external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: ${CLUSTER_LB_ENVOY_EXT_GATEWAY_API}
   addresses:
@@ -96,13 +94,11 @@ kind: Gateway
 metadata:
   name: envoy-internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname "internal.${CLUSTER_DOMAIN}"
-    external-dns.kubernetes.io/target: *hostname
+    external-dns.kubernetes.io/target: &hostname "internal.${CLUSTER_DOMAIN}"
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
       external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: ${CLUSTER_LB_ENVOY_INT_GATEWAY_API}
     parametersRef:

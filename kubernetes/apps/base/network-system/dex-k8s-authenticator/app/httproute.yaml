@@ -6,7 +6,6 @@ metadata:
   name: dex-k8s-authenticator
   namespace: network-system
   annotations:
-    external-dns.alpha.kubernetes.io/external: 'true'
     external-dns.kubernetes.io/external: 'true'
 spec:
   parentRefs:
