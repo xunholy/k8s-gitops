@@ -14,3 +14,23 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: cilium-values
+  driftDetection:
+    mode: enabled
+    # Hubble TLS is on the chart default (hubble.tls.auto.method=helm), so the CA and
+    # the server/relay-client certs are regenerated on every render. They never match
+    # the cluster copy, and since the 1.20.1 upgrade the correction patch itself fails
+    # ("illegal base64 data"), leaving the release stuck in "correcting cluster drift"
+    # forever. The live certs are the ones every agent trusts; ignore their data.
+    ignore:
+      - paths: ["/data"]
+        target:
+          kind: Secret
+          name: cilium-ca
+      - paths: ["/data"]
+        target:
+          kind: Secret
+          name: hubble-server-certs
+      - paths: ["/data"]
+        target:
+          kind: Secret
+          name: hubble-relay-client-certs
