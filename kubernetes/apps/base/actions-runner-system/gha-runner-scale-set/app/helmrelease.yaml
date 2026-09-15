@@ -37,7 +37,7 @@ spec:
           fsGroup: 123
         containers:
           - name: runner
-            image: ghcr.io/home-operations/actions-runner:2.334.0@sha256:95d91d7f8d241e319ef2f4fec08f417aa1606b96fbb327643f75c303acd30002
+            image: ghcr.io/home-operations/actions-runner:2.337.0@sha256:8b8e8326b5a08e658a0a41cfd2867afab69ca4194a152f986aa6fcd5430d09e7
             command: ["/home/runner/run.sh"]
             env:
               - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER
