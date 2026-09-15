@@ -11,8 +11,9 @@ spec:
   externalIPs: true
   loadBalancerIPs: true
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cilium.io/ciliumloadbalancerippool_v2alpha1.json
-apiVersion: cilium.io/v2alpha1
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cilium.io/ciliumloadbalancerippool_v2.json
+# v2alpha1 was removed from the CRD in Cilium 1.20; v2 has been the storage version since 1.19.
+apiVersion: cilium.io/v2
 kind: CiliumLoadBalancerIPPool
 metadata:
   name: l2-pool
