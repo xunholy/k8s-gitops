@@ -21,6 +21,27 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: rook-ceph-csi-drivers
+  namespace: rook-ceph
+spec:
+  # Rook >= 1.20: the CSI driver ServiceAccounts/RBAC/Driver CRs come from the
+  # separate ceph-csi-drivers chart. Upstream upgrade order is rook-ceph ->
+  # ceph-csi-drivers -> rook-ceph-cluster, mirrored by the dependsOn chain here.
+  path: "./apps/base/rook-ceph/rook-ceph/csi-drivers"
+  wait: true
+  dependsOn:
+    - name: rook-ceph
+      namespace: rook-ceph
+  targetNamespace: rook-ceph
+  sourceRef:
+    kind: ExternalArtifact
+    name: rook-ceph-csi-drivers
+    namespace: flux-system
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: rook-ceph-cluster
   namespace: rook-ceph
 spec:
@@ -38,7 +59,7 @@ spec:
       current: status.phase == 'Ready' && status.ceph.health != 'HEALTH_ERR'
   targetNamespace: rook-ceph
   dependsOn:
-    - name: rook-ceph
+    - name: rook-ceph-csi-drivers
       namespace: rook-ceph
   # - name: volsync
   #   namespace: volsync-system

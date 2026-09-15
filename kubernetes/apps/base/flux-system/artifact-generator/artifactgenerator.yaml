@@ -415,6 +415,11 @@ spec:
       copy:
         - from: "@repo/apps/base/rook-ceph/rook-ceph/app/"
           to: "@artifact/apps/base/rook-ceph/rook-ceph/app/"
+    - name: rook-ceph-csi-drivers
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/rook-ceph/rook-ceph/csi-drivers/"
+          to: "@artifact/apps/base/rook-ceph/rook-ceph/csi-drivers/"
     - name: sabnzbd
       originRevision: "@repo"
       copy:
