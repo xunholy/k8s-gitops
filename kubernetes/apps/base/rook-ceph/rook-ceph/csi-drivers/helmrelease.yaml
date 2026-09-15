@@ -10,6 +10,11 @@ metadata:
   # namespace comes from the Kustomization's targetNamespace (setting it here
   # would stop kustomize from rewriting valuesFrom to the hashed ConfigMap name).
   name: ceph-csi-drivers
+  annotations:
+    # Helm now owns the Driver and OperatorConfig CRs. Pruning this HelmRelease
+    # (e.g. a git revert) would helm-uninstall them and take every RBD/CephFS
+    # mount path down with it. Never prune; suspend instead.
+    kustomize.toolkit.fluxcd.io/prune: disabled
 spec:
   interval: 5m
   chart:
