@@ -6,9 +6,10 @@ metadata:
   # Release name and namespace are load-bearing: Rook 1.19's automatic migration
   # stamped the existing Driver and OperatorConfig CRs with
   # meta.helm.sh/release-name=ceph-csi-drivers / release-namespace=rook-ceph so
-  # that exactly this release adopts them instead of colliding with them.
+  # that exactly this release adopts them instead of colliding with them. The
+  # namespace comes from the Kustomization's targetNamespace (setting it here
+  # would stop kustomize from rewriting valuesFrom to the hashed ConfigMap name).
   name: ceph-csi-drivers
-  namespace: rook-ceph
 spec:
   interval: 5m
   chart:
