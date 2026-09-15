@@ -23,6 +23,11 @@ operatorConfig:
     fsGroupPolicy: File
     deployCsiAddons: false
     cephFsClientType: kernel
+    # The chart always renders snapshotPolicy and its default is "none", which
+    # makes the operator drop the csi-snapshotter sidecar from the controller
+    # plugin (found the hard way on first install: RBD snapshots and every
+    # VolSync backup stalled). Rook never set this field (operator autodetect).
+    snapshotPolicy: volumeSnapshot
     log:
       verbosity: 0
       rotation:
@@ -52,6 +57,9 @@ drivers:
     fsGroupPolicy: File
     deployCsiAddons: false
     cephFsClientType: kernel
+    # RBD: plain VolumeSnapshots (what VolSync and the csi-ceph-blockpool
+    # VolumeSnapshotClass use). "none" removes the snapshotter sidecar.
+    snapshotPolicy: volumeSnapshot
     log:
       verbosity: 0
       rotation:
