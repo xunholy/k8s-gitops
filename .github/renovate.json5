@@ -23,6 +23,27 @@
       // quay.io returns no release timestamps, so cilium and cert-manager never left "pending" (no updates since 2026-05-21).
       minimumReleaseAgeBehaviour: "timestamp-optional",
     },
+    {
+      // Minor bumps of these carry breaking changes that need sequencing (external-dns 1.22 drops the alpha
+      // annotation prefix with no fallback; cilium 1.20 removes v2alpha1 CiliumLoadBalancerIPPool and must move in
+      // lockstep with talos/integrations/cilium; rook-ceph 1.20 splits out ceph-csi-drivers). Patch stays automerged.
+      description: "Never automerge minor updates of cluster-critical charts",
+      matchDatasources: ["docker", "helm"],
+      matchPackageNames: ["/cilium/", "/external-dns/", "/rook-ceph/", "/cert-manager/"],
+      matchUpdateTypes: ["minor"],
+      automerge: false,
+    },
+    {
+      // AzerothCore targets MySQL 8.x LTS. MySQL's Innovation track ran 9.0-9.7 then jumped to calendar
+      // versioning (26.7 = 2026), each release short-lived (~3 months support). Constrain the image to the
+      // 8.4 LTS line so Renovate stops proposing Innovation/calendar releases (this rejects #4179, 9.7 -> 26.7).
+      // The live datadir is still on 9.x; the move to 8.4 is a dump-and-reload migration, not an in-place bump,
+      // so no downgrade PR is created (Renovate does not downgrade) until that migration changes the tag by hand.
+      description: "Pin mysql image to the 8.4 LTS line (no Innovation/calendar releases)",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["mysql", "docker.io/library/mysql"],
+      allowedVersions: "/^8\\.4\\./",
+    },
   ],
   "pre-commit": {
     enabled: true,
