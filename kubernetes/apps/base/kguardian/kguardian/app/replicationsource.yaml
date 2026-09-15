@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: kguardian-db
+  annotations:
+    # The database had no backup at all until 2026-09-11; the PVC was
+    # deleted on 2026-09-10 and ~300 days of traffic/syscall/audit data
+    # were unrecoverable. Never prune this on an ownership move.
+    kustomize.toolkit.fluxcd.io/prune: disabled
+spec:
+  sourcePVC: kguardian-db
+  trigger:
+    # Staggered like the other sources (see components/volsync).
+    schedule: "37 * * * *"
+  kopia:
+    accessModes:
+      - ReadWriteOnce
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 10Gi
+    cacheStorageClassName: ceph-block
+    compression: zstd-fastest
+    copyMethod: Snapshot
+    # The chart's postgres image runs as uid/gid 999 and the data dir is
+    # 0700, so the mover must read as the same identity.
+    moverSecurityContext:
+      runAsUser: 999
+      runAsGroup: 999
+      fsGroup: 999
+      fsGroupChangePolicy: OnRootMismatch
+    parallelism: 2
+    repository: kguardian-db-volsync-secret
+    retain:
+      daily: 7
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
