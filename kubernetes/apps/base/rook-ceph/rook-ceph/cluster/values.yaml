@@ -10,7 +10,7 @@ cephClusterSpec:
     # the OSDs set require_osd_release tentacle, so downgrade is impossible. Pin
     # to the running release so future chart bumps never drift the Ceph major
     # again -- Ceph upgrades must be deliberate, one major at a time.
-    image: quay.io/ceph/ceph:v20.2.4
+    image: quay.io/ceph/ceph:v21.1.0
   security:
     cephx:
       # Ceph tentacle flags the aes cephx keys (created under squid) as insecure
