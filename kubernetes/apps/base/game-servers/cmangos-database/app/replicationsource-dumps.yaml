@@ -1,0 +1,31 @@
+---
+# Ships the logical SQL dumps (cmangos-db-dumps PVC) to Kopia. Reuses the same
+# repo secret as the data-PVC ReplicationSource — Kopia handles multiple
+# sources in one repository. Runs at 05:00, after the 03:00 dump CronJob.
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: cmangos-db-dumps
+spec:
+  sourcePVC: cmangos-db-dumps
+  trigger:
+    schedule: "0 5 * * *"
+  kopia:
+    accessModes:
+      - ReadWriteOnce
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 2Gi
+    cacheStorageClassName: ceph-block
+    compression: zstd-fastest
+    copyMethod: Snapshot
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+    repository: cmangos-database-volsync-secret
+    retain:
+      daily: 7
+      weekly: 4
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
