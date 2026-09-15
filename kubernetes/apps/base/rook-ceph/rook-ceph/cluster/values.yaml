@@ -11,6 +11,19 @@ cephClusterSpec:
     # to the running release so future chart bumps never drift the Ceph major
     # again -- Ceph upgrades must be deliberate, one major at a time.
     image: quay.io/ceph/ceph:v20.2.4
+  security:
+    cephx:
+      # Ceph tentacle flags the aes cephx keys (created under squid) as insecure
+      # (AUTH_INSECURE_SERVICE_KEY_TYPE -> HEALTH_ERR). Rotate only the DAEMON keys
+      # (mon/mgr/osd/mds) to aes256k; they run in userspace on the ceph image and
+      # have no kernel dependency. CSI/client keys are deliberately left on aes:
+      # aes256k for krbd/kcephfs needs kernel >= 7.0 and our nodes run 6.18, so
+      # rotating those would break RBD/CephFS mounts. Their residual warning stays
+      # WARN, not ERR. CVE-2025-30156 hardening.
+      daemon:
+        keyRotationPolicy: KeyGeneration
+        keyGeneration: 2
+        keyType: aes256k
   cephConfig:
     global:
       bdev_enable_discard: "true" # quote
