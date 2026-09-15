@@ -14,6 +14,13 @@
     "github>xunholy/k8s-gitops//.renovate/labels.json5",
   ],
   suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
+  // Rate-limit how many update PRs exist at once. On 2026-09-15, 36 bumps landed in
+  // ~65 minutes; the resulting pod churn and image pulls saturated the system disk
+  // that etcd shares (WAL fsync p99 3ms -> 80-500ms), the apiserver timed out, and
+  // eight operators lost leader election and restarted. Fewer PRs in flight means the
+  // rollouts spread across hourly Renovate runs instead of arriving as one wave.
+  prConcurrentLimit: 5,
+  prHourlyLimit: 3,
   packageRules: [
     {
       description: "Hold patch/minor updates for 3 days to squash chain bumps into a single PR",
