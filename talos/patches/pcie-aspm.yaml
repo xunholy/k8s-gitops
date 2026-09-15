@@ -21,4 +21,4 @@
 # 0 drops/min at the default policy was measured before the arg was present.
 machine:
   install:
-    image: factory.talos.dev/installer/b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14:v1.14.0
+    image: factory.talos.dev/installer/b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14:v1.14.1
