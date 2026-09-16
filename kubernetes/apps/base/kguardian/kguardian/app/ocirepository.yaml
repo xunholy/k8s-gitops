@@ -23,5 +23,5 @@ spec:
     # detection (compute.* values, read-only /sys/fs/cgroup mount, broker
     # thresholds/retention); autoscaling.enabled is now refused at
     # template time (not set here). Image versions pinned in app/values.yaml.
-    tag: 1.24.0
+    tag: 1.25.0
   url: oci://ghcr.io/kguardian-dev/charts/kguardian
