@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: open-webui
-      version: 16.0.0
+      version: 16.5.0
       sourceRef:
         kind: HelmRepository
         name: open-webui-charts
