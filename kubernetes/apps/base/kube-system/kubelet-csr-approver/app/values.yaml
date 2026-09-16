@@ -3,3 +3,15 @@ metrics:
   serviceMonitor:
     enabled: true
 providerRegex: ^talos-\d$
+# Approves kubelet serving-cert CSRs; without it a restarted kubelet gets no serving cert and
+# metrics/logs/exec to that node break. The chart has no topologySpreadConstraints value, so use
+# required anti-affinity to keep the two leader-elected replicas on different nodes.
+priorityClassName: platform-cluster-critical
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - topologyKey: kubernetes.io/hostname
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: kubelet-csr-approver
+            app.kubernetes.io/name: kubelet-csr-approver

@@ -1,4 +1,7 @@
 ---
+# The operator that owns the Flux controllers had no priority class, so under node memory
+# pressure it could be evicted before ordinary workloads (2026-09-16 survey).
+priorityClassName: platform-cluster-critical
 serviceMonitor:
   create: true
 web:

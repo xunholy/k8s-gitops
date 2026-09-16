@@ -1,7 +1,18 @@
 ---
 image:
   repository: ghcr.io/xunholy/kustomize-mutating-webhook
-replicaCount: 1
+# The chart key is `replicas` (the old `replicaCount: 1` here was ignored and the chart default of 2 applied).
+replicas: 2
+# Mutating webhook in the path of every Flux Kustomization apply; both replicas were on one node
+# by scheduler luck (2026-09-16 survey). One per node, and a PDB so drains never take both.
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/instance: kustomize-mutating-webhook
+        app.kubernetes.io/name: kustomize-mutating-webhook
 certManager:
   enabled: true
   certificateRenewBefore: "720h" # 30d, keeps renewal ahead of the 21d CertManagerCertExpirySoon alert threshold
@@ -14,7 +25,8 @@ secrets:
 env:
   LOG_LEVEL: debug
 podDisruptionBudget:
-  enabled: false
+  enabled: true
+  minAvailable: 1
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true

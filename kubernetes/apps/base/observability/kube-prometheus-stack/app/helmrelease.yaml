@@ -93,6 +93,8 @@ spec:
         for: 30m
     alertmanager:
       alertmanagerSpec:
+        # Same class as Prometheus: alerting must survive the node-pressure events it exists to report.
+        priorityClassName: platform-cluster-critical
         alertmanagerConfiguration:
           name: alertmanager
         externalUrl: https://alertmanager.${CLUSTER_DOMAIN}
