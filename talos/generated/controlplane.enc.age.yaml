@@ -22,6 +22,13 @@ machine:
     disableManifestsDirectory: true
     extraConfig:
       serializeImagePulls: false
+      # Image GC: kubelet default is threshold-only (85/80%) with age-GC off, so every
+      # Renovate-bumped image version was retained forever (2,343 images / 399 GiB on
+      # talos-eha-ot0, 2026-09-17). Age out images unused for 7d and engage threshold GC
+      # earlier. Applied live via talosctl patch mc on all nodes 2026-09-17 (no reboot).
+      imageMaximumGCAge: ENC[AES256_GCM,data:PqSVRw==,iv:gqhkZLc6J57b9HttCmRxaW5J+/m7xyvPwmhYcQ9SOzo=,tag:lusvvP/34td5EsqjCWbY2A==,type:str]
+      imageGCHighThresholdPercent: 70
+      imageGCLowThresholdPercent: 60
   sysctls:
     # Inotify — required for K8s controllers/operators at scale
     fs.inotify.max_user_instances: "8192"
@@ -247,8 +254,8 @@ sops:
         dFBVTU9qM3c5RVdPTHlkVWNJaFFobE0Ke4BxgKHyPi9Iuhjd3BNgtk/bZFoJMnuN
         uaCVrMIf5RvkiqvFFC6t0O8Baci/GkuqWiiigPxGm0iT1XWNV/EH6Q==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-09-15T00:41:05Z"
-  mac: ENC[AES256_GCM,data:1y9NFiVVkddZLmRJZOl10HBec5ExGJoRw77W0BiuhEvik8EvNoCP194AtY4P9ddXzUIR0LEAyprOlLbygQ/MDCagmRpeX5t4irtpaw3Ib1EnrI+kePmfkfBleldtH2x6As3n/Me0O/GGpYCeTCfzipDuaCdtGY5v5HAc+ODBOAQ=,iv:0G+Fsze9IAUccXFryhg9XlWVwfHHehcAnjZ+brch2FY=,tag:E4M9ji4/PB9jXBcFTpRYRw==,type:str]
+  lastmodified: "2026-09-16T21:12:15Z"
+  mac: ENC[AES256_GCM,data:JKCQr9bP3TcsLxVA6j+Ia6Gtw0bh1OGAFR4zXnZwHT2cs+Yhc1o88r6/gCYSh8yxIgoPfy4mHAd5hYgRw/29Vm/1838t3mQPuWoyuu3w7kFM+Um6TqcvXwEA18EUGW/3ynd7s5gSpdUWEOupAhpl3ikIokUkHndoHvhbMQvefFs=,iv:jK2gak79mRh5LAZ5zWsI4tWi9/Wg8qPFEb/R6h8Y1Mw=,tag:sok4RrbG8nB0iYGRXCThOQ==,type:str]
   encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
   mac_only_encrypted: true
   version: 3.12.1
@@ -271,8 +278,8 @@ sops:
         dFBVTU9qM3c5RVdPTHlkVWNJaFFobE0Ke4BxgKHyPi9Iuhjd3BNgtk/bZFoJMnuN
         uaCVrMIf5RvkiqvFFC6t0O8Baci/GkuqWiiigPxGm0iT1XWNV/EH6Q==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-09-15T00:41:05Z"
-  mac: ENC[AES256_GCM,data:1y9NFiVVkddZLmRJZOl10HBec5ExGJoRw77W0BiuhEvik8EvNoCP194AtY4P9ddXzUIR0LEAyprOlLbygQ/MDCagmRpeX5t4irtpaw3Ib1EnrI+kePmfkfBleldtH2x6As3n/Me0O/GGpYCeTCfzipDuaCdtGY5v5HAc+ODBOAQ=,iv:0G+Fsze9IAUccXFryhg9XlWVwfHHehcAnjZ+brch2FY=,tag:E4M9ji4/PB9jXBcFTpRYRw==,type:str]
+  lastmodified: "2026-09-16T21:12:15Z"
+  mac: ENC[AES256_GCM,data:JKCQr9bP3TcsLxVA6j+Ia6Gtw0bh1OGAFR4zXnZwHT2cs+Yhc1o88r6/gCYSh8yxIgoPfy4mHAd5hYgRw/29Vm/1838t3mQPuWoyuu3w7kFM+Um6TqcvXwEA18EUGW/3ynd7s5gSpdUWEOupAhpl3ikIokUkHndoHvhbMQvefFs=,iv:jK2gak79mRh5LAZ5zWsI4tWi9/Wg8qPFEb/R6h8Y1Mw=,tag:sok4RrbG8nB0iYGRXCThOQ==,type:str]
   encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
   mac_only_encrypted: true
   version: 3.12.1
