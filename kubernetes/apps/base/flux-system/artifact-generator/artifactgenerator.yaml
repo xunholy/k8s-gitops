@@ -10,11 +10,6 @@ spec:
       kind: OCIRepository
       name: flux-system
   artifacts:
-    - name: actions-runner-scale-set
-      originRevision: "@repo"
-      copy:
-        - from: "@repo/apps/base/actions-runner-system/gha-runner-scale-set/app/"
-          to: "@artifact/apps/base/actions-runner-system/gha-runner-scale-set/app/"
     - name: adminer
       originRevision: "@repo"
       copy:
@@ -180,11 +175,6 @@ spec:
       copy:
         - from: "@repo/apps/base/security-system/gatekeeper/app/"
           to: "@artifact/apps/base/security-system/gatekeeper/app/"
-    - name: gha-runner-scale-set-controller
-      originRevision: "@repo"
-      copy:
-        - from: "@repo/apps/base/actions-runner-system/gha-runner-scale-set-controller/app/"
-          to: "@artifact/apps/base/actions-runner-system/gha-runner-scale-set-controller/app/"
     - name: grafana-instance
       originRevision: "@repo"
       copy:
