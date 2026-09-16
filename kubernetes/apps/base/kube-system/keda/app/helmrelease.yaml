@@ -16,6 +16,22 @@ spec:
       replicaCount: 2
     metricsServer:
       replicaCount: 2
+    # Two replicas of each were co-located by scheduler luck; enforce one per node.
+    topologySpreadConstraints:
+      operator:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: keda-operator
+      metricsServer:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: keda-operator-metrics-apiserver
     prometheus:
       metricServer:
         enabled: true

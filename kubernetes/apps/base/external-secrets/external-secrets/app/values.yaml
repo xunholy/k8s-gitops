@@ -9,5 +9,16 @@ certController:
     enabled: true
 webhook:
   replicaCount: 2
+  # Admission/conversion webhook for every ExternalSecret; both replicas landed on one node by
+  # scheduler luck (2026-09-16 survey). Pin them apart and keep them above ordinary workloads.
+  priorityClassName: platform-cluster-critical
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/instance: external-secrets
+          app.kubernetes.io/name: external-secrets-webhook
   serviceMonitor:
     enabled: true

@@ -24,5 +24,29 @@ extraArgs:
 prometheus:
   servicemonitor:
     enabled: true
+# Two leader-elected controller replicas spread across nodes. With one replica the chart's
+# PDB (minAvailable 1) sat at 0 allowed disruptions and blocked every node drain / Talos
+# rolling upgrade (2026-09-16). Two replicas keep the PDB and make drains possible.
+replicaCount: 2
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/instance: cert-manager
+        app.kubernetes.io/component: controller
 podDisruptionBudget:
   enabled: true
+webhook:
+  # Admission webhook: while it is down every Certificate/Issuer create or update is rejected,
+  # which also fails any HelmRelease that ships a Certificate. Two replicas, one per node.
+  replicaCount: 2
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/instance: cert-manager
+          app.kubernetes.io/component: webhook

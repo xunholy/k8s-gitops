@@ -12,6 +12,19 @@ spec:
   values:
     deployment:
       priorityClassName: platform-cluster-critical
+      # xDS control plane. Leader election is on by default (15s lease), so two replicas are
+      # safe; with one replica the pdb.yaml minAvailable:1 blocked every node drain (2026-09-16).
+      replicas: 2
+      pod:
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/instance: envoy-gateway
+                app.kubernetes.io/name: gateway-helm
+                control-plane: envoy-gateway
     global:
       imageRegistry: mirror.gcr.io
     config:
