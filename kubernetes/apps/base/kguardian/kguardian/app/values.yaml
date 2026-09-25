@@ -5,6 +5,11 @@
 # chart 1.25.0 upgrade (2026-09-17), and Renovate cannot see these blocks anyway
 # (no `repository:` key), so they never got a bump PR. Only postgres stays pinned.
 controller:
+  # TEMPORARY (kguardian #1533 live validation): PR #1652 preview build,
+  # early container registration for seccomp startup capture. Digest verified to
+  # contain the PR head (0084897b5). Revert to chart defaults after validation.
+  image:
+    sha: sha256:9c5a22e032ca4aaf29afff6c1c9748aa7844e667b42b1561359e942f18f50b42
   excludedNamespaces:
     - kguardian
 
