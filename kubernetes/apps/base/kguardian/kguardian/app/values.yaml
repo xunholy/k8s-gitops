@@ -5,10 +5,10 @@
 # chart 1.25.0 upgrade (2026-09-17), and Renovate cannot see these blocks anyway
 # (no `repository:` key), so they never got a bump PR. Only postgres stays pinned.
 controller:
-  # TEMPORARY (kguardian #1533 live validation round 2): PR #1652 preview build,
-  # head 2fc30e03c (digest matched to its pr-build push). Revert after validation.
+  # TEMPORARY (kguardian #1533 live validation round 3): PR #1652 preview build,
+  # head a1ce65059 (digest matched to its pr-build push). Revert after validation.
   image:
-    sha: sha256:5c820398d3b3725bbacf58a870ed7da4c9cabd8ffd3507e304b5c86b12624f1f
+    sha: sha256:7c052d6346bc24618791f0ed4f9e32ff0249eeab87ac79659eb368b2a6a52355
   excludedNamespaces:
     - kguardian
 
