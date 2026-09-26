@@ -35,7 +35,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: dump
-              image: mariadb:12.3
+              image: mariadb:13.0
               envFrom:
                 # MANGOS_DBUSER / MANGOS_DBPASS — SELECT is enough for the
                 # --single-transaction dump below.
