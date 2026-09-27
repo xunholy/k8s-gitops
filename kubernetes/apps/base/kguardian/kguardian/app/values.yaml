@@ -115,12 +115,22 @@ supplychain:
     image:
       tag: pr-1717
       sha: sha256:8cce59a40d76a4aea2091d858e000c3020acdc4402962d4509eb37683dd25536
+    # TEMPORARY measurement headroom (2026-09-27): peaks near 400Mi of 512Mi.
+    resources:
+      limits:
+        memory: 1Gi
   brokerIngest:
     enabled: true
   registryLookup:
     enabled: true
   signatureDiscovery:
     enabled: true
+  # TEMPORARY measurement headroom (2026-09-27): the 256Mi chart default was
+  # OOMKilled on every pass while matching one registry SBOM; raised to measure
+  # the real peak while the cause is investigated upstream.
+  resources:
+    limits:
+      memory: 1Gi
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format
