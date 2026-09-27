@@ -5,12 +5,6 @@
 # chart 1.25.0 upgrade (2026-09-17), and Renovate cannot see these blocks anyway
 # (no `repository:` key), so they never got a bump PR. Only postgres stays pinned.
 controller:
-  # TEMPORARY (kguardian #1533 live validation, 2026-09-27): preview build of main
-  # from draft PR #1717 (pr-1717, digests verified to contain the #1533 changes).
-  # Revert to the chart defaults once the #1533 releases are cut.
-  image:
-    tag: pr-1717
-    sha: sha256:52fe36063c3096dab7f306a60f4cdf6411a15a4d326b3494d6362629239fc37b
   excludedNamespaces:
     - kguardian
   # #1533: per-container exec inventory and observed capability checks (opt-in
@@ -20,9 +14,6 @@ controller:
     capabilities: true
 
 broker:
-  image:
-    tag: pr-1717
-    sha: sha256:18b3c986744190caeea0ba3a81a1caae4e90fc27cf6692b9c19ec6195871eb43
   # #1533: scoped per-component tokens (required by supplychain). The Secret
   # kguardian-broker-auth (keys read/ingest/supplychain/admin) is created
   # out-of-band like kguardian-secrets and is never committed here.
@@ -59,9 +50,6 @@ syscalls:
 
 llmBridge:
   enabled: true
-  image:
-    tag: pr-1717
-    sha: sha256:eace018e2336e489fa50544ac8b7487e614e5fa32119957d603804e7780dfc1d
   secrets:
     # OpenAI DISABLED 2026-07-29: its billing quota is exhausted, and llm-bridge
     # picks the first available provider as the default (index.ts resolveProvider
@@ -79,19 +67,11 @@ llmBridge:
       enabled: true
       name: "kguardian-anthropic"
 
-frontend:
-  image:
-    tag: pr-1717
-    sha: sha256:9bf490956df3231bb57a12268444b040a9690377a4c0cc01847e0dae3abc1dfd
-
 # kguardian-evaluator — audit-mode policy preview (chart 1.11.0+).
 # Watches AuditNetworkPolicy / AuditClusterNetworkPolicy CRDs and reports
 # flows that *would* be denied (and that are explicitly allowed) without
 # blocking traffic. Surfaces in the frontend's "Audit" panel.
 evaluator:
-  image:
-    tag: pr-1717
-    sha: sha256:6cf3f687d82c54bcd4611291c02d2ef52ba9bde2eee8fbb61ad444bcf6c95d32
   # #1533: ImageTrustPolicy evaluation follows signatureDiscovery (on below).
   # ApplicationSecurityProfile status is opt-in; its CRD is a release resource.
   applicationSecurityProfiles:
@@ -102,9 +82,6 @@ evaluator:
 # installed on this cluster, so that source is off.
 supplychain:
   enabled: true
-  image:
-    tag: pr-1717
-    sha: sha256:8f38f381fbf42f1cc1f700b39ca36f7aa9f7d9a1ca59926f32eee9714fe56466
   sources:
     trivyOperator:
       enabled: false
@@ -112,9 +89,6 @@ supplychain:
       enabled: true
   grype:
     enabled: true
-    image:
-      tag: pr-1717
-      sha: sha256:2a75218fdc0711f2f90582dba47577476bce1a3872c0b8ab4651127040ffa615
   brokerIngest:
     enabled: true
   registryLookup:
