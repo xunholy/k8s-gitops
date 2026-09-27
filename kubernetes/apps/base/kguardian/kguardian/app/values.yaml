@@ -10,7 +10,7 @@ controller:
   # Revert to the chart defaults once the #1533 releases are cut.
   image:
     tag: pr-1717
-    sha: sha256:fb8f680bfa6188cca6a1acb5333ab24572bbd2a2d7dd067d2ee64104e3abf2ef
+    sha: sha256:67714631395489c2c72f298514672e267fbb7ddf8b5a6bb204b07802742f6593
   excludedNamespaces:
     - kguardian
   # #1533: per-container exec inventory and observed capability checks (opt-in
@@ -22,7 +22,7 @@ controller:
 broker:
   image:
     tag: pr-1717
-    sha: sha256:f7b7ddc3d11bef5bc0a2d77526e2cb48bbe524c901f9a0720fd789f16128ee01
+    sha: sha256:4ef432e4363548c00d9a291e7f17cf209e24ba231bc57ec404c56b31c9107ee6
   # #1533: scoped per-component tokens (required by supplychain). The Secret
   # kguardian-broker-auth (keys read/ingest/supplychain/admin) is created
   # out-of-band like kguardian-secrets and is never committed here.
@@ -61,7 +61,7 @@ llmBridge:
   enabled: true
   image:
     tag: pr-1717
-    sha: sha256:73e268506d5b3a7c5a120d2d8ced4262a72a134361cbd693d90fa778e18cebf0
+    sha: sha256:78eaf7c167ad7a1fd46ea3b2ec52287c6fdd24173cf3c6cfb0211dfd2b9411f5
   secrets:
     # OpenAI DISABLED 2026-07-29: its billing quota is exhausted, and llm-bridge
     # picks the first available provider as the default (index.ts resolveProvider
@@ -82,7 +82,7 @@ llmBridge:
 frontend:
   image:
     tag: pr-1717
-    sha: sha256:9b5d84eefa442a8940f9deca9c383a60f28b5eed728d25e494367a0565d8ba65
+    sha: sha256:ef2c507c9e451b539ba68c2301ed9759e9d58112a718de115f2c5739fb6588d2
 
 # kguardian-evaluator — audit-mode policy preview (chart 1.11.0+).
 # Watches AuditNetworkPolicy / AuditClusterNetworkPolicy CRDs and reports
@@ -91,7 +91,7 @@ frontend:
 evaluator:
   image:
     tag: pr-1717
-    sha: sha256:b4cffdbe111c764c6b25cc258aa9ffc0ec21f68960aa8584625ea72b126c43ac
+    sha: sha256:db1761bd2dc2a031441641bbaa1b0a0c0dfa648646b61370713fd743c1d4d6e2
   # #1533: ImageTrustPolicy evaluation follows signatureDiscovery (on below).
   # ApplicationSecurityProfile status is opt-in; its CRD is a release resource.
   applicationSecurityProfiles:
@@ -104,7 +104,7 @@ supplychain:
   enabled: true
   image:
     tag: pr-1717
-    sha: sha256:27db7cc517e364fdda4ff226813dbe2042071b4f7e500237747d4015af763c08
+    sha: sha256:0efc699404667e1e5ea8be37612c185598a55862476c5eb3fa67e564e4b11d1d
   sources:
     trivyOperator:
       enabled: false
@@ -114,23 +114,13 @@ supplychain:
     enabled: true
     image:
       tag: pr-1717
-      sha: sha256:8cce59a40d76a4aea2091d858e000c3020acdc4402962d4509eb37683dd25536
-    # TEMPORARY measurement headroom (2026-09-27): peaks near 400Mi of 512Mi.
-    resources:
-      limits:
-        memory: 1Gi
+      sha: sha256:76a710bf8db5c7f61de67c02db702ecdec874315939596d859c323d561d41d61
   brokerIngest:
     enabled: true
   registryLookup:
     enabled: true
   signatureDiscovery:
     enabled: true
-  # TEMPORARY measurement headroom (2026-09-27): the 256Mi chart default was
-  # OOMKilled on every pass while matching one registry SBOM; raised to measure
-  # the real peak while the cause is investigated upstream.
-  resources:
-    limits:
-      memory: 1Gi
 
 database:
   # Pin postgres image — `latest` drifts and PG major-version bumps break the on-disk format

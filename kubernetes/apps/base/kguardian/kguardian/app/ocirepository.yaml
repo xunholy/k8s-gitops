@@ -24,4 +24,6 @@ spec:
     # thresholds/retention); autoscaling.enabled is now refused at
     # template time (not set here). Image versions pinned in app/values.yaml.
     tag: 1.26.0-pr1717
+    # Preview pinned by digest (the pr tag is mutable).
+    digest: sha256:75898cac4b04cfa7b36f5a196ea6a73de6514c215116c26623f339064470c8dc
   url: oci://ghcr.io/kguardian-dev/charts/kguardian
