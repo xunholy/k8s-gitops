@@ -10,7 +10,7 @@ controller:
   # Revert to the chart defaults once the #1533 releases are cut.
   image:
     tag: pr-1717
-    sha: sha256:67714631395489c2c72f298514672e267fbb7ddf8b5a6bb204b07802742f6593
+    sha: sha256:52fe36063c3096dab7f306a60f4cdf6411a15a4d326b3494d6362629239fc37b
   excludedNamespaces:
     - kguardian
   # #1533: per-container exec inventory and observed capability checks (opt-in
@@ -22,7 +22,7 @@ controller:
 broker:
   image:
     tag: pr-1717
-    sha: sha256:4ef432e4363548c00d9a291e7f17cf209e24ba231bc57ec404c56b31c9107ee6
+    sha: sha256:18b3c986744190caeea0ba3a81a1caae4e90fc27cf6692b9c19ec6195871eb43
   # #1533: scoped per-component tokens (required by supplychain). The Secret
   # kguardian-broker-auth (keys read/ingest/supplychain/admin) is created
   # out-of-band like kguardian-secrets and is never committed here.
@@ -61,7 +61,7 @@ llmBridge:
   enabled: true
   image:
     tag: pr-1717
-    sha: sha256:78eaf7c167ad7a1fd46ea3b2ec52287c6fdd24173cf3c6cfb0211dfd2b9411f5
+    sha: sha256:eace018e2336e489fa50544ac8b7487e614e5fa32119957d603804e7780dfc1d
   secrets:
     # OpenAI DISABLED 2026-07-29: its billing quota is exhausted, and llm-bridge
     # picks the first available provider as the default (index.ts resolveProvider
@@ -82,7 +82,7 @@ llmBridge:
 frontend:
   image:
     tag: pr-1717
-    sha: sha256:ef2c507c9e451b539ba68c2301ed9759e9d58112a718de115f2c5739fb6588d2
+    sha: sha256:9bf490956df3231bb57a12268444b040a9690377a4c0cc01847e0dae3abc1dfd
 
 # kguardian-evaluator — audit-mode policy preview (chart 1.11.0+).
 # Watches AuditNetworkPolicy / AuditClusterNetworkPolicy CRDs and reports
@@ -91,7 +91,7 @@ frontend:
 evaluator:
   image:
     tag: pr-1717
-    sha: sha256:db1761bd2dc2a031441641bbaa1b0a0c0dfa648646b61370713fd743c1d4d6e2
+    sha: sha256:6cf3f687d82c54bcd4611291c02d2ef52ba9bde2eee8fbb61ad444bcf6c95d32
   # #1533: ImageTrustPolicy evaluation follows signatureDiscovery (on below).
   # ApplicationSecurityProfile status is opt-in; its CRD is a release resource.
   applicationSecurityProfiles:
@@ -104,7 +104,7 @@ supplychain:
   enabled: true
   image:
     tag: pr-1717
-    sha: sha256:0efc699404667e1e5ea8be37612c185598a55862476c5eb3fa67e564e4b11d1d
+    sha: sha256:8f38f381fbf42f1cc1f700b39ca36f7aa9f7d9a1ca59926f32eee9714fe56466
   sources:
     trivyOperator:
       enabled: false
@@ -114,7 +114,7 @@ supplychain:
     enabled: true
     image:
       tag: pr-1717
-      sha: sha256:76a710bf8db5c7f61de67c02db702ecdec874315939596d859c323d561d41d61
+      sha: sha256:2a75218fdc0711f2f90582dba47577476bce1a3872c0b8ab4651127040ffa615
   brokerIngest:
     enabled: true
   registryLookup:
