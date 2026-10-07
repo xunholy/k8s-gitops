@@ -10,6 +10,8 @@ resources:
   - securitypolicy.yaml
   - ocirepository.yaml
   - pvc-database.yaml
+  - pvc-dumps.yaml
+  - backup-cronjob.yaml
   - replicationsource.yaml
   - volsync-externalsecret.yaml
   - auditnetworkpolicy-baseline.yaml

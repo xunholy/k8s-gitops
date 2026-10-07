@@ -10,10 +10,13 @@ metadata:
     # were unrecoverable. Never prune this on an ownership move.
     kustomize.toolkit.fluxcd.io/prune: disabled
 spec:
-  sourcePVC: kguardian-db
+  # Backs up the pg_dump output (backup-cronjob.yaml), not the raw PGDATA:
+  # PGDATA is 999:999 mode 0700 and the shared Kopia repo is readable only
+  # by uid 1000, so no single mover uid can snapshot the data PVC directly.
+  sourcePVC: kguardian-db-dumps
   trigger:
-    # Staggered like the other sources (see components/volsync).
-    schedule: "37 * * * *"
+    # Two hours after the 02:00 dump CronJob.
+    schedule: "0 4 * * *"
   kopia:
     accessModes:
       - ReadWriteOnce
@@ -23,13 +26,10 @@ spec:
     cacheStorageClassName: ceph-block
     compression: zstd-fastest
     copyMethod: Snapshot
-    # The chart's postgres image runs as uid/gid 999 and the data dir is
-    # 0700, so the mover must read as the same identity.
     moverSecurityContext:
-      runAsUser: 999
-      runAsGroup: 999
-      fsGroup: 999
-      fsGroupChangePolicy: OnRootMismatch
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
     parallelism: 2
     repository: kguardian-db-volsync-secret
     retain:

@@ -1,0 +1,18 @@
+---
+# Holds pg_dump output for kguardian-db. The postgres PGDATA is 999:999 mode
+# 0700, which no single VolSync mover uid can read while also reading the
+# shared uid-1000 Kopia repo -- so VolSync ships these dumps instead.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kguardian-db-dumps
+  namespace: kguardian
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: ceph-block
