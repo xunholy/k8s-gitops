@@ -1,0 +1,85 @@
+---
+# Nightly logical backup of kguardian-db (pg_dump custom format) into the
+# kguardian-db-dumps PVC, which replicationsource.yaml ships to Kopia.
+#
+# $$ escapes are for Flux post-build substitution (only ${CLUSTER_TIMEZONE} is
+# a Flux var; everything else is runtime bash).
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kguardian-db-logical-backup
+  namespace: kguardian
+spec:
+  schedule: "0 2 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: dump
+              # Same image as the database (values.yaml) so pg_dump matches the server major.
+              image: postgres:18.1@sha256:1090bc3a8ccfb0b55f78a494d76f8d603434f7e4553543d6e807bc7bd6bbd17f
+              env:
+                - name: TZ
+                  value: ${CLUSTER_TIMEZONE}
+                - name: PGHOST
+                  value: kguardian-db
+                - name: PGUSER
+                  value: rust
+                - name: PGDATABASE
+                  value: kube
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: kguardian-db-credentials
+                      key: password
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  set -euo pipefail
+                  BACKUP_DIR=/backup
+                  RETAIN=3
+                  TS=$$(date +%Y%m%d-%H%M%S)
+                  out="$${BACKUP_DIR}/$${PGDATABASE}-$${TS}.dump"
+
+                  echo "Dumping $${PGDATABASE} -> $${out}"
+                  # Write to a temp name so a failed dump never counts towards retention.
+                  pg_dump --format=custom --compress=zstd:3 --file="$${out}.partial"
+                  mv "$${out}.partial" "$${out}"
+                  pg_restore --list "$${out}" > /dev/null
+
+                  echo "Pruning to newest $${RETAIN}"
+                  rm -f "$${BACKUP_DIR}"/*.partial
+                  # shellcheck disable=SC2012
+                  ls -1t "$${BACKUP_DIR}/$${PGDATABASE}-"*.dump \
+                    | tail -n +$$((RETAIN + 1)) | xargs -r rm -f --
+
+                  echo "Backups on volume:"
+                  ls -lh "$${BACKUP_DIR}"
+              volumeMounts:
+                - name: dumps
+                  mountPath: /backup
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 512Mi
+          volumes:
+            - name: dumps
+              persistentVolumeClaim:
+                claimName: kguardian-db-dumps
