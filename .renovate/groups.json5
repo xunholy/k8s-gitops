@@ -79,8 +79,10 @@
     {
       description: "Rook-Ceph Group",
       groupName: "rook-ceph",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/rook-ceph/", "/rook-ceph-cluster/"],
+      // ceph-csi-drivers (helm) must move in lockstep with the operator: each Rook release bundles a
+      // ceph-csi-operator version (1.21.0 -> 1.1.0), and the drivers chart alone would land first otherwise.
+      matchDatasources: ["docker", "helm"],
+      matchPackageNames: ["/rook-ceph/", "/rook-ceph-cluster/", "/ceph-csi-drivers/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
