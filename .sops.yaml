@@ -7,6 +7,11 @@ creation_rules:
     unencrypted-regex: ^(description|metadata)$
     gcp_kms: projects/raspbernetes/locations/global/keyRings/sops/cryptoKeys/sops-key
     mac_only_encrypted: true
+  # AGE encrypted Helm values files (fed to HelmReleases via secretGenerator).
+  # These are plain values documents, not Secrets, so encrypt every value; the
+  # data/stringData rule below would leave them in plaintext.
+  - path_regex: kubernetes/.*/values\.enc\.age\.ya?ml
+    age: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
   # AGE encrypted Kubernetes secret files
   - path_regex: kubernetes/.*/.*\.enc\.age\.ya?ml
     encrypted_regex: ^(data|stringData)$

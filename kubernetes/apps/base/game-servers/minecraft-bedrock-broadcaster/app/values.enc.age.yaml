@@ -1,19 +1,18 @@
 minecraftServer:
-  passwordSSH: password
-  enableSSH: true
+  passwordSSH: ENC[AES256_GCM,data:QCUxcvgfuqRnC8+BQsTdAe0C7QfqJwOg,iv:ur2ZK4R6/1VaMj+Ll3+ZjQqIGbuiqIPH+rOd5n4Hkp8=,tag:vHKl7AD4+yUUjI1icbb2lw==,type:str]
+  enableSSH: ENC[AES256_GCM,data:zQpB7w==,iv:0AG5cXgnJpOSDWeNWbZgPoeKKQOeb1fp/1Z0QHOTPAc=,tag:LAFeU+cYORQSOxX4x4R7+A==,type:bool]
 sops:
   age:
     - recipient: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
       enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBQYmVaRDNFY2lNY3N4eGIv
-        dGttVGxaUWVJdk40cnl6NkRucWF6UFl5STFVCjdZUDdjWG5nM3F3Z1ZqVTRtbUN0
-        N1BCd2Y5WERVa0JnNUc3ekczQVVLTHcKLS0tIHNIUnBZZHVmaW04TitkL2tEVjZE
-        RVQybDREdjZFYjZMR0FjZXEvN3hCR1EKwN+/60aLJRJ1zS4iMOIOIc8rZhgqDVIZ
-        DdmYa9uXhJd8Ejqvh8jgMxaohzQHPV1gnThKRpHFRD8a8yN5IkBDtA==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAwMGtyKzdaMFltQ01CUHZS
+        WmM4a2plWGNvVEFUdDRWNFBMT0JMRUVTaWw4CjV3RVAwSlFvbG1IVVpRNWZ0WGty
+        Q1RWZkdocEt5ZG9hWEg1Z3grckNIT0UKLS0tIGIwVUVTZ1ljemdSQ2dxRXFGU3ZU
+        T2dyaGMvZmRBdW50UWZhclRQRiswa1EKVS/H3IQPxrr0eKWBHg7A4x0ce54VM+YD
+        oFLEO3OYvtwgoAO5EydLZvONzsbgEG01vYRkIBPPqMgIo9bSn7N0tQ==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2025-12-22T01:21:04Z"
-  mac: ENC[AES256_GCM,data:aGJYrzWNfkzXAGabdvN3nHcx6X/7+C9p+hJA0cZoHeDffO3LUneIJmHODAwkGeG3BJkt7g16u8cM/gRIO2Rc5mME7xwokVdz19s4RIIK2fOO7v5dkPTFBNC8EpmRhAQtdMNSMJb8vQoSZujYwutOsWGFv9TdO5aM+Mr2Wb2zluI=,iv:sCxGx8AzReG3EQlQZgOaG03No2tb83YhAuuCJ3lv72o=,tag:CYvm53Hliew+ue04urcFNA==,type:str]
-  encrypted_regex: ^(data|stringData)$
-  mac_only_encrypted: true
-  version: 3.11.0
+  lastmodified: "2026-10-08T03:58:34Z"
+  mac: ENC[AES256_GCM,data:lo6g2hhpdeVJCQE4ZJXWeUd1IZ8sYxZYY8ieaJw01qDW+l32pS7C0DBnkps5SKqy/QQ5wizxN+6nP1M+FJQTLdcC18KU6v7EDPZX/7b8Nx8WtABKqSpnIV1B0K1Mf0bA14eo4/dpb53tyaURAkYihLP7LOcmd6ER9RPZ4y+++5s=,iv:j/lspNvR5TuWSHRyQMNsICCcpKBhcU3RIS/7bIgClO8=,tag:9QgXjzslk/0n7YBLJgjQ5w==,type:str]
+  unencrypted_suffix: _unencrypted
+  version: 3.12.1

@@ -10,6 +10,7 @@ resources:
   - httproute.yaml
   - loadbalancer.yaml
   - ocirepository.yaml
+  - secret-tls-ca.enc.age.yaml
 
 configMapGenerator:
   - name: cilium-values

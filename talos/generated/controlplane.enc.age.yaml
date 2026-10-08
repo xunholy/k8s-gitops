@@ -84,19 +84,6 @@ machine:
       - time.cloudflare.com
       - 0.pool.ntp.org
       - time.google.com
-  files:
-    # REQUIRED: The following documentation explains why these are needed.
-    # https://spegel.dev/docs/getting-started/#talos
-    - op: create
-      path: /etc/cri/conf.d/20-customization.part
-      content: |
-        [plugins."io.containerd.cri.v1.images"]
-          discard_unpacked_layers = false
-        [plugins."io.containerd.cri.v1.runtime"]
-          cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
-          device_ownership_from_security_context = true
-        [metrics]
-          address = "0.0.0.0:11234"
 cluster:
   # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
   id: GsSf9LerhTOpktH7JMlySUhdB4tdxlX1b6ZDGM7a8ZE=
@@ -280,6 +267,35 @@ sops:
         -----END AGE ENCRYPTED FILE-----
   lastmodified: "2026-09-16T21:12:15Z"
   mac: ENC[AES256_GCM,data:JKCQr9bP3TcsLxVA6j+Ia6Gtw0bh1OGAFR4zXnZwHT2cs+Yhc1o88r6/gCYSh8yxIgoPfy4mHAd5hYgRw/29Vm/1838t3mQPuWoyuu3w7kFM+Um6TqcvXwEA18EUGW/3ynd7s5gSpdUWEOupAhpl3ikIokUkHndoHvhbMQvefFs=,iv:jK2gak79mRh5LAZ5zWsI4tWi9/Wg8qPFEb/R6h8Y1Mw=,tag:sok4RrbG8nB0iYGRXCThOQ==,type:str]
+  encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
+  mac_only_encrypted: true
+  version: 3.12.1
+---
+apiVersion: v1alpha1
+kind: CRICustomizationConfig
+# REQUIRED for spegel: https://spegel.dev/docs/getting-started/#talos
+name: 20-customization
+content: |
+  [plugins."io.containerd.cri.v1.images"]
+    discard_unpacked_layers = false
+  [plugins."io.containerd.cri.v1.runtime"]
+    cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
+    device_ownership_from_security_context = true
+  [metrics]
+    address = "0.0.0.0:11234"
+sops:
+  age:
+    - recipient: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAxS3Y3T2t1a0NOU1hEYVI0
+        TkJJUVhxVXZhTXNsMzNkaE5zOEVBK25pMW44ClVORVBzczNxUFdRaUtLemNvb055
+        Sk0ybmhUUmRLWmV5OHBPMG9aVzhlM2sKLS0tIFN6ekhPZkxOd044SkVwM1ExOFhr
+        Y1U5bDJiZDBseGs2czd6NFI5NFdsV2MKMNAGeua1DnTTcHu0Tsug9/Ds1ZpHPRYu
+        QCzFUMlhzmBQatzyvEjUS6wzAvE9bg7P6iPkIz6r2JHCdSfg10Rv6w==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-10-08T03:58:05Z"
+  mac: ENC[AES256_GCM,data:FH9CZkxERQ+LBeYmLZXxzfdfmR1tIx91d8IQKz5gSyEWT8cH0HmH3Y5SZltUMWywCpeo/5/G4EfzClKE/pQ1hGNICqbuZSXyp9NR5jlNnNm47OWkrltn0utaWBqfdG1zuQr5Mqhm+KXJvruqvxfpOYRo43wXTxhBTcBQUpEzWlM=,iv:aHQEnUNEILC9uAAGXKkhyOO/+c8UtqvyacFUOK6rXd0=,tag:P/co5+ocXz0cH/yKVI1JwA==,type:str]
   encrypted_regex: ((?i)(pass|secret($|[^N])|ca|crt|key|token|^data$|^stringData$))
   mac_only_encrypted: true
   version: 3.12.1
