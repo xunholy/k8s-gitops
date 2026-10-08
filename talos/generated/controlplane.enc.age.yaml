@@ -129,8 +129,6 @@ cluster:
       - 192.168.50.200
     extraArgs:
       enable-aggregator-routing: "true"
-      feature-gates: MutatingAdmissionPolicy=true
-      runtime-config: admissionregistration.k8s.io/v1beta1=true
       oidc-client-id: dex-k8s-authenticator
       oidc-issuer-url: https://dex.owncloud.ai
       oidc-username-claim: email
