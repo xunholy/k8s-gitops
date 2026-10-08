@@ -17,7 +17,7 @@ machine:
     - talos.api.owncloud.ai
     - 192.168.50.200
   kubelet:
-    image: ghcr.io/siderolabs/kubelet:v1.36.4
+    image: ghcr.io/siderolabs/kubelet:v1.36.5
     defaultRuntimeSeccompProfileEnabled: true
     disableManifestsDirectory: true
     extraConfig:
@@ -56,7 +56,7 @@ machine:
     diskSelector:
       size: '>= 1TB'
       model: CT1000BX500SSD1
-    image: factory.talos.dev/installer/b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14:v1.14.0
+    image: factory.talos.dev/installer/b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14:v1.14.2
     wipe: true
   registries: {}
   features:
@@ -134,7 +134,7 @@ cluster:
   # API server specific configuration options.
   apiServer:
     # The container image used in the API server manifest.
-    image: registry.k8s.io/kube-apiserver:v1.36.4
+    image: registry.k8s.io/kube-apiserver:v1.36.5
     # Extra certificate subject alternative names for the API server's certificate.
     certSANs:
       - api.owncloud.ai
@@ -204,14 +204,14 @@ cluster:
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-controller-manager:v1.36.4
+    image: registry.k8s.io/kube-controller-manager:v1.36.5
   proxy:
-    image: registry.k8s.io/kube-proxy:v1.36.4
+    image: registry.k8s.io/kube-proxy:v1.36.5
     disabled: true
   scheduler:
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-scheduler:v1.36.4
+    image: registry.k8s.io/kube-scheduler:v1.36.5
   discovery:
     enabled: true
     registries:
@@ -236,9 +236,9 @@ cluster:
   extraManifests:
     - https://raw.githubusercontent.com/xUnholy/k8s-gitops/main/talos/integrations/cert-approver/cert-approver.yaml
     # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
-    - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.5.1/experimental-install.yaml
+    - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/experimental-install.yaml
     # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
-    - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.93.0/stripped-down-crds.yaml
+    - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.94.0/stripped-down-crds.yaml
     # renovate: datasource=github-releases depName=k8snetworkplumbingwg/network-attachment-definition-client
     - https://github.com/k8snetworkplumbingwg/network-attachment-definition-client/raw/refs/tags/v1.7.7/artifacts/networks-crd.yaml
   inlineManifests: []

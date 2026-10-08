@@ -12,6 +12,34 @@ helmCharts:
     version: 1.20.2
     repo: https://helm.cilium.io/
 
+# The Hubble/Cilium CA TLS Secrets are rendered with fresh random keys on
+# every client-side build, and this file is published from a public repo and
+# fetched by Talos. Leave them out: helm-controller creates and owns them in
+# cluster (the cilium HelmRelease ignores drift on their /data). The agent's
+# hubble-server-certs mount is optional, so bootstrap does not depend on them.
+patches:
+  - patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: cilium-ca
+        namespace: kube-system
+  - patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: hubble-relay-client-certs
+        namespace: kube-system
+  - patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: hubble-server-certs
+        namespace: kube-system
+
 # REQUIRED: Use transformers to avoid creating the labels & annotations on all references rather than only metadata/annotations or metadata/labels respectively
 transformers:
   - transformers.yaml
