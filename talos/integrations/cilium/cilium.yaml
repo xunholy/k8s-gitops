@@ -8,7 +8,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-secrets
 ---
 apiVersion: v1
@@ -65,7 +65,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-operator-tlsinterception-secrets
   namespace: cilium-secrets
 rules:
@@ -88,7 +88,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-tlsinterception-secrets
   namespace: cilium-secrets
 rules:
@@ -110,7 +110,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-config-agent
   namespace: kube-system
 rules:
@@ -132,7 +132,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-operator-ztunnel
   namespace: kube-system
 rules:
@@ -164,7 +164,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium
 rules:
 - apiGroups:
@@ -291,7 +291,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-operator
 rules:
 - apiGroups:
@@ -534,7 +534,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: hubble-ui
 rules:
 - apiGroups:
@@ -567,7 +567,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-operator-tlsinterception-secrets
   namespace: cilium-secrets
 roleRef:
@@ -588,7 +588,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-tlsinterception-secrets
   namespace: cilium-secrets
 roleRef:
@@ -609,7 +609,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-config-agent
   namespace: kube-system
 roleRef:
@@ -630,7 +630,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-operator-ztunnel
   namespace: kube-system
 roleRef:
@@ -651,7 +651,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -671,7 +671,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-operator
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -691,7 +691,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: hubble-ui
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -12119,7 +12119,7 @@ metadata:
     app.kubernetes.io/name: cilium-agent
     app.kubernetes.io/part-of: cilium
     grafana_dashboard: "1"
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     k8s-app: cilium
   name: cilium-dashboard
   namespace: kube-system
@@ -13182,7 +13182,7 @@ metadata:
     app.kubernetes.io/name: cilium-operator
     app.kubernetes.io/part-of: cilium
     grafana_dashboard: "1"
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     k8s-app: cilium
   name: cilium-operator-dashboard
   namespace: kube-system
@@ -13249,55 +13249,6 @@ metadata:
   namespace: kube-system
 ---
 apiVersion: v1
-data:
-  ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFekNDQWZ1Z0F3SUJBZ0lRR05WSERhd1ZsVU5TajJYOGx6dWZtekFOQmdrcWhraUc5dzBCQVFzRkFEQVUKTVJJd0VBWURWUVFERXdsRGFXeHBkVzBnUTBFd0hoY05NalV4TURJek1ESTFNakUxV2hjTk1qZ3hNREl5TURJMQpNakUxV2pBVU1SSXdFQVlEVlFRREV3bERhV3hwZFcwZ1EwRXdnZ0VpTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCCkR3QXdnZ0VLQW9JQkFRQ2dpMG1FZ3pQVk5NRXAxUVMzZDl0bzBPTkZPMndpK1RYa28zcEFFNDJsQ2NGNWlWM3QKUnB2N3BlWHRMN05CU2NsTkRDSHNiRHNKQm9kRWU3N3BUbkNGcWNkZXgyUk1aV3B4Vmk4akd5V2FrdTdLdTFiRwoyRmFJcDM4RnZFQnNVRk1uY3RpMTBaMFJFYnNkUWJYcXZqRk0wQ0xxWmVPZlVGQ1pSU0VXWndOWjhraEg2V2J2CkhsSkExNjRjbjYydlNHY0htVDA2bk5FZjJ2dUFUZmhyYnZqYWdSQjFMK1dwbHRPNGlNUjVYU3UyVTNSMFB0Y0YKQ3JhNTlCdTN0K0lUc2c4dGMwaHRpc0gySjI4dWNWNndDMUtNQ3JPUWhwNUwzc3RXeTBoS01KT3RYclVXd1R0OApoUHBWREhBR0RxeHBoai9HUzVjRWdWNTlFM1pBeVRWMXpudlZBZ01CQUFHallUQmZNQTRHQTFVZER3RUIvd1FFCkF3SUNwREFkQmdOVkhTVUVGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXcKQXdFQi96QWRCZ05WSFE0RUZnUVVCT04rOWY0NHExRk9MUmdnV3VTWTdLdEFOaUV3RFFZSktvWklodmNOQVFFTApCUUFEZ2dFQkFFU2xRTWs4blMvVWpnOURlVnNaT21ZRnJsQUFpK3NuN21JZ2x4eFJJWFRjamVOMkR6QUZjSW9pCktXcC9wajlKdmhFdHJ3b29KUkJSUCtzUnp3MjEwS3Z3ZlpJV1BZRU85MGREb2d0N2U2bTh6TFN3V0xDQ2EwWVgKK29sVjhMdHJOdjZXTElBVExpZWxQNDErZlVvSVJnZ0VGaitIcklUU1EzYjQ0Nng1UUZVa2pyYnprdmowMHNXaAoxeXBha21OWENlZFI1UEZKK3p0a05jL2VZQlU4MURGN0QxYW9jOVMwSXlRdkloa1Z1dHg3VzNIQUh4K2ZCUVJkClBBcGpvcGp5QzNhbTJMRHJUbFVJeU1hZWFZaUtvZGo5aFZuYzZKa3RrNXAwZFRsVnJZeU9nMnlsM2VVakI1ZDIKUmhQZ3lxTnU3R0xKenZmZzFoNHpkbGpZZ3pYcXo0VT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
-  ca.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBb0l0SmhJTXoxVFRCS2RVRXQzZmJhTkRqUlR0c0l2azE1S042UUJPTnBRbkJlWWxkCjdVYWIrNlhsN1MrelFVbkpUUXdoN0d3N0NRYUhSSHUrNlU1d2hhbkhYc2RrVEdWcWNWWXZJeHNsbXBMdXlydFcKeHRoV2lLZC9CYnhBYkZCVEozTFl0ZEdkRVJHN0hVRzE2cjR4VE5BaTZtWGpuMUJRbVVVaEZtY0RXZkpJUitsbQo3eDVTUU5ldUhKK3RyMGhuQjVrOU9welJIOXI3Z0UzNGEyNzQyb0VRZFMvbHFaYlR1SWpFZVYwcnRsTjBkRDdYCkJRcTJ1ZlFidDdmaUU3SVBMWE5JYllyQjlpZHZMbkZlc0F0U2pBcXprSWFlUzk3TFZzdElTakNUclY2MUZzRTcKZklUNlZReHdCZzZzYVlZL3hrdVhCSUZlZlJOMlFNazFkYzU3MVFJREFRQUJBb0lCQUFuSnBDQkhqWFBzcFBBagpkQWVwYjM5NjZMZ3lVTHZySEoyRlYvRXJJQUlWVDYzVXNaekRKc1JYVDJhLzl6bytRTjhKSTlKUm9PSENlNkd4CnQ2aHFwMUtHME1oVytLYnRzZWtaKzRLMDUzeCtnNzlwWDNkOC9mMlQxSnNwYUhZU0NaZkltU3l3akZaYmtlQk4KUHNXQ2RlZjhjbngrM0xzOFBzV3hZTHlJYUR4bC84QmgySFBFSFRsVEhVUzNMMkRXZGcybE1abjhaV1pCdVUycApET1pWVnB6WWlub3B1ekpJeFRvYk1TeDlMeFJGNVVDYnQ4MW0xRVNsT3R4YkEyTnRXSm9GQWs4VGhITnN3ZEFRCmU3dkt3NWdoKzYwbHhid2VjS1ViMjZGWnNSQzlOZXVFSy9TT1VTQ2ZGcURKU3o3eEkyWGthQVVncGZsbWFaM0IKOTRoREpaRUNnWUVBMVk0YnF3SzEvcVVSNC80NkhqdHJuSHVJRXRqY2dxaEpRamU1aVA1T1gxN0RWamsyU2pPOApSL2ZNTm9lMWhQUGZ6NmNlNC9JMmczS1dzTjVsWjVtMjhta3hWbmlITmRkNEcvQXhRdnFWeUZrS2d3bHFsd2FMCktIeVJwVWMxaFZLYmgxMDdSN3Fxd3N5ZTAwMlZaMnpDb055TDJzZXBvam5QM0xiNWhLazBQRTBDZ1lFQXdIUHQKUktWcFVnSzIrNkFVNHpteC8zN3l6OFc4WDVpMytJL213NWVuN0ZsSzQ3MXJXQjZmSm42dTlBZitQWTVVcWN4MApOY1BSMFpvK0JZdWtramdSVi9JZ1NVZ29sRXJ5QWt5dUFUcTZyazk1ejRPbkl1ekVsQXgxSE1Scyswd3JGK1RFCkdwbzAxY3QvY0xZTFFYTENvMHpSSXZGclNYRkdhdnFqQzd3ZjRha0NnWUJkYW5oMzZndXFoSks2NU82UFl2YkQKME5YSlNNdk02OGlBQ3RoQ01Od2ZvOWhXMDFnSVJYRkxHZjVlckNhZkxmN3RXdkdNVE52RHpGQld0akl0aTNRWAp2aVF5Nnk1YVF4THJSYnFHemc3UFFRUDBKaDVXU2lwOVgyQm1xQ3VsVW1sdVlUNFpObktVRytZdUVIWVdjK0QvCmRQcElqYWFLckRkZEdUMDA1cjlPMFFLQmdRQ3dIMmRjRXlTM2NOU1Vvb043RHluZWNBYzJMZmVlWk55NEZMbFMKOWs4dTlPaWNVcFVTSjdQdVByRk5rcU1SSWxoSXJGc05lUTlqaW95SDlxdTlSS0phb2JMNlhaY0ZYekRxK2RHawpQbUxwY3NJL0xuU2VlWi9NL1RtUUFoTGFSM0tJZzBzVUxWdDg3S2JNTjAxRnNBaC8rYVRMSGJUWm1WaWdQbzlJCkJmb0hRUUtCZ0UyaktBQVhXbi85bHhnZGh3aC9sRzBBYXIrSlErZVhVYW9nTFgveGJWeG5xQk5iMUFwYzhQRU4Ka09sUGJqKzlvQSthenpQaW9FY1F0bUpLR1p2VEp4K3FqUG9OdDZ3NUZhTzNJK1pvMzNwUlIxZkFqS3hGMDV2OApsV2huNG5kZWE5anpNKy9lOEJITGVaMG0vYkxoOWwzay9VckFNUGxGMDJCcDV1VTh6RFNqCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
-kind: Secret
-metadata:
-  annotations:
-    meta.helm.sh/release-name: cilium
-    meta.helm.sh/release-namespace: kube-system
-  labels:
-    app.kubernetes.io/managed-by: Helm
-    cilium.io/helm-template-non-idempotent: "true"
-  name: cilium-ca
-  namespace: kube-system
----
-apiVersion: v1
-data:
-  ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFekNDQWZ1Z0F3SUJBZ0lRR05WSERhd1ZsVU5TajJYOGx6dWZtekFOQmdrcWhraUc5dzBCQVFzRkFEQVUKTVJJd0VBWURWUVFERXdsRGFXeHBkVzBnUTBFd0hoY05NalV4TURJek1ESTFNakUxV2hjTk1qZ3hNREl5TURJMQpNakUxV2pBVU1SSXdFQVlEVlFRREV3bERhV3hwZFcwZ1EwRXdnZ0VpTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCCkR3QXdnZ0VLQW9JQkFRQ2dpMG1FZ3pQVk5NRXAxUVMzZDl0bzBPTkZPMndpK1RYa28zcEFFNDJsQ2NGNWlWM3QKUnB2N3BlWHRMN05CU2NsTkRDSHNiRHNKQm9kRWU3N3BUbkNGcWNkZXgyUk1aV3B4Vmk4akd5V2FrdTdLdTFiRwoyRmFJcDM4RnZFQnNVRk1uY3RpMTBaMFJFYnNkUWJYcXZqRk0wQ0xxWmVPZlVGQ1pSU0VXWndOWjhraEg2V2J2CkhsSkExNjRjbjYydlNHY0htVDA2bk5FZjJ2dUFUZmhyYnZqYWdSQjFMK1dwbHRPNGlNUjVYU3UyVTNSMFB0Y0YKQ3JhNTlCdTN0K0lUc2c4dGMwaHRpc0gySjI4dWNWNndDMUtNQ3JPUWhwNUwzc3RXeTBoS01KT3RYclVXd1R0OApoUHBWREhBR0RxeHBoai9HUzVjRWdWNTlFM1pBeVRWMXpudlZBZ01CQUFHallUQmZNQTRHQTFVZER3RUIvd1FFCkF3SUNwREFkQmdOVkhTVUVGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXcKQXdFQi96QWRCZ05WSFE0RUZnUVVCT04rOWY0NHExRk9MUmdnV3VTWTdLdEFOaUV3RFFZSktvWklodmNOQVFFTApCUUFEZ2dFQkFFU2xRTWs4blMvVWpnOURlVnNaT21ZRnJsQUFpK3NuN21JZ2x4eFJJWFRjamVOMkR6QUZjSW9pCktXcC9wajlKdmhFdHJ3b29KUkJSUCtzUnp3MjEwS3Z3ZlpJV1BZRU85MGREb2d0N2U2bTh6TFN3V0xDQ2EwWVgKK29sVjhMdHJOdjZXTElBVExpZWxQNDErZlVvSVJnZ0VGaitIcklUU1EzYjQ0Nng1UUZVa2pyYnprdmowMHNXaAoxeXBha21OWENlZFI1UEZKK3p0a05jL2VZQlU4MURGN0QxYW9jOVMwSXlRdkloa1Z1dHg3VzNIQUh4K2ZCUVJkClBBcGpvcGp5QzNhbTJMRHJUbFVJeU1hZWFZaUtvZGo5aFZuYzZKa3RrNXAwZFRsVnJZeU9nMnlsM2VVakI1ZDIKUmhQZ3lxTnU3R0xKenZmZzFoNHpkbGpZZ3pYcXo0VT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
-  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURTVENDQWpHZ0F3SUJBZ0lSQUp0Rm03REQwby9ZcFVIVDNyRUszbmN3RFFZSktvWklodmNOQVFFTEJRQXcKRkRFU01CQUdBMVVFQXhNSlEybHNhWFZ0SUVOQk1CNFhEVEkxTVRBeU16QXlOVEl4TlZvWERUSTJNVEF5TXpBeQpOVEl4TlZvd0l6RWhNQjhHQTFVRUF3d1lLaTVvZFdKaWJHVXRjbVZzWVhrdVkybHNhWFZ0TG1sdk1JSUJJakFOCkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXZLTUFKZmt2dmhuMjZ3VXlpT1VUU3RIeFNxaVIKQkJsNlRBOHpBNHZVdk9XVGh5dGF5bGhjU2ZZZFBCemQ3SzkwdWFtdXhQNU1ZT3ltMHZaYlcxMVFnTE5rNDZtTgppM1Z2SVBwSEZyZ2lDeXM2ME1QY1Rra2QxVEZUT2FIWVJyeURIQU5SSzM5WVBjeWJ6ajlEc203NE9LeHRVTVlPCjdvYkphS2ZWbHZNSWMrUVJZTDNMdHQwMUcrOGpoRXFzM3ljbkRPRDU1SGVjMmlGZm5MQkpVendxR1FHVG55K3oKQ3NETG9OdlQ5Y0VDRXVMbjAwVkVaTGNjclUxdFROVDB1NzVUcnQ5STFWa3N1Q3lqYWlRZlRxblhNbEdDdHZjNgpKYXlPdW8xaWREYTNyanlEbEtUVE9mbjRNaXhwTmM3bHhpS3VUMURCakQ4WmhOa1h6ekh6UlZxOWxRSURBUUFCCm80R0dNSUdETUE0R0ExVWREd0VCL3dRRUF3SUZvREFkQmdOVkhTVUVGakFVQmdnckJnRUZCUWNEQVFZSUt3WUIKQlFVSEF3SXdEQVlEVlIwVEFRSC9CQUl3QURBZkJnTlZIU01FR0RBV2dCUUU0MzcxL2ppclVVNHRHQ0JhNUpqcwpxMEEySVRBakJnTlZIUkVFSERBYWdoZ3FMbWgxWW1Kc1pTMXlaV3hoZVM1amFXeHBkVzB1YVc4d0RRWUpLb1pJCmh2Y05BUUVMQlFBRGdnRUJBQ3lkNnA0YjYyd1U0WkQxNmtJRjhhM3owRXZyak9OTDAxaHFucWRtVW5QdTNwenYKRGpGQ2FKYm1iMkljWUpKc09rQTJRQVg5UnUvTGR4RHdMQlUzalk4dXFvazBOVFZySzRBcktQVGx2ZUlYcW9UYwpWSFovY1ZpREFRMFRLbjlEc0FWVjZvVWFxMXkxTFYrV2VXWWVuSWRCR0ZFT3JGVGQxVkE5R2pUd2pscGtoWXpZCks4OUl0V2JOdFQ4YnUvbEljeGJFMjZmT29HUlEvaWxLSDdBVzdBOEwwemY1Rk9xRlVqbHBPeVluMmlLSHdNVU8KWVlrVThVcUNEbmFRWmJCTXQ4cnVoRjRqUmRmVjFMamMyRDI0YnpMcFlQRlZIblAxaUNCTXpBdFAwdjJMczdUMAp5dXc4UFlGZ01FQXZqdFNtcW53WllEN0tMV2s3MU9VUXY4VWNDTzg9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
-  tls.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBdktNQUpma3Z2aG4yNndVeWlPVVRTdEh4U3FpUkJCbDZUQTh6QTR2VXZPV1RoeXRhCnlsaGNTZllkUEJ6ZDdLOTB1YW11eFA1TVlPeW0wdlpiVzExUWdMTms0Nm1OaTNWdklQcEhGcmdpQ3lzNjBNUGMKVGtrZDFURlRPYUhZUnJ5REhBTlJLMzlZUGN5YnpqOURzbTc0T0t4dFVNWU83b2JKYUtmVmx2TUljK1FSWUwzTAp0dDAxRys4amhFcXMzeWNuRE9ENTVIZWMyaUZmbkxCSlV6d3FHUUdUbnkrekNzRExvTnZUOWNFQ0V1TG4wMFZFClpMY2NyVTF0VE5UMHU3NVRydDlJMVZrc3VDeWphaVFmVHFuWE1sR0N0dmM2SmF5T3VvMWlkRGEzcmp5RGxLVFQKT2ZuNE1peHBOYzdseGlLdVQxREJqRDhaaE5rWHp6SHpSVnE5bFFJREFRQUJBb0lCQUZkK3k0elJmaUdRN1lTcApUbjFNczV3YXNPN09MU1ZYby9BdmhKdjZlZHg4Sitla1ptSkFoZDRRZUJMdjJNZjF3aEJ6OGdxUllWLzdwSTFwCms0cFhTQVhLTDl1aFEzUVNMazkvaHdXMHRxV3prWDVQdXBuZE5DYzB6OE9GbkVtREd0VWRmTUxPT0dIQnkrcm8KVVVBc1ZKb0U4RmRzNW5RZ3RMOEVTZi9RRG5XaDRKNzg1NDF1dTM1akE0aEEzZ3pTVnZ3R1duUStUTzN1T3IrbwpKZ2d3SWM0Z1ljT0FMa1dzTldqRCtXNHNMbzhxY1lnV2RhaEhSRUNMeVFqazd2WVhzUG5TbXdJUFNwZnFKRTRTCjJyejl2NTV6cGwyLzIrdm9iWHRMTHFIcTB6RjhnMGFZbXdHdWp3VVZ5em5uUUhWMEVJNjFCTlZqWldwR1Y0WS8KV0hqcnhha0NnWUVBOUpDaFk1K0ZSSXdvUlpDR1FnTlVKczFHTkFPNHR0NGRjL1hyZjI4dTlYRUdBR25vZitSRQo5UkFCTUdLcWhvOG1oN3BWU0RDcEFwRkFLb2VVWndJMXhrVnpkMVlFSFlRbnMrMWhmU0VUb3Y3SEFZR01KOWNlCkk4KzRRZWhZRmNHRlhrS241R2I0YXYvZHYwVTd3T1NXWVRRU25BR2cyWEF0SXpQVC9oak9BOHNDZ1lFQXhYVHQKQVZoQlBueGFNZjA2MHBsQnJlcHZISDllWk11SDRhRjBuaGg3cmkyRG5sdjcrdHlPQ1Z0VTNsYmNHUVZlbnNRNwpwYVBOVVlyTHJVZ0JuSnNDRE9LbE1qanMwLzA0M0h5RHhJNXVYVlN0Zzg2OWVLWHZtNjVHak1uWEpSQTAzN3RLCjlEcCtrcVBPalQzUVVNa051Vzk2cjEyMlZFL3RuSzRzYnI3LzJCOENnWUVBclZ3NGl0M3hJZjRZTGZlY3MvNlkKRUVsQ2tteHc2Mi9YZ1BPNTA4T0VqZ2RvTWJMaFZJY0RPcFAxdzg2dEFtVkc4cjlxNUpsWnRMQXh3L1FIaGwxUwpzUkZhSUNXaEZTc3cyYUpUa05kNWkvaitLRnNrZHJsT2JDUTZnTDJxY3dHVEFKWlBYT0NCQjVnSUlDVjdqZWg3CmtMdlExVFZ5UjYvMHp4ZFdGckNPbUxFQ2dZQUszdDBOYmVacG9qNzA4WlFEZEJ5QmpwNS9XeU8vT05WS1ByRkUKNHVRc09xVThXcVFNczRlK1RDRG4vTEF4VUhKZEcwQ05aZTh2eGd4Z2hjNVE2TmU4RGQ0NlhaZnNNOHlsbHRWSwpSTzBlaGtMbk5zS0htZHNQSHhFVFB5bHhDT3RnUmRkaWlyWGRMTmQ2UHlUd3phREx6SzljYURSWmYrejg2em5XCi92em0wUUtCZ1FEZjljNlNtc1VHcGJYQTNHZ2xDQnBOUjIwK2dKVDBpUk1WdDVLcUtlNGxWUzF1aC9GUUJKcFYKbUxGUmQwR2ppakxPWG5TNEZxZ2R3OHd0Sm9UVnljUWpBbmowaXFLMG1MTklHdTJRNlpSQ291cWYxTlRudysyMwpWcDhwTit2ZWpKdGFEQnR1NnlzcVkvVE9wcm1ramc2ZGZvTDRRMVdua2Z2ZDh3T3NFWnRzK1E9PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
-kind: Secret
-metadata:
-  annotations:
-    meta.helm.sh/release-name: cilium
-    meta.helm.sh/release-namespace: kube-system
-  labels:
-    app.kubernetes.io/managed-by: Helm
-    cilium.io/helm-template-non-idempotent: "true"
-  name: hubble-relay-client-certs
-  namespace: kube-system
-type: kubernetes.io/tls
----
-apiVersion: v1
-data:
-  ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFekNDQWZ1Z0F3SUJBZ0lRR05WSERhd1ZsVU5TajJYOGx6dWZtekFOQmdrcWhraUc5dzBCQVFzRkFEQVUKTVJJd0VBWURWUVFERXdsRGFXeHBkVzBnUTBFd0hoY05NalV4TURJek1ESTFNakUxV2hjTk1qZ3hNREl5TURJMQpNakUxV2pBVU1SSXdFQVlEVlFRREV3bERhV3hwZFcwZ1EwRXdnZ0VpTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCCkR3QXdnZ0VLQW9JQkFRQ2dpMG1FZ3pQVk5NRXAxUVMzZDl0bzBPTkZPMndpK1RYa28zcEFFNDJsQ2NGNWlWM3QKUnB2N3BlWHRMN05CU2NsTkRDSHNiRHNKQm9kRWU3N3BUbkNGcWNkZXgyUk1aV3B4Vmk4akd5V2FrdTdLdTFiRwoyRmFJcDM4RnZFQnNVRk1uY3RpMTBaMFJFYnNkUWJYcXZqRk0wQ0xxWmVPZlVGQ1pSU0VXWndOWjhraEg2V2J2CkhsSkExNjRjbjYydlNHY0htVDA2bk5FZjJ2dUFUZmhyYnZqYWdSQjFMK1dwbHRPNGlNUjVYU3UyVTNSMFB0Y0YKQ3JhNTlCdTN0K0lUc2c4dGMwaHRpc0gySjI4dWNWNndDMUtNQ3JPUWhwNUwzc3RXeTBoS01KT3RYclVXd1R0OApoUHBWREhBR0RxeHBoai9HUzVjRWdWNTlFM1pBeVRWMXpudlZBZ01CQUFHallUQmZNQTRHQTFVZER3RUIvd1FFCkF3SUNwREFkQmdOVkhTVUVGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXcKQXdFQi96QWRCZ05WSFE0RUZnUVVCT04rOWY0NHExRk9MUmdnV3VTWTdLdEFOaUV3RFFZSktvWklodmNOQVFFTApCUUFEZ2dFQkFFU2xRTWs4blMvVWpnOURlVnNaT21ZRnJsQUFpK3NuN21JZ2x4eFJJWFRjamVOMkR6QUZjSW9pCktXcC9wajlKdmhFdHJ3b29KUkJSUCtzUnp3MjEwS3Z3ZlpJV1BZRU85MGREb2d0N2U2bTh6TFN3V0xDQ2EwWVgKK29sVjhMdHJOdjZXTElBVExpZWxQNDErZlVvSVJnZ0VGaitIcklUU1EzYjQ0Nng1UUZVa2pyYnprdmowMHNXaAoxeXBha21OWENlZFI1UEZKK3p0a05jL2VZQlU4MURGN0QxYW9jOVMwSXlRdkloa1Z1dHg3VzNIQUh4K2ZCUVJkClBBcGpvcGp5QzNhbTJMRHJUbFVJeU1hZWFZaUtvZGo5aFZuYzZKa3RrNXAwZFRsVnJZeU9nMnlsM2VVakI1ZDIKUmhQZ3lxTnU3R0xKenZmZzFoNHpkbGpZZ3pYcXo0VT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
-  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURWakNDQWo2Z0F3SUJBZ0lRZXZ0TVhBTTc3R01sZnZ4QUROY1F0ekFOQmdrcWhraUc5dzBCQVFzRkFEQVUKTVJJd0VBWURWUVFERXdsRGFXeHBkVzBnUTBFd0hoY05NalV4TURJek1ESTFNakUxV2hjTk1qWXhNREl6TURJMQpNakUxV2pBcU1TZ3dKZ1lEVlFRRERCOHFMbVJsWm1GMWJIUXVhSFZpWW14bExXZHljR011WTJsc2FYVnRMbWx2Ck1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBdm9VVDFrMWlUMzJSWkdxMVRhTisKQ0gxMzNCaEFFS0NMY3ZsbFRsZHZISGY0a2VOR2k4YlpOeHZ1Rk5ULzJIdU5wSGVjTnJ1VWlPL1R3YVRDMThOSApCZ3p6Y0pxMjdyQnZGTGN3b2pLYUFLcTN5VTVSYy9wZkVBc2U3WkRsQy9Id0NMc0gxdUpOMmdyaEFDd0pyY3k3ClM4SG04Z05wUlNwY2Z4eXd6bkthRHdDdXQ0RlFMRzFrOW1SaHkxR0Y4Q2xPV3NITEtReTRXN2ZmdDFvT0FWRWsKWUpzRlUxMzRjSnJESkpEUDBzSlBCbjZETlAvOGozZEtsWWczOHVaMUVjNTNsRzN1K0htcjZzRkNpdm5SYzc5NgpzTWllQTROWlV0UHNMaDZRcGkzTzI2N3dBMVdETWxxMmFHdlFMV3BOZXhCTlNMK21xT01iVWV3c1EwR2NkVG51CjF3SURBUUFCbzRHTk1JR0tNQTRHQTFVZER3RUIvd1FFQXdJRm9EQWRCZ05WSFNVRUZqQVVCZ2dyQmdFRkJRY0QKQVFZSUt3WUJCUVVIQXdJd0RBWURWUjBUQVFIL0JBSXdBREFmQmdOVkhTTUVHREFXZ0JRRTQzNzEvamlyVVU0dApHQ0JhNUpqc3EwQTJJVEFxQmdOVkhSRUVJekFoZ2g4cUxtUmxabUYxYkhRdWFIVmlZbXhsTFdkeWNHTXVZMmxzCmFYVnRMbWx2TUEwR0NTcUdTSWIzRFFFQkN3VUFBNElCQVFDVmNwSGZPYjBoaGpIa2ZWT3J3dE9CRU0vaEpuRWQKTnFwSHpLWGZXQU9YYTUvV0piQnFaVWt0bFdDME9nT2RoT2ZvaEl5cVErVks5Z3hYWDUwejVFUHpSYzQ5bGwrdApjbWJsaG5JVS9HbGpYeWhwRHM0Qit5Q2JYOUN0djJkNmxTS216M1RCSmF0TUxUeXBvRG85aWxUVFp0cXJ2T1dtClF2dzRsUmxLc0FLVW5PeDN4cGExenNxRTVJaENod1REeXkyU1FJbmtGYVhkdE0wbm9hckM2Vk9VaXhJOEo3Q0EKZEhWRVFtR2VCK045TnFjV1oyN3duTWNQL1RSb3ZFVTBMdFpULzVHUzgyNm1pV2dyM1E2MXkvQU4yZ3QwRXZXRApoRS8wMWxOWENMenJjNjN3K09mN05HYmFWWDgrK0xUSFRXQWdBY0k3eXNDbXFQa2VXUkpGZEl6UAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
-  tls.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb2dJQkFBS0NBUUVBdm9VVDFrMWlUMzJSWkdxMVRhTitDSDEzM0JoQUVLQ0xjdmxsVGxkdkhIZjRrZU5HCmk4YlpOeHZ1Rk5ULzJIdU5wSGVjTnJ1VWlPL1R3YVRDMThOSEJnenpjSnEyN3JCdkZMY3dvakthQUtxM3lVNVIKYy9wZkVBc2U3WkRsQy9Id0NMc0gxdUpOMmdyaEFDd0pyY3k3UzhIbThnTnBSU3BjZnh5d3puS2FEd0N1dDRGUQpMRzFrOW1SaHkxR0Y4Q2xPV3NITEtReTRXN2ZmdDFvT0FWRWtZSnNGVTEzNGNKckRKSkRQMHNKUEJuNkROUC84CmozZEtsWWczOHVaMUVjNTNsRzN1K0htcjZzRkNpdm5SYzc5NnNNaWVBNE5aVXRQc0xoNlFwaTNPMjY3d0ExV0QKTWxxMmFHdlFMV3BOZXhCTlNMK21xT01iVWV3c1EwR2NkVG51MXdJREFRQUJBb0lCQUJNWnI3Y2JibEMrZ1FDMQpPMVNtU3h0a3kzWElXZkU3ZHpUaFVKNW9ZUE9xQ2hudUtZTnRQY0pWb3RVa2Z1WGdOU29ZOG1pcnFQbzFqbUEvCjVCSW5qMkQwUHNVUG1HbHVUTTlNaDZ3QWhnb0NhTnlJdW9mTEZtbGxyckJ0M0s0Smo3YXJCdC9YTTZ1T3phZEIKR0ZOUlR0eGdlekVtS3hGTHdaYmVIeWV1RVBNOGw2ZEJsWHhxbVNiOHk3YWRkQ3lOTkNJQ1JMNU01VDQ3M2JxbwprN2tXWWpVUENkQThXdWUxRHM1YXZoLzcxZEFiZG1NREFTTHNONXJMdGRHSzNKZlhWOVd3dzhKemc5cVJsSGJLCktuT01oTFJRU21RN3pLOW1iK3BrY054MHFDTkF0VnBkSWhSNnozRU4zbjhGL2taT25MWmlzdzB4d0F0QVM4RmUKOU94eGxFa0NnWUVBMkFCNVdTc1VtQy9DcXVIWEdSVjdPcTluWU9ZNmFPZXR3VkdPYUNrLy9RMkFkMFN1QzUrUwpmUDVBMXN0ZUNNak9rbE5NdGZGTGRaMm9XUVVFYTg2QzBtWGRoTnFrbnlucnhKZmxuMHdKb0Y2Y1VCc2xMWEYrCjdQL0NqcFUwSTdPN0VycDVIOWxWMTlkcjU1Tjc1anJkdVlsSkF2cTQvMXhLSnB3cDNrOEltTVVDZ1lFQTRjeWkKSTNtY0E5SWd1RGlEd2pJdEc4cVYvSGVReDRUdXByakdXTlBEa1JlTHNneHJ1S2ZXUFE0aVNoaDQxMzlROUxITQpySWp5MVozOHp6Uk5OSVg5V3U0WWowcTArS3ZLUGs3N0tNYXhrZXZYNksvMGQ4a05wS25sc1lpbVE3MGZPNHZiCnZBRHczeGRZVWZsMlpndFE4UW5YUE5YSTNIbklQcHFJS21MR0N1c0NnWUFjRzNPdTlyd25VWSt6VE5BQW81cjEKZC8ycnprbXJmUHBQUFoyYVVFUFRXZjV0aHJKZk1OU1BEMGJBckpYLzdxRnl5UVFpYU5PNDZsc051bWxvM2VhSQpHbGxKQUdxTGk1anliQkdsT08vSHZvZjRwSStoNmpMcUJCMzlEODFKR0FvdjFiUU5RT3E2dTMxL0ZPSDZnNDUyCnBqYXAvSlkySkh4QnFmQ0l6U0FCUVFLQmdGanozcVFQRW5GRzVIRHVncW1NVHN6MkFDUlhqZ2Vyek1DTlprWTAKRm9VZ08zNUcrbURpYmJuYnlaSmJGYS8vamdyM3lHUG9CNUkwRFJZcnlvWjRpcGk1MTU4TGxVT3BtYUQyU0dlRgo3d3BIV09WbisrejhuWTFUQ1JQcGUyYVFLSyt5cHp2bk92MElHMWtmNTQ3SHdubFNvU0pzTGhiOU91Kyt2UW5GCm83TkZBb0dBR0luV1NMMjZDeWdqQWNLY2ZwMXN5TFlEeWVsUXc4U0lEV2tUNjVUbmlObldkNWZSLzlybTRBQzUKQXRtVitDMGpkMHJPZGJTUGYxMnNzakRDZk5icjJJdmVPWENobHJVVTN5ZUlmK09xTkkvdXcxWVZsOHBya2duNgpQdFRBdjh4RVNuUTFHWkVIZzlvcGlSVXczNWNaYXVCOVc3MlhpNU5YTU8wZ3lHdnJmWlE9Ci0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
-kind: Secret
-metadata:
-  annotations:
-    meta.helm.sh/release-name: cilium
-    meta.helm.sh/release-namespace: kube-system
-  labels:
-    app.kubernetes.io/managed-by: Helm
-    cilium.io/helm-template-non-idempotent: "true"
-  name: hubble-server-certs
-  namespace: kube-system
-type: kubernetes.io/tls
----
-apiVersion: v1
 kind: Service
 metadata:
   annotations:
@@ -13307,7 +13258,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: cilium-agent
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     k8s-app: cilium
   name: cilium-agent
   namespace: kube-system
@@ -13336,7 +13287,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: cilium-operator
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     io.cilium/app: operator
     name: cilium-operator
   name: cilium-operator
@@ -13363,7 +13314,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hubble
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     k8s-app: hubble
   name: hubble-metrics
   namespace: kube-system
@@ -13388,7 +13339,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hubble-peer
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     k8s-app: cilium
   name: hubble-peer
   namespace: kube-system
@@ -13412,7 +13363,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hubble-relay
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     k8s-app: hubble-relay
   name: hubble-relay
   namespace: kube-system
@@ -13435,7 +13386,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hubble-ui
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     k8s-app: hubble-ui
   name: hubble-ui
   namespace: kube-system
@@ -13458,7 +13409,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: cilium-operator
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     io.cilium/app: operator
     name: cilium-operator
   name: cilium-operator
@@ -13481,7 +13432,7 @@ spec:
       labels:
         app.kubernetes.io/name: cilium-operator
         app.kubernetes.io/part-of: cilium
-        helm.sh/chart: cilium-1.20.1
+        helm.sh/chart: cilium-1.20.2
         io.cilium/app: operator
         name: cilium-operator
     spec:
@@ -13520,7 +13471,7 @@ spec:
           value: 127.0.0.1
         - name: KUBERNETES_SERVICE_PORT
           value: "7445"
-        image: quay.io/cilium/operator-generic:v1.20.1@sha256:6c3885fc7b629099fdbe2a5c87869c86feb825fa18fae299eac0f61918d16ecf
+        image: quay.io/cilium/operator-generic:v1.20.2@sha256:64d8798350e8569b8e7622563fed6e44dce2625f311e4651b774816516c744fc
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -13596,7 +13547,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hubble-relay
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     k8s-app: hubble-relay
   name: hubble-relay
   namespace: kube-system
@@ -13615,7 +13566,7 @@ spec:
       labels:
         app.kubernetes.io/name: hubble-relay
         app.kubernetes.io/part-of: cilium
-        helm.sh/chart: cilium-1.20.1
+        helm.sh/chart: cilium-1.20.2
         k8s-app: hubble-relay
     spec:
       affinity:
@@ -13631,7 +13582,7 @@ spec:
         - serve
         command:
         - hubble-relay
-        image: quay.io/cilium/hubble-relay:v1.20.1@sha256:59be0ae7d475ab9011a5e954618c0f27b5778b17140381425b308b55ba4917f4
+        image: quay.io/cilium/hubble-relay:v1.20.2@sha256:d309c977870e9dbede7122a10eee09a4c9d66685e8d52af62d9c3c113f815b0f
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 12
@@ -13718,7 +13669,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hubble-ui
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     k8s-app: hubble-ui
   name: hubble-ui
   namespace: kube-system
@@ -13737,12 +13688,12 @@ spec:
       labels:
         app.kubernetes.io/name: hubble-ui
         app.kubernetes.io/part-of: cilium
-        helm.sh/chart: cilium-1.20.1
+        helm.sh/chart: cilium-1.20.2
         k8s-app: hubble-ui
     spec:
       automountServiceAccountToken: true
       containers:
-      - image: quay.io/cilium/hubble-ui:v0.13.5@sha256:f7d514fc54d784ed6df9d58cf0e97648b143f92b766dd1780ed3fc845bd4c516
+      - image: quay.io/cilium/hubble-ui:v0.13.6@sha256:049a80a03585c043d0c3121bdc518c72b0fd42bae07e4bcce0fdb8f1e88041d0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -13773,7 +13724,7 @@ spec:
           value: "8090"
         - name: FLOWS_API_ADDR
           value: hubble-relay:80
-        image: quay.io/cilium/hubble-ui-backend:v0.13.5@sha256:fac0c300ae119274edca11fd89b1ad23c788792d8bc4ea2ba631c709e8d3c688
+        image: quay.io/cilium/hubble-ui-backend:v0.13.6@sha256:83b3fc763f3d49948c306bf49b08277383e195904b9ca5c0c0022b2112628787
         imagePullPolicy: IfNotPresent
         name: backend
         ports:
@@ -13816,7 +13767,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: cilium-agent
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     k8s-app: cilium
   name: cilium
   namespace: kube-system
@@ -13832,7 +13783,7 @@ spec:
       labels:
         app.kubernetes.io/name: cilium-agent
         app.kubernetes.io/part-of: cilium
-        helm.sh/chart: cilium-1.20.1
+        helm.sh/chart: cilium-1.20.2
         k8s-app: cilium
     spec:
       affinity:
@@ -13874,7 +13825,7 @@ spec:
           value: "1"
         - name: KUBE_CLIENT_BACKOFF_DURATION
           value: "120"
-        image: quay.io/cilium/cilium:v1.20.1@sha256:ae9ea21f7427fe24bc6ea7247eb552157a1b0a431744045d3f641545ca71d11b
+        image: quay.io/cilium/cilium:v1.20.2@sha256:2939231d0d3e3ebddcd80fffa168b7ddcc78fdf0dc864d1c8c126ff523c54f01
         imagePullPolicy: IfNotPresent
         lifecycle:
           postStart:
@@ -14043,7 +13994,7 @@ spec:
           value: 127.0.0.1
         - name: KUBERNETES_SERVICE_PORT
           value: "7445"
-        image: quay.io/cilium/cilium:v1.20.1@sha256:ae9ea21f7427fe24bc6ea7247eb552157a1b0a431744045d3f641545ca71d11b
+        image: quay.io/cilium/cilium:v1.20.2@sha256:2939231d0d3e3ebddcd80fffa168b7ddcc78fdf0dc864d1c8c126ff523c54f01
         imagePullPolicy: IfNotPresent
         name: config
         securityContext:
@@ -14066,7 +14017,7 @@ spec:
         env:
         - name: BIN_PATH
           value: /opt/cni/bin
-        image: quay.io/cilium/cilium:v1.20.1@sha256:ae9ea21f7427fe24bc6ea7247eb552157a1b0a431744045d3f641545ca71d11b
+        image: quay.io/cilium/cilium:v1.20.2@sha256:2939231d0d3e3ebddcd80fffa168b7ddcc78fdf0dc864d1c8c126ff523c54f01
         imagePullPolicy: IfNotPresent
         name: apply-sysctl-overwrites
         securityContext:
@@ -14092,7 +14043,7 @@ spec:
         - /bin/bash
         - -c
         - --
-        image: quay.io/cilium/cilium:v1.20.1@sha256:ae9ea21f7427fe24bc6ea7247eb552157a1b0a431744045d3f641545ca71d11b
+        image: quay.io/cilium/cilium:v1.20.2@sha256:2939231d0d3e3ebddcd80fffa168b7ddcc78fdf0dc864d1c8c126ff523c54f01
         imagePullPolicy: IfNotPresent
         name: mount-bpf-fs
         securityContext:
@@ -14127,7 +14078,7 @@ spec:
           value: 127.0.0.1
         - name: KUBERNETES_SERVICE_PORT
           value: "7445"
-        image: quay.io/cilium/cilium:v1.20.1@sha256:ae9ea21f7427fe24bc6ea7247eb552157a1b0a431744045d3f641545ca71d11b
+        image: quay.io/cilium/cilium:v1.20.2@sha256:2939231d0d3e3ebddcd80fffa168b7ddcc78fdf0dc864d1c8c126ff523c54f01
         imagePullPolicy: IfNotPresent
         name: clean-cilium-state
         securityContext:
@@ -14152,7 +14103,7 @@ spec:
           name: cilium-run
       - command:
         - /install-plugin.sh
-        image: quay.io/cilium/cilium:v1.20.1@sha256:ae9ea21f7427fe24bc6ea7247eb552157a1b0a431744045d3f641545ca71d11b
+        image: quay.io/cilium/cilium:v1.20.2@sha256:2939231d0d3e3ebddcd80fffa168b7ddcc78fdf0dc864d1c8c126ff523c54f01
         imagePullPolicy: IfNotPresent
         name: install-cni-binaries
         resources:
@@ -14288,7 +14239,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: cilium-agent
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-agent
   namespace: kube-system
 spec:
@@ -14322,7 +14273,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: cilium-operator
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
   name: cilium-operator
   namespace: kube-system
 spec:
@@ -14351,7 +14302,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hubble
     app.kubernetes.io/part-of: cilium
-    helm.sh/chart: cilium-1.20.1
+    helm.sh/chart: cilium-1.20.2
     prometheus: kube-prometheus
   name: hubble
   namespace: kube-system
