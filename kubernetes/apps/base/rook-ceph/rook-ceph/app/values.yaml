@@ -1,5 +1,12 @@
 priorityClassName: platform-cluster-critical
 csi:
+  # REQUIRED on 1.21.0: the chart dropped this default from values.yaml but the
+  # operator ConfigMap template still renders it, so it comes out empty, the
+  # operator reads "" as false and deletes the rook-ceph CephConnection and
+  # ClientProfile on every mon reconcile -- breaking new RBD mounts, provisioning
+  # and snapshots for every PVC. Re-check whether upstream restored the default
+  # before removing this.
+  createCsiOperatorResources: true
   cephFSKernelMountOptions: ms_mode=prefer-crc
   enableLiveness: true
   provisionerPriorityClassName: platform-cluster-critical
