@@ -100,7 +100,7 @@ spec:
           realmflags-prober:
             image:
               repository: mariadb
-              tag: "12.3"
+              tag: "13.0"
             command:
               - /bin/bash
               - -c
