@@ -13,6 +13,11 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
   render:
@@ -45,6 +50,7 @@ jobs:
           helm template kubelet-csr-approver /tmp/chart/kubelet-csr-approver \
             --namespace kube-system \
             --values kubernetes/apps/base/kube-system/kubelet-csr-approver/app/values.yaml \
+            --api-versions monitoring.coreos.com/v1 \
             --no-hooks \
             > /tmp/rendered.yaml
 
@@ -72,18 +78,18 @@ jobs:
           sed -i "s/version: .*/version: $CHART_VERSION/" \
             talos/integrations/cert-approver/kustomization.yaml
 
-      - name: Check for changes
-        id: diff
-        run: |
-          git diff --quiet talos/integrations/cert-approver/ && echo "changed=false" >> "$GITHUB_OUTPUT" || echo "changed=true" >> "$GITHUB_OUTPUT"
+      # main requires verified signatures, so a bot push is rejected (GH013).
+      # Open a PR instead; sign-commits makes the API create a verified commit.
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          branch: chore/talos-render-cert-approver
+          delete-branch: true
+          sign-commits: true
+          add-paths: talos/integrations/cert-approver/
+          commit-message: "chore(talos): re-render kubelet-csr-approver manifest v${{ steps.chart.outputs.version }}"
+          title: "chore(talos): re-render kubelet-csr-approver manifest v${{ steps.chart.outputs.version }}"
+          body: |
+            Re-rendered `talos/integrations/cert-approver/cert-approver.yaml` for chart v${{ steps.chart.outputs.version }}.
 
-      - name: Commit and push
-        if: steps.diff.outputs.changed == 'true'
-        env:
-          CHART_VERSION: ${{ steps.chart.outputs.version }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add talos/integrations/cert-approver/
-          git commit -m "chore(talos): re-render kubelet-csr-approver manifest v${CHART_VERSION}"
-          git push
+            Talos applies this file on `talosctl upgrade-k8s`, so it should match what Flux runs.

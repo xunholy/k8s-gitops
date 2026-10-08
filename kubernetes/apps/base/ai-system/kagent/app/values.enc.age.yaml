@@ -1,19 +1,18 @@
 providers:
   openAI:
-    apiKey: PLACEHOLDER
+    apiKey: ENC[AES256_GCM,data:sNqg361nnKCsSf0=,iv:93BZMJOrmi4UZje+Oekjdv30Pd9cOgr7lC6oBFSP7mY=,tag:ZJW2IYzilaOuCMNNKoW+MQ==,type:str]
 sops:
   age:
     - recipient: age19gj66fq5v2veu940ftyj4pkw0w5tgxgddlyqnd00pnjzyndevurqx70g4t
       enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDRXpYSDI2ZWFGQ2ZaOVVV
-        NitUM290S2xIWDYwR3F4UTUyNkUzNkxKMmlBCmw3TEo2ZlI2Smt2RWVUK3lBMXVR
-        UDhpanJhTU16a1RsT2p1RkdSczQ4UlUKLS0tIGEyVTBrTjJ5R3RIclEyUm1DbzQy
-        WURjVy9QV0VadG5lZERmbzFKQ09oNjQKJBrP1aC9RFZropDxKb0Mm7Gmm7SMJYTI
-        9CKg+E8kB8+5F/BnVNCBqsbXqOXCEDMGD7rbtulR/UdwMzaIhx6ZrQ==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBsM2lBQmN0alZpWU1RZzZO
+        K2YxUHZVVURRdUtpZnI3T3RrUTBMSHhYV0E0Ck5JcGRvVmd0T2IrWldYNmJWZnV1
+        WFAxdlp5SGlZR1R6a2pYWVc2Z3BOS3MKLS0tIDJBNDNJRGxLNmIyNml6dGI1ckR3
+        RzJnLzR4V0hSeWdUd2p6MWtiVE9jQWMK5DMafdEmAcys0wpls/AkTnDERPIwqfSi
+        jHOObHU9w4o76yW8/1zynT7Lp8IP+MS94pe4mTtzCyfT2oGj6UL+SQ==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2025-12-22T01:21:04Z"
-  mac: ENC[AES256_GCM,data:zfFjgC62XPfpQ+1QQY7/0L7D/2xudrc/tadEyHxngjQojMX8UyGljnwh9rJrDHqDnL0XYlN+Y52QgraqfC0yrAKUvEBL162RUv48b2WUY/gzc9xkUc0VqaDQ/9rmDFttG6D4TPsoqNLHHISGP7ZCSYFoK0jYRfPhBDwXDDUhUqA=,iv:EZAFHGTbvXbcktWRCW+XWjXtQB/ZibdCWnnyDT0DnMU=,tag:TKMiYIkxcvhw4GycP1FxvQ==,type:str]
-  encrypted_regex: ^(data|stringData)$
-  mac_only_encrypted: true
-  version: 3.11.0
+  lastmodified: "2026-10-08T03:58:29Z"
+  mac: ENC[AES256_GCM,data:5yx2JQP2YdfZ9s1aN2gYh+/EoL/Wu3WNNd7FnB6VkFVfzB9Uwk082N1GEoQIEU7Pbdu7gfqE6ISCTHcIl+rVQ8HjFA9aN/6XeK+2Kofkg1uIfhoQobL2xw3BfAx5c+izWqqdAchq6ypoTuQW0F0CBOCogpfLaZIrWJY6niouccE=,iv:jPJT1aKzdOmSlfA562DkQNhZeNNkMvamBV0d/UFT4Ig=,tag:8fuxf0urf8BkgkGkbnD4Dw==,type:str]
+  unencrypted_suffix: _unencrypted
+  version: 3.12.1

@@ -1,0 +1,90 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Talos Cilium Manifest Check"
+
+# talos/integrations/cilium/cilium.yaml is rendered from the Flux-deployed release
+# (see its README), so it can only be refreshed after Flux rolls a new Cilium out
+# and a PR check could never pass for a Cilium bump. Instead, track drift in an
+# issue: opened when the Talos manifest lags the chart Flux runs, closed once the
+# versions line up again.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - kubernetes/apps/base/kube-system/cilium/app/ocirepository.yaml
+      - talos/integrations/cilium/**
+  schedule:
+    - cron: "17 21 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup yq
+        uses: mikefarah/yq@c14f446382944492701b16c1ddb48bb9dbe683e3 # v4.53.6
+
+      - name: Compare versions
+        id: versions
+        run: |
+          flux=$(yq '.spec.ref.tag' kubernetes/apps/base/kube-system/cilium/app/ocirepository.yaml)
+          offline=$(yq '.helmCharts[0].version' talos/integrations/cilium/kustomization.yaml)
+          talos=$(grep -m1 -oE 'helm.sh/chart: cilium-[0-9][^_[:space:]]*' talos/integrations/cilium/cilium.yaml | sed 's/.*cilium-//')
+          echo "flux=$flux offline=$offline talos=$talos"
+          {
+            echo "flux=$flux"
+            echo "offline=$offline"
+            echo "talos=$talos"
+          } >> "$GITHUB_OUTPUT"
+          if [ "$flux" = "$talos" ] && [ "$flux" = "$offline" ]; then
+            echo "stale=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "stale=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open or update tracking issue
+        if: steps.versions.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FLUX: ${{ steps.versions.outputs.flux }}
+          OFFLINE: ${{ steps.versions.outputs.offline }}
+          TALOS: ${{ steps.versions.outputs.talos }}
+        run: |
+          title="Talos cilium.yaml is behind the Cilium chart Flux runs"
+          body=$(printf '%s\n' \
+            "| Source | Version |" "| --- | --- |" \
+            "| Flux OCIRepository (\`ocirepository.yaml\`) | ${FLUX} |" \
+            "| Offline render (\`talos/integrations/cilium/kustomization.yaml\`) | ${OFFLINE} |" \
+            "| Talos CNI manifest (\`talos/integrations/cilium/cilium.yaml\`) | ${TALOS} |" \
+            "" \
+            "Once Flux has rolled out ${FLUX}, regenerate \`cilium.yaml\` from the deployed release and bump the kustomization version (see \`talos/integrations/cilium/README.md\`)." \
+            "Do not run \`talosctl upgrade-k8s\` until this is closed: it would apply the stale manifest over the live CNI.")
+          num=$(gh issue list --state open --search "in:title \"$title\"" --json number -q '.[0].number')
+          if [ -n "$num" ]; then
+            gh issue edit "$num" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body"
+          fi
+
+      - name: Close tracking issue
+        if: steps.versions.outputs.stale == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Talos cilium.yaml is behind the Cilium chart Flux runs"
+          num=$(gh issue list --state open --search "in:title \"$title\"" --json number -q '.[0].number')
+          if [ -n "$num" ]; then
+            gh issue close "$num" --comment "Versions match again (${{ steps.versions.outputs.flux }})."
+          fi
