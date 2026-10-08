@@ -21,8 +21,8 @@ spec:
     spec:
       chart: ceph-csi-drivers
       # Keep in lockstep with the ceph-csi-operator subchart pinned by the
-      # rook-ceph chart (Chart.yaml dependencies) — 1.20.7 ships operator 1.0.4.
-      version: 1.0.5
+      # rook-ceph chart (Chart.yaml dependencies) — 1.21.0 ships operator 1.1.0.
+      version: 1.1.0
       interval: 10m
       sourceRef:
         kind: HelmRepository
