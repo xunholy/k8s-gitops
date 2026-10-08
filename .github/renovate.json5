@@ -36,7 +36,7 @@
       // lockstep with talos/integrations/cilium; rook-ceph 1.20 splits out ceph-csi-drivers). Patch stays automerged.
       description: "Never automerge minor updates of cluster-critical charts",
       matchDatasources: ["docker", "helm"],
-      matchPackageNames: ["/cilium/", "/external-dns/", "/rook-ceph/", "/cert-manager/", "quay.io/ceph/ceph"],
+      matchPackageNames: ["/cilium/", "/external-dns/", "/rook-ceph/", "/ceph-csi-drivers/", "/cert-manager/", "quay.io/ceph/ceph"],
       matchUpdateTypes: ["minor"],
       automerge: false,
     },
@@ -50,6 +50,24 @@
       matchDatasources: ["docker"],
       matchPackageNames: ["mysql", "docker.io/library/mysql"],
       allowedVersions: "/^8\\.4\\./",
+    },
+    {
+      // 12.3 is the MariaDB LTS (EOL 2029-06). 13.x are rolling releases with no patch releases after GA,
+      // so following them means a one-way major upgrade every quarter on the shared live+PTR game DB
+      // (downgrades are unsupported). Nothing cmangos uses needs 13.x. Revisit at the next LTS.
+      description: "Pin mariadb image to the 12.3 LTS line (no rolling releases)",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["mariadb", "docker.io/library/mariadb"],
+      allowedVersions: "/^12\\.3(\\.|$)/",
+    },
+    {
+      // Ceph x.1.z tags are release candidates; the stable line starts at x.2.0 (docs.ceph.com/en/latest/releases/general).
+      // Rook >= 1.21 only checks the major version, so it would happily roll out an RC. A major is irreversible once
+      // require_osd_release moves, so only ever offer stable (x.2+) releases. This rejects #4307 (v21.1.1).
+      description: "Only offer stable Ceph releases (x.2+), never release candidates",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["quay.io/ceph/ceph"],
+      allowedVersions: "/^v\\d+\\.([2-9]|\\d{2,})\\.\\d+$/",
     },
     {
       // tetragon is disabled on this cluster (needs debugfs/tracefs on Talos) and every anonymous OCI
