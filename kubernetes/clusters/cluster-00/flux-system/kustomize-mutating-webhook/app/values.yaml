@@ -23,7 +23,10 @@ secrets:
   - create: false
     name: cluster-secrets
 env:
-  LOG_LEVEL: debug
+  # debug logs every mutation with the full substituted cluster-secrets values
+  # ("Applying mutation to resource"), which ships credentials to Loki. info
+  # carries none of them.
+  LOG_LEVEL: info
 podDisruptionBudget:
   enabled: true
   minAvailable: 1
