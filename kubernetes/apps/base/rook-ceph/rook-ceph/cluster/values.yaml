@@ -42,6 +42,11 @@ cephClusterSpec:
   csi:
     readAffinity:
       enabled: true
+    # requireMsgr2 is on, so kernel CephFS mounts need an msgr2 mode. Was the
+    # operator's csi.cephFSKernelMountOptions, which stopped being read in 1.20;
+    # the live ClientProfile only kept it as a leftover from the 1.19 migration.
+    cephfs:
+      kernelMountOptions: ms_mode=prefer-crc
   priorityClassNames:
     mon: platform-node-critical
     osd: platform-node-critical
@@ -80,8 +85,10 @@ cephClusterSpec:
         enabled: true
       - name: pg_autoscaler
         enabled: true
+      # Upstream recommends disabling it on Tentacle (known stability issues); the
+      # only effect is a few unused Ceph dashboard pages. Chart default since 1.21.
       - name: rook
-        enabled: true
+        enabled: false
   network:
     connections:
       requireMsgr2: true
