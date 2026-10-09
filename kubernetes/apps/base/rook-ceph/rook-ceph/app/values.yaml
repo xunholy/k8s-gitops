@@ -7,12 +7,12 @@ csi:
   # and snapshots for every PVC. Re-check whether upstream restored the default
   # before removing this.
   createCsiOperatorResources: true
-  cephFSKernelMountOptions: ms_mode=prefer-crc
-  enableLiveness: true
-  provisionerPriorityClassName: platform-cluster-critical
-  pluginPriorityClassName: platform-node-critical
-  serviceMonitor:
-    enabled: true
+  # The old csi.* driver settings (kernel mount options, liveness, priority
+  # classes, csi-metrics ServiceMonitor) are no longer read since Rook 1.20 split
+  # the drivers into ceph-csi-drivers: priority classes live in
+  # ../csi-drivers/values.yaml, the CephFS kernel mount options in the CephCluster
+  # spec (cluster/values.yaml csi.cephfs), and the ServiceMonitor selected a
+  # Service that no longer exists.
 image:
   repository: ghcr.io/rook/ceph
 monitoring:
