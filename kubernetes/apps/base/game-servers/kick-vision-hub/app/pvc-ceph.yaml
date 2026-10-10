@@ -1,0 +1,15 @@
+---
+# The hub's data (a SQLite file and content-addressed blobs). Not rebuildable: backed up by
+# VolSync (replicationsource.yaml).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kick-vision-hub-ceph
+  namespace: game-servers
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: ceph-block

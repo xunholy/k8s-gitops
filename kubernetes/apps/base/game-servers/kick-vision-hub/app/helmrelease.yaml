@@ -1,0 +1,86 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# One writer over a SQLite file and a blob directory: a single replica, Recreate strategy.
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kick-vision-hub
+  namespace: game-servers
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      app:
+        strategy: Recreate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/xunholy/kick-vision-hub
+              tag: 8a4615eb860c2cf77188ef4f5e203afee151ae2f
+            env:
+              TZ: ${CLUSTER_TIMEZONE}
+              KV_HUB_ROOT: /data
+              KV_HUB_PORT: "8780"
+            envFrom:
+              - secretRef:
+                  name: kick-vision-hub
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /v1/health
+                    port: 8780
+                  periodSeconds: 30
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /v1/health
+                    port: 8780
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 512Mi
+    defaultPodOptions:
+      imagePullSecrets:
+        - name: kick-vision-hub-ghcr
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: app
+        ports:
+          http:
+            port: 8780
+    persistence:
+      data:
+        existingClaim: kick-vision-hub-ceph
+        globalMounts:
+          - path: /data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
