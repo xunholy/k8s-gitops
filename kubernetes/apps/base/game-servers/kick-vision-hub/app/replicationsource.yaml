@@ -1,0 +1,29 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: kick-vision-hub
+spec:
+  sourcePVC: kick-vision-hub-ceph
+  trigger:
+    schedule: "40 */6 * * *"
+  kopia:
+    accessModes:
+      - ReadWriteOnce
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 10Gi
+    cacheStorageClassName: ceph-block
+    compression: zstd-fastest
+    copyMethod: Snapshot
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      fsGroupChangePolicy: OnRootMismatch
+    parallelism: 2
+    repository: kick-vision-hub-volsync-secret
+    retain:
+      daily: 7
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
