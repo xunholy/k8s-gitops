@@ -1,0 +1,115 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# Arena: one Node process that runs the game rooms (WebSocket on /ws) and serves the built client,
+# the art pack and the maps on the same port. The image carries its own original placeholder content
+# (/app/content); final art ships the same way, in a new image.
+#
+# LAN only: a Cilium L2 LoadBalancer IP on the home network. No HTTPRoute, no DNS record, no tunnel.
+#
+# Rooms are in memory and SQLite has one writer: a single replica, Recreate strategy.
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app arena-platform
+  namespace: game-servers
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      app:
+        strategy: Recreate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/xunholy/arena-platform
+              tag: 0.1.0
+            env:
+              TZ: ${CLUSTER_TIMEZONE}
+              PORT: "8787"
+              STATIC_DIR: /app/public
+              PACK_DIR: /app/content/packs
+              MAPS_DIR: /app/content/maps
+              DATA_DIR: /srv/data
+              # Bots keep one public room busy and fill any room with fewer than 4 humans.
+              BOT_ROOMS: "1"
+              BOT_TARGET: "4"
+              BOT_FILL_BELOW_HUMANS: "4"
+              # Keep V8's heap well inside the memory limit so a leak OOMs in the heap, with a
+              # stack trace, instead of being SIGKILLed by the kernel.
+              NODE_OPTIONS: --max-old-space-size=768
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: &port 8787
+                  periodSeconds: 30
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            # The sim ticks at 34 Hz per room and bots run in-process: CPU is requested, never
+            # limited, so a busy room is not throttled mid-tick.
+            resources:
+              requests:
+                cpu: 250m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    defaultPodOptions:
+      imagePullSecrets:
+        - name: arena-platform-ghcr
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: app
+        type: LoadBalancer
+        annotations:
+          # 192.168.50.198: free in the l2-pool (192.168.50.180-199); see CLUSTER_LB_ARENA_PLATFORM
+          # in clusters/cluster-00/secrets/cluster-config.yaml. The default keeps the address fixed
+          # even before that ConfigMap is re-applied to the cluster.
+          lbipam.cilium.io/ips: ${CLUSTER_LB_ARENA_PLATFORM:=192.168.50.198}
+        ports:
+          http:
+            port: 80
+            targetPort: *port
+    serviceMonitor:
+      app:
+        serviceName: *app
+        endpoints:
+          - port: http
+            path: /metrics
+            interval: 30s
+    persistence:
+      data:
+        existingClaim: arena-platform-data
+        globalMounts:
+          - path: /srv/data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp

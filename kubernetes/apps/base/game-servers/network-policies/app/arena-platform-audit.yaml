@@ -1,0 +1,44 @@
+---
+# AUDIT ONLY — does not enforce.
+#
+# Intent: arena-platform is LAN-only. Players reach it on its LoadBalancer IP from the home
+# network, Prometheus scrapes /metrics, and nothing else should talk to it. Any ingress from
+# outside 192.168.50.0/24 (a router port-forward, a stray HTTPRoute) shows up as WouldDeny.
+# It needs no egress beyond DNS: no internet, no other namespaces, no API server.
+#
+# Promote to enforcement by copying this spec under `kind: NetworkPolicy` once
+# status.evaluation.topOffenders shows only traffic you intend to block.
+apiVersion: kguardian.dev/v1alpha1
+kind: AuditNetworkPolicy
+metadata:
+  name: arena-platform-audit
+  namespace: game-servers
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: arena-platform
+  policyTypes: [Ingress, Egress]
+  ingress:
+    # Players on the LAN. LoadBalancer traffic forwarded between nodes is SNATed to a node
+    # address, which is in the same /24.
+    - from:
+        - ipBlock:
+            cidr: 192.168.50.0/24
+      ports:
+        - { protocol: TCP, port: 8787 }
+    # Prometheus scrape from the observability namespace.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: observability
+      ports:
+        - { protocol: TCP, port: 8787 }
+  egress:
+    # DNS to kube-dns only.
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - { protocol: UDP, port: 53 }
+        - { protocol: TCP, port: 53 }

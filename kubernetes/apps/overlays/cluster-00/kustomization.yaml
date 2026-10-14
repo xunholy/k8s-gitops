@@ -51,6 +51,7 @@ resources:
   - ../../base/game-servers/azerothcore/ks.yaml
   - ../../base/game-servers/emberstone-portal/ks.yaml
   - ../../base/game-servers/kick-vision-hub/ks.yaml
+  - ../../base/game-servers/arena-platform/ks.yaml
   - ../../base/game-servers/network-policies/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/bazarr/ks.yaml

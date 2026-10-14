@@ -130,6 +130,11 @@ spec:
       copy:
         - from: "@repo/apps/base/game-servers/emberstone-portal/app/"
           to: "@artifact/apps/base/game-servers/emberstone-portal/app/"
+    - name: arena-platform
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/game-servers/arena-platform/app/"
+          to: "@artifact/apps/base/game-servers/arena-platform/app/"
     - name: kick-vision-hub
       originRevision: "@repo"
       copy:
