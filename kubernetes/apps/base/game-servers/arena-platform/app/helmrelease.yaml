@@ -1,11 +1,10 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 # Arena: one Node process that runs the game rooms (WebSocket on /ws) and serves the built client,
-# the asset pack and the maps on the same port.
+# the art pack and the maps on the same port. The image carries its own original placeholder content
+# (/app/content); final art ships the same way, in a new image.
 #
-# LAN only: a Cilium L2 LoadBalancer IP on the home network. No HTTPRoute, no DNS record, no
-# tunnel. The original game's assets and decoded maps live only on the private content volume
-# (pvc-content.yaml), filled from the owner's PC; the image carries none of them.
+# LAN only: a Cilium L2 LoadBalancer IP on the home network. No HTTPRoute, no DNS record, no tunnel.
 #
 # Rooms are in memory and SQLite has one writer: a single replica, Recreate strategy.
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -32,11 +31,13 @@ spec:
               TZ: ${CLUSTER_TIMEZONE}
               PORT: "8787"
               STATIC_DIR: /app/public
-              # Which pack the server hands the client: a directory under /srv/content/packs.
-              # Point this at the owner's own art pack before anything leaves the LAN.
-              PACK_DIR: /srv/content/packs/reference
-              MAPS_DIR: /srv/content/maps
+              PACK_DIR: /app/content/packs
+              MAPS_DIR: /app/content/maps
               DATA_DIR: /srv/data
+              # Bots keep one public room busy and fill any room with fewer than 4 humans.
+              BOT_ROOMS: "1"
+              BOT_TARGET: "4"
+              BOT_FILL_BELOW_HUMANS: "4"
               # Keep V8's heap well inside the memory limit so a leak OOMs in the heap, with a
               # stack trace, instead of being SIGKILLed by the kernel.
               NODE_OPTIONS: --max-old-space-size=768
@@ -108,10 +109,6 @@ spec:
         existingClaim: arena-platform-data
         globalMounts:
           - path: /srv/data
-      content:
-        existingClaim: arena-platform-content
-        globalMounts:
-          - path: /srv/content
       tmp:
         type: emptyDir
         globalMounts:
