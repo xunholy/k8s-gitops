@@ -1,0 +1,15 @@
+---
+# The server's SQLite database (DATA_DIR): accounts, profiles, inventory. Not rebuildable: backed
+# up by VolSync (replicationsource.yaml).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: arena-platform-data
+  namespace: game-servers
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: ceph-block
