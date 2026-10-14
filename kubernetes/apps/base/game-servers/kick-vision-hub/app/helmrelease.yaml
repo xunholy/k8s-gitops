@@ -20,7 +20,7 @@ spec:
           app:
             image:
               repository: ghcr.io/xunholy/kick-vision-hub
-              tag: 8a4615eb860c2cf77188ef4f5e203afee151ae2f
+              tag: c01cd1bdc4330278c4f6361eddcf6cd8d06ca371
             env:
               TZ: ${CLUSTER_TIMEZONE}
               KV_HUB_ROOT: /data

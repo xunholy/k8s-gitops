@@ -6,8 +6,10 @@ kind: Kustomization
 resources:
   - pvc-ceph.yaml
   - externalsecret.yaml
+  - externalsecret-api-keys.yaml
   - externalsecret-ghcr.yaml
   - helmrelease.yaml
   - httproute.yaml
+  - securitypolicy.yaml
   - replicationsource.yaml
   - volsync-externalsecret.yaml

@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+# Only clients with an API key reach the hub: any other request gets 401 at the gateway, on the
+# LAN and off it, so nothing on the internet talks to the hub itself. The keys come from
+# externalsecret-api-keys.yaml. The key header is stripped before the request goes on to the
+# hub, which checks its own bearer token. The kubelet probes reach the pod directly.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: kick-vision-hub
+  namespace: game-servers
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: kick-vision-hub
+  apiKeyAuth:
+    credentialRefs:
+      - group: ""
+        kind: Secret
+        name: kick-vision-hub-api-keys
+    extractFrom:
+      - headers:
+          - x-api-key
+    sanitize: true
