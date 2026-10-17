@@ -1,0 +1,162 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# Hermes Agent (Nous Research): the always-on agent behind WhatsApp, cron and the API.
+#
+# The image starts as root on purpose: s6-overlay's /init is PID 1, chowns /opt/data on first
+# boot, then drops every service to the hermes user (10000). Running the container as non-root
+# breaks that (no supervision, zombies pile up), so only privilege escalation is blocked.
+#
+# One writer over a SQLite database: a single replica, Recreate strategy.
+#
+# Git owns the infrastructure; Hermes owns /opt/data/config.yaml (model, dashboard URL, cron,
+# skills), which it seeds on first boot and edits itself. Set those with
+# `kubectl -n ai-system exec deploy/hermes -- hermes config set ...` or the dashboard.
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: hermes
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      app:
+        strategy: Recreate
+        initContainers:
+          # Claude Code and gh on the PVC, in /opt/data/.local/bin, which is already on the
+          # image's PATH. Reinstalls only when a pinned version changes. ($$ escapes Flux
+          # post-build substitution.)
+          tools:
+            image:
+              repository: docker.io/nousresearch/hermes-agent
+              tag: v0.22.2@sha256:36099926da316742423544e055d4734777105ffe6341873af5459b957d0c2919
+            command: ["/bin/bash", "-c"]
+            args:
+              - |
+                set -euo pipefail
+                bin=/opt/data/.local/bin
+                mkdir -p "$$bin"
+                if [ "$$("$$bin/claude" --version 2>/dev/null | awk '{print $$1}')" != "$$CLAUDE_CODE_VERSION" ]; then
+                  curl -fsSL https://claude.ai/install.sh | bash -s "$$CLAUDE_CODE_VERSION"
+                  rm -rf /opt/data/.claude/downloads
+                fi
+                if [ "$$("$$bin/gh" --version 2>/dev/null | awk 'NR==1{print $$3}')" != "$$GH_VERSION" ]; then
+                  arch=$$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
+                  curl -fsSL "https://github.com/cli/cli/releases/download/v$${GH_VERSION}/gh_$${GH_VERSION}_linux_$${arch}.tar.gz" | tar -xz -C /tmp
+                  install -m 0755 "/tmp/gh_$${GH_VERSION}_linux_$${arch}/bin/gh" "$$bin/gh"
+                fi
+                "$$bin/claude" --version
+                "$$bin/gh" --version | head -1
+            env:
+              HOME: /opt/data
+              # renovate: datasource=npm depName=@anthropic-ai/claude-code
+              CLAUDE_CODE_VERSION: 2.1.292
+              # renovate: datasource=github-releases depName=cli/cli
+              GH_VERSION: 2.102.0
+            securityContext:
+              runAsUser: 10000
+              runAsGroup: 10000
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+        containers:
+          app:
+            image:
+              repository: docker.io/nousresearch/hermes-agent
+              tag: v0.22.2@sha256:36099926da316742423544e055d4734777105ffe6341873af5459b957d0c2919
+            args: ["gateway", "run"]
+            env:
+              TZ: ${CLUSTER_TIMEZONE}
+              HERMES_TIMEZONE: ${CLUSTER_TIMEZONE}
+              HERMES_UID: "10000"
+              HERMES_GID: "10000"
+              # Web dashboard (also what Hermes Desktop's "Remote Gateway" connects to).
+              HERMES_DASHBOARD: "1"
+              HERMES_DASHBOARD_HOST: 0.0.0.0
+              HERMES_DASHBOARD_PORT: "9119"
+              # OpenAI-compatible API (/v1/chat/completions, /v1/responses, /v1/runs, /health).
+              API_SERVER_ENABLED: "true"
+              API_SERVER_HOST: 0.0.0.0
+              API_SERVER_PORT: "8642"
+              # The pod is the sandbox: there is no Docker socket on Talos.
+              TERMINAL_ENV: local
+              # WhatsApp through the Baileys bridge on a dedicated number. Pair once with
+              # `kubectl -n ai-system exec -it deploy/hermes -- hermes whatsapp`; the session
+              # lives in /opt/data/platforms/whatsapp/session.
+              WHATSAPP_ENABLED: "true"
+              WHATSAPP_MODE: bot
+              # Claude Code: pinned by the init container, authenticated by ANTHROPIC_API_KEY.
+              DISABLE_AUTOUPDATER: "1"
+              # git over HTTPS to GitHub authenticates through gh with GH_TOKEN.
+              GIT_CONFIG_COUNT: "1"
+              GIT_CONFIG_KEY_0: credential.https://github.com.helper
+              GIT_CONFIG_VALUE_0: "!/opt/data/.local/bin/gh auth git-credential"
+            envFrom:
+              - secretRef:
+                  name: hermes
+            probes:
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8642
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 60
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8642
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8642
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                  failureThreshold: 3
+            securityContext:
+              allowPrivilegeEscalation: false
+            resources:
+              requests:
+                cpu: 100m
+                memory: 1Gi
+              limits:
+                memory: 6Gi
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 10000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: app
+        ports:
+          http:
+            port: 9119
+          api:
+            port: 8642
+    persistence:
+      data:
+        existingClaim: hermes
+        globalMounts:
+          - path: /opt/data

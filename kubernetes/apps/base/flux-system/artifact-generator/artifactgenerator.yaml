@@ -195,6 +195,11 @@ spec:
       copy:
         - from: "@repo/apps/base/observability/grafana/app/"
           to: "@artifact/apps/base/observability/grafana/app/"
+    - name: hermes
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/ai-system/hermes/app/"
+          to: "@artifact/apps/base/ai-system/hermes/app/"
     - name: home-assistant
       originRevision: "@repo"
       copy:

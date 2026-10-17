@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
+# The mover runs as Hermes's runtime user (10000) so it can read the agent's 0600 files.
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: hermes
+spec:
+  sourcePVC: hermes
+  trigger:
+    schedule: "50 */6 * * *"
+  kopia:
+    accessModes:
+      - ReadWriteOnce
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 10Gi
+    cacheStorageClassName: ceph-block
+    compression: zstd-fastest
+    copyMethod: Snapshot
+    moverSecurityContext:
+      runAsUser: 10000
+      runAsGroup: 10000
+      fsGroup: 10000
+      fsGroupChangePolicy: OnRootMismatch
+    parallelism: 2
+    repository: hermes-volsync-secret
+    retain:
+      daily: 3
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
