@@ -8,9 +8,6 @@ metadata:
 spec:
   path: "./apps/base/ai-system/open-webui/app"
   wait: true
-  dependsOn:
-    - name: ollama
-      namespace: ai-system
   targetNamespace: ai-system
   sourceRef:
     kind: ExternalArtifact
