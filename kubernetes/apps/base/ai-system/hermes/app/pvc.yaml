@@ -1,0 +1,16 @@
+---
+# Everything Hermes keeps lives here: config.yaml, SOUL.md, sessions (SQLite in WAL mode, so
+# block storage only, never CephFS/NFS), memories, skills, cron jobs, the WhatsApp session and
+# its bridge, and the Claude Code and gh binaries the init container installs. Backed up by
+# VolSync (replicationsource.yaml).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hermes
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: ceph-block

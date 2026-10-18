@@ -24,10 +24,12 @@
       ignoreTests: true,
     },
     {
-      description: "Disable auto-merge for stateful home-system + game-servers apps (manual review required)",
+      // Hermes migrates its SQLite state and config schema on boot and ships releases daily.
+      description: "Disable auto-merge for stateful home-system + game-servers apps and Hermes (manual review required)",
       matchFileNames: [
         "kubernetes/apps/base/home-system/**",
         "kubernetes/apps/base/game-servers/**",
+        "kubernetes/apps/base/ai-system/hermes/**",
       ],
       automerge: false,
     },
