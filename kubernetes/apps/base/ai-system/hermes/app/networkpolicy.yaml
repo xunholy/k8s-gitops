@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/networking.k8s.io/networkpolicy_v1.json
 # Hermes runs shell commands for the agent, so it gets the internet and nothing else in the
-# cluster: DNS, plus n8n and Ollama next door. Private ranges are excluded from the internet
+# cluster: DNS, plus n8n next door. Private ranges are excluded from the internet
 # rule, which keeps it off the LAN, the node IPs and the kube-apiserver. Inbound: the envoy
 # gateways and other ai-system apps (Open WebUI, n8n) on the API port. The kubelet's probes
 # come from the host, which Cilium always allows.
@@ -47,12 +47,6 @@ spec:
               app.kubernetes.io/name: n8n
       ports:
         - { protocol: TCP, port: 5678 }
-    - to:
-        - podSelector:
-            matchLabels:
-              app.kubernetes.io/name: ollama
-      ports:
-        - { protocol: TCP, port: 11434 }
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0

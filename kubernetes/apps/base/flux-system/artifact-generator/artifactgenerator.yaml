@@ -350,11 +350,6 @@ spec:
       copy:
         - from: "@repo/apps/base/network-system/oauth2-proxy/app/"
           to: "@artifact/apps/base/network-system/oauth2-proxy/app/"
-    - name: ollama
-      originRevision: "@repo"
-      copy:
-        - from: "@repo/apps/base/ai-system/ollama/app/"
-          to: "@artifact/apps/base/ai-system/ollama/app/"
     - name: onepassword
       originRevision: "@repo"
       copy:
