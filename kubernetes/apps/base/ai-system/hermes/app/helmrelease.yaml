@@ -93,12 +93,13 @@ spec:
               API_SERVER_PORT: "8642"
               # The pod is the sandbox: there is no Docker socket on Talos.
               TERMINAL_ENV: local
-              # WhatsApp through the Baileys bridge on a dedicated number. Pair once with
-              # `kubectl -n ai-system exec -it deploy/hermes -- hermes whatsapp`; the session
-              # lives in /opt/data/platforms/whatsapp/session. No allowlist: every sender is
-              # denied until approved with `hermes pairing approve whatsapp <code>`.
+              # WhatsApp through the Baileys bridge, linked to the owner's personal number, so
+              # self-chat: Hermes only answers in the "Message yourself" chat. Other people's
+              # messages are ignored (config.yaml whatsapp.unauthorized_dm_behavior: ignore), never
+              # answered with a pairing code. Pair from the dashboard (/channels -> WhatsApp ->
+              # Pair with QR); the session lives in /opt/data/platforms/whatsapp/session.
               WHATSAPP_ENABLED: "true"
-              WHATSAPP_MODE: bot
+              WHATSAPP_MODE: self-chat
               # Claude Code: pinned by the init container. It needs ANTHROPIC_API_KEY, which is
               # not set while Hermes runs on the ChatGPT plan (provider openai-codex).
               DISABLE_AUTOUPDATER: "1"
