@@ -3,7 +3,9 @@
 # Hermes Agent (Nous Research): the always-on agent behind WhatsApp, cron and the API.
 #
 # The image starts as root on purpose: s6-overlay's /init is PID 1, chowns /opt/data on first
-# boot, then drops every service to the hermes user (10000). Running the container as non-root
+# boot, then drops every service to the hermes user. HERMES_UID/HERMES_GID remap that user to
+# 1000, the UID the shared VolSync kopia repository (NFS, files 0600) belongs to, so the backup
+# mover can read both the repository and Hermes's files. Running the container as non-root
 # breaks that (no supervision, zombies pile up), so only privilege escalation is blocked.
 #
 # One writer over a SQLite database: a single replica, Recreate strategy.
@@ -57,8 +59,8 @@ spec:
               # renovate: datasource=github-releases depName=cli/cli
               GH_VERSION: 2.102.0
             securityContext:
-              runAsUser: 10000
-              runAsGroup: 10000
+              runAsUser: 1000
+              runAsGroup: 1000
               runAsNonRoot: true
               allowPrivilegeEscalation: false
               capabilities:
@@ -78,8 +80,8 @@ spec:
             env:
               TZ: ${CLUSTER_TIMEZONE}
               HERMES_TIMEZONE: ${CLUSTER_TIMEZONE}
-              HERMES_UID: "10000"
-              HERMES_GID: "10000"
+              HERMES_UID: "1000"
+              HERMES_GID: "1000"
               # Web dashboard (also what Hermes Desktop's "Remote Gateway" connects to).
               HERMES_DASHBOARD: "1"
               HERMES_DASHBOARD_HOST: 0.0.0.0
@@ -150,7 +152,7 @@ spec:
                 memory: 6Gi
     defaultPodOptions:
       securityContext:
-        fsGroup: 10000
+        fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
