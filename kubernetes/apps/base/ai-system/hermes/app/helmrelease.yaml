@@ -52,6 +52,9 @@ spec:
                 fi
                 "$$bin/claude" --version
                 "$$bin/gh" --version | head -1
+                mkdir -p /opt/data/scripts
+                install -m 0644 /opt/hermes-config/scripts/*.py /opt/data/scripts/
+                ls /opt/data/scripts/*.py
             env:
               HOME: /opt/data
               # renovate: datasource=npm depName=@anthropic-ai/claude-code
@@ -172,3 +175,24 @@ spec:
         existingClaim: hermes
         globalMounts:
           - path: /opt/data
+      # Cron scripts from Git (configMapGenerator in kustomization.yaml), copied into
+      # /opt/data/scripts by the init container.
+      scripts:
+        type: configMap
+        name: hermes-scripts
+        advancedMounts:
+          app:
+            tools:
+              - path: /opt/hermes-config/scripts
+                readOnly: true
+      # Read-only Google service account (google-sa.enc.age.yaml) for the Bedrock Broadcaster
+      # report; group-readable by the hermes user via fsGroup.
+      google:
+        type: secret
+        name: hermes-google
+        defaultMode: 0440
+        advancedMounts:
+          app:
+            app:
+              - path: /var/run/secrets/google
+                readOnly: true

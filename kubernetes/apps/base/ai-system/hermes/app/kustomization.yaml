@@ -8,8 +8,23 @@ resources:
   - pvc.yaml
   - password.yaml
   - externalsecret.yaml
+  - google-sa.enc.age.yaml
   - helmrelease.yaml
   - httproute.yaml
   - networkpolicy.yaml
   - replicationsource.yaml
   - volsync-externalsecret.yaml
+
+# Cron scripts. The init container copies them into /opt/data/scripts, the only directory
+# Hermes cron runs scripts from. A change rolls the pod (hashed name) and recopies them.
+configMapGenerator:
+  - name: hermes-scripts
+    files:
+      - scripts/bedrock-broadcaster-daily.py
+
+generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+
+configurations:
+  - kustomizeconfig.yaml
