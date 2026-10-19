@@ -1,6 +1,7 @@
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
-# The mover runs as Hermes's runtime user (10000) so it can read the agent's 0600 files.
+# The mover runs as 1000: the owner of the shared kopia repository (NFS, files 0600) and, via
+# HERMES_UID/HERMES_GID, of Hermes's files.
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
@@ -19,9 +20,9 @@ spec:
     compression: zstd-fastest
     copyMethod: Snapshot
     moverSecurityContext:
-      runAsUser: 10000
-      runAsGroup: 10000
-      fsGroup: 10000
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
       fsGroupChangePolicy: OnRootMismatch
     parallelism: 2
     repository: hermes-volsync-secret
