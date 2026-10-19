@@ -122,6 +122,10 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 3
                   failureThreshold: 60
+              # s6 already restarts a crashed gateway inside the container, and a gateway restart
+              # (dashboard "apply", config change, WhatsApp bridge reinstall) takes :8642 down for
+              # a minute or more. Liveness only catches a container wedged for ~5 minutes; with 3
+              # failures it killed the pod in the middle of the first WhatsApp pairing.
               liveness:
                 enabled: true
                 custom: true
@@ -131,7 +135,7 @@ spec:
                     port: 8642
                   periodSeconds: 30
                   timeoutSeconds: 5
-                  failureThreshold: 3
+                  failureThreshold: 10
               readiness:
                 enabled: true
                 custom: true
