@@ -84,6 +84,7 @@ spec:
               HERMES_DASHBOARD: "1"
               HERMES_DASHBOARD_HOST: 0.0.0.0
               HERMES_DASHBOARD_PORT: "9119"
+              HERMES_DASHBOARD_BASIC_AUTH_USERNAME: michael
               # OpenAI-compatible API (/v1/chat/completions, /v1/responses, /v1/runs, /health).
               API_SERVER_ENABLED: "true"
               API_SERVER_HOST: 0.0.0.0
@@ -92,10 +93,12 @@ spec:
               TERMINAL_ENV: local
               # WhatsApp through the Baileys bridge on a dedicated number. Pair once with
               # `kubectl -n ai-system exec -it deploy/hermes -- hermes whatsapp`; the session
-              # lives in /opt/data/platforms/whatsapp/session.
+              # lives in /opt/data/platforms/whatsapp/session. No allowlist: every sender is
+              # denied until approved with `hermes pairing approve whatsapp <code>`.
               WHATSAPP_ENABLED: "true"
               WHATSAPP_MODE: bot
-              # Claude Code: pinned by the init container, authenticated by ANTHROPIC_API_KEY.
+              # Claude Code: pinned by the init container. It needs ANTHROPIC_API_KEY, which is
+              # not set while Hermes runs on the ChatGPT plan (provider openai-codex).
               DISABLE_AUTOUPDATER: "1"
               # git over HTTPS to GitHub authenticates through gh with GH_TOKEN.
               GIT_CONFIG_COUNT: "1"
@@ -104,6 +107,8 @@ spec:
             envFrom:
               - secretRef:
                   name: hermes
+              - secretRef:
+                  name: hermes-generated
             probes:
               startup:
                 enabled: true

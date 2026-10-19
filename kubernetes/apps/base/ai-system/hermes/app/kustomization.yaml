@@ -6,6 +6,7 @@ namespace: ai-system
 
 resources:
   - pvc.yaml
+  - password.yaml
   - externalsecret.yaml
   - helmrelease.yaml
   - httproute.yaml
