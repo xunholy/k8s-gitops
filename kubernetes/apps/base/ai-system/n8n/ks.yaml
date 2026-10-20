@@ -13,3 +13,10 @@ spec:
     kind: ExternalArtifact
     name: n8n
     namespace: flux-system
+  dependsOn:
+    - name: onepassword
+      namespace: external-secrets
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync-system

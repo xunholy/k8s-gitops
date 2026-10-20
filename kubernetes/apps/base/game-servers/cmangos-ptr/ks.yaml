@@ -18,3 +18,6 @@ spec:
   # PTR pod's own wait-db init container handles runtime ordering.
   # Keeps PTR reconcilable when the main world server is in a bad state.
   targetNamespace: game-servers
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph

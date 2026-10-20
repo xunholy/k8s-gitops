@@ -19,3 +19,6 @@ spec:
   # reconcilable when either world server is broken so account signups
   # / login keeps working against the healthy realm.
   targetNamespace: game-servers
+  dependsOn:
+    - name: onepassword
+      namespace: external-secrets

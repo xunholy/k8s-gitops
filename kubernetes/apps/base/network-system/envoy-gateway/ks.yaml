@@ -13,3 +13,6 @@ spec:
     kind: ExternalArtifact
     name: envoy-gateway
     namespace: flux-system
+  dependsOn:
+    - name: cert-manager
+      namespace: network-system
