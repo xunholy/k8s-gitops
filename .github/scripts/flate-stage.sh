@@ -25,4 +25,7 @@ grep -rlZ --include='*.yaml' 'kind: ExternalArtifact' . |
 # - The PR-preview ResourceSet takes its inputs from open GitHub PRs.
 yq -i 'del(.resources[] | select(. == "helmrelease.yaml"))' clusters/cluster-00/flux-system/flux-instance/app/kustomization.yaml
 yq -i 'del(.resources[] | select(. == "helmrelease.yaml"))' clusters/cluster-00/flux-system/flux-operator/app/kustomization.yaml
-yq -i 'del(.resources[] | select(. == "resourceset.yaml"))' apps/base/preview-system/app/kustomization.yaml
+grep -rlZ --include='*.yaml' 'type: GitHubPullRequest' apps |
+  while IFS= read -r -d '' provider; do
+    yq -i 'del(.resources[] | select(. == "resourceset.yaml"))' "$(dirname "$provider")/kustomization.yaml"
+  done
