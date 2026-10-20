@@ -17,6 +17,14 @@
       matchUpdateTypes: ["minor", "patch"],
     },
     {
+      // Only bumps machine.install.image in talos/patches; nodes move when talosctl upgrade is run by hand.
+      description: "Auto-merge Talos minor + patch",
+      matchDatasources: ["custom.talos-factory"],
+      automerge: true,
+      automergeType: "pr",
+      matchUpdateTypes: ["minor", "patch"],
+    },
+    {
       description: "Auto-merge Grafana dashboard revisions",
       matchDatasources: ["custom.grafana-dashboards"],
       automerge: true,
