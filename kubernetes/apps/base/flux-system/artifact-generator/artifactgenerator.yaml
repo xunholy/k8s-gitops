@@ -20,3 +20,8 @@ spec:
       copy:
         - from: "@repo/apps/base/{ns}/{app}/app/"
           to: "@artifact/apps/base/{ns}/{app}/app/"
+        # Shared Kustomize components (e.g. volsync) at components/, referenced from ks.yaml spec.components.
+        # "/**" copies the contents; "dir/" would nest it (as the app copy above does, at app/app/).
+        # Changing a component changes every artifact, so every app reconciles once.
+        - from: "@repo/components/**"
+          to: "@artifact/components/"

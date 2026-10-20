@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: sonarr
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: sonarr
+      VOLSYNC_CLAIM: sonarr-ceph
+      VOLSYNC_SCHEDULE: "46 */6 * * *"

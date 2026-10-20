@@ -24,3 +24,12 @@ spec:
     name: arena-platform
     namespace: flux-system
   targetNamespace: game-servers
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: arena-platform
+      VOLSYNC_CLAIM: arena-platform-data
+      VOLSYNC_SCHEDULE: "24 */6 * * *"
+      VOLSYNC_CACHE_CAPACITY: 2Gi
+      VOLSYNC_RETAIN_DAILY: "7"

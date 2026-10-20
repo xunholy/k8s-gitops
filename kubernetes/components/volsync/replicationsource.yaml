@@ -5,20 +5,20 @@ kind: ReplicationSource
 metadata:
   name: ${APP}
 spec:
-  sourcePVC: ${APP}
+  sourcePVC: ${VOLSYNC_CLAIM}
   trigger:
-    # Stagger per app — 23 sources firing at :00 simultaneously caused an
-    # OSD watch-timeout crash and mass RBD read-only remounts (2026-08-03).
+    # Stagger per app (each sets its own minute) — 23 sources firing at :00 simultaneously
+    # caused an OSD watch-timeout crash and mass RBD read-only remounts (2026-08-03).
     # Every 6h, not hourly: each snapshot is an exclusive-lock handoff on a
     # live image, and with 22 sources hourly there was one every 2-3 minutes,
     # which turned every node blip into a client fence (RCA 2026-09-10).
-    schedule: "15 */6 * * *"
+    schedule: "${VOLSYNC_SCHEDULE}"
   kopia:
     accessModes:
       - ${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}
     cacheAccessModes:
       - ${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}
-    cacheCapacity: ${VOLSYNC_CAPACITY:=5Gi}
+    cacheCapacity: ${VOLSYNC_CACHE_CAPACITY:=10Gi}
     cacheStorageClassName: ${VOLSYNC_CACHE_SNAPSHOTCLASS:=ceph-block}
     compression: zstd-fastest
     copyMethod: Snapshot
@@ -30,6 +30,6 @@ spec:
     parallelism: 2
     repository: ${APP}-volsync-secret
     retain:
-      daily: 3
+      daily: ${VOLSYNC_RETAIN_DAILY:=3}
     storageClassName: ${VOLSYNC_STORAGECLASS:=ceph-block}
     volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}

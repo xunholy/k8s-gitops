@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: autobrr
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: autobrr
+      VOLSYNC_CLAIM: autobrr-ceph
+      VOLSYNC_SCHEDULE: "19 */6 * * *"

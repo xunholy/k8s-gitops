@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: grafana-instance
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: grafana
+      VOLSYNC_CLAIM: grafana-pvc
+      VOLSYNC_SCHEDULE: "55 */6 * * *"

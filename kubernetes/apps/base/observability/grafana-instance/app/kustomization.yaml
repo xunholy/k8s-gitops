@@ -7,6 +7,4 @@ resources:
   - grafana.yaml
   - grafanadatasource.yaml
   - httproute.yaml
-  - replicationsource.yaml
   - servicemonitor.yaml
-  - volsync-externalsecret.yaml

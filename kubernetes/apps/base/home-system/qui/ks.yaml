@@ -20,3 +20,10 @@ spec:
     kind: ExternalArtifact
     name: qui
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: qui
+      VOLSYNC_CLAIM: qui
+      VOLSYNC_SCHEDULE: "37 */6 * * *"
