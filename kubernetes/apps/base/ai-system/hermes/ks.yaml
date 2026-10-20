@@ -5,12 +5,10 @@ kind: Kustomization
 metadata:
   name: hermes
   namespace: ai-system
+  labels:
+    gitops.owncloud.ai/timeout: long
 spec:
-  interval: 30m
-  retryInterval: 1m
-  timeout: 10m
   path: "./apps/base/ai-system/hermes/app"
-  prune: true
   wait: true
   sourceRef:
     kind: ExternalArtifact

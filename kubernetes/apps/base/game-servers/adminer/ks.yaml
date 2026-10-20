@@ -6,15 +6,9 @@ metadata:
   name: adminer
   namespace: game-servers
   labels:
-    gitops.owncloud.ai/defaults: disabled
+    gitops.owncloud.ai/timeout: long
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 10m
   path: "./apps/base/game-servers/adminer/app"
-  prune: true
   wait: true
   sourceRef:
     kind: ExternalArtifact

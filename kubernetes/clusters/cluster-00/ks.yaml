@@ -82,3 +82,18 @@ spec:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
         labelSelector: gitops.owncloud.ai/defaults!=disabled
+    - # Longer reconcile timeout without giving up the defaults above (patches apply in order).
+      # Opting out with gitops.owncloud.ai/defaults=disabled just for a timeout also dropped the
+      # HelmRelease remediation, drift detection and maxHistory, and a timeout set in ks.yaml is
+      # overwritten by the 3m default.
+      patch: |-
+        apiVersion: kustomize.toolkit.fluxcd.io/v1
+        kind: Kustomization
+        metadata:
+          name: _
+        spec:
+          timeout: 10m
+      target:
+        group: kustomize.toolkit.fluxcd.io
+        kind: Kustomization
+        labelSelector: gitops.owncloud.ai/timeout=long

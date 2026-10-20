@@ -5,12 +5,10 @@ kind: Kustomization
 metadata:
   name: kick-vision-hub
   namespace: game-servers
+  labels:
+    gitops.owncloud.ai/timeout: long
 spec:
-  interval: 30m
-  retryInterval: 1m
-  timeout: 10m
   path: "./apps/base/game-servers/kick-vision-hub/app"
-  prune: true
   wait: true
   sourceRef:
     kind: ExternalArtifact
