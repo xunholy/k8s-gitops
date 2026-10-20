@@ -102,6 +102,7 @@ resources:
   # - ../../base/observability/loki/ks.yaml
   # - ../../base/observability/otel/ks.yaml
   - ../../base/observability/silence-operator/ks.yaml
+  - ../../base/observability/unpoller/ks.yaml
   - ../../base/observability/vpa/ks.yaml
   - ../../base/rook-ceph/rook-ceph/ks.yaml
   - ../../base/volsync-system/kopia/ks.yaml
