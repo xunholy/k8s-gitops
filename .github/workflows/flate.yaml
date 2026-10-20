@@ -57,13 +57,18 @@ jobs:
           pull/.github/scripts/flate-stage.sh pull/kubernetes "$RUNNER_TEMP/stage/pull"
           pull/.github/scripts/flate-stage.sh default/kubernetes "$RUNNER_TEMP/stage/default"
 
+      # The setup action exports FLATE_BASE, which switches flate into git-based changed-only
+      # mode; the staged trees aren't git checkouts and are rendered in full instead.
       - name: Test
         working-directory: ${{ runner.temp }}/stage/pull
-        run: flate test all --path . --no-progress
+        run: |
+          unset FLATE_BASE
+          flate test all --path . --no-progress
 
       - name: Diff
         id: diff
         run: |
+          unset FLATE_BASE
           (cd "$RUNNER_TEMP/stage/default" && flate build all --path . --no-progress) > "$RUNNER_TEMP/default.yaml"
           (cd "$RUNNER_TEMP/stage/pull" && flate build all --path . --no-progress) > "$RUNNER_TEMP/pull.yaml"
           pull/.github/scripts/flate-diff.sh "$RUNNER_TEMP/default.yaml" "$RUNNER_TEMP/pull.yaml" > diff.patch
