@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: multus-networks
+  namespace: network-system
+spec:
+  path: "./apps/base/network-system/multus-networks/app"
+  wait: true
+  dependsOn:
+    - name: multus
+      namespace: network-system
+  targetNamespace: network-system
+  sourceRef:
+    kind: ExternalArtifact
+    name: multus-networks
+    namespace: flux-system

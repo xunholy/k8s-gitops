@@ -2,15 +2,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: network-policies-game-servers
-  namespace: game-servers
+  name: network-policies-home-system
+  namespace: home-system
   labels:
     gitops.owncloud.ai/timeout: long
 spec:
-  path: "./apps/base/game-servers/network-policies/app"
+  path: "./apps/base/home-system/network-policies-home-system/app"
   wait: true
   sourceRef:
     kind: ExternalArtifact
-    name: network-policies-game-servers
+    name: network-policies-home-system
     namespace: flux-system
-  targetNamespace: game-servers
+  targetNamespace: home-system

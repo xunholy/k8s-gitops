@@ -13,21 +13,3 @@ spec:
     kind: ExternalArtifact
     name: crossplane
     namespace: flux-system
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: crossplane-providers
-  namespace: crossplane-system
-spec:
-  path: "./apps/base/crossplane-system/crossplane/providers"
-  wait: true
-  dependsOn:
-    - name: crossplane
-      namespace: crossplane-system
-  targetNamespace: crossplane-system
-  sourceRef:
-    kind: ExternalArtifact
-    name: crossplane-providers
-    namespace: flux-system
