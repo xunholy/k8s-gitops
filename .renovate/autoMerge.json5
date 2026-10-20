@@ -1,5 +1,9 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  // Renovate merges automerge PRs itself, only once every check has finished green. main has no required status
+  // checks, so GitHub-native automerge merged as soon as the PR was mergeable: 50 of 95 bot PRs (2026-06 to 2026-10)
+  // landed before flux-local finished, e.g. #4316.
+  platformAutomerge: false,
   packageRules: [
     {
       description: "Auto-merge GitHub Actions",
@@ -35,13 +39,6 @@
       description: "Disable auto-merge for stateful game-servers apps (manual review required)",
       matchFileNames: ["kubernetes/apps/base/game-servers/**"],
       automerge: false,
-    },
-    {
-      description: "Auto-merge everything under .archive (unmaintained, lifecycle-only)",
-      matchFileNames: [".archive/**"],
-      automerge: true,
-      automergeType: "branch",
-      ignoreTests: true,
     },
   ],
 }
