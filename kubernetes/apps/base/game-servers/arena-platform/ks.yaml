@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: arena-platform
   namespace: game-servers
+  labels:
+    gitops.owncloud.ai/timeout: long
 spec:
   dependsOn:
     - name: onepassword
@@ -13,11 +15,7 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
-  interval: 30m
-  retryInterval: 1m
-  timeout: 10m
   path: "./apps/base/game-servers/arena-platform/app"
-  prune: true
   wait: true
   sourceRef:
     kind: ExternalArtifact

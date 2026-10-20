@@ -5,15 +5,9 @@ metadata:
   name: network-policies-home-system
   namespace: home-system
   labels:
-    gitops.owncloud.ai/defaults: disabled
+    gitops.owncloud.ai/timeout: long
 spec:
-  decryption:
-    provider: sops
-  interval: 30m
-  retryInterval: 1m
-  timeout: 10m
   path: "./apps/base/home-system/network-policies/app"
-  prune: true
   wait: true
   sourceRef:
     kind: ExternalArtifact
