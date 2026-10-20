@@ -7,5 +7,3 @@ resources:
   - pvc-data.yaml
   - externalsecret-ghcr.yaml
   - helmrelease.yaml
-  - replicationsource.yaml
-  - volsync-externalsecret.yaml

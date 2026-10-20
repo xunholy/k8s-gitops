@@ -7,8 +7,6 @@ resources:
   - externalsecret.yaml
   - helmrelease.yaml
   - pvc-ceph.yaml
-  - replicationsource.yaml
-  - volsync-externalsecret.yaml
 
 configMapGenerator:
   - name: recyclarr-configmap

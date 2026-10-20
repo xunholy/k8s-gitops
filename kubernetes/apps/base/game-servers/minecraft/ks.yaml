@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: minecraft
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: minecraft
+      VOLSYNC_CLAIM: minecraft-ceph
+      VOLSYNC_SCHEDULE: "10 */6 * * *"

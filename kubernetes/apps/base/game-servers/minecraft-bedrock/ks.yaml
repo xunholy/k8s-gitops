@@ -22,3 +22,11 @@ spec:
     kind: ExternalArtifact
     name: minecraft-bedrock
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: minecraft-bedrock
+      VOLSYNC_CLAIM: minecraft-bedrock-ceph
+      VOLSYNC_SCHEDULE: "13 */6 * * *"
+      VOLSYNC_PGID: "2000"

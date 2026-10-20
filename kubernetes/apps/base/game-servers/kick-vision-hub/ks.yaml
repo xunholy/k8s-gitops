@@ -22,3 +22,11 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: kick-vision-hub
+      VOLSYNC_CLAIM: kick-vision-hub-ceph
+      VOLSYNC_SCHEDULE: "40 */6 * * *"
+      VOLSYNC_RETAIN_DAILY: "7"

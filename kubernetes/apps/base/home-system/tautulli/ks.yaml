@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: tautulli
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: tautulli
+      VOLSYNC_CLAIM: tautulli-ceph
+      VOLSYNC_SCHEDULE: "48 */6 * * *"

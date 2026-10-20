@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: radarr
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: radarr
+      VOLSYNC_CLAIM: radarr-ceph
+      VOLSYNC_SCHEDULE: "39 */6 * * *"

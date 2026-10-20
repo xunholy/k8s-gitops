@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: recyclarr
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: recyclarr
+      VOLSYNC_CLAIM: recyclarr-ceph
+      VOLSYNC_SCHEDULE: "41 */6 * * *"
