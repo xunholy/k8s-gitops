@@ -11,7 +11,7 @@ spec:
   decryption:
     provider: sops
   interval: 30m
-  path: ./apps/base/flux-system/flux-instance/extras
+  path: "./apps/base/flux-system/flux-instance-extras/app"
   prune: false
   sourceRef:
     kind: ExternalArtifact

@@ -9,7 +9,7 @@ spec:
   dependsOn:
     - name: onepassword
       namespace: external-secrets
-  path: "./apps/base/preview-system/app"
+  path: "./apps/base/preview-system/preview-system/app"
   wait: true
   targetNamespace: preview-system
   sourceRef:
