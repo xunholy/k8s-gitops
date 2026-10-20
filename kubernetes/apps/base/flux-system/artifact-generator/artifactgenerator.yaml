@@ -460,6 +460,11 @@ spec:
       copy:
         - from: "@repo/apps/base/kube-system/tetragon/app/"
           to: "@artifact/apps/base/kube-system/tetragon/app/"
+    - name: unpoller
+      originRevision: "@repo"
+      copy:
+        - from: "@repo/apps/base/observability/unpoller/app/"
+          to: "@artifact/apps/base/observability/unpoller/app/"
     - name: vcluster
       originRevision: "@repo"
       copy:
