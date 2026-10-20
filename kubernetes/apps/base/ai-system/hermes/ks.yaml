@@ -22,3 +22,10 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: hermes
+      VOLSYNC_CLAIM: hermes
+      VOLSYNC_SCHEDULE: "50 */6 * * *"

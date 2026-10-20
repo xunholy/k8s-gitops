@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: jellyseerr
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: jellyseerr
+      VOLSYNC_CLAIM: jellyseerr-ceph
+      VOLSYNC_SCHEDULE: "27 */6 * * *"

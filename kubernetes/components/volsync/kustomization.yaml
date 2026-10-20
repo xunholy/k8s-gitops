@@ -1,10 +1,21 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
+# Kopia backups of one PVC to the shared filesystem repository. Add it from an app's ks.yaml:
+#
+#   components:
+#     - ../../../../../components/volsync
+#   postBuild:
+#     substitute:
+#       APP: <name>                       # ReplicationSource name, kopia source identity, secret prefix
+#       VOLSYNC_CLAIM: <pvc>              # PVC to back up
+#       VOLSYNC_SCHEDULE: "MM */6 * * *"  # pick an unused minute: sources must not fire together
+#       # optional: VOLSYNC_CACHE_CAPACITY (10Gi), VOLSYNC_PUID/VOLSYNC_PGID (1000), VOLSYNC_RETAIN_DAILY (3)
+#
+# A new app whose PVC should be restored from the latest backup on first install also adds
+# ../../../../../components/volsync/restore, which creates the PVC itself (VOLSYNC_CAPACITY, default 5Gi).
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 
 resources:
   - ./externalsecret.yaml
-  - ./pvc.yaml
-  - ./replicationdestination.yaml
   - ./replicationsource.yaml

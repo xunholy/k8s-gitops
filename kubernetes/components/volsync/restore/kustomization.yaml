@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+# Opt-in, for new apps only: creates the PVC from a ReplicationDestination that restores the latest backup
+# once. An existing PVC can't take a dataSourceRef (the field is immutable), and the restore runs as soon
+# as the ReplicationDestination is created.
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+resources:
+  - ./pvc.yaml
+  - ./replicationdestination.yaml

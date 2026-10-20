@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: qbittorrent
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: qbittorrent
+      VOLSYNC_CLAIM: qbittorrent-ceph
+      VOLSYNC_SCHEDULE: "34 */6 * * *"

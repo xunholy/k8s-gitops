@@ -9,8 +9,6 @@ resources:
   - helmrelease.yaml
   - httproute.yaml
   - pvc.yaml
-  - replicationsource.yaml
-  - volsync-externalsecret.yaml
 
 configurations:
   - kustomizeconfig.yaml

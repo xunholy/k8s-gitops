@@ -24,3 +24,10 @@ spec:
     kind: ExternalArtifact
     name: zigbee2mqtt
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: zigbee2mqtt
+      VOLSYNC_CLAIM: zigbee2mqtt-cache-ceph
+      VOLSYNC_SCHEDULE: "51 */6 * * *"

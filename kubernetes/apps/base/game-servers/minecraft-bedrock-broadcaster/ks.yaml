@@ -22,3 +22,11 @@ spec:
     kind: ExternalArtifact
     name: minecraft-bedrock-broadcaster
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: minecraft-bedrock-broadcaster
+      VOLSYNC_CLAIM: minecraft-bedrock-broadcaster-ceph
+      VOLSYNC_SCHEDULE: "16 */6 * * *"
+      VOLSYNC_PGID: "2000"

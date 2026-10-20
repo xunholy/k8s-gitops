@@ -20,3 +20,10 @@ spec:
     kind: ExternalArtifact
     name: bazarr
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: bazarr
+      VOLSYNC_CLAIM: bazarr-ceph
+      VOLSYNC_SCHEDULE: "21 */6 * * *"

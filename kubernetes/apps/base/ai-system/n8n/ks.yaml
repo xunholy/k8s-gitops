@@ -20,3 +20,11 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: n8n
+      VOLSYNC_CLAIM: n8n-main-persistence
+      VOLSYNC_SCHEDULE: "2 */6 * * *"
+      VOLSYNC_CACHE_CAPACITY: 5Gi

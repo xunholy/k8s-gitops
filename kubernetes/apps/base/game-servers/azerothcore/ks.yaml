@@ -22,3 +22,10 @@ spec:
     - name: volsync
       namespace: volsync-system
   targetNamespace: game-servers
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: azerothcore-database
+      VOLSYNC_CLAIM: azerothcore-database
+      VOLSYNC_SCHEDULE: "4 */6 * * *"

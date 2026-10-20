@@ -11,5 +11,3 @@ resources:
   - helmrelease.yaml
   - httproute.yaml
   - securitypolicy.yaml
-  - replicationsource.yaml
-  - volsync-externalsecret.yaml

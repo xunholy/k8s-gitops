@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: mosquitto
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: mosquitto
+      VOLSYNC_CLAIM: mosquitto-cache-ceph
+      VOLSYNC_SCHEDULE: "29 */6 * * *"

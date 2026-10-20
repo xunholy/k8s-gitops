@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: sabnzbd
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: sabnzbd
+      VOLSYNC_CLAIM: sabnzbd-ceph
+      VOLSYNC_SCHEDULE: "43 */6 * * *"

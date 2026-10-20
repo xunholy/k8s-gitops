@@ -12,8 +12,6 @@ resources:
   - helmrelease.yaml
   - httproute.yaml
   - networkpolicy.yaml
-  - replicationsource.yaml
-  - volsync-externalsecret.yaml
 
 # Cron scripts. The init container copies them into /opt/data/scripts, the only directory
 # Hermes cron runs scripts from. A change rolls the pod (hashed name) and recopies them.

@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: home-assistant
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: home-assistant
+      VOLSYNC_CLAIM: home-assistant-ceph
+      VOLSYNC_SCHEDULE: "24 */6 * * *"

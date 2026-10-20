@@ -7,6 +7,4 @@ resources:
   - helmrelease.yaml
   - httproute.yaml
   - pvc-ceph.yaml
-  - replicationsource.yaml
   - secret.yaml
-  - volsync-externalsecret.yaml

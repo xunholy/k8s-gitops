@@ -22,3 +22,10 @@ spec:
     kind: ExternalArtifact
     name: prowlarr
     namespace: flux-system
+  components:
+    - ../../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: prowlarr
+      VOLSYNC_CLAIM: prowlarr-ceph
+      VOLSYNC_SCHEDULE: "31 */6 * * *"
