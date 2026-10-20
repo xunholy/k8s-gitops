@@ -21,19 +21,23 @@ resources:
   - ../../base/security-system
   - ../../base/volsync-system
   # - ../../base/ai-system/kagent/ks.yaml
+  # - ../../base/ai-system/kagent-crds/ks.yaml
   # - ../../base/ai-system/kgateway/ks.yaml
+  # - ../../base/ai-system/kgateway-crds/ks.yaml
   # - ../../base/ai-system/kmcp/ks.yaml
+  # - ../../base/ai-system/kmcp-crds/ks.yaml
   - ../../base/ai-system/hermes/ks.yaml
   - ../../base/ai-system/n8n/ks.yaml
   - ../../base/ai-system/open-webui/ks.yaml
   # - ../../base/crossplane-system/crossplane/ks.yaml
+  # - ../../base/crossplane-system/crossplane-providers/ks.yaml
   - ../../base/democratic-csi/democratic-csi/ks.yaml
   # - ../../base/development/backstage/ks.yaml
   - ../../base/development/open-feature-operator/ks.yaml
   - ../../base/external-secrets/external-secrets/ks.yaml
   - ../../base/external-secrets/onepassword/ks.yaml
   - ../../base/flux-system/artifact-generator
-  - ../../base/flux-system/flux-instance/ks.yaml
+  - ../../base/flux-system/flux-instance-extras/ks.yaml
   - ../../base/flux-system/repositories
   - ../../base/game-servers/enemy-territory/ks.yaml
   - ../../base/game-servers/minecraft/ks.yaml
@@ -52,7 +56,7 @@ resources:
   - ../../base/game-servers/emberstone-portal/ks.yaml
   - ../../base/game-servers/kick-vision-hub/ks.yaml
   - ../../base/game-servers/arena-platform/ks.yaml
-  - ../../base/game-servers/network-policies/ks.yaml
+  - ../../base/game-servers/network-policies-game-servers/ks.yaml
   - ../../base/home-system/autobrr/ks.yaml
   - ../../base/home-system/bazarr/ks.yaml
   # - ../../base/home-system/emqx/ks.yaml
@@ -69,7 +73,7 @@ resources:
   - ../../base/home-system/smtp-relay/ks.yaml
   - ../../base/home-system/sonarr/ks.yaml
   - ../../base/home-system/tautulli/ks.yaml
-  - ../../base/home-system/network-policies/ks.yaml
+  - ../../base/home-system/network-policies-home-system/ks.yaml
   # - ../../base/home-system/zigbee2mqtt/ks.yaml
   - ../../base/kguardian/kguardian/ks.yaml
   - ../../base/kube-system/cilium/ks.yaml
@@ -90,11 +94,13 @@ resources:
   - ../../base/network-system/external-dns/ks.yaml
   - ../../base/network-system/external-dns-unifi/ks.yaml
   # - ../../base/network-system/multus/ks.yaml
+  # - ../../base/network-system/multus-networks/ks.yaml
   - ../../base/network-system/oauth2-proxy/ks.yaml
   - ../../base/nginx-ingress/nginx-ingress/ks.yaml
-  - ../../base/preview-system/ks.yaml
+  - ../../base/preview-system/preview-system/ks.yaml
   - ../../base/observability/blackbox-exporter/ks.yaml
   - ../../base/observability/grafana/ks.yaml
+  - ../../base/observability/grafana-instance/ks.yaml
   # - ../../base/observability/jaeger/ks.yaml
   # - ../../base/observability/kiali/ks.yaml
   - ../../base/observability/kromgo/ks.yaml
@@ -105,7 +111,10 @@ resources:
   - ../../base/observability/unpoller/ks.yaml
   - ../../base/observability/vpa/ks.yaml
   - ../../base/rook-ceph/rook-ceph/ks.yaml
+  - ../../base/rook-ceph/rook-ceph-cluster/ks.yaml
+  - ../../base/rook-ceph/rook-ceph-csi-drivers/ks.yaml
   - ../../base/volsync-system/kopia/ks.yaml
   - ../../base/volsync-system/volsync/ks.yaml
+  - ../../base/volsync-system/volsync-maintenance/ks.yaml
   # - ../../base/security-system/kyverno/ks.yaml
   # - ../../base/security-system/gatekeeper/ks.yaml

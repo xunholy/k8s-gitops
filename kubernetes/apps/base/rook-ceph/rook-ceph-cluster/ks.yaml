@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: rook-ceph-cluster
+  namespace: rook-ceph
+spec:
+  path: "./apps/base/rook-ceph/rook-ceph-cluster/app"
+  wait: true
+  # CEL health gate (Flux 2.8+). `wait: true` alone only reads the CephCluster's
+  # Ready condition — which Rook keeps True even when Ceph is degraded — so a
+  # genuinely broken cluster stays "healthy" to Flux. This makes Flux fail the
+  # Kustomization on HEALTH_ERR, surfacing a broken Ceph as a reconciliation
+  # failure (and a Flux alert) instead of silence. HEALTH_WARN is tolerated
+  # (transient/expected), so it won't flap; only HEALTH_ERR (genuinely bad) fails.
+  healthCheckExprs:
+    - apiVersion: ceph.rook.io/v1
+      kind: CephCluster
+      current: status.phase == 'Ready' && status.ceph.health != 'HEALTH_ERR'
+  targetNamespace: rook-ceph
+  dependsOn:
+    - name: rook-ceph-csi-drivers
+      namespace: rook-ceph
+  # - name: volsync
+  #   namespace: volsync-system
+
+  sourceRef:
+    kind: ExternalArtifact
+    name: rook-ceph-cluster
+    namespace: flux-system
