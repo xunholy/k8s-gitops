@@ -9,7 +9,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: kguardian-oauth
-  namespace: kguardian
 spec:
   parentRefs:
     - name: envoy-external

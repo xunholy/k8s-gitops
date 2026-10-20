@@ -4,7 +4,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: minecraft-rcon
-  namespace: game-servers
 spec:
   parentRefs:
     - name: envoy-external
