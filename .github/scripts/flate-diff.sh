@@ -13,10 +13,10 @@ trap 'rm -rf "$work"' EXIT
 
 split() {
   mkdir -p "$work/$2"
-  # Chart bumps rewrite these on every object; they are noise in a review.
-  yq 'del(.metadata.labels["helm.sh/chart"], .metadata.labels["app.kubernetes.io/version"], .metadata.labels.chart,
-          .spec.template.metadata.labels["helm.sh/chart"], .spec.template.metadata.labels["app.kubernetes.io/version"],
-          .spec.template.metadata.annotations["checksum/config"], .spec.template.metadata.annotations["checksum/secret"])' "$1" |
+  # Chart bumps rewrite these labels on every object; on the object itself they are noise in a review.
+  # Pod templates are left alone: a version label or checksum annotation changing there rolls the pods
+  # (#4421 restarted dex, democratic-csi and minecraft that way while this diff showed nothing).
+  yq 'del(.metadata.labels["helm.sh/chart"], .metadata.labels["app.kubernetes.io/version"], .metadata.labels.chart)' "$1" |
     (cd "$work/$2" && yq -s '.kind + "_" + (.metadata.namespace // "cluster") + "_" + .metadata.name' -)
 }
 
