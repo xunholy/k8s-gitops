@@ -1,0 +1,22 @@
+---
+# Values shared by app-template HelmReleases in every namespace. A release opts in with
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: app-template-defaults
+# and its own spec.values still win, key by key. No reconcile.fluxcd.io/watch label on purpose:
+# an edit here rolls out as each release hits its own interval, not to every app at once.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-template-defaults
+data:
+  values.yaml: |
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
