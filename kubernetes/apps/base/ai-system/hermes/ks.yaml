@@ -17,3 +17,10 @@ spec:
     name: hermes
     namespace: flux-system
   targetNamespace: ai-system
+  dependsOn:
+    - name: onepassword
+      namespace: external-secrets
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync-system
