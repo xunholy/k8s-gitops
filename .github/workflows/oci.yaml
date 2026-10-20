@@ -11,10 +11,19 @@ on:
       - .github/workflows/oci.yaml
       - kubernetes/**
 
-# Default GITHUB_TOKEN token permissions do NOT support cosign and must be enabled.
-# This is to set the package and id_token permissions to read|write.
-# Current default permissions can be viewed here: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token
-permissions: write-all
+# packages: push the artifact to GHCR. id-token: keyless cosign signing.
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+# Flux deploys whatever the main tag points at. Overlapping runs (four in the fortnight to
+# 2026-10-20) could finish out of order and move the tag back to an older commit, so runs
+# queue instead of overlapping: they finish in push order, and a newer push replaces a
+# still-pending run, so the last run to tag main is always the newest commit.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
 
 env:
   OCI_REPO: "oci://ghcr.io/xunholy/manifests/${{ github.event.repository.name }}"
@@ -29,6 +38,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@4559cf4e16d1e6e50bb71bf8914ac220e77c1c83 # main
@@ -57,7 +68,9 @@ jobs:
             --ignore-paths="sops-gpg.encrypted.yaml,sops-age.encrypted.yaml,.sops.pub.asc" \
             --reproducible
 
+      # A manual run from another branch still publishes its commit, but only main moves the tag Flux follows.
       - name: Create OCI artifact tag
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           flux tag artifact "$OCI_REPO:$(git rev-parse --short HEAD)" --tag main
 
@@ -65,7 +78,9 @@ jobs:
         id: crane
         run: |
           DIGEST=$(crane digest "$GHCR_REPO:$(git rev-parse --short HEAD)")
-          echo "DIGEST=$DIGEST" >> $GITHUB_OUTPUT
+          echo "DIGEST=$DIGEST" >> "$GITHUB_OUTPUT"
 
       - name: Sign the OCI artifact
-        run: cosign sign "$GHCR_REPO@${{ steps.crane.outputs.DIGEST }}" -y
+        env:
+          DIGEST: ${{ steps.crane.outputs.DIGEST }}
+        run: cosign sign "$GHCR_REPO@$DIGEST" -y
