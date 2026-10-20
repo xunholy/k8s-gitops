@@ -7,15 +7,9 @@ metadata:
   namespace: game-servers
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: minecraft-proxy
-      version: 3.10.0
-      sourceRef:
-        kind: HelmRepository
-        name: minecraft-server-charts
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: minecraft-proxy
   values:
     fullnameOverride: *app
   valuesFrom:

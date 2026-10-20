@@ -7,15 +7,9 @@ metadata:
   namespace: democratic-csi
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: *app
-      interval: 10m
-      sourceRef:
-        kind: HelmRepository
-        name: democratic-csi-charts
-        namespace: flux-system
-      version: 0.15.1
+  chartRef:
+    kind: OCIRepository
+    name: democratic-csi
   dependsOn:
     - name: snapshot-controller
       namespace: kube-system

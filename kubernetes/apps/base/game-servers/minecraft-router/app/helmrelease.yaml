@@ -7,15 +7,9 @@ metadata:
   namespace: game-servers
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: mc-router
-      version: 1.5.0
-      sourceRef:
-        kind: HelmRepository
-        name: minecraft-server-charts
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: minecraft-router
   values:
     fullnameOverride: *app
   valuesFrom:

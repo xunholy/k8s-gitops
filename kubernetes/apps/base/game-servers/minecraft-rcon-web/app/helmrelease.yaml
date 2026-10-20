@@ -7,15 +7,9 @@ metadata:
   namespace: game-servers
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: rcon-web-admin
-      version: 1.2.1
-      sourceRef:
-        kind: HelmRepository
-        name: minecraft-server-charts
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: minecraft-rcon-web
   values:
     fullnameOverride: *app
   valuesFrom:
