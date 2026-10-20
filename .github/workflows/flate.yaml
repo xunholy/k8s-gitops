@@ -1,0 +1,106 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+# Renders every Kustomization and HelmRelease offline with flate (the replacement for the
+# sunset flux-local), fails on anything that won't render, and comments the rendered diff
+# against main. Renovate automerge waits for this check.
+name: Flate
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - kubernetes/**
+      - .github/scripts/flate-*.sh
+      - .github/workflows/flate.yaml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # renovate: datasource=github-releases depName=home-operations/flate
+  FLATE_VERSION: "0.6.5"
+
+jobs:
+  render:
+    name: Flate - Render
+    runs-on: ubuntu-latest
+    outputs:
+      diff: ${{ steps.diff.outputs.diff }}
+    steps:
+      - name: Checkout Pull Request Branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: pull
+          persist-credentials: false
+
+      - name: Checkout Default Branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          path: default
+          persist-credentials: false
+
+      - name: Setup flate
+        uses: home-operations/flate/action@631b76b69c4e58c6f4d1cb01e23616fa61aebafa # v0.6.5
+        with:
+          version: ${{ env.FLATE_VERSION }}
+          cache: "true"
+
+      # The pull request's copy of the scripts stages both trees, so a change to them is tested too.
+      - name: Stage
+        run: |
+          pull/.github/scripts/flate-stage.sh pull/kubernetes "$RUNNER_TEMP/stage/pull"
+          pull/.github/scripts/flate-stage.sh default/kubernetes "$RUNNER_TEMP/stage/default"
+
+      - name: Test
+        working-directory: ${{ runner.temp }}/stage/pull
+        run: flate test all --path . --no-progress
+
+      - name: Diff
+        id: diff
+        run: |
+          (cd "$RUNNER_TEMP/stage/default" && flate build all --path . --no-progress) > "$RUNNER_TEMP/default.yaml"
+          (cd "$RUNNER_TEMP/stage/pull" && flate build all --path . --no-progress) > "$RUNNER_TEMP/pull.yaml"
+          pull/.github/scripts/flate-diff.sh "$RUNNER_TEMP/default.yaml" "$RUNNER_TEMP/pull.yaml" > diff.patch
+          # A PR comment holds 65536 characters.
+          if [ "$(wc -c < diff.patch)" -gt 60000 ]; then
+            head -c 60000 diff.patch > diff.trimmed && mv diff.trimmed diff.patch
+            printf '\n... diff truncated at 60000 bytes\n' >> diff.patch
+          fi
+          delim="FLATE_DIFF_$(openssl rand -hex 16)"
+          {
+            echo "diff<<$delim"
+            cat diff.patch
+            echo "$delim"
+          } >> "$GITHUB_OUTPUT"
+
+  # Kept apart from render so no pull request code runs alongside the bot token.
+  comment:
+    if: ${{ needs.render.outputs.diff != '' && github.event.pull_request.head.repo.full_name == github.repository }}
+    needs: render
+    name: Flate - Comment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: app-token
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-pull-requests: write
+
+      - name: Add Comment
+        continue-on-error: true
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          header: ${{ github.event.pull_request.number }}/kubernetes/flate
+          message: |-
+            ```diff
+            ${{ needs.render.outputs.diff }}
+            ```
