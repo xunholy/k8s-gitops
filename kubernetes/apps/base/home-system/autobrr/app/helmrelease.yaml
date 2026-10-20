@@ -13,6 +13,9 @@ spec:
   dependsOn:
     - name: qbittorrent
       namespace: home-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: app-template-defaults
   values:
     controllers:
       *app :
@@ -60,14 +63,6 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 512Mi
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: *app

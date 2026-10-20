@@ -10,6 +10,9 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: app-template-defaults
   values:
     controllers:
       bazarr:
@@ -55,14 +58,6 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 2Gi
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: bazarr

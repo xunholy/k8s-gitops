@@ -5,3 +5,4 @@ kind: Component
 
 resources:
   - ./alerts
+  - ./app-template-defaults.yaml
