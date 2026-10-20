@@ -28,6 +28,7 @@ spec:
               PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
               PROWLARR__LOG__DBENABLED: "False"
               PROWLARR__LOG__LEVEL: info
+              PROWLARR__SERVER__ALLOWEDHOSTS: prowlarr.${CLUSTER_DOMAIN},prowlarr.home-system.svc.cluster.local
               PROWLARR__SERVER__PORT: &port 80
               PROWLARR__UPDATE__BRANCH: develop
               TZ: ${CLUSTER_TIMEZONE}
@@ -42,6 +43,10 @@ spec:
                   httpGet:
                     path: /ping
                     port: *port
+                    # Kubelet sends the pod IP as Host, which Allowed Hosts rejects.
+                    httpHeaders:
+                      - name: Host
+                        value: localhost
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
