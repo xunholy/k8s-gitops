@@ -1,10 +1,10 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    "github>home-operations/renovate-presets#8.1.0",
+    "github>home-operations/renovate-presets#9.0.0",
     // apps/ presets are opt-in since 6.0.0 and need their own tag (nested presets do not inherit the parent pin)
-    "github>home-operations/renovate-presets//apps/grafanaDashboards.json5#8.1.0",
-    "github>home-operations/renovate-presets//apps/talosFactory.json5#8.1.0",
+    "github>home-operations/renovate-presets//apps/grafanaDashboards.json5#9.0.0",
+    "github>home-operations/renovate-presets//apps/talosFactory.json5#9.0.0",
     "security:openssf-scorecard",
     ":automergeDigest",
     ":semanticCommits",
