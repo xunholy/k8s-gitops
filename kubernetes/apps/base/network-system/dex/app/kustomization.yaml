@@ -6,6 +6,7 @@ kind: Kustomization
 resources:
   - httproute.yaml
   - helmrelease.yaml
+  - ocirepository.yaml
 
 configMapGenerator:
   - name: dex-values

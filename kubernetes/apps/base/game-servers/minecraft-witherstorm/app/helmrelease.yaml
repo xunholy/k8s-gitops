@@ -7,15 +7,9 @@ metadata:
   namespace: game-servers
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: minecraft-bedrock
-      version: 2.9.0
-      sourceRef:
-        kind: HelmRepository
-        name: minecraft-server-charts
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: minecraft-witherstorm
   values:
     fullnameOverride: *app
   valuesFrom:

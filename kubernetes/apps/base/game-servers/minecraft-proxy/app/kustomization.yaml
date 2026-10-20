@@ -6,6 +6,7 @@ namespace: game-servers
 
 resources:
   - helmrelease.yaml
+  - ocirepository.yaml
 
 configMapGenerator:
   - name: mincraft-proxy-values

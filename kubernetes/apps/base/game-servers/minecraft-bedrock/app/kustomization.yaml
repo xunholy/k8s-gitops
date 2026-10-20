@@ -5,6 +5,7 @@ kind: Kustomization
 
 resources:
   - helmrelease.yaml
+  - ocirepository.yaml
   - pvc-ceph.yaml
   - udproute.yaml
   - replicationsource.yaml

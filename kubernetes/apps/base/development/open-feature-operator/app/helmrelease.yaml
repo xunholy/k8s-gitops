@@ -6,15 +6,9 @@ metadata:
   name: open-feature-operator
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: open-feature-operator
-      version: v0.9.3
-      sourceRef:
-        kind: HelmRepository
-        name: openfeature-charts
-        namespace: flux-system
-      interval: 10m
+  chartRef:
+    kind: OCIRepository
+    name: open-feature-operator
   values:
     defaultResources:
       requests:
