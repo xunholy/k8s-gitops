@@ -37,8 +37,9 @@ on:
       - .renovate/**.json5
   # Renovate only automerges while it is running (platformAutomerge is off), so a PR opened by one run
   # otherwise waited up to an hour for the next scheduled run after its CI went green.
-  workflow_run:
-    workflows: ["Flux Local"]
+  # Safe here: only this repo's renovate/** branches can trigger it, and the job checks out main, never PR code.
+  workflow_run: # zizmor: ignore[dangerous-triggers]
+    workflows: ["Flate"]
     types: [completed]
     branches: ["renovate/**"]
 

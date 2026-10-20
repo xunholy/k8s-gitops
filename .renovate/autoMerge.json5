@@ -9,7 +9,7 @@
       // Covers every datasource (helm, docker, npm, github-releases, talos factory, terraform, pre-commit...); majors
       // stay manual. Talos only bumps machine.install.image in talos/patches; nodes move when talosctl upgrade is run by hand.
       // rebaseWhen: automerge otherwise turns "auto" into behind-base-branch, so every merge to main sent the other
-      // green PRs back for a rebase and a fresh flux-local run, and the hourly run merged at most one of them
+      // green PRs back for a rebase and a fresh CI run, and the hourly run merged at most one of them
       // (#4397-#4400 sat green for hours on 2026-10-20). main does not require branches to be up to date, so a green
       // PR can merge as-is; Renovate still rebases on conflicts.
       description: "Auto-merge minor + patch from every datasource once CI is green",
