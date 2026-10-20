@@ -6,27 +6,27 @@
   platformAutomerge: false,
   packageRules: [
     {
+      // Covers every datasource (helm, docker, npm, github-releases, talos factory, terraform, pre-commit...); majors
+      // stay manual. Talos only bumps machine.install.image in talos/patches; nodes move when talosctl upgrade is run by hand.
+      // rebaseWhen: automerge otherwise turns "auto" into behind-base-branch, so every merge to main sent the other
+      // green PRs back for a rebase and a fresh flux-local run, and the hourly run merged at most one of them
+      // (#4397-#4400 sat green for hours on 2026-10-20). main does not require branches to be up to date, so a green
+      // PR can merge as-is; Renovate still rebases on conflicts.
+      description: "Auto-merge minor + patch from every datasource once CI is green",
+      matchUpdateTypes: ["minor", "patch"],
+      automerge: true,
+      automergeType: "pr",
+      rebaseWhen: "conflicted",
+    },
+    {
+      // Branch automerge fast-forwards main (git merge --ff-only), so these branches must stay rebased.
       description: "Auto-merge GitHub Actions",
       matchManagers: ["github-actions"],
       automerge: true,
       automergeType: "branch",
       matchUpdateTypes: ["minor", "patch", "digest"],
       ignoreTests: true,
-    },
-    {
-      description: "Auto-merge Helm / Docker minor + patch (gated by flux-local CI)",
-      matchDatasources: ["helm", "docker"],
-      automerge: true,
-      automergeType: "pr",
-      matchUpdateTypes: ["minor", "patch"],
-    },
-    {
-      // Only bumps machine.install.image in talos/patches; nodes move when talosctl upgrade is run by hand.
-      description: "Auto-merge Talos minor + patch",
-      matchDatasources: ["custom.talos-factory"],
-      automerge: true,
-      automergeType: "pr",
-      matchUpdateTypes: ["minor", "patch"],
+      rebaseWhen: "auto",
     },
     {
       description: "Auto-merge Grafana dashboard revisions",
@@ -34,6 +34,12 @@
       automerge: true,
       automergeType: "branch",
       ignoreTests: true,
+      rebaseWhen: "auto",
+    },
+    {
+      description: "Keep Renovate preset bumps manual (they change this automerge policy)",
+      matchManagers: ["renovate-config"],
+      automerge: false,
     },
     {
       description: "Disable auto-merge for stateful game-servers apps (manual review required)",
