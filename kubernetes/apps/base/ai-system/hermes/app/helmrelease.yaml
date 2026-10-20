@@ -58,7 +58,7 @@ spec:
             env:
               HOME: /opt/data
               # renovate: datasource=npm depName=@anthropic-ai/claude-code
-              CLAUDE_CODE_VERSION: 2.1.292
+              CLAUDE_CODE_VERSION: 2.1.302
               # renovate: datasource=github-releases depName=cli/cli
               GH_VERSION: 2.102.0
             securityContext:
