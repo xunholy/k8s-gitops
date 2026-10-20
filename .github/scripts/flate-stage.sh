@@ -20,6 +20,17 @@ cd "$dest"
 grep -rlZ --include='*.yaml' 'kind: ExternalArtifact' . |
   xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and .spec.sourceRef.kind == "ExternalArtifact") | .spec.sourceRef) = {"kind": "OCIRepository", "name": "flux-system", "namespace": "flux-system"}'
 
+# The cluster's kustomize-mutating-webhook adds every cluster-config and cluster-secrets key to each
+# Kustomization's postBuild.substitute. Add the same keys valued as their own ${KEY}: placeholders then
+# render as-is (secret values are never needed), but an app's own postBuild variables still apply,
+# and anything else gets substituted the way the cluster does it.
+vars=$(yq -N '(.data // .stringData) | keys | .[]' \
+  clusters/cluster-00/secrets/cluster-config.yaml clusters/cluster-00/secrets/cluster-secrets.enc.age.yaml |
+  sort -u | jq -R . | jq -cs 'map({(.): ("${" + . + "}")}) | add')
+export vars
+grep -rlZ --include='*.yaml' 'kind: Kustomization' . |
+  xargs -0 -r -n1 yq -i '(select(.kind == "Kustomization" and (.apiVersion | test("^kustomize.toolkit.fluxcd.io/"))) | .spec.postBuild.substitute) |= (env(vars) + (. // {}))'
+
 # Runtime-only objects with nothing to render offline:
 # - flux-instance / flux-operator ResourceSets need the Flux CRDs that the operator installs.
 # - The PR-preview ResourceSet takes its inputs from open GitHub PRs.
