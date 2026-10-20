@@ -35,6 +35,12 @@ on:
       - .github/workflows/renovate.yaml
       - .github/renovate.json5
       - .renovate/**.json5
+  # Renovate only automerges while it is running (platformAutomerge is off), so a PR opened by one run
+  # otherwise waited up to an hour for the next scheduled run after its CI went green.
+  workflow_run:
+    workflows: ["Flux Local"]
+    types: [completed]
+    branches: ["renovate/**"]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -43,6 +49,9 @@ concurrency:
 jobs:
   renovate:
     name: Renovate
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
     steps:
       - name: Generate Token
