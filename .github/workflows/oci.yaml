@@ -42,7 +42,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@78229ee445123c084d6e1aa268a27ea4a041560a # main
+        uses: fluxcd/flux2/action@6c1dd0357a82e876ee9a3c18e7c9ebcf63db8f1b # main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
