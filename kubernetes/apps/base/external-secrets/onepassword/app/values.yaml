@@ -5,7 +5,7 @@ controllers:
       api:
         image:
           repository: ghcr.io/1password/connect-api
-          tag: 1.8.3@sha256:a0cefa9fb93999b1ca67325ec3a79b38f3d3803a0790a6ec6630d4657896a54f
+          tag: 1.8.4@sha256:37cf4d505f5c7bb08fa9290a2c44295646cbbaac960452667da9c499a78c3cc9
         env:
           XDG_DATA_HOME: &configDir /config
           OP_HTTP_PORT: &apiPort 80
@@ -51,7 +51,7 @@ controllers:
       sync:
         image:
           repository: ghcr.io/1password/connect-sync
-          tag: 1.8.3@sha256:5b6dcfa57e86f44b4d8a766b0edbf0321c519a9b6d327ed0a79d8583b6c7bfb5
+          tag: 1.8.4@sha256:739688254d7a5ae757860e4165e925eb30028c71496299518c84d0361245d9bc
         env:
           XDG_DATA_HOME: *configDir
           OP_HTTP_PORT: &syncPort 8081
