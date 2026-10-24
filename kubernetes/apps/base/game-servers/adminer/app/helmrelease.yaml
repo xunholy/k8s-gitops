@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: adminer
-              tag: 6.1.2@sha256:eb3a6f381409ea3da5157b69537dad391fe705623a74f468957384dfe579e02a
+              tag: 6.1.2@sha256:251295c1cd51d3889f1c42ffa4864b24eeab51f0caf395cfe5bf4726c5ec9a2a
             env:
               TZ: ${CLUSTER_TIMEZONE}
               # Default server pre-filled in the login form so an admin
