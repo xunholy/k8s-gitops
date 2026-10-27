@@ -9,7 +9,7 @@ helmCharts:
     releaseName: cilium
     namespace: kube-system
     valuesFile: ../../../kubernetes/apps/base/kube-system/cilium/app/values.yaml
-    version: 1.20.3
+    version: 1.20.4
     repo: https://helm.cilium.io/
 
 # The Hubble/Cilium CA TLS Secrets are rendered with fresh random keys on
