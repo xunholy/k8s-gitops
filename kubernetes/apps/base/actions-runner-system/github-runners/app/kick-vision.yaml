@@ -1,0 +1,46 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+# Runners for xunholy/kick-vision. Python tests and the behaviour benchmark.
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kick-vision
+spec:
+  interval: 15m
+  chartRef:
+    kind: OCIRepository
+    name: gha-runner-scale-set
+  values:
+    githubConfigUrl: https://github.com/xunholy/kick-vision
+    githubConfigSecret: github-runners-app
+    runnerScaleSetName: kick-vision
+    minRunners: 0
+    maxRunners: 3
+    controllerServiceAccount:
+      name: gha-runner-scale-set-controller
+      namespace: actions-runner-system
+    template:
+      metadata:
+        labels:
+          gitops.owncloud.ai/github-runner: "true"
+      spec:
+        priorityClassName: github-runner
+        automountServiceAccountToken: false
+        containers:
+          - name: runner
+            image: ghcr.io/home-operations/actions-runner:2.338.2@sha256:2dd7caa094a425c041539447cb0e6ae63cda10b5242773764683b695b8fa5613
+            command: ["/home/runner/run.sh"]
+            resources:
+              requests:
+                cpu: "1"
+                memory: 2Gi
+              limits:
+                memory: 6Gi
+            volumeMounts:
+              - name: work
+                mountPath: /home/runner/_work
+        volumes:
+          # Checkouts, the tool cache and build output; node-local, gone with the pod.
+          - name: work
+            emptyDir:
+              sizeLimit: 20Gi

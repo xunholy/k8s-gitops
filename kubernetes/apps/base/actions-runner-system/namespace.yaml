@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: actions-runner-system
+  labels:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+    # Default ARC mode runs jobs in the runner container itself: no privileged pods, no
+    # docker. `sudo` inside the runner image still works under baseline.
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/warn: baseline
