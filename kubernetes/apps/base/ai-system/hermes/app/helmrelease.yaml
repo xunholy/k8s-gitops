@@ -60,7 +60,7 @@ spec:
               # renovate: datasource=npm depName=@anthropic-ai/claude-code
               CLAUDE_CODE_VERSION: 2.1.310
               # renovate: datasource=github-releases depName=cli/cli
-              GH_VERSION: 2.103.2
+              GH_VERSION: 2.103.3
             securityContext:
               runAsUser: 1000
               runAsGroup: 1000
