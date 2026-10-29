@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: github-runners
+  namespace: actions-runner-system
+spec:
+  dependsOn:
+    - name: gha-runner-scale-set-controller
+      namespace: actions-runner-system
+    # The SecretStore's provider, and its read grant on flux-system/github-auth.
+    - name: external-secrets
+      namespace: external-secrets
+    - name: flux-instance-extras
+      namespace: flux-system
+  path: "./apps/base/actions-runner-system/github-runners/app"
+  wait: true
+  targetNamespace: actions-runner-system
+  sourceRef:
+    kind: ExternalArtifact
+    name: github-runners
+    namespace: flux-system

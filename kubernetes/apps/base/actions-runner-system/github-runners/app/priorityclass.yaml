@@ -1,0 +1,11 @@
+---
+# CI is the first thing to go under pressure: below every default-priority workload, and
+# it never pre-empts anything to get scheduled.
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: github-runner
+value: -1000
+preemptionPolicy: Never
+globalDefault: false
+description: "Ephemeral GitHub Actions runners: scheduled last, evicted first."
