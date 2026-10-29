@@ -9,8 +9,11 @@ spec:
   dependsOn:
     - name: gha-runner-scale-set-controller
       namespace: actions-runner-system
-    - name: onepassword
+    # The SecretStore's provider, and its read grant on flux-system/github-auth.
+    - name: external-secrets
       namespace: external-secrets
+    - name: flux-instance-extras
+      namespace: flux-system
   path: "./apps/base/actions-runner-system/github-runners/app"
   wait: true
   targetNamespace: actions-runner-system

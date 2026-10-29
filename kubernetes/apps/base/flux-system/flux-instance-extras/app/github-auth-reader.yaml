@@ -1,0 +1,28 @@
+---
+# actions-runner-system registers self-hosted runners with the same GitHub App Flux uses:
+# its External Secrets store may read github-auth here, and no other Secret.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: github-auth-reader
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    resourceNames: ["github-auth"]
+    verbs: ["get"]
+  - apiGroups: ["authorization.k8s.io"]
+    resources: ["selfsubjectrulesreviews"]
+    verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: github-auth-reader
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: github-auth-reader
+subjects:
+  - kind: ServiceAccount
+    name: github-auth-reader
+    namespace: actions-runner-system

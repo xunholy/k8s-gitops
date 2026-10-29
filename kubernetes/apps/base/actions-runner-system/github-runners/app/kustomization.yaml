@@ -5,6 +5,7 @@ kind: Kustomization
 
 resources:
   - externalsecret.yaml
+  - secretstore.yaml
   - ocirepository.yaml
   - priorityclass.yaml
   - networkpolicy.yaml
