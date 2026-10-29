@@ -1,6 +1,8 @@
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 # Runners for xunholy/kick-vision. Python tests and the behaviour benchmark.
+# Its CI installs OpenCV and Tesseract system libraries with `sudo apt-get`, so these
+# runners keep sudo (Pod Security baseline); bedrock-broadcaster's are restricted.
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
