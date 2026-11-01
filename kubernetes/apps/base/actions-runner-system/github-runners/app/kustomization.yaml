@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - externalsecret.yaml
+  - secretstore.yaml
+  - ocirepository.yaml
+  - priorityclass.yaml
+  - networkpolicy.yaml
+  # One runner scale set per repository: a personal account has no org-level runners.
+  # The scale set name is what a workflow puts in `runs-on`.
+  - bedrock-broadcaster.yaml
+  - kick-vision.yaml

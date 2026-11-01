@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gha-runner-scale-set-controller
+spec:
+  interval: 15m
+  chartRef:
+    kind: OCIRepository
+    name: gha-runner-scale-set-controller
+  values:
+    fullnameOverride: gha-runner-scale-set-controller
+    replicaCount: 1
+    flags:
+      logLevel: info
+      logFormat: json
+    resources:
+      requests:
+        cpu: 20m
+        memory: 128Mi
+      limits:
+        memory: 512Mi
