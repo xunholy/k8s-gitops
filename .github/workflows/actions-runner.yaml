@@ -104,7 +104,8 @@ jobs:
             ${{ env.IMAGE }}:${{ github.sha }}
           cache-from: type=gha
 
-      # The scale sets pin this digest; a pushed tag takes effect only through a reviewed commit.
+      # Pin this digest in bedrock-broadcaster.yaml and kick-vision.yaml. Until a reviewed
+      # commit does, the scale sets pull the version tag, so no repo sets LINUX_RUNNER before then.
       - name: Print the digest to pin
         env:
           DIGEST: ${{ steps.push.outputs.digest }}
