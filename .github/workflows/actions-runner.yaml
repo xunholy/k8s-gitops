@@ -57,13 +57,17 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # What the upstream image can't do: link a host binary as the unprivileged runner user.
+      # What the upstream image can't do: link a host binary, and compile against the system
+      # Python's headers, as the unprivileged runner user.
       - name: Link a host binary as the runner user
         run: |
           docker run --rm --user 1001:1001 --entrypoint bash actions-runner:test -euo pipefail -c '
             printf "#include <stdio.h>\nint main(void) { puts(\"linked\"); return 0; }\n" > /tmp/t.c
             cc /tmp/t.c -o /tmp/t -lpthread -ldl -lm
             /tmp/t
+            printf "#include <Python.h>\nint main(void) { return PY_MAJOR_VERSION == 3 ? 0 : 1; }\n" > /tmp/p.c
+            cc /tmp/p.c -o /tmp/p $(python3-config --includes)
+            /tmp/p && echo "Python.h for $(python3 --version)"
             make --version | head -n1
           '
 
