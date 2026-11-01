@@ -104,8 +104,9 @@ jobs:
             ${{ env.IMAGE }}:${{ github.sha }}
           cache-from: type=gha
 
-      # bedrock-broadcaster.yaml and kick-vision.yaml pin the digest, so a rebuilt image only
-      # reaches the runners through a reviewed commit that updates the pin.
+      # bedrock-broadcaster.yaml and kick-vision.yaml pin the digest. A rebuilt image reaches the
+      # runners through Renovate's digest PR, automerged once CI is green like every image here.
+      # Only this job, on main, can publish the image that PR pins.
       - name: Print the digest to pin
         env:
           DIGEST: ${{ steps.push.outputs.digest }}
