@@ -27,7 +27,8 @@ spec:
         priorityClassName: github-runner
         automountServiceAccountToken: false
         # Restricted: this repo's jobs install their toolchains (JDK, Android SDK, rustup)
-        # under the runner's home, so nothing needs sudo or root.
+        # under the runner's home, so nothing needs sudo or root. The libc headers their
+        # host links need come with the image (app/resources/Dockerfile).
         securityContext:
           runAsNonRoot: true
           runAsUser: 1001
@@ -36,7 +37,7 @@ spec:
             type: RuntimeDefault
         containers:
           - name: runner
-            image: ghcr.io/home-operations/actions-runner:2.338.2@sha256:2dd7caa094a425c041539447cb0e6ae63cda10b5242773764683b695b8fa5613
+            image: ghcr.io/xunholy/actions-runner:2.338.2
             command: ["/home/runner/run.sh"]
             securityContext:
               allowPrivilegeEscalation: false

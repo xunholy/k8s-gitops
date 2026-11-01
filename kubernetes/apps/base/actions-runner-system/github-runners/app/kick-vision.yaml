@@ -30,7 +30,7 @@ spec:
         automountServiceAccountToken: false
         containers:
           - name: runner
-            image: ghcr.io/home-operations/actions-runner:2.338.2@sha256:2dd7caa094a425c041539447cb0e6ae63cda10b5242773764683b695b8fa5613
+            image: ghcr.io/xunholy/actions-runner:2.338.2
             command: ["/home/runner/run.sh"]
             resources:
               requests:
