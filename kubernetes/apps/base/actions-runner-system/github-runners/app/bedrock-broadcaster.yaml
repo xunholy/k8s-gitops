@@ -37,7 +37,7 @@ spec:
             type: RuntimeDefault
         containers:
           - name: runner
-            image: ghcr.io/xunholy/actions-runner:2.338.2@sha256:9351ed424d0fc2df03f2b585b46ed05d6153aa80be855664e1b0392ea93cb221
+            image: ghcr.io/xunholy/actions-runner:2.338.2@sha256:e33c394bf5d592e995bb7f48c751165cf18e4eed107f023454e14217fe5f473d
             command: ["/home/runner/run.sh"]
             securityContext:
               allowPrivilegeEscalation: false

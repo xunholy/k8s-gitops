@@ -4,11 +4,13 @@ name: "Build actions-runner"
 
 on:
   workflow_dispatch: {}
+  # Only the image's inputs rebuild it on main. apt makes every build a new digest, which
+  # Renovate then rolls out, so editing this file alone doesn't publish; dispatch it on main
+  # after a change to the build itself.
   push:
     branches:
       - main
     paths:
-      - .github/workflows/actions-runner.yaml
       - kubernetes/apps/base/actions-runner-system/github-runners/app/resources/**
   # Pull requests build and test the image; only main pushes it.
   pull_request:
