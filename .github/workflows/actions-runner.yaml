@@ -104,8 +104,8 @@ jobs:
             ${{ env.IMAGE }}:${{ github.sha }}
           cache-from: type=gha
 
-      # Pin this digest in bedrock-broadcaster.yaml and kick-vision.yaml. Until a reviewed
-      # commit does, the scale sets pull the version tag, so no repo sets LINUX_RUNNER before then.
+      # bedrock-broadcaster.yaml and kick-vision.yaml pin the digest, so a rebuilt image only
+      # reaches the runners through a reviewed commit that updates the pin.
       - name: Print the digest to pin
         env:
           DIGEST: ${{ steps.push.outputs.digest }}
