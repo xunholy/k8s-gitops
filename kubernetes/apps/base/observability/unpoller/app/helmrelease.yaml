@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: ghcr.io/unpoller/unpoller
-              tag: v5.9.1@sha256:3bbe07a7acf9328356e1b33c54a346c1b45aa593ee63548435903de5ffac0937
+              tag: v5.9.2@sha256:c344066d59c67d52e6be40cf54db69b2b669ad7bd45958c9b82ff2d41d79ba3f
             probes:
               liveness: &probes
                 enabled: true
