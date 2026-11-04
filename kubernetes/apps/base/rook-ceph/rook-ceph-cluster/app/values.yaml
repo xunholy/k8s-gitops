@@ -15,14 +15,25 @@ cephImage:
 cephClusterSpec:
   security:
     cephx:
-      # Ceph tentacle flags the aes cephx keys (created under squid) as insecure
-      # (AUTH_INSECURE_SERVICE_KEY_TYPE -> HEALTH_ERR). Rotate only the DAEMON keys
-      # (mon/mgr/osd/mds) to aes256k; they run in userspace on the ceph image and
-      # have no kernel dependency. CSI/client keys are deliberately left on aes:
-      # aes256k for krbd/kcephfs needs kernel >= 7.0 and our nodes run 6.18, so
-      # rotating those would break RBD/CephFS mounts. Their residual warning stays
-      # WARN, not ERR. CVE-2025-30156 hardening.
+      # CVE-2025-30156 hardening: every cephx key moves to aes256k. Daemon keys
+      # (mon/mgr/osd/mds) rotated 2026-09-15.
       daemon:
+        keyRotationPolicy: KeyGeneration
+        keyGeneration: 2
+        keyType: aes256k
+      # Upstream aes256k needs kernel >= 7.0, but Talos 1.14 backports it to 6.18
+      # (siderolabs/pkgs "backport aes256k support (Ceph)"). Proven 2026-11-04 with
+      # an aes256k kernel CephFS mount on every node. Rotated keys only apply to new
+      # mounts; keepPriorKeyCountMax: 1 keeps the old aes .1 users alive for volumes
+      # already mapped. Only drop it to 0 (and only then restrict allowedCiphers)
+      # once every node has been drained and no session uses a .1 user.
+      csi:
+        keyRotationPolicy: KeyGeneration
+        keyGeneration: 2
+        keepPriorKeyCountMax: 1
+        keyType: aes256k
+      # No pool has mirroring configured; rotated so no aes key is left.
+      rbdMirrorPeer:
         keyRotationPolicy: KeyGeneration
         keyGeneration: 2
         keyType: aes256k
