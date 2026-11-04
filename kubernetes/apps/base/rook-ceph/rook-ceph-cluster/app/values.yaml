@@ -24,13 +24,14 @@ cephClusterSpec:
       # Upstream aes256k needs kernel >= 7.0, but Talos 1.14 backports it to 6.18
       # (siderolabs/pkgs "backport aes256k support (Ceph)"). Proven 2026-11-04 with
       # an aes256k kernel CephFS mount on every node. Rotated keys only apply to new
-      # mounts; keepPriorKeyCountMax: 1 keeps the old aes .1 users alive for volumes
-      # already mapped. Only drop it to 0 (and only then restrict allowedCiphers)
-      # once every node has been drained and no session uses a .1 user.
+      # mounts, so a future rotation needs keepPriorKeyCountMax: 1 until every node
+      # has been drained (no `ceph tell mon.* sessions` entry on the old generation),
+      # then 0. The aes .1 generation was dropped 2026-11-04 after the Talos 1.14.5
+      # rolling upgrade remounted every volume with the .2 keys.
       csi:
         keyRotationPolicy: KeyGeneration
         keyGeneration: 2
-        keepPriorKeyCountMax: 1
+        keepPriorKeyCountMax: 0
         keyType: aes256k
       # No pool has mirroring configured; rotated so no aes key is left.
       rbdMirrorPeer:
