@@ -1,0 +1,77 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  // Ported from home-operations/renovate-presets 11.0.0 default.json. Produces titles such as
+  // "fix(container): update image ghcr.io/foo/bar (1.2.3 ➔ 1.2.4)".
+  packageRules: [
+    {
+      matchUpdateTypes: ["major"],
+      semanticCommitType: "feat",
+      commitMessagePrefix: "{{semanticCommitType}}({{semanticCommitScope}})!:",
+      commitMessageExtra: "({{currentVersion}} ➔ {{newVersion}})",
+    },
+    {
+      matchUpdateTypes: ["minor"],
+      semanticCommitType: "feat",
+      commitMessageExtra: "({{currentVersion}} ➔ {{newVersion}})",
+    },
+    {
+      matchUpdateTypes: ["patch"],
+      semanticCommitType: "fix",
+      commitMessageExtra: "({{currentVersion}} ➔ {{newVersion}})",
+    },
+    {
+      matchUpdateTypes: ["digest"],
+      semanticCommitType: "fix",
+      commitMessageExtra: "({{currentDigestShort}} ➔ {{newDigestShort}})",
+    },
+    {
+      matchDatasources: ["docker"],
+      semanticCommitScope: "container",
+      commitMessageTopic: "image {{depName}}",
+    },
+    {
+      matchDatasources: ["helm"],
+      semanticCommitScope: "helm",
+      commitMessageTopic: "chart {{depName}}",
+    },
+    {
+      matchDepTypes: ["HelmChart"],
+      semanticCommitScope: "helm",
+      commitMessageTopic: "chart {{depName}}",
+    },
+    {
+      matchManagers: ["github-actions"],
+      semanticCommitType: "ci",
+      semanticCommitScope: "github-action",
+      commitMessageTopic: "action {{depName}}",
+    },
+    {
+      matchDatasources: ["github-releases"],
+      semanticCommitType: "chore",
+      semanticCommitScope: "github-release",
+      commitMessageTopic: "release {{depName}}",
+    },
+    {
+      matchManagers: ["renovate-config"],
+      semanticCommitType: "chore",
+      semanticCommitScope: "renovate-config",
+      commitMessageTopic: "config {{depName}}",
+    },
+    {
+      // Title and branch only. 0.x minors still automerge (autoMerge.json5 has no matchCurrentVersion guard), so the
+      // "!" flags them in history without holding them back.
+      description: "zer0ver: 0.x minors can break at any time, so give them the breaking `!` prefix",
+      matchUpdateTypes: ["minor"],
+      matchCurrentVersion: "/^v?0\\./",
+      semanticCommitType: "feat",
+      commitMessagePrefix: "{{semanticCommitType}}({{semanticCommitScope}})!:",
+      commitMessageExtra: "({{currentVersion}} ➔ {{newVersion}})",
+    },
+    {
+      description: "zer0ver: route 0.x minors onto major- branches (the same major-<groupSlug> branch grouped majors use)",
+      matchUpdateTypes: ["minor"],
+      matchCurrentVersion: "/^v?0\\./",
+      additionalBranchPrefix: "major-",
+    },
+  ],
+}

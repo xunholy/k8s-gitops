@@ -37,11 +37,6 @@
       rebaseWhen: "auto",
     },
     {
-      description: "Keep Renovate preset bumps manual (they change this automerge policy)",
-      matchManagers: ["renovate-config"],
-      automerge: false,
-    },
-    {
       description: "Disable auto-merge for stateful game-servers apps (manual review required)",
       matchFileNames: ["kubernetes/apps/base/game-servers/**"],
       automerge: false,

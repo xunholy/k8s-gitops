@@ -1,0 +1,42 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  // Ported from home-operations/renovate-presets 11.0.0 apps/talosFactory.json5 (minus the topf `talosVersion:`
+  // match string; there is no topf.yaml here). Bumps machine.install.image in talos/patches only; nodes move when
+  // `talosctl upgrade` is run by hand.
+  customDatasources: {
+    "talos-factory": {
+      defaultRegistryUrlTemplate: "https://factory.talos.dev/versions",
+      format: "json",
+      transformTemplates: ['{"releases": [$.{"version": $}]}'],
+    },
+  },
+  customManagers: [
+    {
+      description: "Process Talos Factory installer images",
+      customType: "regex",
+      managerFilePatterns: ["/talos\\/.*\\.ya?ml$/"],
+      matchStrings: ["factory\\.talos\\.dev\\/[^/]+\\/[^:]+:(?<currentValue>v\\S+)"],
+      datasourceTemplate: "custom.talos-factory",
+      versioningTemplate: "semver",
+      depNameTemplate: "siderolabs/talos",
+    },
+  ],
+  packageRules: [
+    {
+      description: "Ignore factory.talos.dev images matched by generic managers; the custom manager above owns them",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/^factory\\.talos\\.dev\\//"],
+      enabled: false,
+    },
+    {
+      matchDatasources: ["custom.talos-factory"],
+      semanticCommitScope: "container",
+      commitMessageTopic: "{{depName}}",
+    },
+    {
+      description: "Talos upgrades must pass through the latest patch of each minor, so keep proposing patches after the next minor ships",
+      matchDatasources: ["custom.talos-factory"],
+      separateMinorPatch: true,
+    },
+  ],
+}
