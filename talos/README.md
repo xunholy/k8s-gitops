@@ -65,7 +65,7 @@ sops -d talos/generated/node.enc.yaml > talos/generated/node.yaml
 Download the latest Talos binary by substituting the version in the download URL:
 
 ```bash
-curl -L https://github.com/siderolabs/talos/releases/download/v1.14.2/talosctl-linux-amd64 -o talosctl
+curl -L https://github.com/siderolabs/talos/releases/download/v1.14.5/talosctl-linux-amd64 -o talosctl
 sudo mv talosctl /usr/local/bin/talosctl
 sudo chmod +x /usr/local/bin/talosctl
 ```
@@ -76,14 +76,32 @@ Verify the local client is updated:
 talosctl version
 ```
 
-Upgrade one node at a time, non-leader etcd members first, always passing the
-installer image explicitly (the image in the live machine config is not bumped
-by `talosctl upgrade`). The schematic adds the `iscsi-tools` extension:
+Upgrade one node at a time, non-leader etcd members first (`talosctl etcd status`
+shows the leader), always passing the installer image explicitly (the image in
+the live machine config is not bumped by `talosctl upgrade`). The schematic adds
+the `iscsi-tools` extension. Take an etcd snapshot first
+(`talosctl -n <node-ip> etcd snapshot db.snapshot`; it holds Secrets in plaintext).
+
+For each node:
 
 ```bash
-talosctl -n <node-ip> upgrade \
-  --image factory.talos.dev/installer/b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14:v1.14.2
+# 1. Gate: Ceph must be 81 active+clean and every workload Ready.
+kubectl -n rook-ceph exec deploy/rook-ceph-tools -- ceph pg stat
+
+# 2. Drain first. azerothcore-worldserver takes up to 16 min to stop.
+kubectl cordon <node>
+kubectl drain <node> --ignore-daemonsets --delete-emptydir-data --timeout=25m
+
+# 3. Upgrade through another node's endpoint; talosctl uncordons when Ready.
+talosctl -e <other-node-ip> -n <node-ip> upgrade \
+  --image factory.talos.dev/installer/b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14:v1.14.5
+
+# 4. Wait for Ceph to return to 81 active+clean, the host noout flag to clear
+#    and every workload to be Ready before the next node.
 ```
+
+The drain also re-stages every RBD volume on the node, which is how CSI cephx
+key rotations reach volumes that are already mounted.
 
 Then upgrade Kubernetes (dry-run first; it re-applies the CNI and
 `extraManifests`, so they must match what Flux runs):
@@ -101,7 +119,7 @@ Install Ubuntu onto the device and complete the setup.
 Run the following commands:
 
 ```bash
-wget https://factory.talos.dev/image/b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14/v1.14.2/metal-amd64.iso
+wget https://factory.talos.dev/image/b629e405f5a20ec93f34868f86e6ab24ded1930f5853d0e130fda300b9283a14/v1.14.5/metal-amd64.iso
 dd if=metal-amd64.iso of=/dev/sda && sync
 ```
 
