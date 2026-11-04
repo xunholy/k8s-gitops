@@ -1,0 +1,80 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  // Ported from home-operations/renovate-presets 11.0.0 default.json so this repo no longer depends on a third-party
+  // preset. Commit-message and zer0ver rules live in commitMessage.json5. Rules that match nothing here were dropped
+  // (Jinja .j2 variants, mise, mogenius renovate-operator).
+  extends: [
+    "config:recommended",
+    "docker:enableMajor",
+    "helpers:pinGitHubActionDigestsToSemver",
+    ":automergeBranch",
+    ":dependencyDashboard",
+    ":disableRateLimiting",
+  ],
+  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  flux: {
+    managerFilePatterns: ["/\\.ya?ml$/"],
+  },
+  // Scoped to values and HelmRelease files so bare `image:` lines elsewhere are not extracted a second time alongside
+  // the kubernetes manager, which inflates grouped-update counts (minimumGroupSize).
+  "helm-values": {
+    managerFilePatterns: [
+      "/(^|/)values\\.ya?ml$/",
+      "/(^|/)helmrelease\\.ya?ml$/",
+      "/(^|/)helm-release\\.ya?ml$/",
+      "/(^|/)hr\\.ya?ml$/",
+    ],
+  },
+  helmfile: {
+    managerFilePatterns: [
+      "/(^|/)helmfile\\.ya?ml(?:\\.gotmpl)?$/",
+      "/(^|/)helmfile\\.d/.+\\.ya?ml(?:\\.gotmpl)?$/",
+    ],
+  },
+  kubernetes: {
+    managerFilePatterns: ["/\\.ya?ml$/"],
+  },
+  kustomize: {
+    managerFilePatterns: ["/(^|/)kustomization\\.ya?ml$/"],
+  },
+  // Look up mirror.gcr.io references against Docker Hub, which has the tags and digests.
+  registryAliases: {
+    "mirror.gcr.io": "docker.io",
+  },
+  customManagers: [
+    {
+      description: "Process annotated dependencies: a `# renovate: datasource=<ds> depName=<name>` comment followed by a version assignment (YAML value, quoted value, YAML anchor or KEY=value env line)",
+      customType: "regex",
+      managerFilePatterns: ["/.*/"],
+      matchStrings: [
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+(:\\s|=)(&\\S+\\s)?[\"']?(?<currentValue>[^\"'\\s]+)[\"']?",
+      ],
+      datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
+    },
+    {
+      description: "Pick up `oci://...` URI references (Flux OCIRepository, Helm OCI charts)",
+      customType: "regex",
+      managerFilePatterns: ["/\\.ya?ml$/"],
+      matchStrings: ["oci://(?<depName>[^:]+):(?<currentValue>\\S+)"],
+      datasourceTemplate: "docker",
+    },
+  ],
+  packageRules: [
+    {
+      description: "Point 1Password Connect at its upstream changelog",
+      matchPackageNames: ["/1password/"],
+      changelogUrl: "https://github.com/1Password/connect/blob/main/CHANGELOG.md",
+    },
+    {
+      description: "Point Cloudflared at its upstream release notes",
+      matchPackageNames: ["/cloudflared/"],
+      changelogUrl: "https://github.com/cloudflare/cloudflared/blob/master/RELEASE_NOTES",
+    },
+    {
+      description: "Use the full package name as the depName for helmfile OCI charts",
+      matchDatasources: ["docker"],
+      matchManagers: ["helmfile"],
+      overrideDepName: "{{packageName}}",
+    },
+  ],
+}

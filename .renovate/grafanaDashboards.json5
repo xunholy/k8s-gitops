@@ -1,0 +1,35 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  // Ported from home-operations/renovate-presets 11.0.0 apps/grafanaDashboards.json5. Only the download-URL form is
+  // kept (`url: https://grafana.com/api/dashboards/<id>/revisions/<rev>/download`); nothing here uses the
+  // grafana-operator `grafanaCom: {id, revision}` form. The file pattern also accepts grafanadashboards.yaml, which
+  // the upstream pattern missed (envoy-gateway).
+  customDatasources: {
+    "grafana-dashboards": {
+      defaultRegistryUrlTemplate: "https://grafana.com/api/dashboards/{{packageName}}",
+      format: "json",
+      transformTemplates: ['{"releases":[{"version": $string(revision)}], "sourceDirectory": name}'],
+    },
+  },
+  customManagers: [
+    {
+      description: "Process Grafana dashboards",
+      customType: "regex",
+      managerFilePatterns: ["/grafanadashboards?\\.ya?ml$/"],
+      matchStrings: ["dashboards\\/(?<depName>\\d+)\\/revisions\\/(?<currentValue>\\d+)\\/download"],
+      datasourceTemplate: "custom.grafana-dashboards",
+      versioningTemplate: "regex:^(?<major>\\d+)$",
+      autoReplaceStringTemplate: "dashboards/{{depName}}/revisions/{{newValue}}/download",
+    },
+  ],
+  packageRules: [
+    {
+      matchDatasources: ["custom.grafana-dashboards"],
+      matchUpdateTypes: ["major"],
+      semanticCommitType: "chore",
+      semanticCommitScope: "grafana-dashboards",
+      commitMessageTopic: "dashboard {{sourceDirectory}}",
+      commitMessageExtra: "({{currentVersion}} ➔ {{newVersion}})",
+    },
+  ],
+}
