@@ -15,12 +15,16 @@ cephImage:
 cephClusterSpec:
   security:
     cephx:
-      # CVE-2025-30156 hardening: every cephx key moves to aes256k. Daemon keys
-      # (mon/mgr/osd/mds) rotated 2026-09-15.
+      # CVE-2025-30156 hardening: every cephx key is aes256k (`ceph auth dump-keys`
+      # shows no aes key since 2026-11-04), so mons only accept aes256k. Rollback
+      # if a client can't authenticate: [aes, aes256k].
+      allowedCiphers: [aes256k]
+      # Daemon keys (mon/mgr/osd/mds) rotated 2026-09-15. No daemon keyType here:
+      # Rook auto-detects aes256k, and setting one makes Rook start every mon with
+      # --mon-auth-emergency-allowed-ciphers=aes,aes256k (AUTH_EMERGENCY_CIPHERS_SET).
       daemon:
         keyRotationPolicy: KeyGeneration
         keyGeneration: 2
-        keyType: aes256k
       # Upstream aes256k needs kernel >= 7.0, but Talos 1.14 backports it to 6.18
       # (siderolabs/pkgs "backport aes256k support (Ceph)"). Proven 2026-11-04 with
       # an aes256k kernel CephFS mount on every node. Rotated keys only apply to new
