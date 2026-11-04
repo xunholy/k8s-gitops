@@ -59,18 +59,20 @@ jobs:
 
       # The setup action exports FLATE_BASE, which switches flate into git-based changed-only
       # mode; the staged trees aren't git checkouts and are rendered in full instead.
+      # flate-retry.sh runs flate again after a pause when a registry fetch failed.
       - name: Test
         working-directory: ${{ runner.temp }}/stage/pull
         run: |
           unset FLATE_BASE
-          flate test all --path . --no-progress
+          "$GITHUB_WORKSPACE"/pull/.github/scripts/flate-retry.sh flate test all --path . --no-progress
 
       - name: Diff
         id: diff
         run: |
           unset FLATE_BASE
-          (cd "$RUNNER_TEMP/stage/default" && flate build all --path . --no-progress) > "$RUNNER_TEMP/default.yaml"
-          (cd "$RUNNER_TEMP/stage/pull" && flate build all --path . --no-progress) > "$RUNNER_TEMP/pull.yaml"
+          retry="$GITHUB_WORKSPACE/pull/.github/scripts/flate-retry.sh"
+          (cd "$RUNNER_TEMP/stage/default" && "$retry" flate build all --path . --no-progress) > "$RUNNER_TEMP/default.yaml"
+          (cd "$RUNNER_TEMP/stage/pull" && "$retry" flate build all --path . --no-progress) > "$RUNNER_TEMP/pull.yaml"
           pull/.github/scripts/flate-diff.sh "$RUNNER_TEMP/default.yaml" "$RUNNER_TEMP/pull.yaml" > diff.patch
           # A PR comment holds 65536 characters.
           if [ "$(wc -c < diff.patch)" -gt 60000 ]; then
