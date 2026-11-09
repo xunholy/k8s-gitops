@@ -55,7 +55,7 @@ jobs:
             > /tmp/rendered.yaml
 
       - name: Setup yq
-        uses: mikefarah/yq@504fc38780cc46be8444ea1b72fb55919fc0bfb0 # v4.54.1
+        uses: mikefarah/yq@a4330671f17776618660a419ab2531e4f4dc48b6 # v4.54.2
 
       - name: Build final manifest with header and annotations
         env:
