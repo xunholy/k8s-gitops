@@ -4,7 +4,7 @@
 # surfaced via the flux-metrics PrometheusRule and GitHub commit status; a
 # failing HelmRelease/Kustomization generated no alert. Applied per namespace
 # alongside the github-status pair, so each Alert watches its own namespace.
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: alertmanager
