@@ -34,7 +34,7 @@ spec:
           tools:
             image:
               repository: docker.io/nousresearch/hermes-agent
-              tag: v0.23.0@sha256:adb7890916de63245523492be8f68f9d2095fecbec4e2a6dab7960381f0fc002
+              tag: v0.23.2@sha256:d6746a084e9341baada483e3d6210444d3c1aeb7c130f0915150065fb2851459
             command: ["/bin/bash", "-c"]
             args:
               - |
@@ -78,7 +78,7 @@ spec:
           app:
             image:
               repository: docker.io/nousresearch/hermes-agent
-              tag: v0.23.0@sha256:adb7890916de63245523492be8f68f9d2095fecbec4e2a6dab7960381f0fc002
+              tag: v0.23.2@sha256:d6746a084e9341baada483e3d6210444d3c1aeb7c130f0915150065fb2851459
             args: ["gateway", "run"]
             env:
               TZ: ${CLUSTER_TIMEZONE}
