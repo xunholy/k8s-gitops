@@ -50,7 +50,7 @@ jobs:
         uses: imjasonh/setup-crane@6da1ae018866400525525ce74ff892880c099987 # v0.5
 
       - name: Setup Cosign
-        uses: sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532 # main
+        uses: sigstore/cosign-installer@5f3ce9ff1d69aa1c61007ef696502bda98ddd677 # main
 
       - name: Login to GHCR
         uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
