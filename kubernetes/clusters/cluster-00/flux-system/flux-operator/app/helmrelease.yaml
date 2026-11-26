@@ -23,7 +23,7 @@ spec:
         url: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
         ref:
           # renovate: datasource=docker depName=ghcr.io/controlplaneio-fluxcd/charts/flux-operator
-          tag: 0.63.1
+          tag: 0.64.0
         verify:
           provider: cosign
           matchOIDCIdentity:
